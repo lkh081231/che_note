@@ -4,10 +4,10 @@ Chemistry notes for Cambridge International AS & A Level Chemistry 9701 (2025 / 
 
 ## Source of truth
 
-`664563-2025-2027-syllabus.md` is the reference for **all** notes in this vault. Base every
+`reference.md` is the reference for **all** notes in this vault. Base every
 answer, summary, and new note on it.
 
-Fall back to `664563-2025-2027-syllabus.pdf` only when the `.md` is unclear, looks wrong, or is
+Fall back to `reference.pdf` only when the `.md` is unclear, looks wrong, or is
 missing something — then fix the `.md` so the next lookup does not need the PDF.
 
 The `.md` is a full transcription of the PDF's Subject content (syllabus p.16–55) plus the
@@ -91,4 +91,23 @@ syllabus.
 
 ## Language
 
-Notes are written in English — the file contains no Chinese. Chat replies stay in 中文.
+In notes, prose may be 中文, but **every chemistry term stays in English**. Do not translate:
+
+- element, compound and reagent names — sodium hydroxide, potassium manganate(VII), phenol
+- functional groups and homologous series — carbonyl, hydroxyl, halogenoalkane, ester
+- reaction and mechanism names — nucleophilic substitution, electrophilic addition,
+  free-radical substitution, disproportionation, S<sub>N</sub>1 / S<sub>N</sub>2
+- physical-chemistry quantities and concepts — lattice energy, enthalpy change of hydration,
+  activation energy, Boltzmann distribution, dynamic equilibrium, standard electrode potential
+- technique and apparatus names — thin-layer chromatography, mass spectrometry, reflux, titration
+- wording quoted from a learning outcome — quote it verbatim in English
+
+So: 「propan-1-ol 在 acidified K₂Cr₂O₇ under reflux 会被 oxidise 成 propanoic acid」, not
+「丙-1-醇在酸化重铬酸钾下回流会被氧化成丙酸」.
+
+Formulas, `$…$` notation and ChemFig source are unaffected — they are always as specified above.
+
+`reference.md` itself is the exception: it is a verbatim transcription of an
+English PDF and stays 100% English, with no Chinese at all.
+
+Chat replies stay in 中文.

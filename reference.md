@@ -1,13 +1,15 @@
 # Cambridge International AS & A Level Chemistry 9701
 ## Subject content (2025 / 2026 / 2027)
 
-> Transcribed from *664563-2025-2027-syllabus.pdf* (syllabus p.16–55 Subject content, p.91 Periodic Table of Elements)
+> Transcribed from *reference.pdf* (syllabus p.16–55 Subject content, p.91 Periodic Table of Elements)
+
 ## Contents
 
 ### AS Level
 
 **Physical chemistry**
 [1 Atomic structure](#1-atomic-structure)
+[1.1 Particles in the atom and atomic radius](#1.1-Particles-in-the-atom-and-atomic-radius)
 [2 Atoms, molecules and stoichiometry](#2-atoms-molecules-and-stoichiometry)
 [3 Chemical bonding](#3-chemical-bonding)
 [4 States of matter](#4-states-of-matter)
