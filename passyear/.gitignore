@@ -1,0 +1,9 @@
+# 原始 PDF 与归档扫描件（61MB，随时可按 CLAUDE.md 里的直链重下）
+originalpdf/
+topical-2015-2021/
+
+# 中间产物（由 tools/ 脚本确定性生成，不入库）
+_json/
+_img/
+_brief/
+__pycache__/
