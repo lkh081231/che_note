@@ -91,11 +91,13 @@
     background:var(--card);color:var(--muted);cursor:pointer;font-family:var(--sans);}
   .btn:hover{border-color:var(--accent);color:var(--accent);}
 
-  .scroller{overflow:auto;border:1px solid var(--line-strong);border-radius:var(--radius);
-    background:var(--card);box-shadow:var(--shadow);-webkit-overflow-scrolling:touch;
-    height:calc(100vh - 132px);min-height:460px;}
-  /* the canvas band ignores the 1240px reading column and uses the full window */
-  .wrap.stagewrap{max-width:100%;width:100%;padding:0 16px;margin:0;}
+  /* No fixed height: the box grows with the scaled canvas so the page scrolls,
+     not a nested scrollbar. Horizontal stays auto for zoomed-in viewing. */
+  .scroller{overflow-x:auto;overflow-y:hidden;border-top:1px solid var(--line-strong);
+    border-bottom:1px solid var(--line-strong);
+    background:var(--card);-webkit-overflow-scrolling:touch;}
+  /* edge to edge: no side padding, no reading-column cap */
+  .wrap.stagewrap{max-width:none;width:100%;padding:0;margin:0;}
 
   /* fullscreen: the section itself must paint a background, or the browser
      letterboxes it in black; and it must fill the viewport exactly. */
@@ -1283,9 +1285,13 @@
     pct.textContent=Math.round(z*100)+'%';
   }
   function fit(){
-    // fit the canvas to the container WIDTH only; height scrolls
-    var aw=scroller.clientWidth-4;
+    // width-only: the page scrolls vertically, the box never does
+    var aw=scroller.clientWidth-2;
     z=aw/W;
+    if(document.fullscreenElement){          // fullscreen box has a fixed height
+      var ah=scroller.clientHeight-2;
+      z=Math.min(z, ah/H);
+    }
     if(!isFinite(z)||z<=0) z=0.8;
     z=Math.max(z,0.25);
     apply();
@@ -1311,8 +1317,8 @@
       setTimeout(fit,60);
     });
   });
-  // keep the user zoom on resize; Fit button recomputes on demand
-  z=0.8; apply();
+  window.addEventListener('resize',function(){ if(!document.fullscreenElement) fit(); });
+  fit();
 
   // ---- pathway filter ----
   var active=null;
