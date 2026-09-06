@@ -119,6 +119,25 @@ Artifact（同一 file path 重新发布即原地更新，链接不变）。内�
 syllabus 章 13–21，判分口径与机理得分点取自 `passyear/extracted/` 的 2024–2026 Paper 2
 mark scheme，**冲突时以最新卷 `9701_s26_22` 为准**。
 
+### 先跑几何校验脚本
+
+`tools/probe-roadmap-geometry.py` 用无头 Chrome 量出**渲染后**的真实 box
+（label 高度靠字数撑，源码里看不出来），写成 `geo.json`；
+`tools/check-roadmap-geometry.py` 读它跑四项检查，全部应为 0：
+
+```bash
+export ROADMAP_TMP=/tmp/roadmap        # 放 geo.json 的地方
+python tools/probe-roadmap-geometry.py
+python tools/check-roadmap-geometry.py
+```
+
+1. box 之间重叠　2. 连线从盒子底下穿过　3. 箭头落在盒子底下　4. pill 溢出 node
+
+探针除以的必须是 `cv.offsetWidth`，**不能写死画布宽度**——页面默认带缩放，
+写死了改完尺寸量出来全是旧坐标（这个坑踩过，全图错位还以为是缩放写错了）。
+
+脚本只保证「几何上没压着」，**不保证好看**，所以还要截图。
+
 ### 改完必须两级截图，不能只跑脚本
 
 无头 Chrome 截图（stderr 的 `fallback_task_provider` 是已知噪声，以 `N bytes written` 为准）：
@@ -139,6 +158,25 @@ bug 通过了一整轮几何校验和视觉检查。
 筛选/缩放失效两次都是 JS 抛错导致整个 script 中断，无头截图完全看不出来
 （`file:` 协议被 playwright 拦，先 `python -m http.server` 起个本地服务）。
 
+#### 看图这一步交给 subagent
+
+**上下文一长，多模态能力会大幅下降**——同一张图，长对话里读出来的字会开始靠猜。
+所以截图**拍**完之后，**读图判断这一步必须派 subagent 去做**（主 agent 只负责
+拍图、收结论、改代码），这样每个 subagent 都是干净上下文看图。
+
+派活时：
+
+- 把图的**绝对路径**列清楚，让它自己 `Read`；
+- 说明图里画的是什么（node / wire / label 各是什么），否则它认不出该看哪
+- **给一条明确的 pass/fail 线**，别让它泛泛「看看有没有问题」
+- **要求它逐字转写图里最小的那号字**（syllabus ref 那种灰色小字，例如
+  `17.1.1(b) — 2° alcohol`），至少 8 条。能逐字抄出来才算真看清了；
+  让它明确说出「这里我认不出/在猜」——**认不出就是 FAIL**，这条信息最值钱。
+  只问「清不清晰」它一定回答「清晰」，问不出东西。
+- 让它以 `VERDICT: PASS/FAIL — 原因` 单独一行收尾，方便直接读结论
+
+**验收口径：截图里最小的字也要能认出来**，不是「整体看着还行」。
+
 ### 已知渲染坑
 
 - `svg.wires path{fill:none}` 会把 `<marker>` 里的箭头三角形一起填透明。
@@ -146,7 +184,19 @@ bug 通过了一整轮几何校验和视觉检查。
 - **`marker-end` 必须写在每条 `<path>` 上**，写在 `<g>` 上不会被子元素继承
 - 箭头端点要比方框边缘**提前 ~9px** 收尾，否则会被 `z-index` 更高的方框盖住
 - 不透明标签会盖住从它底下穿过的连线，看起来像断线 —— 校验脚本要同时查
-  「线穿 node 框」和「线穿 label 框」，只查 node 会漏掉一大批
+  「线穿 node 框」和「线穿 label 框」，只查 node 会漏掉一大批。
+  **`.pill` 也是不透明的，也要查**：漏掉 pill 一次就藏了 3 条线。
+  一句话——**凡是画在画布上的不透明盒子，全都要进碰撞检查的名单**，
+  别按类型挑，挑漏的那一类就是下次的 bug。
+- 同理，「箭头被盖住」也要对**所有**盒子查，不只是 node：
+  实测有 8 个箭头正好落在 label 底下，只查 node 时全部漏过。
+- 箭头**要有可见的杆**。端点收得太狠会只剩一个孤零零的三角形浮在缝里，
+  比没箭头还难看；node 和目标 label 之间至少留 ~30px 才放得下一支箭。
+- **改了 node 的高/宽，务必重跑箭头检查**：把框撑大 6px 就会把原本停在
+  框外 4px 的箭头吞进去。字号一变 → 盒子变大 → 箭头被吞，是一条连锁反应。
+- `text-transform:uppercase` 会把 element symbol 拆掉：`Na(s)` 变 `NA(S)`、
+  `AgNO₃` 变 `AGNO₃`。**凡是标题里含元素符号的 label，必须单独写
+  `text-transform:none`**（大小写在化学里是有意义的，不是样式问题）。
 - `<script>` 必须放在弹窗 / `<template>` 等 DOM 之后，否则 `getElementById` 拿到 null
 
 ## Commit 节奏

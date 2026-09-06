@@ -110,8 +110,8 @@
   .stage{position:relative;transform-origin:0 0;}
   .scroller.panning{cursor:grabbing;user-select:none;}
   .scroller.panning *{cursor:grabbing !important;}
-  .canvas{position:relative;width:2469px;height:1611px;}
-  svg.wires{position:absolute;inset:0;width:2469px;height:1611px;overflow:visible;z-index:1;}
+  .canvas{position:relative;width:2716px;height:1772px;}
+  svg.wires{position:absolute;inset:0;width:2716px;height:1772px;overflow:visible;z-index:1;}
   svg.wires > g path{fill:none;stroke-linecap:round;stroke-linejoin:round;}
   svg.wires marker path{stroke:none;}
   svg.wires g{transition:opacity .18s;}
@@ -119,40 +119,40 @@
   .node,.lbl,.pill{position:absolute;}
   .node{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);
     padding:9px 12px;box-shadow:var(--shadow);z-index:3;}
-  .node .nm{font-size:19px;font-weight:600;letter-spacing:-.005em;}
-  .node .fm{font-family:var(--mono);font-size:15px;color:var(--muted);margin-top:3px;}
+  .node .nm{font-size:21px;font-weight:600;letter-spacing:-.005em;}
+  .node .fm{font-family:var(--mono);font-size:16.5px;color:var(--muted);margin-top:3px;}
   /* ChemFig-compiled display formulae (source: tools/formulae.json) */
   svg.cf{display:block;overflow:visible;margin:1px 0 -2px;}
   svg.cf .cf-b line{stroke:var(--ink);stroke-width:1.35;stroke-linecap:round;}
-  svg.cf .cf-a{font-family:var(--mono);font-size:14px;fill:var(--ink);}
-  .node .fm svg.cf{transform:scale(.94);transform-origin:0 50%;}
+  svg.cf .cf-a{font-family:var(--mono);font-size:15.5px;fill:var(--ink);}
+  .node .fm svg.cf{transform:scale(1.04);transform-origin:0 50%;}
   .card svg.cf{margin:4px auto 10px;}
   .node .tag{position:absolute;z-index:4;top:-10px;left:-10px;min-width:24px;height:24px;padding:0 7px;
-    border-radius:6px;background:var(--ink);color:var(--bg);font-size:13.5px;font-weight:600;
+    border-radius:6px;background:var(--ink);color:var(--bg);font-size:14px;font-weight:600;
     display:grid;place-items:center;font-family:var(--mono);}
   .node.hero{border-width:2px;border-color:var(--ink);}
-  .node.hero .nm{font-size:21.5px;}
+  .node.hero .nm{font-size:24px;}
   .node.ghost{border-style:solid;border-color:var(--line-strong);background:var(--card);
     box-shadow:var(--shadow);}
-  .node.ghost .nm{font-size:16px;font-weight:500;color:var(--muted);}
+  .node.ghost .nm{font-size:17.5px;font-weight:500;color:var(--muted);}
   .node.alevel{border-style:dashed;}
-  .alv{display:inline-block;font-size:10.5px;font-family:var(--mono);color:var(--faint);
+  .alv{display:inline-block;font-size:14px;font-family:var(--mono);color:var(--faint);
     border:1px solid var(--line-strong);border-radius:3px;padding:0 4px;margin-left:5px;
     vertical-align:1px;letter-spacing:.02em;}
 
-  .lbl{font-size:14px;line-height:1.45;color:var(--muted);transition:opacity .18s;
+  .lbl{font-size:15.5px;line-height:1.45;color:var(--muted);transition:opacity .18s;
     background:var(--card);padding:5px 8px;border-radius:5px;z-index:5;
     border:1px solid var(--line);box-shadow:0 0 0 3px var(--card);}
-  .lbl b{display:block;font-size:14px;font-weight:600;letter-spacing:.03em;
+  .lbl b{display:block;font-size:15.5px;font-weight:600;letter-spacing:.03em;
     text-transform:uppercase;margin-bottom:3px;}
-  .lbl .r{font-family:var(--mono);font-size:14px;color:var(--ink);display:block;}
-  .lbl .n{display:block;color:var(--faint);font-size:12.5px;margin-top:3px;}
+  .lbl .r{font-family:var(--mono);font-size:15.5px;color:var(--ink);display:block;}
+  .lbl .n{display:block;color:var(--faint);font-size:14px;margin-top:3px;}
   .lbl.warn{background:var(--warn-soft);border:1px solid var(--warn);border-radius:6px;
     padding:6px 8px;}
   .lbl.warn b{color:var(--warn);}
   .lbl.warn .r{color:var(--ink);}
 
-  .pill{font-size:13px;font-family:var(--mono);color:var(--muted);
+  .pill{font-size:14px;font-family:var(--mono);color:var(--muted);
     background:var(--card);border:1px solid var(--line-strong);border-radius:5px;
     padding:3px 8px;z-index:3;}
 
@@ -304,7 +304,7 @@
 <div class="stage" id="stage">
 <div class="canvas">
 
-<svg class="wires" viewBox="0 0 2469 1611">
+<svg class="wires" viewBox="0 0 2716 1772">
   <defs>
     <marker id="aRad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A8582F" stroke="none"/></marker>
     <marker id="aAdd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B6096" stroke="none"/></marker>
@@ -319,230 +319,230 @@
 
   <!-- crude oil -> alkane / alkene (cracking) -->
   <g data-k="base" stroke="#908C84" stroke-width="1.6">
-    <path d="M302,194 H407" marker-end="url(#aInk)"/>
-    <path d="M197,236 V389 H407" marker-end="url(#aInk)"/>
+    <path d="M339,224 H451" marker-end="url(#aInk)"/>
+    <path d="M217,260 V428 H448" marker-end="url(#aInk)"/>
   </g>
 
   <!-- alkene -> alkane : hydrogenation  [14.1.1(a) / 14.2.2(a)(i)] -->
   <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M510,346 V245" marker-end="url(#aAdd)"/>
+    <path d="M561,381 V270" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- alkane -> halogenoalkane : free-radical substitution -->
   <g data-k="radical" stroke="#A8582F" stroke-width="1.7">
-    <path d="M610,194 H1377 V263 H1457" marker-end="url(#aRad)"/>
+    <path d="M671,213 H1515 V289 H1603" marker-end="url(#aRad)"/>
   </g>
 
   <!-- alkene -> halogenoalkane : electrophilic addition HX / X2 -->
   <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M614,368 H1170 V254 H1457" marker-end="url(#aAdd)"/>
+    <path d="M675,405 H1287 V279 H1603" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- halogenoalkane -> alkene : elimination (ethanolic NaOH) -->
   <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
-    <path d="M1466,298 H1141 V479 H623" marker-end="url(#aElim)"/>
+    <path d="M1613,328 H1255 V527 H685" marker-end="url(#aElim)"/>
   </g>
 
   <!-- alkene -> alcohol : steam / H3PO4 -->
   <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M520,432 V632 H1164" marker-end="url(#aAdd)"/>
+    <path d="M572,475 V695 H1280" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- alkene -> diol : cold dilute KMnO4 -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M566,432 V560 H815" marker-end="url(#aOxid)"/>
+    <path d="M623,475 V616 H635" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alkene -> addition polymer -->
   <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M462,432 V616 H383" marker-end="url(#aAdd)"/>
+    <path d="M508,475 V678 H421" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- alkene -> cleavage products : hot conc KMnO4 -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M416,402 H120 V894 H131" marker-end="url(#aOxid)"/>
+    <path d="M458,442 H132 V983 H144" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- halogenoalkane -> alcohol : NaOH(aq) -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1627,310 V531 H1469 V678 H1448" marker-end="url(#aSub)"/>
+    <path d="M1860,341 V584 H1616 V746 H1593" marker-end="url(#aSub)"/>
   </g>
 
   <!-- alcohol -> halogenoalkane : PCl5 / SOCl2 / PCl3 -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1299,608 V527 H1638 V347" marker-end="url(#aSub)"/>
+    <path d="M1429,669 V580 H1802 V419" marker-end="url(#aSub)"/>
   </g>
 
   <!-- halogenoalkane -> nitrile : KCN ethanol heat -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1793,310 V486 H2096 V599" marker-end="url(#aSub)"/>
+    <path d="M1972,341 V535 H2306 V659" marker-end="url(#aSub)"/>
   </g>
 
   <!-- halogenoalkane -> amine : NH3 ethanol pressure -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1884,292 H2385 V599" marker-end="url(#aSub)"/>
+    <path d="M2072,321 H2624 V659" marker-end="url(#aSub)"/>
   </g>
 
   <!-- alcohol -> alkene : dehydration -->
   <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
-    <path d="M1173,694 H904 V893 H544 V540" marker-end="url(#aElim)"/>
+    <path d="M1290,763 H994 V982 H598 V599" marker-end="url(#aElim)"/>
   </g>
 
   <!-- alcohol -> aldehyde : distil -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1248,699 V764 H1373 V913" marker-end="url(#aOxid)"/>
+    <path d="M1545,769 V840 H1510 V1004" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alcohol -> ketone : distil (secondary) -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1401,699 V752 H1690 V913" marker-end="url(#aOxid)"/>
+    <path d="M1541,769 V827 H1859 V1004" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- aldehyde -> carboxylic acid : reflux -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1167,977 H1085 V1129 H739" marker-end="url(#aOxid)"/>
+    <path d="M1284,1075 H1194 V1242 H813" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alcohol -> carboxylic acid : reflux (direct) -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1173,644 H565 V1075" marker-end="url(#aOxid)"/>
+    <path d="M1290,708 H622 V1182" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- aldehyde/ketone -> alcohol : NaBH4 / LiAlH4 -->
   <g data-k="red" stroke="#8A7220" stroke-width="1.7">
-    <path d="M1367,922 V739" marker-end="url(#aRed)"/>
-    <path d="M1767,922 V884 H1410 V739" marker-end="url(#aRed)"/>
+    <path d="M1504,1014 V848" marker-end="url(#aRed)"/>
+    <path d="M1944,1014 V972 H1551 V848" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carboxylic acid -> alcohol : LiAlH4 -->
   <g data-k="red" stroke="#8A7220" stroke-width="1.7">
-    <path d="M730,1115 H1074 V689 H1164" marker-end="url(#aRed)"/>
+    <path d="M803,1226 H1181 V758 H1280" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carbonyl -> hydroxynitrile : HCN/KCN -->
   <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M1313,1011 V1158" marker-end="url(#aAdd)"/>
-    <path d="M1689,1011 V1115 H1417 V1158" marker-end="url(#aAdd)"/>
+    <path d="M1380,1192 V1278" marker-end="url(#aAdd)"/>
+    <path d="M1858,1192 V1240 H1430 V1278" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- hydroxynitrile -> hydroxy-acid : hydrolysis -->
   <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M1299,1255 V1351 H878 V1394" marker-end="url(#aHyd)"/>
+    <path d="M1429,1380 V1486 H966 V1533" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- nitrile -> carboxylic acid : hydrolysis -->
   <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M2079,696 V1582 H558 V1242" marker-end="url(#aHyd)"/>
+    <path d="M2287,766 V1740 H614 V1372" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- nitrile -> amine : reduction (A Level) -->
   <g data-k="red" stroke="#8A7220" stroke-width="1.7" stroke-dasharray="6 4">
-    <path d="M2173,652 H2250" marker-end="url(#aRed)"/>
+    <path d="M2390,717 H2475" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carboxylic acid + alcohol -> ester : esterification -->
   <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M610,1175 V1299 H858 V1394" marker-end="url(#aHyd)"/>
+    <path d="M671,1292 V1429 H944 V1533" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- ester -> carboxylic acid : hydrolysis -->
   <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M910,1403 V1325 H506 V1242" marker-end="url(#aHyd)"/>
+    <path d="M1001,1543 V1458 H557 V1372" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- ester -> alcohol : hydrolysis  [16.1.1(f)] -->
   <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M990,1448 H1076 V621 H1164" marker-end="url(#aHyd)"/>
+    <path d="M1089,1593 H1184 V683 H1280" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- TESTS -->
   <g data-k="test" stroke="#6E7681" stroke-width="1.4" stroke-dasharray="5 4">
-    <path d="M1848,967 H1869" marker-end="url(#aTest)"/>
-    <path d="M1848,967 H1870" marker-end="url(#aTest)"/>
-    <path d="M1913,267 H2027 V314" marker-end="url(#aTest)"/>
-    <path d="M440,1144 H325 V1182" marker-end="url(#aTest)"/>
-    <path d="M416,377 H372 V442" marker-end="url(#aTest)"/>
+    <path d="M1990,1194 V1230 H2160 V1105" marker-end="url(#aTest)"/>
+    <path d="M1420,1010 V985 H2160 V1009" marker-end="url(#aTest)"/>
+    <path d="M2104,294 H2230 V321" marker-end="url(#aTest)"/>
+    <path d="M484,1258 H358 V1300" marker-end="url(#aTest)"/>
+    <path d="M458,415 H409 V483" marker-end="url(#aTest)"/>
   </g>
 </svg>
 
 <!-- ============ NODES ============ -->
-<div class="node hero" style="left:90px;top:156px;width:210px;height:78px" data-groups="base">
+<div class="node hero" style="left:99px;top:172px;width:231px;height:86px" data-groups="base">
   <div class="nm">Crude oil</div>
   <div class="fm">cracking</div>
 </div>
 
-<div class="node hero" style="left:418px;top:156px;width:192px;height:78px" data-groups="add base radical">
+<div class="node hero" style="left:460px;top:172px;width:211px;height:86px" data-groups="add base radical">
   <div class="nm">Alkane</div>
   <div class="fm">C<sub>n</sub>H<sub>2n+2</sub></div>
 </div>
 
-<div class="node hero" style="left:418px;top:348px;width:192px;height:183px" data-groups="add base elim oxid test">
+<div class="node hero" style="left:460px;top:383px;width:211px;height:207px" data-groups="add base elim oxid test">
   <div class="nm">Alkene</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -83.0 152.3 149.0" width="152" height="149" role="img" data-cf="alkene"><g class="cf-b"><line x1="10.8" y1="-6.2" x2="29.4" y2="-17.0"/><line x1="29.4" y1="-17.0" x2="29.4" y2="-38.5"/><line x1="28.3" y1="-15.1" x2="57.8" y2="1.9"/><line x1="30.5" y1="-18.9" x2="60.0" y2="-1.9"/><line x1="58.9" y1="0.0" x2="77.5" y2="-10.8"/><line x1="58.9" y1="0.0" x2="58.9" y2="18.7"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-51.0" text-anchor="middle" dominant-baseline="central" class="cf-a">H</text><text x="88.3" y="-17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">H</text><text x="58.9" y="34.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R<tspan baseline-shift="super" font-size="9">′</tspan></text></svg></div>
 </div>
 
-<div class="node ghost" style="left:142px;top:610px;width:228px;height:58px" data-groups="add">
+<div class="node ghost" style="left:156px;top:671px;width:251px;height:64px" data-groups="add">
   <div class="nm">Addition polymer</div>
 </div>
 
-<div class="node ghost" style="left:142px;top:896px;width:234px;height:80px" data-groups="oxid">
+<div class="node ghost" style="left:156px;top:986px;width:257px;height:88px" data-groups="oxid">
   <div class="nm">CO₂ · ketone · COOH</div>
-  <div class="fm" style="font-size:10.5px">依 C=C 位置而定（CO₂ / ketone / carboxylic acid）</div>
+  <div class="fm" style="font-size:14px">依 C=C 位置而定（CO₂ / ketone / carboxylic acid）</div>
 </div>
 
-<div class="node ghost" style="left:826px;top:532px;width:136px;height:54px" data-groups="oxid">
+<div class="node ghost" style="left:909px;top:585px;width:150px;height:59px" data-groups="oxid">
   <div class="nm">Diol</div>
 </div>
 
-<div class="node" style="left:1469px;top:220px;width:442px;height:118px" data-groups="add elim radical sub test">
+<div class="node" style="left:1616px;top:242px;width:486px;height:168px" data-groups="add elim radical sub test">
   <div class="tag">A</div>
   <div class="nm">Halogenoalkane</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -49.0 93.4 81.0" width="93" height="81" role="img" data-cf="halogenoalkane"><g class="cf-b"><line x1="8.1" y1="-4.7" x2="21.3" y2="-12.3"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">X</text></svg></div>
 </div>
 
-<div class="node" style="left:1176px;top:610px;width:260px;height:118px" data-groups="add elim hyd oxid red sub">
+<div class="node" style="left:1294px;top:671px;width:286px;height:168px" data-groups="add elim hyd oxid red sub">
   <div class="tag">B</div>
   <div class="nm">Alcohol</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -49.0 93.4 81.0" width="93" height="81" role="img" data-cf="alcohol"><g class="cf-b"><line x1="6.6" y1="-3.8" x2="19.9" y2="-11.5"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">OH</text></svg></div>
 </div>
 
-<div class="node" style="left:442px;top:1086px;width:286px;height:147px" data-groups="hyd oxid red test">
+<div class="node" style="left:486px;top:1195px;width:315px;height:168px" data-groups="hyd oxid red test">
   <div class="tag">C</div>
   <div class="nm">Carboxylic acid</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -83.0 122.9 115.0" width="123" height="115" role="img" data-cf="carboxylic"><g class="cf-b"><line x1="10.8" y1="-6.2" x2="29.4" y2="-17.0"/><line x1="31.6" y1="-17.0" x2="31.6" y2="-38.5"/><line x1="27.2" y1="-17.0" x2="27.2" y2="-38.5"/><line x1="29.4" y1="-17.0" x2="43.4" y2="-9.0"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-51.0" text-anchor="middle" dominant-baseline="central" class="cf-a">O</text><text x="58.9" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">OH</text></svg></div>
 </div>
 
-<div class="node" style="left:1611px;top:925px;width:234px;height:147px" data-groups="add oxid red test">
+<div class="node" style="left:1772px;top:1018px;width:257px;height:168px" data-groups="add oxid red test">
   <div class="tag">D</div>
   <div class="nm">Ketone</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -83.0 122.9 115.0" width="123" height="115" role="img" data-cf="ketone"><g class="cf-b"><line x1="10.8" y1="-6.2" x2="29.4" y2="-17.0"/><line x1="31.6" y1="-17.0" x2="31.6" y2="-38.5"/><line x1="27.2" y1="-17.0" x2="27.2" y2="-38.5"/><line x1="29.4" y1="-17.0" x2="45.6" y2="-7.7"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-51.0" text-anchor="middle" dominant-baseline="central" class="cf-a">O</text><text x="58.9" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R<tspan baseline-shift="super" font-size="9">′</tspan></text></svg></div>
 </div>
 
-<div class="node" style="left:1170px;top:925px;width:234px;height:147px" data-groups="add oxid red">
+<div class="node" style="left:1287px;top:1018px;width:257px;height:168px" data-groups="add oxid red">
   <div class="tag">E</div>
   <div class="nm">Aldehyde</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -83.0 122.9 115.0" width="123" height="115" role="img" data-cf="aldehyde"><g class="cf-b"><line x1="10.8" y1="-6.2" x2="29.4" y2="-17.0"/><line x1="31.6" y1="-17.0" x2="31.6" y2="-38.5"/><line x1="27.2" y1="-17.0" x2="27.2" y2="-38.5"/><line x1="29.4" y1="-17.0" x2="48.1" y2="-6.2"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-51.0" text-anchor="middle" dominant-baseline="central" class="cf-a">O</text><text x="58.9" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">H</text></svg></div>
 </div>
 
-<div class="node alevel" style="left:2261px;top:610px;width:156px;height:118px" data-groups="red sub">
+<div class="node alevel" style="left:2487px;top:671px;width:172px;height:130px" data-groups="red sub">
   <div class="tag">F</div>
   <div class="nm">Amine<span class="alv">A Lv</span></div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -49.0 93.4 81.0" width="93" height="81" role="img" data-cf="amine"><g class="cf-b"><line x1="6.1" y1="-3.5" x2="19.3" y2="-11.2"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">NH<tspan baseline-shift="sub" font-size="9">2</tspan></text></svg></div>
 </div>
 
-<div class="node" style="left:1988px;top:610px;width:182px;height:118px" data-groups="hyd red sub">
+<div class="node" style="left:2187px;top:671px;width:200px;height:130px" data-groups="hyd red sub">
   <div class="tag">G</div>
   <div class="nm">Nitrile</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -49.0 122.9 81.0" width="123" height="81" role="img" data-cf="nitrile"><g class="cf-b"><line x1="10.8" y1="-6.2" x2="29.4" y2="-17.0"/><line x1="27.8" y1="-14.2" x2="46.5" y2="-3.5"/><line x1="29.4" y1="-17.0" x2="48.1" y2="-6.2"/><line x1="31.0" y1="-19.8" x2="49.7" y2="-9.0"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="58.9" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">N</text></svg></div>
 </div>
 
-<div class="node" style="left:780px;top:1406px;width:208px;height:147px" data-groups="hyd">
+<div class="node" style="left:858px;top:1547px;width:229px;height:168px" data-groups="hyd">
   <div class="tag">H</div>
   <div class="nm">Ester</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -83.0 152.3 115.0" width="152" height="115" role="img" data-cf="ester"><g class="cf-b"><line x1="13.3" y1="-7.7" x2="29.4" y2="-17.0"/><line x1="31.6" y1="-17.0" x2="31.6" y2="-38.5"/><line x1="27.2" y1="-17.0" x2="27.2" y2="-38.5"/><line x1="29.4" y1="-17.0" x2="48.1" y2="-6.2"/><line x1="66.2" y1="-4.2" x2="79.4" y2="-11.8"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R<tspan baseline-shift="super" font-size="9">1</tspan></text><text x="29.4" y="-51.0" text-anchor="middle" dominant-baseline="central" class="cf-a">O</text><text x="58.9" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">O</text><text x="88.3" y="-17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R<tspan baseline-shift="super" font-size="9">2</tspan></text></svg></div>
 </div>
 
-<div class="node" style="left:1170px;top:1170px;width:286px;height:163px" data-groups="add hyd">
+<div class="node" style="left:1287px;top:1287px;width:315px;height:185px" data-groups="add hyd">
   <div class="tag">I</div>
   <div class="nm">Hydroxynitrile</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -83.0 152.3 132.0" width="152" height="132" role="img" data-cf="hydroxynitrile"><g class="cf-b"><line x1="10.8" y1="-6.2" x2="29.4" y2="-17.0"/><line x1="29.4" y1="-17.0" x2="29.4" y2="-33.1"/><line x1="29.4" y1="-17.0" x2="29.4" y2="4.5"/><line x1="29.4" y1="-17.0" x2="58.9" y2="0.0"/><line x1="57.3" y1="2.8" x2="75.9" y2="13.5"/><line x1="58.9" y1="0.0" x2="77.5" y2="10.8"/><line x1="60.5" y1="-2.8" x2="79.1" y2="8.0"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-51.0" text-anchor="middle" dominant-baseline="central" class="cf-a">OH</text><text x="29.4" y="17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">H</text><text x="88.3" y="17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">N</text></svg></div>
@@ -552,188 +552,188 @@
 <!-- amine from halogenoalkane also lands on F: label only -->
 
 <!-- ============ EDGE LABELS ============ -->
-<div class="lbl" data-k="base" style="left:310px;top:136px;width:106px">
+<div class="lbl" data-k="base" style="left:344px;top:150px;width:108px">
   <span class="r">heat, Al₂O₃</span>
   <span class="n">14.1.1(b)</span>
 </div>
 
-<div class="lbl rx" data-k="add" data-rx="det" role="button" tabindex="0" style="left:518px;top:268px;width:194px;--c:var(--t-add)">
+<div class="lbl rx" data-k="add" data-rx="det" role="button" tabindex="0" style="left:570px;top:295px;width:213px;--c:var(--t-add)">
   <b style="color:var(--t-add)">Hydrogenation</b>
   <span class="r">H₂(g), Pt/Ni, heat</span>
   <span class="n">14.1.1(a) · 14.2.2(a)(i)</span>
 </div>
 
-<div class="lbl rx" data-k="radical" data-rx="mech1" role="button" tabindex="0" style="left:780px;top:114px;width:390px;--c:var(--t-radical)">
+<div class="lbl rx" data-k="radical" data-rx="mech1" role="button" tabindex="0" style="left:858px;top:125px;width:429px;--c:var(--t-radical)">
   <b style="color:var(--t-radical)">★ Free-radical substitution</b>
   <span class="r">Cl₂ or Br₂ · ultraviolet light</span>
   <span class="n">14.1.2(b) · 15.1.1(a) — 机理见下</span>
 </div>
 
-<div class="lbl rx" data-k="add" data-rx="mech2" role="button" tabindex="0" style="left:791px;top:269px;width:298px;--c:var(--t-add)">
+<div class="lbl rx" data-k="add" data-rx="mech2" role="button" tabindex="0" style="left:870px;top:296px;width:328px;--c:var(--t-add)">
   <b style="color:var(--t-add)">★ Electrophilic addition</b>
   <span class="r">HX(g), room temperature<br>or X₂</span>
   <span class="n">14.2.2(a)(iii)(iv) · 15.1.1(b)</span>
 </div>
 
-<div class="lbl warn rx" data-k="elim" data-rx="det" role="button" tabindex="0" style="left:832px;top:377px;width:278px">
+<div class="lbl warn rx" data-k="elim" data-rx="det" role="button" tabindex="0" style="left:915px;top:415px;width:306px">
   <b>⚠ Elimination</b>
-  <span class="r">NaOH <b style="display:inline;text-transform:none;font-size:12.5px">in ethanol</b>, heat</span>
+  <span class="r">NaOH <b style="display:inline;text-transform:none;font-size:14px">in ethanol</b>, heat</span>
   <span class="n">15.1.4 · 14.2.1(a) — solvent 决定 product</span>
 </div>
 
-<div class="lbl rx" data-k="add" data-rx="det:hydration" role="button" tabindex="0" style="left:596px;top:672px;width:292px;--c:var(--t-add)">
+<div class="lbl rx" data-k="add" data-rx="det:hydration" role="button" tabindex="0" style="left:656px;top:739px;width:321px;--c:var(--t-add)">
   <b style="color:var(--t-add)">Hydration</b>
   <span class="r">steam H₂O(g) · H₃PO₄ catalyst</span>
-  <span class="n">14.2.2(a)(ii) · 16.1.1(a) — MS: I pressure</span>
+  <span class="n">14.2.2(a)(ii) · 16.1.1(a) — MS: 只写 pressure，写 high pressure 不给分</span>
 </div>
 
-<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:585px;top:549px;width:234px">
+<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:644px;top:604px;width:257px">
   <b>⚠ Oxidation → diol</b>
-  <span class="r"><b style="display:inline;text-transform:none;font-size:12.5px">cold dilute</b> acidified KMnO₄</span>
+  <span class="r"><b style="display:inline;text-transform:none;font-size:14px">cold dilute</b> acidified KMnO₄</span>
   <span class="n">14.2.2(b) · 16.1.1(b)</span>
 </div>
 
-<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:208px;top:774px;width:242px">
+<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:229px;top:851px;width:266px">
   <b>⚠ Oxidation → cleavage</b>
-  <span class="r"><b style="display:inline;text-transform:none;font-size:12.5px">hot concentrated</b> acidified KMnO₄</span>
+  <span class="r"><b style="display:inline;text-transform:none;font-size:14px">hot concentrated</b> acidified KMnO₄</span>
   <span class="n">14.2.2(c) — 断 C=C bond，定 C=C 位置</span>
 </div>
 
-<div class="lbl rx" data-k="add" data-rx="det" role="button" tabindex="0" style="left:150px;top:524px;width:194px;--c:var(--t-add)">
+<div class="lbl rx" data-k="add" data-rx="det" role="button" tabindex="0" style="left:165px;top:576px;width:213px;--c:var(--t-add)">
   <b style="color:var(--t-add)">Addition polymerisation</b>
   <span class="n">14.2.2(d) · 20.1.1</span>
 </div>
 
-<div class="lbl warn rx" data-k="sub" data-rx="det" role="button" tabindex="0" style="left:1481px;top:562px;width:258px">
+<div class="lbl warn rx" data-k="sub" data-rx="det" role="button" tabindex="0" style="left:1629px;top:618px;width:284px">
   <b>⚠ Nucleophilic substitution</b>
-  <span class="r">NaOH<b style="display:inline;text-transform:none;font-size:12.5px">(aq)</b>, heat</span>
+  <span class="r">NaOH<b style="display:inline;text-transform:none;font-size:14px">(aq)</b>, heat</span>
   <span class="n">15.1.3(a) · 16.1.1(c) — aqueous 才得 alcohol</span>
 </div>
 
-<div class="lbl rx" data-k="sub" data-rx="det:alc2halo" role="button" tabindex="0" style="left:1313px;top:428px;width:280px;--c:var(--t-sub)">
+<div class="lbl rx" data-k="sub" data-rx="det:alc2halo" role="button" tabindex="0" style="left:1444px;top:471px;width:308px;--c:var(--t-sub)">
   <b style="color:var(--t-sub)">Substitution</b>
-  <span class="r">PCl₅ · SOCl₂ · HX(g)<br>PCl₃ <b style="display:inline;text-transform:none;font-size:11.5px">and heat</b></span>
+  <span class="r">PCl₅ · SOCl₂ · HX(g)<br>PCl₃ <b style="display:inline;text-transform:none;font-size:14px">and heat</b></span>
   <span class="n">15.1.1(c) · 16.1.2(b)</span>
 </div>
 
-<div class="lbl rx" data-k="sub" data-rx="det" role="button" tabindex="0" style="left:1829px;top:504px;width:242px;--c:var(--t-sub)">
+<div class="lbl rx" data-k="sub" data-rx="det" role="button" tabindex="0" style="left:2012px;top:554px;width:266px;--c:var(--t-sub)">
   <b style="color:var(--t-sub)">Nucleophilic substitution</b>
   <span class="r">KCN in ethanol, heat</span>
   <span class="n">15.1.3(b) · 19.2.1(a) — carbon chain +1</span>
 </div>
 
-<div class="lbl rx" data-k="sub" data-rx="det" role="button" tabindex="0" style="left:2092px;top:388px;width:260px;--c:var(--t-sub)">
+<div class="lbl rx" data-k="sub" data-rx="det" role="button" tabindex="0" style="left:2301px;top:427px;width:286px;--c:var(--t-sub)">
   <b style="color:var(--t-sub)">Nucleophilic substitution</b>
   <span class="r">NH₃ in ethanol,<br>heated under pressure</span>
   <span class="n">15.1.3(c) · 19.1.1(a)</span>
 </div>
 
-<div class="lbl rx" data-k="sub" data-rx="mech3" role="button" tabindex="0" style="left:1936px;top:194px;width:272px;--c:var(--t-sub)">
+<div class="lbl rx" data-k="sub" data-rx="mech3" role="button" tabindex="0" style="left:2130px;top:213px;width:299px;--c:var(--t-sub)">
   <b style="color:var(--t-sub)">★ S<sub>N</sub>1 &amp; S<sub>N</sub>2</b>
   <span class="n">15.1.5–6 · 1° 走 S<sub>N</sub>2，3° 走 S<sub>N</sub>1</span>
 </div>
 
-<div class="lbl rx" data-k="elim" data-rx="det" role="button" tabindex="0" style="left:588px;top:785px;width:286px;--c:var(--t-elim)">
+<div class="lbl rx" data-k="elim" data-rx="det" role="button" tabindex="0" style="left:647px;top:864px;width:315px;--c:var(--t-elim)">
   <b style="color:var(--t-elim)">Dehydration</b>
   <span class="r">Al₂O₃ heated catalyst<br>or conc. H₂SO₄ / H₃PO₄</span>
   <span class="n">16.1.2(e) · 14.2.1(b)</span>
 </div>
 
-<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:1092px;top:788px;width:252px">
+<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:1201px;top:867px;width:277px">
   <b>⚠ Oxidation → aldehyde</b>
-  <span class="r">acidified K₂Cr₂O₇ or KMnO₄<br><b style="display:inline;text-transform:none;font-size:12.5px">distillation</b></span>
+  <span class="r">acidified K₂Cr₂O₇ or KMnO₄<br><b style="display:inline;text-transform:none;font-size:14px">distillation</b></span>
   <span class="n">17.1.1(a) — 1° alcohol</span>
 </div>
 
-<div class="lbl rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:1466px;top:660px;width:206px;--c:var(--t-oxid)">
+<div class="lbl rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:1613px;top:726px;width:227px;--c:var(--t-oxid)">
   <b style="color:var(--t-oxid)">Oxidation → ketone</b>
   <span class="r">acidified K₂Cr₂O₇ or KMnO₄</span>
   <span class="n">17.1.1(b) — 2° alcohol</span>
 </div>
 
-<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:818px;top:993px;width:246px">
+<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:900px;top:1092px;width:271px">
   <b>⚠ Oxidation → COOH</b>
-  <span class="r">acidified K₂Cr₂O₇ or KMnO₄<br><b style="display:inline;text-transform:none;font-size:12.5px">reflux</b></span>
+  <span class="r">acidified K₂Cr₂O₇ or KMnO₄<br><b style="display:inline;text-transform:none;font-size:14px">reflux</b></span>
   <span class="n">18.1.1(a) — 1° alcohol / aldehyde</span>
 </div>
 
-<div class="lbl rx" data-k="red" data-rx="det" role="button" tabindex="0" style="left:1712px;top:772px;width:218px;--c:var(--t-red)">
+<div class="lbl rx" data-k="red" data-rx="det" role="button" tabindex="0" style="left:1883px;top:849px;width:240px;--c:var(--t-red)">
   <b style="color:var(--t-red)">Reduction</b>
   <span class="r">NaBH₄ or<br>LiAlH₄</span>
   <span class="n">17.1.2(a)</span>
 </div>
 
-<div class="lbl rx" data-k="red" data-rx="det" role="button" tabindex="0" style="left:940px;top:722px;width:112px;--c:var(--t-red)">
+<div class="lbl rx" data-k="red" data-rx="det" role="button" tabindex="0" style="left:1034px;top:794px;width:123px;--c:var(--t-red)">
   <b style="color:var(--t-red)">Reduction</b>
   <span class="r">LiAlH₄</span>
   <span class="n">18.1.2(e)</span>
 </div>
 
-<div class="lbl rx" data-k="add" data-rx="mech4" role="button" tabindex="0" style="left:1313px;top:1087px;width:272px;--c:var(--t-add)">
+<div class="lbl rx" data-k="add" data-rx="mech4" role="button" tabindex="0" style="left:1444px;top:1196px;width:299px;--c:var(--t-add)">
   <b style="color:var(--t-add)">★ Nucleophilic addition</b>
   <span class="r">HCN · KCN as catalyst · heat</span>
   <span class="n">17.1.2(b) · 19.2.2(a) — carbon chain +1</span>
 </div>
 
-<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1313px;top:1347px;width:268px;--c:var(--t-hyd)">
+<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1444px;top:1482px;width:295px;--c:var(--t-hyd)">
   <b style="color:var(--t-hyd)">Hydrolysis</b>
-  <span class="r">dilute acid or dilute alkali<br><b style="display:inline;text-transform:none;font-size:12.5px">followed by acidification</b></span>
+  <span class="r">dilute acid or dilute alkali<br><b style="display:inline;text-transform:none;font-size:14px">followed by acidification</b></span>
   <span class="n">19.2.3 — 得 hydroxy-acid</span>
 </div>
 
-<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1611px;top:1424px;width:325px;--c:var(--t-hyd)">
+<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1772px;top:1566px;width:358px;--c:var(--t-hyd)">
   <b style="color:var(--t-hyd)">Hydrolysis · nitrile → COOH</b>
-  <span class="r">dilute acid or dilute alkali<br><b style="display:inline;text-transform:none;font-size:12.5px">followed by acidification</b></span>
+  <span class="r">dilute acid or dilute alkali<br><b style="display:inline;text-transform:none;font-size:14px">followed by acidification</b></span>
   <span class="n">18.1.1(b) · 19.2.3</span>
 </div>
 
-<div class="lbl rx" data-k="red" data-rx="det" role="button" tabindex="0" style="left:2144px;top:518px;width:218px;--c:var(--t-red)">
+<div class="lbl rx" data-k="red" data-rx="det" role="button" tabindex="0" style="left:2358px;top:570px;width:240px;--c:var(--t-red)">
   <b style="color:var(--t-red)">Reduction<span class="alv">A Lv</span></b>
   <span class="r">LiAlH₄ or H₂/Ni</span>
   <span class="n">34.1.1(d) — AS 不考</span>
 </div>
 
-<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:254px;top:1354px;width:278px;--c:var(--t-hyd)">
+<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:279px;top:1489px;width:306px;--c:var(--t-hyd)">
   <b style="color:var(--t-hyd)">Esterification (condensation)</b>
   <span class="r">alcohol · conc. H₂SO₄ catalyst</span>
   <span class="n">18.1.2(d) · 18.2.1(a)</span>
 </div>
 
-<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1040px;top:1476px;width:298px;--c:var(--t-hyd)">
+<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1144px;top:1624px;width:328px;--c:var(--t-hyd)">
   <b style="color:var(--t-hyd)">Hydrolysis · ester</b>
-  <span class="r">dilute acid or dilute alkali, heat<br><b style="display:inline;text-transform:none;font-size:12.5px">followed by acidification</b></span>
+  <span class="r">dilute acid or dilute alkali, heat<br><b style="display:inline;text-transform:none;font-size:14px">followed by acidification</b></span>
   <span class="n">18.2.2 · 18.1.1(c) · 16.1.1(f)</span>
 </div>
 
 <!-- TEST LABELS -->
-<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:1852px;top:925px;width:206px;--c:var(--t-test)">
+<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:2050px;top:1018px;width:227px;--c:var(--t-test)">
   <b style="color:var(--t-test)">Tollens' · Fehling's</b>
   <span class="n">17.1.5 — aldehyde positive、ketone negative</span>
 </div>
 
-<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:2131px;top:948px;width:220px;--c:var(--t-test)">
+<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:2344px;top:1043px;width:242px;--c:var(--t-test)">
   <b style="color:var(--t-test)">2,4-DNPH</b>
   <span class="n">17.1.4 — aldehyde 与 ketone 皆 positive，orange ppt</span>
 </div>
 
-<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:1993px;top:300px;width:246px;--c:var(--t-test)">
-  <b style="color:var(--t-test)">AgNO₃ in ethanol</b>
+<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:2192px;top:330px;width:271px;--c:var(--t-test)">
+  <b style="color:var(--t-test);text-transform:none">AgNO₃ in ethanol</b>
   <span class="n">15.1.3(d) · 15.1.7 — 鉴别 X，比 C–X bond strength</span>
 </div>
 
-<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:142px;top:1188px;width:224px;--c:var(--t-test)">
-  <b style="color:var(--t-test)">Na(s) · Na₂CO₃</b>
+<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:156px;top:1307px;width:246px;--c:var(--t-test)">
+  <b style="color:var(--t-test);text-transform:none">Na(s) · Na₂CO₃</b>
   <span class="n">18.1.2(a)(c) · 16.1.2(c) — alcohol 与 carboxylic acid 皆与 Na effervescence</span>
 </div>
 
-<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:192px;top:447px;width:194px;--c:var(--t-test)">
+<div class="lbl rx" data-k="test" data-rx="det" role="button" tabindex="0" style="left:211px;top:492px;width:213px;--c:var(--t-test)">
   <b style="color:var(--t-test)">Aqueous bromine</b>
   <span class="n">14.2.3 — orange/brown → colourless</span>
 </div>
 
-<div class="pill" style="left:1469px;top:325px">1° · 2° · 3°　15.1.2</div>
-<div class="pill" style="left:1176px;top:712px">1° · 2° · 3°　16.1.3(a)</div>
-<div class="pill" style="left:1580px;top:1092px">3° alcohol not oxidised · MS: remains orange</div>
+<div class="pill" style="left:1628px;top:372px">1° · 2° · 3°　15.1.2</div>
+<div class="pill" style="left:1306px;top:801px">1° · 2° · 3°　16.1.3(a)</div>
+<div class="pill" style="left:1880px;top:1256px">3° alcohol not oxidised · MS: remains orange</div>
 
 </div><!-- /canvas -->
 </div><!-- /stage -->
@@ -799,7 +799,7 @@
   </table>
   </div>
 
-  <div class="note" style="margin-top:16px">
+  <div class="note" style="margin-top:18px">
     <b>鉴别题的通用判分规则</b>（<span class="mono">9701_s26_22</span>）：M2 的现象必须<b>对应 M1
     试剂的明确指认</b>（例：M1 Br₂ → M2 <code>decolourises S</code> ✓）。
     <b>I</b> 直接说 <span class="mono">alkene for S</span> / <span class="mono">carboxylic acid for R</span>
@@ -1278,7 +1278,7 @@
   var stage=document.getElementById('stage'),
       scroller=document.getElementById('scroller'),
       pct=document.getElementById('pct'), z=1;
-  var W=2469, H=1611;
+  var W=2716, H=1772;
 
   function apply(){
     stage.style.transform='scale('+z+')';
