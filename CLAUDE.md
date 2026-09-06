@@ -112,6 +112,48 @@ uvx screenshot-feedback-hook-mcp capture --monitor 0 --out shot.jpg
   只想改文字颜色必须写 `text=blue!70`。
 
 
+## HTML 交付物（organic-reaction-roadmap.html）
+
+`organic-reaction-roadmap.html` 是**单文件零依赖**的有机反应路线图，同时发布为 Claude
+Artifact（同一 file path 重新发布即原地更新，链接不变）。内容口径：reagent / condition 逐字取自
+syllabus 章 13–21，判分口径与机理得分点取自 `passyear/extracted/` 的 2024–2026 Paper 2
+mark scheme，**冲突时以最新卷 `9701_s26_22` 为准**。
+
+### 改完必须两级截图，不能只跑脚本
+
+无头 Chrome 截图（stderr 的 `fallback_task_provider` 是已知噪声，以 `N bytes written` 为准）：
+
+```bash
+CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
+"$CHROME" --headless --disable-gpu --hide-scrollbars   --screenshot=out.png --window-size=1900,1200   "file:///C:/che_note/organic-reaction-roadmap.html"
+```
+
+- **布局级**（整页）：看重叠、错位、结构
+- **细节级**（`z>=1.5` 拍局部）：看箭头、虚线、δ± 角标、曲箭头起止点、字号
+
+**两级缺一不可。** 实测教训：5.5px 的箭头在 Fit 缩放（~0.65）下只剩 3px，
+整页截图里「有箭头」和「没箭头」根本分辨不出——曾因此让 35 条线全部没有箭头的
+bug 通过了一整轮几何校验和视觉检查。
+
+**交互态用 playwright MCP 实拍**，并且**一定要看 console**：
+筛选/缩放失效两次都是 JS 抛错导致整个 script 中断，无头截图完全看不出来
+（`file:` 协议被 playwright 拦，先 `python -m http.server` 起个本地服务）。
+
+### 已知渲染坑
+
+- `svg.wires path{fill:none}` 会把 `<marker>` 里的箭头三角形一起填透明。
+  必须写成 `svg.wires > g path{...}`，并补 `svg.wires marker path{stroke:none;}`
+- **`marker-end` 必须写在每条 `<path>` 上**，写在 `<g>` 上不会被子元素继承
+- 箭头端点要比方框边缘**提前 ~9px** 收尾，否则会被 `z-index` 更高的方框盖住
+- 不透明标签会盖住从它底下穿过的连线，看起来像断线 —— 校验脚本要同时查
+  「线穿 node 框」和「线穿 label 框」，只查 node 会漏掉一大批
+- `<script>` 必须放在弹窗 / `<template>` 等 DOM 之后，否则 `getElementById` 拿到 null
+
+## Commit 节奏
+
+**完成一个阶段就 commit**，不要攒着一次性提交。commit message 用中文，
+说清这一阶段做了什么、以及踩到的坑（后者对下次最有用）。
+
 ## Language
 
 In notes, prose may be 中文, but **every chemistry term stays in English**. Do not translate:
