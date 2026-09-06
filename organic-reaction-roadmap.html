@@ -94,9 +94,17 @@
   .scroller{overflow:auto;border:1px solid var(--line-strong);border-radius:var(--radius);
     background:var(--card);box-shadow:var(--shadow);-webkit-overflow-scrolling:touch;
     height:calc(100vh - 132px);min-height:460px;}
-  .wrap.stagewrap{max-width:none;padding:0 18px;}
-  :fullscreen .scroller{height:calc(100vh - 64px);border-radius:0;}
-  :fullscreen .wrap.stagewrap{padding:0;}
+  /* the canvas band ignores the 1240px reading column and uses the full window */
+  .wrap.stagewrap{max-width:100%;width:100%;padding:0 16px;margin:0;}
+
+  /* fullscreen: the section itself must paint a background, or the browser
+     letterboxes it in black; and it must fill the viewport exactly. */
+  #stagesec:fullscreen{background:var(--bg);width:100vw;height:100vh;
+    padding:0;margin:0;display:block;}
+  #stagesec:fullscreen .scroller{height:100vh;width:100vw;border:0;border-radius:0;
+    box-shadow:none;}
+  #stagesec:-webkit-full-screen{background:var(--bg);width:100vw;height:100vh;}
+  #stagesec:-webkit-full-screen .scroller{height:100vh;width:100vw;border:0;border-radius:0;}
   .stage{position:relative;transform-origin:0 0;}
   .canvas{position:relative;width:2185px;height:1426px;}
   svg.wires{position:absolute;inset:0;width:2185px;height:1426px;overflow:visible;z-index:1;}
