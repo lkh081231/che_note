@@ -99,7 +99,7 @@
   :fullscreen .wrap.stagewrap{padding:0;}
   .stage{position:relative;transform-origin:0 0;}
   .canvas{position:relative;width:2185px;height:1426px;}
-  svg.wires{position:absolute;inset:0;width:2185px;height:1426px;overflow:visible;}
+  svg.wires{position:absolute;inset:0;width:2185px;height:1426px;overflow:visible;z-index:1;}
   svg.wires > g path{fill:none;stroke-linecap:round;stroke-linejoin:round;}
   svg.wires marker path{stroke:none;}
   svg.wires g{transition:opacity .18s;}
@@ -123,8 +123,8 @@
     vertical-align:1px;letter-spacing:.02em;}
 
   .lbl{font-size:12.5px;line-height:1.45;color:var(--muted);transition:opacity .18s;
-    background:var(--card);padding:4px 7px;border-radius:5px;z-index:2;
-    border:1px solid transparent;}
+    background:var(--card);padding:5px 8px;border-radius:5px;z-index:5;
+    border:1px solid var(--line);box-shadow:0 0 0 3px var(--card);}
   .lbl b{display:block;font-size:13px;font-weight:600;letter-spacing:.03em;
     text-transform:uppercase;margin-bottom:3px;}
   .lbl .r{font-family:var(--mono);font-size:12.5px;color:var(--ink);display:block;}
@@ -282,12 +282,12 @@
 
   <!-- alkene -> halogenoalkane : electrophilic addition HX / X2 -->
   <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M543,340 H1035 V225 H1289" marker-end="url(#aAdd)"/>
+    <path d="M543,326 H1035 V225 H1289" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- halogenoalkane -> alkene : elimination (ethanolic NaOH) -->
   <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
-    <path d="M1297,264 H989 V361 H551" marker-end="url(#aElim)"/>
+    <path d="M1297,264 H1010 V424 H551" marker-end="url(#aElim)"/>
   </g>
 
   <!-- alkene -> alcohol : steam / H3PO4 -->
@@ -312,58 +312,58 @@
 
   <!-- halogenoalkane -> alcohol : NaOH(aq) -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1380,274 V483 H1322 V578 H1281" marker-end="url(#aSub)"/>
+    <path d="M1440,274 V470 H1300 V600 H1281" marker-end="url(#aSub)"/>
   </g>
 
   <!-- alcohol -> halogenoalkane : PCl5 / SOCl2 / PCl3 -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1150,538 V444 H1426 V282" marker-end="url(#aSub)"/>
+    <path d="M1150,538 V466 H1450 V282" marker-end="url(#aSub)"/>
   </g>
 
   <!-- halogenoalkane -> nitrile : KCN ethanol heat -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1587,274 V483 H1840 V530" marker-end="url(#aSub)"/>
+    <path d="M1587,274 V430 H1855 V530" marker-end="url(#aSub)"/>
   </g>
 
   <!-- halogenoalkane -> amine : NH3 ethanol pressure -->
   <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1667,274 V379 H2111 V530" marker-end="url(#aSub)"/>
+    <path d="M1667,258 H2111 V530" marker-end="url(#aSub)"/>
   </g>
 
   <!-- alcohol -> alkene : dehydration -->
   <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
-    <path d="M1038,614 H805 V713 H481 V390" marker-end="url(#aElim)"/>
+    <path d="M1038,614 H800 V790 H481 V390" marker-end="url(#aElim)"/>
   </g>
 
   <!-- alcohol -> aldehyde : distil -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1104,619 V808" marker-end="url(#aOxid)"/>
+    <path d="M1104,619 V676 H1215 V808" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alcohol -> ketone : distil (secondary) -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1219,619 V793 H1495 V808" marker-end="url(#aOxid)"/>
+    <path d="M1240,619 V680 H1505 V808" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- aldehyde -> carboxylic acid : reflux -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1033,865 H805 V999 H654" marker-end="url(#aOxid)"/>
+    <path d="M1033,865 H960 V999 H654" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alcohol -> carboxylic acid : reflux (direct) -->
   <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1038,593 H759 V951" marker-end="url(#aOxid)"/>
+    <path d="M1038,570 H500 V951" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- aldehyde/ketone -> alcohol : NaBH4 / LiAlH4 -->
   <g data-k="red" stroke="#8A7220" stroke-width="1.7">
-    <path d="M1162,816 V627" marker-end="url(#aRed)"/>
+    <path d="M1210,816 V627" marker-end="url(#aRed)"/>
     <path d="M1564,816 V736 H1248 V627" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carboxylic acid -> alcohol : LiAlH4 -->
   <g data-k="red" stroke="#8A7220" stroke-width="1.7">
-    <path d="M646,987 H973 V610 H1030" marker-end="url(#aRed)"/>
+    <path d="M646,987 H950 V610 H1030" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carbonyl -> hydroxynitrile : HCN/KCN -->
@@ -379,7 +379,7 @@
 
   <!-- nitrile -> carboxylic acid : hydrolysis -->
   <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M1840,616 V1357 H494 V1048" marker-end="url(#aHyd)"/>
+    <path d="M1840,616 V1400 H494 V1048" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- nitrile -> amine : reduction (A Level) -->
@@ -399,13 +399,13 @@
 
   <!-- ester -> alcohol : hydrolysis  [16.1.1(f)] -->
   <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M876,1281 H1017 V550 H1030" marker-end="url(#aHyd)"/>
+    <path d="M876,1281 H952 V550 H1030" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- TESTS -->
   <g data-k="test" stroke="#6E7681" stroke-width="1.4" stroke-dasharray="5 4">
     <path d="M1635,856 H1654" marker-end="url(#aTest)"/>
-    <path d="M1635,872 H1881" marker-end="url(#aTest)"/>
+    <path d="M1635,856 H1655" marker-end="url(#aTest)"/>
     <path d="M1693,236 H1794 V278" marker-end="url(#aTest)"/>
     <path d="M389,1012 H288 V1046" marker-end="url(#aTest)"/>
     <path d="M368,334 H329 V391" marker-end="url(#aTest)"/>
@@ -605,13 +605,13 @@
   <span class="n">18.1.1(a) — 1° alcohol / aldehyde</span>
 </div>
 
-<div class="lbl" data-k="red" style="left:1164px;top:713px;width:120px;--c:var(--t-red)">
+<div class="lbl" data-k="red" style="left:1246px;top:700px;width:120px;--c:var(--t-red)">
   <b style="color:var(--t-red)">Reduction</b>
   <span class="r">NaBH₄ or<br>LiAlH₄</span>
   <span class="n">17.1.2(a)</span>
 </div>
 
-<div class="lbl" data-k="red" style="left:869px;top:690px;width:99px;--c:var(--t-red)">
+<div class="lbl" data-k="red" style="left:846px;top:672px;width:99px;--c:var(--t-red)">
   <b style="color:var(--t-red)">Reduction</b>
   <span class="r">LiAlH₄</span>
   <span class="n">18.1.2(e)</span>
