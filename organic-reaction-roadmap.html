@@ -108,6 +108,8 @@
   #stagesec:-webkit-full-screen{background:var(--bg);width:100vw;height:100vh;}
   #stagesec:-webkit-full-screen .scroller{height:100vh;width:100vw;border:0;border-radius:0;}
   .stage{position:relative;transform-origin:0 0;}
+  .scroller.panning{cursor:grabbing;user-select:none;}
+  .scroller.panning *{cursor:grabbing !important;}
   .canvas{position:relative;width:2185px;height:1426px;}
   svg.wires{position:absolute;inset:0;width:2185px;height:1426px;overflow:visible;z-index:1;}
   svg.wires > g path{fill:none;stroke-linecap:round;stroke-linejoin:round;}
@@ -1299,6 +1301,60 @@
   document.getElementById('zin').onclick=function(){z=Math.min(2,z+0.15);apply();};
   document.getElementById('zout').onclick=function(){z=Math.max(0.2,z-0.15);apply();};
   document.getElementById('fit').onclick=fit;
+
+  // ---- drag to pan: both mouse buttons together, or the middle button ----
+  // horizontal moves the canvas box, vertical moves the page (the box is
+  // overflow-y:hidden by design, so there is nothing to scroll inside it).
+  (function(){
+    var panning=false, sx=0, sy=0, startLeft=0, startPage=0, armed=false;
+
+    function pageY(){ return window.pageYOffset||document.documentElement.scrollTop||0; }
+    function bothDown(e){ return (e.buttons & 3) === 3; }   // bit0 left + bit1 right
+    function midDown(e){ return (e.buttons & 4) === 4; }
+
+    function begin(e){
+      panning=true;
+      sx=e.clientX; sy=e.clientY;
+      startLeft=scroller.scrollLeft; startPage=pageY();
+      scroller.classList.add('panning');
+      e.preventDefault();
+    }
+    function end(){
+      if(!panning && !armed) return;
+      panning=false; armed=false;
+      scroller.classList.remove('panning');
+    }
+
+    scroller.addEventListener('mousedown',function(e){
+      if(midDown(e) || bothDown(e)){ begin(e); return; }
+      // first of the two buttons: remember it so the second one can start the pan
+      if(e.button===0 || e.button===2) armed=true;
+    });
+
+    scroller.addEventListener('mousemove',function(e){
+      if(!panning){
+        // the second button went down after the first -> start now
+        if(armed && (bothDown(e)||midDown(e))) begin(e);
+        return;
+      }
+      if(!(bothDown(e)||midDown(e))){ end(); return; }
+      scroller.scrollLeft = startLeft - (e.clientX - sx);
+      window.scrollTo(0, startPage - (e.clientY - sy));
+      e.preventDefault();
+    });
+
+    ['mouseup','mouseleave','blur'].forEach(function(ev){
+      (ev==='blur'?window:scroller).addEventListener(ev,end);
+    });
+
+    // both-buttons and middle-click otherwise open menus / autoscroll
+    scroller.addEventListener('contextmenu',function(e){
+      if(panning||armed){ e.preventDefault(); armed=false; }
+    });
+    scroller.addEventListener('auxclick',function(e){
+      if(e.button===1) e.preventDefault();
+    });
+  })();
 
   // ---- fullscreen ----
   var fsBtn=document.getElementById('fs'),
