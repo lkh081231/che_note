@@ -138,7 +138,7 @@
     background:var(--card);border:1px solid var(--line-strong);border-radius:5px;
     padding:3px 8px;z-index:3;}
 
-  .dim{opacity:.09 !important;}
+  .dim{opacity:.13 !important;}
 
   details{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
     margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;}
@@ -413,83 +413,83 @@
 </svg>
 
 <!-- ============ NODES ============ -->
-<div class="node hero" style="left:80px;top:138px;width:186px;height:69px">
+<div class="node hero" style="left:80px;top:138px;width:186px;height:69px data-groups="base"">
   <div class="nm">Crude oil</div>
   <div class="fm">cracking</div>
 </div>
 
-<div class="node hero" style="left:370px;top:138px;width:170px;height:69px">
+<div class="node hero" style="left:370px;top:138px;width:170px;height:69px data-groups="add base radical"">
   <div class="nm">Alkane</div>
   <div class="fm">C<sub>n</sub>H<sub>2n+2</sub></div>
 </div>
 
-<div class="node hero" style="left:370px;top:308px;width:170px;height:71px">
+<div class="node hero" style="left:370px;top:308px;width:170px;height:71px data-groups="add base elim oxid test"">
   <div class="nm">Alkene</div>
   <div class="fm">C=C</div>
 </div>
 
-<div class="node ghost" style="left:126px;top:520px;width:202px;height:51px">
+<div class="node ghost" style="left:126px;top:520px;width:202px;height:51px data-groups="add"">
   <div class="nm">Addition polymer</div>
 </div>
 
-<div class="node ghost" style="left:126px;top:793px;width:207px;height:71px">
+<div class="node ghost" style="left:126px;top:793px;width:207px;height:71px data-groups="oxid"">
   <div class="nm">CO₂ · ketone · COOH</div>
   <div class="fm" style="font-size:10.5px">依 C=C 位置而定</div>
 </div>
 
-<div class="node ghost" style="left:731px;top:471px;width:120px;height:48px">
+<div class="node ghost" style="left:731px;top:471px;width:120px;height:48px data-groups="oxid"">
   <div class="nm">Diol</div>
 </div>
 
-<div class="node" style="left:1300px;top:195px;width:391px;height:76px">
+<div class="node" style="left:1300px;top:195px;width:391px;height:76px data-groups="add elim radical sub test"">
   <div class="tag">A</div>
   <div class="nm">Halogenoalkane</div>
   <div class="fm">R–X&nbsp;&nbsp;(X = Cl, Br, I)</div>
 </div>
 
-<div class="node" style="left:1041px;top:540px;width:230px;height:76px">
+<div class="node" style="left:1041px;top:540px;width:230px;height:76px data-groups="add elim hyd oxid red sub"">
   <div class="tag">B</div>
   <div class="nm">Alcohol</div>
   <div class="fm">R–OH</div>
 </div>
 
-<div class="node" style="left:391px;top:961px;width:253px;height:76px">
+<div class="node" style="left:391px;top:961px;width:253px;height:76px data-groups="hyd oxid red test"">
   <div class="tag">C</div>
   <div class="nm">Carboxylic acid</div>
   <div class="fm">R–COOH</div>
 </div>
 
-<div class="node" style="left:1426px;top:819px;width:207px;height:74px">
+<div class="node" style="left:1426px;top:819px;width:207px;height:74px data-groups="add oxid red test"">
   <div class="tag">D</div>
   <div class="nm">Ketone</div>
   <div class="fm">R–CO–R′</div>
 </div>
 
-<div class="node" style="left:1035px;top:819px;width:207px;height:74px">
+<div class="node" style="left:1035px;top:819px;width:207px;height:74px data-groups="add oxid red"">
   <div class="tag">E</div>
   <div class="nm">Aldehyde</div>
   <div class="fm">R–CHO</div>
 </div>
 
-<div class="node alevel" style="left:2001px;top:540px;width:138px;height:74px">
+<div class="node alevel" style="left:2001px;top:540px;width:138px;height:74px data-groups="red sub"">
   <div class="tag">F</div>
   <div class="nm">Amine<span class="alv">A Lv</span></div>
   <div class="fm">R–NH₂</div>
 </div>
 
-<div class="node" style="left:1759px;top:540px;width:161px;height:74px">
+<div class="node" style="left:1759px;top:540px;width:161px;height:74px data-groups="hyd red sub"">
   <div class="tag">G</div>
   <div class="nm">Nitrile</div>
   <div class="fm">R–C≡N</div>
 </div>
 
-<div class="node" style="left:690px;top:1244px;width:184px;height:74px">
+<div class="node" style="left:690px;top:1244px;width:184px;height:74px data-groups="hyd"">
   <div class="tag">H</div>
   <div class="nm">Ester</div>
   <div class="fm">R¹COOR²</div>
 </div>
 
-<div class="node" style="left:1035px;top:1035px;width:253px;height:74px">
+<div class="node" style="left:1035px;top:1035px;width:253px;height:74px data-groups="add hyd"">
   <div class="tag">I</div>
   <div class="nm">Hydroxynitrile</div>
   <div class="fm">R–CH(OH)–CN</div>
@@ -1319,6 +1319,15 @@
       var m=el.dataset.k;
       el.classList.toggle('dim', !(active===null||m===active||m==='base'));
     });
+    // compound boxes: only those taking part in the active reaction type stay lit
+    document.querySelectorAll('.node[data-groups]').forEach(function(el){
+      var g=(el.dataset.groups||'').split(' ');
+      el.classList.toggle('dim', !(active===null||g.indexOf(active)>=0));
+    });
+    // the small 1/2/3-degree pills follow their neighbouring box
+    document.querySelectorAll('.pill').forEach(function(el){
+      el.classList.toggle('dim', active!==null);
+    });
     document.querySelectorAll('details[data-k]').forEach(function(d){
       d.style.display=(active===null||d.dataset.k===active)?'':'none';
     });
@@ -1332,14 +1341,6 @@
   });
   paint();
 
-  // ---- expand / collapse all ----
-  var btn=document.getElementById('expand');
-  btn.addEventListener('click',function(){
-    var ds=[].slice.call(document.querySelectorAll('details'));
-    var anyClosed=ds.some(function(d){return !d.open;});
-    ds.forEach(function(d){ d.open=anyClosed; });
-    btn.textContent=anyClosed?'收起全部':'展开全部';
-  });
 })();
 </script>
 
