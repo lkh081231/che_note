@@ -1,0 +1,12 @@
+{
+  "alkene":         "\\chemfig{R-[:30]C(-[:90]H)=[:-30]C(-[:30]H)-[:-90]R^{\\prime}}",
+  "halogenoalkane": "\\chemfig{R-[:30]X}",
+  "alcohol":        "\\chemfig{R-[:30]OH}",
+  "carboxylic":     "\\chemfig{R-[:30]C(=[:90]O)-[:-30]OH}",
+  "ketone":         "\\chemfig{R-[:30]C(=[:90]O)-[:-30]R^{\\prime}}",
+  "aldehyde":       "\\chemfig{R-[:30]C(=[:90]O)-[:-30]H}",
+  "amine":          "\\chemfig{R-[:30]NH_{2}}",
+  "nitrile":        "\\chemfig{R-[:30]C~[:-30]N}",
+  "ester":          "\\chemfig{R^{1}-[:30]C(=[:90]O)-[:-30]O-[:30]R^{2}}",
+  "hydroxynitrile": "\\chemfig{R-[:30]C(-[:90]OH)(-[:-90]H)-[:-30]C~[:-30]N}"
+}
