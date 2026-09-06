@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AS Organic Reaction Roadmap · 9701</title>
+<style>
+  :root{
+    --bg:#FAF9F5;
+    --card:#FFFFFF;
+    --line:#E5E2D9;
+    --line-strong:#D6D2C4;
+    --ink:#191919;
+    --muted:#6B6862;
+    --faint:#908C84;
+    --accent:#D97757;
+    --accent-soft:#F5E5DE;
+    --warn:#BF4722;
+    --warn-soft:#FBE9E3;
+
+    --t-radical:#A8582F;
+    --t-elim:#B07B2E;
+    --t-add:#6B6096;
+    --t-oxid:#3F7355;
+    --t-sub:#A65478;
+    --t-red:#8A7220;
+    --t-hyd:#3D6E93;
+    --t-test:#6E7681;
+
+    --shadow:0 1px 2px rgba(25,25,25,.05),0 1px 6px rgba(25,25,25,.04);
+    --radius:8px;
+    --sans:ui-sans-serif,-apple-system,"Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"Cascadia Mono",Menlo,monospace;
+    --serif:ui-serif,Georgia,"Songti SC","Times New Roman",serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#1F1E1C; --card:#2A2927; --line:#3B3A37; --line-strong:#4A4844;
+      --ink:#EDEBE6; --muted:#A8A49C; --faint:#8A867E;
+      --accent:#E0917A; --accent-soft:#3A2C26;
+      --warn:#E4795C; --warn-soft:#3B2620;
+      --t-radical:#D89573; --t-elim:#D4AC6A; --t-add:#A79BD0;
+      --t-oxid:#79B392; --t-sub:#D992B0; --t-red:#C6AC55;
+      --t-hyd:#7FADD1; --t-test:#A6AEB8;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 1px 6px rgba(0,0,0,.2);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1F1E1C; --card:#2A2927; --line:#3B3A37; --line-strong:#4A4844;
+    --ink:#EDEBE6; --muted:#A8A49C; --faint:#8A867E;
+    --accent:#E0917A; --accent-soft:#3A2C26;
+    --warn:#E4795C; --warn-soft:#3B2620;
+    --t-radical:#D89573; --t-elim:#D4AC6A; --t-add:#A79BD0;
+    --t-oxid:#79B392; --t-sub:#D992B0; --t-red:#C6AC55;
+    --t-hyd:#7FADD1; --t-test:#A6AEB8;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 1px 6px rgba(0,0,0,.2);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px;}
+
+  header{padding:40px 0 26px;}
+  h1{margin:0;font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em;}
+  header .sub{margin:9px 0 0;color:var(--muted);font-size:14.5px;max-width:74ch;}
+  header .meta{margin:16px 0 0;font-size:12.5px;color:var(--faint);}
+  header .meta code{font-family:var(--mono);font-size:12px;background:var(--card);
+    border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+
+  section{margin:0 0 34px;}
+  h2{font-family:var(--serif);font-size:20px;font-weight:600;margin:0 0 4px;letter-spacing:-.005em;}
+  h2 .oc{font-family:var(--mono);font-size:11.5px;font-weight:400;color:var(--faint);
+    border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:9px;vertical-align:3px;}
+  .lede{color:var(--muted);font-size:13.5px;margin:0 0 16px;max-width:80ch;}
+
+  .toolbar{position:sticky;top:0;z-index:30;background:var(--bg);
+    padding:12px 0;margin-bottom:16px;border-bottom:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+  .chip{font-size:12px;line-height:1;padding:7px 11px;border-radius:999px;
+    border:1px solid var(--line-strong);background:var(--card);color:var(--muted);
+    cursor:pointer;font-weight:500;font-family:var(--sans);transition:all .15s;}
+  .chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;
+    background:currentColor;margin-right:6px;vertical-align:0;}
+  .chip:hover{border-color:var(--accent);}
+  .chip.on{background:var(--accent-soft);border-color:var(--accent);font-weight:600;}
+  .chip.muted{opacity:.35;}
+  .spacer{margin-left:auto;display:flex;gap:7px;align-items:center;}
+  .btn{font-size:12px;padding:7px 11px;border-radius:6px;border:1px solid var(--line-strong);
+    background:var(--card);color:var(--muted);cursor:pointer;font-family:var(--sans);}
+  .btn:hover{border-color:var(--accent);color:var(--accent);}
+
+  .scroller{overflow:auto;border:1px solid var(--line-strong);border-radius:var(--radius);
+    background:var(--card);box-shadow:var(--shadow);-webkit-overflow-scrolling:touch;
+    height:calc(100vh - 132px);min-height:460px;}
+  .wrap.stagewrap{max-width:none;padding:0 18px;}
+  :fullscreen .scroller{height:calc(100vh - 64px);border-radius:0;}
+  :fullscreen .wrap.stagewrap{padding:0;}
+  .stage{position:relative;transform-origin:0 0;}
+  .canvas{position:relative;width:2185px;height:1426px;}
+  svg.wires{position:absolute;inset:0;width:2185px;height:1426px;overflow:visible;}
+  svg.wires > g path{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  svg.wires marker path{stroke:none;}
+  svg.wires g{transition:opacity .18s;}
+
+  .node,.lbl,.pill{position:absolute;}
+  .node{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);
+    padding:9px 12px;box-shadow:var(--shadow);z-index:3;}
+  .node .nm{font-size:17px;font-weight:600;letter-spacing:-.005em;}
+  .node .fm{font-family:var(--mono);font-size:13.5px;color:var(--muted);margin-top:3px;}
+  .node .tag{position:absolute;z-index:4;top:-10px;left:-10px;min-width:22px;height:22px;padding:0 6px;
+    border-radius:6px;background:var(--ink);color:var(--bg);font-size:12.5px;font-weight:600;
+    display:grid;place-items:center;font-family:var(--mono);}
+  .node.hero{border-width:2px;border-color:var(--ink);}
+  .node.hero .nm{font-size:19px;}
+  .node.ghost{border-style:solid;border-color:var(--line-strong);background:var(--card);
+    box-shadow:var(--shadow);}
+  .node.ghost .nm{font-size:14.5px;font-weight:500;color:var(--muted);}
+  .node.alevel{border-style:dashed;}
+  .alv{display:inline-block;font-size:9.5px;font-family:var(--mono);color:var(--faint);
+    border:1px solid var(--line-strong);border-radius:3px;padding:0 4px;margin-left:5px;
+    vertical-align:1px;letter-spacing:.02em;}
+
+  .lbl{font-size:12.5px;line-height:1.45;color:var(--muted);transition:opacity .18s;
+    background:var(--card);padding:4px 7px;border-radius:5px;z-index:2;
+    border:1px solid transparent;}
+  .lbl b{display:block;font-size:13px;font-weight:600;letter-spacing:.03em;
+    text-transform:uppercase;margin-bottom:3px;}
+  .lbl .r{font-family:var(--mono);font-size:12.5px;color:var(--ink);display:block;}
+  .lbl .n{display:block;color:var(--faint);font-size:11.5px;margin-top:3px;}
+  .lbl.warn{background:var(--warn-soft);border:1px solid var(--warn);border-radius:6px;
+    padding:6px 8px;}
+  .lbl.warn b{color:var(--warn);}
+  .lbl.warn .r{color:var(--ink);}
+
+  .pill{font-size:12px;font-family:var(--mono);color:var(--muted);
+    background:var(--card);border:1px solid var(--line-strong);border-radius:5px;
+    padding:3px 8px;z-index:3;}
+
+  .dim{opacity:.09 !important;}
+
+  details{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;}
+  summary{cursor:pointer;padding:13px 16px;font-weight:600;font-size:14.5px;list-style:none;
+    display:flex;align-items:center;gap:9px;}
+  summary::-webkit-details-marker{display:none;}
+  summary::before{content:"";width:0;height:0;border-left:5px solid var(--faint);
+    border-top:4px solid transparent;border-bottom:4px solid transparent;
+    transition:transform .18s;flex:none;}
+  details[open] summary::before{transform:rotate(90deg);}
+  summary:hover{background:var(--accent-soft);}
+  summary .cnt{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--faint);
+    margin-left:auto;}
+  .body{padding:4px 16px 16px;border-top:1px solid var(--line);}
+  sub,sup{font-size:.72em;line-height:0;position:relative;vertical-align:baseline;}
+  sub{bottom:-.25em;} sup{top:-.45em;}
+
+  .mech{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;}
+  .mech .draw{flex:1 1 470px;min-width:0;overflow-x:auto;}
+  .mech .draw svg{display:block;}
+  .mech .pts{flex:1 1 280px;min-width:250px;}
+  .mech .pts h4{margin:6px 0 7px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--faint);font-weight:600;}
+  ol.marks{margin:0;padding:0;list-style:none;counter-reset:m;}
+  ol.marks li{position:relative;padding:5px 0 5px 42px;font-size:12.5px;
+    border-bottom:1px solid var(--line);}
+  ol.marks li:last-child{border-bottom:none;}
+  ol.marks li::before{counter-increment:m;content:"M" counter(m);position:absolute;left:0;top:6px;
+    font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--accent);
+    background:var(--accent-soft);border-radius:3px;padding:1px 5px;}
+  ol.marks.pt li::before{content:"pt" counter(m);}
+  .note{background:var(--bg);border-left:2px solid var(--accent);border-radius:0 5px 5px 0;
+    padding:8px 12px;font-size:12.5px;color:var(--muted);margin-top:12px;}
+  .note b{color:var(--ink);}
+  .eq{font-family:var(--mono);font-size:12.5px;line-height:2.05;color:var(--ink);}
+  .eq .step{display:inline-block;min-width:118px;color:var(--faint);font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.04em;}
+
+  table{border-collapse:collapse;width:100%;font-size:12.5px;}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);
+    font-weight:600;border-bottom:1px solid var(--line-strong);}
+  td code,.mono{font-family:var(--mono);font-size:11.5px;}
+  .tw{overflow-x:auto;}
+
+  .vd{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;
+    width:15px;height:15px;line-height:15px;text-align:center;border-radius:3px;margin-right:7px;
+    flex:none;margin-top:2px;}
+  .vd.a{background:#E3F0E8;color:#2F6B48;}
+  .vd.i{background:#F0EEE6;color:#6B6862;}
+  .vd.r{background:#FBE3DC;color:#B03A18;}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]) .vd.a{background:#24382C;color:#8CC9A4;}
+    :root:not([data-theme="light"]) .vd.i{background:#35332F;color:#A8A49C;}
+    :root:not([data-theme="light"]) .vd.r{background:#3E251E;color:#E89478;}}
+  ul.verdicts{list-style:none;margin:0;padding:0;}
+  ul.verdicts li{display:flex;align-items:flex-start;padding:4px 0;font-size:12.5px;line-height:1.5;}
+
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:10px;}
+
+  footer{padding:8px 0 60px;color:var(--faint);font-size:12px;border-top:1px solid var(--line);
+    margin-top:8px;}
+  footer .legend{display:flex;flex-wrap:wrap;gap:5px 16px;margin:14px 0 0;}
+  footer .legend span{white-space:nowrap;}
+  footer .legend b{font-family:var(--mono);color:var(--muted);font-weight:600;}
+  footer .src{margin-top:12px;line-height:1.7;}
+  footer code{font-family:var(--mono);font-size:11px;}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
+  @media print{
+    .toolbar{display:none;} details{break-inside:avoid;}
+    details:not([open]) .body{display:block;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>AS Organic Reaction Roadmap</h1>
+  <p class="sub">Cambridge International AS &amp; A Level Chemistry <b>9701</b> · syllabus 章 13–21 的
+  AS 有机反应。每条箭头的 reagent 与 condition 逐字取自 syllabus；机理得分点与判分口径取自
+  2024–2026 Paper 2 的 mark scheme。</p>
+  <p class="meta">syllabus 原文 · <code>passyear/extracted/</code> MS 逐字答案 ·
+  判分冲突一律以最新卷 <code>9701_s26_22</code> 为准</p>
+</header>
+
+<div class="toolbar">
+  <button class="chip on" data-k="all">全部</button>
+  <button class="chip" data-k="radical" style="color:var(--t-radical)"><span class="dot"></span>Free-radical substitution</button>
+  <button class="chip" data-k="add" style="color:var(--t-add)"><span class="dot"></span>Addition</button>
+  <button class="chip" data-k="sub" style="color:var(--t-sub)"><span class="dot"></span>Nucleophilic substitution</button>
+  <button class="chip" data-k="elim" style="color:var(--t-elim)"><span class="dot"></span>Elimination / Dehydration</button>
+  <button class="chip" data-k="oxid" style="color:var(--t-oxid)"><span class="dot"></span>Oxidation</button>
+  <button class="chip" data-k="red" style="color:var(--t-red)"><span class="dot"></span>Reduction</button>
+  <button class="chip" data-k="hyd" style="color:var(--t-hyd)"><span class="dot"></span>Hydrolysis / Esterification</button>
+  <button class="chip" data-k="test" style="color:var(--t-test)"><span class="dot"></span>Tests</button>
+  <div class="spacer">
+    <button class="btn accent" id="pitfall">⚠ 判分陷阱</button>
+    <button class="btn" id="zout" aria-label="缩小">−</button><span class="mono" id="pct">80%</span><button class="btn" id="zin" aria-label="放大">+</button>
+    <button class="btn" id="fit">Fit</button>
+    <button class="btn" id="fs">⛶ 全屏</button>
+  </div>
+</div>
+</div><!-- /wrap -->
+
+<div class="wrap stagewrap">
+<section id="stagesec">
+<div class="scroller" id="scroller">
+<div class="stage" id="stage">
+<div class="canvas">
+
+<svg class="wires" viewBox="0 0 2185 1426">
+  <defs>
+    <marker id="aRad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A8582F" stroke="none"/></marker>
+    <marker id="aAdd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B6096" stroke="none"/></marker>
+    <marker id="aSub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A65478" stroke="none"/></marker>
+    <marker id="aElim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B07B2E" stroke="none"/></marker>
+    <marker id="aOxid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3F7355" stroke="none"/></marker>
+    <marker id="aRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A7220" stroke="none"/></marker>
+    <marker id="aHyd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3D6E93" stroke="none"/></marker>
+    <marker id="aTest" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6E7681" stroke="none"/></marker>
+    <marker id="aInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#908C84" stroke="none"/></marker>
+  </defs>
+
+  <!-- crude oil -> alkane / alkene (cracking) -->
+  <g data-k="base" stroke="#908C84" stroke-width="1.6">
+    <path d="M267,172 H360" marker-end="url(#aInk)"/>
+    <path d="M174,209 V344 H360" marker-end="url(#aInk)"/>
+  </g>
+
+  <!-- alkene -> alkane : hydrogenation  [14.1.1(a) / 14.2.2(a)(i)] -->
+  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
+    <path d="M451,306 V217" marker-end="url(#aAdd)"/>
+  </g>
+
+  <!-- alkane -> halogenoalkane : free-radical substitution -->
+  <g data-k="radical" stroke="#A8582F" stroke-width="1.7">
+    <path d="M540,172 H1219 V233 H1289" marker-end="url(#aRad)"/>
+  </g>
+
+  <!-- alkene -> halogenoalkane : electrophilic addition HX / X2 -->
+  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
+    <path d="M543,340 H1035 V225 H1289" marker-end="url(#aAdd)"/>
+  </g>
+
+  <!-- halogenoalkane -> alkene : elimination (ethanolic NaOH) -->
+  <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
+    <path d="M1297,264 H989 V361 H551" marker-end="url(#aElim)"/>
+  </g>
+
+  <!-- alkene -> alcohol : steam / H3PO4 -->
+  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
+    <path d="M460,382 V559 H1030" marker-end="url(#aAdd)"/>
+  </g>
+
+  <!-- alkene -> diol : cold dilute KMnO4 -->
+  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
+    <path d="M501,382 V496 H721" marker-end="url(#aOxid)"/>
+  </g>
+
+  <!-- alkene -> addition polymer -->
+  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
+    <path d="M409,382 V545 H339" marker-end="url(#aAdd)"/>
+  </g>
+
+  <!-- alkene -> cleavage products : hot conc KMnO4 -->
+  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
+    <path d="M368,356 H106 V791 H116" marker-end="url(#aOxid)"/>
+  </g>
+
+  <!-- halogenoalkane -> alcohol : NaOH(aq) -->
+  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
+    <path d="M1380,274 V483 H1322 V578 H1281" marker-end="url(#aSub)"/>
+  </g>
+
+  <!-- alcohol -> halogenoalkane : PCl5 / SOCl2 / PCl3 -->
+  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
+    <path d="M1150,538 V444 H1426 V282" marker-end="url(#aSub)"/>
+  </g>
+
+  <!-- halogenoalkane -> nitrile : KCN ethanol heat -->
+  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
+    <path d="M1587,274 V483 H1840 V530" marker-end="url(#aSub)"/>
+  </g>
+
+  <!-- halogenoalkane -> amine : NH3 ethanol pressure -->
+  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
+    <path d="M1667,274 V379 H2111 V530" marker-end="url(#aSub)"/>
+  </g>
+
+  <!-- alcohol -> alkene : dehydration -->
+  <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
+    <path d="M1038,614 H805 V713 H481 V390" marker-end="url(#aElim)"/>
+  </g>
+
+  <!-- alcohol -> aldehyde : distil -->
+  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
+    <path d="M1104,619 V808" marker-end="url(#aOxid)"/>
+  </g>
+
+  <!-- alcohol -> ketone : distil (secondary) -->
+  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
+    <path d="M1219,619 V793 H1495 V808" marker-end="url(#aOxid)"/>
+  </g>
+
+  <!-- aldehyde -> carboxylic acid : reflux -->
+  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
+    <path d="M1033,865 H805 V999 H654" marker-end="url(#aOxid)"/>
+  </g>
+
+  <!-- alcohol -> carboxylic acid : reflux (direct) -->
+  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
+    <path d="M1038,593 H759 V951" marker-end="url(#aOxid)"/>
+  </g>
+
+  <!-- aldehyde/ketone -> alcohol : NaBH4 / LiAlH4 -->
+  <g data-k="red" stroke="#8A7220" stroke-width="1.7">
+    <path d="M1162,816 V627" marker-end="url(#aRed)"/>
+    <path d="M1564,816 V736 H1248 V627" marker-end="url(#aRed)"/>
+  </g>
+
+  <!-- carboxylic acid -> alcohol : LiAlH4 -->
+  <g data-k="red" stroke="#8A7220" stroke-width="1.7">
+    <path d="M646,987 H973 V610 H1030" marker-end="url(#aRed)"/>
+  </g>
+
+  <!-- carbonyl -> hydroxynitrile : HCN/KCN -->
+  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
+    <path d="M1162,895 V1025" marker-end="url(#aAdd)"/>
+    <path d="M1495,895 V987 H1254 V1025" marker-end="url(#aAdd)"/>
+  </g>
+
+  <!-- hydroxynitrile -> hydroxy-acid : hydrolysis -->
+  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
+    <path d="M1150,1111 V1196 H777 V1234" marker-end="url(#aHyd)"/>
+  </g>
+
+  <!-- nitrile -> carboxylic acid : hydrolysis -->
+  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
+    <path d="M1840,616 V1357 H494 V1048" marker-end="url(#aHyd)"/>
+  </g>
+
+  <!-- nitrile -> amine : reduction (A Level) -->
+  <g data-k="red" stroke="#8A7220" stroke-width="1.7" stroke-dasharray="6 4">
+    <path d="M1923,577 H1991" marker-end="url(#aRed)"/>
+  </g>
+
+  <!-- carboxylic acid + alcohol -> ester : esterification -->
+  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
+    <path d="M540,1040 V1150 H759 V1234" marker-end="url(#aHyd)"/>
+  </g>
+
+  <!-- ester -> carboxylic acid : hydrolysis -->
+  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
+    <path d="M805,1242 V1173 H448 V1048" marker-end="url(#aHyd)"/>
+  </g>
+
+  <!-- ester -> alcohol : hydrolysis  [16.1.1(f)] -->
+  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
+    <path d="M876,1281 H1017 V550 H1030" marker-end="url(#aHyd)"/>
+  </g>
+
+  <!-- TESTS -->
+  <g data-k="test" stroke="#6E7681" stroke-width="1.4" stroke-dasharray="5 4">
+    <path d="M1635,856 H1654" marker-end="url(#aTest)"/>
+    <path d="M1635,872 H1881" marker-end="url(#aTest)"/>
+    <path d="M1693,236 H1794 V278" marker-end="url(#aTest)"/>
+    <path d="M389,1012 H288 V1046" marker-end="url(#aTest)"/>
+    <path d="M368,334 H329 V391" marker-end="url(#aTest)"/>
+  </g>
+</svg>
+
+<!-- ============ NODES ============ -->
+<div class="node hero" style="left:80px;top:138px;width:186px;height:69px">
+  <div class="nm">Crude oil</div>
+  <div class="fm">cracking</div>
+</div>
+
+<div class="node hero" style="left:370px;top:138px;width:170px;height:69px">
+  <div class="nm">Alkane</div>
+  <div class="fm">C<sub>n</sub>H<sub>2n+2</sub></div>
+</div>
+
+<div class="node hero" style="left:370px;top:308px;width:170px;height:71px">
+  <div class="nm">Alkene</div>
+  <div class="fm">C=C</div>
+</div>
+
+<div class="node ghost" style="left:126px;top:520px;width:202px;height:51px">
+  <div class="nm">Addition polymer</div>
+</div>
+
+<div class="node ghost" style="left:126px;top:793px;width:207px;height:71px">
+  <div class="nm">CO₂ · ketone · COOH</div>
+  <div class="fm" style="font-size:10.5px">依 C=C 位置而定</div>
+</div>
+
+<div class="node ghost" style="left:731px;top:471px;width:120px;height:48px">
+  <div class="nm">Diol</div>
+</div>
+
+<div class="node" style="left:1300px;top:195px;width:391px;height:76px">
+  <div class="tag">A</div>
+  <div class="nm">Halogenoalkane</div>
+  <div class="fm">R–X&nbsp;&nbsp;(X = Cl, Br, I)</div>
+</div>
+
+<div class="node" style="left:1041px;top:540px;width:230px;height:76px">
+  <div class="tag">B</div>
+  <div class="nm">Alcohol</div>
+  <div class="fm">R–OH</div>
+</div>
+
+<div class="node" style="left:391px;top:961px;width:253px;height:76px">
+  <div class="tag">C</div>
+  <div class="nm">Carboxylic acid</div>
+  <div class="fm">R–COOH</div>
+</div>
+
+<div class="node" style="left:1426px;top:819px;width:207px;height:74px">
+  <div class="tag">D</div>
+  <div class="nm">Ketone</div>
+  <div class="fm">R–CO–R′</div>
+</div>
+
+<div class="node" style="left:1035px;top:819px;width:207px;height:74px">
+  <div class="tag">E</div>
+  <div class="nm">Aldehyde</div>
+  <div class="fm">R–CHO</div>
+</div>
+
+<div class="node alevel" style="left:2001px;top:540px;width:138px;height:74px">
+  <div class="tag">F</div>
+  <div class="nm">Amine<span class="alv">A Lv</span></div>
+  <div class="fm">R–NH₂</div>
+</div>
+
+<div class="node" style="left:1759px;top:540px;width:161px;height:74px">
+  <div class="tag">G</div>
+  <div class="nm">Nitrile</div>
+  <div class="fm">R–C≡N</div>
+</div>
+
+<div class="node" style="left:690px;top:1244px;width:184px;height:74px">
+  <div class="tag">H</div>
+  <div class="nm">Ester</div>
+  <div class="fm">R¹COOR²</div>
+</div>
+
+<div class="node" style="left:1035px;top:1035px;width:253px;height:74px">
+  <div class="tag">I</div>
+  <div class="nm">Hydroxynitrile</div>
+  <div class="fm">R–CH(OH)–CN</div>
+</div>
+
+<div class="node ghost" style="left:690px;top:1244px;width:0;height:0"></div>
+
+<!-- amine from halogenoalkane also lands on F: label only -->
+
+<!-- ============ EDGE LABELS ============ -->
+<div class="lbl" data-k="base" style="left:274px;top:120px;width:94px">
+  <span class="r">heat, Al₂O₃</span>
+  <span class="n">14.1.1(b)</span>
+</div>
+
+<div class="lbl" data-k="add" style="left:458px;top:237px;width:172px;--c:var(--t-add)">
+  <b style="color:var(--t-add)">Hydrogenation</b>
+  <span class="r">H₂(g), Pt/Ni, heat</span>
+  <span class="n">14.1.1(a) · 14.2.2(a)(i)</span>
+</div>
+
+<div class="lbl" data-k="radical" style="left:690px;top:101px;width:345px;--c:var(--t-radical)">
+  <b style="color:var(--t-radical)">★ Free-radical substitution</b>
+  <span class="r">Cl₂ or Br₂ · ultraviolet light</span>
+  <span class="n">14.1.2(b) · 15.1.1(a) — 机理见下</span>
+</div>
+
+<div class="lbl" data-k="add" style="left:736px;top:246px;width:264px;--c:var(--t-add)">
+  <b style="color:var(--t-add)">★ Electrophilic addition</b>
+  <span class="r">HX(g), room temperature<br>or X₂</span>
+  <span class="n">14.2.2(a)(iii)(iv) · 15.1.1(b)</span>
+</div>
+
+<div class="lbl warn" data-k="elim" style="left:736px;top:334px;width:246px">
+  <b>⚠ Elimination</b>
+  <span class="r">NaOH <b style="display:inline;text-transform:none;font-size:11px">in ethanol</b>, heat</span>
+  <span class="n">15.1.4 · 14.2.1(a) — 溶剂决定产物</span>
+</div>
+
+<div class="lbl" data-k="add" style="left:688px;top:584px;width:258px;--c:var(--t-add)">
+  <b style="color:var(--t-add)">Hydration</b>
+  <span class="r">steam H₂O(g) · H₃PO₄ catalyst</span>
+  <span class="n">14.2.2(a)(ii) · 16.1.1(a) — MS: I pressure</span>
+</div>
+
+<div class="lbl warn" data-k="oxid" style="left:520px;top:451px;width:207px">
+  <b>⚠ Oxidation → diol</b>
+  <span class="r"><b style="display:inline;text-transform:none;font-size:11px">cold dilute</b> acidified KMnO₄</span>
+  <span class="n">14.2.2(b) · 16.1.1(b)</span>
+</div>
+
+<div class="lbl warn" data-k="oxid" style="left:184px;top:685px;width:214px">
+  <b>⚠ Oxidation → 裂解</b>
+  <span class="r"><b style="display:inline;text-transform:none;font-size:11px">hot concentrated</b> acidified KMnO₄</span>
+  <span class="n">14.2.2(c) — 断 C=C，定 C=C 位置</span>
+</div>
+
+<div class="lbl" data-k="add" style="left:172px;top:465px;width:172px;--c:var(--t-add)">
+  <b style="color:var(--t-add)">Addition polymerisation</b>
+  <span class="n">14.2.2(d) · 20.1.1</span>
+</div>
+
+<div class="lbl warn" data-k="sub" style="left:1311px;top:497px;width:228px">
+  <b>⚠ Nucleophilic substitution</b>
+  <span class="r">NaOH<b style="display:inline;text-transform:none;font-size:11px">(aq)</b>, heat</span>
+  <span class="n">15.1.3(a) · 16.1.1(c) — 水溶液才得 alcohol</span>
+</div>
+
+<div class="lbl" data-k="sub" style="left:1162px;top:379px;width:248px;--c:var(--t-sub)">
+  <b style="color:var(--t-sub)">Substitution</b>
+  <span class="r">PCl₅ · SOCl₂ · HX(g)<br>PCl₃ <b style="display:inline;text-transform:none;font-size:10px">and heat</b></span>
+  <span class="n">15.1.1(c) · 16.1.2(b)</span>
+</div>
+
+<div class="lbl" data-k="sub" style="left:1619px;top:446px;width:214px;--c:var(--t-sub)">
+  <b style="color:var(--t-sub)">Nucleophilic substitution</b>
+  <span class="r">KCN in ethanol, heat</span>
+  <span class="n">15.1.3(b) · 19.2.1(a) — 碳链 +1</span>
+</div>
+
+<div class="lbl" data-k="sub" style="left:1851px;top:343px;width:230px;--c:var(--t-sub)">
+  <b style="color:var(--t-sub)">Nucleophilic substitution</b>
+  <span class="r">NH₃ in ethanol,<br>heated under pressure</span>
+  <span class="n">15.1.3(c) · 19.1.1(a)</span>
+</div>
+
+<div class="lbl" data-k="sub" style="left:1713px;top:172px;width:241px;--c:var(--t-sub)">
+  <b style="color:var(--t-sub)">★ S<sub>N</sub>1 &amp; S<sub>N</sub>2</b>
+  <span class="n">15.1.5–6 · 1° 走 S<sub>N</sub>2，3° 走 S<sub>N</sub>1</span>
+</div>
+
+<div class="lbl" data-k="elim" style="left:520px;top:695px;width:253px;--c:var(--t-elim)">
+  <b style="color:var(--t-elim)">Dehydration</b>
+  <span class="r">Al₂O₃ heated catalyst<br>or conc. H₂SO₄ / H₃PO₄</span>
+  <span class="n">16.1.2(e) · 14.2.1(b)</span>
+</div>
+
+<div class="lbl warn" data-k="oxid" style="left:966px;top:697px;width:223px">
+  <b>⚠ Oxidation → aldehyde</b>
+  <span class="r">acidified K₂Cr₂O₇ or KMnO₄<br><b style="display:inline;text-transform:none;font-size:11px">distillation</b></span>
+  <span class="n">17.1.1(a) — 1° alcohol</span>
+</div>
+
+<div class="lbl" data-k="oxid" style="left:1297px;top:759px;width:182px;--c:var(--t-oxid)">
+  <b style="color:var(--t-oxid)">Oxidation → ketone</b>
+  <span class="r">acidified K₂Cr₂O₇ or KMnO₄</span>
+  <span class="n">17.1.1(b) — 2° alcohol</span>
+</div>
+
+<div class="lbl warn" data-k="oxid" style="left:724px;top:879px;width:218px">
+  <b>⚠ Oxidation → COOH</b>
+  <span class="r">acidified K₂Cr₂O₇ or KMnO₄<br><b style="display:inline;text-transform:none;font-size:11px">reflux</b></span>
+  <span class="n">18.1.1(a) — 1° alcohol / aldehyde</span>
+</div>
+
+<div class="lbl" data-k="red" style="left:1164px;top:713px;width:120px;--c:var(--t-red)">
+  <b style="color:var(--t-red)">Reduction</b>
+  <span class="r">NaBH₄ or<br>LiAlH₄</span>
+  <span class="n">17.1.2(a)</span>
+</div>
+
+<div class="lbl" data-k="red" style="left:869px;top:690px;width:99px;--c:var(--t-red)">
+  <b style="color:var(--t-red)">Reduction</b>
+  <span class="r">LiAlH₄</span>
+  <span class="n">18.1.2(e)</span>
+</div>
+
+<div class="lbl" data-k="add" style="left:1162px;top:920px;width:241px;--c:var(--t-add)">
+  <b style="color:var(--t-add)">★ Nucleophilic addition</b>
+  <span class="r">HCN · KCN as catalyst · heat</span>
+  <span class="n">17.1.2(b) · 19.2.2(a) — 碳链 +1</span>
+</div>
+
+<div class="lbl" data-k="hyd" style="left:1162px;top:1145px;width:237px;--c:var(--t-hyd)">
+  <b style="color:var(--t-hyd)">Hydrolysis</b>
+  <span class="r">dilute acid or dilute alkali<br><b style="display:inline;text-transform:none;font-size:11px">followed by acidification</b></span>
+  <span class="n">19.2.3 — 得 hydroxy-acid</span>
+</div>
+
+<div class="lbl" data-k="hyd" style="left:1426px;top:1260px;width:288px;--c:var(--t-hyd)">
+  <b style="color:var(--t-hyd)">Hydrolysis · nitrile → COOH</b>
+  <span class="r">dilute acid or dilute alkali<br><b style="display:inline;text-transform:none;font-size:11px">followed by acidification</b></span>
+  <span class="n">18.1.1(b) · 19.2.3</span>
+</div>
+
+<div class="lbl" data-k="red" style="left:1897px;top:458px;width:193px;--c:var(--t-red)">
+  <b style="color:var(--t-red)">Reduction<span class="alv">A Lv</span></b>
+  <span class="r">LiAlH₄ or H₂/Ni</span>
+  <span class="n">34.1.1(d) — AS 不考</span>
+</div>
+
+<div class="lbl" data-k="hyd" style="left:225px;top:1198px;width:246px;--c:var(--t-hyd)">
+  <b style="color:var(--t-hyd)">Esterification (condensation)</b>
+  <span class="r">alcohol · conc. H₂SO₄ catalyst</span>
+  <span class="n">18.1.2(d) · 18.2.1(a)</span>
+</div>
+
+<div class="lbl" data-k="hyd" style="left:920px;top:1306px;width:264px;--c:var(--t-hyd)">
+  <b style="color:var(--t-hyd)">Hydrolysis · ester</b>
+  <span class="r">dilute acid or dilute alkali, heat<br><b style="display:inline;text-transform:none;font-size:11px">followed by acidification</b></span>
+  <span class="n">18.2.2 · 18.1.1(c) · 16.1.1(f)</span>
+</div>
+
+<!-- TEST LABELS -->
+<div class="lbl" data-k="test" style="left:1663px;top:819px;width:182px;--c:var(--t-test)">
+  <b style="color:var(--t-test)">Tollens' · Fehling's</b>
+  <span class="n">17.1.5 — aldehyde 阳性、ketone 阴性</span>
+</div>
+
+<div class="lbl" data-k="test" style="left:1886px;top:839px;width:195px;--c:var(--t-test)">
+  <b style="color:var(--t-test)">2,4-DNPH</b>
+  <span class="n">17.1.4 — 醛酮皆阳性 orange ppt</span>
+</div>
+
+<div class="lbl" data-k="test" style="left:1805px;top:283px;width:218px;--c:var(--t-test)">
+  <b style="color:var(--t-test)">AgNO₃ in ethanol</b>
+  <span class="n">15.1.3(d) · 15.1.7 — 鉴别 X，比 C–X 键强度</span>
+</div>
+
+<div class="lbl" data-k="test" style="left:126px;top:1051px;width:198px;--c:var(--t-test)">
+  <b style="color:var(--t-test)">Na(s) · Na₂CO₃</b>
+  <span class="n">18.1.2(a)(c) · 16.1.2(c) — 醇与酸皆与 Na 起泡</span>
+</div>
+
+<div class="lbl" data-k="test" style="left:225px;top:396px;width:172px;--c:var(--t-test)">
+  <b style="color:var(--t-test)">Aqueous bromine</b>
+  <span class="n">14.2.3 — orange/brown → colourless</span>
+</div>
+
+<div class="pill" style="left:1300px;top:288px">1° · 2° · 3°　15.1.2</div>
+<div class="pill" style="left:1041px;top:630px">1° · 2° · 3°　16.1.3(a)</div>
+<div class="pill" style="left:1398px;top:920px">3° alcohol 不被氧化 · MS: remains orange</div>
+
+</div><!-- /canvas -->
+</div><!-- /stage -->
+</div><!-- /scroller -->
+</section>
+</div><!-- /stagewrap -->
+<div class="wrap">
+
+<section>
+  <h2>Reaction mechanisms<span class="oc">13.2.2 · 14.1.3 · 14.2.4 · 15.1.5 · 17.1.3</span></h2>
+  <p class="lede">syllabus 只要求这 4 个 AS 机理。得分点逐字取自 mark scheme。
+  <b>13.2.2 注</b>：<span class="mono">the arrow should begin at a bond or a lone pair of electrons</span>
+  —— 箭尾画错位置直接丢分。</p>
+
+  <details data-k="radical">
+    <summary>1 · Free-radical substitution<span class="cnt">14.1.3 · alkane + Cl₂ / UV</span></summary>
+    <div class="body">
+      <div class="mech">
+        <div class="draw">
+          <svg width="500" height="230" viewBox="0 0 500 230" role="img"
+               aria-label="Free-radical substitution: initiation, two propagation steps and termination">
+            <style>
+              .fx{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:var(--ink);}
+              .fs{font-family:ui-sans-serif,system-ui,sans-serif;font-size:9.5px;fill:var(--faint);letter-spacing:.05em;}
+              .fw{stroke:var(--t-radical);stroke-width:1.5;fill:none;}
+            </style>
+            <defs>
+              <marker id="cF" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#A8582F"/>
+              </marker>
+            </defs>
+            <text class="fs" x="0" y="12">INITIATION</text>
+            <text class="fx" x="0" y="34">Cl₂ → 2Cl•</text>
+            <text class="fs" x="150" y="34">homolytic fission · UV</text>
+
+            <text class="fs" x="0" y="74">PROPAGATION 1</text>
+            <text class="fx" x="0" y="96">C₃H₈ + Cl• → CH₃CH₂CH₂• + HCl</text>
+
+            <text class="fs" x="0" y="136">PROPAGATION 2</text>
+            <text class="fx" x="0" y="158">CH₃CH₂CH₂• + Cl₂ → CH₃CH₂CH₂Cl + Cl•</text>
+
+            <text class="fs" x="0" y="198">TERMINATION</text>
+            <text class="fx" x="0" y="220">CH₃CH₂CH₂• + Cl• → CH₃CH₂CH₂Cl</text>
+
+            <path class="fw" marker-end="url(#cF)" d="M330,90 C372,84 372,150 336,154"/>
+            <text class="fs" x="382" y="118">Cl• 再生 → 链反应</text>
+          </svg>
+        </div>
+        <div class="pts">
+          <h4>Mark scheme 得分点</h4>
+          <ol class="marks">
+            <li>propagation 1 — <span class="mono">C₃H₈ + Cl• → CH₃CH₂CH₂• + HCl</span></li>
+            <li>propagation 2 — <span class="mono">CH₃CH₂CH₂• + Cl₂ → CH₃CH₂CH₂Cl + Cl•</span></li>
+            <li>termination — <span class="mono">CH₃CH₂CH₂• + Cl• → CH₃CH₂CH₂Cl</span></li>
+          </ol>
+          <div class="note">
+            <b>bond fission 类型</b>答 <span class="mono">homolytic</span>。
+            A <span class="mono">homolysis</span> · BOD <span class="mono">homolytical</span> ·
+            I <span class="mono">covalent</span> · I <span class="mono">photolytic</span>
+          </div>
+          <div class="note">
+            <b>free radical 定义</b>：<span class="mono">species with one or more unpaired electrons</span>。
+            I <span class="mono">lone / single / free / odd number of electrons</span> ·
+            <b>R <span class="mono">it is an unpaired electron</span></b>（说成"是一个电子"而非"含未成对电子的物种"）
+          </div>
+          <div class="note">
+            <b>自由基写法</b>：带不带 <span class="mono">•</span> 都接受，但
+            <b>I</b> 通式 <span class="mono">•C₆H₁₃</span> / <span class="mono">CH₃(CH₂)₅•</span>（无位置信息）；
+            <b>I</b> <span class="mono">•</span> 位置写错。M2 可对 M1 的错误 alkyl 做 ecf，
+            但<b>把自由基当阴/阳离子处理则 ecf 不给分</b>。
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details data-k="add">
+    <summary>2 · Electrophilic addition<span class="cnt">14.2.4 · ethene + Br₂</span></summary>
+    <div class="body">
+      <div class="mech">
+        <div class="draw">
+          <svg width="490" height="250" viewBox="0 0 490 250" role="img"
+               aria-label="Electrophilic addition of bromine to ethene with dipole, curly arrows and carbocation intermediate">
+            <style>
+              .ax{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:var(--ink);}
+              .as{font-family:ui-sans-serif,system-ui,sans-serif;font-size:9.5px;fill:var(--faint);}
+              .ad{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px;fill:var(--ink);}
+              .am{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;fill:var(--accent);font-weight:700;}
+              .ab{stroke:var(--ink);stroke-width:1.3;fill:none;}
+              .af{stroke:var(--faint);stroke-width:1.2;fill:none;}
+              .aw{stroke:var(--t-add);stroke-width:1.4;fill:none;}
+              .adot{fill:var(--ink);}
+            </style>
+            <defs>
+              <marker id="cA" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#6B6096"/>
+              </marker>
+              <marker id="cAf" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#908C84"/>
+              </marker>
+            </defs>
+
+            <text class="as" x="0" y="12">pt1 · dipole</text>
+            <text class="ax" x="46" y="36">Br</text>
+            <text class="ad" x="66" y="30">δ−</text>
+            <path class="ab" d="M54,42 V56"/>
+            <text class="ax" x="46" y="72">Br</text>
+            <text class="ad" x="66" y="66">δ+</text>
+
+            <path class="aw" marker-end="url(#cA)" d="M62,48 C90,40 94,22 78,18"/>
+            <text class="am" x="96" y="40">pt3</text>
+
+            <text class="ax" x="10" y="126">H₂C</text>
+            <text class="ax" x="72" y="126">CH₂</text>
+            <path class="ab" d="M48,116 H70"/>
+            <path class="ab" d="M48,123 H70"/>
+
+            <path class="aw" marker-end="url(#cA)" d="M59,110 C56,98 56,90 56,80"/>
+            <text class="am" x="16" y="96">pt2</text>
+
+            <path class="af" marker-end="url(#cAf)" d="M124,120 H182"/>
+
+            <text class="ax" x="192" y="126">CH₂</text>
+            <text class="ax" x="248" y="126">CH₂Br</text>
+            <path class="ab" d="M228,120 H246"/>
+            <text class="ad" x="212" y="104" style="font-size:11px">+</text>
+            <text class="am" x="196" y="150">pt4</text>
+            <text class="as" x="222" y="150">carbocation intermediate</text>
+
+            <text class="ax" x="200" y="204">Br</text>
+            <text class="ad" x="222" y="196" style="font-size:11px">−</text>
+            <circle class="adot" cx="194" cy="194" r="1.6"/>
+            <circle class="adot" cx="194" cy="200" r="1.6"/>
+            <path class="aw" marker-end="url(#cA)" d="M192,190 C172,168 182,142 200,134"/>
+            <text class="am" x="146" y="168">pt5</text>
+
+            <path class="af" marker-end="url(#cAf)" d="M330,120 H384"/>
+            <text class="ax" x="390" y="126">BrCH₂CH₂Br</text>
+
+            <text class="as" x="0" y="236">Markovnikov（HBr + 2-methylpropene）：中间体必须是三级碳正离子 (CH₃)₃C⁺</text>
+          </svg>
+        </div>
+        <div class="pts">
+          <h4>Mark scheme 得分点 · 5 点制</h4>
+          <ol class="marks pt">
+            <li>dipole on Br₂</li>
+            <li>curly arrow from C=C bond to a Br<sup>δ+</sup></li>
+            <li>curly arrow from Br–Br bond to the other Br</li>
+            <li>correct intermediate</li>
+            <li>curly arrow from lone pair on Br⁻ to C⁺</li>
+          </ol>
+          <div class="note">
+            <b>给分换算</b>：5 点 = 3 分 · 4 点 = 2 分 · 3 点 = 2 分 · 2 点 = 1 分 · 1 点 = 0 分
+          </div>
+          <div class="note">
+            <b>HBr 版本是 4 分制</b>：M1 arrow C=C → H；M2 <b>dipole H<sup>δ+</sup>–Br<sup>δ−</sup> AND</b>
+            arrow from H–Br bond to Br；M3 正确碳正离子 <b>AND</b> 最终产物；M4 arrow from lone pair on Br⁻ to C⁺。
+            <b>dipole 是独立得分点，漏标就丢 M2。</b>
+          </div>
+          <div class="note">
+            <b>稳定性问法</b>答 <span class="mono">number of alkyl / methyl groups</span>。
+            <b>I <span class="mono">inductive effect</span></b>（反直觉，不给分）·
+            I <span class="mono">number of C atoms</span> ·
+            I 只写 <span class="mono">tertiary &gt; secondary &gt; primary stability</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details data-k="sub">
+    <summary>3 · Nucleophilic substitution S<sub>N</sub>1 &amp; S<sub>N</sub>2<span class="cnt">15.1.5–6 · R–Br + OH⁻</span></summary>
+    <div class="body">
+      <div class="mech">
+        <div class="draw">
+          <svg width="490" height="300" viewBox="0 0 490 300" role="img"
+               aria-label="SN1 two-step and SN2 one-step nucleophilic substitution compared">
+            <style>
+              .sx{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:var(--ink);}
+              .ss{font-family:ui-sans-serif,system-ui,sans-serif;font-size:9.5px;fill:var(--faint);}
+              .sd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px;fill:var(--ink);}
+              .sm{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;fill:var(--accent);font-weight:700;}
+              .sb{stroke:var(--ink);stroke-width:1.3;fill:none;}
+              .sf{stroke:var(--faint);stroke-width:1.2;fill:none;}
+              .sw{stroke:var(--t-sub);stroke-width:1.4;fill:none;}
+              .sdot{fill:var(--ink);}
+              .shd{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11.5px;fill:var(--ink);font-weight:600;}
+            </style>
+            <defs>
+              <marker id="cS" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#A65478"/>
+              </marker>
+              <marker id="cSf" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#908C84"/>
+              </marker>
+            </defs>
+
+            <text class="shd" x="0" y="14">S<tspan baseline-shift="sub" font-size="8.5">N</tspan>1 — tertiary · 两步</text>
+            <text class="ss" x="150" y="14">第一步是 rate-determining step</text>
+
+            <text class="sx" x="4" y="70">R₃C</text>
+            <text class="sx" x="56" y="70">Br</text>
+            <path class="sb" d="M38,65 H52"/>
+            <text class="sd" x="30" y="54">δ+</text>
+            <text class="sd" x="56" y="54">δ−</text>
+            <path class="sw" marker-end="url(#cS)" d="M44,60 C50,40 70,40 78,56"/>
+            <text class="sm" x="88" y="46">M1</text>
+
+            <path class="sf" marker-end="url(#cSf)" d="M100,66 H146"/>
+
+            <text class="sx" x="154" y="70">R₃C</text>
+            <text class="sd" x="186" y="58" style="font-size:11px">+</text>
+            <text class="sx" x="204" y="70">+ Br</text>
+            <text class="sd" x="240" y="60">−</text>
+            <text class="sm" x="154" y="94">M2</text>
+            <text class="ss" x="180" y="94">carbocation intermediate</text>
+
+            <text class="sx" x="330" y="70">HO</text>
+            <text class="sd" x="358" y="60">−</text>
+            <circle class="sdot" cx="326" cy="58" r="1.6"/>
+            <circle class="sdot" cx="326" cy="64" r="1.6"/>
+            <path class="sw" marker-end="url(#cS)" d="M322,58 C296,46 276,54 268,62"/>
+            <text class="sm" x="288" y="40">M3</text>
+
+            <path class="sf" marker-end="url(#cSf)" d="M384,66 H414"/>
+            <text class="sx" x="420" y="70">R₃C–OH</text>
+
+            <line x1="0" y1="132" x2="490" y2="132" stroke="var(--line)" stroke-width="1"/>
+
+            <text class="shd" x="0" y="162">S<tspan baseline-shift="sub" font-size="8.5">N</tspan>2 — primary · 一步</text>
+            <text class="ss" x="150" y="162">无独立中间体，OH⁻ 直接进攻 reactant</text>
+
+            <text class="sx" x="4" y="220">HO</text>
+            <text class="sd" x="32" y="210">−</text>
+            <circle class="sdot" cx="0" cy="208" r="1.6"/>
+            <circle class="sdot" cx="0" cy="214" r="1.6"/>
+            <path class="sw" marker-end="url(#cS)" d="M42,216 C56,216 62,216 72,216"/>
+            <text class="sm" x="46" y="238">M3</text>
+
+            <text class="sx" x="80" y="220">H₃C</text>
+            <text class="sx" x="134" y="220">Br</text>
+            <path class="sb" d="M116,215 H130"/>
+            <text class="sd" x="108" y="204">δ+</text>
+            <text class="sd" x="134" y="204">δ−</text>
+            <path class="sw" marker-end="url(#cS)" d="M122,210 C128,190 148,190 156,206"/>
+            <text class="sm" x="166" y="196">M1</text>
+
+            <path class="sf" marker-end="url(#cSf)" d="M186,216 H228"/>
+            <text class="sx" x="236" y="220">[HO···CH₃···Br]</text>
+            <text class="sd" x="372" y="208">−</text>
+            <text class="ss" x="236" y="238">transition state（不是中间体）</text>
+
+            <path class="sf" marker-end="url(#cSf)" d="M390,216 H424"/>
+            <text class="sx" x="430" y="220">CH₃OH</text>
+
+            <text class="ss" x="0" y="276">15.1.6　1° 走 S<tspan baseline-shift="sub" font-size="7.5">N</tspan>2 · 3° 走 S<tspan baseline-shift="sub" font-size="7.5">N</tspan>1 · 2° 视结构而定，两者混合</text>
+            <text class="ss" x="0" y="292">15.1.7　C–X 键越弱水解越快：C–I &gt; C–Br &gt; C–Cl</text>
+          </svg>
+        </div>
+        <div class="pts">
+          <h4>Mark scheme 得分点 · S<sub>N</sub>1</h4>
+          <ol class="marks">
+            <li>correct dipole (C–Br) <b>AND</b> curly arrow from bond of C–Br to Br（画到略超出 Br 也给分）</li>
+            <li>correct intermediate（ALLOW 用 R 代表长链）</li>
+            <li>curly arrow from lone pair on OH⁻ 指向 intermediate 的 C</li>
+          </ol>
+          <div class="note">
+            <b>写错机理不是零分。</b>若画成 S<sub>N</sub>2：只有当机理显示 OH⁻/NaOH
+            <b>直接进攻 reactant</b> 且<b>不含独立碳正离子中间体</b>时才按 S<sub>N</sub>2 判
+            —— M1 同上；<b>NOT M2</b>（丢掉中间体那一分）；M3 arrow from lone pair on
+            <span class="mono">:OH⁻</span> 指向 reactant 上对应的 C。
+          </div>
+          <div class="note">
+            <b>NH₃ 做 nucleophile 时多一步</b>（15.1.3(c)）：M1 C–Br dipole + arrow；
+            M2 NH₃ lone pair → C⁺；<b>M3 arrow 表示一条 N–H 键断裂、箭头指向 N</b>（去质子化得中性胺）
+            —— <b>第三条箭头最常被漏画</b>。
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details data-k="add">
+    <summary>4 · Nucleophilic addition<span class="cnt">17.1.3 · carbonyl + HCN / KCN</span></summary>
+    <div class="body">
+      <div class="mech">
+        <div class="draw">
+          <svg width="470" height="250" viewBox="0 0 470 250" role="img"
+               aria-label="Nucleophilic addition of hydrogen cyanide to a ketone with four curly arrows">
+            <style>
+              .nx{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;fill:var(--ink);}
+              .ns{font-family:ui-sans-serif,system-ui,sans-serif;font-size:9.5px;fill:var(--faint);}
+              .nd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px;fill:var(--ink);}
+              .nm{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;fill:var(--accent);font-weight:700;}
+              .nb{stroke:var(--ink);stroke-width:1.3;fill:none;}
+              .nf{stroke:var(--faint);stroke-width:1.2;fill:none;}
+              .nw{stroke:var(--t-add);stroke-width:1.4;fill:none;}
+              .ndot{fill:var(--ink);}
+            </style>
+            <defs>
+              <marker id="cN" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#6B6096"/>
+              </marker>
+              <marker id="cNf" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#908C84"/>
+              </marker>
+            </defs>
+
+            <text class="nx" x="58" y="46">O</text>
+            <text class="nd" x="76" y="40">δ−</text>
+            <path class="nb" d="M60,52 V76"/>
+            <path class="nb" d="M67,52 V76"/>
+            <text class="nx" x="56" y="94">C</text>
+            <text class="nd" x="76" y="90">δ+</text>
+            <text class="nx" x="4" y="116">H₃C</text>
+            <text class="nx" x="86" y="116">C₂H₅</text>
+            <path class="nb" d="M42,104 L54,94"/>
+            <path class="nb" d="M72,94 L84,104"/>
+
+            <path class="nw" marker-end="url(#cN)" d="M54,70 C34,62 36,42 52,38"/>
+            <text class="nm" x="14" y="58">M2</text>
+
+            <text class="nx" x="36" y="184">CN</text>
+            <text class="nd" x="66" y="176" style="font-size:11px">−</text>
+            <circle class="ndot" cx="30" cy="174" r="1.6"/>
+            <circle class="ndot" cx="30" cy="180" r="1.6"/>
+            <path class="nw" marker-end="url(#cN)" d="M34,170 C46,146 52,120 58,102"/>
+            <text class="nm" x="0" y="146">M1</text>
+
+            <path class="nf" marker-end="url(#cNf)" d="M132,96 H186"/>
+
+            <text class="nx" x="224" y="46">O</text>
+            <text class="nd" x="242" y="38" style="font-size:11px">−</text>
+            <circle class="ndot" cx="218" cy="36" r="1.6"/>
+            <circle class="ndot" cx="224" cy="36" r="1.6"/>
+            <path class="nb" d="M228,52 V76"/>
+            <text class="nx" x="222" y="94">C</text>
+            <text class="nx" x="170" y="116">H₃C</text>
+            <text class="nx" x="252" y="116">C₂H₅</text>
+            <path class="nb" d="M208,104 L220,94"/>
+            <path class="nb" d="M238,94 L250,104"/>
+            <path class="nb" d="M228,100 V122"/>
+            <text class="nx" x="216" y="140">CN</text>
+            <text class="nm" x="284" y="76">M3</text>
+            <text class="ns" x="284" y="88">alkoxide 中间体</text>
+
+            <text class="nx" x="330" y="32">H</text>
+            <text class="nd" x="346" y="24" style="font-size:11px">+</text>
+            <path class="nw" marker-end="url(#cN)" d="M248,32 C286,18 312,18 326,26"/>
+            <text class="nm" x="284" y="16">M4</text>
+
+            <path class="nf" marker-end="url(#cNf)" d="M330,96 H378"/>
+            <text class="nx" x="386" y="84">OH</text>
+            <text class="ns" x="386" y="100">hydroxynitrile</text>
+            <text class="ns" x="386" y="114">碳链 +1</text>
+
+            <text class="ns" x="0" y="226">KCN 提供 :CN⁻ —— 先攻的是 CN⁻，不是 HCN 分子</text>
+            <text class="ns" x="0" y="242">产物常有 chiral centre（两侧基团不同时）</text>
+          </svg>
+        </div>
+        <div class="pts">
+          <h4>Mark scheme 得分点</h4>
+          <ol class="marks">
+            <li>curly arrow from lone pair on <span class="mono">:CN⁻</span> to C<sup>(δ+)</sup></li>
+            <li>curly arrow from C=O to O<sup>(δ–)</sup> <b>AND</b> correct dipole</li>
+            <li>correct intermediate</li>
+            <li>curly arrow from lone pair on <span class="mono">O:⁻</span> to H⁺</li>
+          </ol>
+          <div class="note">
+            <b>两个最常丢的分</b>：M1 的箭尾必须画在 <span class="mono">:CN⁻</span> 的
+            <b>孤对</b>上（不是 HCN 分子）；M4 的第四条箭头（alkoxide 拿 H⁺）常被整条漏掉。
+          </div>
+          <div class="note">
+            <b>产物类别</b>答 <span class="mono">hydroxynitrile</span>。
+            chiral centre 定义 —— <span class="mono">atom / carbon with four different atoms /
+            (functional) groups attached</span>；<b>R</b> 说成 <span class="mono">molecules / compounds</span>；
+            <b>R</b> "4 个不同 alkyl group"（应为 4 个不同<b>基团</b>）。
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<section>
+  <h2>鉴别测试速查<span class="oc">14.2.3 · 15.1.3(d) · 16.1.4 · 17.1.4–6 · 18.1.2</span></h2>
+  <p class="lede">observation 一列是 mark scheme 的标准写法 —— 考试要的是<b>现象</b>，
+  不是"某某类别呈阳性"。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:23%">reagent</th><th style="width:30%">positive observation</th>
+    <th style="width:24%">测什么</th><th style="width:23%">判分要点</th></tr></thead>
+    <tbody>
+      <tr><td><code>acidified K₂Cr₂O₇(aq)</code></td>
+          <td>(solution) turns (from orange to) green</td>
+          <td>1°/2° alcohol · aldehyde</td>
+          <td>BOD 绿写成 blue/grey/brown（dichromate 过量）；3° alcohol <code>remains orange</code></td></tr>
+      <tr><td><code>alkaline I₂(aq)</code></td>
+          <td>yellow precipitate (forms)</td>
+          <td><code>CH₃CH(OH)–R</code> 或 <code>CH₃CO–R</code></td>
+          <td>A <code>aqueous iodine / iodine water</code>，<b>不能只写 iodine</b>；<b>R</b> <code>iodoform</code> 作试剂名</td></tr>
+      <tr><td><code>2,4-DNPH</code></td>
+          <td>orange precipitate (forms)</td>
+          <td>醛与酮<b>皆</b>阳性</td>
+          <td>A red / orange / yellow ppt</td></tr>
+      <tr><td>Tollens' reagent</td>
+          <td>silver mirror · grey ppt · black ppt</td>
+          <td><b>只有</b> aldehyde 阳性</td>
+          <td>ketone 呈 <code>no reaction / no observable change</code></td></tr>
+      <tr><td>Fehling's reagent</td>
+          <td>blue solution → red ppt</td>
+          <td><b>只有</b> aldehyde 阳性</td>
+          <td>阴性写 (仍为) orange 溶液/无沉淀；<b>R</b> 说 ketone 也被 Fehling's 氧化</td></tr>
+      <tr><td><code>Br₂(aq)</code> bromine water</td>
+          <td>orange / brown to colourless</td>
+          <td>C=C</td>
+          <td>A decolourises · A yellow to colourless · <b>R</b> red</td></tr>
+      <tr><td><code>AgNO₃(aq)</code> in ethanol</td>
+          <td>Cl⁻ white · Br⁻ cream / off-white · I⁻ yellow ppt</td>
+          <td>halogenoalkane 里的 X</td>
+          <td>水解速率 I &gt; Br &gt; Cl（C–X 键往下越弱）</td></tr>
+      <tr><td><code>Na(s)</code></td>
+          <td>effervescence / fizzing / bubbling</td>
+          <td>–OH 与 –COOH <b>皆</b>阳性</td>
+          <td>I 只写"产生气体"；I 气体名称或检验方法；I "固体消失"</td></tr>
+      <tr><td><code>Na₂CO₃(aq)</code></td>
+          <td>fizzing / effervescence</td>
+          <td><b>只有</b> carboxylic acid</td>
+          <td>A bubbles；<b>I</b> limewater (turns milky)；醇/酚酸性不足，不反应</td></tr>
+      <tr><td><code>PCl₅(s)</code></td>
+          <td>steamy / misty fumes</td>
+          <td>–OH 与 –COOH</td>
+          <td>alkene 无反应，记 <code>×</code></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note" style="margin-top:14px">
+    <b>鉴别题的通用判分规则</b>（<span class="mono">9701_s26_22</span>）：M2 的现象必须<b>对应 M1
+    试剂的明确指认</b>（例：M1 Br₂ → M2 "decolourises S" ✓）。
+    <b>I</b> 直接说 <span class="mono">alkene for S</span> / <span class="mono">carboxylic acid for R</span>
+    —— 说出类别不算"观察现象"；但 <b>A</b> <span class="mono">alcohol for S</span>。
+    大小写错误只扣一次（<b>R</b> <span class="mono">KMNO₄</span>）。
+  </div>
+</section>
+
+<section>
+  <h2>陷阱面板 · 判分口径<span class="oc">ALLOW / IGNORE / REJECT</span></h2>
+  <p class="lede">全部取自 2024–2026 Paper 2 mark scheme 的 Guidance 栏。
+  <b>判分冲突一律以最新卷 <span class="mono">9701_s26_22</span> 为准。</b>
+  <span class="vd a">A</span>给分　<span class="vd i">I</span>不影响（写了也不给）　<span class="vd r">R</span>直接不给</p>
+
+  <div class="grid2">
+
+    <details data-k="sub">
+      <summary>alcohol → halogenoalkane<span class="cnt">s26_22 · 最新口径</span></summary>
+      <div class="body">
+        <p style="margin:10px 0 8px;font-size:12.5px"><b>标准答案</b>：
+        <span class="mono">PCl₅</span> <b>OR</b> <span class="mono">SOCl₂</span> <b>OR</b>
+        <span class="mono">HCl</span> <b>OR</b> <span class="mono">PCl₃</span></p>
+        <ul class="verdicts">
+          <li><span class="vd a">A</span><span>thionyl chloride / sulfur oxide dichloride；phosphorus pentachloride / trichloride</span></li>
+          <li><span class="vd a">A</span><span><span class="mono">conc. HCl</span> / concentrated hydrochloric acid / <span class="mono">HCl(g)</span></span></li>
+          <li><span class="vd i">I</span><span>单独 <span class="mono">hydrochloric acid</span> / <span class="mono">HCl(aq)</span> / <span class="mono">dilute HCl</span></span></li>
+          <li><span class="vd i">I</span><span><span class="mono">NaCl / KCl + conc. H₂SO₄ / H₃PO₄</span> —— 旧卷曾接受，<b>最新卷不给</b></span></li>
+          <li><span class="vd r">R</span><span><span class="mono">PCl₅(aq)</span></span></li>
+        </ul>
+      </div>
+    </details>
+
+    <details data-k="add">
+      <summary>alkene + steam → alcohol<span class="cnt">s26_22</span></summary>
+      <div class="body">
+        <p style="margin:10px 0 8px;font-size:12.5px"><b>标准答案</b>：M1
+        <span class="mono">steam / H₂O(g)</span>　M2 <span class="mono">H₃PO₄ (catalyst)</span></p>
+        <ul class="verdicts">
+          <li><span class="vd a">A</span><span>M1 写 <span class="mono">water</span> 但随后给出温度 ≥100 °C</span></li>
+          <li><span class="vd a">A</span><span>M2 <span class="mono">sulfuric acid / H₂SO₄ (catalyst)</span>；orthophosphoric acid</span></li>
+          <li><span class="vd i">I</span><span><span class="mono">heat under reflux</span> / heat alone</span></li>
+          <li><span class="vd i">I</span><span><span class="mono">pressure</span> —— <b>写"高压"不给分</b></span></li>
+          <li><span class="vd i">I</span><span>state symbols</span></li>
+        </ul>
+      </div>
+    </details>
+
+    <details data-k="radical">
+      <summary>free radical 定义与稳定性<span class="cnt">s26_22</span></summary>
+      <div class="body">
+        <p style="margin:10px 0 8px;font-size:12.5px"><b>定义</b>：
+        <span class="mono">(species) with one or more unpaired electrons</span></p>
+        <ul class="verdicts">
+          <li><span class="vd i">I</span><span><span class="mono">lone / single / free / odd number of electrons</span></span></li>
+          <li><span class="vd r">R</span><span><span class="mono">it is an unpaired electron</span> —— 必须说"物种"，不是"电子"</span></li>
+        </ul>
+        <p style="margin:12px 0 8px;font-size:12.5px"><b>稳定性 1° &lt; 2° &lt; 3° 的原因</b>：
+        <span class="mono">number of alkyl / methyl groups</span></p>
+        <ul class="verdicts">
+          <li><span class="vd a">A</span><span>number of C atoms bonded to the central carbon / branches / R groups</span></li>
+          <li><span class="vd i">I</span><span><b><span class="mono">inductive effect</span></b> —— 反直觉，<b>不给分</b></span></li>
+          <li><span class="vd i">I</span><span>number of C atoms · number of hydrogens</span></li>
+          <li><span class="vd i">I</span><span>只写 <span class="mono">tertiary &gt; secondary &gt; primary stability</span></span></li>
+        </ul>
+      </div>
+    </details>
+
+    <details data-k="test">
+      <summary>手性中心与立体异构<span class="cnt">s26_22 · s26_23</span></summary>
+      <div class="body">
+        <p style="margin:10px 0 8px;font-size:12.5px"><b>chiral centre</b>：
+        <span class="mono">atom / carbon with four different atoms / (functional) groups attached</span></p>
+        <ul class="verdicts">
+          <li><span class="vd r">R</span><span>说成连接四个不同的 <span class="mono">molecules / compounds</span>（必须是 atoms / groups）</span></li>
+          <li><span class="vd r">R</span><span>"C 连 4 个不同 <span class="mono">alkyl group</span>"（应为 4 个不同<b>基团</b>）</span></li>
+        </ul>
+        <p style="margin:12px 0 8px;font-size:12.5px"><b>cis-trans 异构的解释</b></p>
+        <ul class="verdicts">
+          <li><span class="vd i">I</span><span>只写 <span class="mono">double bond</span>（分子另有 C=O 时不够具体）</span></li>
+          <li><span class="vd i">I</span><span><span class="mono">movement</span>（<span class="mono">rotate / twist / spin</span> 可以）</span></li>
+          <li><span class="vd r">R</span><span>C=C 两端接的是 <span class="mono">different compounds / molecules</span></span></li>
+        </ul>
+      </div>
+    </details>
+
+    <details data-k="oxid">
+      <summary>命名与结构式<span class="cnt">s26_22 · s26_23</span></summary>
+      <div class="body">
+        <ul class="verdicts">
+          <li><span class="vd r">R</span><span>编号方向反了（未取最小定位号），如 <span class="mono">6-chlorohexane</span> → Max 1</span></li>
+          <li><span class="vd a">A</span><span>漏连字符（missing hyphen）不扣分</span></li>
+          <li><span class="vd i">I</span><span>拼写错误但前后一致（<span class="mono">1-chlorhexane</span>）→ Max 1</span></li>
+          <li><span class="vd i">I</span><span>题目要画结构却写了名字</span></li>
+          <li><span class="vd i">I</span><span>只写分子式（<span class="mono">C₄H₈</span> 不算结构）</span></li>
+          <li><span class="vd r">R</span><span>connectivity 错误（写成 <span class="mono">C−H−O</span>）→ Max 1</span></li>
+        </ul>
+        <div class="note"><b>骨架式的每个拐点就是一个碳。</b>数碳数前先把拐点数进去。</div>
+      </div>
+    </details>
+
+    <details data-k="red">
+      <summary>[O] / [H] 配平的固定套路<span class="cnt">s25_22 · s25_21</span></summary>
+      <div class="body">
+        <p style="margin:10px 0 8px;font-size:12.5px">13.2.1 允许用 <span class="mono">[O]</span>
+        表示氧化剂的一个氧、<span class="mono">[H]</span> 表示还原剂的一个氢。</p>
+        <ul class="verdicts">
+          <li><span class="vd a">A</span><span>1° alcohol → aldehyde 耗 <span class="mono">1[O]</span>；→ COOH 耗 <span class="mono">2[O]</span></span></li>
+          <li><span class="vd a">A</span><span>aldehyde/ketone → alcohol 耗 <span class="mono">2[H]</span></span></li>
+          <li><span class="vd a">A</span><span><b>COOH → CH₂OH 恒耗 <span class="mono">4[H]</span> 并产 1 个 H₂O</b></span></li>
+        </ul>
+        <div class="note">
+          例：<span class="mono">CH₃CH₂COOH + 4[H] → CH₃CH₂CH₂OH + H₂O</span>；
+          二元酸则 <span class="mono">8[H]</span> + <span class="mono">2H₂O</span>。
+          <b>LiAlH₄ 不还原 C=C</b> —— 分子里同时有 COOH 和 C=C 时，只有 COOH 被还原。
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<footer>
+  <div class="legend">
+    <span><b>A</b> halogenoalkane</span><span><b>B</b> alcohol</span>
+    <span><b>C</b> carboxylic acid</span><span><b>D</b> ketone</span>
+    <span><b>E</b> aldehyde</span><span><b>F</b> amine</span>
+    <span><b>G</b> nitrile</span><span><b>H</b> ester</span>
+    <span><b>I</b> hydroxynitrile</span>
+  </div>
+  <p class="src">
+    <b>★</b> 标记 syllabus 要求掌握机理的反应（13.2.2 · 14.1.3 · 14.2.4 · 15.1.5 · 17.1.3）。
+    <b>A Lv</b> 标记超出 AS 范围、仅 A Level 要求的内容（虚线框）。<br>
+    reagent 与 condition 逐字取自 syllabus 章 13–21；判分口径与机理得分点取自
+    <code>passyear/extracted/</code> 的 2024–2026 Paper 2 mark scheme，
+    <b>冲突时以最新卷 <code>9701_s26_22</code> 为准</b>。
+  </p>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'),
+      scroller=document.getElementById('scroller'),
+      pct=document.getElementById('pct'), z=1;
+  var W=2185, H=1426;
+
+  function apply(){
+    stage.style.transform='scale('+z+')';
+    stage.style.width=(W*z)+'px';
+    stage.style.height=(H*z)+'px';
+    pct.textContent=Math.round(z*100)+'%';
+  }
+  function fit(){
+    var aw=scroller.clientWidth-4, ah=scroller.clientHeight-4;
+    z=Math.min(aw/W, ah/H);
+    if(!isFinite(z)||z<=0) z=0.8;
+    z=Math.max(z,0.25);
+    apply();
+  }
+  document.getElementById('zin').onclick=function(){z=Math.min(2,z+0.15);apply();};
+  document.getElementById('zout').onclick=function(){z=Math.max(0.2,z-0.15);apply();};
+  document.getElementById('fit').onclick=fit;
+
+  // ---- fullscreen ----
+  var fsBtn=document.getElementById('fs'),
+      sec=document.getElementById('stagesec');
+  function fsOn(){ return document.fullscreenElement||document.webkitFullscreenElement; }
+  fsBtn.onclick=function(){
+    if(fsOn()){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); }
+    else {
+      var el=sec;
+      (el.requestFullscreen||el.webkitRequestFullscreen).call(el);
+    }
+  };
+  ['fullscreenchange','webkitfullscreenchange'].forEach(function(ev){
+    document.addEventListener(ev,function(){
+      fsBtn.textContent=fsOn()?'✕ 退出':'⛶ 全屏';
+      setTimeout(fit,60);
+    });
+  });
+  // keep the user zoom on resize; Fit button recomputes on demand
+  z=0.8; apply();
+
+  // ---- pathway filter ----
+  var active=null;
+  var chips=[].slice.call(document.querySelectorAll('.chip'));
+  function paint(){
+    chips.forEach(function(c){
+      var k=c.dataset.k;
+      c.classList.toggle('on', (active===null&&k==='all')||(k===active));
+      c.classList.toggle('muted', active!==null && k!=='all' && k!==active);
+    });
+    document.querySelectorAll('svg.wires g[data-k], .lbl[data-k]').forEach(function(el){
+      var m=el.dataset.k;
+      el.classList.toggle('dim', !(active===null||m===active||m==='base'));
+    });
+    document.querySelectorAll('details[data-k]').forEach(function(d){
+      d.style.display=(active===null||d.dataset.k===active)?'':'none';
+    });
+  }
+  chips.forEach(function(chip){
+    chip.addEventListener('click',function(){
+      var k=chip.dataset.k;
+      active=(k==='all'||k===active)?null:k;
+      paint();
+    });
+  });
+  paint();
+
+  // ---- expand / collapse all ----
+  var btn=document.getElementById('expand');
+  btn.addEventListener('click',function(){
+    var ds=[].slice.call(document.querySelectorAll('details'));
+    var anyClosed=ds.some(function(d){return !d.open;});
+    ds.forEach(function(d){ d.open=anyClosed; });
+    btn.textContent=anyClosed?'收起全部':'展开全部';
+  });
+})();
+</script>
+
+</body>
+</html>

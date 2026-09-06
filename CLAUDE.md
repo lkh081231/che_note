@@ -89,6 +89,29 @@ Draw sp² centres with 120° geometry (`[:30]` / `[:-30]` / `[:60]` …) and kee
 `[:0]`. sp³ carbons are drawn as an upright cross (`[:90]` / `[:180]` / `[:270]`), matching the
 syllabus.
 
+### 改完 diagram 一定要截图检查
+
+每次调整完 ```tikz 图，都用 screenshot-feedback-hook-mcp 的 **CLI** 截 VS Code preview 看一眼
+（不要装它的 MCP server，仓库 https://github.com/lkh081231/screenshot-feedback-hook-mcp）：
+
+```bash
+uvx screenshot-feedback-hook-mcp monitors                       # 列出显示器
+uvx screenshot-feedback-hook-mcp capture --monitor 0 --out shot.jpg
+```
+
+`--monitor 0` 是所有屏拼接，单屏用 1..N（preview 通常在第 2 屏，`--monitor 2` 看得清）；
+还有 `--delay`（等渲染）、`--max-edge`、`--target-kb`。截完用 Read 读图，确认 label 不重叠、
+引线指对位置、公式没乱码。
+
+已知渲染坑（tikz 块是 TikZJax，不是完整 LaTeX）：
+
+- 数学符号 `\approx`、`\times` 和上标里的负号会渲染成乱码（¼ £ i）。tikz 里只用字母、数字和
+  text mode；数值直接写十进制，例如 `0.0000034 nm`，别写 `3.4 \times 10^{-6}`。
+  （正文的 `$…$` 走 KaTeX，不受此限。）
+- node 选项里裸写颜色（`blue!70`）等于 `color=`，会连 `fill=white` 一起盖成实心色块；
+  只想改文字颜色必须写 `text=blue!70`。
+
+
 ## Language
 
 In notes, prose may be 中文, but **every chemistry term stays in English**. Do not translate:
