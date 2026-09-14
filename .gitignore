@@ -1,2 +1,23 @@
-//obsidian
-/*.obsidian
+# Obsidian workspace (per-machine UI state, not vault content)
+/.obsidian/
+
+# Tooling scratch — playwright MCP writes console logs + page snapshots here
+/.playwright-mcp/
+
+# Headless-screenshot output used to eyeball the roadmap. These are throwaway:
+# regenerate with the commands in CLAUDE.md rather than versioning them.
+# Scoped to the repo root so passyear/extracted/**/img/*.png (the question-bank
+# figures, which ARE tracked on purpose) is never matched.
+/*.png
+/shot*.jpg
+/out.png
+/geo.json
+
+# Python caches from tools/
+__pycache__/
+*.pyc
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini

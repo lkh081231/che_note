@@ -6,6 +6,9 @@
       "Write(reference.md)",
       "Edit(reference.pdf)",
       "Write(reference.pdf)"
+    ],
+    "allow": [
+      "Bash(PYTHONIOENCODING=utf-8 python -)"
     ]
   },
   "hooks": {
@@ -20,7 +23,7 @@
               "C:\\che_note\\.claude\\hooks\\protect_reference.py"
             ],
             "timeout": 10,
-            "statusMessage": "\u68c0\u67e5 reference.md \u4fdd\u62a4"
+            "statusMessage": "检查 reference.md 保护"
           }
         ]
       }
