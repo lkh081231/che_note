@@ -24,13 +24,19 @@ def seg_box(p,q,b):
         if not(bx0<=x0<=bx1): return False
         a,bb=min(y0,y1),max(y0,y1); return not(bb<=by0 or a>=by1)
     return False
-bx=g['boxes']; nb=[b for b in bx if b['t']!='pill']
+bx=g['boxes']; nb=bx
 allb=bx  # wires must not pass under pills either
 print("=== 1. box/box overlaps ===")
 c1=0
 for i in range(len(nb)):
     for j in range(i+1,len(nb)):
         a,b=nb[i],nb[j]
+        # Corner badges intentionally overlap their own compound card.
+        if (a.get('owner')==b['s'] and b['t']=='node') or (b.get('owner')==a['s'] and a['t']=='node'): continue
+        # Pills may sit fully inside their compound; all other pairs are checked.
+        def contained(p,n):
+            return p['t']=='pill' and n['t']=='node' and p['x']>=n['x'] and p['x']+p['w']<=n['x']+n['w'] and p['y']>=n['y'] and p['y']+p['h']<=n['y']+n['h']
+        if contained(a,b) or contained(b,a): continue
         if not(a['x']+a['w']<=b['x'] or b['x']+b['w']<=a['x'] or a['y']+a['h']<=b['y'] or b['y']+b['h']<=a['y']):
             print("  %s:%r <-> %s:%r"%(a['t'],a['s'],b['t'],b['s'])); c1+=1
 print("  total",c1)

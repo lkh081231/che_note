@@ -11,10 +11,11 @@ probe = """
 window.addEventListener('load',function(){setTimeout(function(){
  var cv=document.querySelector('.canvas');var cb=cv.getBoundingClientRect();var K=cb.width/cv.offsetWidth;
  var boxes=[];
- document.querySelectorAll('.canvas .node,.canvas .lbl,.canvas .pill').forEach(function(e){
+ document.querySelectorAll('.canvas .node,.canvas .lbl,.canvas .pill,.canvas .tag').forEach(function(e){
   var r=e.getBoundingClientRect();
   boxes.push({t:e.className.split(' ')[0],x:Math.round((r.left-cb.left)/K),y:Math.round((r.top-cb.top)/K),
    w:Math.round(r.width/K),h:Math.round(r.height/K),
+   owner:e.classList.contains('tag')?e.closest('.node').querySelector('.nm').textContent.trim().slice(0,26):null,
    s:(e.querySelector('.nm,b')||e).textContent.trim().slice(0,26)});});
  var wires=[];
  document.querySelectorAll('svg.wires > g path').forEach(function(p,i){

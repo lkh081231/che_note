@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
 <title>AS Organic Reaction Roadmap · 9701</title>
 <style>
   :root{
@@ -12,9 +13,9 @@
     --line-strong:#D6D2C4;
     --ink:#191919;
     --muted:#6B6862;
-    --faint:#908C84;
-    --accent:#D97757;
-    --accent-soft:#F5E5DE;
+    --faint:#706D65;
+    --accent:#286A60;
+    --accent-soft:#E7F0EC;
     --warn:#BF4722;
     --warn-soft:#FBE9E3;
 
@@ -265,21 +266,93 @@
     .toolbar{display:none;} details{break-inside:avoid;}
     details:not([open]) .body{display:block;}
   }
+  /* Study workspace: controls and canvas share one surface. */
+  body>.wrap:first-child{max-width:none;padding:0 32px;}
+  .masthead{display:flex;justify-content:space-between;align-items:center;gap:28px;padding:28px 0 24px;}
+  .eyebrow{font:600 11px var(--mono);letter-spacing:.16em;color:var(--accent);margin-bottom:9px;}
+  .masthead h1{font-size:clamp(26px,3vw,38px);letter-spacing:-.035em;line-height:1.15;}
+  .masthead .sub{font-size:13px;margin-top:10px;max-width:90ch;}
+  .header-note{flex:none;text-align:right;color:var(--muted);font-size:12px;line-height:1.8;}
+  .header-note strong{font:500 21px var(--serif);color:var(--ink);display:block;}
+  #stagesec{margin:0 20px 32px;border:1px solid var(--line-strong);border-radius:14px;overflow:hidden;background:var(--card);box-shadow:0 5px 24px #19191906;}
+  .toolbar{position:relative;top:auto;padding:14px 18px 12px;margin:0;gap:10px;border:0;background:var(--card);}
+  .tool-top{display:flex;width:100%;align-items:center;gap:16px;}
+  .tool-title{font-weight:650;font-size:14px;white-space:nowrap;}
+  .tool-title span{font:11px var(--mono);color:var(--muted);margin-left:9px;}
+  .filters{display:flex;flex-wrap:wrap;gap:6px;width:100%;padding-top:10px;border-top:1px solid var(--line);}
+  .chip{font-size:12px;padding:9px 10px;border-color:transparent;background:var(--bg);border-radius:7px;transition:background .15s,opacity .15s;}
+  .chip.on{border-color:currentColor;background:var(--accent-soft);box-shadow:inset 0 0 0 .3px currentColor;}
+  .chip.muted{opacity:.55;}
+  .btn{min-height:34px;border-radius:7px;font-weight:550;}
+  .btn.accent{background:var(--accent-soft);border-color:transparent;color:var(--accent);}
+  .zoom-tools{display:flex;align-items:center;gap:3px;padding:2px;border:1px solid var(--line);border-radius:8px;}
+  .zoom-tools .btn{border:0;background:transparent;}
+  #pct{min-width:48px;text-align:center;font-size:12px;font-variant-numeric:tabular-nums;}
+  button:focus-visible,[role=button]:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px;}
+  .scroller{position:relative;height:clamp(460px,72vh,960px);overflow:auto;border:0;border-top:1px solid var(--line);background:var(--card);overscroll-behavior:contain;scrollbar-color:var(--line-strong) var(--bg);}
+  .stage{position:relative;transform:none !important;margin:0 auto;}
+  .canvas{transform-origin:0 0;background-image:radial-gradient(var(--line) .75px,transparent .75px);background-size:24px 24px;}
+  .canvas::before{content:'REACTION MAP / 9701';position:absolute;left:100px;top:48px;color:var(--faint);font:14px var(--mono);letter-spacing:.14em;}
+  .canvas::after{content:'沿箭头读 product · 悬停标签追踪单条反应 · 点击查看条件与机理';position:absolute;left:100px;top:75px;color:var(--muted);font:16px var(--sans);}
+  .node{border-color:var(--line-strong);border-radius:10px;box-shadow:0 3px 10px #19191908;}
+  .node.hero{border-width:1px;border-color:var(--muted);background:var(--bg);}
+  .node .nm{letter-spacing:-.025em;}
+  .node .tag{border-radius:7px;background:var(--accent);}
+  .lbl{border-radius:7px;box-shadow:none;}
+  .lbl b{text-transform:none;letter-spacing:0;}
+  .lbl .n{color:var(--muted);}
+  .lbl.rx{cursor:pointer;border-left:3px solid var(--c,var(--line-strong));padding-left:6px;}
+  .lbl.warn{--c:var(--warn);}
+  .lbl.rx:hover,.lbl.rx:focus-visible{box-shadow:0 3px 14px #19191918;border-color:var(--c,var(--accent));z-index:8;}
+  svg.wires > g path{stroke-width:2.3;filter:drop-shadow(0 1.6px 0 var(--card)) drop-shadow(0 -1.6px 0 var(--card));transition:opacity .15s,stroke-width .15s;}
+  svg.wires > g[data-k=test] path{stroke-width:1.8;}
+  .trace-muted{opacity:.10 !important;}
+  .trace-node{outline:2px solid var(--accent);outline-offset:4px;}
+  svg.wires > g path.trace-active{stroke-width:3.5;}
+  .map-status{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:42px;padding:10px 18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;background:var(--bg);}
+  #route-status{color:var(--ink);}
+  .map-hint{white-space:nowrap;}
+  #stagesec:fullscreen{display:flex;flex-direction:column;border:0;border-radius:0;}
+  #stagesec:fullscreen .scroller{height:auto;flex:1;min-height:0;}
+  .tw{border:1px solid var(--line);border-radius:10px;background:var(--card);}
+  .tw table{min-width:860px;}
+  .table-hint{display:none;color:var(--muted);font-size:12px;}
+  @media(max-width:900px){.table-hint{display:block;}}
+  tbody tr:hover{background:var(--accent-soft);}
+  .ovl{align-items:center;}
+  .card{max-height:calc(100dvh - 64px);overflow:auto;}
+  .card>header{position:sticky;top:0;z-index:2;background:var(--card);}
+  .card .csub{font-size:12px;color:var(--muted);}
+  @media(max-width:1000px){.tool-top{flex-wrap:wrap;gap:10px;}.spacer{flex-wrap:wrap;}.header-note{display:none;}.map-hint{display:none;}}
+  @media(max-width:600px){body>.wrap:first-child{padding:0 16px;}.masthead{padding:22px 0 18px;}.masthead .sub{font-size:12px;}#stagesec{margin:0 8px 24px;border-radius:10px;}.toolbar{padding:12px 10px;}.tool-title{width:100%;}.spacer{margin-left:0;gap:4px;}.filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;}.chip{white-space:nowrap;flex:none;}.scroller{height:65vh;min-height:420px;}.map-status{padding:10px;font-size:11px;}.ovl{padding:12px 8px;}.card{max-height:calc(100dvh - 24px);}.pitgrid{grid-template-columns:minmax(0,1fr);}.mech .pts{min-width:0;}h2 .oc{display:block;border:0;margin:6px 0;font-size:10px;}.wrap{padding:0 16px;}}
+  @media print{#stagesec{overflow:visible;border:0;}.toolbar,.map-status{display:none;}.scroller{height:auto!important;overflow:visible;}.canvas{background:none;}.lbl,.node{box-shadow:none;}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<header>
+<header class="masthead">
+  <div><div class="eyebrow">CAMBRIDGE CHEMISTRY · STUDY ATLAS</div>
   <h1>AS Organic Reaction Roadmap</h1>
-  <p class="sub">Cambridge International AS &amp; A Level Chemistry <b>9701</b> · syllabus 章 13–21 的
-  AS 有机反应。每条箭头的 reagent 与 condition 逐字取自 syllabus；机理得分点与判分口径取自
-  2024–2026 Paper 2 的 mark scheme。</p>
-  <p class="meta">syllabus 原文 · <code>passyear/extracted/</code> MS 逐字答案 ·
-  判分冲突一律以最新卷 <code>9701_s26_22</code> 为准</p>
+  <p class="sub">从 functional group 出发，沿箭头串起 reagent、condition 与 product。点击反应标签，查看机理与判分要点。</p></div>
+  <div class="header-note"><strong>9701 / Organic</strong>syllabus 13–21 · 2025–2027<br>Paper 2 mark scheme · 2024–2026</div>
 </header>
-
+</div><!-- /wrap -->
+<div class="wrap stagewrap">
+<section id="stagesec" aria-label="有机反应路线图工作区">
 <div class="toolbar">
+  <div class="tool-top">
+    <div class="tool-title">反应路线图 <span>EXPLORE THE CONNECTIONS</span></div>
+    <div class="spacer">
+      <button class="btn accent" id="pitfall">判分陷阱 ↗</button>
+      <div class="zoom-tools"><button class="btn" id="zout" aria-label="缩小">−</button><span id="pct">100%</span><button class="btn" id="zin" aria-label="放大">+</button></div>
+      <button class="btn" id="fit" title="显示完整路线图">全图</button>
+      <button class="btn" id="read" title="以 100% 比例阅读">100%</button>
+      <button class="btn" id="theme" aria-label="切换深浅主题">◐ 主题</button>
+      <button class="btn" id="fs">⛶ 全屏</button>
+    </div>
+  </div>
+  <div class="filters" role="group" aria-label="按反应类型筛选">
   <button class="chip on" data-k="all">全部</button>
   <button class="chip" data-k="radical" style="color:var(--t-radical)"><span class="dot"></span>Free-radical substitution</button>
   <button class="chip" data-k="add" style="color:var(--t-add)"><span class="dot"></span>Addition</button>
@@ -289,179 +362,175 @@
   <button class="chip" data-k="red" style="color:var(--t-red)"><span class="dot"></span>Reduction</button>
   <button class="chip" data-k="hyd" style="color:var(--t-hyd)"><span class="dot"></span>Hydrolysis / Esterification</button>
   <button class="chip" data-k="test" style="color:var(--t-test)"><span class="dot"></span>Tests</button>
-  <div class="spacer">
-    <button class="btn accent" id="pitfall">⚠ 判分陷阱</button>
-    <button class="btn" id="zout" aria-label="缩小">−</button><span class="mono" id="pct">80%</span><button class="btn" id="zin" aria-label="放大">+</button>
-    <button class="btn" id="fit">Fit</button>
-    <button class="btn" id="fs">⛶ 全屏</button>
   </div>
 </div>
-</div><!-- /wrap -->
-
-<div class="wrap stagewrap">
-<section id="stagesec">
-<div class="scroller" id="scroller">
+<div class="scroller" id="scroller" tabindex="0" role="region" aria-label="可缩放路线图；方向键滚动，空白处拖动平移">
 <div class="stage" id="stage">
 <div class="canvas">
 
 <svg class="wires" viewBox="0 0 2716 1772">
   <defs>
-    <marker id="aRad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A8582F" stroke="none"/></marker>
-    <marker id="aAdd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B6096" stroke="none"/></marker>
-    <marker id="aSub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A65478" stroke="none"/></marker>
-    <marker id="aElim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B07B2E" stroke="none"/></marker>
-    <marker id="aOxid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3F7355" stroke="none"/></marker>
-    <marker id="aRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8A7220" stroke="none"/></marker>
-    <marker id="aHyd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3D6E93" stroke="none"/></marker>
-    <marker id="aTest" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6E7681" stroke="none"/></marker>
-    <marker id="aInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#908C84" stroke="none"/></marker>
+    <marker id="aRad" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-radical)" stroke="none"/></marker>
+    <marker id="aAdd" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-add)" stroke="none"/></marker>
+    <marker id="aSub" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-sub)" stroke="none"/></marker>
+    <marker id="aElim" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-elim)" stroke="none"/></marker>
+    <marker id="aOxid" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-oxid)" stroke="none"/></marker>
+    <marker id="aRed" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-red)" stroke="none"/></marker>
+    <marker id="aHyd" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-hyd)" stroke="none"/></marker>
+    <marker id="aTest" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--t-test)" stroke="none"/></marker>
+    <marker id="aInk" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)" stroke="none"/></marker>
   </defs>
 
   <!-- crude oil -> alkane / alkene (cracking) -->
-  <g data-k="base" stroke="#908C84" stroke-width="1.6">
-    <path d="M339,224 H451" marker-end="url(#aInk)"/>
-    <path d="M217,260 V428 H448" marker-end="url(#aInk)"/>
+  <g data-k="base" stroke="var(--muted)" stroke-width="1.6">
+    <path d="M334,242 L448,242" marker-end="url(#aInk)"/>
+    <path d="M217,262 L217,418 Q217,428 227,428 L448,428" marker-end="url(#aInk)"/>
   </g>
 
   <!-- alkene -> alkane : hydrogenation  [14.1.1(a) / 14.2.2(a)(i)] -->
-  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M561,381 V270" marker-end="url(#aAdd)"/>
+  <g data-k="add" stroke="var(--t-add)" stroke-width="1.7">
+    <path d="M561,379 L561,270" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- alkane -> halogenoalkane : free-radical substitution -->
-  <g data-k="radical" stroke="#A8582F" stroke-width="1.7">
-    <path d="M671,213 H1515 V289 H1603" marker-end="url(#aRad)"/>
+  <g data-k="radical" stroke="var(--t-radical)" stroke-width="1.7">
+    <path d="M675,213 L1505,213 Q1515,213 1515,223 L1515,279 Q1515,289 1525,289 L1604,289" marker-end="url(#aRad)"/>
   </g>
 
   <!-- alkene -> halogenoalkane : electrophilic addition HX / X2 -->
-  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M675,405 H1287 V279 H1603" marker-end="url(#aAdd)"/>
+  <g data-k="add" stroke="var(--t-add)" stroke-width="1.7">
+    <path d="M675,405 L1277,405 Q1287,405 1287,395 L1287,289 Q1287,279 1297,279 L1604,279" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- halogenoalkane -> alkene : elimination (ethanolic NaOH) -->
-  <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
-    <path d="M1613,328 H1255 V527 H685" marker-end="url(#aElim)"/>
+  <g data-k="elim" stroke="var(--t-elim)" stroke-width="1.7">
+    <path d="M1612,328 L1265,328 Q1255,328 1255,338 L1255,517 Q1255,527 1245,527 L683,527" marker-end="url(#aElim)"/>
   </g>
 
   <!-- alkene -> alcohol : steam / H3PO4 -->
-  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M572,475 V695 H1280" marker-end="url(#aAdd)"/>
+  <g data-k="add" stroke="var(--t-add)" stroke-width="1.7">
+    <path d="M572,594 L572,720 Q572,730 582,730 L1210,730 Q1220,730 1220,720 L1220,705 Q1220,695 1230,695 L1282,695" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- alkene -> diol : cold dilute KMnO4 -->
-  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M623,475 V616 H635" marker-end="url(#aOxid)"/>
+  <g data-k="oxid" stroke="var(--t-oxid)" stroke-width="1.7">
+    <path d="M675,550 L974,550 Q984,550 984,560 L984,573" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alkene -> addition polymer -->
-  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M508,475 V678 H421" marker-end="url(#aAdd)"/>
+  <g data-k="add" stroke="var(--t-add)" stroke-width="1.7">
+    <path d="M508,594 L508,668 Q508,678 498,678 L419,678" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- alkene -> cleavage products : hot conc KMnO4 -->
-  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M458,442 H132 V983 H144" marker-end="url(#aOxid)"/>
+  <g data-k="oxid" stroke="var(--t-oxid)" stroke-width="1.7">
+    <path d="M456,442 L142,442 Q132,442 132,452 L132,1024 Q132,1028 136,1028 L144,1028" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- halogenoalkane -> alcohol : NaOH(aq) -->
-  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1860,341 V584 H1616 V746 H1593" marker-end="url(#aSub)"/>
+  <g data-k="sub" stroke="var(--t-sub)" stroke-width="1.7">
+    <path d="M1860,414 L1860,588 Q1860,598 1850,598 L1612,598 Q1602,598 1602,608 L1602,742.667 Q1602,746 1598.67,746 L1592,746" marker-end="url(#aSub)"/>
   </g>
 
   <!-- alcohol -> halogenoalkane : PCl5 / SOCl2 / PCl3 -->
-  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1429,669 V580 H1802 V419" marker-end="url(#aSub)"/>
+  <g data-k="sub" stroke="var(--t-sub)" stroke-width="1.7">
+    <path d="M1429,667 L1429,590 Q1429,580 1439,580 L1792,580 Q1802,580 1802,570 L1802,422" marker-end="url(#aSub)"/>
   </g>
 
   <!-- halogenoalkane -> nitrile : KCN ethanol heat -->
-  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M1972,341 V535 H2306 V659" marker-end="url(#aSub)"/>
+  <g data-k="sub" stroke="var(--t-sub)" stroke-width="1.7">
+    <path d="M1972,414 L1972,525 Q1972,535 1982,535 L2296,535 Q2306,535 2306,545 L2306,659" marker-end="url(#aSub)"/>
   </g>
 
   <!-- halogenoalkane -> amine : NH3 ethanol pressure -->
-  <g data-k="sub" stroke="#A65478" stroke-width="1.7">
-    <path d="M2072,321 H2624 V659" marker-end="url(#aSub)"/>
+  <g data-k="sub" stroke="var(--t-sub)" stroke-width="1.7">
+    <path d="M2106,321 L2614,321 Q2624,321 2624,331 L2624,659" marker-end="url(#aSub)"/>
   </g>
 
   <!-- alcohol -> alkene : dehydration -->
-  <g data-k="elim" stroke="#B07B2E" stroke-width="1.7">
-    <path d="M1290,763 H994 V982 H598 V599" marker-end="url(#aElim)"/>
+  <g data-k="elim" stroke="var(--t-elim)" stroke-width="1.7">
+    <path d="M1290,777 L1004,777 Q994,777 994,787 L994,972 Q994,982 984,982 L608,982 Q598,982 598,972 L598,602" marker-end="url(#aElim)"/>
   </g>
 
   <!-- alcohol -> aldehyde : distil -->
-  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1545,769 V840 H1510 V1004" marker-end="url(#aOxid)"/>
+  <g data-k="oxid" stroke="var(--t-oxid)" stroke-width="1.7">
+    <path d="M1536,843 L1536,853 Q1536,858 1531,858 L1525.33,858 Q1520,858 1520,863.333 L1520,1006" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alcohol -> ketone : distil (secondary) -->
-  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1541,769 V827 H1859 V1004" marker-end="url(#aOxid)"/>
+  <g data-k="oxid" stroke="var(--t-oxid)" stroke-width="1.7">
+    <path d="M1584,790 L1590.67,790 Q1594,790 1594,793.333 L1594,832 Q1594,842 1604,842 L1849,842 Q1859,842 1859,852 L1859,1006" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- aldehyde -> carboxylic acid : reflux -->
-  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1284,1075 H1194 V1242 H813" marker-end="url(#aOxid)"/>
+  <g data-k="oxid" stroke="var(--t-oxid)" stroke-width="1.7">
+    <path d="M1283,1075 L1220,1075 Q1210,1075 1210,1085 L1210,1232 Q1210,1242 1200,1242 L813,1242" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- alcohol -> carboxylic acid : reflux (direct) -->
-  <g data-k="oxid" stroke="#3F7355" stroke-width="1.7">
-    <path d="M1290,708 H622 V1182" marker-end="url(#aOxid)"/>
+  <g data-k="oxid" stroke="var(--t-oxid)" stroke-width="1.7">
+    <path d="M1290,717 L632,717 Q622,717 622,727 L622,1183" marker-end="url(#aOxid)"/>
   </g>
 
   <!-- aldehyde/ketone -> alcohol : NaBH4 / LiAlH4 -->
-  <g data-k="red" stroke="#8A7220" stroke-width="1.7">
-    <path d="M1504,1014 V848" marker-end="url(#aRed)"/>
-    <path d="M1944,1014 V972 H1551 V848" marker-end="url(#aRed)"/>
+  <g data-k="red" stroke="var(--t-red)" stroke-width="1.7">
+    <path d="M1492,1014 L1492,851" marker-end="url(#aRed)"/>
+    <path d="M1944,1014 L1944,982 Q1944,972 1934,972 L1574,972 Q1564,972 1564,962 L1564,851" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carboxylic acid -> alcohol : LiAlH4 -->
-  <g data-k="red" stroke="#8A7220" stroke-width="1.7">
-    <path d="M803,1226 H1181 V758 H1280" marker-end="url(#aRed)"/>
+  <g data-k="red" stroke="var(--t-red)" stroke-width="1.7">
+    <path d="M805,1226 L1158,1226 Q1168,1226 1168,1216 L1168,773 Q1168,763 1178,763 L1282,763" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carbonyl -> hydroxynitrile : HCN/KCN -->
-  <g data-k="add" stroke="#6B6096" stroke-width="1.7">
-    <path d="M1380,1192 V1278" marker-end="url(#aAdd)"/>
-    <path d="M1858,1192 V1240 H1430 V1278" marker-end="url(#aAdd)"/>
+  <g data-k="add" stroke="var(--t-add)" stroke-width="1.7">
+    <path d="M1380,1190 L1380,1275" marker-end="url(#aAdd)"/>
+    <path d="M1858,1190 L1858,1298 Q1858,1308 1848,1308 L1614,1308" marker-end="url(#aAdd)"/>
   </g>
 
   <!-- hydroxynitrile -> hydroxy-acid : hydrolysis -->
-  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M1429,1380 V1486 H966 V1533" marker-end="url(#aHyd)"/>
+  <g data-k="hyd" stroke="var(--t-hyd)" stroke-width="1.7">
+    <path d="M1606,1430 L1760,1430" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- nitrile -> carboxylic acid : hydrolysis -->
-  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M2287,766 V1740 H614 V1372" marker-end="url(#aHyd)"/>
+  <g data-k="hyd" stroke="var(--t-hyd)" stroke-width="1.7">
+    <path d="M2287,805 L2287,1730 Q2287,1740 2277,1740 L624,1740 Q614,1740 614,1730 L614,1375" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- nitrile -> amine : reduction (A Level) -->
-  <g data-k="red" stroke="#8A7220" stroke-width="1.7" stroke-dasharray="6 4">
-    <path d="M2390,717 H2475" marker-end="url(#aRed)"/>
+  <g data-k="red" stroke="var(--t-red)" stroke-width="1.7" stroke-dasharray="6 4">
+    <path d="M2391,717 L2475,717" marker-end="url(#aRed)"/>
   </g>
 
   <!-- carboxylic acid + alcohol -> ester : esterification -->
-  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M671,1292 V1429 H944 V1533" marker-end="url(#aHyd)"/>
+  <g data-k="hyd" stroke="var(--t-hyd)" stroke-width="1.7">
+    <path d="M671,1367 L671,1419 Q671,1429 681,1429 L934,1429 Q944,1429 944,1439 L944,1535" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- ester -> carboxylic acid : hydrolysis -->
-  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M1001,1543 V1458 H557 V1372" marker-end="url(#aHyd)"/>
+  <g data-k="hyd" stroke="var(--t-hyd)" stroke-width="1.7">
+    <path d="M1001,1543 L1001,1468 Q1001,1458 991,1458 L567,1458 Q557,1458 557,1448 L557,1375" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- ester -> alcohol : hydrolysis  [16.1.1(f)] -->
-  <g data-k="hyd" stroke="#3D6E93" stroke-width="1.7">
-    <path d="M1089,1593 H1184 V683 H1280" marker-end="url(#aHyd)"/>
+  <g data-k="hyd" stroke="var(--t-hyd)" stroke-width="1.7">
+    <path d="M1091,1593 L1174,1593 Q1184,1593 1184,1583 L1184,745 Q1184,735 1194,735 L1282,735" marker-end="url(#aHyd)"/>
   </g>
 
   <!-- TESTS -->
-  <g data-k="test" stroke="#6E7681" stroke-width="1.4" stroke-dasharray="5 4">
-    <path d="M1990,1194 V1230 H2160 V1105" marker-end="url(#aTest)"/>
-    <path d="M1420,1010 V985 H2160 V1009" marker-end="url(#aTest)"/>
-    <path d="M2104,294 H2230 V321" marker-end="url(#aTest)"/>
-    <path d="M484,1258 H358 V1300" marker-end="url(#aTest)"/>
-    <path d="M458,415 H409 V483" marker-end="url(#aTest)"/>
+  <g data-k="test" stroke="var(--t-test)" stroke-width="1.4" stroke-dasharray="5 4">
+    <path d="M1990,1190 L1990,1200.67 Q1990,1206 1995.33,1206 L2150,1206 Q2160,1206 2160,1196 L2160,1107" marker-end="url(#aTest)"/>
+    <path d="M1420,1014 L1420,994.667 Q1420,985 1429.67,985 L2153,985 Q2160,985 2160,992 L2160,1006" marker-end="url(#aTest)"/>
+    <path d="M2106,294 L2222,294 Q2230,294 2230,302 L2230,318" marker-end="url(#aTest)"/>
+    <path d="M482,1258 L368,1258 Q358,1258 358,1268 L358,1295" marker-end="url(#aTest)"/>
+    <path d="M456,415 L419,415 Q409,415 409,425 L409,480" marker-end="url(#aTest)"/>
+  </g>
+
+  <g data-k="test" stroke="var(--t-test)" stroke-width="1.8" stroke-dasharray="5 5">
+    <path d="M2033,1140 L2302,1140 Q2312,1140 2312,1130 L2312,1086.67 Q2312,1080 2318.67,1080 L2332,1080" marker-end="url(#aTest)"/>
+    <path d="M1548,1140 L1744,1140 Q1754,1140 1754,1150 L1754,1214 Q1754,1224 1764,1224 L2450,1224 Q2460,1224 2460,1214 L2460,1132" marker-end="url(#aTest)"/>
   </g>
 </svg>
 
@@ -524,9 +593,9 @@
   <div class="fm"><svg class="cf" viewBox="-32.0 -83.0 122.9 115.0" width="123" height="115" role="img" data-cf="aldehyde"><g class="cf-b"><line x1="10.8" y1="-6.2" x2="29.4" y2="-17.0"/><line x1="31.6" y1="-17.0" x2="31.6" y2="-38.5"/><line x1="27.2" y1="-17.0" x2="27.2" y2="-38.5"/><line x1="29.4" y1="-17.0" x2="48.1" y2="-6.2"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-51.0" text-anchor="middle" dominant-baseline="central" class="cf-a">O</text><text x="58.9" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">H</text></svg></div>
 </div>
 
-<div class="node alevel" style="left:2487px;top:671px;width:172px;height:130px" data-groups="red sub">
+<div class="node" style="left:2487px;top:671px;width:172px;height:130px" data-groups="red sub">
   <div class="tag">F</div>
-  <div class="nm">Amine<span class="alv">A Lv</span></div>
+  <div class="nm">Amine</div>
   <div class="fm"><svg class="cf" viewBox="-32.0 -49.0 93.4 81.0" width="93" height="81" role="img" data-cf="amine"><g class="cf-b"><line x1="6.1" y1="-3.5" x2="19.3" y2="-11.2"/></g><text x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central" class="cf-a">R</text><text x="29.4" y="-17.0" text-anchor="middle" dominant-baseline="central" class="cf-a">NH<tspan baseline-shift="sub" font-size="9">2</tspan></text></svg></div>
 </div>
 
@@ -549,10 +618,14 @@
 </div>
 
 
+<div class="node ghost" style="left:1772px;top:1384px;width:310px;height:108px" data-groups="hyd">
+  <div class="nm">Hydroxy-acid</div><div class="fm">–CN → –COOH<br>–OH retained</div>
+</div>
+
 <!-- amine from halogenoalkane also lands on F: label only -->
 
 <!-- ============ EDGE LABELS ============ -->
-<div class="lbl" data-k="base" style="left:344px;top:150px;width:108px">
+<div class="lbl" data-k="base" style="left:337px;top:135px;width:115px">
   <span class="r">heat, Al₂O₃</span>
   <span class="n">14.1.1(b)</span>
 </div>
@@ -651,7 +724,7 @@
   <span class="n">17.1.1(b) — 2° alcohol</span>
 </div>
 
-<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:900px;top:1092px;width:271px">
+<div class="lbl warn rx" data-k="oxid" data-rx="det" role="button" tabindex="0" style="left:900px;top:1092px;width:250px">
   <b>⚠ Oxidation → COOH</b>
   <span class="r">acidified K₂Cr₂O₇ or KMnO₄<br><b style="display:inline;text-transform:none;font-size:14px">reflux</b></span>
   <span class="n">18.1.1(a) — 1° alcohol / aldehyde</span>
@@ -669,13 +742,13 @@
   <span class="n">18.1.2(e)</span>
 </div>
 
-<div class="lbl rx" data-k="add" data-rx="mech4" role="button" tabindex="0" style="left:1444px;top:1196px;width:299px;--c:var(--t-add)">
+<div class="lbl rx" data-k="add" data-rx="mech4" role="button" tabindex="0" style="left:1455px;top:1196px;width:299px;--c:var(--t-add)">
   <b style="color:var(--t-add)">★ Nucleophilic addition</b>
   <span class="r">HCN · KCN as catalyst · heat</span>
   <span class="n">17.1.2(b) · 19.2.2(a) — carbon chain +1</span>
 </div>
 
-<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1444px;top:1482px;width:295px;--c:var(--t-hyd)">
+<div class="lbl rx" data-k="hyd" data-rx="det" role="button" tabindex="0" style="left:1444px;top:1484px;width:265px;--c:var(--t-hyd)">
   <b style="color:var(--t-hyd)">Hydrolysis</b>
   <span class="r">dilute acid or dilute alkali<br><b style="display:inline;text-transform:none;font-size:14px">followed by acidification</b></span>
   <span class="n">19.2.3 — 得 hydroxy-acid</span>
@@ -738,6 +811,7 @@
 </div><!-- /canvas -->
 </div><!-- /stage -->
 </div><!-- /scroller -->
+<div class="map-status"><span id="route-status" role="status" aria-live="polite">全部反应 · 悬停标签追踪路线，点击查看详情</span><span class="map-hint">拖动空白处平移 · Ctrl / ⌘ + 滚轮缩放 · ★ 必学机理 · 虚线：tests / A Level</span></div>
 </section>
 </div><!-- /stagewrap -->
 <div class="wrap">
@@ -750,7 +824,8 @@
   <p class="lede">observation 一列是 mark scheme 的标准写法 —— 考试要的是<b>现象</b>，
   不是「某某类别 positive」。</p>
 
-  <div class="tw">
+  <p class="table-hint">← 横向滑动表格，查看全部 reagent、observation 与判分要点 →</p>
+  <div class="tw" tabindex="0" role="region" aria-label="鉴别测试速查表，可横向滚动">
   <table>
     <thead><tr><th style="width:23%">reagent</th><th style="width:30%">positive observation</th>
     <th style="width:24%">测什么</th><th style="width:23%">判分要点</th></tr></thead>
@@ -1277,113 +1352,84 @@
 (function(){
   var stage=document.getElementById('stage'),
       scroller=document.getElementById('scroller'),
-      pct=document.getElementById('pct'), z=1;
-  var W=2716, H=1772;
-
+      canvas=document.querySelector('.canvas'), pct=document.getElementById('pct'), z=1;
+  var W=canvas.offsetWidth, H=canvas.offsetHeight, fitMode=true;
   function apply(){
-    stage.style.transform='scale('+z+')';
-    stage.style.width=(W*z)+'px';
-    stage.style.height=(H*z)+'px';
+    canvas.style.transform='scale('+z+')';
+    stage.style.width=(W*z)+'px'; stage.style.height=(H*z)+'px';
     pct.textContent=Math.round(z*100)+'%';
+    document.getElementById('zin').disabled=z>=2;
+    document.getElementById('zout').disabled=z<=0.12;
+  }
+  function zoom(next,x,y){
+    x=x===undefined?scroller.clientWidth/2:x;
+    y=y===undefined?scroller.clientHeight/2:y;
+    var cx=(scroller.scrollLeft+x-stage.offsetLeft)/z,cy=(scroller.scrollTop+y)/z;
+    fitMode=false;z=Math.max(.12,Math.min(2,next));apply();
+    scroller.scrollLeft=cx*z+stage.offsetLeft-x;scroller.scrollTop=cy*z-y;
   }
   function fit(){
-    // width-only: the page scrolls vertically, the box never does
-    var aw=scroller.clientWidth-2;
-    z=aw/W;
-    if(document.fullscreenElement){          // fullscreen box has a fixed height
-      var ah=scroller.clientHeight-2;
-      z=Math.min(z, ah/H);
-    }
-    if(!isFinite(z)||z<=0) z=0.8;
-    z=Math.max(z,0.25);
-    apply();
+    fitMode=true;z=Math.min(1,(scroller.clientWidth-20)/W,(scroller.clientHeight-20)/H);
+    z=Math.max(.12,z);apply();scroller.scrollTo(0,0);
   }
-  document.getElementById('zin').onclick=function(){z=Math.min(2,z+0.15);apply();};
-  document.getElementById('zout').onclick=function(){z=Math.max(0.2,z-0.15);apply();};
+  document.getElementById('zin').onclick=function(){zoom(z+.15);};
+  document.getElementById('zout').onclick=function(){zoom(z-.15);};
   document.getElementById('fit').onclick=fit;
+  document.getElementById('read').onclick=function(){zoom(1);};
+  scroller.addEventListener('wheel',function(e){
+    if(!e.ctrlKey&&!e.metaKey)return;
+    e.preventDefault();var r=scroller.getBoundingClientRect();
+    zoom(z*Math.exp(-e.deltaY*.002),e.clientX-r.left,e.clientY-r.top);
+  },{passive:false});
 
-  // ---- drag to pan: both mouse buttons together, or the middle button ----
-  // horizontal moves the canvas box, vertical moves the page (the box is
-  // overflow-y:hidden by design, so there is nothing to scroll inside it).
-  (function(){
-    var panning=false, sx=0, sy=0, startLeft=0, startPage=0, armed=false;
-
-    function pageY(){ return window.pageYOffset||document.documentElement.scrollTop||0; }
-    function bothDown(e){ return (e.buttons & 3) === 3; }   // bit0 left + bit1 right
-    function midDown(e){ return (e.buttons & 4) === 4; }
-
-    function begin(e){
-      panning=true;
-      sx=e.clientX; sy=e.clientY;
-      startLeft=scroller.scrollLeft; startPage=pageY();
-      scroller.classList.add('panning');
-      e.preventDefault();
-    }
-    function end(){
-      if(!panning && !armed) return;
-      panning=false; armed=false;
-      scroller.classList.remove('panning');
-    }
-
-    scroller.addEventListener('mousedown',function(e){
-      if(midDown(e) || bothDown(e)){ begin(e); return; }
-      // first of the two buttons: remember it so the second one can start the pan
-      if(e.button===0 || e.button===2) armed=true;
-    });
-
-    scroller.addEventListener('mousemove',function(e){
-      if(!panning){
-        // the second button went down after the first -> start now
-        if(armed && (bothDown(e)||midDown(e))) begin(e);
-        return;
-      }
-      if(!(bothDown(e)||midDown(e))){ end(); return; }
-      scroller.scrollLeft = startLeft - (e.clientX - sx);
-      window.scrollTo(0, startPage - (e.clientY - sy));
-      e.preventDefault();
-    });
-
-    ['mouseup','mouseleave','blur'].forEach(function(ev){
-      (ev==='blur'?window:scroller).addEventListener(ev,end);
-    });
-
-    // both-buttons and middle-click otherwise open menus / autoscroll
-    scroller.addEventListener('contextmenu',function(e){
-      if(panning||armed){ e.preventDefault(); armed=false; }
-    });
-    scroller.addEventListener('auxclick',function(e){
-      if(e.button===1) e.preventDefault();
-    });
-  })();
-
-  // ---- fullscreen ----
-  var fsBtn=document.getElementById('fs'),
-      sec=document.getElementById('stagesec');
-  function fsOn(){ return document.fullscreenElement||document.webkitFullscreenElement; }
-  fsBtn.onclick=function(){
-    if(fsOn()){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); }
-    else {
-      var el=sec;
-      (el.requestFullscreen||el.webkitRequestFullscreen).call(el);
-    }
-  };
-  ['fullscreenchange','webkitfullscreenchange'].forEach(function(ev){
-    document.addEventListener(ev,function(){
-      fsBtn.textContent=fsOn()?'✕ 退出':'⛶ 全屏';
-      setTimeout(fit,60);
-    });
+  // Drag a blank part of the map. Touch keeps native scrolling/pinch behavior.
+  var pan=null;
+  scroller.addEventListener('pointerdown',function(e){
+    if(e.pointerType==='touch'||(e.button!==0&&e.button!==1))return;
+    if(e.button===0&&e.target.closest('.lbl,.node,.pill,button'))return;
+    pan={x:e.clientX,y:e.clientY,left:scroller.scrollLeft,top:scroller.scrollTop};
+    scroller.setPointerCapture(e.pointerId);scroller.classList.add('panning');e.preventDefault();
   });
-  window.addEventListener('resize',function(){ if(!document.fullscreenElement) fit(); });
-  fit();
+  scroller.addEventListener('pointermove',function(e){
+    if(!pan)return;
+    scroller.scrollLeft=pan.left-e.clientX+pan.x;scroller.scrollTop=pan.top-e.clientY+pan.y;
+  });
+  function endPan(){pan=null;scroller.classList.remove('panning');}
+  ['pointerup','pointercancel','lostpointercapture'].forEach(function(ev){scroller.addEventListener(ev,endPan);});
+  window.addEventListener('blur',endPan);
+  scroller.addEventListener('auxclick',function(e){if(e.button===1)e.preventDefault();});
+
+  var fsBtn=document.getElementById('fs'),sec=document.getElementById('stagesec');
+  fsBtn.onclick=async function(){
+    try{
+      if(document.fullscreenElement)await document.exitFullscreen();
+      else if(sec.requestFullscreen)await sec.requestFullscreen();
+    }catch(e){document.getElementById('route-status').textContent='当前浏览器无法进入全屏，可使用缩放按钮阅读。';}
+  };
+  document.addEventListener('fullscreenchange',function(){
+    fsBtn.textContent=document.fullscreenElement?'✕ 退出':'⛶ 全屏';
+    if(fitMode)requestAnimationFrame(fit);
+  });
+  window.addEventListener('resize',function(){if(fitMode)fit();});
+  document.getElementById('theme').onclick=function(){
+    var dark=document.documentElement.dataset.theme==='dark'||
+      (!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);
+    document.documentElement.dataset.theme=dark?'light':'dark';
+    this.setAttribute('aria-label',dark?'切换深色主题':'切换浅色主题');
+  };
+  // Start at a readable width; the explicit 全图 button fits both dimensions.
+  fitMode=false;z=Math.min(1,Math.max(.65,(scroller.clientWidth-20)/W));apply();
 
   // ---- pathway filter ----
   var active=null;
   var chips=[].slice.call(document.querySelectorAll('.chip'));
   function paint(){
+    document.getElementById('route-status').textContent=active?chips.find(function(c){return c.dataset.k===active;}).textContent.trim()+' · 再次点击可显示全部':'全部反应 · 悬停标签追踪路线，点击查看详情';
     chips.forEach(function(c){
       var k=c.dataset.k;
       c.classList.toggle('on', (active===null&&k==='all')||(k===active));
       c.classList.toggle('muted', active!==null && k!=='all' && k!==active);
+      c.setAttribute('aria-pressed',c.classList.contains('on'));
     });
     document.querySelectorAll('svg.wires g[data-k], .lbl[data-k]').forEach(function(el){
       var m=el.dataset.k;
@@ -1406,11 +1452,43 @@
     chip.addEventListener('click',function(){
       var k=chip.dataset.k;
       active=(k==='all'||k===active)?null:k;
-      paint();
+      clearTrace();paint();
     });
   });
   paint();
 
+
+  // Explicit topology associates labels, routes and compound endpoints.
+  // Indices follow the canvas DOM; multiple paths can share a reaction label.
+  var paths=Array.from(document.querySelectorAll('svg.wires > g path')),
+      labels=Array.from(canvas.querySelectorAll('.lbl')),
+      nodes=Array.from(canvas.querySelectorAll('.node'));
+  var routeLabels=[0,0,1,2,3,4,5,6,8,7,9,10,11,12,14,15,16,17,17,18,18,19,20,20,21,22,23,24,25,25,26,26,28,29,30,27,27];
+  var endpoints=[[0,1],[0,2],[2,1],[1,6],[2,6],[6,2],[2,7],[2,5],[2,3],[2,4],
+    [6,7],[7,6],[6,12],[6,11],[7,2],[7,10],[7,9],[10,8],[7,8],[10,7],[9,7],[8,7],
+    [10,14],[9,14],[14,15],[12,8],[12,11],[8,13],[13,8],[13,7],[9],[10],[6],[8],[2],[9],[10]];
+  function clearTrace(){
+    canvas.querySelectorAll('.trace-muted,.trace-active,.trace-node').forEach(function(e){e.classList.remove('trace-muted','trace-active','trace-node');});
+    paint();
+  }
+  function trace(label){
+    var li=labels.indexOf(label);
+    if(active&&label.dataset.k!==active)return;
+    var lit=new Set(),count=0;
+    paths.forEach(function(path,i){
+      var match=routeLabels[i]===li||(li===13&&[10,11,12,13].includes(i));
+      path.classList.toggle('trace-muted',!match);path.classList.toggle('trace-active',match);
+      if(match){count++;endpoints[i].forEach(function(n){lit.add(n);});}
+    });
+    nodes.forEach(function(n,i){n.classList.toggle('trace-muted',!lit.has(i));n.classList.toggle('trace-node',lit.has(i));});
+    labels.forEach(function(l){l.classList.toggle('trace-muted',l!==label);});
+    document.getElementById('route-status').textContent=(label.querySelector('b')||label).textContent.trim()+' · '+count+' 条关联路线 · 点击查看详情';
+  }
+  labels.forEach(function(label){
+    label.addEventListener('pointerenter',function(e){if(e.pointerType!=='touch')trace(label);});
+    label.addEventListener('pointerleave',clearTrace);
+    label.addEventListener('focus',function(){trace(label);});label.addEventListener('blur',clearTrace);
+  });
 
   // ================= reaction cards =================
   var tpl=document.getElementById('cards'),
@@ -1438,12 +1516,15 @@
     cardSub.textContent=sub||'';
     cardBody.innerHTML='';
     build(cardBody);
+    clearTrace();
     ovl.classList.add('on');
+    Array.from(document.body.children).forEach(function(e){if(e!==ovl&&e.tagName!=='SCRIPT'&&e.tagName!=='TEMPLATE')e.inert=true;});
     document.body.style.overflow='hidden';
     document.getElementById('cardx').focus();
   }
   function closeCard(){
     ovl.classList.remove('on');
+    Array.from(document.body.children).forEach(function(e){e.inert=false;});
     document.body.style.overflow='';
     if(lastFocus&&lastFocus.focus) lastFocus.focus();
     lastFocus=null;
@@ -1451,7 +1532,9 @@
   document.getElementById('cardx').onclick=closeCard;
   ovl.addEventListener('click',function(e){ if(e.target===ovl) closeCard(); });
   document.addEventListener('keydown',function(e){
-    if(e.key==='Escape'&&ovl.classList.contains('on')) closeCard();
+    if(!ovl.classList.contains('on'))return;
+    if(e.key==='Escape')closeCard();
+    if(e.key==='Tab'){var focusable=Array.from(ovl.querySelectorAll('button,a[href],[tabindex=\"0\"]'));var first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
   });
 
   // which pitfall block belongs with which reaction label
