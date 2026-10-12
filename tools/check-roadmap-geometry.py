@@ -1,4 +1,6 @@
-import json,re
+import json,re,sys
+if hasattr(sys.stdout, 'reconfigure'):
+ sys.stdout.reconfigure(encoding='utf-8')
 import os
 sp=os.environ.get('ROADMAP_TMP',os.path.dirname(os.path.abspath(__file__)))
 g=json.load(open(sp+"/geo.json"))
@@ -33,8 +35,20 @@ for i in range(len(nb)):
             print("  %s:%r <-> %s:%r"%(a['t'],a['s'],b['t'],b['s'])); c1+=1
 print("  total",c1)
 print("=== 2. wire through box ===")
-TRIM=17; c2=0
+c2=0
 for w in g['wires']:
+    # Browser samples also cover curved paths. Do not exempt the entire source/
+    # target box: doing so used to hide paths starting deep inside a node.
+    if 'points' in w:
+        hits=[]
+        for b in allb:
+            if any(b['x']+.5<x<b['x']+b['w']-.5 and b['y']+.5<y<b['y']+b['h']-.5 for x,y in w['points']):
+                hits.append('%s:%s'%(b['t'],b['s']))
+        if hits:
+            print('  wire#%d [%s] %s'%(w['i'],w['k'],w['d']))
+            for h in hits: print('       X '+h)
+            c2+=1
+        continue
     ss=segs(w['d']); P0,P1=ss[0][0],ss[-1][1]
     def anchor(b):
         for pt in (P0,P1):
@@ -44,8 +58,8 @@ for w in g['wires']:
     for si,(p,q) in enumerate(ss):
         pp,qq=list(p),list(q)
         dx,dy=qq[0]-pp[0],qq[1]-pp[1]; L=(dx*dx+dy*dy)**.5 or 1
-        if si==0: pp[0]+=dx/L*TRIM; pp[1]+=dy/L*TRIM
-        if si==len(ss)-1: qq[0]-=dx/L*TRIM; qq[1]-=dy/L*TRIM
+        if si==0: pp[0]+=dx/L*17; pp[1]+=dy/L*17
+        if si==len(ss)-1: qq[0]-=dx/L*17; qq[1]-=dy/L*17
         for b in allb:
             if anchor(b): continue
             if seg_box(pp,qq,b): hits.append("%s:%s"%(b['t'],b['s']))
@@ -57,7 +71,7 @@ print("  total",c2)
 print("=== 3. arrowhead hidden under ANY box ===")
 c3=0
 for w in g['wires']:
-    x,y=segs(w['d'])[-1][1]
+    x,y=w['points'][-1] if 'points' in w else segs(w['d'])[-1][1]
     for b in bx:
         dx=max(b['x']-x,x-(b['x']+b['w']),0); dy=max(b['y']-y,y-(b['y']+b['h']),0)
         if (dx*dx+dy*dy)**.5<7:
@@ -72,3 +86,4 @@ for p in [b for b in bx if b['t']=='pill']:
             if not(p['x']>=n['x'] and p['x']+p['w']<=n['x']+n['w'] and p['y']>=n['y'] and p['y']+p['h']<=n['y']+n['h']):
                 print("  pill %r sticks out of %s"%(p['s'][:28],n['s'])); c4+=1
 print("  total",c4)
+sys.exit(1 if c1+c2+c3+c4 else 0)

@@ -3,6 +3,7 @@
 
 # Tooling scratch — playwright MCP writes console logs + page snapshots here
 /.playwright-mcp/
+/.tmp/
 
 # Headless-screenshot output used to eyeball the roadmap. These are throwaway:
 # regenerate with the commands in CLAUDE.md rather than versioning them.
