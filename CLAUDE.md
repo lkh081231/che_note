@@ -131,6 +131,8 @@ python tools/probe-roadmap-geometry.py
 python tools/check-roadmap-geometry.py
 ```
 
+探针按 `$CHROME` → Windows 默认安装路径 → PATH 上的 `google-chrome` / `chromium` 的顺序找浏览器。
+
 1. box 之间重叠　2. 连线从盒子底下穿过　3. 箭头落在盒子底下　4. pill 溢出 node
 
 探针除以的必须是 `cv.offsetWidth`，**不能写死画布宽度**——页面默认带缩放，
@@ -142,9 +144,17 @@ python tools/check-roadmap-geometry.py
 
 无头 Chrome 截图（stderr 的 `fallback_task_provider` 是已知噪声，以 `N bytes written` 为准）：
 
+repo 在 Windows 是 `C:\che_note`，在 Linux Mint 是同一个分区挂载的 `/media/lkh/OS/che_note`：
+
 ```bash
+# Windows (Git Bash)
 CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
-"$CHROME" --headless --disable-gpu --hide-scrollbars   --screenshot=out.png --window-size=1900,1200   "file:///C:/che_note/organic-reaction-roadmap.html"
+URL="file:///C:/che_note/organic-reaction-roadmap.html"
+# Linux Mint
+CHROME=chromium
+URL="file:///media/lkh/OS/che_note/organic-reaction-roadmap.html"
+
+"$CHROME" --headless --disable-gpu --hide-scrollbars   --screenshot=out.png --window-size=1900,1200   "$URL"
 ```
 
 - **布局级**（整页）：看重叠、错位、结构

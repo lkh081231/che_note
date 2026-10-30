@@ -1,10 +1,15 @@
 import re,json,html,subprocess,sys
-import os
+import os,shutil
 from pathlib import Path
 if hasattr(sys.stdout, 'reconfigure'):
  sys.stdout.reconfigure(encoding='utf-8')
 sp=os.environ.get('ROADMAP_TMP',os.path.dirname(os.path.abspath(__file__)))
 os.makedirs(sp,exist_ok=True)
+# Chrome: $CHROME first, then the Windows install path, then whatever is on PATH (Mint: chromium)
+chrome=os.environ.get('CHROME') or next((c for c in ['C:/Program Files/Google/Chrome/Application/chrome.exe']
+ if os.path.isfile(c)),None) or next((shutil.which(c) for c in ['google-chrome','chromium','chromium-browser'] if shutil.which(c)),None)
+if not chrome:
+ raise SystemExit('No Chrome/Chromium found. Set CHROME=/path/to/chrome.')
 src=(Path(__file__).resolve().parent.parent/'organic-reaction-roadmap.html').read_text(encoding='utf-8')
 probe = """
 <script>
@@ -28,7 +33,7 @@ window.addEventListener('load',function(){setTimeout(function(){
 </script>
 """
 open(sp+"/probe.html","w",encoding="utf-8").write(src.replace("</body>",probe+"</body>"))
-subprocess.run(['C:/Program Files/Google/Chrome/Application/chrome.exe','--headless','--disable-gpu',
+subprocess.run([chrome,'--headless','--disable-gpu',
   '--virtual-time-budget=6000','--incognito','--disable-application-cache','--dump-dom',Path(sp,'probe.html').resolve().as_uri()],
   stdout=open(sp+"/dom.html","w",encoding="utf-8"),stderr=subprocess.DEVNULL)
 d=open(sp+"/dom.html",encoding="utf-8",errors="replace").read()
