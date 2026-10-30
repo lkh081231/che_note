@@ -1,0 +1,90 @@
+/* che_note Colab kit — shared styles, inlined into every html cell by tools/build_colab.py.
+   Everything is scoped under .k so a preview page can stack many cells without clashes. */
+.k{
+  --bg:#fbfaf7; --card:#ffffff; --fg:#1f2328; --mut:#5c6370; --faint:#8b929c; --line:#d9d6cf;
+  --acc:#2f5fd0; --acc-soft:#e7edfb; --pos:#c0392b; --neg:#2f5fd0; --neu:#6b7280;
+  --ok:#1a7f37; --ok-soft:#dcf3e2; --bad:#cf222e; --bad-soft:#fbe3e4; --hl:#fff3c4;
+  --s1:#2f5fd0; --s2:#c0392b; --s3:#1a7f37; --s4:#b26b00; --s5:#7a3fb0;
+  /* Latin fonts first: they carry every superscript digit (⁴⁵⁶…); CJK fonts lack U+2074–2079,
+     so with a CJK font first ² and ⁶ come from different fonts and look mismatched */
+  font:15px/1.55 "Segoe UI","Noto Sans","DejaVu Sans","Helvetica Neue",-apple-system,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:10px;
+  padding:14px 16px; margin:4px 0; max-width:920px; box-sizing:border-box;
+}
+@media (prefers-color-scheme:dark){
+  .k{
+    --bg:#1b1e24; --card:#23272f; --fg:#e6e8eb; --mut:#aab1bb; --faint:#7d8590; --line:#3a3f48;
+    --acc:#7aa2ff; --acc-soft:#2a3550; --pos:#ff7b6b; --neg:#7aa2ff; --neu:#9aa3ad;
+    --ok:#4ac26b; --ok-soft:#1d3a26; --bad:#ff7b72; --bad-soft:#4a2224; --hl:#4a4020;
+    --s1:#7aa2ff; --s2:#ff7b6b; --s3:#4ac26b; --s4:#e3a64a; --s5:#c39bf0;
+  }
+}
+.k *{box-sizing:border-box}
+.k h3{font-size:17px;margin:0 0 8px;font-weight:650}
+.k h4{font-size:15px;margin:14px 0 6px;font-weight:650}
+.k p{margin:6px 0}
+.k .mut{color:var(--mut)} .k .faint{color:var(--faint);font-size:13px}
+.k .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}
+.k .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.k .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.k button,.k select,.k input{font:inherit;color:var(--fg)}
+.k button{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 11px;cursor:pointer}
+.k button:hover{border-color:var(--acc)}
+.k button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.k button.on{color:#0d1220}}
+.k select,.k input[type=number],.k input[type=text]{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:3px 7px}
+.k input[type=number]{width:5.2em}
+.k input[type=range]{accent-color:var(--acc)}
+.k label{cursor:pointer}
+.k table{border-collapse:collapse;margin:8px 0;font-size:14px}
+.k th,.k td{border:1px solid var(--line);padding:4px 9px;text-align:left;vertical-align:top}
+.k th{background:var(--acc-soft);font-weight:600}
+/* mono stack: Latin fonts first, the CJK mono default has no ⁴–⁹ */
+.k code{font-family:"Cascadia Mono","DejaVu Sans Mono","Noto Sans Mono","SF Mono",Consolas,ui-monospace,monospace;font-size:13.5px;background:var(--acc-soft);padding:0 4px;border-radius:4px}
+.k ul,.k ol{margin:6px 0;padding-left:22px}
+.k svg{max-width:100%;height:auto;display:block}
+.k svg text{fill:var(--fg)}
+.k img{max-width:100%;height:auto;background:#fff;border-radius:4px}
+.k .q img{display:block;margin:6px 0}
+/* chart labels: a halo in the card colour so grid lines never cut through the glyphs */
+.k svg text.halo{paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round}
+/* nuclide notation: <span class="nuc"><sup>A</sup><sub>Z</sub></span>X */
+.k .nuc{display:inline-flex;flex-direction:column;vertical-align:.42em;line-height:1.05;font-size:.72em;text-align:right;margin-right:1px}
+/* an inline-flex box sits on the baseline of its FIRST line (the mass number), so it is raised,
+   not lowered: mass number ends up top-left, proton number bottom-left */
+.k .nuc sup,.k .nuc sub{position:static;font-size:1em;line-height:1.05}
+/* reveal */
+.k .reveal{margin-top:6px}
+.k .ans{display:none;margin-top:6px;padding:8px 11px;border-left:3px solid var(--ok);background:var(--ok-soft);border-radius:0 6px 6px 0}
+.k .ans.show{display:block}
+/* self-check inputs */
+.k input.fill{width:4.6em;text-align:center}
+.k input.fill.good:focus{outline:2px solid var(--ok)}
+.k input.fill.badv:focus{outline:2px solid var(--bad)}
+.k input.fill.good{border-color:var(--ok);background:var(--ok-soft)}
+.k input.fill.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .mcq button.good{background:var(--ok-soft);border-color:var(--ok)}
+.k .mcq button.badv{background:var(--bad-soft);border-color:var(--bad)}
+/* tabs */
+.k .tabbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.k [data-pane]{display:none} .k [data-pane].show{display:block}
+/* tooltip */
+.k .tip{position:fixed;z-index:9;pointer-events:none;background:var(--fg);color:var(--bg);font-size:13px;padding:4px 8px;border-radius:5px;max-width:300px;opacity:0;transition:opacity .1s}
+.k .tip.show{opacity:.95}
+/* questions */
+.k .q{border-top:1px dashed var(--line);padding-top:4px;margin-top:10px}
+.k .q:first-of-type{border-top:0;margin-top:0}
+.k .mark{color:var(--faint);font-weight:400}
+.k .lo{border-left:3px solid var(--acc);padding:2px 10px;margin:6px 0;color:var(--mut);font-size:14px}
+/* LO checklist */
+.k .bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0 10px}
+.k .bar>i{display:block;height:100%;width:0;background:var(--ok);transition:width .2s}
+.k .chk{display:flex;gap:8px;align-items:flex-start;padding:3px 0}
+.k .chk input{margin-top:5px}
+.k .chk.done span{color:var(--mut);text-decoration:line-through;text-decoration-color:var(--faint)}
+/* 3D */
+.k .stage{position:relative;width:100%;height:380px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card);touch-action:none}
+.k .stage canvas{display:block;width:100%;height:100%;cursor:grab}
+.k .stage .hud{position:absolute;left:0;top:0;right:0;font-size:12px;color:var(--mut);pointer-events:none;background:var(--card);padding:4px 8px;border-bottom:1px solid var(--line);z-index:1}
+.k .fallback{display:none}
+.k .fallback.show{display:block}
