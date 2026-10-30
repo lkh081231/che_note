@@ -26,3 +26,8 @@ desktop.ini
 # agent
 .agents/
 .codex/
+
+pdfnote/
+
+# colab exec -f 跑完会在原 notebook 旁边写一份 *_output.ipynb
+colab/*_output.ipynb
