@@ -27,12 +27,12 @@ repo 在 Windows 分区上，两边是**同一份工作区**（同一个 `.git`�
 | playwright MCP | ❌ 本 session 连不上（launcher 走 `npx @playwright/mcp@latest`，且本机没有 Chrome） | 装好 chromium 后重连；若仍不行，交互实测退到 `uv run --with playwright` 写脚本跑（`playwright install chromium` 装到 `~/.cache/ms-playwright`） |
 | Claude in Chrome | 不可用（Mint 没 Chrome，扩展无处可装） | 不依赖它 |
 | screenshot CLI | ✅ `uvx screenshot-feedback-hook-mcp monitors`：`[0]` 拼接 3840×1080、`[1]` `[2]` 各 1920×1080（X11） | 与 CLAUDE.md 一致 |
-| colab CLI | ✅ `~/.local/bin/colab` | 它开的是云端 VM —— **本项目不用**（runtime 一律走本地，见下） |
+| colab CLI | ✅ `~/.local/bin/colab`，已授权（余额 223.98 CU，CPU runtime 不耗 CU） | **验收第 5 步用它**：`colab new` CPU → `colab exec -f <nb>.ipynb` 逐 cell 真跑 → `colab log -o` 导出查 error → `colab stop`。它只能开云端 VM，连不了本地 Jupyter |
 | Colab 本地运行时 | ✅ `uv tool install --with ipykernel notebook`（Notebook 7.6.3，装在 `~/.local/share/uv/tools/notebook`），根目录 `~/colab-runtime/`（含官方要求的 `content/`） | 启动命令见「Colab 本地运行时」 |
-| colab MCP | ✅ 只暴露 `open_colab_browser_connection`，连上后才有 notebook 编辑工具；会开默认浏览器（Firefox） | Colab 真跑用它 |
+| colab MCP | ❌ 授权有问题（2026-10-30 用户决定不用） | 改用 colab CLI |
 | Google Drive connector | ⚠️ `create_file` 能传内容，但 `update_file` **只改 metadata，不能覆盖内容** | Drive 同步改走 rclone，见「入口」 |
 | rclone | ✅ 已配 remote `gdrive:`，里面已有 `Colab Notebooks/` | `rclone copyto` 覆盖同名文件，file id 不变 → 链接不变。注意 rclone 共享 client_id 2026 年内会停用，届时要换自建 client_id |
-| gh CLI | ❌ 未装 | push 用 `git push`；不需要 gh |
+| gh CLI / GitHub 凭据 | ❌ gh 未装；HTTPS 没有 credential、`~/.ssh` 没有 key → **Mint 上 push 不了** | 需要用户配一次（`gh auth login` 或加 SSH key）；之前在 Windows 端 push |
 | 磁盘 | OS 分区剩 26 G | 够用 |
 
 **换行符坑（必须 Step 0 先处理）**：Windows 端 checkout 出来的工作区是 CRLF，而仓库里存的是 LF。
@@ -120,7 +120,8 @@ build 指令：
 
 ### build 产物约定
 
-- html cell → code cell，首行 `%%html`，内联 kit；**预填 `display_data` text/html outputs**，打开即见图，不必先 Run。
+- html cell → code cell：`# @title 标题 { display-mode: "form" }` + `display(HTML(r"""…"""))`，内联 kit；**预填 `display_data` text/html outputs**，打开即见图，不必先 Run。
+  （试点发现：`%%html` 和 `#@title` 都必须在第一行，没法共存，所以不用 `%%html`。）
 - 2D html cell **零外部依赖**；只有 3D cell 从 CDN 加载 pinned 版本的 Three.js（见下节）。$^{A}_{Z}X$ 这类双脚标用 kit 的 `.nuc` 堆叠 span 画；markdown cell 里照 CLAUDE.md 用 `$…$`（绝不 `$$`）、Unicode 上下标、`<sub>`。
 - 所有颜色走 kit 的 token，有 light/dark 两套，卡片自带背景色（Colab dark theme 下输出区是深色）。
 - 记法与语言规则全部沿用 CLAUDE.md（中文 prose、chemistry term 英文、`Cl` 正常 l、IUPAC 碳编号）。chapter1 md 里的 `$$…$$` 和英文语病（outweight、electron deflect more compare…）在 notebook 版里改正，不动原 md。
@@ -135,7 +136,8 @@ iframe 高度自适应（交互展开后调用 `google.colab.output` 的 resize�
 
 凡是空间结构决定答案的地方都配一个可拖动旋转的 3D cell（`<!-- html3d: 标题 -->`）。
 
-- **引擎**：Three.js `three@0.160.0`（jsDelivr，import map 引 `build/three.module.js` + `examples/jsm/controls/OrbitControls.js`），版本写死。
+- **引擎**：Three.js `three@0.160.0`，从 jsDelivr 动态 `import()` `build/three.module.min.js`，版本写死。
+  不用 import map / `examples/jsm`（OrbitControls 里的 bare `'three'` 要 import map 才解析得了）；拖动旋转、滚轮缩放在 kit3d 里自己实现。
 - **`colab/kit/kit3d.js`**（build 时内联进每个 3D cell）封装：
   - `molecule(atoms, bonds)` — ball-and-stick，CPK 配色，lone pair 画成半透明 lobe，可选显示 bond angle 弧和数值；
   - `orbital(type)` — 由 angular part |Y<sub>lm</sub>| 生成 s / p<sub>x,y,z</sub> / 5 个 d 的 lobe 网格，phase 双色；1s/2s/3s 用 point cloud 显示 radial node；
@@ -216,9 +218,11 @@ ch1 额外：先做 Step 0（环境已于 2026-10-30 摸过，`colab/PLAN.md` �
 
 ## Verification（每章都跑，缺一不可）
 
-1. **机械校验** `python tools/check_colab.py chNN`：ipynb 结构合法；每个 code cell 首行 `%%html` 且有预填 output；本章 reference.md **每条 LO 逐字出现**；无 ```` ```tikz ````、无 `$$`、无相对路径图片、无 `𝑙` 字形；导出每个 html cell 为独立 preview 页 + 一个总页到 `$COLAB_TMP`（scratch，不进 repo）。
+1. **机械校验** `python tools/check_colab.py chNN --js`：ipynb 结构合法；每个 code cell 首行 `#@title`、cellView form、有预填 output 且与源码一致；本章 reference.md **每条 LO 逐字出现**；无 ```` ```tikz ````、无 `$$`、无相对路径图片、无 `𝑙` 字形；导出每个 html cell 为独立 preview 页 + 一个总页到 `$COLAB_TMP`（scratch，不进 repo）。
 2. **JS 报错**：headless `chromium --headless --enable-logging=stderr` 跑 preview（URI 用 `Path(...).resolve().as_uri()` 生成，别手拼 `file:///C:/`），`Uncaught` 为 0（3D cell 要加 `--use-gl=angle --use-angle=swiftshader`，不能用 `--disable-gpu`，否则 WebGL 起不来会误报）。
-3. **交互实测**：`python -m http.server` 起服务，playwright MCP 逐个点 / 拖每个交互件，`browser_console_messages` 0 error；3D cell 额外：拖动前后各截一张确认视角真变了、canvas 不是全黑 / 全白，断网（拦截 jsDelivr）时 fallback SVG 出现。
+3. **交互实测**：照 `colab/tests/ch01_interact.py` 写本章的脚本（python playwright 驱动 `$CHROME`，`uv run --with playwright`），逐个点 / 拖 / 填每个交互件，console 0 error；图上的标签一律用 `K.label` 放，脚本断言没有 `[data-clash]`；3D cell 额外：拖动前后各截一张确认视角真变了、canvas 不是全黑 / 全白，断网（拦截 jsDelivr）时 fallback SVG 出现。
 4. **两级截图 + subagent 读图**（照 CLAUDE.md）：整页 + 每个交互件 z≥1.5 局部；派 subagent 给绝对路径、图里画了什么、明确 pass/fail 线、逐字转写 ≥8 条最小字号文字，`VERDICT: PASS/FAIL` 收尾。
-5. **Colab 真跑**：起本地 Jupyter → colab MCP 在 Colab 里打开该 notebook → 连本地运行时 → Run all → 读每个 cell 的错误；light + dark theme 各截一张（screenshot-feedback-hook CLI）交 subagent 读。
+5. **Colab 真跑**：
+   - 内核侧：`colab new -s che-chNN` → `colab exec -s che-chNN -f colab/<slug>.ipynb --timeout 180` → `colab log -o` 导出，确认每个 code cell 都有输出、0 个 error → `colab stop`。
+   - 前端侧（预填 output 是否渲染、表单是否藏代码、iframe 高度、dark theme）：用户在自己的浏览器打开 Drive 链接（可连本地运行时），screenshot-feedback-hook CLI 截 light + dark 各一张交 subagent 读。
 6. **内容核对**：每个数值、定义、判分句式回查 reference.md / 讲义 / mark scheme，汇报里列出存疑点。

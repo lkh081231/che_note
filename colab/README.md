@@ -5,7 +5,7 @@
 
 | ch | notebook | GitHub → Colab | Drive | 状态 |
 |---|---|---|---|---|
-| 1 | [ch01-atomic-structure](ch01-atomic-structure.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch01-atomic-structure.ipynb) | — | 试点，待确认 |
+| 1 | [ch01-atomic-structure](ch01-atomic-structure.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch01-atomic-structure.ipynb) | [打开](https://colab.research.google.com/drive/1rY1FpH39jXLyIfQYKn3OaheFBJJNszFn) | 试点，待确认 |
 
 ## 改一章的流程
 
