@@ -177,15 +177,13 @@
     return R;
   };
   /* 3D dot-density picture of an ns orbital: n points drawn with probability ∝ psi² per volume
-     (r from r²psi², direction uniform), so the dots are the electron density and every radial
-     node comes out as an empty spherical gap. Colour = sign of psi. A dot cloud is a projection:
-     a shell of dots covers the whole disc inside it, so with dots behind a cut face the node rings
-     get filled in (tried: half cut + depth fog — still filled). So with cut = true the front half
-     (z > 0, facing the camera at ry = 0) is removed, the back half is kept faint and small (it only
-     gives the 3D dome), and the cut face gets its own strong layer of dots sampled ∝ psi² per area,
-     where the nodes are clean empty rings. Each node is also a faint grey shell (back half when cut).
-     userData.mats = [[material, size factor]…] (caller sets size ∝ camera distance);
-     userData.rMax = outermost dot radius (a0). */
+     (r from r²psi², direction uniform), so the dots are the electron density. Colour = sign of psi.
+     A dot cloud is a projection, so in a still view the nodes are hidden behind dots; they are
+     drawn as translucent grey shells with a leader line to a "radial node" label outside the
+     cloud, and seen by rotating / zooming / cutting. (Tried a strong dot layer on a cut face: the
+     cloud then looks like it all lies in one plane.) With cut = true the front half (z > 0) is
+     left out. userData.mat (caller sets size ∝ camera distance), userData.labels (sprites, size
+     set by caller), userData.rMax = outermost dot radius (a0). */
   K3.dots = function (T, api, kind, n, scale, nodes, cut) {
     var f = RAD[kind], Rmax = K3.rBound(kind, 0.995, 80), g = new T.Group();
     var P = function (r) { return r * r * f(r) * f(r); }, mx = 0, i;
@@ -204,34 +202,26 @@
     var geo = new T.BufferGeometry();
     geo.setAttribute('position', new T.Float32BufferAttribute(pts, 3));
     geo.setAttribute('color', new T.Float32BufferAttribute(cols, 3));
-    var mat = new T.PointsMaterial({ vertexColors: true, size: 0.02, sizeAttenuation: true, transparent: true, opacity: cut ? 0.16 : 0.8, depthWrite: false });
+    var mat = new T.PointsMaterial({ vertexColors: true, size: 0.02, sizeAttenuation: true, transparent: true, opacity: 0.7, depthWrite: false });
     g.add(new T.Points(geo, mat));
-    var mats = [[mat, cut ? 0.8 : 1]];
-    if (cut) {
-      /* section layer on the face z = 0: r drawn from r·psi² (area weight), angle uniform */
-      var A = function (r) { return r * f(r) * f(r); }, ma = 0, sp = [], sc = [];
-      for (i = 1; i <= 2000; i++) ma = Math.max(ma, A(i / 2000 * Rmax));
-      tries = 0;
-      while (sp.length < n * 0.5 * 3 && tries < 5e6) {
-        tries++;
-        var rs = Math.random() * Rmax;
-        if (Math.random() * ma * 1.02 > A(rs)) continue;
-        var a = Math.random() * 2 * Math.PI;
-        sp.push(Math.cos(a) * rs * scale, Math.sin(a) * rs * scale, 0);
-        var cs = f(rs) >= 0 ? cA : cB; sc.push(cs.r, cs.g, cs.b);
-      }
-      var g2 = new T.BufferGeometry();
-      g2.setAttribute('position', new T.Float32BufferAttribute(sp, 3));
-      g2.setAttribute('color', new T.Float32BufferAttribute(sc, 3));
-      var m2 = new T.PointsMaterial({ vertexColors: true, size: 0.02, sizeAttenuation: true, transparent: true, opacity: 0.95, depthWrite: false });
-      var sec = new T.Points(g2, m2); sec.renderOrder = 2; g.add(sec);
-      mats.push([m2, 1.3]);
-    }
-    (nodes || []).forEach(function (rn) {
-      g.add(new T.Mesh(new T.SphereGeometry(rn * scale, 48, 32, cut ? Math.PI : 0, cut ? Math.PI : 2 * Math.PI),
-        new T.MeshPhongMaterial({ color: api.color('--mut'), transparent: true, opacity: cut ? 0.08 : 0.16, side: T.DoubleSide, depthWrite: false })));
+    /* leaders use the text colour: a grey line vanishes over the dense dots at the centre (3s node 1 is only ~7 % of the radius) */
+    var grey = api.color('--mut'), ink = api.color('--fg'), labels = [], Rw = Rmax * scale;
+    (nodes || []).forEach(function (rn, k) {
+      var sh = new T.Mesh(new T.SphereGeometry(rn * scale, 48, 32, cut ? Math.PI : 0, cut ? Math.PI : 2 * Math.PI),
+        new T.MeshPhongMaterial({ color: grey, transparent: true, opacity: 0.3, side: T.DoubleSide, depthWrite: false }));
+      sh.renderOrder = 3; g.add(sh);
+      /* leader from the shell to a label just outside the cloud; one direction per node so labels never stack */
+      var a = [0.75, 2.39][k % 2], d = new T.Vector3(Math.cos(a), Math.sin(a), cut ? -0.25 : 0.25).normalize();
+      var p0 = d.clone().multiplyScalar(rn * scale), p1 = d.clone().multiplyScalar(Rw * 1.04);
+      var ln = new T.Line(new T.BufferGeometry().setFromPoints([p0, p1]), new T.LineBasicMaterial({ color: ink, depthTest: false, transparent: true }));
+      ln.renderOrder = 12; g.add(ln);
+      var dot = new T.Mesh(new T.SphereGeometry(Rw * 0.018, 10, 8), new T.MeshBasicMaterial({ color: ink, depthTest: false, transparent: true }));
+      dot.position.copy(p0); dot.renderOrder = 12; g.add(dot);
+      var lb = K3.label(T, nodes.length > 1 ? 'radial node ' + (k + 1) : 'radial node', ink.getStyle(), 0.3);
+      lb.position.copy(d.clone().multiplyScalar(Rw * 1.04 + 0.01)); lb.center.set(Math.cos(a) > 0 ? 0 : 1, 0.5);
+      lb.renderOrder = 13; g.add(lb); labels.push(lb);
     });
-    g.userData = { mats: mats, rBound: K3.rBound(kind, 0.9, 80), rMax: Rmax };
+    g.userData = { mat: mat, labels: labels, rBound: K3.rBound(kind, 0.9, 80), rMax: Rmax };
     return g;
   };
 

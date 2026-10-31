@@ -636,8 +636,8 @@ K3.start($root, function (T, api) {
 <!-- html3d: 1s / 2s / 3s：size 与 radial node -->
 <h3>1s、2s、3s：越来越大，中间有 node <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
 <div class="row"><button data-c="1s">1s</button><button data-c="2s">2s</button><button data-c="3s">3s</button>
-<button data-3d="reset">复位视角</button><label style="margin-left:8px"><input type="checkbox" class="ccut" checked> 切掉前半个看里面</label><label style="margin-left:8px"><input type="checkbox" class="csame"> 三个用同一比例</label></div>
-<div class="stage"><div class="hud">3D 点图：点的密度 ∝ ψ²（electron density）· 点稀到没有的那层球面 = radial node（灰色内壳；切面上是一圈几乎没有点的环）· 切开时后半球的点调淡，只显示轮廓 · 两种颜色 = ψ 的正负 · <b class="csize"></b></div></div>
+<button data-3d="reset">复位视角</button><button data-3d="spin">自动旋转</button><label style="margin-left:8px"><input type="checkbox" class="ccut"> 切掉前半个看里面</label><label style="margin-left:8px"><input type="checkbox" class="csame"> 三个用同一比例</label></div>
+<div class="stage"><div class="hud">3D 点图：点的密度 ∝ ψ²（electron density）· 灰色半透明球壳 = radial node（点稀到没有的那层球面；旋转、滚轮放大或切开来看）· 两种颜色 = ψ 的正负 · <b class="csize"></b></div></div>
 <p class="ccap"></p>
 <div class="fallback card"><p><b>3D 没有加载</b>（<span class="why"></span>），下面是静态示意（同一比例）：</p>
 <svg viewBox="0 0 560 220" font-family="system-ui, sans-serif">
@@ -648,7 +648,7 @@ K3.start($root, function (T, api) {
 <script>
 var CC = {
   '1s': '<b>1s</b>：最小、最靠近 nucleus，electron density 在 nucleus 附近最高、向外逐渐变稀。',
-  '2s': '<b>2s</b>：形状同样是 spherical，但大得多；里面有一层球壳形的 <b>node</b>（灰色内壳；切面上是一圈几乎没有点的环，electron density 为零，颜色也在这里翻转），外层那一圈才是 2s electron 最常出现的地方——greatest chance of finding the electron is further from the nucleus。',
+  '2s': '<b>2s</b>：形状同样是 spherical，但大得多；里面有一层球壳形的 <b>node</b>（灰色半透明球壳；这一层球面上几乎没有点，electron density 为零，颜色也在这里翻转），外层那一圈才是 2s electron 最常出现的地方——greatest chance of finding the electron is further from the nucleus。',
   '3s': '<b>3s</b>：更大，有 2 个 node。所以 3s、4s … 依次离 nucleus 越来越远，energy 越来越高。'
 };
 var SCALE = 0.074, NODES = { '1s': [], '2s': [2], '3s': [1.902, 7.098] }, NPTS = { '1s': 9000, '2s': 22000, '3s': 32000 }, cur = '2s';
@@ -672,7 +672,8 @@ K3.start($root, function (T, api) {
     api.dist = fit(same.checked ? R3 : Rw); holder.position.y = -0.04 * api.dist;
     api.dist0 = api.dist;
     /* dot and nucleus sizes follow the zoom, so they look the same on screen at any scale */
-    nuc.scale.setScalar(api.dist / 6); obj.userData.mats.forEach(function (m) { m[0].size = 0.007 * m[1] * api.dist; });
+    nuc.scale.setScalar(api.dist / 6); obj.userData.mat.size = 0.006 * api.dist;
+    obj.userData.labels.forEach(function (l) { var h = 0.05 * api.dist; l.scale.set(h * l.scale.x / l.scale.y, h, 1); });
     $root.querySelector('.csize').textContent = k + ' 的 90% 半径 ≈ ' + r.toFixed(1) + ' a₀ ≈ ' + Math.round(r * 52.9) + ' pm' + (same.checked ? '（同一比例）' : '（自动缩放）');
     $root.querySelectorAll('[data-c]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-c') === k); });
     $root.querySelector('.ccap').innerHTML = CC[k];
@@ -680,7 +681,11 @@ K3.start($root, function (T, api) {
   }
   $root.querySelectorAll('[data-c]').forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-c')); }); });
   same.addEventListener('change', function () { show(cur); });
-  cut.addEventListener('change', function () { show(cur); });
+  /* looked at face-on a half ball is just a disc: turn it to an oblique view when the cut is switched on */
+  cut.addEventListener('change', function () {
+    if (cut.checked) { api.rx = 0.45; api.ry = -1.15; } else { api.rx = api.rx0 = 0.4; api.ry = api.ry0 = -0.35; }
+    api.rx0 = api.rx; api.ry0 = api.ry; show(cur);
+  });
   show('2s');
 });
 </script>
