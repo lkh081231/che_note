@@ -224,9 +224,9 @@ bug 通过了一整轮几何校验和视觉检查。
 
 先搭好整章框架（正文 + `{{cell 名字}}` 占位），每个交互 cell 单独在 `colab/src/chNN/名字.html` 写，
 `build_colab.py chNN --cell 名字` 出单页预览，配 `colab/tests/chNN_名字.py` 测、截图审到 PASS 再合并。
-写 cell / 测试可以交给 subagent（Agent 工具或 `agy`），**写和审分开两个 subagent**。
-**凡涉及前端审美的 subagent（设计交互件、读截图判 PASS/FAIL）只用 Opus 5.5 或 Gemini 4 Argon**
-（`agy --model gemini-4-argon-high` / `claude-opus-5-5-high`；审图用 `--mode plan`）。细则见 `colab/PLAN.md`「每章流程」。
+每个 cell 两个 subagent（Agent 工具或 `agy`）：**A 写 + 测，B 审图 + 改**（B 干净上下文先看图下结论，FAIL 自己改到 PASS）。
+**凡涉及前端审美的 subagent（设计交互件、审图 + 改）只用 Opus 5.5 或 Gemini 4 Argon**
+（`agy --model gemini-4-argon-high` / `claude-opus-5-5-high`）。细则见 `colab/PLAN.md`「每章流程」。
 
 ### 踩过的坑
 
