@@ -11,6 +11,12 @@ Directives:
   {{lo-note 1.3}}     the italic scope note that heads a syllabus subsection
   {{lo-checklist}}    (alone in an md slot) interactive checklist of every LO of the chapter
   {{img path [w]}}    image as a data: URI (path relative to the repo root), html/practice only
+  {{cell name}}       (alone in an html / html3d slot) the cell body lives in colab/src/chNN/name.html;
+                      while that file does not exist yet the notebook gets a "待合并" placeholder card,
+                      so the skeleton builds before the cells are written
+
+Cells are written, tested and reviewed one at a time, then merged (see colab/PLAN.md 每章流程):
+  python tools/build_colab.py ch02 --cell beams      one cell → $COLAB_TMP/cells/ch02-beams.html
 
 Every html cell becomes a Colab form cell: '#@title' + display(HTML(r\"\"\"...\"\"\")) with the
 rendered HTML pre-filled as a display_data output, so the notebook shows its figures without
@@ -18,11 +24,13 @@ running anything. (%%html cannot be used: a cell magic must be the first line, a
 must be too.)
 
 usage: python tools/build_colab.py ch01 [ch02 ...]
+       python tools/build_colab.py ch02 --cell NAME [--3d]
 """
 import base64
 import html
 import json
 import mimetypes
+import os
 import re
 import sys
 from pathlib import Path
@@ -32,6 +40,25 @@ COLAB = ROOT / 'colab'
 KIT = COLAB / 'kit'
 
 MARK = re.compile(r'^<!-- (md|html|html3d|practice)(?::\s*(.*?))?\s*-->\s*$')
+CELL = re.compile(r'^\s*\{\{cell\s+([\w-]+)\}\}\s*$')
+PAGE = ('<!DOCTYPE html><html><head><meta charset="utf-8"><title>{t}</title></head>'
+        '<body style="margin:12px;background:#eee">\n{b}\n</body></html>\n')
+
+
+def cell_file(slug, name):
+    return COLAB / 'src' / slug[:4] / f'{name}.html'
+
+
+def cell_body(slug, text, title):
+    """html slot text → body; resolves {{cell name}} to colab/src/chNN/name.html or a placeholder"""
+    m = CELL.match(text.strip())
+    if not m:
+        return text
+    f = cell_file(slug, m.group(1))
+    if f.exists():
+        return f.read_text(encoding='utf-8')
+    return (f'<h3>{html.escape(title or m.group(1))}</h3><p class="faint">待合并：'
+            f'<code>colab/src/{slug[:4]}/{m.group(1)}.html</code> 还没写好</p>')
 
 
 # ---------------------------------------------------------------- reference.md
@@ -295,7 +322,7 @@ def build(slug_prefix):
             body = practice_html(directives(text, los, notes, 'html'))
             cells.append(code_cell('📝 ' + title, assemble(body, 'k-' + cid, False), cid))
         else:
-            body = directives(text, los, notes, 'html')
+            body = directives(cell_body(slug, text, title), los, notes, 'html')
             cells.append(code_cell(('🧊 ' if kind == 'html3d' else '🔬 ') + title,
                                    assemble(body, 'k-' + cid, kind == 'html3d'), cid))
 
@@ -309,6 +336,26 @@ def build(slug_prefix):
     print(f'{out.relative_to(ROOT)}: {len(cells)} cells, {out.stat().st_size // 1024} KB')
 
 
+def build_cell(slug_prefix, name, three):
+    """one cell as a standalone preview page, for writing / testing / review before it is merged"""
+    src = sorted((COLAB / 'src').glob(f'{slug_prefix}-*.md'))
+    slug = src[0].stem if src else slug_prefix
+    f = cell_file(slug, name)
+    if not f.exists():
+        raise SystemExit(f'no {f.relative_to(ROOT)}')
+    los, notes = load_los(int(re.match(r'ch(\d+)', slug).group(1)))
+    body = directives(f.read_text(encoding='utf-8'), los, notes, 'html')
+    out = Path(os.environ.get('COLAB_TMP', '/tmp/colab')) / 'cells' / f'{slug[:4]}-{name}.html'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(PAGE.format(t=name, b=assemble(body, f'k-{slug[:4]}-{name}', three)), encoding='utf-8')
+    print(out)
+
+
 if __name__ == '__main__':
-    for arg in sys.argv[1:] or ['ch01']:
-        build(arg)
+    args = sys.argv[1:] or ['ch01']
+    if '--cell' in args:
+        i = args.index('--cell')
+        build_cell(args[0], args[i + 1], '--3d' in args)
+    else:
+        for arg in args:
+            build(arg)

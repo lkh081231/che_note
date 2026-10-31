@@ -209,6 +209,44 @@ bug 通过了一整轮几何校验和视觉检查。
   `text-transform:none`**（大小写在化学里是有意义的，不是样式问题）。
 - `<script>` 必须放在弹窗 / `<template>` 等 DOM 之后，否则 `getElementById` 拿到 null
 
+## Colab notebook（`colab/`，AS ch1–22）
+
+计划、源文件格式、校验清单见 `colab/PLAN.md`，命令见 `colab/README.md`。ch1 试点（2026-10-31）结论：
+
+- 源是 `colab/src/chNN-*.md`，`python tools/build_colab.py chNN` 生成 ipynb；**不要在 Colab 里改 notebook**。
+  交互 cell 写成 `#@title` form + `display(HTML(r"""…"""))`，预填 display_data output——
+  Colab 打开即渲染（hosted 和本地运行时都实测过），不用先 Run。
+- 本地运行时：`cd ~/colab-runtime && jupyter-notebook --no-browser --ServerApp.allow_origin='https://colab.research.google.com' --port=8888 --ServerApp.port_retries=0 --ServerApp.allow_credentials=True`，
+  Colab → Connect to a local runtime 填带 token 的 URL。repo 是 private，GitHub → Colab 链接 404，用 Drive 链接。
+- 3D 用 three@0.160.0 core 动态 `import()`（jsDelivr），拖动 / 缩放自己写，加载失败显示 fallback SVG。
+
+### 工作流：框架 → 单个 cell 写 / 测 / 审 → 合并
+
+先搭好整章框架（正文 + `{{cell 名字}}` 占位），每个交互 cell 单独在 `colab/src/chNN/名字.html` 写，
+`build_colab.py chNN --cell 名字` 出单页预览，配 `colab/tests/chNN_名字.py` 测、截图审到 PASS 再合并。
+写 cell / 测试可以交给 subagent（Agent 工具或 `agy`），**写和审分开两个 subagent**。
+**凡涉及前端审美的 subagent（设计交互件、读截图判 PASS/FAIL）只用 Opus 5.5 或 Gemini 4 Argon**
+（`agy --model gemini-4-argon-high` / `claude-opus-5-5-high`；审图用 `--mode plan`）。细则见 `colab/PLAN.md`「每章流程」。
+
+### 踩过的坑
+
+- **字体**：Linux 的 `system-ui` / `monospace` 落到 Noto CJK，没有 ⁴–⁹ 上标，² 和 ⁶ 来自不同字体。
+  kit.css 把 Latin 字体放在 CJK 前面，新 cell 别自己写 `font-family: system-ui` 覆盖。
+- 图上的字一律用 `K.label` 放（会躲线、躲已放的 label，躲不开就标 `data-clash`，测试断言为 0）；
+  装饰性的线（field 线等）不进 avoid，靠 label 下垫 `--card` 色底遮住。
+- **SVG marker 默认 `markerUnits=strokeWidth`**：线宽 3 时 7 的箭头实际 21px。算箭头间距、
+  让动画粒子在箭头前消失都要按放大后的尺寸算。
+- **动画粒子**：路径几乎重合时，同时出发的粒子会叠在一起 → 错相位出发；测试连续采样多帧断言间距。
+- **3D 点云是投影**：一层球壳的点会盖满它里面的整个圆盘，静态看不到 node（切 ¼、切半 + fog、
+  加强切面层都试过：要么看不到，要么像一个平面）。用户接受「静态看不到、动起来能看」：
+  node 画成灰色半透明球壳 + 深色引线 label，提供旋转 / 滚轮钻进去 / 切开（切开时转到斜视角，
+  半球正对着看还是一个圆）。
+- 一个比例画 1s/2s/3s：2s 只占画布 16%、3s 溢出 → 默认按当前 orbital 自动缩放（按最外层点的半径算，
+  不是 90% 半径），另给「同一比例」开关；点 / nucleus / label 的大小随镜头距离反向缩放。
+- 半透明物体后画：nucleus 之类要「永远在最上面」的，必须 `transparent: true` + `depthTest: false` +
+  高 `renderOrder`，否则会被半透明 lobe 盖住。
+- 真题裁图：`crop.py` 的 `MAX_BAND=430` 会把高图截断（ch1 的 Fig 3.1 踩过），裁完必须看图。
+
 ## Commit 节奏
 
 **完成一个阶段就 commit**，不要攒着一次性提交。commit message 用中文，

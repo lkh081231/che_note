@@ -178,11 +178,42 @@ iframe 高度自适应（交互展开后调用 `google.colab.output` 的 resize�
 
 ## 每章流程（一章一轮，做完停下）
 
+（2026-10-31 起：先搭框架，交互 cell 逐个单独写、测、审，再合并回 notebook。）
+
 1. 读 reference.md 该章 + 抽讲义 text 到 scratch digest + 读 `passyear/extracted/chNN-*/`（本章主管 + 跨章镜像里考本章的小问）。
-2. 写 `colab/src/chNN-*.md`：每个 syllabus 小节一节，A/B/C 子题，每节后 `{{lo}}` 引用；Practice 按卷号顺序（同 ch1 md）；末尾 `{{lo-checklist}}`。
-3. build → 校验（见下）→ 修到全绿。
-4. commit（中文 message：做了什么 + 踩到的坑；按文件名 add）→ push → Drive 同步（rclone copyto，首次记 id）→ 更新 `colab/README.md`。
-5. 汇报两个链接 + 本章交互件清单 + 存疑点，**停下等确认**。
+2. **搭框架**（主 agent 自己做）：写 `colab/src/chNN-*.md` 的全部 markdown 正文、practice、`{{lo-checklist}}`；
+   每个交互 cell 只占一个槽：`<!-- html: 标题 -->` / `<!-- html3d: 标题 -->` 下一行 `{{cell 名字}}`。
+   文件不存在时 build 出「待合并」占位卡，框架就能先 build + 机械校验通过。
+   同时给每个 cell 写一份**规格**（scratch，不进 repo）：要讲哪条 LO、画什么、交互什么、数据从哪来、
+   pass/fail 线（例如「三条 beam 的弯曲方向一眼可辨」「node 数 2s=1 / 3s=2」）。
+3. **逐个 cell 写 → 测 → 审**，可并行，每个 cell 一个 subagent 包干：
+   - 写 `colab/src/chNN/名字.html`（HTML + `<style>` + `<script>`，用 kit；规则同 ch1）；
+   - `python tools/build_colab.py chNN --cell 名字 [--3d]` → `$COLAB_TMP/cells/chNN-名字.html` 单页预览；
+   - 写 `colab/tests/chNN_名字.py`（照 `ch01_interact.py`：点 / 拖 / 填、`[data-clash]` 为 0、console 0 error、
+     3D 拖动前后 hash 变、动画类要采样多帧断言），截图到 scratch；
+   - 截图交**另一个**干净上下文的 subagent 读（审美把关，规则同 CLAUDE.md「看图这一步交给 subagent」），
+     FAIL 就改，直到 PASS；回报：文件路径、测试 N/N、VERDICT 原文、踩到的坑。
+4. **合并**：主 agent 收齐所有 cell → `build chNN` → 整本校验（见下）→ 修到全绿。
+5. commit（中文 message：做了什么 + 踩到的坑；按文件名 add）→ push → Drive 同步（rclone copyto，首次记 id）→ 更新 `colab/README.md`。
+6. 汇报两个链接 + 本章交互件清单 + 存疑点，**停下等确认**。
+
+### subagent 选型
+
+| 活 | 用谁 |
+|---|---|
+| 写 cell / 测试脚本 / 跑测试 | Agent 工具（Claude），或 `agy`（Antigravity CLI）|
+| **涉及前端审美的**：设计交互件、读截图判 PASS/FAIL | **只用 Opus 5.5 或 Gemini 4 Argon**：Agent 工具 `model: opus`，或 `agy --model gemini-4-argon-high` / `claude-opus-5-5-high` |
+| 纯机械的（跑 build / check、数据抽取） | 随意 |
+
+`agy` 用法（非交互，读图可用；`agy models` 列模型）：
+
+```bash
+agy -p "<prompt：图的绝对路径 + 图里画了什么 + pass/fail 线 + 逐字转写 ≥8 条最小字 + VERDICT 行>" \
+    --model gemini-4-argon-high --mode plan          # 只读图 / 只审：plan 模式不改文件
+agy -p "<写 cell 的完整规格>" --model claude-opus-5-5-high --mode accept-edits --add-dir /media/lkh/OS/che_note
+```
+
+写和审不要是同一个 subagent：审图的必须是干净上下文，且只看截图 + 规格，不看源码。
 
 ch1 额外：先做 Step 0（环境已于 2026-10-30 摸过，`colab/PLAN.md` 已就位，剩下的是动手项）——
 ① ~~处理 CRLF~~（已加 `.gitattributes`）；② ~~装 chromium~~（已装，探针已验证），重连 playwright MCP；
