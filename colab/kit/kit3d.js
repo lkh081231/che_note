@@ -169,33 +169,55 @@
     '2s': function (r) { return (2 - r) * Math.exp(-r / 2) / 5.657; },
     '3s': function (r) { return (27 - 18 * r + 2 * r * r) * Math.exp(-r / 3) / 140.3; }
   };
-  /* dot-density picture of a thin slice through the nucleus: points inside a disc of radius R,
-     |z| < slab, accepted with probability ∝ psi² (true density, so nodes come out as empty rings);
-     coloured by the sign of psi so each node is also a colour boundary */
-  K3.cloud = function (T, api, kind, n, R, scale) {
-    var f = RAD[kind], pts = [], cols = [], slab = R * 0.03, mx = f(0) * f(0), tries = 0;
-    var cA = api.color('--s1'), cB = api.color('--s2');
-    while (pts.length < n * 3 && tries < 6e6) {
-      tries++;
-      var x = (Math.random() * 2 - 1) * R, y = (Math.random() * 2 - 1) * R, z = (Math.random() * 2 - 1) * slab;
-      var r = Math.sqrt(x * x + y * y + z * z);
-      if (r > R) continue;
-      var psi = f(r);
-      if (Math.random() * mx < psi * psi) {
-        pts.push(x * scale, y * scale, z * scale);
-        var c = psi >= 0 ? cA : cB; cols.push(c.r, c.g, c.b);
-      }
-    }
-    var geo = new T.BufferGeometry();
-    geo.setAttribute('position', new T.Float32BufferAttribute(pts, 3));
-    geo.setAttribute('color', new T.Float32BufferAttribute(cols, 3));
-    return new T.Points(geo, new T.PointsMaterial({ vertexColors: true, size: 0.022, sizeAttenuation: true }));
+  /* radius (a0) inside which the electron is found with probability p: integrates r²ψ² */
+  K3.rBound = function (kind, p, R) {
+    var f = RAD[kind], dr = R / 4000, tot = 0, acc = [], r, i;
+    for (i = 0; i < 4000; i++) { r = (i + 0.5) * dr; tot += r * r * f(r) * f(r); acc.push(tot); }
+    for (i = 0; i < 4000; i++) if (acc[i] >= p * tot) return (i + 1) * dr;
+    return R;
   };
-  K3.ring = function (T, api, radius, color) {
-    var pts = [];
-    for (var i = 0; i <= 128; i++) { var a = i / 128 * Math.PI * 2; pts.push(new T.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0)); }
-    return new T.Line(new T.BufferGeometry().setFromPoints(pts),
-      new T.LineDashedMaterial({ color: color, dashSize: 0.06, gapSize: 0.05 })).computeLineDistances();
+  /* cut-away ns sphere: three-quarters of the boundary sphere (90 % surface), the two cut faces
+     shaded by psi² normalised within each layer between nodes (with one global scale the outer
+     layers of 2s / 3s are ~0.4 % of the central peak and read as a flat wash); alpha → 0 at every
+     node, so nodes are clear rings and the colour flips with the sign of psi. Each radial node is
+     also drawn as a grey inner shell.
+     The missing quarter is centred on +z, i.e. it faces the camera at ry = 0. */
+  K3.sball = function (T, api, kind, scale, nodes) {
+    var f = RAD[kind], g = new T.Group(), Rb = K3.rBound(kind, 0.9, 60), Rw = Rb * scale;
+    var P0 = 3 * Math.PI / 4, PL = 3 * Math.PI / 2;
+    var cA = api.color('--s1'), cB = api.color('--s2');
+    /* face texture: u = distance from the y axis (0..Rb), v = y (−Rb..Rb) */
+    var N = 384, cv = document.createElement('canvas'); cv.width = N / 2; cv.height = N;
+    var cx = cv.getContext('2d'), img = cx.createImageData(N / 2, N);
+    var edges = [0].concat(nodes || [], [Rb]), peak = edges.slice(1).map(function () { return 0; });
+    function layer(r) { for (var q = 1; q < edges.length; q++) if (r <= edges[q]) return q - 1; return edges.length - 2; }
+    for (var q = 0; q < 2000; q++) { var rr = q / 2000 * Rb, L = layer(rr); peak[L] = Math.max(peak[L], f(rr) * f(rr)); }
+    for (var j = 0; j < N; j++) for (var i = 0; i < N / 2; i++) {
+      var u = (i + 0.5) / (N / 2) * Rb, v = (0.5 - (j + 0.5) / N) * 2 * Rb, r = Math.sqrt(u * u + v * v), o = 4 * (j * N / 2 + i);
+      if (r > Rb) { img.data[o + 3] = 0; continue; }
+      var psi = f(r), c = psi >= 0 ? cA : cB;
+      img.data[o] = c.r * 255; img.data[o + 1] = c.g * 255; img.data[o + 2] = c.b * 255;
+      img.data[o + 3] = 255 * 0.92 * Math.pow(psi * psi / peak[layer(r)], 0.5);
+    }
+    cx.putImageData(img, 0, 0);
+    var tex = new T.CanvasTexture(cv);
+    function dir(phi) { return [-Math.cos(phi), Math.sin(phi)]; }   /* SphereGeometry's own phi convention */
+    [P0, P0 + PL].forEach(function (phi) {
+      var d = dir(phi), geo = new T.BufferGeometry();
+      geo.setAttribute('position', new T.Float32BufferAttribute([0, -Rw, 0, Rw * d[0], -Rw, Rw * d[1], Rw * d[0], Rw, Rw * d[1], 0, Rw, 0], 3));
+      geo.setAttribute('uv', new T.Float32BufferAttribute([0, 0, 1, 0, 1, 1, 0, 1], 2));
+      geo.setIndex([0, 1, 2, 0, 2, 3]);
+      g.add(new T.Mesh(geo, new T.MeshBasicMaterial({ map: tex, transparent: true, side: T.DoubleSide, depthWrite: false })));
+    });
+    function shell(rad, color, op) {
+      var m = new T.Mesh(new T.SphereGeometry(rad, 64, 40, P0, PL),
+        new T.MeshPhongMaterial({ color: color, transparent: true, opacity: op, side: T.DoubleSide, depthWrite: false, shininess: 30 }));
+      g.add(m);
+    }
+    shell(Rw, f(Rb) >= 0 ? cA : cB, 0.22);
+    (nodes || []).forEach(function (rn) { shell(rn * scale, api.color('--mut'), 0.18); });
+    g.userData.rBound = Rb;
+    return g;
   };
 
   window.K3 = K3;

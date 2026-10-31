@@ -73,6 +73,13 @@ with sync_playwright() as p:
       for(let s=0;s<=M;s+=1){const q=pr.getPointAtLength(s); if(Math.abs(q.x-tip.x)<1) best=Math.min(best,Math.abs(q.y-tip.y));} return best; }''')
     # gap is measured from the arrow TIP line; the arrowhead reaches ~9 px below it, so 17 px = 8 px of real clearance
     check('real, min voltage: proton line clears neutron arrowhead (tip gap > 17 px)', gap > 17, str(gap))
+    # moving particles: sample ~3 s of animation; visible dots must never sit on each other
+    near = 1e9
+    for _ in range(15):
+        d = page.evaluate('''() => { const ds=[...document.querySelectorAll('.bm-dots g')].filter(g=>g.style.opacity!=='0').map(g=>{const b=g.getBoundingClientRect(); return [b.x+b.width/2,b.y+b.height/2];});
+          let m=1e9; for(let i=0;i<ds.length;i++) for(let j=i+1;j<ds.length;j++) m=Math.min(m,Math.hypot(ds[i][0]-ds[j][0],ds[i][1]-ds[j][1])); return m; }''')
+        near = min(near, d); page.wait_for_timeout(200)
+    check('real, min voltage: moving particles never overlap (> 18 px apart)', near > 18, str(near))
     page.fill('.bv', '10'); page.dispatch_event('.bv', 'input'); check('beams: no clash at max voltage', clashes() == 0, str(clashes()))
     page.click('text=示意（不按比例）'); check('beams: no clash schematic max voltage', clashes() == 0, str(clashes())); shot('07-schem-v10')
 
@@ -112,6 +119,11 @@ with sync_playwright() as p:
     go('ch01-14'); page.wait_for_selector('.k[data-3d=ready]', timeout=20000)
     page.click('[data-c="3s"]'); page.wait_for_timeout(500); shot('14-cloud-3s')
     check('3s caption', '2 个 node' in page.inner_text('.ccap'))
+    page.click('[data-c="1s"]'); page.wait_for_timeout(400); shot('14-cloud-1s')
+    check('size readout follows the orbital', '1s' in page.inner_text('.csize') and '自动缩放' in page.inner_text('.csize'), page.inner_text('.csize'))
+    page.check('.csame'); page.wait_for_timeout(400); shot('14-cloud-1s-same')
+    check('same-scale toggle', '同一比例' in page.inner_text('.csize'))
+    page.click('[data-c="3s"]'); page.wait_for_timeout(400); shot('14-cloud-3s-same'); page.uncheck('.csame')
 
     print('== 16 config filler'); go('ch01-16'); shot('16-fe')
     page.select_option('.fz', '24'); t = page.inner_text('.fout'); check('Cr → [Ar]3d⁵4s¹ + exception note', '[Ar]3d⁵4s¹' in t and '例外' in t, t)

@@ -202,33 +202,50 @@ p、n、e 以**相同的 velocity** 射入两块带电 plate 之间的 electric 
   <span style="margin-left:12px">plate voltage</span> <input type="range" class="bv" min="3" max="10" value="5">
 </div>
 <div class="row"><button data-b="schem" class="on">示意（不按比例）</button><button data-b="real">按真实比例（1 : 1836）</button></div>
-<svg class="bm" viewBox="0 0 760 330" font-family="system-ui, sans-serif">
+<svg class="bm" viewBox="0 0 760 414" font-family="system-ui, sans-serif">
   <defs>
     <marker id="bm-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--pos)"/></marker>
     <marker id="bm-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--neu)"/></marker>
     <marker id="bm-e" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--fg)"/></marker>
+    <marker id="bm-f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--faint)"/></marker>
   </defs>
-  <rect x="220" y="48" width="340" height="12" class="bm-plate"/>
-  <rect x="220" y="270" width="340" height="12" class="bm-plate"/>
-  <text x="390" y="38" text-anchor="middle" class="bm-pos">+ + + + +　positive plate　+ + + + +</text>
-  <text x="390" y="304" text-anchor="middle" class="bm-neg">− − − − −　negative plate　− − − − −</text>
-  <rect x="22" y="150" width="40" height="30" rx="4" class="bm-src"/>
-  <text x="42" y="200" text-anchor="middle" class="bm-small">source</text>
+  <g class="bm-field"></g>
+  <g class="bm-mask"></g>
+  <rect x="220" y="40" width="340" height="12" class="bm-plate bm-plate-pos"/>
+  <rect x="220" y="348" width="340" height="12" class="bm-plate bm-plate-neg"/>
+  <text x="390" y="30" text-anchor="middle" class="bm-pos">+ + + + +　positive plate　+ + + + +</text>
+  <text x="390" y="382" text-anchor="middle" class="bm-neg">− − − − −　negative plate　− − − − −</text>
+  <rect x="22" y="185" width="40" height="30" rx="4" class="bm-src"/>
+  <text x="42" y="235" text-anchor="middle" class="bm-small">source</text>
   <g class="bm-paths"></g>
-  <text x="10" y="325" class="bm-small bm-foot"></text>
+  <g class="bm-dots"></g>
+  <text x="10" y="408" class="bm-small bm-foot"></text>
 </svg>
 <style>
-.k .bm-plate{fill:var(--line);stroke:var(--faint)}
+.k .bm-plate{fill:var(--line)}
+.k .bm-plate-pos{stroke:var(--pos);stroke-width:2}
+.k .bm-plate-neg{stroke:var(--neg);stroke-width:2}
 .k .bm-src{fill:var(--acc-soft);stroke:var(--acc)}
-.k svg text.bm-pos{fill:var(--pos);font-size:14px}
-.k svg text.bm-neg{fill:var(--neg);font-size:14px}
+.k svg text.bm-pos{fill:var(--pos);font-size:14px;font-weight:600}
+.k svg text.bm-neg{fill:var(--neg);font-size:14px;font-weight:600}
 .k svg text.bm-small{fill:var(--mut);font-size:13px}
-.k .bm-paths path{fill:none;stroke-width:2.5}
+.k .bm-field line{stroke:var(--faint);stroke-width:1.2;stroke-dasharray:4 5;opacity:.7}
+.k .bm-paths path{fill:none;stroke-width:3}
 .k svg text.bm-lab{font-size:15px;font-weight:600}
+.k .bm-mask rect{fill:var(--card)}
+.k .bm-dots circle{stroke:var(--card);stroke-width:1.5}
+.k svg .bm-dots text{fill:var(--card);font-size:13px;font-weight:700}
 </style>
 <script>
-var g = $root.querySelector('.bm-paths'), mode = 'schem';
-var Y0 = 165, X0 = 62, XA = 220, XB = 560, GAP = 105;
+var g = $root.querySelector('.bm-paths'), dots = $root.querySelector('.bm-dots'), mode = 'schem';
+var Y0 = 200, X0 = 62, XA = 220, XB = 560, GAP = 140, fieldBox;
+/* field lines run + plate → − plate: the way a positive charge is pushed */
+(function () {
+  var f = $root.querySelector('.bm-field');
+  for (var x = 248; x <= 540; x += 58) f.appendChild(K.svg('line', { x1: x, y1: 58, x2: x, y2: 340, 'marker-end': 'url(#bm-f)' }));
+  var t = K.svg('text', { x: 256, y: 78, 'class': 'bm-small halo' }); t.textContent = 'electric field'; f.appendChild(t);
+  fieldBox = function () { var b = t.getBBox(); return { x: b.x - 3, y: b.y - 3, w: b.width + 6, h: b.height + 6 }; };
+})();
 function track(k, dir, xe) {
   var pts = [[X0, Y0], [XA, Y0]], x, y, hit = false, XE = xe || 610;
   for (x = XA; x <= XB; x += 4) {
@@ -239,30 +256,40 @@ function track(k, dir, xe) {
   if (!hit) {
     var s = dir * 2 * k * (XB - XA), xe = XE, ye = y + s * (XE - XB);
     if (ye < 12) { xe = XB + (12 - y) / s; ye = 12; }
-    if (ye > 318) { xe = XB + (318 - y) / s; ye = 318; }
+    if (ye > 388) { xe = XB + (388 - y) / s; ye = 388; }
     pts.push([xe, ye]);
   }
   return { pts: pts, d: 'M' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L'), end: pts[pts.length - 1], hit: hit };
 }
+var movers = [];
 function draw() {
   var V = +$root.querySelector('.bv').value / 5;
   /* real mode keeps e : p = 1836 : 1; the proton's own bend is kept just large enough (slider ≥ 3)
      that its line clears the neutron's arrowhead by ≥ 8 px (arrowhead half-height ≈ 9 px), otherwise the two beams merge into one */
-  var kp = (mode === 'schem' ? 0.00039 : 0.00024) * V, ke = kp * (mode === 'schem' ? 2.2 : 1836);
+  var kp = (mode === 'schem' ? 0.0005 : 0.00024) * V, ke = kp * (mode === 'schem' ? 2.2 : 1836);
   var beams = [
-    ['bp', 'proton, p', 'var(--pos)', 'bm-p', track(kp, 1), 'towards the negative plate'],
-    ['bn', 'neutron, n', 'var(--neu)', 'bm-n', track(0, 0, 586), 'not deflected'],   /* ends earlier so its arrowhead never sits on the proton's */
-    ['be', 'electron, e', 'var(--fg)', 'bm-e', track(ke, -1), 'towards the positive plate']
+    ['bp', 'proton, p', 'var(--pos)', 'bm-p', track(kp, 1), 'towards the negative plate', '+'],
+    ['bn', 'neutron, n', 'var(--neu)', 'bm-n', track(0, 0, 586), 'not deflected', '0'],   /* ends earlier so its arrowhead never sits on the proton's */
+    ['be', 'electron, e', 'var(--fg)', 'bm-e', track(ke, -1), 'towards the positive plate', '−']
   ];
-  g.innerHTML = '';
+  var mask = $root.querySelector('.bm-mask');
+  g.innerHTML = ''; dots.innerHTML = ''; mask.innerHTML = ''; movers = [];
   var on = beams.filter(function (b) { return $root.querySelector('.' + b[0]).checked; });
-  var avoid = [[XA, 48, XB, 48], [XA, 60, XB, 60], [XA, 270, XB, 270], [XA, 282, XB, 282]], placed = [];
+  var avoid = [[XA, 40, XB, 40], [XA, 52, XB, 52], [XA, 348, XB, 348], [XA, 360, XB, 360]], placed = [fieldBox()];
   on.forEach(function (b) { avoid = avoid.concat(K.segs(b[4].pts)); });
   on.forEach(function (b) {
     var t = b[4];
     var p = K.svg('path', { d: t.d, style: 'stroke:' + b[2], 'marker-end': t.hit ? '' : 'url(#' + b[3] + ')' });
     p.setAttribute('data-tip', '<b>' + b[1] + '</b>：' + b[5] + (t.hit ? '（撞上 plate 了）' : ''));
     g.appendChild(p);
+    /* a moving particle that carries its charge sign, so which way it is pushed reads at a glance */
+    var d = K.svg('g', {}), c = K.svg('circle', { r: 9, style: 'fill:' + b[2] }), s = K.svg('text', { 'text-anchor': 'middle', y: 4.5 });
+    s.textContent = b[6]; d.appendChild(c); d.appendChild(s); dots.appendChild(d);
+    /* a beam that hits the plate gets an impact mark instead of an arrowhead */
+    if (t.hit) g.appendChild(K.svg('circle', { cx: t.end[0], cy: t.end[1], r: 5, style: 'fill:' + b[2] }));
+    /* particles vanish before the arrowhead so they never sit on it: markers scale with
+       stroke-width (markerUnits=strokeWidth), so the head is 7 × 3 = 21 px long, plus the 9 px dot */
+    movers.push({ path: p, dot: d, len: p.getTotalLength() - (t.hit ? 6 : 32), phase: beams.indexOf(b) / 3 });
   });
   on.forEach(function (b) {
     var t = b[4], up = t.end[1] < Y0;
@@ -271,11 +298,29 @@ function draw() {
       : [[12, 5, 'start'], [12, -10, 'start'], [12, 20, 'start'], [12, -24, 'start'], [12, 34, 'start']];
     var lab = K.label(g, t.end[0], t.end[1], b[1] + (t.hit ? ' — hits the plate' : ''), { cls: 'bm-lab', avoid: avoid, placed: placed, cands: cands, pad: 3 });
     lab.setAttribute('style', 'fill:' + b[2]);
+    /* card-coloured patch under the label: hides only the faint field lines (beams are in avoid) */
+    var bb = lab.getBBox(); mask.appendChild(K.svg('rect', { x: bb.x - 3, y: bb.y - 1, width: bb.width + 6, height: bb.height + 2 }));
   });
   $root.querySelector('.bm-foot').textContent = mode === 'schem'
     ? '示意：electron 只画成 proton 的约 2 倍弯曲，真实是约 1836 倍'
     : '真实比例：proton 几乎走直线，electron 一进 field 就被拉到 positive plate 上';
+  place(performance.now());
 }
+var still = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+function place(now) {
+  /* same speed, launched a third of a cycle apart: in real mode the p and n paths almost coincide,
+     and two particles leaving together would sit on top of each other */
+  movers.forEach(function (m) {
+    var u = still ? 0.55 - m.phase * 0.25 : (now / 2600 + m.phase) % 1, L0 = 640 * u;
+    var q = m.path.getPointAtLength(Math.min(L0, m.len));
+    m.dot.setAttribute('transform', 'translate(' + q.x.toFixed(1) + ',' + q.y.toFixed(1) + ')');
+    m.dot.style.opacity = L0 > m.len ? 0 : 1;   /* len is already shortened */
+  });
+}
+(function loop(now) {
+  if (!still && document.visibilityState !== 'hidden') place(now);
+  requestAnimationFrame(loop);
+})(performance.now());
 $root.querySelectorAll('input').forEach(function (i) { i.addEventListener('input', draw); });
 $root.querySelectorAll('[data-b]').forEach(function (b) {
   b.addEventListener('click', function () {
@@ -591,8 +636,8 @@ K3.start($root, function (T, api) {
 <!-- html3d: 1s / 2s / 3s：size 与 radial node -->
 <h3>1s、2s、3s：越来越大，中间有 node <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
 <div class="row"><button data-c="1s">1s</button><button data-c="2s">2s</button><button data-c="3s">3s</button>
-<button data-3d="reset">复位视角</button></div>
-<div class="stage"><div class="hud">穿过 nucleus 的薄切面 · 点的密度 ∝ ψ²（electron density）· 两种颜色 = ψ 的正负 · 三个按钮同一比例</div></div>
+<button data-3d="reset">复位视角</button><label style="margin-left:8px"><input type="checkbox" class="csame"> 三个用同一比例</label></div>
+<div class="stage"><div class="hud">切掉 ¼ 的球：外壳 = 90% boundary surface · 切面深浅 = 每层内 ψ²（electron density）的相对大小 · 灰色内壳 = radial node · 两种颜色 = ψ 的正负 · <b class="csize"></b></div></div>
 <p class="ccap"></p>
 <div class="fallback card"><p><b>3D 没有加载</b>（<span class="why"></span>），下面是静态示意（同一比例）：</p>
 <svg viewBox="0 0 560 220" font-family="system-ui, sans-serif">
@@ -603,25 +648,37 @@ K3.start($root, function (T, api) {
 <script>
 var CC = {
   '1s': '<b>1s</b>：最小、最靠近 nucleus，electron density 在 nucleus 附近最高、向外逐渐变稀。',
-  '2s': '<b>2s</b>：形状同样是 spherical，但大得多；中间有一圈没有点的 <b>node</b>（虚线处，electron density 为零，颜色也在这里翻转），外层那一圈才是 2s electron 最常出现的地方——greatest chance of finding the electron is further from the nucleus。',
+  '2s': '<b>2s</b>：形状同样是 spherical，但大得多；里面有一层球壳形的 <b>node</b>（灰色内壳；切面上是一圈透明的环，electron density 为零，颜色也在这里翻转），外层那一圈才是 2s electron 最常出现的地方——greatest chance of finding the electron is further from the nucleus。',
   '3s': '<b>3s</b>：更大，有 2 个 node。所以 3s、4s … 依次离 nucleus 越来越远，energy 越来越高。'
 };
-var SCALE = 0.074, NODES = { '1s': [], '2s': [2], '3s': [1.902, 7.098] }, EXT = { '1s': 7, '2s': 16, '3s': 28 };
+var SCALE = 0.074, NODES = { '1s': [], '2s': [2], '3s': [1.902, 7.098] }, cur = '2s';
 K3.start($root, function (T, api) {
-  var holder = new T.Group(), cache = {};
-  api.group.add(holder); api.rx = 0; api.ry = 0; api.dist = 6.4; api.limit = 0.75;
-  holder.add(new T.Mesh(new T.SphereGeometry(0.03, 12, 8), new T.MeshBasicMaterial({ color: api.color('--pos') })));
+  var holder = new T.Group(), cache = {}, same = $root.querySelector('.csame');
+  api.group.add(holder); api.rx = 0.4; api.ry = -0.35;
+  var nuc = new T.Mesh(new T.SphereGeometry(0.03, 12, 8), new T.MeshBasicMaterial({ color: api.color('--fg'), depthTest: false, transparent: true }));
+  nuc.renderOrder = 11; holder.add(nuc);
   var layer = new T.Group(); holder.add(layer);
+  /* camera distance that makes a sphere of world radius R fill ~70 % of the canvas height
+     (vertical FOV 40°; the HUD covers the top strip) */
+  function fit(R) { return R / Math.sin(0.7 * 20 * Math.PI / 180); }
   function show(k) {
+    cur = k;
     while (layer.children.length) layer.remove(layer.children[0]);
-    if (!cache[k]) cache[k] = K3.cloud(T, api, k, 9000, EXT[k], SCALE);
+    if (!cache[k]) cache[k] = K3.sball(T, api, k, SCALE, NODES[k]);
     layer.add(cache[k]);
-    NODES[k].forEach(function (r) { layer.add(K3.ring(T, api, r * SCALE, api.color('--mut'))); });
+    var R3 = K3.rBound('3s', 0.9, 60) * SCALE, Rk = cache[k].userData.rBound * SCALE;
+    /* same scale: the camera is set for 3s and the scene is shifted down a little, clear of the HUD */
+    api.dist = fit(same.checked ? R3 : Rk); holder.position.y = -0.04 * api.dist;
+    nuc.scale.setScalar(api.dist / 6);   /* the nucleus keeps one on-screen size whatever the zoom */
+    api.dist0 = api.dist;
+    var r = cache[k].userData.rBound;
+    $root.querySelector('.csize').textContent = k + ' 的 90% 半径 ≈ ' + r.toFixed(1) + ' a₀ ≈ ' + Math.round(r * 52.9) + ' pm' + (same.checked ? '（同一比例）' : '（自动缩放）');
     $root.querySelectorAll('[data-c]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-c') === k); });
     $root.querySelector('.ccap').innerHTML = CC[k];
     api.view(); K.fit();
   }
   $root.querySelectorAll('[data-c]').forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-c')); }); });
+  same.addEventListener('change', function () { show(cur); });
   show('2s');
 });
 </script>
