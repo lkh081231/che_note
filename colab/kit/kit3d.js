@@ -176,47 +176,62 @@
     for (i = 0; i < 4000; i++) if (acc[i] >= p * tot) return (i + 1) * dr;
     return R;
   };
-  /* cut-away ns sphere: three-quarters of the boundary sphere (90 % surface), the two cut faces
-     shaded by psi² normalised within each layer between nodes (with one global scale the outer
-     layers of 2s / 3s are ~0.4 % of the central peak and read as a flat wash); alpha → 0 at every
-     node, so nodes are clear rings and the colour flips with the sign of psi. Each radial node is
-     also drawn as a grey inner shell.
-     The missing quarter is centred on +z, i.e. it faces the camera at ry = 0. */
-  K3.sball = function (T, api, kind, scale, nodes) {
-    var f = RAD[kind], g = new T.Group(), Rb = K3.rBound(kind, 0.9, 60), Rw = Rb * scale;
-    var P0 = 3 * Math.PI / 4, PL = 3 * Math.PI / 2;
-    var cA = api.color('--s1'), cB = api.color('--s2');
-    /* face texture: u = distance from the y axis (0..Rb), v = y (−Rb..Rb) */
-    var N = 384, cv = document.createElement('canvas'); cv.width = N / 2; cv.height = N;
-    var cx = cv.getContext('2d'), img = cx.createImageData(N / 2, N);
-    var edges = [0].concat(nodes || [], [Rb]), peak = edges.slice(1).map(function () { return 0; });
-    function layer(r) { for (var q = 1; q < edges.length; q++) if (r <= edges[q]) return q - 1; return edges.length - 2; }
-    for (var q = 0; q < 2000; q++) { var rr = q / 2000 * Rb, L = layer(rr); peak[L] = Math.max(peak[L], f(rr) * f(rr)); }
-    for (var j = 0; j < N; j++) for (var i = 0; i < N / 2; i++) {
-      var u = (i + 0.5) / (N / 2) * Rb, v = (0.5 - (j + 0.5) / N) * 2 * Rb, r = Math.sqrt(u * u + v * v), o = 4 * (j * N / 2 + i);
-      if (r > Rb) { img.data[o + 3] = 0; continue; }
-      var psi = f(r), c = psi >= 0 ? cA : cB;
-      img.data[o] = c.r * 255; img.data[o + 1] = c.g * 255; img.data[o + 2] = c.b * 255;
-      img.data[o + 3] = 255 * 0.92 * Math.pow(psi * psi / peak[layer(r)], 0.5);
+  /* 3D dot-density picture of an ns orbital: n points drawn with probability ∝ psi² per volume
+     (r from r²psi², direction uniform), so the dots are the electron density and every radial
+     node comes out as an empty spherical gap. Colour = sign of psi. A dot cloud is a projection:
+     a shell of dots covers the whole disc inside it, so with dots behind a cut face the node rings
+     get filled in (tried: half cut + depth fog — still filled). So with cut = true the front half
+     (z > 0, facing the camera at ry = 0) is removed, the back half is kept faint and small (it only
+     gives the 3D dome), and the cut face gets its own strong layer of dots sampled ∝ psi² per area,
+     where the nodes are clean empty rings. Each node is also a faint grey shell (back half when cut).
+     userData.mats = [[material, size factor]…] (caller sets size ∝ camera distance);
+     userData.rMax = outermost dot radius (a0). */
+  K3.dots = function (T, api, kind, n, scale, nodes, cut) {
+    var f = RAD[kind], Rmax = K3.rBound(kind, 0.995, 80), g = new T.Group();
+    var P = function (r) { return r * r * f(r) * f(r); }, mx = 0, i;
+    for (i = 1; i <= 2000; i++) mx = Math.max(mx, P(i / 2000 * Rmax));
+    var cA = api.color('--s1'), cB = api.color('--s2'), pts = [], cols = [], tries = 0;
+    while (pts.length < n * 3 && tries < 5e6) {
+      tries++;
+      var r = Math.random() * Rmax;
+      if (Math.random() * mx * 1.02 > P(r)) continue;
+      var z = Math.random() * 2 - 1, ph = Math.random() * 2 * Math.PI, q = Math.sqrt(1 - z * z);
+      var x = q * Math.cos(ph), y = q * Math.sin(ph);
+      if (cut && z > 0) continue;
+      pts.push(x * r * scale, y * r * scale, z * r * scale);
+      var c = f(r) >= 0 ? cA : cB; cols.push(c.r, c.g, c.b);
     }
-    cx.putImageData(img, 0, 0);
-    var tex = new T.CanvasTexture(cv);
-    function dir(phi) { return [-Math.cos(phi), Math.sin(phi)]; }   /* SphereGeometry's own phi convention */
-    [P0, P0 + PL].forEach(function (phi) {
-      var d = dir(phi), geo = new T.BufferGeometry();
-      geo.setAttribute('position', new T.Float32BufferAttribute([0, -Rw, 0, Rw * d[0], -Rw, Rw * d[1], Rw * d[0], Rw, Rw * d[1], 0, Rw, 0], 3));
-      geo.setAttribute('uv', new T.Float32BufferAttribute([0, 0, 1, 0, 1, 1, 0, 1], 2));
-      geo.setIndex([0, 1, 2, 0, 2, 3]);
-      g.add(new T.Mesh(geo, new T.MeshBasicMaterial({ map: tex, transparent: true, side: T.DoubleSide, depthWrite: false })));
+    var geo = new T.BufferGeometry();
+    geo.setAttribute('position', new T.Float32BufferAttribute(pts, 3));
+    geo.setAttribute('color', new T.Float32BufferAttribute(cols, 3));
+    var mat = new T.PointsMaterial({ vertexColors: true, size: 0.02, sizeAttenuation: true, transparent: true, opacity: cut ? 0.16 : 0.8, depthWrite: false });
+    g.add(new T.Points(geo, mat));
+    var mats = [[mat, cut ? 0.8 : 1]];
+    if (cut) {
+      /* section layer on the face z = 0: r drawn from r·psi² (area weight), angle uniform */
+      var A = function (r) { return r * f(r) * f(r); }, ma = 0, sp = [], sc = [];
+      for (i = 1; i <= 2000; i++) ma = Math.max(ma, A(i / 2000 * Rmax));
+      tries = 0;
+      while (sp.length < n * 0.5 * 3 && tries < 5e6) {
+        tries++;
+        var rs = Math.random() * Rmax;
+        if (Math.random() * ma * 1.02 > A(rs)) continue;
+        var a = Math.random() * 2 * Math.PI;
+        sp.push(Math.cos(a) * rs * scale, Math.sin(a) * rs * scale, 0);
+        var cs = f(rs) >= 0 ? cA : cB; sc.push(cs.r, cs.g, cs.b);
+      }
+      var g2 = new T.BufferGeometry();
+      g2.setAttribute('position', new T.Float32BufferAttribute(sp, 3));
+      g2.setAttribute('color', new T.Float32BufferAttribute(sc, 3));
+      var m2 = new T.PointsMaterial({ vertexColors: true, size: 0.02, sizeAttenuation: true, transparent: true, opacity: 0.95, depthWrite: false });
+      var sec = new T.Points(g2, m2); sec.renderOrder = 2; g.add(sec);
+      mats.push([m2, 1.3]);
+    }
+    (nodes || []).forEach(function (rn) {
+      g.add(new T.Mesh(new T.SphereGeometry(rn * scale, 48, 32, cut ? Math.PI : 0, cut ? Math.PI : 2 * Math.PI),
+        new T.MeshPhongMaterial({ color: api.color('--mut'), transparent: true, opacity: cut ? 0.08 : 0.16, side: T.DoubleSide, depthWrite: false })));
     });
-    function shell(rad, color, op) {
-      var m = new T.Mesh(new T.SphereGeometry(rad, 64, 40, P0, PL),
-        new T.MeshPhongMaterial({ color: color, transparent: true, opacity: op, side: T.DoubleSide, depthWrite: false, shininess: 30 }));
-      g.add(m);
-    }
-    shell(Rw, f(Rb) >= 0 ? cA : cB, 0.22);
-    (nodes || []).forEach(function (rn) { shell(rn * scale, api.color('--mut'), 0.18); });
-    g.userData.rBound = Rb;
+    g.userData = { mats: mats, rBound: K3.rBound(kind, 0.9, 80), rMax: Rmax };
     return g;
   };
 

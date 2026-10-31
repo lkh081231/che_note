@@ -124,6 +124,7 @@ with sync_playwright() as p:
     page.check('.csame'); page.wait_for_timeout(400); shot('14-cloud-1s-same')
     check('same-scale toggle', '同一比例' in page.inner_text('.csize'))
     page.click('[data-c="3s"]'); page.wait_for_timeout(400); shot('14-cloud-3s-same'); page.uncheck('.csame')
+    page.uncheck('.ccut'); page.wait_for_timeout(400); shot('14-cloud-3s-whole'); page.check('.ccut')
 
     print('== 16 config filler'); go('ch01-16'); shot('16-fe')
     page.select_option('.fz', '24'); t = page.inner_text('.fout'); check('Cr → [Ar]3d⁵4s¹ + exception note', '[Ar]3d⁵4s¹' in t and '例外' in t, t)

@@ -636,8 +636,8 @@ K3.start($root, function (T, api) {
 <!-- html3d: 1s / 2s / 3s：size 与 radial node -->
 <h3>1s、2s、3s：越来越大，中间有 node <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
 <div class="row"><button data-c="1s">1s</button><button data-c="2s">2s</button><button data-c="3s">3s</button>
-<button data-3d="reset">复位视角</button><label style="margin-left:8px"><input type="checkbox" class="csame"> 三个用同一比例</label></div>
-<div class="stage"><div class="hud">切掉 ¼ 的球：外壳 = 90% boundary surface · 切面深浅 = 每层内 ψ²（electron density）的相对大小 · 灰色内壳 = radial node · 两种颜色 = ψ 的正负 · <b class="csize"></b></div></div>
+<button data-3d="reset">复位视角</button><label style="margin-left:8px"><input type="checkbox" class="ccut" checked> 切掉前半个看里面</label><label style="margin-left:8px"><input type="checkbox" class="csame"> 三个用同一比例</label></div>
+<div class="stage"><div class="hud">3D 点图：点的密度 ∝ ψ²（electron density）· 点稀到没有的那层球面 = radial node（灰色内壳；切面上是一圈几乎没有点的环）· 切开时后半球的点调淡，只显示轮廓 · 两种颜色 = ψ 的正负 · <b class="csize"></b></div></div>
 <p class="ccap"></p>
 <div class="fallback card"><p><b>3D 没有加载</b>（<span class="why"></span>），下面是静态示意（同一比例）：</p>
 <svg viewBox="0 0 560 220" font-family="system-ui, sans-serif">
@@ -648,30 +648,31 @@ K3.start($root, function (T, api) {
 <script>
 var CC = {
   '1s': '<b>1s</b>：最小、最靠近 nucleus，electron density 在 nucleus 附近最高、向外逐渐变稀。',
-  '2s': '<b>2s</b>：形状同样是 spherical，但大得多；里面有一层球壳形的 <b>node</b>（灰色内壳；切面上是一圈透明的环，electron density 为零，颜色也在这里翻转），外层那一圈才是 2s electron 最常出现的地方——greatest chance of finding the electron is further from the nucleus。',
+  '2s': '<b>2s</b>：形状同样是 spherical，但大得多；里面有一层球壳形的 <b>node</b>（灰色内壳；切面上是一圈几乎没有点的环，electron density 为零，颜色也在这里翻转），外层那一圈才是 2s electron 最常出现的地方——greatest chance of finding the electron is further from the nucleus。',
   '3s': '<b>3s</b>：更大，有 2 个 node。所以 3s、4s … 依次离 nucleus 越来越远，energy 越来越高。'
 };
-var SCALE = 0.074, NODES = { '1s': [], '2s': [2], '3s': [1.902, 7.098] }, cur = '2s';
+var SCALE = 0.074, NODES = { '1s': [], '2s': [2], '3s': [1.902, 7.098] }, NPTS = { '1s': 9000, '2s': 22000, '3s': 32000 }, cur = '2s';
 K3.start($root, function (T, api) {
-  var holder = new T.Group(), cache = {}, same = $root.querySelector('.csame');
+  var holder = new T.Group(), cache = {}, same = $root.querySelector('.csame'), cut = $root.querySelector('.ccut');
   api.group.add(holder); api.rx = 0.4; api.ry = -0.35;
   var nuc = new T.Mesh(new T.SphereGeometry(0.03, 12, 8), new T.MeshBasicMaterial({ color: api.color('--fg'), depthTest: false, transparent: true }));
   nuc.renderOrder = 11; holder.add(nuc);
   var layer = new T.Group(); holder.add(layer);
-  /* camera distance that makes a sphere of world radius R fill ~70 % of the canvas height
-     (vertical FOV 40°; the HUD covers the top strip) */
-  function fit(R) { return R / Math.sin(0.7 * 20 * Math.PI / 180); }
+  /* camera distance that makes a sphere of world radius R (the outermost dots) fill ~80 % of the
+     canvas height (vertical FOV 40°; the HUD covers the top strip) */
+  function fit(R) { return R / Math.sin(0.8 * 20 * Math.PI / 180); }
   function show(k) {
     cur = k;
+    var key = k + (cut.checked ? '-cut' : '');
     while (layer.children.length) layer.remove(layer.children[0]);
-    if (!cache[k]) cache[k] = K3.sball(T, api, k, SCALE, NODES[k]);
-    layer.add(cache[k]);
-    var R3 = K3.rBound('3s', 0.9, 60) * SCALE, Rk = cache[k].userData.rBound * SCALE;
+    if (!cache[key]) cache[key] = K3.dots(T, api, k, NPTS[k], SCALE, NODES[k], cut.checked);
+    var obj = cache[key]; layer.add(obj);
+    var R3 = K3.rBound('3s', 0.995, 80) * SCALE, r = obj.userData.rBound, Rw = obj.userData.rMax * SCALE;
     /* same scale: the camera is set for 3s and the scene is shifted down a little, clear of the HUD */
-    api.dist = fit(same.checked ? R3 : Rk); holder.position.y = -0.04 * api.dist;
-    nuc.scale.setScalar(api.dist / 6);   /* the nucleus keeps one on-screen size whatever the zoom */
+    api.dist = fit(same.checked ? R3 : Rw); holder.position.y = -0.04 * api.dist;
     api.dist0 = api.dist;
-    var r = cache[k].userData.rBound;
+    /* dot and nucleus sizes follow the zoom, so they look the same on screen at any scale */
+    nuc.scale.setScalar(api.dist / 6); obj.userData.mats.forEach(function (m) { m[0].size = 0.007 * m[1] * api.dist; });
     $root.querySelector('.csize').textContent = k + ' 的 90% 半径 ≈ ' + r.toFixed(1) + ' a₀ ≈ ' + Math.round(r * 52.9) + ' pm' + (same.checked ? '（同一比例）' : '（自动缩放）');
     $root.querySelectorAll('[data-c]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-c') === k); });
     $root.querySelector('.ccap').innerHTML = CC[k];
@@ -679,6 +680,7 @@ K3.start($root, function (T, api) {
   }
   $root.querySelectorAll('[data-c]').forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-c')); }); });
   same.addEventListener('change', function () { show(cur); });
+  cut.addEventListener('change', function () { show(cur); });
   show('2s');
 });
 </script>
