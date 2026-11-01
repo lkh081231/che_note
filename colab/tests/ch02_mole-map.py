@@ -20,7 +20,7 @@ def check(name, cond, detail=''):
 
 
 with sync_playwright() as p:
-    b = p.chromium.launch(executable_path=chrome(), headless=True)
+    b = p.chromium.launch(executable_path=chrome(), headless=True, args=['--disable-gpu'])  # GPU process can stall → rAF never fires → screenshots hang
     for scheme in ('light', 'dark'):
         ctx = b.new_context(viewport={'width': 1000, 'height': 1100}, device_scale_factor=2, color_scheme=scheme)
         page = ctx.new_page()

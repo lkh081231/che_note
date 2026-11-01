@@ -35,7 +35,7 @@
 .k button:hover{border-color:var(--acc)}
 .k button.on{background:var(--acc);border-color:var(--acc);color:#fff}
 @media (prefers-color-scheme:dark){.k button.on{color:#0d1220}}
-.k select,.k input[type=number],.k input[type=text]{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:3px 7px}
+.k select,.k input[type=number],.k input[type=text],.k input.fill:not([type]){background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:3px 7px}
 .k input[type=number]{width:5.2em}
 .k input[type=range]{accent-color:var(--acc)}
 .k label{cursor:pointer}

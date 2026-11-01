@@ -1,0 +1,318 @@
+<h3>gas volumes：hydrocarbon 燃烧</h3>
+<div class="tabbar"><button data-tab="fwd">① 正向：算体积</button><button data-tab="rev">② 反向：从体积推 formula</button></div>
+
+<div data-pane="fwd">
+  <p class="mut">选一个 hydrocarbon、填体积，下面画出燃烧<b>前</b>和冷却回 room temperature <b>后</b>的 gas 体积。H₂O 冷却后是 liquid，体积 ≈ 0，所以总体积会变小（contraction）。</p>
+  <div class="row cb-pre"></div>
+  <div class="row">
+    <label class="cb-lab"><span>C<sub><i>x</i></sub>：<i>x</i> =</span> <input type="number" class="cb-x" min="1" max="8" step="1" value="3"></label>
+    <label class="cb-lab"><span>H<sub><i>y</i></sub>：<i>y</i> =</span> <select class="cb-y"></select></label>
+    <label class="cb-lab"><span><i>V</i>(hydrocarbon) / cm³</span> <input type="text" class="cb-v" value="50" inputmode="decimal" size="6"></label>
+  </div>
+  <div class="row">
+    <label class="cb-lab"><input type="checkbox" class="cb-ex"> <span>excess O₂：一共加入</span></label>
+    <label class="cb-lab"><input type="text" class="cb-o2" value="300" inputmode="decimal" size="6" disabled> <span>cm³ O₂</span></label>
+  </div>
+  <p class="faint cb-note"></p>
+  <svg class="cb-bars" viewBox="0 0 820 200"></svg>
+  <div class="card cb-eq"></div>
+  <div class="card cb-work"></div>
+
+  <h4><i>n</i> ↔ <i>V</i>（room conditions：1 mol gas = 24.0 dm³）</h4>
+  <div class="row">
+    <label class="cb-lab"><span><i>n</i>(<span class="cb-fn"></span>) / mol</span> <input type="text" class="cb-n" value="0.50" inputmode="decimal" size="7"></label>
+    <span class="cb-lab">⇄</span>
+    <label class="cb-lab"><span><i>V</i>(<span class="cb-fn"></span>) / dm³</span> <input type="text" class="cb-vd" inputmode="decimal" size="7"></label>
+  </div>
+  <div class="card cb-nv"></div>
+  <p class="faint">不是 room conditions 时（例如 400 °C、101 kPa）不能用 24.0 dm³ mol⁻¹，要用 <i>pV</i> = <i>nRT</i>（<i>p</i> / Pa、<i>V</i> / m³、<i>T</i> / K，chapter 4）。</p>
+</div>
+
+<div data-pane="rev">
+  <p class="mut">同温同压下体积比 = mole 比，所以三个体积就能定出 C<sub><i>x</i></sub>H<sub><i>y</i></sub>。改下面三个数看推导怎么变。</p>
+  <div class="row">
+    <label class="cb-lab"><span><i>V</i>(C<sub><i>x</i></sub>H<sub><i>y</i></sub>) / cm³</span> <input type="text" class="cb-rh" value="50" inputmode="decimal" size="6"></label>
+    <label class="cb-lab"><span><i>V</i>(O₂ reacted) / cm³</span> <input type="text" class="cb-ro" value="250" inputmode="decimal" size="6"></label>
+    <label class="cb-lab"><span><i>V</i>(CO₂ formed) / cm³</span> <input type="text" class="cb-rc" value="150" inputmode="decimal" size="6"></label>
+  </div>
+  <div class="card cb-rwork"></div>
+
+  <h4>练一题</h4>
+  <div class="cb-q"></div>
+  <div class="row"><button class="cb-new">换一题</button></div>
+</div>
+
+<style>
+.k .cb-lab{display:inline-flex;align-items:center;gap:6px}
+.k .cb-pre button{padding:2px 9px}
+.k .cb-bars{margin:8px 0;user-select:none}
+.k .cb-bars text{font-size:16px}
+.k .cb-bars text.cb-row{font-weight:650}
+.k .cb-bars text.cb-tot{fill:var(--mut)}
+.k .cb-bars .cb-frame{fill:var(--card);stroke:var(--line)}
+.k .cb-bars rect.seg{stroke-width:2}
+.k .cb-bars .hc{fill:color-mix(in srgb,var(--s4) 28%,transparent);stroke:var(--s4)}
+.k .cb-bars .o2{fill:color-mix(in srgb,var(--s1) 26%,transparent);stroke:var(--s1)}
+.k .cb-bars .co2{fill:color-mix(in srgb,var(--s5) 28%,transparent);stroke:var(--s5)}
+.k .cb-bars .gone{fill:none;stroke:var(--faint);stroke-dasharray:6 4}
+.k .cb-bars .h2o{stroke:var(--s3);stroke-width:4}
+.k .cb-bars .lead{stroke:var(--faint);stroke-width:1.2}
+.k .cb-eq{font-size:17px;margin:6px 0}
+.k .cb-eq .sm{font-size:14px;color:var(--mut)}
+.k .cb-work,.k .cb-nv,.k .cb-rwork{margin:6px 0;font-size:15px}
+.k .cb-work ol,.k .cb-nv ol,.k .cb-rwork ol{margin:2px 0}
+.k .cb-work li,.k .cb-nv li,.k .cb-rwork li{margin:3px 0}
+.k .cb-err{color:var(--bad)}
+.k input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.k .cb-q .qt{margin:4px 0 8px;line-height:1.55}
+.k .cb-q .ans ol{margin:2px 0}
+</style>
+
+<script>
+K.init($root);   /* show the first tab now: getBBox() of a hidden pane is all zeros */
+var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+function subs(n) { return String(n).replace(/\d/g, function (c) { return SUBD[+c]; }); }
+function fml(x, y) { return 'C' + (x > 1 ? subs(x) : '') + 'H' + subs(y); }
+function fmlH(x, y) { return fml(x, y); }   /* Unicode digits: <sub> digits come out bigger / lower than the ₂ in O₂ next to them */
+function ymin(x) { return x === 1 ? 4 : Math.max(2, x + (x % 2)); }
+function ylist(x) { var o = []; for (var y = ymin(x); y <= 2 * x + 2; y += 2) o.push(y); return o; }
+/* coefficient: 3.5 → 3½ */
+function coef(v) { var w = Math.floor(v); return Math.abs(v - w - 0.5) < 1e-9 ? (w ? w : '') + '½' : String(v); }
+/* exact-ish volume: 87.5, 250 */
+function vol(v) { return String(Math.round(v * 100) / 100); }
+function parsePos(s) { var t = String(s).trim().replace(/[−–]/g, '-'); if (!/^\d*\.?\d+$|^\d+\.$/.test(t)) return null; var v = parseFloat(t); return v > 0 ? v : null; }
+function sfOf(s) {
+  var t = String(s).trim(), dg = t.replace('.', '').replace(/^0+/, '');
+  var sf = t.indexOf('.') >= 0 ? dg.length : (dg.replace(/0+$/, '').length || 1);
+  return Math.max(2, Math.min(sf, 5));
+}
+function fmt(x, sf) {
+  if (!isFinite(x)) return '—';
+  var r = +x.toPrecision(sf), e = Math.floor(Math.log10(Math.abs(r)));
+  if (e >= -3 && e < 5) return sf - 1 - e >= 0 ? r.toFixed(sf - 1 - e) : String(Math.round(r));
+  return (r / Math.pow(10, e)).toFixed(sf - 1) + ' × 10' + K.sup(e);
+}
+function q(s) { return $root.querySelector(s); }
+
+/* ================= forward ================= */
+var xIn = q('.cb-x'), ySel = q('.cb-y'), vIn = q('.cb-v'), exIn = q('.cb-ex'), o2In = q('.cb-o2');
+var svg = q('.cb-bars'), eqBox = q('.cb-eq'), work = q('.cb-work'), note = q('.cb-note');
+var PRE = [[1, 4], [2, 6], [2, 4], [2, 2], [3, 8], [3, 6], [4, 10]];
+PRE.forEach(function (p) {
+  var b = K.el('button', { type: 'button', 'data-f': fml(p[0], p[1]) }, fml(p[0], p[1]));
+  b.addEventListener('click', function () { xIn.value = p[0]; fillY(p[1]); fwd(); });
+  q('.cb-pre').appendChild(b);
+});
+function getX() { var x = Math.round(+xIn.value); return x >= 1 && x <= 8 ? x : null; }
+function fillY(want) {
+  var x = getX(); if (!x) return;
+  var keep = want || +ySel.value, L = ylist(x);
+  ySel.innerHTML = L.map(function (y) { return '<option value="' + y + '">' + y + '</option>'; }).join('');
+  ySel.value = L.indexOf(keep) >= 0 ? keep : L[L.length - 1];
+}
+
+function seg(x, y, w, h, cls) { var r = K.svg('rect', { x: x, y: y, width: Math.max(w, 0), height: h, 'class': 'seg ' + cls, rx: 3 }); svg.appendChild(r); return r; }
+
+var CURRENT = null;
+function fwd() {
+  var x = getX();
+  xIn.classList.toggle('bad', !x);
+  o2In.disabled = !exIn.checked;
+  if (!x) { work.innerHTML = '<span class="cb-err"><i>x</i> 要是 1–8 的整数。</span>'; return; }
+  if (!ySel.options.length || ylist(x).indexOf(+ySel.value) < 0) fillY();
+  var y = +ySel.value, F = fml(x, y), FH = fmlH(x, y), a = x + y / 4;
+  CURRENT = { x: x, y: y, a: a };
+  K.$$($root, '.cb-pre button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-f') === F); });
+  K.$$($root, '.cb-fn').forEach(function (s) { s.innerHTML = FH; });
+  note.textContent = x >= 5 ? '注意：C₅ 起的 hydrocarbon 在 room temperature 多半是 liquid；真题的体积题用的是 C₁–C₄ 这类 gas。这里只当比例练习。' : '';
+
+  /* equation */
+  var dbl = Math.abs(a - Math.round(a)) > 1e-9;
+  eqBox.innerHTML = '<div>' + FH + '(g) + ' + coef(a) + 'O₂(g) → ' + (x > 1 ? x : '') + 'CO₂(g) + ' + (y / 2 > 1 ? y / 2 : '') + 'H₂O(l)</div>' +
+    (dbl ? '<div class="sm">× 2 变成整数：2' + FH + ' + ' + 2 * a + 'O₂ → ' + 2 * x + 'CO₂ + ' + y + 'H₂O</div>' : '') +
+    '<div class="sm">体积比 ' + FH + ' : O₂ : CO₂ = <b class="cb-ratio">1 : ' + vol(a) + ' : ' + x + '</b>（= mole ratio；H₂O 是 liquid，不算 gas 体积）</div>';
+
+  var V = parsePos(vIn.value);
+  vIn.classList.toggle('bad', !V);
+  if (!V) { work.innerHTML = '<span class="cb-err">「' + (vIn.value || '空') + '」看不懂——<i>V</i> 要是正数。</span>'; svg.innerHTML = ''; nv(); K.fit(); return; }
+  var need = V * a, co2 = V * x;
+  var sup = exIn.checked ? parsePos(o2In.value) : need;
+  o2In.classList.toggle('bad', exIn.checked && !sup);
+  var lines = ['<i>V</i>(O₂) needed = ' + vol(V) + ' × (' + x + ' + ' + y + '/4) = ' + vol(V) + ' × ' + vol(a) + ' = <b class="cb-need">' + vol(need) + ' cm³</b>',
+               '<i>V</i>(CO₂) = ' + vol(V) + ' × ' + x + ' = <b class="cb-co2">' + vol(co2) + ' cm³</b>'];
+  if (exIn.checked && (!sup || sup < need - 1e-9)) {
+    lines.push('<span class="cb-err">' + (sup ? '加入的 O₂（' + vol(sup) + ' cm³）少于需要的 ' + vol(need) + ' cm³ → 会 incomplete combustion（生成 CO / C），这里不算。'
+                                            : '「' + (o2In.value || '空') + '」看不懂——O₂ 体积要是正数。') + '</span>');
+    work.innerHTML = '<ol>' + lines.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>';
+    svg.innerHTML = ''; nv(); K.fit(); return;
+  }
+  var left = sup - need, before = V + sup, after = co2 + left, contr = before - after;
+  if (exIn.checked) lines.push('O₂ left over = ' + vol(sup) + ' − ' + vol(need) + ' = <b class="cb-left">' + vol(left) + ' cm³</b>');
+  lines.push('before = ' + vol(V) + ' + ' + vol(sup) + ' = ' + vol(before) + ' cm³；after（冷却回 room temperature）' + (exIn.checked ? '= ' + vol(co2) + ' + ' + vol(left) + ' ' : '') + '= <b class="cb-after">' + vol(after) + ' cm³</b>');
+  lines.push('contraction = ' + vol(before) + ' − ' + vol(after) + ' = <b class="cb-con">' + vol(contr) + ' cm³</b>（= ' + vol(V) + ' × (1 + ' + y + '/4)，与 O₂ 加多少无关）');
+  work.innerHTML = '<ol>' + lines.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>';
+  draw(F, V, sup, need, co2, left, before, after, contr);
+  nv(); K.fit();
+}
+
+function draw(F, V, sup, need, co2, left, before, after, contr) {
+  svg.innerHTML = '';
+  svg.setAttribute('viewBox', '0 0 820 262');   /* full room while placing labels; cropped to the content at the end */
+  var frame = K.svg('rect', { x: 1, y: 1, width: 818, height: 260, rx: 10, 'class': 'cb-frame' });
+  svg.appendChild(frame);
+  var X0 = 132, W = 660, H = 38, Y1 = 60, Y2 = 150, s = W / before;
+  var bars = [{ x: X0, y: Y1, w: before * s, h: H }, { x: X0, y: Y2, w: W, h: H }];
+  var placed = bars.map(function (b) { return { x: b.x, y: b.y, w: b.w, h: b.h }; }), avoid = [], labs = [];
+  /* before row */
+  var segs1 = [[V, 'hc', F + ' ' + vol(V)], [sup, 'o2', 'O₂ ' + vol(sup)]];
+  var segs2 = [[co2, 'co2', 'CO₂ ' + vol(co2)]];
+  if (left > 1e-9) segs2.push([left, 'o2', 'O₂ left ' + vol(left)]);
+  var rowLab = function (yy, t1, t2) {
+    K.label(svg, 14, yy + H / 2, t1, { cands: [[0, -5, 'start']], placed: placed, cls: 'cb-row', pad: 1 });
+    K.label(svg, 14, yy + H / 2, t2, { cands: [[0, 19, 'start']], placed: placed, cls: 'cb-tot', pad: 1 });
+  };
+  rowLab(Y1, 'before', vol(before) + ' cm³');
+  rowLab(Y2, 'after', vol(after) + ' cm³');
+  function lay(list, yy, up) {
+    var cx = X0, out = [];
+    list.forEach(function (sg) {
+      var w = sg[0] * s, r = seg(cx, yy, w, H, sg[1]);
+      r.setAttribute('data-seg', sg[2]);
+      out.push({ x0: cx, w: w, t: sg[2] + ' cm³' });
+      avoid.push([cx, yy, cx, yy + H]);
+      cx += w;
+    });
+    avoid.push([cx, yy, cx, yy + H]);
+    return out;
+  }
+  var L1 = lay(segs1, Y1, true), L2 = lay(segs2, Y2, false);
+  var endAfter = X0 + after * s;
+  /* contraction box */
+  if (contr > 1e-9) {
+    svg.appendChild(K.svg('rect', { x: endAfter, y: Y2, width: contr * s, height: H, 'class': 'seg gone', rx: 3 }));
+    L2.push({ x0: endAfter, w: contr * s, t: 'contraction ' + vol(contr) + ' cm³', gone: 1 });
+  }
+  /* labels: inside the segment if it fits, else outside (above the before row, below the after row) */
+  var probe = K.svg('text', {}); svg.appendChild(probe);
+  function place(list, yy, up) {
+    list.forEach(function (it) {
+      probe.textContent = it.t;
+      var tw = probe.getBBox().width, mx = it.x0 + it.w / 2, my = yy + H / 2;
+      var t;
+      if (tw + 14 <= it.w) t = K.label(svg, mx, my, it.t, { cands: [[0, 6, 'middle']], placed: placed.slice(2).concat(labs), pad: 2 });
+      if (tw + 14 <= it.w) t.classList.remove('halo');   /* a card-coloured halo looks like a white outline on the tinted bar */
+      else {
+        var d = up ? -(H / 2 + 9) : H / 2 + 22, d2 = up ? d - 27 : d + 27;
+        var c = [[0, d, 'middle'], [0, d2, 'middle'], [-6, d, 'end'], [6, d, 'start'], [-6, d2, 'end'], [6, d2, 'start']];
+        t = K.label(svg, mx, my, it.t, { cands: c, placed: placed.concat(labs), avoid: avoid, pad: 2 });
+        var bb = t.getBBox(), ly = up ? bb.y + bb.height : bb.y, ty = up ? yy : yy + H;
+        if (Math.abs(ly - ty) > 3) {
+          var ln = K.svg('line', { x1: mx, y1: ty, x2: Math.min(Math.max(mx, bb.x + 4), bb.x + bb.width - 4), y2: up ? ly + 1 : ly - 1, 'class': 'lead' });
+          svg.insertBefore(ln, svg.firstChild.nextSibling);
+          avoid.push([+ln.getAttribute('x1'), +ln.getAttribute('y1'), +ln.getAttribute('x2'), +ln.getAttribute('y2')]);
+        }
+      }
+      t.setAttribute('data-lab', it.t);
+      var b = t.getBBox(); labs.push({ x: b.x - 2, y: b.y - 2, w: b.width + 4, h: b.height + 4 });
+    });
+  }
+  place(L1, Y1, true); place(L2, Y2, false);
+  /* H₂O: zero-volume liquid = a tick at the end of the CO₂ segment */
+  var hx = X0 + co2 * s;
+  svg.appendChild(K.svg('line', { x1: hx, y1: Y2 - 7, x2: hx, y2: Y2 + H + 4, 'class': 'h2o' }));
+  /* label in the empty band between the two rows, right above the tick: never competes with the after-row labels below */
+  var ht = K.label(svg, hx, Y2, 'H₂O(l)：体积 ≈ 0', { cands: [[0, -11, 'middle'], [-4, -11, 'end'], [4, -11, 'start']], placed: placed.concat(labs), avoid: avoid, pad: 2 });
+  ht.setAttribute('data-lab', 'H2O');
+  probe.remove();
+  /* crop: no empty band above / below when every label fits inside its bar */
+  var y0 = 1e9, y1 = -1e9;
+  K.$$(svg, ':scope > *').forEach(function (e) { if (e === frame) return; var b = e.getBBox(); y0 = Math.min(y0, b.y); y1 = Math.max(y1, b.y + b.height); });
+  y0 = Math.floor(y0 - 14); y1 = Math.ceil(y1 + 14);
+  svg.setAttribute('viewBox', '0 ' + y0 + ' 820 ' + (y1 - y0));
+  frame.setAttribute('y', y0 + 1); frame.setAttribute('height', y1 - y0 - 2);
+}
+
+xIn.addEventListener('input', function () { fillY(); fwd(); });
+ySel.addEventListener('change', fwd);
+vIn.addEventListener('input', fwd);
+o2In.addEventListener('input', fwd);
+exIn.addEventListener('change', function () {
+  if (exIn.checked && CURRENT) { var V = parsePos(vIn.value) || 0; o2In.value = vol(V * CURRENT.a + Math.max(50, Math.round(V * CURRENT.a / 5 / 10) * 10)); }
+  fwd();
+});
+
+/* ---- n ↔ V ---- */
+var nIn = q('.cb-n'), vdIn = q('.cb-vd'), nvBox = q('.cb-nv'), nvSrc = 'n';
+function nv() {
+  if (!CURRENT) return;
+  var x = CURRENT.x, y = CURRENT.y, a = CURRENT.a, FH = fmlH(x, y);
+  var srcIn = nvSrc === 'n' ? nIn : vdIn, p = parsePos(srcIn.value);
+  nIn.classList.remove('bad'); vdIn.classList.remove('bad');
+  if (!p) { srcIn.classList.add('bad'); nvBox.innerHTML = '<span class="cb-err">「' + (srcIn.value || '空') + '」看不懂——要一个正数。</span>'; return; }
+  var sf = sfOf(srcIn.value), n, L = [];
+  if (nvSrc === 'n') { n = p; vdIn.value = fmt(n * 24.0, sf); L.push('<i>V</i>(' + FH + ') = <i>n</i> × 24.0 = ' + nIn.value.trim() + ' × 24.0 = <b>' + fmt(n * 24, sf) + ' dm³</b>'); }
+  else { n = p / 24.0; nIn.value = fmt(n, sf); L.push('<i>n</i>(' + FH + ') = <i>V</i> ÷ 24.0 = ' + vdIn.value.trim() + ' ÷ 24.0 = <b>' + fmt(n, sf) + ' mol</b>'); }
+  var ns = fmt(n, sf);
+  L.push('<i>n</i>(CO₂) = ' + x + ' × ' + ns + ' = ' + fmt(n * x, sf) + ' mol → <i>V</i>(CO₂) = ' + fmt(n * x, sf) + ' × 24.0 = <b class="cb-vco2">' + fmt(n * x * 24, sf) + ' dm³</b>');
+  L.push('<i>n</i>(O₂) = ' + vol(a) + ' × ' + ns + ' = ' + fmt(n * a, sf) + ' mol → <i>V</i>(O₂) = ' + fmt(n * a, sf) + ' × 24.0 = <b class="cb-vo2">' + fmt(n * a * 24, sf) + ' dm³</b>');
+  nvBox.innerHTML = '<ol>' + L.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol><span class="faint">取 ' + sf + ' s.f.（跟你填的数据一样）；中间步骤用未四舍五入的值。</span>';
+}
+nIn.addEventListener('input', function () { nvSrc = 'n'; nv(); K.fit(); });
+vdIn.addEventListener('input', function () { nvSrc = 'v'; nv(); K.fit(); });
+
+/* ================= reverse ================= */
+var rh = q('.cb-rh'), ro = q('.cb-ro'), rc = q('.cb-rc'), rwork = q('.cb-rwork');
+function solveSteps(V, O, C, tag) {
+  var x = C / V, o = O / V, nw = 2 * o - 2 * x, y = 2 * nw, L = [];
+  L.push('体积比 = mole 比：C<sub><i>x</i></sub>H<sub><i>y</i></sub> : O₂ : CO₂ = ' + vol(V) + ' : ' + vol(O) + ' : ' + vol(C) + ' = <b>1 : ' + vol(o) + ' : ' + vol(x) + '</b>');
+  L.push('C 守恒：1 个 C<sub><i>x</i></sub>H<sub><i>y</i></sub> 生成 <i>x</i> 个 CO₂ → <i>x</i> = ' + vol(C) + ' ÷ ' + vol(V) + ' = <b' + tag + 'x">' + vol(x) + '</b>');
+  L.push('O 守恒：' + vol(o) + ' O₂ 提供 ' + vol(2 * o) + ' 个 O；' + vol(x) + ' CO₂ 用掉 ' + vol(2 * x) + ' 个 → 剩 ' + vol(nw) + ' 个 O 进 ' + vol(nw) + ' H₂O → <i>y</i> = 2 × ' + vol(nw) + ' = <b' + tag + 'y">' + vol(y) + '</b>');
+  L.push('（同一件事用公式：<i>x</i> + <i>y</i>/4 = ' + vol(o) + ' → <i>y</i> = 4 × (' + vol(o) + ' − ' + vol(x) + ') = ' + vol(y) + '）');
+  var ok = Math.abs(x - Math.round(x)) < 1e-6 && Math.abs(y - Math.round(y)) < 1e-6 && x >= 1 && x <= 8 && Math.round(y) % 2 === 0 && y >= ymin(Math.round(x)) && y <= 2 * x + 2;
+  return { x: Math.round(x), y: Math.round(y), ok: ok, lines: L };
+}
+function rev() {
+  var V = parsePos(rh.value), O = parsePos(ro.value), C = parsePos(rc.value);
+  [[rh, V], [ro, O], [rc, C]].forEach(function (p) { p[0].classList.toggle('bad', !p[1]); });
+  if (!V || !O || !C) { rwork.innerHTML = '<span class="cb-err">三个体积都要是正数。</span>'; K.fit(); return; }
+  var r = solveSteps(V, O, C, ' class="cb-r');
+  r.lines.push(r.ok ? '→ formula <b class="cb-rf">' + fmlH(r.x, r.y) + '</b>　检查：' + fmlH(r.x, r.y) + ' + ' + coef(r.x + r.y / 4) + 'O₂ → ' + (r.x > 1 ? r.x : '') + 'CO₂ + ' + (r.y / 2 > 1 ? r.y / 2 : '') + 'H₂O ✓'
+                    : '<span class="cb-err cb-rf">得不到合理的 C<sub><i>x</i></sub>H<sub><i>y</i></sub>（<i>x</i> 要是 1–8 的整数，<i>y</i> 是偶数且 ≤ 2<i>x</i> + 2）——检查数据。</span>');
+  rwork.innerHTML = '<ol>' + r.lines.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>';
+  K.fit();
+}
+[rh, ro, rc].forEach(function (e) { e.addEventListener('input', rev); });
+
+/* ---- practice ---- */
+var POOL = [[1, 4], [2, 2], [2, 4], [2, 6], [3, 4], [3, 6], [3, 8], [4, 6], [4, 8], [4, 10]];
+var qBox = q('.cb-q'), lastQ = -1;
+function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+function newQ() {
+  var i; do { i = Math.floor(Math.random() * POOL.length); } while (i === lastQ); lastQ = i;
+  var x = POOL[i][0], y = POOL[i][1], a = x + y / 4, V = pick([10, 20, 30, 40, 50]);
+  var need = V * a, co2 = V * x, html, ans;
+  if (Math.random() < 0.5) {
+    html = vol(V) + ' cm³ 某 gaseous hydrocarbon C<sub><i>x</i></sub>H<sub><i>y</i></sub> 恰好与 ' + vol(need) + ' cm³ O₂ 完全燃烧，生成 ' + vol(co2) +
+      ' cm³ CO₂（体积都在 room temperature and pressure 下测，H₂O 是 liquid）。求 <i>x</i>、<i>y</i>。';
+    ans = solveSteps(V, need, co2, ' class="cb-a').lines;
+  } else {
+    var T = need + pick([20, 30, 40, 50, 60]), left = T - need, P = co2 + left;
+    html = vol(V) + ' cm³ 某 gaseous hydrocarbon C<sub><i>x</i></sub>H<sub><i>y</i></sub> 与 ' + vol(T) + ' cm³ O₂（excess）混合点燃，冷却回 room temperature 后 gas 剩 ' + vol(P) +
+      ' cm³；再通过 NaOH(aq)（吸收 CO₂），剩 ' + vol(left) + ' cm³。求 <i>x</i>、<i>y</i>。';
+    ans = ['NaOH(aq) 吸收的是 CO₂：<i>V</i>(CO₂) = ' + vol(P) + ' − ' + vol(left) + ' = ' + vol(co2) + ' cm³',
+           '剩下的 ' + vol(left) + ' cm³ 是没用完的 O₂：<i>V</i>(O₂ reacted) = ' + vol(T) + ' − ' + vol(left) + ' = ' + vol(need) + ' cm³'].concat(solveSteps(V, need, co2, ' class="cb-a').lines);
+  }
+  qBox.innerHTML = '<div class="qt">' + html + '</div>' +
+    '<div class="row"><label class="cb-lab"><span><i>x</i> =</span> <input type="text" class="fill cb-fx" data-ans="' + x + '"></label>' +
+    '<label class="cb-lab"><span><i>y</i> =</span> <input type="text" class="fill cb-fy" data-ans="' + y + '"></label>' +
+    '<span class="mut">（formula：C<sub><i>x</i></sub>H<sub><i>y</i></sub>）</span></div>' +
+    '<button class="reveal">看解法</button><div class="ans"><ol>' + ans.map(function (l) { return '<li>' + l + '</li>'; }).join('') +
+    '<li>→ formula <b>' + fmlH(x, y) + '</b></li></ol></div>';
+  qBox.setAttribute('data-f', fml(x, y));
+  K.init($root);
+  K.fit();
+}
+q('.cb-new').addEventListener('click', newQ);
+
+fillY(8); fwd(); rev(); newQ();
+</script>

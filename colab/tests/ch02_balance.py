@@ -36,7 +36,7 @@ ION = [  # (button index, spectator chip keys, wrong chip key, final ionic equat
 ]
 
 with sync_playwright() as p:
-    b = p.chromium.launch(executable_path=chrome(), headless=True)
+    b = p.chromium.launch(executable_path=chrome(), headless=True, args=['--disable-gpu'])  # GPU process can stall → rAF never fires → screenshots hang
     ctx = b.new_context(viewport={'width': 1000, 'height': 1000}, device_scale_factor=2)
     page = ctx.new_page()
     page.on('console', lambda m: errors.append(m.text) if m.type == 'error' else None)
