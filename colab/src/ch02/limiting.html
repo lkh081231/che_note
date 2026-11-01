@@ -1,0 +1,245 @@
+<h3>limiting reagent 与 percentage yield</h3>
+<p class="mut">拖动 slider（或直接填数）改两个 reactant 的 mass。每条横条的长度 = <i>n</i> ÷ equation 里的系数，也就是这份 reactant「够反应几份 equation」。
+<b>短的那条先用完 → 它就是 limiting reagent</b>；反应在虚线处停止，长的那条多出来的浅色段就是 excess。products 全部按 limiting reagent 算。</p>
+<div class="row lr-pick"></div>
+<div class="card lr-eqcard"><div class="lr-eq"></div><div class="lr-mr faint"></div></div>
+<div class="lr-ctl"></div>
+<svg class="lr-fig" viewBox="0 0 860 300"></svg>
+<div class="card lr-work"></div>
+<h4>percentage yield</h4>
+<div class="row lr-yrow">actual yield of <select class="lr-yp"></select> = <input type="text" class="lr-act" inputmode="decimal" spellcheck="false"> g</div>
+<div class="card lr-yield"></div>
+<p class="faint">theoretical yield = limiting reagent 全部转化、没有 side reaction 时算出的量。yield &lt; 100% 的原因：side reactions、reaction 没有进行完全（reversible）、操作中损失产物。<i>A</i>ᵣ 取 Periodic Table 的 1 位小数；结果取 3 s.f.，中间步骤不提前四舍五入。</p>
+<style>
+.k .lr-pick button{font-size:14px}
+.k .lr-eqcard{margin:8px 0;text-align:center}
+.k .lr-eq{font-size:22px;letter-spacing:.2px}
+.k .lr-eq .co{color:var(--acc);font-weight:700;margin-right:2px}
+.k .lr-eq .ra{color:var(--s1);font-weight:600}
+.k .lr-eq .rb{color:var(--s4);font-weight:600}
+.k .lr-eq .pr{color:var(--s3);font-weight:600}
+.k .lr-mr{margin-top:2px;font-size:13.5px}
+.k .lr-ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:6px 18px;margin:6px 0}
+.k .lr-c{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
+.k .lr-c .nm{font-weight:650;min-width:5.6em}
+.k .lr-c input[type=range]{flex:1;min-width:90px}
+.k .lr-c input[type=text]{width:5.6em;text-align:right}
+.k .lr-c input.bad,.k .lr-act.bad{border-color:var(--bad);background:var(--bad-soft)}
+.k .lr-act{width:5.6em;text-align:right}
+.k .lr-fig{margin:6px 0;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.k .lr-fig text{font-size:16px}
+.k .lr-fig text.nm{font-weight:700}
+.k .lr-fig text.lim{fill:var(--acc);font-weight:700}
+.k .lr-fig text.exc{fill:var(--mut)}
+.k .lr-fig text.cut{fill:var(--mut)}
+.k .lr-fig .used{stroke:none}
+.k .lr-fig .left{stroke-width:1.5;stroke-dasharray:4 3;fill-opacity:.22}
+.k .lr-fig .xi{stroke:var(--fg);stroke-width:1.6;stroke-dasharray:6 4;opacity:.65}
+.k .lr-fig .bk{fill:var(--card)}
+.k .lr-fig .sep{stroke:var(--line);stroke-width:1}
+.k .lr-work ol{margin:4px 0}
+.k .lr-work li{margin:3px 0}
+.k .lr-work .h{font-weight:600}
+.k .lr-work .err,.k .lr-yield .err{color:var(--bad)}
+.k .lr-tag{display:inline-block;padding:0 7px;border-radius:5px;background:var(--acc-soft);color:var(--acc);font-weight:700}
+.k .lr-yield .big{font-size:19px}
+.k .lr-yield .warn{color:var(--bad)}
+</style>
+<script>
+var AR = { H: 10, C: 120, O: 160, Mg: 243, Al: 270, Cl: 355, Fe: 558, Sr: 876 };   /* tenths */
+var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+/* species: pretty formula, composition */
+var SP = {
+  'Fe₂O₃': [['Fe', 2], ['O', 3]], 'C': [['C', 1]], 'Fe': [['Fe', 1]], 'CO₂': [['C', 1], ['O', 2]],
+  'Al': [['Al', 1]], 'Cl₂': [['Cl', 2]], 'AlCl₃': [['Al', 1], ['Cl', 3]],
+  'SrO': [['Sr', 1], ['O', 1]], 'Sr': [['Sr', 1]], 'Sr₃Al₂O₆': [['Sr', 3], ['Al', 2], ['O', 6]],
+  'Mg': [['Mg', 1]], 'O₂': [['O', 2]], 'MgO': [['Mg', 1], ['O', 1]]
+};
+function mrT(f) { return SP[f].reduce(function (t, p) { return t + AR[p[0]] * p[1]; }, 0); }   /* tenths */
+function d1(t) { return (t / 10).toFixed(1); }
+function mrWork(f) {
+  var c = SP[f];
+  if (c.length === 1 && c[0][1] === 1) return f + ' ' + d1(mrT(f));
+  return f + ' = ' + c.map(function (p) { return (p[1] > 1 ? p[1] + ' × ' : '') + d1(AR[p[0]]); }).join(' + ') + ' = ' + d1(mrT(f));
+}
+/* r: reactants [coef, formula], p: products, m: default masses, max / step: sliders, y: product index for yield, act: actual yield */
+var PRE = [
+  { id: 'fe', r: [[2, 'Fe₂O₃'], [3, 'C']], p: [[4, 'Fe'], [3, 'CO₂']], m: ['79.8', '9.36'], max: [200, 25], step: [0.1, 0.01], y: 1, act: '30.0',
+    ctx: '正文的例子：79.8 g Fe₂O₃ 与 9.36 g C 一起加热。' },
+  { id: 'al', r: [[2, 'Al'], [3, 'Cl₂']], p: [[2, 'AlCl₃']], m: ['18', '100'], max: [50, 200], step: [0.1, 0.5], y: 0, act: '71.0',
+    ctx: '18 g Al 与 excess Cl₂，实得 71.0 g AlCl₃。' },
+  { id: 'sr', r: [[6, 'SrO'], [2, 'Al']], p: [[3, 'Sr'], [1, 'Sr₃Al₂O₆']], m: ['100', '20.0'], max: [250, 40], step: [0.5, 0.1], y: 0, act: '38.0',
+    ctx: '100 g SrO 与足量的 Al 加热，制取 strontium。' },
+  { id: 'mg', r: [[2, 'Mg'], [1, 'O₂']], p: [[2, 'MgO']], m: ['2.43', '2.00'], max: [6, 4], step: [0.01, 0.01], y: 0, act: '3.80',
+    ctx: 'Mg ribbon 在 O₂ 中燃烧。试着把 O₂ 拖到 1.60 g：恰好按 mole ratio 反应，没有 excess。' }
+];
+var COL = ['var(--s1)', 'var(--s4)'], PCOL = 'var(--s3)';
+
+function fmt(x, sf) {
+  sf = sf || 3;
+  if (!isFinite(x)) return '—';
+  if (x === 0) return '0';
+  var r = +x.toPrecision(sf), e = Math.floor(Math.log10(Math.abs(r)));
+  if (e >= -3 && e < 5) return sf - 1 - e >= 0 ? r.toFixed(sf - 1 - e) : String(Math.round(r));
+  return (r / Math.pow(10, e)).toFixed(sf - 1) + ' × 10' + K.sup(e);
+}
+function dps(s) { var i = s.indexOf('.'); return i < 0 || /×/.test(s) ? 0 : s.length - i - 1; }
+function sfOf(s) { var d = s.replace('.', '').replace(/^0+/, ''); return Math.max(1, d.length); }
+function ratio(a, b) { return a === b ? '' : ' × ' + a + '/' + b; }
+function co(c) { return c > 1 ? c : ''; }
+
+var pick = $root.querySelector('.lr-pick'), eqBox = $root.querySelector('.lr-eq'), mrBox = $root.querySelector('.lr-mr');
+var ctl = $root.querySelector('.lr-ctl'), svg = $root.querySelector('.lr-fig'), work = $root.querySelector('.lr-work');
+var ySel = $root.querySelector('.lr-yp'), act = $root.querySelector('.lr-act'), yBox = $root.querySelector('.lr-yield');
+var P = PRE[0], rng = [], txt = [], last = null;
+
+PRE.forEach(function (q) {
+  var b = K.el('button', { type: 'button', 'data-pre': q.id },
+    q.r.map(function (x) { return co(x[0]) + x[1]; }).join(' + ') + ' → ' + q.p.map(function (x) { return co(x[0]) + x[1]; }).join(' + '));
+  b.addEventListener('click', function () { load(q); });
+  pick.appendChild(b);
+});
+
+function load(q) {
+  P = q;
+  K.$$(pick, 'button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-pre') === q.id); });
+  eqBox.innerHTML = q.r.map(function (x, i) { return '<span class="co">' + co(x[0]) + '</span><span class="' + (i ? 'rb' : 'ra') + '">' + x[1] + '</span>'; }).join(' + ') +
+    ' → ' + q.p.map(function (x) { return '<span class="co">' + co(x[0]) + '</span><span class="pr">' + x[1] + '</span>'; }).join(' + ');
+  mrBox.innerHTML = q.ctx + '　<i>M</i><sub>r</sub>：' + q.r.concat(q.p).map(function (x) { return mrWork(x[1]); }).join('；');
+  ctl.innerHTML = ''; rng = []; txt = [];
+  q.r.forEach(function (x, i) {
+    var row = K.el('label', { 'class': 'lr-c', 'data-r': i });
+    row.innerHTML = '<span class="nm" style="color:' + COL[i] + '">mass ' + x[1] + '</span>';
+    var s = K.el('input', { type: 'range', min: 0, max: q.max[i], step: q.step[i], value: q.m[i], 'data-r': i });
+    var t = K.el('input', { type: 'text', value: q.m[i], inputmode: 'decimal', spellcheck: 'false', 'data-r': i });
+    s.addEventListener('input', function () { t.value = (+s.value).toFixed(dps(String(q.step[i]))); calc(); });
+    t.addEventListener('input', function () { var v = parseFloat(t.value); if (isFinite(v)) s.value = v; calc(); });
+    row.appendChild(s); row.appendChild(t); row.appendChild(K.el('span', null, 'g'));
+    ctl.appendChild(row); rng.push(s); txt.push(t);
+  });
+  ySel.innerHTML = '';
+  q.p.forEach(function (x, i) { ySel.appendChild(K.el('option', { value: i }, x[1])); });
+  ySel.value = q.y; act.value = q.act;
+  calc();
+}
+
+function num(s) { s = String(s).trim(); return /^\d*\.?\d+$|^\d+\.$/.test(s) ? parseFloat(s) : NaN; }
+
+function calc() {
+  var R = P.r.map(function (x, i) {
+    var s = txt[i].value.trim(), m = num(s), M = mrT(x[1]) / 10;
+    txt[i].classList.toggle('bad', !(m >= 0));
+    return { c: x[0], f: x[1], s: s, m: m, M: M, n: m / M, x: m / M / x[0] };
+  });
+  last = null;
+  if (R.some(function (r) { return !(r.m >= 0); })) {
+    work.innerHTML = '<p class="err">mass 要填一个 ≥ 0 的数。</p>'; svg.innerHTML = ''; yBox.innerHTML = ''; K.fit(); return;
+  }
+  var A = R[0], B = R[1], tie = Math.abs(A.x - B.x) <= 1e-9 * Math.max(A.x, B.x);
+  var li = tie ? 0 : (A.x < B.x ? 0 : 1), L = R[li], E = R[1 - li], xi = L.x;
+  var lines = [];
+  lines.push('<i>n</i>(' + A.f + ') = ' + A.s + ' ÷ ' + d1(mrT(A.f)) + ' = ' + fmt(A.n) + ' mol；<i>n</i>(' + B.f + ') = ' + B.s + ' ÷ ' + d1(mrT(B.f)) + ' = ' + fmt(B.n) + ' mol');
+  var need = A.n * B.c / A.c, needS = fmt(need), haveS = fmt(B.n), exS = '', exM = '';
+  if (A.m === 0 || B.m === 0) {
+    lines.push('没有 ' + (A.m === 0 ? A.f : B.f) + '，reaction 不发生，products 都是 0。');
+  } else {
+    var cmp = tie ? '= ' : (B.x > A.x ? '> ' : '< ');
+    lines.push(fmt(A.n) + ' mol ' + A.f + ' 需要 ' + fmt(A.n) + ratio(B.c, A.c) + ' = ' + needS + ' mol ' + B.f + '；实际有 ' + haveS + ' mol（' + cmp + needS + '）→ ' +
+      (tie ? '恰好按 mole ratio 反应，<span class="lr-tag">没有 limiting / excess</span>，两者都用完'
+           : '<b>' + E.f + ' in excess</b>，<span class="lr-tag" data-lim="' + L.f + '">' + L.f + ' is the limiting reagent</span>'));
+    if (!tie) {
+      /* excess = what is there − what the limiting reagent uses up; a difference keeps the fewest decimal places of the numbers subtracted */
+      var used = L.n * E.c / L.c, usedS = fmt(used), hS = fmt(E.n), dp = Math.min(dps(usedS), dps(hS)), ex = E.n - used;
+      exS = /×/.test(usedS + hS) ? fmt(ex) : ex.toFixed(dp);
+      if (+exS === 0) exS = fmt(ex);
+      exM = fmt(ex * E.M, Math.max(2, Math.min(3, sfOf(exS))));
+      lines.push('excess ' + E.f + '：' + hS + ' − ' + (li === 1 ? usedS + '（= ' + fmt(L.n) + ratio(E.c, L.c) + '）' : usedS) + ' = <b>' + exS + ' mol</b> 剩下 = ' + exS + ' × ' + d1(mrT(E.f)) + ' = <b>' + exM + ' g</b>');
+    }
+  }
+  var prods = P.p.map(function (x) {
+    var n = A.m === 0 || B.m === 0 ? 0 : L.n * x[0] / L.c, M = mrT(x[1]) / 10;
+    return { c: x[0], f: x[1], n: n, M: M, g: n * M };
+  });
+  if (A.m > 0 && B.m > 0) {
+    prods.forEach(function (p) {
+      lines.push('<i>n</i>(' + p.f + ') = ' + (p.c === L.c ? '<i>n</i>(' + L.f + ')' : fmt(L.n) + ratio(p.c, L.c)) + ' = ' + fmt(p.n) + ' mol → <i>m</i> = ' + fmt(p.n) + ' × ' + d1(mrT(p.f)) + ' = <b data-prod="' + p.f + '">' + fmt(p.g) + ' g</b>');
+    });
+  }
+  work.innerHTML = '<div class="h">working（products 永远按 limiting reagent 算）</div><ol>' + lines.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>';
+  last = { R: R, li: li, tie: tie, xi: xi, prods: prods, exS: exS, exM: exM };
+  draw(last);
+  yieldCalc();
+}
+
+/* ---------- figure ---------- */
+var X0 = 150, WB = 560, BH = 22;
+function draw(s) {
+  var R = s.R, rows = [], y = 40;
+  R.forEach(function (r, i) { rows.push({ kind: 'r', i: i, top: y }); y += 82; });
+  y += 12; var sepY = y - 10;
+  s.prods.forEach(function (p, i) { rows.push({ kind: 'p', i: i, top: y }); y += 58; });
+  var H = y + 6;
+  svg.setAttribute('viewBox', '0 0 860 ' + H);
+  svg.innerHTML = '';
+  var mx = Math.max(R[0].x, R[1].x) || 1, sc = WB / mx, xX = X0 + s.xi * sc;
+  var gB = K.svg('g'), gK = K.svg('g'), gL = K.svg('g'); svg.appendChild(gB); svg.appendChild(gK); svg.appendChild(gL);
+  var placed = [], avoid = [];
+  function rect(x, y, w, h, cls, col, extra) {
+    var e = K.svg('rect', Object.assign({ x: x, y: y, width: Math.max(0, w), height: h, rx: 3, 'class': cls, style: 'fill:' + col + ';stroke:' + col }, extra || {}));
+    gB.appendChild(e); if (w > 0) placed.push({ x: x, y: y, w: w, h: h }); return e;
+  }
+  gB.appendChild(K.svg('line', { x1: 10, y1: sepY, x2: 850, y2: sepY, 'class': 'sep' }));
+  rows.forEach(function (row) {
+    var by = row.top + 22, mid = by + BH / 2;
+    if (row.kind === 'r') {
+      var r = R[row.i], col = COL[row.i], w = r.x * sc, isL = !s.tie && row.i === s.li;
+      rect(X0, by, Math.min(w, s.xi * sc), BH, 'used', col, { 'data-bar': 'used-' + row.i });
+      if (w - s.xi * sc > 0.5) rect(xX, by, w - s.xi * sc, BH, 'left', col, { 'data-bar': 'left-' + row.i });
+      lab(X0 - 12, mid + 6, r.f, 'nm', [[0, 0, 'end']]).setAttribute('style', 'fill:' + col);
+      lab(X0, by - 7, 'n = ' + fmt(r.n) + ' mol　÷ ' + r.c + ' = ' + fmt(r.x), '', [[0, 0, 'start'], [0, -4, 'start']]);
+      if (r.m === 0) return;
+      if (s.tie) lab(X0, by + BH + 20, '全部用完（恰好按 mole ratio）', 'lim', [[0, 0, 'start']]);
+      else if (isL) lab(X0, by + BH + 20, 'limiting reagent：全部用完', 'lim', [[0, 0, 'start']]).setAttribute('data-role', 'lim-' + row.i);
+      else lab(xX, by + BH + 20, 'excess：剩 ' + s.exS + ' mol = ' + s.exM + ' g', 'exc', [[6, 0, 'start'], [w - s.xi * sc, 0, 'end'], [-6, 0, 'end']]).setAttribute('data-role', 'exc-' + row.i);
+    } else {
+      var p = s.prods[row.i];
+      rect(X0, by, s.xi * sc, BH, 'used', PCOL, { 'data-bar': 'prod-' + row.i });
+      lab(X0 - 12, mid + 6, p.f, 'nm', [[0, 0, 'end']]).setAttribute('style', 'fill:' + PCOL);
+      lab(X0, by - 7, 'n = ' + fmt(p.n) + ' mol　÷ ' + p.c + ' = ' + fmt(p.n / p.c) + '　→ ' + fmt(p.g) + ' g', '', [[0, 0, 'start'], [0, -4, 'start']]).setAttribute('data-role', 'prod-' + row.i);
+    }
+  });
+  if (s.xi > 0) {
+    /* the cut-off line is decorative (not in avoid): every label gets an opaque card-coloured backing,
+       a glyph halo alone leaves the line visible between glyphs and it reads as a strike-through */
+    gB.appendChild(K.svg('line', { x1: xX, y1: 30, x2: xX, y2: H - 6, 'class': 'xi' }));
+    lab(xX, 22, (s.tie ? '两个 reactant 同时用完' : 'limiting reagent 用完') + ' → 反应在这里停止', 'cut', [[0, 0, 'middle'], [-6, 0, 'end'], [6, 0, 'start']]);
+  }
+  function lab(x, y, t, cls, cands) {
+    /* K.label reads the viewBox from the element it is given, so pass the <svg> itself (a <g> has none →
+       labels running off the right edge go unnoticed), then move the text into the label layer */
+    var e = K.label(svg, x, y, t, { cls: cls, cands: cands, placed: placed, avoid: avoid, pad: 2 });
+    gL.appendChild(e);
+    var b = e.getBBox();
+    gK.appendChild(K.svg('rect', { x: b.x - 3, y: b.y, width: b.width + 6, height: b.height, 'class': 'bk' }));
+    e.innerHTML = e.textContent.replace(/\b([nm])\b(?= =)/g, '<tspan font-style="italic">$1</tspan>');
+    return e;
+  }
+}
+
+/* ---------- percentage yield ---------- */
+function yieldCalc() {
+  if (!last) { yBox.innerHTML = ''; return; }
+  var p = last.prods[+ySel.value], a = num(act.value);
+  act.classList.toggle('bad', !(a >= 0));
+  if (!(a >= 0)) { yBox.innerHTML = '<p class="err">actual yield 要填一个 ≥ 0 的数（单位 g）。</p>'; K.fit(); return; }
+  if (!(p.g > 0)) { yBox.innerHTML = '<p class="err">theoretical yield 是 0，算不了 percentage yield。</p>'; K.fit(); return; }
+  var pct = a / p.g * 100;
+  yBox.innerHTML = '<div>theoretical yield of ' + p.f + ' = ' + fmt(p.g) + ' g（上面按 limiting reagent 算出来的）</div>' +
+    '<div class="big">percentage yield = actual ÷ theoretical × 100% = ' + act.value.trim() + ' ÷ ' + fmt(p.g) + ' × 100% = <b class="lr-pct">' + fmt(pct) + '%</b></div>' +
+    (pct > 100 ? '<div class="warn">超过 100% 不可能是纯的 product——通常是没干燥（含 water / solvent）或混有杂质。</div>' : '');
+  K.fit();
+}
+ySel.addEventListener('change', yieldCalc);
+act.addEventListener('input', yieldCalc);
+load(PRE[0]);
+</script>
