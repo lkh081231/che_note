@@ -26,9 +26,10 @@
   /* ask Colab to grow the output iframe after content changes; silent everywhere else */
   K.fit = function () {
     try {
-      var h = document.documentElement.scrollHeight;
+      var r = document.querySelector('.k');
+      var h = r ? Math.ceil(r.getBoundingClientRect().height) + 20 : document.documentElement.scrollHeight;
       if (window.google && google.colab && google.colab.output && google.colab.output.setIframeHeight)
-        google.colab.output.setIframeHeight(h, true);
+        google.colab.output.setIframeHeight(h, true, { maxHeight: 5000 });
     } catch (e) { /* not in Colab */ }
   };
 

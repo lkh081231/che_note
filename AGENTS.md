@@ -257,6 +257,7 @@ bug 通过了一整轮几何校验和视觉检查。
 - 本机 headless chromium 并发跑时 GPU 进程会卡住、rAF 不触发，playwright 截图卡在 "waiting for element to be stable"：
   测试 launch 一律加 `args=['--disable-gpu']`（3D cell 用 swiftshader 那套另说）。
 - 结果 s.f.：减法保留两数中**最少**的小数位；mark scheme 的 0.099968 是 3 s.f. 的 **0.100**，别截断成 0.0999——cell 的作者 A 会算错，规格也会写错，审的时候对一遍。
+- **Colab 输出 iframe 默认 `maxHeight=1000`**：`google.colab.output.setIframeHeight(h, true)` 不传第 3 个参数时会在 1000px 截断并出内层滚动条；`K.fit()` 必须传 `{ maxHeight: 5000 }`，且量 `.k` 的 `getBoundingClientRect().height`（不能量 `documentElement.scrollHeight`，否则收起答案后 iframe 不会缩回）。
 
 ## Commit 节奏
 

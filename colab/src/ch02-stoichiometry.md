@@ -62,7 +62,7 @@ mass spectrometer 把 atom 变成 +1 ion，按 *m*/*e* 分开；每个 peak 对�
 - boron：(10 × 23 + 11 × 100) ÷ (23 + 100) = 10.8
 - chlorine：(35 × 75 + 37 × 25) ÷ 100 = 35.5
 
-<!-- html: mass spectrum → A_r -->
+<!-- html: mass spectrum → Aᵣ -->
 {{cell ar-spectrum}}
 
 <!-- md -->
