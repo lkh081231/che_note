@@ -405,8 +405,10 @@ Use your answer to (b)(i) to calculate the mass, in g, of vitamin C in the table
 ::: answer
 vitamin C : I₂ = 1 : 1（Figure 4.2）。
 
-- M1 mass in the 5 cm³ sample = 1.42 × 10⁻⁵ × 176 = 2.49 × 10⁻³ g
-- M2 mass in the tablet = 2.49 × 10⁻³ × 200 / 5 = **0.0999 g**
+- M1 mass in the 5 cm³ sample = 1.42 × 10⁻⁵ × 176 = 2.4992 × 10⁻³ g（写出来可以是 2.50 × 10⁻³，但计算器里保留全部位数）
+- M2 mass in the tablet = 2.4992 × 10⁻³ × 200 / 5 = 0.099968 → **0.100 g**（3 s.f.）
+
+两个常见错：用已经 round 过的 2.49 × 10⁻³ 继续乘，得到 0.0996（中间步骤提前四舍五入）；把 0.099968 截断成 0.0999（应该四舍五入）。
 
 也可以先 × 200/5 再 × 176，两种顺序都给分。那 150 cm³ 水是干扰项：它不改变 flask 里 vitamin C 的 mol 数。
 :::

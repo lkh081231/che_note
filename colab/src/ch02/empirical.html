@@ -1,0 +1,426 @@
+<h3>empirical formula → molecular formula：分步解</h3>
+<p class="mut">选一个预设或者自己改数值，再按「下一步」一行一行展开：mass → ÷ <i>A</i>ᵣ → ÷ smallest → × <i>k</i> 成整数 → formula。每一步都写出算式，跟 mark scheme 的 working 一样。</p>
+<div class="tabbar">
+  <button data-tab="mass">① by mass</button>
+  <button data-tab="pct">② by %</button>
+  <button data-tab="mf">③ molecular formula</button>
+  <button data-tab="hyd">④ hydrated salt</button>
+</div>
+<div data-pane="mass" class="em-pane"></div>
+<div data-pane="pct" class="em-pane"></div>
+<div data-pane="mf" class="em-pane"></div>
+<div data-pane="hyd" class="em-pane"></div>
+
+<style>
+.k .em-top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:4px 0}
+.k .em-top select{font-size:14px;max-width:100%}
+.k .em-ctx{margin:2px 0 6px}
+.k .em-in{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.k .em-in label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.k .em-in input[type=number]{width:6.2em}
+.k .em-in input[type=text]{width:7em}
+.k .em-in .em-auto{color:var(--mut);font-size:14px}
+.k .em-btns{margin:8px 0 2px}
+.k .em-btns button:disabled{opacity:.45;cursor:default}
+.k .em-err{margin:6px 0;padding:7px 11px;border-left:3px solid var(--bad);background:var(--bad-soft);border-radius:0 6px 6px 0}
+.k .em-err:empty{display:none}
+.k .em-wrap{overflow-x:auto}
+.k .em-tab{margin:8px 0 4px;font-size:14.5px}
+.k .em-tab th,.k .em-tab td{text-align:center;vertical-align:middle;min-width:92px}
+.k .em-tab th.em-rl,.k .em-tab td.em-rl{text-align:left;background:var(--acc-soft);font-weight:600;white-space:nowrap}
+.k .em-tab th.em-sym{font-size:17px}
+.k .em-tab tr.hid{display:none}
+.k .em-tab tr.new td{animation:em-in .5s ease-out}
+@keyframes em-in{from{background:var(--acc-soft)}to{background:transparent}}
+.k .em-tab td.em-sub{background:var(--hl)}
+.k .em-tab .em-tag{display:block;font-size:12px;color:var(--mut);font-weight:400}
+.k .em-tab td.em-min{outline:2px solid var(--acc);outline-offset:-3px;font-weight:700}
+.k .em-tab .em-v{font-weight:700}
+.k .em-tab .em-w{color:var(--mut)}
+.k .em-tab .em-int{color:var(--ok);font-weight:700;font-size:17px}
+.k .em-steps{margin:6px 0;padding-left:24px}
+.k .em-steps li{margin:3px 0}
+.k .em-steps li.hid{display:none}
+.k .em-steps .em-warn{color:var(--bad);font-weight:600}
+.k .em-res{margin:8px 0 2px;padding:8px 12px;border-left:3px solid var(--ok);background:var(--ok-soft);border-radius:0 6px 6px 0;font-size:16px}
+.k .em-res.hid,.k .em-res:empty{display:none}
+.k .em-res .em-big{font-size:22px;font-weight:700;margin:0 4px}
+.k .em-res.warn{border-left-color:var(--bad);background:var(--bad-soft)}
+</style>
+
+<script>
+var AR = { H: 1.0, B: 10.8, C: 12.0, N: 14.0, O: 16.0, F: 19.0, Ne: 20.2, Na: 23.0, Mg: 24.3, Al: 27.0, Si: 28.1, P: 31.0,
+  S: 32.1, Cl: 35.5, K: 39.1, Ca: 40.1, Cr: 52.0, Mn: 54.9, Fe: 55.8, Co: 58.9, Cu: 63.5, Zn: 65.4, Br: 79.9, Sr: 87.6,
+  Rh: 102.9, Ag: 107.9, I: 126.9, Ba: 137.3, Ir: 192.2, Pb: 207.2, Bi: 209.0 };
+var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+function sub(f) { return String(f).replace(/\d/g, function (d) { return SUBD[d]; }); }
+function unsub(f) { return String(f).replace(/[₀-₉]/g, function (d) { return SUBD.indexOf(d); }); }
+function minus(s) { return String(s).replace(/-/g, '−'); }
+/* 3 s.f., × 10ⁿ instead of e-notation */
+function sf(x, n) {
+  n = n || 3;
+  if (!isFinite(x)) return '—';
+  if (x === 0) return '0';
+  var a = Math.abs(x);
+  if (a >= 1e-3 && a < 1e6) {
+    var s = x.toPrecision(n);
+    if (s.indexOf('e') < 0) return s;
+    return String(Math.round(x));               // e.g. 1.23e+3 → 1230
+  }
+  var e = Math.floor(Math.log10(a)), m = x / Math.pow(10, e);
+  if (Math.abs(+m.toPrecision(n)) >= 10) { e++; m /= 10; }
+  return m.toPrecision(n) + ' × 10' + K.sup(String(e));
+}
+function dp(s) { s = String(s).trim(); var i = s.indexOf('.'); return i < 0 ? 0 : s.length - i - 1; }
+function fx(x, d) { return x.toFixed(d); }
+/* 'CH2Br' / 'CH₂Br' → [['C',1],['H',2],['Br',1]] or null */
+function parse(f) {
+  f = unsub(String(f).replace(/\s+/g, ''));
+  if (!f) return null;
+  var out = [], re = /([A-Z][a-z]?)(\d*)/g, m, used = 0;
+  while ((m = re.exec(f))) {
+    if (m.index !== used) return null;
+    used += m[0].length;
+    var n = m[2] ? +m[2] : 1;
+    if (!n) return null;
+    var hit = out.filter(function (p) { return p[0] === m[1]; })[0];
+    if (hit) hit[1] += n; else out.push([m[1], n]);
+  }
+  return used === f.length ? out : null;
+}
+function unknown(parts) { return parts.filter(function (p) { return !(p[0] in AR); }).map(function (p) { return p[0]; }); }
+function fmass(parts) { return parts.reduce(function (s, p) { return s + p[1] * AR[p[0]]; }, 0); }
+/* '12.0 + 2 × 1.0 + 79.9' */
+function fmassW(parts) {
+  return parts.map(function (p) { return (p[1] > 1 ? p[1] + ' × ' : '') + fx(AR[p[0]], 1); }).join(' + ');
+}
+function fstr(parts) { return parts.map(function (p) { return p[0] + (p[1] > 1 ? sub(p[1]) : ''); }).join(''); }
+/* smallest k (1–6) that makes every ratio a whole number (± 0.1) */
+function findK(r) {
+  for (var k = 1; k <= 6; k++) {
+    if (r.every(function (x) { return Math.abs(x * k - Math.round(x * k)) <= 0.1; })) return k;
+  }
+  return 0;
+}
+function fracName(x) {
+  var f = x - Math.floor(x);
+  if (Math.abs(f - 0.5) < 0.1) return '.5';
+  if (Math.abs(f - 1 / 3) < 0.1) return '⅓';
+  if (Math.abs(f - 2 / 3) < 0.1) return '⅔';
+  if (Math.abs(f - 0.25) < 0.1) return '¼';
+  if (Math.abs(f - 0.75) < 0.1) return '¾';
+  return '';
+}
+
+/* ------------------------------------------------------------ presets
+   cols: element (or salt / H2O) columns; one column may be found by subtraction (sub: true).
+   total: the whole (compound mass, or 100 for %); inputs: everything that is not 'sub'. */
+var MODES = {
+  mass: {
+    q: 'mass / g', presets: [
+      { name: 'Mg 燃烧：0.486 g Mg → 0.806 g MgO', total: '0.806', totalLab: 'mass of oxide / g',
+        cols: [{ s: 'Mg', v: '0.486', lab: 'mass of Mg / g' }, { s: 'O', sub: true }],
+        ctx: '0.486 g magnesium 在 air 里加热到 constant mass，得到 0.806 g oxide。O 的 mass 没直接给 → 用减法。' },
+      { name: 'phosphorus oxide：1.55 g P → 3.55 g oxide', total: '3.55', totalLab: 'mass of oxide / g',
+        cols: [{ s: 'P', v: '1.55', lab: 'mass of P / g' }, { s: 'O', sub: true }],
+        ctx: '1.55 g phosphorus 在 excess oxygen 中燃烧，得到 3.55 g oxide。注意 ratio 会出现 2.5。' },
+      { name: 'X（S + Cl）：100.0 g X 含 47.49 g S，Mᵣ = 135.2', total: '100.0', totalLab: 'mass of X / g', Mr: '135.2',
+        cols: [{ s: 'S', v: '47.49', lab: 'mass of S / g' }, { s: 'Cl', sub: true }],
+        ctx: '9701/21 May/June 2026 Q1(e)：X 只含 S 和 Cl；Cl 的 mass 用减法。' }
+    ] },
+  pct: {
+    q: '% by mass', presets: [
+      { name: 'hydrocarbon：85.7% C，14.3% H', total: '100',
+        cols: [{ s: 'C', v: '85.7', lab: '% C' }, { s: 'H', v: '14.3', lab: '% H' }],
+        ctx: '两个 % 都给了（加起来 100）。可以把 % 直接当成 100 g 样品里的 mass。' },
+      { name: 'vitamin C：40.9% C，4.5% H，其余是 O', total: '100', Mr: '176',
+        cols: [{ s: 'C', v: '40.9', lab: '% C' }, { s: 'H', v: '4.5', lab: '% H' }, { s: 'O', sub: true }],
+        ctx: 'vitamin C 只含 C、H、O；O 的 % 没给 → 100 − 其余。ratio 会出现 1.32 ≈ 1⅓。' }
+    ] },
+  hyd: {
+    q: null, presets: [
+      { name: 'CuSO₄·xH₂O：2.50 g → 加热后 1.60 g', total: '2.50', totalLab: 'mass of hydrated salt / g', q: 'mass / g',
+        cols: [{ s: 'CuSO4', salt: true, v: '1.60', lab: 'mass of anhydrous CuSO₄ / g' }, { s: 'H2O', sub: true }],
+        ctx: '2.50 g blue CuSO₄·xH₂O 加热到 constant mass，剩 1.60 g white anhydrous CuSO₄。失去的 mass 就是 water。' },
+      { name: 'RhCl₃·xH₂O：20.5% water of crystallisation', total: '100', q: '% by mass',
+        cols: [{ s: 'RhCl3', salt: true, sub: true }, { s: 'H2O', v: '20.5', lab: '% water' }],
+        ctx: '9701/21 Oct/Nov 2024 Q1(d)(i)：hydrated rhodium(III) chloride 含 20.5% by mass water of crystallisation。RhCl₃ 的 % 用减法。' },
+      { name: 'CoCl₂·xH₂O：2.38 g → 加热后 1.30 g', total: '2.38', totalLab: 'mass of hydrated salt / g', q: 'mass / g',
+        cols: [{ s: 'CoCl2', salt: true, v: '1.30', lab: 'mass of anhydrous CoCl₂ / g' }, { s: 'H2O', sub: true }],
+        ctx: '2.38 g CoCl₂·xH₂O 加热到 constant mass，剩 1.30 g anhydrous CoCl₂。' }
+    ] },
+  mf: {
+    presets: [
+      { name: 'CH₂Br，Mᵣ = 187.8', ef: 'CH2Br', Mr: '187.8' },
+      { name: 'C₃H₅，Mᵣ = 82', ef: 'C3H5', Mr: '82' },
+      { name: 'CCl₃，Mᵣ = 237', ef: 'CCl3', Mr: '237' },
+      { name: 'CH₂，Mᵣ = 112', ef: 'CH2', Mr: '112' },
+      { name: 'SCl，Mᵣ = 135.2（9701/21 May/June 2026 Q1(e)）', ef: 'SCl', Mr: '135.2' }
+    ] }
+};
+
+/* ------------------------------------------------------------ pane skeleton */
+function build(mode) {
+  var pane = $root.querySelector('[data-pane="' + mode + '"]');
+  pane.innerHTML =
+    '<div class="em-top"><label>预设 <select class="em-preset"></select></label></div>' +
+    '<p class="faint em-ctx"></p>' +
+    '<div class="card em-in"></div>' +
+    '<div class="row em-btns"><button class="em-next">下一步 ▸</button><button class="em-all">全部显示</button>' +
+    '<button class="em-reset">从头开始</button><span class="faint em-prog"></span></div>' +
+    '<div class="em-err"></div>' +
+    '<div class="em-wrap"><table class="em-tab"></table></div>' +
+    '<ol class="em-steps"></ol>' +
+    '<div class="em-res hid"></div>';
+  var st = { mode: mode, pane: pane, preset: 0, vals: {}, shown: 1, nSteps: 1 };
+  var sel = pane.querySelector('.em-preset');
+  MODES[mode].presets.forEach(function (p, i) { sel.appendChild(K.el('option', { value: i }, p.name)); });
+  sel.addEventListener('change', function () { load(st, +sel.value); });
+  pane.querySelector('.em-next').addEventListener('click', function () { st.shown = Math.min(st.nSteps, st.shown + 1); render(st, true); });
+  pane.querySelector('.em-all').addEventListener('click', function () { st.shown = st.nSteps; render(st, false); });
+  pane.querySelector('.em-reset').addEventListener('click', function () { st.shown = 1; render(st, false); });
+  load(st, 0);
+}
+
+function load(st, i) {
+  st.preset = i; st.shown = 1;
+  var p = MODES[st.mode].presets[i], box = st.pane.querySelector('.em-in');
+  st.pane.querySelector('.em-preset').value = i;
+  st.pane.querySelector('.em-ctx').textContent = p.ctx || '';
+  box.innerHTML = '';
+  function field(key, lab, val, type) {
+    var l = K.el('label', {}, '<span>' + lab + '</span>');
+    var inp = K.el('input', { type: type || 'number', step: 'any', 'data-k': key, value: val, spellcheck: 'false' });
+    inp.addEventListener('input', function () { render(st, false); });
+    l.appendChild(inp); box.appendChild(l);
+  }
+  if (st.mode === 'mf') {
+    field('ef', 'empirical formula', p.ef, 'text');
+    field('Mr', '<i>M</i>ᵣ', p.Mr);
+  } else {
+    if (st.mode !== 'pct' && p.total !== '100') field('total', p.totalLab, p.total);
+    p.cols.forEach(function (c, j) { if (!c.sub) field('c' + j, c.lab, c.v); });
+    var subc = p.cols.filter(function (c) { return c.sub; })[0];
+    if (subc) box.appendChild(K.el('span', { 'class': 'em-auto' },
+      (subc.salt || subc.s === 'H2O' ? sub(subc.s) : subc.s) + '：用减法（见下表）'));
+    if (st.mode !== 'hyd') field('Mr', '<i>M</i>ᵣ（可选，留空只求 empirical formula）', p.Mr || '');
+  }
+  render(st, false);
+}
+
+function val(st, k) { var e = st.pane.querySelector('input[data-k="' + k + '"]'); return e ? e.value.trim() : ''; }
+
+/* ------------------------------------------------------------ calculations */
+function solveTable(st) {
+  var p = MODES[st.mode].presets[st.preset], hyd = st.mode === 'hyd';
+  var totS = (st.mode === 'pct' || p.total === '100') ? '100' : val(st, 'total');
+  var tot = parseFloat(totS);
+  var cols = p.cols.map(function (c, j) {
+    var o = { s: c.s, salt: !!c.salt, sub: !!c.sub, disp: hyd ? sub(c.s) : c.s };
+    if (hyd || c.salt) {
+      var parts = parse(c.s); o.M = fmass(parts); o.Mw = fmassW(parts);
+    } else o.M = AR[c.s];
+    if (!c.sub) { o.vs = val(st, 'c' + j); o.v = parseFloat(o.vs); }
+    return o;
+  });
+  var err = '';
+  cols.forEach(function (c) { if (!c.sub && !(c.v > 0)) err = c.disp + ' 的数值要是正数。'; });
+  if (!(tot > 0)) err = '总量要是正数。';
+  var sc = cols.filter(function (c) { return c.sub; })[0];
+  if (!err && sc) {
+    var given = cols.filter(function (c) { return !c.sub; });
+    var d = Math.max(dp(totS), Math.max.apply(null, given.map(function (c) { return dp(c.vs); })));
+    sc.v = +(tot - given.reduce(function (s, c) { return s + c.v; }, 0)).toFixed(d);
+    sc.vs = fx(sc.v, d);
+    sc.w = totS + ' − ' + given.map(function (c) { return c.vs; }).join(' − ');
+    if (!(sc.v > 0)) err = '减法得到 ' + sc.disp + ' = ' + minus(sc.vs) + '：总量必须比其余加起来大。';
+  }
+  if (!err && !sc && st.mode === 'pct') {
+    var sum = cols.reduce(function (s, c) { return s + c.v; }, 0);
+    if (Math.abs(sum - 100) > 0.5) err = '各 % 加起来是 ' + +sum.toFixed(2) + '，不是 100——要么改数值，要么有一个 element 要用减法。';
+  }
+  if (err) return { err: err };
+  cols.forEach(function (c) { c.n = c.v / c.M; });
+  var nmin = Math.min.apply(null, cols.map(function (c) { return c.n; }));
+  cols.forEach(function (c) { c.r = c.n / nmin; c.isMin = c.n === nmin; });
+  var k = findK(cols.map(function (c) { return c.r; }));
+  cols.forEach(function (c) { c.int = k ? Math.round(c.r * k) : null; });
+  return { cols: cols, nmin: nmin, k: k, p: p, hyd: hyd, q: p.q || MODES[st.mode].q };
+}
+
+/* the Aᵣ-not-Mᵣ trap, named with an element actually in the table */
+var DIAT = { O: 1, Cl: 1, H: 1, N: 1, Br: 1, F: 1, I: 1 };
+function diatomicNote(C) {
+  var d = C.filter(function (c) { return DIAT[c.s]; })[0];
+  if (!d) return '用 <i>A</i>ᵣ（单个 atom），不是 <i>M</i>ᵣ。';
+  return '用 <i>A</i>ᵣ，不是 <i>M</i>ᵣ（' + d.s + ' 是 ' + fx(AR[d.s], 1) + '，不是 ' + d.s + '₂ 的 ' + fx(2 * AR[d.s], 1) + '）。';
+}
+
+/* ------------------------------------------------------------ render: table modes */
+function render(st, animate) {
+  if (st.mode === 'mf') return renderMf(st, animate);
+  var R = solveTable(st), pane = st.pane, tab = pane.querySelector('.em-tab'), ol = pane.querySelector('.em-steps'),
+    res = pane.querySelector('.em-res');
+  pane.querySelector('.em-err').textContent = R.err || '';
+  tab.innerHTML = ''; ol.innerHTML = ''; res.innerHTML = ''; res.className = 'em-res hid';
+  pane.removeAttribute('data-ef'); pane.removeAttribute('data-mf'); pane.removeAttribute('data-x');
+  if (R.err) { st.nSteps = 1; progress(st); K.fit(); return; }
+  var C = R.cols, hyd = R.hyd, mrS = hyd ? '' : val(st, 'Mr'), Mr = parseFloat(mrS), hasMr = !hyd && Mr > 0;
+  st.nSteps = hasMr ? 6 : 5;
+
+  function row(cls, lab, cells) {
+    var tr = K.el('tr', { 'class': cls }, '<td class="em-rl">' + lab + '</td>');
+    cells.forEach(function (c) { tr.appendChild(K.el('td', c[1] ? { 'class': c[1] } : {}, c[0])); });
+    tab.appendChild(tr); return tr;
+  }
+  tab.appendChild(K.el('tr', {}, '<th class="em-rl"></th>' + C.map(function (c) { return '<th class="em-sym">' + c.disp + '</th>'; }).join('')));
+  var rows = [];
+  rows.push(row('em-r1', R.q, C.map(function (c) {
+    return c.sub ? ['<span class="em-tag">用减法</span><span class="em-w">' + c.w + ' =</span> <span class="em-v">' + c.vs + '</span>', 'em-sub']
+                 : ['<span class="em-v">' + c.vs + '</span>'];
+  })));
+  rows.push(row('em-r2', '÷ ' + (hyd ? '<i>M</i>ᵣ' : '<i>A</i>ᵣ') + ' → mol', C.map(function (c) {
+    return ['<span class="em-w">' + c.vs + ' ÷ ' + fx(c.M, 1) + ' =</span><br><span class="em-v">' + sf(c.n) + '</span>', c.isMin ? 'em-min' : ''];
+  })));
+  rows.push(row('em-r3', '÷ smallest', C.map(function (c) {
+    return ['<span class="em-w">' + sf(c.n) + ' ÷ ' + sf(R.nmin) + ' =</span><br><span class="em-v">' + fx(c.r, 2) + '</span>'];
+  })));
+  rows.push(row('em-r4', R.k > 1 ? '× ' + R.k + ' → 整数' : '取整数', C.map(function (c) {
+    if (!R.k) return ['<span class="em-warn">?</span>'];
+    var x = c.r * R.k;
+    return ['<span class="em-w">' + (R.k > 1 ? fx(c.r, 2) + ' × ' + R.k + ' = ' + fx(x, 2) : fx(c.r, 2)) + ' →</span> <span class="em-int">' + c.int + '</span>'];
+  })));
+
+  /* ---- step notes (one per row + result) */
+  var notes = [];
+  var sc = C.filter(function (c) { return c.sub; })[0], given = C.filter(function (c) { return !c.sub; });
+  var n1;
+  if (R.q === '% by mass') {
+    n1 = '把 % 当成 100 g 样品里每种 ' + (hyd ? 'component' : 'element') + ' 的 mass。';
+  } else {
+    n1 = '写出每种 ' + (hyd ? 'component（salt 和 H₂O）' : 'element') + ' 的 mass。';
+  }
+  if (sc) n1 += ' <b>' + sc.disp + ' 没有直接给，用减法</b>：' + sc.disp + ' = ' + sc.w + ' = <b>' + sc.vs + '</b>' + (R.q === '% by mass' ? '%' : ' g') + '。';
+  notes.push(n1);
+  var n2 = hyd ? '把 H₂O 当成一个「element」：每列 ÷ 它的 <i>M</i>ᵣ（' + C.map(function (c) { return '<i>M</i>ᵣ(' + c.disp + ') = ' + c.Mw + ' = ' + fx(c.M, 1); }).join('；') + '）。'
+               : '每列 ÷ 该 element 的 <i>A</i>ᵣ，得到 amount (mol)。' + diatomicNote(C);
+  notes.push(n2);
+  var mn = C.filter(function (c) { return c.isMin; })[0];
+  notes.push('最小的是 <i>n</i>(' + mn.disp + ') = ' + sf(R.nmin) + ' mol（表里框起来的那格）→ 每列都 ÷ ' + sf(R.nmin) + '。中间步骤不要提前四舍五入。');
+  var n4;
+  if (!R.k) {
+    n4 = '<span class="em-warn">× 1 到 × 6 都化不成整数比——检查一下数据。</span>';
+  } else if (R.k > 1) {
+    var odd = C.filter(function (c) { return Math.abs(c.r - Math.round(c.r)) > 0.1; })[0];
+    var fr = fracName(odd.r);
+    n4 = fx(odd.r, 2) + ' 不是整数' + (fr ? '（小数部分 ≈ ' + fr + '）' : '') + '，<b>不能四舍五入成 ' + Math.round(odd.r) + '</b>（那就是另一个 compound 了）。' +
+      '全部 × ' + R.k + '：' + C.map(function (c) { return fx(c.r, 2); }).join(' : ') + ' → ' + C.map(function (c) { return c.int; }).join(' : ') + '。';
+  } else {
+    var far = C.some(function (c) { return Math.abs(c.r - c.int) >= 0.005; });
+    n4 = far ? '都很接近整数（小偏差来自数据取整），直接取整：' + C.map(function (c) { return c.int; }).join(' : ') + '。'
+             : '已经是整数比：' + C.map(function (c) { return c.int; }).join(' : ') + '。';
+  }
+  notes.push(n4);
+
+  /* ---- result */
+  var resHtml = '', ef = '', ok = !!R.k, warn = false;
+  if (ok && hyd) {
+    var salt = C.filter(function (c) { return c.salt; })[0], w = C.filter(function (c) { return !c.salt; })[0];
+    if (salt.int === 1) {
+      ef = sub(salt.s) + '·' + (w.int > 1 ? w.int : '') + 'H₂O';
+      notes.push('<i>x</i> = <i>n</i>(H₂O) ÷ <i>n</i>(' + salt.disp + ') = ' + fx(w.r, 2) + (Math.abs(w.r - w.int) > 0.005 ? ' ≈ ' : ' → ') + '<b>' + w.int + '</b>。');
+      resHtml = '<i>x</i> = <span class="em-big">' + w.int + '</span> → <span class="em-big">' + ef + '</span>';
+      pane.setAttribute('data-x', w.int);
+    } else {
+      warn = true;
+      notes.push('<span class="em-warn">salt : H₂O = ' + salt.int + ' : ' + w.int + '，<i>x</i> 不是整数——检查数据。</span>');
+      resHtml = 'salt : H₂O = ' + salt.int + ' : ' + w.int + '，<i>x</i> 不是整数';
+    }
+  } else if (ok) {
+    var parts = C.map(function (c) { return [c.s, c.int]; });
+    ef = fstr(parts);
+    notes.push('按整数比写 formula（1 不写出来）：empirical formula = <b>' + ef + '</b>。');
+    resHtml = 'empirical formula = <span class="em-big">' + ef + '</span>';
+    if (hasMr) {
+      var efm = fmass(parts), n = Mr / efm, ni = Math.round(n);
+      if (ni >= 1 && Math.abs(n - ni) <= 0.1) {
+        var mf = fstr(parts.map(function (q) { return [q[0], q[1] * ni]; }));
+        notes.push('molecular formula：empirical formula mass = ' + fmassW(parts) + ' = ' + fx(efm, 1) + '；<i>n</i> = <i>M</i>ᵣ ÷ ' + fx(efm, 1) + ' = ' + mrS + ' ÷ ' + fx(efm, 1) +
+          ' = ' + fx(n, 2) + (Math.abs(n - ni) > 0.005 ? ' ≈ ' + ni : '') + ' → ' + ef + (ni > 1 ? ' × ' + ni : '') + ' = <b>' + mf + '</b>。');
+        resHtml += '<br>molecular formula = (' + ef + ')' + (ni > 1 ? sub(ni) : '') + ' = <span class="em-big">' + mf + '</span>';
+        pane.setAttribute('data-mf', mf);
+      } else {
+        warn = true;
+        notes.push('<span class="em-warn">empirical formula mass = ' + fx(efm, 1) + '；' + mrS + ' ÷ ' + fx(efm, 1) + ' = ' + fx(n, 2) + '，不是整数——<i>M</i>ᵣ 和 empirical formula 对不上。</span>');
+        resHtml += '<br><span class="em-warn">' + mrS + ' ÷ ' + fx(efm, 1) + ' = ' + fx(n, 2) + ' 不是整数</span>';
+      }
+    }
+  } else {
+    warn = true; resHtml = '化不成整数比';
+  }
+  if (ef) pane.setAttribute('data-ef', ef);
+  notes.forEach(function (h, i) { ol.appendChild(K.el('li', { 'class': i < st.shown ? '' : 'hid' }, h)); });
+  rows.forEach(function (tr, i) {
+    if (i >= st.shown) tr.classList.add('hid');
+    else if (animate && i === st.shown - 1) tr.classList.add('new');
+  });
+  res.innerHTML = resHtml;
+  res.className = 'em-res' + (st.shown >= 5 ? '' : ' hid') + (warn ? ' warn' : '');
+  progress(st);
+  K.fit();
+}
+
+/* ------------------------------------------------------------ render: molecular formula mode */
+function renderMf(st, animate) {
+  var pane = st.pane, tab = pane.querySelector('.em-tab'), ol = pane.querySelector('.em-steps'), res = pane.querySelector('.em-res');
+  tab.innerHTML = ''; ol.innerHTML = ''; res.innerHTML = ''; res.className = 'em-res hid';
+  pane.removeAttribute('data-ef'); pane.removeAttribute('data-mf');
+  st.nSteps = 3;
+  var efS = val(st, 'ef'), mrS = val(st, 'Mr'), Mr = parseFloat(mrS), parts = parse(efS), err = '';
+  if (!parts) err = '看不懂「' + efS + '」：element symbol 首字母大写，数字跟在后面，例如 CH2Br。';
+  else if (unknown(parts).length) err = unknown(parts).join('、') + ' 不在本 cell 的 <i>A</i>ᵣ 表里（用 syllabus Periodic Table 的常见 element）。';
+  else if (!(Mr > 0)) err = '<i>M</i>ᵣ 要是正数。';
+  pane.querySelector('.em-err').innerHTML = err;
+  if (err) { st.nSteps = 1; progress(st); K.fit(); return; }
+  var ef = fstr(parts), efm = fmass(parts), n = Mr / efm, ni = Math.round(n), good = ni >= 1 && Math.abs(n - ni) <= 0.1;
+  pane.setAttribute('data-ef', ef);
+  tab.appendChild(K.el('tr', {}, '<th class="em-rl"></th>' + parts.map(function (p) { return '<th class="em-sym">' + p[0] + '</th>'; }).join('') + '<th>' + ef + '</th>'));
+  var r1 = K.el('tr', { 'class': 'em-r1' }, '<td class="em-rl">atoms × <i>A</i>ᵣ</td>' + parts.map(function (p) {
+    return '<td><span class="em-w">' + p[1] + ' × ' + fx(AR[p[0]], 1) + ' =</span><br><span class="em-v">' + fx(p[1] * AR[p[0]], 1) + '</span></td>';
+  }).join('') + '<td><span class="em-w">合计</span><br><span class="em-v">' + fx(efm, 1) + '</span></td>');
+  var r2 = K.el('tr', { 'class': 'em-r2' }, '<td class="em-rl">× <i>n</i></td>' + parts.map(function (p) {
+    return '<td><span class="em-w">' + p[1] + ' × ' + (good ? ni : '?') + ' →</span> <span class="em-int">' + (good ? p[1] * ni : '?') + '</span></td>';
+  }).join('') + '<td><span class="em-w">' + fx(efm, 1) + ' × ' + (good ? ni : '?') + ' =</span><br><span class="em-v">' + (good ? fx(efm * ni, 1) : '?') + '</span></td>');
+  tab.appendChild(r1); tab.appendChild(r2);
+  var notes = [
+    'empirical formula mass（' + ef + '）= ' + fmassW(parts) + ' = <b>' + fx(efm, 1) + '</b>。',
+    '<i>n</i> = <i>M</i>ᵣ ÷ empirical formula mass = ' + mrS + ' ÷ ' + fx(efm, 1) + ' = ' + fx(n, 2) +
+      (good ? (Math.abs(n - ni) > 0.005 ? ' ≈ <b>' + ni + '</b>' : ' → <b>' + ni + '</b>') + '。' : '。<span class="em-warn">不是整数——<i>M</i>ᵣ 和 empirical formula 对不上。</span>'),
+    good ? '每个 subscript 都 × ' + ni + '：molecular formula = <b>' + fstr(parts.map(function (p) { return [p[0], p[1] * ni]; })) + '</b>' +
+      (ni === 1 ? '（<i>n</i> = 1：molecular formula 和 empirical formula 一样）' : '') + '。'
+         : '<span class="em-warn">没法写出 molecular formula。</span>'
+  ];
+  var mf = good ? fstr(parts.map(function (p) { return [p[0], p[1] * ni]; })) : '';
+  if (good) pane.setAttribute('data-mf', mf);
+  notes.forEach(function (h, i) { ol.appendChild(K.el('li', { 'class': i < st.shown ? '' : 'hid' }, h)); });
+  [r1, r2].forEach(function (tr, i) {
+    var vis = i === 0 ? st.shown >= 1 : st.shown >= 2;
+    if (!vis) tr.classList.add('hid'); else if (animate && i === st.shown - 1) tr.classList.add('new');
+  });
+  res.innerHTML = good ? 'molecular formula = (' + ef + ')' + (ni > 1 ? sub(ni) : '') + ' = <span class="em-big">' + mf + '</span>'
+                       : '<span class="em-warn">' + mrS + ' ÷ ' + fx(efm, 1) + ' = ' + fx(n, 2) + '，不是整数</span>';
+  res.className = 'em-res' + (st.shown >= 3 ? '' : ' hid') + (good ? '' : ' warn');
+  progress(st);
+  K.fit();
+}
+
+function progress(st) {
+  var p = st.pane;
+  p.setAttribute('data-step', st.shown);
+  p.querySelector('.em-prog').textContent = '第 ' + Math.min(st.shown, st.nSteps) + ' / ' + st.nSteps + ' 步';
+  p.querySelector('.em-next').disabled = st.shown >= st.nSteps;
+  p.querySelector('.em-all').disabled = st.shown >= st.nSteps;
+}
+
+['mass', 'pct', 'mf', 'hyd'].forEach(build);
+</script>
