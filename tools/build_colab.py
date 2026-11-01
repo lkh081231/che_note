@@ -122,7 +122,8 @@ def inline_html(s):
         raise ValueError(f'unsupported $…$ in an html cell: {s!r}')
     s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)
     s = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', s)
-    s = re.sub(r'(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])', r'<i>\1</i>', s)
+    # ASCII-only word boundaries: *A*ᵣ (ᵣ is a Unicode letter) and 18*x* (digit before) must still italicise
+    s = re.sub(r'(?<![A-Za-z*])\*(?!\s)(.+?)(?<!\s)\*(?![A-Za-z0-9*])', r'<i>\1</i>', s)
     s = re.sub(r'\[\[([^\]]+)\]\]', lambda m: f'<input class="fill" data-ans="{html.escape(m.group(1))}">', s)
     s = re.sub(r'!\[([^\]]*)\]\(([^)\s]+)\)(?:\{width=(\d+)\})?',
                lambda m: f'<img alt="{html.escape(m.group(1))}" src="{data_uri(m.group(2))}"'
@@ -138,10 +139,19 @@ def lo_md(los, key):
     return '\n'.join(out)
 
 
+def lo_extra_html(e):
+    """an LO continuation line: '(b) …' is a sub-part (normal text); '> …' is a syllabus note (faint italic)"""
+    if e.startswith('> '):
+        return f'<span class="faint"><i>{inline_html(e[2:])}</i></span>'
+    if re.match(r'^\([a-z]\) ', e):
+        return inline_html(e)
+    return f'<span class="faint">{inline_html(e)}</span>'
+
+
 def lo_html(los, key):
     lo = los[key]
     subs = ''.join(f'<li>{inline_html(s)}</li>' for s in lo['subs'])
-    extra = ''.join(f'<br>{inline_html(e)}' for e in lo['extra'] if not e.startswith('e.g. for Fe:'))
+    extra = ''.join(f'<br>{lo_extra_html(e)}' for e in lo['extra'] if not e.startswith('e.g. for Fe:'))
     return (f'<div class="lo"><b>LO {key}</b> — {inline_html(lo["text"])}'
             + (f'<ul>{subs}</ul>' if subs else '') + extra + '</div>')
 
@@ -257,7 +267,7 @@ def checklist_body(los, key):
         for k in keys:
             lo = los[k]
             subs = ''.join(f'<li>{inline_html(s)}</li>' for s in lo['subs'])
-            extra = ''.join(f'<br><span class="faint">{inline_html(e)}</span>' for e in lo['extra'] if not e.startswith('e.g. for Fe:'))
+            extra = ''.join(f'<br>{lo_extra_html(e)}' for e in lo['extra'] if not e.startswith('e.g. for Fe:'))
             rows.append(f'<label class="chk"><input type="checkbox" data-id="{k}"><span><b>{k}</b> '
                         f'{inline_html(lo["text"])}' + (f'<ul>{subs}</ul>' if subs else '') + extra + '</span></label>')
     return (f'<h3>Learning outcomes 自查 <span class="faint count"></span></h3>'

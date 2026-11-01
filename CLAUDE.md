@@ -246,6 +246,17 @@ bug 通过了一整轮几何校验和视觉检查。
 - 半透明物体后画：nucleus 之类要「永远在最上面」的，必须 `transparent: true` + `depthTest: false` +
   高 `renderOrder`，否则会被半透明 lobe 盖住。
 - 真题裁图：`crop.py` 的 `MAX_BAND=430` 会把高图截断（ch1 的 Fig 3.1 踩过），裁完必须看图。
+- **单电荷上标 ⁺ ⁻**：Noto Sans 的 U+207A/B 只有几 px，I⁻ 看着像 I'。kit.css 用 `@font-face "KitCharge"` + `unicode-range`
+  只把这两个字形换成 DejaVu Sans / Segoe UI——cell 里不要再自己换字体或改 `<sup>`。（ch2）
+- **html cell 里的 markdown 斜体**：`*A*ᵣ`、`18*x*` 曾因正则把 ᵣ / 数字当单词边界而原样漏出星号（ch2 practice 审图抓到）；
+  build 后扫一遍 html 输出里有没有字面 `*`。
+- **SVG 只写 viewBox、宽度自适应**：卡片一窄字号就跌破 12px，量 bbox 抓不到；测试在 ~700px 宽断言「渲染宽度 / viewBox 宽度」或实测字号。
+- `K.label` 要传 `<svg>` 本身（传 `<g>` 读不到 viewBox，越界不报 clash）；「刚好接触」也算碰撞，标签会跳远却不报 clash，要另断言标签到锚点的距离。
+  tab pane 还是 `display:none` 时 `getBBox()` 全 0 → cell 脚本开头先 `K.init($root)`。
+- 不写 `type` 的 `<input class="fill">`（practice 的 `[[ ]]`）以前在 dark 下是白块，kit 已补 `.k input.fill:not([type])`。
+- 本机 headless chromium 并发跑时 GPU 进程会卡住、rAF 不触发，playwright 截图卡在 "waiting for element to be stable"：
+  测试 launch 一律加 `args=['--disable-gpu']`（3D cell 用 swiftshader 那套另说）。
+- 结果 s.f.：减法保留两数中**最少**的小数位；mark scheme 的 0.099968 是 3 s.f. 的 **0.100**，别截断成 0.0999——cell 的作者 A 会算错，规格也会写错，审的时候对一遍。
 
 ## Commit 节奏
 
