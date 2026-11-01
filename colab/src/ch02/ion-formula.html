@@ -1,0 +1,321 @@
+<h3>Ionic formula 拼装器</h3>
+<div class="tabbar">
+  <button data-tab="build">拼 formula</button>
+  <button data-tab="pt">从 Periodic Table 预测 charge</button>
+  <button data-tab="quiz">必背 ion 测验</button>
+</div>
+
+<div data-pane="build">
+  <p class="mut">选一个 cation 和一个 anion。上排每个 <b class="if-p">+</b> 方块是一个正 charge，下排每个 <b class="if-n">−</b> 方块是一个负 charge；
+    方块<b>上下对齐、数目相等</b>，compound 才是 neutral。</p>
+  <div class="if-pick">
+    <div class="if-side"><div class="if-head">cation（positive ion）</div><div class="if-cats"></div></div>
+    <div class="if-side"><div class="if-head">anion（negative ion）</div><div class="if-ans"></div></div>
+  </div>
+  <div class="card if-stage">
+    <div class="if-board"><div class="if-row if-top"></div><div class="if-row if-bot"></div></div>
+    <div class="row if-steps">
+      <span>cation 个数</span><button class="if-cm" aria-label="fewer cations">−</button><b class="if-nc"></b><button class="if-cp" aria-label="more cations">+</button>
+      <span class="if-gap">anion 个数</span><button class="if-am" aria-label="fewer anions">−</button><b class="if-na"></b><button class="if-ap" aria-label="more anions">+</button>
+      <button class="if-auto">自动配平</button><button class="if-one">从 1 : 1 自己配</button>
+    </div>
+    <div class="if-tally"></div>
+  </div>
+  <div class="card if-out"></div>
+</div>
+
+<div data-pane="pt">
+  <p class="mut">点一个元素：它在哪个 Group，就决定失去 / 得到几个 electron 才达到 noble gas configuration。</p>
+  <div class="if-pt"></div>
+  <div class="row faint"><span class="if-key if-key-c"></span> 形成 cation　<span class="if-key if-key-a"></span> 形成 anion　<span class="if-key if-key-x"></span> 一般不形成简单 ion</div>
+  <div class="card if-ptout"></div>
+</div>
+
+<div data-pane="quiz">
+  <p class="mut">syllabus 点名必须背的 9 个 ion。随机出题：给 name 选 formula，或给 formula 选 name。</p>
+  <div class="card if-quiz"></div>
+  <div class="row"><button class="if-next">下一题 →</button><span class="if-score faint"></span></div>
+</div>
+
+<style>
+.k .if-p{color:var(--pos)} .k .if-n{color:var(--neg)}
+.k .if-pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:10px;margin:8px 0}
+.k .if-head{font-size:13px;color:var(--mut);margin-bottom:4px;font-weight:600}
+.k .if-sub{font-size:12px;color:var(--faint);margin:4px 0 2px}
+.k .if-chips{display:flex;flex-wrap:wrap;gap:5px}
+.k .if-chips button{min-width:3.4em;padding:3px 8px;font-size:15px}
+.k .if-cats button.on{background:var(--pos);border-color:var(--pos)}
+.k .if-ans button.on{background:var(--neg);border-color:var(--neg)}
+.k .if-stage{margin:8px 0;overflow-x:auto}
+.k .if-board{display:inline-block;padding:4px 2px 2px;min-width:100%}
+.k .if-row{display:flex;align-items:flex-end}
+.k .if-bot{align-items:flex-start}
+.k .if-grp{display:flex;flex-direction:column;align-items:center}
+.k .if-lab{font-size:14px;line-height:20px;height:20px;white-space:nowrap;color:var(--fg)}
+.k .if-sqs{display:flex;border-radius:5px;outline:2px solid;outline-offset:-2px}
+.k .if-top .if-sqs{outline-color:var(--pos)} .k .if-bot .if-sqs{outline-color:var(--neg)}
+.k .if-sq{width:52px;height:34px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700}
+.k .if-sq+.if-sq{border-left:1px dashed var(--line)}
+.k .if-top .if-sq{color:var(--pos);background:color-mix(in srgb,var(--pos) 16%,var(--card))}
+.k .if-bot .if-sq{color:var(--neg);background:color-mix(in srgb,var(--neg) 16%,var(--card))}
+.k .if-sq.if-un{background:repeating-linear-gradient(45deg,var(--bad-soft) 0 5px,var(--card) 5px 10px)}
+.k .if-gap{margin-left:14px}
+.k .if-steps b{min-width:1.2em;text-align:center;font-size:17px}
+.k .if-steps button{padding:2px 9px}
+.k .if-tally{font-size:14px;margin-top:4px}
+.k .if-tally .if-ok{color:var(--ok);font-weight:650} .k .if-tally .if-no{color:var(--bad);font-weight:650}
+.k .if-big{font-size:30px;line-height:1.25;margin:0 0 2px}
+.k .if-big .if-name{font-size:19px;color:var(--mut);margin-left:14px}
+.k .if-out ol{margin:6px 0 4px}
+.k .if-out li{margin:2px 0}
+.k .if-warn{color:var(--bad)}
+.k .if-note{border-left:3px solid var(--line);padding:2px 9px;margin-top:6px;color:var(--mut);font-size:14px}
+/* mini periodic table */
+.k .if-pt{display:grid;grid-template-columns:32px repeat(8,minmax(46px,60px));gap:4px;margin:8px 0;max-width:540px}
+.k .if-pt .if-gh,.k .if-pt .if-ph{font-size:12px;color:var(--faint);text-align:center;align-self:end}
+.k .if-pt .if-ph{align-self:center}
+.k .if-pt button{padding:2px 0 3px;display:flex;flex-direction:column;align-items:center;line-height:1.15;border-width:2px}
+.k .if-pt button small{font-size:12px;color:var(--faint)}
+.k .if-pt button b{font-size:17px}
+.k .if-pt .c{border-color:color-mix(in srgb,var(--pos) 55%,var(--line))}
+.k .if-pt .a{border-color:color-mix(in srgb,var(--neg) 55%,var(--line))}
+.k .if-pt .x{border-style:dashed;opacity:.75}
+.k .if-pt button.on{background:var(--acc-soft);color:var(--fg);border-color:var(--acc)}
+.k .if-pt button.on small{color:var(--mut)}
+.k .if-key{display:inline-block;width:14px;height:14px;border:2px solid;border-radius:3px;vertical-align:-2px}
+.k .if-key-c{border-color:var(--pos)} .k .if-key-a{border-color:var(--neg)} .k .if-key-x{border-color:var(--faint);border-style:dashed}
+/* quiz */
+.k .if-qq{font-size:17px;margin:2px 0 8px}
+.k .if-qq b{font-size:21px}
+.k .if-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.k .if-opts button{font-size:18px;padding:6px 10px}
+.k .if-opts button:disabled{cursor:default;opacity:1;color:var(--fg)}
+.k .if-opts button.good{background:var(--ok-soft);border-color:var(--ok)}
+.k .if-opts button.badv{background:var(--bad-soft);border-color:var(--bad)}
+.k .if-why{margin-top:8px;min-height:1.5em}
+.k .if-why .if-ok{color:var(--ok);font-weight:650} .k .if-why .if-no{color:var(--bad);font-weight:650}
+</style>
+
+<script>
+var $ = function (s) { return $root.querySelector(s); };
+var SUB = '₀₁₂₃₄₅₆₇₈₉';
+function sub(n) { return String(n).split('').map(function (d) { return SUB[+d]; }).join(''); }
+function chg(q) { var a = Math.abs(q); return (a === 1 ? '' : K.sup(a)) + (q > 0 ? '⁺' : '⁻'); }
+function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+
+/* [key, formula part, compound ion?, charge, name, kind, Group] */
+var CAT = [
+  ['Li', 'Li', 0, 1, 'lithium', 'g', 1], ['Na', 'Na', 0, 1, 'sodium', 'g', 1], ['K', 'K', 0, 1, 'potassium', 'g', 1],
+  ['Mg', 'Mg', 0, 2, 'magnesium', 'g', 2], ['Ca', 'Ca', 0, 2, 'calcium', 'g', 2], ['Ba', 'Ba', 0, 2, 'barium', 'g', 2],
+  ['Al', 'Al', 0, 3, 'aluminium', 'g', 13],
+  ['Zn', 'Zn', 0, 2, 'zinc', 'd'], ['Ag', 'Ag', 0, 1, 'silver', 'd'],
+  ['Cu2', 'Cu', 0, 2, 'copper(II)', 't'], ['Fe2', 'Fe', 0, 2, 'iron(II)', 't'], ['Fe3', 'Fe', 0, 3, 'iron(III)', 't'], ['Cr3', 'Cr', 0, 3, 'chromium(III)', 't'],
+  ['NH4', 'NH₄', 1, 1, 'ammonium', 'x']
+].map(function (r) { return { key: r[0], f: r[1], cx: !!r[2], q: r[3], name: r[4], kind: r[5], grp: r[6] }; });
+var AN = [
+  ['Cl', 'Cl', 0, 1, 'chloride'], ['Br', 'Br', 0, 1, 'bromide'], ['I', 'I', 0, 1, 'iodide'],
+  ['O', 'O', 0, 2, 'oxide'], ['S', 'S', 0, 2, 'sulfide'], ['N', 'N', 0, 3, 'nitride'],
+  ['OH', 'OH', 1, 1, 'hydroxide'], ['NO3', 'NO₃', 1, 1, 'nitrate'], ['HCO3', 'HCO₃', 1, 1, 'hydrogencarbonate'],
+  ['CO3', 'CO₃', 1, 2, 'carbonate'], ['SO4', 'SO₄', 1, 2, 'sulfate'], ['PO4', 'PO₄', 1, 3, 'phosphate']
+].map(function (r) { return { key: r[0], f: r[1], cx: !!r[2], q: -r[3], name: r[4] }; });
+function ion(x) { return x.f + chg(x.q); }
+function part(x, n) { return n === 1 ? x.f : (x.cx ? '(' + x.f + ')' : x.f) + sub(n); }
+/* lowest whole-number ratio of cation : anion */
+function ratio(c, a) { var p = c.q, m = -a.q, g = gcd(p, m); return [m / g, p / g]; }
+function formula(c, a) { var r = ratio(c, a); return part(c, r[0]) + part(a, r[1]); }
+function cname(c, a) { return c.name + ' ' + a.name; }
+$root.__ionf = { CAT: CAT, AN: AN, formula: formula, name: cname };   /* exposed for the test */
+
+/* ---------------- tab 1: build ---------------- */
+var cat = CAT[6], an = AN[10], nc = 2, na = 3;
+function chips(box, list, groups, onpick) {
+  groups.forEach(function (g) {
+    box.appendChild(K.el('div', { 'class': 'if-sub' }, g[0]));
+    var row = K.el('div', { 'class': 'if-chips' });
+    list.filter(g[1]).forEach(function (x) {
+      var b = K.el('button', { 'data-ion': x.key, title: x.name }, ion(x));
+      b.addEventListener('click', function () { onpick(x); });
+      row.appendChild(b);
+    });
+    box.appendChild(row);
+  });
+}
+chips($('.if-cats'), CAT, [['Group 1 / 2 / 13 metal', function (x) { return x.kind === 'g'; }],
+  ['d-block metal', function (x) { return x.kind === 'd' || x.kind === 't'; }],
+  ['compound ion', function (x) { return x.kind === 'x'; }]], function (x) { cat = x; auto(); });
+chips($('.if-ans'), AN, [['simple ion（单原子）', function (x) { return !x.cx; }],
+  ['compound ion', function (x) { return x.cx; }]], function (x) { an = x; auto(); });
+
+function auto() { var r = ratio(cat, an); nc = r[0]; na = r[1]; draw(); }
+function row(box, x, n, other, top) {
+  box.innerHTML = '';
+  var per = Math.abs(x.q), mine = n * per, k = 0;
+  for (var i = 0; i < n; i++) {
+    var g = K.el('div', { 'class': 'if-grp' }), sq = K.el('div', { 'class': 'if-sqs' });
+    for (var j = 0; j < per; j++, k++)
+      sq.appendChild(K.el('div', { 'class': 'if-sq' + (k >= other ? ' if-un' : '') }, top ? '+' : '−'));
+    var lab = K.el('div', { 'class': 'if-lab' }, ion(x));
+    if (top) { g.appendChild(lab); g.appendChild(sq); } else { g.appendChild(sq); g.appendChild(lab); }
+    box.appendChild(g);
+  }
+  return mine;
+}
+function draw() {
+  K.$$($root, '.if-cats button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-ion') === cat.key); });
+  K.$$($root, '.if-ans button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-ion') === an.key); });
+  var pos = nc * cat.q, neg = na * -an.q;
+  row($('.if-top'), cat, nc, neg, true);
+  row($('.if-bot'), an, na, pos, false);
+  $('.if-nc').textContent = nc; $('.if-na').textContent = na;
+  $('.if-cm').disabled = nc <= 1; $('.if-cp').disabled = nc >= 4;
+  $('.if-am').disabled = na <= 1; $('.if-ap').disabled = na >= 4;
+  var bal = pos === neg;
+  $('.if-tally').innerHTML = '<span class="if-p">+ charges：' + nc + ' × (+' + cat.q + ') = +' + pos + '</span>　' +
+    '<span class="if-n">− charges：' + na + ' × (−' + (-an.q) + ') = −' + neg + '</span>　' +
+    (bal ? '<span class="if-ok">→ total charge 0 ✓</span>'
+         : '<span class="if-no">→ total charge ' + (pos > neg ? '+' : '−') + Math.abs(pos - neg) + '，不平衡</span>');
+  $('.if-tally').setAttribute('data-pos', pos); $('.if-tally').setAttribute('data-neg', neg);
+  var out = $('.if-out'), r = ratio(cat, an), f = formula(cat, an), nm = cname(cat, an);
+  if (!bal) {
+    out.innerHTML = '<p class="if-warn">还没平衡：+ 方块 ' + pos + ' 个、− 方块 ' + neg + ' 个（斜线方块没有对上）。' +
+      (pos < neg ? (nc < 4 ? '加 cation' : '减 anion') : (na < 4 ? '加 anion' : '减 cation')) + '，或按「自动配平」。</p>';
+    out.setAttribute('data-state', 'unbalanced'); K.fit(); return;
+  }
+  if (nc !== r[0]) {
+    var g = nc / r[0];
+    out.innerHTML = '<p>charge 平衡了，但 ' + nc + ' : ' + na + ' 不是最简比——ionic compound 的 formula 写<b>最简整数比</b>：÷ ' + g +
+      ' → ' + r[0] + ' : ' + r[1] + '，即 <b>' + f + '</b>（不是 ' + part(cat, nc) + part(an, na) + '）。</p>';
+    out.setAttribute('data-state', 'reducible'); K.fit(); return;
+  }
+  out.setAttribute('data-state', 'ok');
+  var p = cat.q, m = -an.q, L = p * m / gcd(p, m), steps = [];
+  steps.push('charges：' + ion(cat) + ' 是 +' + p + '，' + ion(an) + ' 是 −' + m + '。');
+  steps.push(p === m ? '两者 charge 大小相等 → 1 : 1。'
+    : 'lowest common multiple of ' + p + ' 和 ' + m + ' = ' + L + ' → 要 ' + L + ' ÷ ' + p + ' = <b>' + r[0] + '</b> 个 ' + ion(cat) +
+      '、' + L + ' ÷ ' + m + ' = <b>' + r[1] + '</b> 个 ' + ion(an) + '。');
+  var br = [cat, an].filter(function (x, i) { return x.cx && r[i] > 1; });
+  if (br.length) steps.push(br.map(function (x) { return x.f; }).join('、') + ' 是 compound ion，要不止一个 → 整个 ion 加括号再写 subscript：' +
+    br.map(function (x) { return part(x, r[x === cat ? 0 : 1]); }).join('、') + '。');
+  else if ([cat, an].some(function (x) { return x.cx; })) steps.push('compound ion 只要 1 个 → 不用加括号。');
+  steps.push('formula 里不写 charge：<b>' + f + '</b>。');
+  var why = cat.kind === 'g' ? cat.f + ' 在 Group ' + cat.grp + '，只有一种 charge → name 不写 Roman numeral（' + cat.name + '，不是 ' + cat.name + '(' + ['', 'I', 'II', 'III'][cat.q] + ')）。'
+    : cat.kind === 'd' ? cat.f + ' 是 d-block，但只形成 ' + ion(cat) + ' 一种 ion → syllabus 直接叫 ' + cat.name + '，不写 Roman numeral。'
+    : cat.kind === 't' ? cat.f + ' 是 transition element，有不止一种 oxidation number' + (cat.f === 'Fe' ? '（Fe²⁺ / Fe³⁺）' : cat.f === 'Cu' ? '（Cu⁺ / Cu²⁺）' : '（+3、+6 …）') +
+      ' → 用 Roman numeral 写出这里的 +' + p + '：' + cat.name + '。'
+    : 'NH₄⁺ 是 compound ion（ammonium），不是 metal ion。';
+  var odd = (cat.q === 3 && /CO3$/.test(an.key)) || (cat.key === 'NH4' && (an.key === 'O' || an.key === 'N')) ? '<div class="if-note">⚠ 这里只练按 charge 拼 formula；' + f + ' 这个 compound 实际上不稳定 / 不存在。</div>' : '';
+  out.innerHTML = '<p class="if-big"><span class="if-f">' + f + '</span><span class="if-name">' + nm + '</span></p>' +
+    '<ol>' + steps.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' +
+    '<p>name：先 cation 后 anion → <b>' + nm + '</b>。' + why + '</p>' +
+    '<div class="if-note">criss-cross 速记：把对方 charge 的数字交叉写成自己的 subscript，再约到最简（Mg²⁺ + O²⁻ → Mg₂O₂ → MgO）。</div>' + odd;
+  K.fit();
+}
+$('.if-cm').addEventListener('click', function () { if (nc > 1) { nc--; draw(); } });
+$('.if-cp').addEventListener('click', function () { if (nc < 4) { nc++; draw(); } });
+$('.if-am').addEventListener('click', function () { if (na > 1) { na--; draw(); } });
+$('.if-ap').addEventListener('click', function () { if (na < 4) { na++; draw(); } });
+$('.if-auto').addEventListener('click', auto);
+$('.if-one').addEventListener('click', function () { nc = 1; na = 1; draw(); });
+draw();
+
+/* ---------------- tab 2: predict from the Periodic Table ---------------- */
+var GROUPS = [1, 2, 13, 14, 15, 16, 17, 18];
+var PT = {   /* period → symbols in GROUPS order */
+  2: ['Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne'],
+  3: ['Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar'],
+  4: ['K', 'Ca', 'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr']
+};
+var ENAME = { Li: 'lithium', Be: 'beryllium', B: 'boron', C: 'carbon', N: 'nitrogen', O: 'oxygen', F: 'fluorine', Ne: 'neon',
+  Na: 'sodium', Mg: 'magnesium', Al: 'aluminium', Si: 'silicon', P: 'phosphorus', S: 'sulfur', Cl: 'chlorine', Ar: 'argon',
+  K: 'potassium', Ca: 'calcium', Ga: 'gallium', Ge: 'germanium', As: 'arsenic', Se: 'selenium', Br: 'bromine', Kr: 'krypton' };
+var IDE = { N: 'nitride', P: 'phosphide', As: 'arsenide', O: 'oxide', S: 'sulfide', Se: 'selenide', F: 'fluoride', Cl: 'chloride', Br: 'bromide' };
+var QG = { 1: 1, 2: 2, 13: 3, 15: -3, 16: -2, 17: -1 };
+var NOBLE = { 2: 'He', 10: 'Ne', 18: 'Ar', 36: 'Kr' };
+var pt = $('.if-pt');
+pt.appendChild(K.el('div'));
+GROUPS.forEach(function (g) { pt.appendChild(K.el('div', { 'class': 'if-gh' }, 'Group ' + g)); });
+[2, 3, 4].forEach(function (per) {
+  pt.appendChild(K.el('div', { 'class': 'if-ph' }, 'P' + per));
+  PT[per].forEach(function (s, i) {
+    var g = GROUPS[i], q = QG[g], Z = K.chem.SYM.indexOf(s) + 1;
+    var kind = s === 'B' || !q ? 'x' : q > 0 ? 'c' : 'a';
+    var b = K.el('button', { 'class': kind, 'data-el': s }, '<small>' + Z + '</small><b>' + s + '</b>');
+    b.addEventListener('click', function () { pick(s, g, per); });
+    pt.appendChild(b);
+  });
+});
+function cfg(Z, q) { return K.chem.config(Z, q).full; }
+function pick(s, g, per) {
+  K.$$(pt, 'button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-el') === s); });
+  var Z = K.chem.SYM.indexOf(s) + 1, q = QG[g], out = $('.if-ptout'), nm = ENAME[s], h;
+  out.setAttribute('data-el', s);
+  if (g === 18) {
+    h = '<p class="if-big">' + s + '<span class="if-name">' + nm + '</span></p><p>Group 18 noble gas：' + s + ' ' + cfg(Z, 0) +
+      ' 已经是 noble gas configuration → 不形成 ion。</p>';
+  } else if (g === 14) {
+    h = '<p class="if-big">' + s + '<span class="if-name">' + nm + '</span></p><p>Group 14：要失去或得到 <b>4</b> 个 electron 才达到 noble gas configuration，能量代价太大 → ' +
+      nm + ' 一般<b>不形成简单 ion</b>，而是形成 covalent bonds（例如 ' + { C: 'CH₄、CO₂', Si: 'SiO₂、SiCl₄', Ge: 'GeCl₄' }[s] + '）。</p>';
+  } else if (s === 'B') {
+    h = '<p class="if-big">B<span class="if-name">boron</span></p><p>按 Group 13 会预测 B³⁺，但 boron atom 很小，失去 3 个 electron 的能量太高 → boron <b>不形成 B³⁺</b>，' +
+      '它的 compounds 是 covalent（例如 BCl₃）。同 Group 往下的 Al 才形成 Al³⁺。</p>';
+  } else {
+    var ionf = s + chg(q), ionZ = Z - q, ng = NOBLE[ionZ], c1 = cfg(Z, 0), c2 = cfg(Z, q);
+    var same = ng && cfg(K.chem.SYM.indexOf(ng) + 1, 0) === c2;
+    var X = q > 0 ? { f: s, cx: false, q: q, name: nm } : { f: s, cx: false, q: q, name: IDE[s] };
+    var ex = q > 0 ? [[X, AN[0]], [X, AN[3]]] : [[CAT[1], X], [CAT[3], X]];
+    h = '<p class="if-big"><span class="if-f">' + ionf + '</span><span class="if-name">' + (q > 0 ? nm + ' ion' : IDE[s] + ' ion') + '</span></p>' +
+      '<p>Group ' + g + ' → ' + (q > 0 ? '<b>失去 ' + q + '</b> 个 electron → cation，charge +' + q : '<b>得到 ' + (-q) + '</b> 个 electron → anion，charge −' + (-q)) + '。</p>' +
+      '<p>' + s + '　' + c1 + '　→　' + ionf + '　' + c2 + (same ? '（和 ' + ng + ' 一样）' : '（3d¹⁰ 全满，同样稳定）') + '</p>' +
+      (q > 0 ? '<p>name：cation 就用 element 名 → <b>' + nm + '</b>（Group ' + g + ' 只有一种 charge，不写 Roman numeral）。</p>'
+             : '<p>name：anion 把 element 名改成 <b>-ide</b> 结尾：' + nm + ' → <b>' + IDE[s] + '</b>。</p>') +
+      '<p>例：' + ex.map(function (e) { return formula(e[0], e[1]) + ' ' + cname(e[0], e[1]); }).join('；') + '</p>' +
+      (s === 'Be' ? '<div class="if-note">Be²⁺ 很小、charge density 很高，beryllium compounds 有明显的 covalent character。</div>' : '');
+  }
+  out.innerHTML = h; K.fit();
+}
+pick('Mg', 2, 3);
+
+/* ---------------- tab 3: the 9 ions to learn ---------------- */
+var MUST = [['NO₃⁻', 'nitrate', ['NO₃²⁻', 'NO₂⁻']], ['CO₃²⁻', 'carbonate', ['CO₃⁻', 'CO₂²⁻']], ['SO₄²⁻', 'sulfate', ['SO₄⁻', 'SO₃²⁻']],
+  ['OH⁻', 'hydroxide', ['OH²⁻', 'OH⁺']], ['NH₄⁺', 'ammonium', ['NH₃⁺', 'NH₄⁻']], ['Zn²⁺', 'zinc', ['Zn⁺', 'Zn³⁺']],
+  ['Ag⁺', 'silver', ['Ag²⁺', 'Ag⁻']], ['HCO₃⁻', 'hydrogencarbonate', ['HCO₃²⁻', 'H₂CO₃⁻']], ['PO₄³⁻', 'phosphate', ['PO₄²⁻', 'PO₃³⁻']]];
+var FAKE_NAMES = { 'NO₃⁻': 'nitrite', 'SO₄²⁻': 'sulfite' };
+function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+var deck = [], right = 0, done = 0;
+function nextQ() {
+  if (!deck.length) deck = shuffle(MUST.slice());
+  var it = deck.pop(), dir = Math.random() < 0.5 ? 'f' : 'n', opts, ans, qtxt;
+  var others = shuffle(MUST.filter(function (m) { return m !== it; }));
+  if (dir === 'f') {   /* name → formula */
+    qtxt = '<b>' + it[1] + '</b> 的 formula 是？'; ans = it[0];
+    opts = [it[0], it[2][0], it[2][1], others[0][0]];
+  } else {             /* formula → name */
+    qtxt = '<b>' + it[0] + '</b> 叫什么？'; ans = it[1];
+    opts = [it[1]].concat(FAKE_NAMES[it[0]] ? [FAKE_NAMES[it[0]]] : []).concat(others.map(function (m) { return m[1]; })).slice(0, 4);
+  }
+  opts = shuffle(opts);
+  var box = $('.if-quiz');
+  box.innerHTML = '<p class="if-qq">' + qtxt + '</p><div class="if-opts"></div><div class="if-why"></div>';
+  box.setAttribute('data-ion', it[0]); box.setAttribute('data-dir', dir); box.setAttribute('data-ans', ans);
+  var wrap = K.$(box, '.if-opts');
+  opts.forEach(function (o) {
+    var b = K.el('button', { 'data-v': o }, o);
+    b.addEventListener('click', function () {
+      var ok = o === ans; done++; if (ok) right++;
+      K.$$(wrap, 'button').forEach(function (x) {
+        x.disabled = true;
+        if (x.getAttribute('data-v') === ans) x.classList.add('good');
+      });
+      if (!ok) b.classList.add('badv');
+      K.$(box, '.if-why').innerHTML = (ok ? '<span class="if-ok">✓ 对</span>' : '<span class="if-no">✗ 错</span>') +
+        '　' + it[0] + ' = <b>' + it[1] + '</b>' + (ok ? '' : '（你选的是 ' + o + '）');
+      score(); K.fit();
+    });
+    wrap.appendChild(b);
+  });
+  score(); K.fit();
+}
+function score() { $('.if-score').textContent = done ? '本轮答对 ' + right + ' / ' + done : '共 9 个 ion，答完一轮会重新洗牌'; }
+$('.if-next').addEventListener('click', nextQ);
+nextQ();
+</script>
