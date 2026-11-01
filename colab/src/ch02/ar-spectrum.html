@@ -1,0 +1,270 @@
+<h3>Mass spectrum → <i>A</i>ᵣ</h3>
+<div class="row">element <select class="ars-pre"></select>
+  <span class="faint">拖柱顶的圆点，或改下面的数字，调 relative abundance</span></div>
+<div class="ars-note faint"></div>
+<svg class="ars-svg" viewBox="0 0 760 330" aria-label="mass spectrum"></svg>
+<div class="row ars-inputs"></div>
+<div class="card ars-out"></div>
+
+<h4>自测：这张 spectrum 的 <i>A</i>ᵣ 是多少？（1 d.p.，填对变绿）</h4>
+<svg class="ars-qsvg" viewBox="0 0 760 250" aria-label="mass spectrum quiz"></svg>
+<div class="row"><span><i>A</i>ᵣ =</span><input type="text" class="ars-qin" autocomplete="off" inputmode="decimal">
+  <span class="ars-qres"></span>
+  <button class="ars-qnew">换一题</button></div>
+<button class="reveal">看算式</button><div class="ans ars-qans"></div>
+
+<style>
+.k .ars-svg,.k .ars-qsvg{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:6px 0;touch-action:none}
+.k .ars-svg text,.k .ars-qsvg text{font-size:14px}
+.k .ars-svg text.ars-ax,.k .ars-qsvg text.ars-ax{fill:var(--mut);font-size:13px}
+.k .ars-svg text.ars-ar{fill:var(--s2);font-weight:600}
+.k .ars-svg text.ars-ab,.k .ars-qsvg text.ars-ab{font-weight:600}
+.k .ars-bar{fill:var(--acc);fill-opacity:.82}
+.k .ars-hit{fill:transparent;cursor:ns-resize}
+.k .ars-knob{fill:var(--card);stroke:var(--acc);stroke-width:2.5;cursor:ns-resize}
+.k .ars-svg.drag .ars-knob.on{fill:var(--acc)}
+.k .ars-axis{stroke:var(--fg);stroke-width:1.2}
+.k .ars-grid{stroke:var(--line);stroke-width:1}
+.k .ars-arl{stroke:var(--s2);stroke-width:2;stroke-dasharray:6 4}
+.k .ars-inputs label{display:inline-flex;gap:5px;align-items:center;margin-right:10px}
+.k .ars-inputs input{width:6em}
+.k .ars-out .ars-eq{font-size:16px;margin:2px 0}
+.k .ars-out .ars-big{font-size:20px;font-weight:650}
+.k .ars-out .err{color:var(--bad)}
+.k input.ars-qin{width:6em;text-align:center}
+.k input.ars-qin.good{border-color:var(--ok);background:var(--ok-soft)}
+.k input.ars-qin.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .ars-qres.good{color:var(--ok)} .k .ars-qres.badv{color:var(--bad)}
+</style>
+
+<script>
+var PRE = [
+  { id: 'boron', sym: 'B', iso: [[10, 23], [11, 100]], dp: 1, step: 0,
+    note: 'abundance 不是百分数（¹¹B 记作 100）——分母是 23 + 100 = 123，不是 100。' },
+  { id: 'neon', sym: 'Ne', iso: [[20, 90.9], [21, 0.3], [22, 8.8]], dp: 1, step: 1,
+    note: '²¹Ne 只有 0.3%，柱子几乎看不见，但它照样进算式。' },
+  { id: 'chlorine', sym: 'Cl', iso: [[35, 75], [37, 25]], dp: 1, step: 0,
+    note: 'Periodic Table 上 Cl = 35.5 就是这么来的：³⁵Cl : ³⁷Cl = 3 : 1。' },
+  { id: 'lead', sym: 'Pb', iso: [[204, 2], [206, 24], [207, 22], [208, 52]], dp: 1, step: 0,
+    note: '四个 isotope：每个 peak 都要乘、都要加。' },
+  { id: 'iridium', sym: 'Ir', iso: [[190.96, 15.18], [192.96, 34.82]], dp: 2, step: 2,
+    note: '9701/21 Oct/Nov 2024：用 relative isotopic mass（不是整数），答案给 2 d.p. → 192.35。' },
+  { id: 'magnesium', sym: 'Mg', iso: [[24, 79], [25, 10], [26, 11]], dp: 1, step: 0,
+    note: '²⁴Mg 占 79%，所以 <i>A</i>ᵣ 被拉向 24。' }
+];
+var sel = $root.querySelector('.ars-pre'), svg = $root.querySelector('.ars-svg'),
+    out = $root.querySelector('.ars-out'), inBox = $root.querySelector('.ars-inputs'), noteBox = $root.querySelector('.ars-note');
+PRE.forEach(function (p, i) { sel.appendChild(K.el('option', { value: i }, p.id)); });
+
+/* number → plain string without float noise */
+function num(x, dp) {
+  if (dp != null) return x.toFixed(dp);
+  return String(+x.toFixed(6));
+}
+function isoName(m, sym) {
+  var a = Math.round(m);
+  return K.sup(a) + sym + (Math.abs(m - a) > 1e-9 ? ' (' + num(m) + ')' : '');
+}
+function arOf(iso) {
+  var top = 0, bot = 0;
+  iso.forEach(function (r) { top += r[0] * r[1]; bot += r[1]; });
+  return { top: top, bot: bot, ar: bot > 0 ? top / bot : NaN };
+}
+
+/* geometry of a chart: plot box + scales */
+function frame(svgEl, iso, yTop, H) {
+  var ms = iso.map(function (r) { return r[0]; });
+  var lo = Math.min.apply(null, ms) - 1, hi = Math.max.apply(null, ms) + 1;
+  var W = +svgEl.getAttribute('viewBox').split(' ')[2];
+  var g = { x0: 78, x1: W - 30, y0: H - 52, y1: 46, lo: lo, hi: hi, yTop: yTop };
+  g.X = function (m) { return g.x0 + (m - lo) / (hi - lo) * (g.x1 - g.x0); };
+  g.Y = function (v) { return g.y0 - v / yTop * (g.y0 - g.y1); };
+  svgEl.setAttribute('data-plot', [g.x0, g.y1, g.x1 - g.x0, g.y0 - g.y1].join(','));
+  svgEl.setAttribute('data-ytop', yTop);
+  return g;
+}
+function topFor(max) { var t = K.ticks(Math.max(max, 1e-6) * 1.15, 4); return t[t.length - 1]; }
+
+/* draw one spectrum; opts: {sym, dp, step, drag, arLine} */
+function draw(svgEl, iso, yTop, opts) {
+  while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+  /* viewBox width = rendered width, so 1 user unit = 1 CSS px and text never shrinks below its font-size */
+  var H = +svgEl.getAttribute('viewBox').split(' ')[3];
+  var W = Math.round(svgEl.getBoundingClientRect().width) || 760;
+  svgEl.setAttribute('viewBox', '0 0 ' + Math.max(W, 420) + ' ' + H);
+  var g = frame(svgEl, iso, yTop, H);
+  var avoid = [], placed = [];
+  var ticks = K.ticks(yTop, 4).filter(function (v) { return v <= yTop + 1e-9; });
+  ticks.forEach(function (v) {
+    if (v > 0) svgEl.appendChild(K.svg('line', { 'class': 'ars-grid', x1: g.x0, x2: g.x1, y1: g.Y(v), y2: g.Y(v) }));
+  });
+  svgEl.appendChild(K.svg('line', { 'class': 'ars-axis', x1: g.x0, x2: g.x1, y1: g.y0, y2: g.y0 }));
+  svgEl.appendChild(K.svg('line', { 'class': 'ars-axis', x1: g.x0, x2: g.x0, y1: g.y0, y2: g.y1 - 6 }));
+  avoid.push([g.x0, g.y0, g.x1, g.y0], [g.x0, g.y0, g.x0, g.y1 - 6]);
+  var bw = Math.min(26, (g.x1 - g.x0) / (g.hi - g.lo) * 0.3);
+  var bars = iso.map(function (r, i) {
+    var x = g.X(r[0]), y = g.Y(r[1]);
+    var rect = K.svg('rect', { 'class': 'ars-bar', x: x - bw / 2, y: y, width: bw, height: g.y0 - y, 'data-v': r[1], 'data-m': r[0], 'data-i': i });
+    svgEl.appendChild(rect);
+    avoid.push([x - bw / 2, y, x - bw / 2, g.y0], [x + bw / 2, y, x + bw / 2, g.y0], [x - bw / 2, y, x + bw / 2, y]);
+    return { x: x, y: y, rect: rect };
+  });
+  var ar = arOf(iso).ar, ax = null;
+  if (opts.arLine && isFinite(ar)) {
+    ax = g.X(ar);
+    var ln = K.svg('line', { 'class': 'ars-arl', x1: ax, x2: ax, y1: g.y0, y2: g.y1 - 20, 'data-ar': ar });
+    svgEl.appendChild(ln);
+    avoid.push([ax, g.y0, ax, g.y1 - 20]);
+  }
+  iso.forEach(function (r, i) {
+    K.label(svgEl, bars[i].x, g.y0, num(r[0]), { cls: 'ars-ax ars-me', cands: [[0, 22, 'middle'], [0, 38, 'middle']], avoid: avoid, placed: placed });
+  });
+  if (opts.drag) bars.forEach(function (b, i) {
+    svgEl.appendChild(K.svg('rect', { 'class': 'ars-hit', x: b.x - bw / 2 - 8, y: g.y1, width: bw + 16, height: g.y0 - g.y1 + 8, 'data-i': i }));
+    var k = K.svg('circle', { 'class': 'ars-knob', cx: b.x, cy: b.y, r: 7, 'data-i': i });
+    svgEl.appendChild(k);
+    placed.push({ x: b.x - 9, y: b.y - 9, w: 18, h: 18 });
+  });
+  /* text: y ticks, m/e under the axis, abundance on top of each bar, then the A_r label */
+  ticks.forEach(function (v) {
+    K.label(svgEl, g.x0, g.Y(v), num(v), { cls: 'ars-ax', cands: [[-8, 5, 'end'], [-8, 9, 'end'], [-8, 1, 'end']], avoid: avoid, placed: placed, pad: 1 });
+  });
+  K.label(svgEl, g.x0, g.y1 - 6, 'relative abundance', { cls: 'ars-ax', cands: [[-6, -12, 'start'], [0, -12, 'start']], avoid: avoid, placed: placed });
+  var me = K.label(svgEl, g.x1, g.y0, 'm/e', { cls: 'ars-ax', cands: [[0, 40, 'end'], [0, 22, 'end']], avoid: avoid, placed: placed });
+  me.textContent = '';
+  ['m', '/', 'e'].forEach(function (c) { var s = K.svg('tspan', c === '/' ? {} : { 'font-style': 'italic' }); s.textContent = c; me.appendChild(s); });
+  iso.forEach(function (r, i) {
+    var dy = opts.drag ? -18 : -9;   /* -7 lets the 14 px bbox (descent + pad) touch the bar top → falls to a far candidate */
+    K.label(svgEl, bars[i].x, bars[i].y, num(r[1], opts.step), {
+      cls: 'ars-ab', avoid: avoid, placed: placed,
+      cands: [[0, dy, 'middle'], [12, dy, 'start'], [-12, dy, 'end'], [14, 5, 'start'], [-14, 5, 'end'], [0, dy - 16, 'middle'], [16, -18, 'start'], [-16, -18, 'end']]
+    }).setAttribute('data-i', i);
+  });
+  if (ax != null) {
+    var t = K.label(svgEl, ax, g.y1 - 20, 'Ar = ' + num(ar, opts.dp), {
+      cls: 'ars-ar', avoid: avoid, placed: placed,
+      cands: [[0, -6, 'middle'], [6, -6, 'start'], [-6, -6, 'end'], [8, 12, 'start'], [-8, 12, 'end'], [8, 30, 'start'], [-8, 30, 'end']]
+    });
+    /* italic A, subscript r — same width as the plain text K.label measured */
+    t.textContent = '';
+    var a = K.svg('tspan', { 'font-style': 'italic' }); a.textContent = 'A'; t.appendChild(a);
+    var rest = K.svg('tspan'); rest.textContent = 'ᵣ = ' + num(ar, opts.dp); t.appendChild(rest);
+  }
+  return g;
+}
+
+/* ---------- main chart ---------- */
+var cur = null, iso = [], yTop = 100, geo = null, inputs = [];
+function load(i) {
+  cur = PRE[i];
+  iso = cur.iso.map(function (r) { return r.slice(); });
+  yTop = topFor(Math.max.apply(null, iso.map(function (r) { return r[1]; })));
+  noteBox.innerHTML = cur.note;
+  inBox.innerHTML = '';
+  inputs = iso.map(function (r, j) {
+    var lab = K.el('label', {}, isoName(r[0], cur.sym) + ' ');
+    var inp = K.el('input', { type: 'number', min: 0, step: Math.pow(10, -cur.step), 'data-i': j, 'class': 'ars-ab-in' });
+    inp.value = num(r[1], cur.step);
+    inp.addEventListener('input', function () {
+      var v = parseFloat(inp.value);
+      iso[j][1] = isFinite(v) && v >= 0 ? v : 0;
+      if (iso[j][1] > yTop) yTop = topFor(iso[j][1]);
+      render(false);
+    });
+    lab.appendChild(inp); inBox.appendChild(lab);
+    return inp;
+  });
+  render(false);
+}
+function render(syncInputs) {
+  geo = draw(svg, iso, yTop, { sym: cur.sym, dp: cur.dp, step: cur.step, drag: true, arLine: true });
+  if (syncInputs) inputs.forEach(function (inp, j) { inp.value = num(iso[j][1], cur.step); });
+  var s = arOf(iso);
+  var terms = iso.map(function (r) { return num(r[0]) + ' × ' + num(r[1], cur.step); }).join(' + ');
+  var bots = iso.map(function (r) { return num(r[1], cur.step); }).join(' + ');
+  var A = '<i>A</i>ᵣ';
+  if (!(s.bot > 0)) {
+    out.innerHTML = '<p class="err">Σ abundance = 0：至少要有一个 peak。</p>';
+  } else {
+    out.innerHTML =
+      '<p class="ars-eq">' + A + ' = Σ(<i>m</i>/<i>e</i> × abundance) ÷ Σ abundance</p>' +
+      '<p class="ars-eq ars-work">' + A + ' = (' + terms + ') ÷ (' + bots + ')</p>' +
+      '<p class="ars-eq">　 = ' + num(s.top) + ' ÷ ' + num(s.bot, cur.step) + ' = <span class="ars-big ars-res">' + num(s.ar, cur.dp) + '</span>' +
+      ' <span class="faint">（' + cur.dp + ' d.p.）</span></p>' +
+      '<p class="faint">红色虚线就是 ' + A + ' 在 <i>m</i>/<i>e</i> 轴上的位置：weighted average，所以它靠近最高的那根柱，而不是落在正中间。</p>';
+  }
+  K.fit();
+}
+sel.addEventListener('change', function () { load(+sel.value); });
+
+/* drag a bar top (knob or the column under it) */
+var dragI = -1;
+function svgY(ev) {
+  var pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY;
+  return pt.matrixTransform(svg.getScreenCTM().inverse()).y;
+}
+function setFromPointer(ev) {
+  var v = (geo.y0 - svgY(ev)) / (geo.y0 - geo.y1) * yTop;
+  v = Math.max(0, Math.min(yTop, v));
+  var f = Math.pow(10, cur.step); v = Math.round(v * f) / f;
+  iso[dragI][1] = v;
+  render(true);
+  var k = svg.querySelector('.ars-knob[data-i="' + dragI + '"]'); if (k) k.classList.add('on');
+}
+svg.addEventListener('pointerdown', function (ev) {
+  var t = ev.target.closest('[data-i]');
+  if (!t || !(t.classList.contains('ars-knob') || t.classList.contains('ars-hit') || t.classList.contains('ars-bar'))) return;
+  dragI = +t.getAttribute('data-i');
+  svg.classList.add('drag');
+  try { svg.setPointerCapture(ev.pointerId); } catch (e) { /* synthetic events */ }
+  ev.preventDefault();
+  setFromPointer(ev);
+});
+svg.addEventListener('pointermove', function (ev) { if (dragI >= 0) setFromPointer(ev); });
+function endDrag() { dragI = -1; svg.classList.remove('drag'); }
+svg.addEventListener('pointerup', endDrag);
+svg.addEventListener('pointercancel', endDrag);
+
+load(0);
+
+/* ---------- self-test ---------- */
+var qsvg = $root.querySelector('.ars-qsvg'), qin = $root.querySelector('.ars-qin'),
+    qres = $root.querySelector('.ars-qres'), qans = $root.querySelector('.ars-qans'), q = null;
+function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+function newQ() {
+  var n = rnd(2, 3), m0 = rnd(6, 120), gap = n === 2 ? rnd(1, 2) : 1, list = [], used = {};
+  for (var i = 0; i < n; i++) list.push([m0 + i * gap, 0]);
+  list.forEach(function (r) { r[1] = rnd(1, 20) * 5; });
+  list[rnd(0, n - 1)][1] = 100;              /* biggest peak scaled to 100, like many spectra */
+  q = { iso: list, ar: arOf(list).ar };
+  qsvg.setAttribute('data-ans', q.ar);
+  draw(qsvg, list, topFor(100), { step: 0 });
+  qin.value = ''; qin.classList.remove('good', 'badv'); qres.textContent = ''; qres.className = 'ars-qres';
+  var s = arOf(list);
+  qans.innerHTML = '<i>A</i>ᵣ = (' + list.map(function (r) { return r[0] + ' × ' + r[1]; }).join(' + ') + ') ÷ (' +
+    list.map(function (r) { return r[1]; }).join(' + ') + ') = ' + num(s.top) + ' ÷ ' + num(s.bot) + ' = <b>' + num(s.ar, 1) + '</b>';
+  var btn = $root.querySelector('button.reveal');
+  if (qans.classList.contains('show')) btn.click();
+  K.fit();
+}
+qin.addEventListener('input', function () {
+  var v = parseFloat(qin.value.replace(/[−–]/g, '-'));
+  qin.classList.remove('good', 'badv'); qres.className = 'ars-qres'; qres.textContent = '';
+  if (!qin.value.trim()) return;
+  var ok = /^\s*[\d.]+\s*$/.test(qin.value) && Math.abs(v - q.ar) <= 0.05 + 1e-9;
+  qin.classList.add(ok ? 'good' : 'badv'); qres.classList.add(ok ? 'good' : 'badv');
+  qres.textContent = ok ? '✓' : '✗　分母是 Σ abundance，不是 100';
+});
+$root.querySelector('.ars-qnew').addEventListener('click', newQ);
+newQ();
+
+/* redraw both charts when the output area changes width (Colab panel, narrow window) */
+var lastW = svg.getBoundingClientRect().width;
+if (window.ResizeObserver) new ResizeObserver(function () {
+  var w = svg.getBoundingClientRect().width;
+  if (Math.abs(w - lastW) < 1) return;
+  lastW = w;
+  render(false);
+  draw(qsvg, q.iso, topFor(100), { step: 0 });
+}).observe(svg);
+</script>

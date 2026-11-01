@@ -1,0 +1,340 @@
+<h3>mole 换算中枢：一切都先变成 <i>n</i></h3>
+<p class="mut">在<b>任意一个</b>盒子里填数，其余盒子自动算出；用到的箭头会变蓝，下面写出每一步的算式。结果按你输入数据的 s.f. 显示（至少 2 位）。</p>
+<div class="row">formula <input type="text" class="mm-f" value="HO2CCO2H" spellcheck="false" size="16">
+  <span class="mm-pre"></span></div>
+<div class="mm-mr card"></div>
+<svg class="mm-map" viewBox="0 0 808 500">
+  <defs>
+    <marker id="mm-a-on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--acc)"/></marker>
+    <marker id="mm-a-off" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--faint)"/></marker>
+  </defs>
+  <rect x="0" y="0" width="808" height="500" rx="10" class="mm-bgr"/>
+  <g class="mm-arrows"></g>
+  <circle cx="404" cy="250" r="70" class="mm-core"/>
+  <g class="mm-labels"></g>
+  <foreignObject x="334" y="196" width="140" height="108"><div xmlns="http://www.w3.org/1999/xhtml" class="mm-in mm-n" data-box="n">
+    <div class="mm-t">amount, <i>n</i> / mol</div><input type="text" class="mm-v" data-k="n" inputmode="decimal" spellcheck="false"></div></foreignObject>
+  <foreignObject x="284" y="8" width="240" height="112"><div xmlns="http://www.w3.org/1999/xhtml" class="mm-box" data-box="gas">
+    <div class="mm-t">gas volume, <i>V</i> / dm³</div><div class="mm-s">at room conditions</div>
+    <input type="text" class="mm-v" data-k="gas" inputmode="decimal" spellcheck="false"></div></foreignObject>
+  <foreignObject x="14" y="194" width="230" height="112"><div xmlns="http://www.w3.org/1999/xhtml" class="mm-box" data-box="mass">
+    <div class="mm-t">mass, <i>m</i> / g</div><div class="mm-s mm-msub">&#160;</div>
+    <input type="text" class="mm-v" data-k="mass" inputmode="decimal" spellcheck="false"></div></foreignObject>
+  <foreignObject x="564" y="194" width="230" height="112"><div xmlns="http://www.w3.org/1999/xhtml" class="mm-box" data-box="part">
+    <div class="mm-t">number of particles, <i>N</i></div><select class="mm-kind"></select>
+    <input type="text" class="mm-v" data-k="part" spellcheck="false"></div></foreignObject>
+  <foreignObject x="254" y="380" width="300" height="112"><div xmlns="http://www.w3.org/1999/xhtml" class="mm-box" data-box="sol">
+    <div class="mm-t">solution</div>
+    <div class="mm-two"><label><span><i>c</i> / mol dm⁻³</span><input type="text" class="mm-v" data-k="c" inputmode="decimal" spellcheck="false"></label>
+    <label><span><i>V</i> / cm³</span><input type="text" class="mm-v" data-k="vol" inputmode="decimal" spellcheck="false" value="250"></label></div></div></foreignObject>
+</svg>
+<div class="mm-work card"></div>
+<p class="faint"><i>L</i> 用 6.02 × 10²³ mol⁻¹；gas 的 molar volume 用 24.0 dm³ mol⁻¹（room conditions；gas volume 这一格只对 gas 有意义）。<i>N</i> 可以写成 <code>2.4e21</code>、<code>2.4 x 10^21</code> 或直接写 2.4 × 10²¹。</p>
+<style>
+.k .mm-map{margin:8px 0;user-select:none}
+.k .mm-bgr{fill:var(--card);stroke:var(--line)}
+.k .mm-core{fill:var(--acc-soft);stroke:var(--acc);stroke-width:2}
+.k .mm-arrows path{fill:none;stroke:var(--faint);stroke-width:2;stroke-dasharray:5 4}
+.k .mm-arrows path.on{stroke:var(--acc);stroke-width:4;stroke-dasharray:none}
+.k .mm-labels text{font-size:16px;fill:var(--mut)}
+.k .mm-labels text.on{fill:var(--acc);font-weight:650}
+.k .mm-box,.k .mm-in{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;text-align:center;font-size:15px;line-height:1.25}
+.k .mm-box{border:2px solid var(--line);border-radius:10px;background:var(--bg);padding:4px 8px}
+.k .mm-box.src{border-color:var(--acc);background:var(--acc-soft)}
+.k .mm-in.src .mm-v{border-color:var(--acc);border-width:2px}
+.k .mm-t{font-weight:600}
+.k .mm-s{font-size:14px;color:var(--mut)}
+.k .mm-map input.mm-v{width:150px;text-align:center;font-size:16px;padding:2px 6px}
+.k .mm-in input.mm-v{width:118px}
+.k .mm-map input.mm-v.bad{border-color:var(--bad);background:var(--bad-soft)}
+.k .mm-map select{font-size:14px;max-width:210px;padding:1px 4px}
+.k .mm-two{display:flex;gap:10px}
+.k .mm-two label{display:flex;flex-direction:column;align-items:center;font-size:14px;color:var(--mut);cursor:text}
+.k .mm-two input.mm-v{width:120px;color:var(--fg)}
+.k .mm-mr{margin:6px 0;font-size:15px}
+.k .mm-mr .err,.k .mm-work .err{color:var(--bad)}
+.k .mm-mr .big{font-size:19px}
+.k .mm-pre button{padding:1px 8px;font-size:14px}
+.k .mm-work ol{margin:4px 0}
+.k .mm-work li{margin:3px 0}
+.k .mm-work .h{font-weight:600}
+</style>
+<script>
+var AR = {}, NOAR = 'Tc Po At Rn Fr Ra Ac Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og Pm'.split(' ');
+('H 1.0 He 4.0 Li 6.9 Be 9.0 B 10.8 C 12.0 N 14.0 O 16.0 F 19.0 Ne 20.2 Na 23.0 Mg 24.3 Al 27.0 Si 28.1 P 31.0 S 32.1 Cl 35.5 ' +
+ 'Ar 39.9 K 39.1 Ca 40.1 Sc 45.0 Ti 47.9 V 50.9 Cr 52.0 Mn 54.9 Fe 55.8 Co 58.9 Ni 58.7 Cu 63.5 Zn 65.4 Ga 69.7 Ge 72.6 As 74.9 ' +
+ 'Se 79.0 Br 79.9 Kr 83.8 Rb 85.5 Sr 87.6 Y 88.9 Zr 91.2 Nb 92.9 Mo 95.9 Ru 101.1 Rh 102.9 Pd 106.4 Ag 107.9 Cd 112.4 In 114.8 ' +
+ 'Sn 118.7 Sb 121.8 Te 127.6 I 126.9 Xe 131.3 Cs 132.9 Ba 137.3 Hf 178.5 Ta 180.9 W 183.8 Re 186.2 Os 190.2 Ir 192.2 Pt 195.1 ' +
+ 'Au 197.0 Hg 200.6 Tl 204.4 Pb 207.2 Bi 209.0 La 138.9 Ce 140.1 Pr 140.9 Nd 144.4 Sm 150.4 Eu 152.0 Gd 157.3 Tb 158.9 Dy 162.5 ' +
+ 'Ho 164.9 Er 167.3 Tm 168.9 Yb 173.1 Lu 175.0 Th 232.0 Pa 231.0 U 238.0').split(' ').forEach(function (v, i, a) {
+  if (i % 2 === 0) AR[v] = Math.round(+a[i + 1] * 10);          /* tenths, so sums stay exact */
+});
+var L = 6.02e23, VM = 24.0;
+function d1(t) { return (t / 10).toFixed(1); }                   /* tenths → '249.6' */
+var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+function subs(s) { return String(s).replace(/\d/g, function (c) { return SUBD[+c]; }); }
+
+/* ---------- formula ---------- */
+function parseFormula(raw) {
+  var s = String(raw).replace(/[₀-₉]/g, function (c) { return SUBD.indexOf(c); }).replace(/\s+/g, '');
+  if (!s) return { err: '先输入一个 formula。' };
+  var parts = s.split(/[.·•∙*]/), out = [], pretty = [];
+  for (var p = 0; p < parts.length; p++) {
+    var t = parts[p], coef = 1, m = t.match(/^\d+/);
+    if (!t) return { err: '「·」两边都要有东西。' };
+    if (m) {
+      if (p === 0) return { err: 'formula 开头不要写系数（' + m[0] + '）。' };
+      coef = +m[0]; t = t.slice(m[0].length);
+      if (!coef) return { err: '系数不能是 0。' };
+    }
+    var stack = [{}], order = [], i = 0, pr = '';
+    while (i < t.length) {
+      var ch = t[i];
+      if (ch === '(' || ch === '[') { stack.push({}); pr += ch; i++; continue; }
+      if (ch === ')' || ch === ']') {
+        if (stack.length < 2) return { err: '多了一个「' + ch + '」。' };
+        var g = stack.pop(), n = t.slice(i + 1).match(/^\d+/), k = n ? +n[0] : 1;
+        for (var e in g) stack[stack.length - 1][e] = (stack[stack.length - 1][e] || 0) + g[e] * k;
+        pr += ch + (n ? subs(n[0]) : ''); i += 1 + (n ? n[0].length : 0); continue;
+      }
+      var sm = t.slice(i).match(/^([A-Z][a-z]?)(\d*)/);
+      if (!sm) return { err: '不认识的符号「' + t.slice(i).match(/^[a-z]+|^./)[0] + '」——element symbol 要大写字母开头。' };
+      var sym = sm[1];
+      if (!(sym in AR)) {
+        return { err: NOAR.indexOf(sym) >= 0 ? sym + ' 在 Periodic Table 上没有给 Aᵣ，算不了。' : '不认识的符号「' + sym + '」：Periodic Table 上没有这个 element。' };
+      }
+      var c = sm[2] ? +sm[2] : 1;
+      if (!c) return { err: sym + ' 后面的数字不能是 0。' };
+      stack[stack.length - 1][sym] = (stack[stack.length - 1][sym] || 0) + c;
+      if (order.indexOf(sym) < 0) order.push(sym);
+      pr += sym + subs(sm[2]); i += sm[0].length;
+    }
+    if (stack.length > 1) return { err: '括号没有配对：少了「)」。' };
+    var cnt = stack[0], mr = 0;
+    order.forEach(function (e) { mr += AR[e] * cnt[e]; });
+    out.push({ coef: coef, cnt: cnt, order: order, mr: mr });
+    pretty.push((coef > 1 ? coef : '') + pr);
+  }
+  var tot = {}, ord = [], mr = 0;
+  out.forEach(function (q) {
+    q.order.forEach(function (e) { tot[e] = (tot[e] || 0) + q.cnt[e] * q.coef; if (ord.indexOf(e) < 0) ord.push(e); });
+    mr += q.mr * q.coef;
+  });
+  /* working: main part element by element, each water-of-crystallisation part as k × Mr(part) */
+  var terms = out[0].order.map(function (e) { var k = out[0].cnt[e]; return (k > 1 ? k + ' × ' : '') + d1(AR[e]); });
+  out.slice(1).forEach(function (q) { terms.push((q.coef > 1 ? q.coef + ' × ' : '') + d1(q.mr)); });
+  return { parts: out, tot: tot, order: ord, mr: mr, pretty: pretty.join('·'), terms: terms };
+}
+
+/* ---------- numbers ---------- */
+var SUPD = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-', '⁺': '+' };
+function parseNum(raw) {
+  var s = String(raw).trim().replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+/g, function (m) { return '^' + m.split('').map(function (c) { return SUPD[c]; }).join(''); })
+    .replace(/[−–]/g, '-').replace(/\s+/g, '').replace(/,/g, '');
+  var m = s.match(/^(\d*\.?\d*)(?:[x×*X]10(?:\^|\*\*)?([-+]?\d+)|[eE]([-+]?\d+))?$/);
+  if (!m || !/\d/.test(m[1])) return null;
+  var man = m[1], ex = m[2] || m[3] || '0', v = parseFloat(man) * Math.pow(10, +ex);
+  var dg = man.replace('.', '').replace(/^0+/, ''), sf = man.indexOf('.') >= 0 ? dg.length : dg.replace(/0+$/, '').length || 1;
+  if (man.indexOf('.') < 0 && /0$/.test(man)) sf = Math.max(sf, Math.min(3, dg.length));   /* '250' → 3 s.f. */
+  return { v: v, sf: Math.max(2, Math.min(sf, 5)) };
+}
+function fmt(x, sf) {
+  if (!isFinite(x)) return '—';
+  if (x === 0) return '0';
+  var e = Math.floor(Math.log10(Math.abs(x)));
+  var r = +x.toPrecision(sf); e = Math.floor(Math.log10(Math.abs(r)));
+  if (e >= -3 && e < 5 && sf - 1 - e >= 0) return r.toFixed(sf - 1 - e);
+  if (e >= -3 && e < 5) return String(Math.round(r));
+  var man = (r / Math.pow(10, e)).toFixed(sf - 1);
+  return man + ' × 10' + K.sup(e);
+}
+
+/* ---------- map geometry ---------- */
+var CX = 404, CY = 250, R = 70, GAP = 9, svg = $root.querySelector('.mm-map'), ga = $root.querySelector('.mm-arrows'), gl = $root.querySelector('.mm-labels');
+function cy(x, up) { var d = Math.sqrt(R * R - (x - CX) * (x - CX)); return up ? CY - d : CY + d; }
+function cx(y, left) { var d = Math.sqrt(R * R - (y - CY) * (y - CY)); return left ? CX - d : CX + d; }
+/* in = box → n, out = n → box; side says where its label goes */
+var ARW = {
+  gas:  { 'in': [[388, 124], [388, cy(388, 1) - GAP]], out: [[420, cy(420, 1) - 4], [420, 120 + GAP]], li: 'left', lo: 'right' },
+  sol:  { 'in': [[388, 376], [388, cy(388, 0) + GAP]], out: [[420, cy(420, 0) + 4], [420, 380 - GAP]], li: 'left', lo: 'right' },
+  mass: { 'in': [[248, 236], [cx(236, 1) - GAP, 236]], out: [[cx(264, 1) - 4, 264], [244 + GAP, 264]], li: 'above', lo: 'below' },
+  part: { 'in': [[560, 236], [cx(236, 0) + GAP, 236]], out: [[cx(264, 0) + 4, 264], [564 - GAP, 264]], li: 'above', lo: 'below' }
+};
+var CANDS = {
+  left:  [[-10, 5, 'end'], [-10, -8, 'end'], [-10, 18, 'end']],
+  right: [[10, 5, 'start'], [10, -8, 'start'], [10, 18, 'start']],
+  above: [[0, -9, 'middle'], [-14, -9, 'middle'], [14, -9, 'middle']],
+  below: [[0, 21, 'middle'], [-14, 21, 'middle'], [14, 21, 'middle']]
+};
+var paths = {};
+Object.keys(ARW).forEach(function (k) {
+  ['in', 'out'].forEach(function (d) {
+    var p = ARW[k][d], el = K.svg('path', { d: 'M' + p[0][0] + ',' + p[0][1] + ' L' + p[1][0] + ',' + p[1][1], 'data-arrow': k + '-' + d, 'marker-end': 'url(#mm-a-off)' });
+    ga.appendChild(el); paths[k + '-' + d] = el;
+  });
+});
+function boxRects() {   /* everything opaque on the map, for K.label */
+  return [{ x: 284, y: 8, w: 240, h: 112 }, { x: 14, y: 194, w: 230, h: 112 }, { x: 564, y: 194, w: 230, h: 112 },
+          { x: 254, y: 380, w: 300, h: 112 }, { x: CX - R, y: CY - R, w: 2 * R, h: 2 * R }];
+}
+function drawLabels(txt, on) {
+  gl.innerHTML = '';
+  var placed = boxRects(), avoid = [];
+  Object.keys(ARW).forEach(function (k) { ['in', 'out'].forEach(function (d) { var p = ARW[k][d]; avoid.push([p[0][0], p[0][1], p[1][0], p[1][1]]); }); });
+  Object.keys(ARW).forEach(function (k) {
+    ['in', 'out'].forEach(function (d) {
+      var p = ARW[k][d], mx = (p[0][0] + p[1][0]) / 2, my = (p[0][1] + p[1][1]) / 2;
+      var t = K.label(gl, mx, my, txt[k + '-' + d], { cands: CANDS[ARW[k][d === 'in' ? 'li' : 'lo']], avoid: avoid, placed: placed, pad: 3 });
+      t.setAttribute('data-for', k + '-' + d);
+      /* quantity symbols italic, after placement (same glyph widths give the same box) */
+      t.innerHTML = t.textContent.replace(/\b([MLVc])\b/g, '<tspan font-style="italic">$1</tspan>');
+      if (on[k + '-' + d]) t.classList.add('on');
+    });
+  });
+}
+
+/* ---------- state ---------- */
+var fIn = $root.querySelector('.mm-f'), kindSel = $root.querySelector('.mm-kind'), mrBox = $root.querySelector('.mm-mr'), work = $root.querySelector('.mm-work');
+var inp = {}; K.$$($root, 'input.mm-v').forEach(function (e) { inp[e.getAttribute('data-k')] = e; });
+var F = null, src = 'mass', kindWanted = 'el:C';
+var PRE = [['HO2CCO2H', 'HO₂CCO₂H'], ['CuSO4.5H2O', 'CuSO₄·5H₂O'], ['Mg(OH)2', 'Mg(OH)₂'], ['CO2', 'CO₂'], ['NaCl', 'NaCl'], ['Ca3(PO4)2', 'Ca₃(PO₄)₂']];
+var preBox = $root.querySelector('.mm-pre');
+PRE.forEach(function (p) {
+  var b = K.el('button', { type: 'button', 'data-f': p[0] }, p[1]);
+  b.addEventListener('click', function () { fIn.value = p[0]; onFormula(); });
+  preBox.appendChild(b);
+});
+
+function kindInfo() {
+  var v = kindSel.value || 'mol';
+  if (v === 'all') { var n = 0; for (var e in F.tot) n += F.tot[e]; return { k: n, name: 'atoms', short: 'atoms' }; }
+  if (v.indexOf('el:') === 0) { var s = v.slice(3); return { k: F.tot[s], name: s + ' atoms', short: s, el: s }; }
+  return { k: 1, name: 'molecules / formula units', short: '' };
+}
+function fillKinds() {
+  var keep = kindSel.value || kindWanted;
+  kindSel.innerHTML = '';
+  kindSel.appendChild(K.el('option', { value: 'mol' }, 'molecules / formula units'));
+  F.order.forEach(function (e) { kindSel.appendChild(K.el('option', { value: 'el:' + e }, 'atoms of ' + e + '（' + F.tot[e] + ' per formula）')); });
+  var all = 0; for (var e in F.tot) all += F.tot[e];
+  if (F.order.length > 1 || all > 1) kindSel.appendChild(K.el('option', { value: 'all' }, 'all atoms（' + all + ' per formula）'));
+  kindSel.value = keep; if (kindSel.value !== keep) kindSel.value = 'mol';
+}
+
+function onFormula() {
+  var r = parseFormula(fIn.value);
+  if (r.err) {
+    F = null; fIn.classList.add('bad');
+    mrBox.innerHTML = '<span class="err">' + r.err + '</span>';
+  } else {
+    F = r; fIn.classList.remove('bad');
+    fillKinds();
+    mrBox.innerHTML = '<span class="big"><i>M</i><sub>r</sub>(' + F.pretty + ') = ' + F.terms.join(' + ') + ' = <b>' + d1(F.mr) + '</b></span>' +
+      '　→　<i>M</i> = ' + d1(F.mr) + ' g mol⁻¹';
+  }
+  $root.querySelector('.mm-msub').innerHTML = F ? '<i>M</i> = ' + d1(F.mr) + ' g mol⁻¹' : '<span class="err">formula 有错</span>';
+  K.$$($root, '.mm-pre button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-f') === fIn.value.trim()); });
+  calc();
+}
+
+function calc() {
+  K.$$($root, '[data-box]').forEach(function (b) { b.classList.toggle('src', b.getAttribute('data-box') === (src === 'c' ? 'sol' : src)); });
+  Object.keys(inp).forEach(function (k) { inp[k].classList.remove('bad'); });
+  var box = src === 'c' ? 'sol' : src, lines = [], n = null, sf = 3, err = null;
+  var KI = F ? kindInfo() : { k: 1, name: 'molecules / formula units', short: '' };
+  var M = F ? F.mr / 10 : null, Ms = F ? d1(F.mr) : '?';
+  var volP = parseNum(inp.vol.value);
+  var vol = volP && volP.v > 0 ? volP.v : null;
+
+  function need(k) { var p = parseNum(inp[k].value); if (!p || !(p.v > 0)) { inp[k].classList.add('bad'); err = '「' + (inp[k].value || '空') + '」看不懂——要一个正数。'; return null; } return p; }
+  if (box === 'mass') {
+    var p = need('mass');
+    if (p && !F) err = 'formula 有错，算不出 <i>M</i>。';
+    if (p && F) { n = p.v / M; sf = p.sf; lines.push('<i>n</i> = <i>m</i> ÷ <i>M</i> = ' + inp.mass.value.trim() + ' ÷ ' + Ms + ' = <b>' + fmt(n, sf) + ' mol</b>'); }
+  } else if (box === 'gas') {
+    p = need('gas');
+    if (p) { n = p.v / VM; sf = p.sf; lines.push('<i>n</i> = <i>V</i> ÷ 24.0 = ' + inp.gas.value.trim() + ' ÷ 24.0 = <b>' + fmt(n, sf) + ' mol</b>'); }
+  } else if (box === 'part') {
+    p = need('part');
+    if (p) {
+      sf = p.sf; var np = p.v / L;
+      if (KI.k > 1 || KI.el) {
+        lines.push('<i>n</i>(' + KI.short + ') = <i>N</i> ÷ <i>L</i> = ' + fmt(p.v, sf) + ' ÷ 6.02 × 10²³ = ' + fmt(np, sf) + ' mol');
+        n = np / KI.k;
+        lines.push('每个 ' + F.pretty + ' 有 ' + KI.k + ' 个 ' + (KI.el ? KI.el + ' atom' : 'atom') + '：<i>n</i>(' + F.pretty + ') = ' + fmt(np, sf) + ' ÷ ' + KI.k + ' = <b>' + fmt(n, sf) + ' mol</b>');
+      } else {
+        n = np; lines.push('<i>n</i> = <i>N</i> ÷ <i>L</i> = ' + fmt(p.v, sf) + ' ÷ 6.02 × 10²³ = <b>' + fmt(n, sf) + ' mol</b>');
+      }
+    }
+  } else if (box === 'sol') {
+    var pc = need('c'), pv = need('vol');
+    if (pc && pv) {
+      n = pc.v * pv.v / 1000; sf = Math.min(pc.sf, pv.sf);
+      lines.push('<i>n</i> = <i>c</i> × <i>V</i> ÷ 1000 = ' + inp.c.value.trim() + ' × ' + inp.vol.value.trim() + ' ÷ 1000 = <b>' + fmt(n, sf) + ' mol</b>');
+    }
+  } else {
+    p = need('n');
+    if (p) { n = p.v; sf = p.sf; lines.push('<i>n</i> = ' + inp.n.value.trim() + ' mol（直接给出）'); }
+  }
+
+  var on = {};
+  if (box !== 'n' && n != null) on[box + '-in'] = 1;
+  if (n != null) {
+    var out = {};
+    out.n = fmt(n, sf);
+    if (F) { out.mass = fmt(n * M, sf); }
+    out.gas = fmt(n * VM, sf);
+    var Npart = n * KI.k * L;
+    out.part = fmt(Npart, sf);
+    if (vol) out.c = fmt(n / (vol / 1000), sf);
+    var tl = [];
+    if (box !== 'mass') tl.push(F ? '<i>m</i> = <i>n</i> × <i>M</i> = ' + out.n + ' × ' + Ms + ' = <b>' + out.mass + ' g</b>' : '<i>m</i>：formula 有错，算不出 <i>M</i>');
+    if (box !== 'part') {
+      if (KI.k > 1 || KI.el) {
+        var nx = n * KI.k;
+        tl.push('<i>n</i>(' + KI.short + ') = ' + KI.k + ' × ' + out.n + ' = ' + fmt(nx, sf) + ' mol；<i>N</i>(' + KI.short + ') = ' + fmt(nx, sf) + ' × 6.02 × 10²³ = <b>' + out.part + '</b>');
+      } else tl.push('<i>N</i> = <i>n</i> × <i>L</i> = ' + out.n + ' × 6.02 × 10²³ = <b>' + out.part + '</b>');
+    }
+    if (box !== 'gas') tl.push('<i>V</i> = <i>n</i> × 24.0 = ' + out.n + ' × 24.0 = <b>' + out.gas + ' dm³</b>');
+    if (box !== 'sol') tl.push(vol ? '<i>c</i> = <i>n</i> ÷ (<i>V</i> ÷ 1000) = ' + out.n + ' ÷ (' + inp.vol.value.trim() + ' ÷ 1000) = <b>' + out.c + ' mol dm⁻³</b>'
+                                    : '<i>c</i>：先在 solution 盒子里填 <i>V</i> / cm³');
+    ['mass', 'gas', 'part', 'sol'].forEach(function (b) { if (b !== box) on[b + '-out'] = 1; });
+    if (box !== 'n') inp.n.value = out.n;
+    if (box !== 'mass') inp.mass.value = F ? out.mass : '';
+    if (box !== 'gas') inp.gas.value = out.gas;
+    if (box !== 'part') inp.part.value = out.part;
+    if (box !== 'sol') inp.c.value = vol ? out.c : '';
+    work.innerHTML = '<div class="h">① 先变成 <i>n</i>（' + { mass: 'mass', gas: 'gas volume', part: 'number of particles', sol: 'solution', n: 'amount' }[box] + ' → amount）</div><ol>' +
+      lines.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>' +
+      '<div class="h">② 再从 <i>n</i> 出发</div><ol>' + tl.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>' +
+      '<p class="faint">结果取 ' + sf + ' s.f.（跟你填的数据一样）；中间步骤不要提前四舍五入。</p>';
+  } else {
+    Object.keys(inp).forEach(function (k) { if (k !== 'vol' && k !== (box === 'sol' ? 'c' : box)) inp[k].value = ''; });
+    work.innerHTML = '<p class="err">' + (err || '填一个数') + '</p>';
+  }
+  Object.keys(paths).forEach(function (k) {
+    paths[k].classList.toggle('on', !!on[k]);
+    paths[k].setAttribute('marker-end', on[k] ? 'url(#mm-a-on)' : 'url(#mm-a-off)');
+  });
+  var kk = KI.k > 1 || KI.el ? KI.k + ' × ' : '';
+  drawLabels({
+    'mass-in': '÷ M', 'mass-out': '× M',
+    'gas-in': '÷ 24.0', 'gas-out': '× 24.0',
+    'part-in': kk ? '÷ (' + kk + 'L)' : '÷ L', 'part-out': '× ' + kk + 'L',
+    'sol-in': 'c × V ÷ 1000', 'sol-out': '÷ (V ÷ 1000)'
+  }, on);
+  K.fit();
+}
+
+Object.keys(inp).forEach(function (k) {
+  inp[k].addEventListener('input', function () {
+    if (k !== 'vol') src = k === 'c' ? 'sol' : k;
+    calc();
+  });
+});
+kindSel.addEventListener('change', calc);
+fIn.addEventListener('input', onFormula);
+inp.mass.value = '0.18';
+F = parseFormula(fIn.value); fillKinds(); kindSel.value = kindWanted;
+onFormula();
+</script>

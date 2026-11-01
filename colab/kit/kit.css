@@ -1,5 +1,8 @@
 /* che_note Colab kit — shared styles, inlined into every html cell by tools/build_colab.py.
    Everything is scoped under .k so a preview page can stack many cells without clashes. */
+/* Noto Sans draws superscript ⁺ ⁻ (U+207A/B) only a few px wide — I⁻ reads as "I'" at 15px.
+   Take just those two glyphs from a font whose ⁺⁻ are full-size (unicode-range: nothing else changes). */
+@font-face{font-family:"KitCharge";src:local("DejaVu Sans"),local("DejaVuSans"),local("Segoe UI"),local("SegoeUI"),local("Arial");unicode-range:U+207A-207B}
 .k{
   --bg:#fbfaf7; --card:#ffffff; --fg:#1f2328; --mut:#5c6370; --faint:#8b929c; --line:#d9d6cf;
   --acc:#2f5fd0; --acc-soft:#e7edfb; --pos:#c0392b; --neg:#2f5fd0; --neu:#6b7280;
@@ -7,7 +10,7 @@
   --s1:#2f5fd0; --s2:#c0392b; --s3:#1a7f37; --s4:#b26b00; --s5:#7a3fb0;
   /* Latin fonts first: they carry every superscript digit (⁴⁵⁶…); CJK fonts lack U+2074–2079,
      so with a CJK font first ² and ⁶ come from different fonts and look mismatched */
-  font:15px/1.55 "Segoe UI","Noto Sans","DejaVu Sans","Helvetica Neue",-apple-system,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  font:15px/1.55 "KitCharge","Segoe UI","Noto Sans","DejaVu Sans","Helvetica Neue",-apple-system,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
   color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:10px;
   padding:14px 16px; margin:4px 0; max-width:920px; box-sizing:border-box;
 }

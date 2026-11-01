@@ -1,0 +1,347 @@
+<h3>配平 equation + ionic equation</h3>
+<div class="tabbar"><button data-tab="bal">① 配平 equation</button><button data-tab="ion">② ionic equation</button></div>
+
+<div data-pane="bal">
+  <p class="mut">用每个物质下面的 <b>−</b> / <b>+</b> 调系数。formula 是灰色锁定的：改 subscript 就变成另一种物质了，只能改前面的系数。</p>
+  <div class="row bl-pick"></div>
+  <p class="faint bl-ctx"></p>
+  <div class="card bl-eqcard"><div class="bl-eq"></div></div>
+  <table class="bl-tab"></table>
+  <div class="bl-st"></div>
+  <div class="row"><button class="bl-reset">系数全部回到 1</button><button class="bl-hint">提示：配平顺序</button></div>
+  <div class="bl-hintbox"></div>
+</div>
+
+<div data-pane="ion">
+  <p class="mut">做法：把 (aq) 的 ionic compound 拆成 ions → 两边一模一样的 ion（spectator ions）划掉 → 检查 atoms 和 charges 都平衡。</p>
+  <div class="row bl-ipick"></div>
+  <div class="card"><div class="faint">full equation</div><div class="bl-full"></div></div>
+  <div class="row bl-steps">
+    <button class="bl-s1">① 拆成 ions</button>
+    <button class="bl-s2" disabled>② 划掉 spectator ions</button>
+    <button class="bl-s3" disabled>③ 检查</button>
+    <button class="bl-ire">重来</button>
+  </div>
+  <div class="bl-work"></div>
+  <div class="bl-msg"></div>
+  <div class="bl-final"></div>
+</div>
+
+<style>
+.k .bl-pick button,.k .bl-ipick button{font-size:14px}
+.k .bl-eqcard{margin:8px 0}
+.k .bl-eq{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:6px 4px;font-size:24px}
+.k .bl-term{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.k .bl-top{display:inline-flex;align-items:baseline;gap:3px;white-space:nowrap}
+.k .bl-co{color:var(--acc);font-weight:700;min-width:.7em;text-align:right}
+.k .bl-co.one{color:var(--faint);font-weight:400}
+.k .bl-f{background:var(--line);color:var(--fg);border-radius:6px;padding:0 7px;cursor:not-allowed;user-select:none}
+.k .bl-pm{display:inline-flex;gap:4px}
+.k .bl-pm button{font-size:15px;line-height:1;padding:3px 10px;min-width:30px}
+.k .bl-op{padding:0 6px;color:var(--mut);align-self:flex-start;line-height:1.55}
+.k .bl-tab td,.k .bl-tab th{text-align:center;min-width:64px}
+.k .bl-tab td.w{text-align:left;color:var(--mut);font-size:13.5px}
+.k .bl-tab tr.eq td{background:var(--ok-soft)}
+.k .bl-tab tr.eq td.n{color:var(--ok);font-weight:700}
+.k .bl-tab tr.ne td.n{color:var(--bad);font-weight:700}
+.k .bl-st,.k .bl-msg{margin:6px 0;padding:7px 11px;border-radius:6px;border-left:3px solid var(--line);background:var(--card)}
+.k .bl-st:empty,.k .bl-msg:empty{display:none}
+.k .bl-st.ok,.k .bl-msg.ok{border-left-color:var(--ok);background:var(--ok-soft)}
+.k .bl-st.warn,.k .bl-msg.warn{border-left-color:var(--bad);background:var(--bad-soft)}
+.k .bl-big{font-size:20px}
+.k .bl-hintbox{display:none;margin-top:6px;padding:7px 11px;border-left:3px solid var(--acc);background:var(--acc-soft);border-radius:0 6px 6px 0}
+.k .bl-hintbox.show{display:block}
+.k .bl-full{font-size:19px;margin-top:2px}
+.k .bl-st-s{color:var(--mut);font-size:.85em}
+.k .bl-why .bl-st-s{font-size:1em}
+.k .bl-work{margin:8px 0}
+.k .bl-work:empty{display:none}
+.k .bl-line{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;font-size:19px;padding:8px 10px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.k .bl-chip{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 6px;background:var(--bg)}
+.k .bl-chip.ion{border-color:var(--acc)}
+.k .bl-live .bl-chip{cursor:pointer}
+.k .bl-live .bl-chip:hover{background:var(--acc-soft)}
+.k .bl-chip.gone{text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px;opacity:.5}
+.k .bl-chip.flash{background:var(--bad-soft);border-color:var(--bad)}
+.k .bl-q{font-family:"DejaVu Sans","Segoe UI","Helvetica Neue",Arial,sans-serif}
+.k .bl-why{font-size:13.5px;color:var(--mut);margin:6px 2px 0}
+.k .bl-why li{margin:1px 0}
+.k .bl-final table td,.k .bl-final table th{text-align:center}
+.k .bl-final table td.w{text-align:left;color:var(--mut)}
+.k .bl-final .good{color:var(--ok);font-weight:700}
+.k button:disabled{opacity:.45;cursor:default}
+.k button:disabled:hover{border-color:var(--line)}
+</style>
+
+<script>
+var Q = function (s) { return $root.querySelector(s); };
+var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+function sub(f) { return f.replace(/\d/g, function (d) { return SUBD[d]; }); }
+/* charge in its own Latin font: Noto Sans draws a lone ⁺/⁻ as a near-invisible speck (I⁻ looked like I·) */
+function chg(q) { return q === 0 ? '' : '<span class="bl-q">' + K.sup(Math.abs(q) === 1 ? '' : Math.abs(q)) + (q > 0 ? '⁺' : '⁻') + '</span>'; }
+function signed(q) { return q === 0 ? '0' : (q > 0 ? '+' : '−') + Math.abs(q); }
+function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+function gcdAll(a) { return a.reduce(function (g, x) { return gcd(g, x); }, 0); }
+/* 'Mg(OH)2' → {Mg:1, O:2, H:2}, keys in order of first appearance */
+function atoms(f) {
+  var st = [{}], order = [], i = 0, m;
+  function add(o, e, n) { if (!(e in o)) o[e] = 0; o[e] += n; if (order.indexOf(e) < 0) order.push(e); }
+  while (i < f.length) {
+    if (f[i] === '(') { st.push({}); i++; }
+    else if (f[i] === ')') {
+      m = f.slice(i + 1).match(/^\d*/)[0]; i += 1 + m.length;
+      var g = st.pop(), k = +m || 1;
+      for (var e in g) add(st[st.length - 1], e, g[e] * k);
+    } else {
+      m = f.slice(i).match(/^([A-Z][a-z]?)(\d*)/);
+      add(st[st.length - 1], m[1], +m[2] || 1); i += m[0].length;
+    }
+  }
+  st[0].__order = order;
+  return st[0];
+}
+
+/* ------------------------------------------------------------ tab 1: balancing */
+var EQ = [
+  { L: ['Fe2O3', 'CO'], R: ['Fe', 'CO2'], ans: [1, 3, 2, 3], ctx: 'blast furnace：iron(III) oxide 被 carbon monoxide 还原',
+    hint: '先配 Fe：右边要 <b>2</b>Fe。再配 O：设 CO 和 CO₂ 系数都是 <i>x</i>，左边 3 + <i>x</i>，右边 2<i>x</i> → <i>x</i> = 3。' },
+  { L: ['Al(OH)3'], R: ['Al2O3', 'H2O'], ans: [2, 1, 3], ctx: '加热 aluminium hydroxide（thermal decomposition）',
+    hint: '先配 Al：Al₂O₃ 有 2 个 Al → <b>2</b>Al(OH)₃。左边现在 6 个 H → <b>3</b>H₂O。最后核对 O：左 6，右 3 + 3 = 6。' },
+  { L: ['Fe', 'HCl'], R: ['FeCl2', 'H2'], ans: [1, 2, 1, 1], ctx: 'iron + dilute hydrochloric acid',
+    hint: 'FeCl₂ 有 2 个 Cl → <b>2</b>HCl。H 自动平衡：左 2，右 H₂ 也是 2。' },
+  { L: ['C3H8', 'O2'], R: ['CO2', 'H2O'], ans: [1, 5, 3, 4], ctx: 'propane 的 complete combustion',
+    hint: '先配 C → <b>3</b>CO₂；再配 H：8 个 H → <b>4</b>H₂O；O 最后配：右边 3×2 + 4×1 = 10 → <b>5</b>O₂。' },
+  { L: ['Bi', 'H2O'], R: ['Bi2O3', 'H2'], ans: [2, 3, 1, 3], ctx: 'bismuth 把 water 还原成 Bi₂O₃，放出 H₂（9701/22 Feb/Mar 2024 Q1(b)(i)）',
+    hint: 'Bi₂O₃ 需要 <b>2</b>Bi；它有 3 个 O → <b>3</b>H₂O；左边 6 个 H → <b>3</b>H₂。' },
+  { L: ['Mg3N2', 'H2O'], R: ['Mg(OH)2', 'NH3'], ans: [1, 6, 3, 2], ctx: 'Mg₃N₂ + excess water → ammonia + magnesium hydroxide（9701/21 May/June 2024 Q2(c)(ii)）',
+    hint: '先配 Mg → <b>3</b>Mg(OH)₂；再配 N → <b>2</b>NH₃；H：右边 3×2 + 2×3 = 12 → <b>6</b>H₂O；最后核对 O：6 = 3×2。' }
+];
+var cur = 0, co = [];
+EQ.forEach(function (e, i) {
+  var b = K.el('button', { 'data-eq': i }, e.L.map(sub).join(' + ') + ' → ' + e.R.map(sub).join(' + '));
+  b.addEventListener('click', function () { pick(i); });
+  Q('.bl-pick').appendChild(b);
+});
+function species() { var e = EQ[cur]; return e.L.concat(e.R); }
+function eqText(c) {
+  var e = EQ[cur], s = species();
+  function side(a, off) { return a.map(function (f, j) { var n = c[off + j]; return (n > 1 ? n : '') + sub(f); }).join(' + '); }
+  return side(e.L, 0) + ' → ' + side(e.R, e.L.length);
+}
+function pick(i) {
+  cur = i; co = species().map(function () { return 1; });
+  $root.querySelectorAll('.bl-pick button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-eq') === i); });
+  Q('.bl-ctx').textContent = EQ[i].ctx;
+  Q('.bl-hintbox').classList.remove('show'); Q('.bl-hintbox').innerHTML = EQ[i].hint;
+  Q('.bl-hint').textContent = '提示：配平顺序';
+  buildEq(); update();
+}
+function buildEq() {
+  var e = EQ[cur], box = Q('.bl-eq'); box.innerHTML = '';
+  species().forEach(function (f, k) {
+    if (k === e.L.length) box.appendChild(K.el('span', { 'class': 'bl-op' }, '→'));
+    else if (k) box.appendChild(K.el('span', { 'class': 'bl-op' }, '+'));
+    var t = K.el('span', { 'class': 'bl-term', 'data-i': k },
+      '<span class="bl-top"><span class="bl-co"></span><span class="bl-f" data-tip="formula 不能改：改 subscript 就是另一种物质。只能改前面的系数。">' + sub(f) + '</span></span>' +
+      '<span class="bl-pm"><button class="bl-minus" aria-label="减少系数">−</button><button class="bl-plus" aria-label="增加系数">+</button></span>');
+    t.querySelector('.bl-minus').addEventListener('click', function () { if (co[k] > 1) { co[k]--; update(); } });
+    t.querySelector('.bl-plus').addEventListener('click', function () { if (co[k] < 12) { co[k]++; update(); } });
+    box.appendChild(t);
+  });
+}
+function update() {
+  var e = EQ[cur], s = species(), A = s.map(atoms), els = [];
+  A.forEach(function (a) { a.__order.forEach(function (x) { if (els.indexOf(x) < 0) els.push(x); }); });
+  $root.querySelectorAll('.bl-term').forEach(function (t) {
+    var k = +t.getAttribute('data-i'), c = t.querySelector('.bl-co');
+    c.textContent = co[k]; c.classList.toggle('one', co[k] === 1);
+    t.querySelector('.bl-minus').disabled = co[k] <= 1;
+    t.querySelector('.bl-plus').disabled = co[k] >= 12;
+  });
+  var rows = '<tr><th>element</th><th colspan="2">左边 reactants</th><th colspan="2">右边 products</th></tr>', bad = [];
+  els.forEach(function (x) {
+    function side(from, to) {
+      var parts = [], tot = 0;
+      for (var k = from; k < to; k++) if (A[k][x]) { parts.push(co[k] + '×' + A[k][x]); tot += co[k] * A[k][x]; }
+      return { w: parts.join(' + '), n: tot };
+    }
+    var l = side(0, e.L.length), r = side(e.L.length, s.length), ok = l.n === r.n;
+    if (!ok) bad.push(x);
+    rows += '<tr class="' + (ok ? 'eq' : 'ne') + '" data-el="' + x + '"><th>' + x + '</th><td class="w">' + l.w + '</td><td class="n">' + l.n +
+      '</td><td class="w">' + r.w + '</td><td class="n">' + r.n + '</td></tr>';
+  });
+  Q('.bl-tab').innerHTML = rows;
+  var st = Q('.bl-st'), g = gcdAll(co);
+  st.className = 'bl-st';
+  if (bad.length) {
+    st.innerHTML = '还没平衡：<b>' + bad.join('、') + '</b> 两边数目不相等。';
+    $root.setAttribute('data-bal', 'no');
+  } else if (g > 1) {
+    st.classList.add('warn');
+    st.innerHTML = 'atoms 都平衡了，但所有系数都能 ÷ ' + g + ' —— equation 要用<b>最简整数比</b>：' + eqText(co.map(function (n) { return n / g; }));
+    $root.setAttribute('data-bal', 'reduce');
+  } else {
+    st.classList.add('ok');
+    st.innerHTML = '<span class="bl-big">✓ ' + eqText(co) + '</span><br>每种 element 两边数目相等，系数是最简整数比。';
+    $root.setAttribute('data-bal', 'ok');
+  }
+  K.fit();
+}
+Q('.bl-reset').addEventListener('click', function () { co = co.map(function () { return 1; }); update(); });
+Q('.bl-hint').addEventListener('click', function () {
+  var on = Q('.bl-hintbox').classList.toggle('show');
+  Q('.bl-hint').textContent = on ? '收起提示' : '提示：配平顺序'; K.fit();
+});
+pick(0);
+
+/* ------------------------------------------------------------ tab 2: ionic equations */
+/* species: n, f (ASCII), st, and either ions [[f, per formula unit, charge], …] or why (stays whole) */
+var IR = [
+  { name: 'Zn + CuSO₄',
+    L: [{ n: 1, f: 'Zn', st: 's', why: 'metal，(s)' }, { n: 1, f: 'CuSO4', st: 'aq', ions: [['Cu', 1, 2], ['SO4', 1, -2]] }],
+    R: [{ n: 1, f: 'ZnSO4', st: 'aq', ions: [['Zn', 1, 2], ['SO4', 1, -2]] }, { n: 1, f: 'Cu', st: 's', why: 'metal，(s)' }] },
+  { name: 'H₂SO₄ + NaOH',
+    L: [{ n: 1, f: 'H2SO4', st: 'aq', ions: [['H', 2, 1], ['SO4', 1, -2]], note: 'strong acid，在 water 里完全 ionise，所以也拆' },
+        { n: 2, f: 'NaOH', st: 'aq', ions: [['Na', 1, 1], ['OH', 1, -1]] }],
+    R: [{ n: 1, f: 'Na2SO4', st: 'aq', ions: [['Na', 2, 1], ['SO4', 1, -2]] }, { n: 2, f: 'H2O', st: 'l', why: 'covalent molecule，(l)' }] },
+  { name: 'Br₂ + KI',
+    L: [{ n: 1, f: 'Br2', st: 'aq', why: 'covalent molecule：溶在 water 里也不 ionise' }, { n: 2, f: 'KI', st: 'aq', ions: [['K', 1, 1], ['I', 1, -1]] }],
+    R: [{ n: 2, f: 'KBr', st: 'aq', ions: [['K', 1, 1], ['Br', 1, -1]] }, { n: 1, f: 'I2', st: 'aq', why: 'covalent molecule：溶在 water 里也不 ionise' }] },
+  { name: 'CuSO₄ + NaOH',
+    L: [{ n: 1, f: 'CuSO4', st: 'aq', ions: [['Cu', 1, 2], ['SO4', 1, -2]] }, { n: 2, f: 'NaOH', st: 'aq', ions: [['Na', 1, 1], ['OH', 1, -1]] }],
+    R: [{ n: 1, f: 'Cu(OH)2', st: 's', why: 'precipitate，(s)' }, { n: 1, f: 'Na2SO4', st: 'aq', ions: [['Na', 2, 1], ['SO4', 1, -2]] }] },
+  { name: 'Pb(NO₃)₂ + KI',
+    L: [{ n: 1, f: 'Pb(NO3)2', st: 'aq', ions: [['Pb', 1, 2], ['NO3', 2, -1]] }, { n: 2, f: 'KI', st: 'aq', ions: [['K', 1, 1], ['I', 1, -1]] }],
+    R: [{ n: 1, f: 'PbI2', st: 's', why: 'precipitate，(s)' }, { n: 2, f: 'KNO3', st: 'aq', ions: [['K', 1, 1], ['NO3', 1, -1]] }] }
+];
+var ir = 0, step = 0, parts = null, struck = {};
+IR.forEach(function (r, i) {
+  var b = K.el('button', { 'data-r': i }, r.name);
+  b.addEventListener('click', function () { ipick(i); });
+  Q('.bl-ipick').appendChild(b);
+});
+function spTxt(f, q, st, n) { return (n > 1 ? n : '') + sub(f) + chg(q || 0) + '<span class="bl-st-s">(' + st + ')</span>'; }
+function fullTxt(r) {
+  function side(a) { return a.map(function (s) { return spTxt(s.f, 0, s.st, s.n); }).join(' + '); }
+  return side(r.L) + ' → ' + side(r.R);
+}
+/* split one side into particles, merging identical ones */
+function split(a) {
+  var out = [], idx = {};
+  function push(f, q, st, n, whole) {
+    var key = f + '|' + q + '|' + st;
+    if (key in idx) { out[idx[key]].n += n; return; }
+    idx[key] = out.length; out.push({ f: f, q: q, st: st, n: n, key: key, ion: !whole });
+  }
+  a.forEach(function (s) {
+    if (s.ions) s.ions.forEach(function (io) { push(io[0], io[2], s.st, s.n * io[1], false); });
+    else push(s.f, 0, s.st, s.n, true);
+  });
+  return out;
+}
+function isSpec(key) {
+  var l = parts.L.filter(function (p) { return p.key === key; })[0], r = parts.R.filter(function (p) { return p.key === key; })[0];
+  return !!(l && r && l.ion && l.n === r.n);
+}
+function specKeys() { return parts.L.filter(function (p) { return isSpec(p.key); }).map(function (p) { return p.key; }); }
+function msg(t, cls) { var m = Q('.bl-msg'); m.className = 'bl-msg' + (cls ? ' ' + cls : ''); m.innerHTML = t; K.fit(); }
+function ipick(i) {
+  ir = i; step = 0; parts = null; struck = {};
+  $root.querySelectorAll('.bl-ipick button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-r') === i); });
+  Q('.bl-full').innerHTML = fullTxt(IR[i]);
+  Q('.bl-work').innerHTML = ''; Q('.bl-final').innerHTML = ''; msg('');
+  Q('.bl-s1').disabled = false; Q('.bl-s2').disabled = true; Q('.bl-s3').disabled = true;
+  Q('.bl-s2').classList.remove('on');
+  $root.setAttribute('data-ionic', 'start');
+  K.fit();
+}
+function drawWork() {
+  var r = IR[ir], h = '<div class="faint">拆开后（' + (step >= 2 ? '点 ion 划掉；两边同一个 ion 会一起划掉' : '先看哪些拆了、哪些没拆') + '）</div>';
+  function side(a) {
+    return a.map(function (p) {
+      return '<span class="bl-chip' + (p.ion ? ' ion' : '') + (struck[p.key] ? ' gone' : '') + '" data-key="' + p.key + '">' +
+        spTxt(p.f, p.q, p.st, p.n) + '</span>';
+    }).join('<span class="bl-op">+</span>');
+  }
+  h += '<div class="bl-line' + (step >= 2 ? ' bl-live' : '') + '">' + side(parts.L) + '<span class="bl-op">→</span>' + side(parts.R) + '</div>';
+  var why = [];
+  r.L.concat(r.R).forEach(function (s) {
+    var t = spTxt(s.f, 0, s.st, 1);
+    if (s.why) why.push('<li>' + t + ' 不拆：' + s.why + '</li>');
+    else if (s.note) why.push('<li>' + t + '：' + s.note + '</li>');
+  });
+  var aq = r.L.concat(r.R).filter(function (s) { return s.ions && !s.note; }).map(function (s) { return spTxt(s.f, 0, s.st, 1); });
+  if (aq.length) why.unshift('<li>' + aq.filter(function (t, j) { return aq.indexOf(t) === j; }).join('、') + '：(aq) ionic compound → 拆成 ions（系数要乘进去）</li>');
+  h += '<ul class="bl-why">' + why.join('') + '</ul>';
+  Q('.bl-work').innerHTML = h;
+  $root.querySelectorAll('.bl-work .bl-chip').forEach(function (c) { c.addEventListener('click', function () { strike(c.getAttribute('data-key')); }); });
+  K.fit();
+}
+function strike(key) {
+  if (step < 2) return;
+  var p = parts.L.concat(parts.R).filter(function (x) { return x.key === key; })[0], t = spTxt(p.f, p.q, p.st, 1);
+  if (struck[key]) { delete struck[key]; msg(''); drawWork(); return; }
+  if (!isSpec(key)) {
+    var why = !p.ion ? t + ' 不是 ion，是 reactant / product 本身 —— 它参与了反应，不能划掉。'
+      : t + ' 只在' + (parts.L.indexOf(p) >= 0 ? '左' : '右') + '边出现，另一边找不到一模一样的 ' + t + ' —— 它参与了反应（变成了别的 species），<b>不是 spectator</b>，不能划掉。';
+    msg('✗ ' + why, 'warn');
+    drawWork();
+    $root.querySelectorAll('.bl-work .bl-chip[data-key="' + key + '"]').forEach(function (c) { c.classList.add('flash'); });
+    $root.setAttribute('data-ionic', 'wrong');
+    return;
+  }
+  struck[key] = 1; msg(''); drawWork();
+  $root.setAttribute('data-ionic', 'striking');
+}
+Q('.bl-s1').addEventListener('click', function () {
+  var r = IR[ir]; parts = { L: split(r.L), R: split(r.R) }; step = 1;
+  Q('.bl-s1').disabled = true; Q('.bl-s2').disabled = false;
+  drawWork(); msg('只拆 (aq) 的 ionic compound（和 strong acid）；(s)、(l)、(g) 和 covalent molecules 保持原样。下一步：② 找出 spectator ions。');
+  $root.setAttribute('data-ionic', 'split');
+});
+Q('.bl-s2').addEventListener('click', function () {
+  if (step >= 2) return;
+  step = 2; Q('.bl-s2').classList.add('on'); Q('.bl-s3').disabled = false;
+  drawWork(); msg('点击你认为是 spectator 的 ion：反应前后完全没变（同一个 ion、同样的 state、同样的数目）。划好了按 ③ 检查。');
+  $root.setAttribute('data-ionic', 'striking');
+});
+Q('.bl-s3').addEventListener('click', function () {
+  var sk = specKeys(), left = sk.filter(function (k) { return !struck[k]; });
+  if (left.length) {
+    msg('还有 ' + left.length + ' 种 spectator ion 没划掉 —— 找两边一模一样的 ion。', 'warn');
+    $root.setAttribute('data-ionic', 'incomplete');
+    return;
+  }
+  var L = parts.L.filter(function (p) { return !struck[p.key]; }), R = parts.R.filter(function (p) { return !struck[p.key]; });
+  var g = gcdAll(L.concat(R).map(function (p) { return p.n; }));
+  function line(a) { return a.map(function (p) { return spTxt(p.f, p.q, p.st, p.n / g); }).join(' + '); }
+  var eq = line(L) + ' → ' + line(R);
+  var els = [];
+  L.concat(R).forEach(function (p) { atoms(p.f).__order.forEach(function (x) { if (els.indexOf(x) < 0) els.push(x); }); });
+  function cnt(a, x) { return a.reduce(function (t, p) { return t + (atoms(p.f)[x] || 0) * p.n / g; }, 0); }
+  function charge(a) {
+    var io = a.filter(function (p) { return p.q; }), tot = io.reduce(function (t, p) { return t + p.q * p.n / g; }, 0);
+    if (!io.length) return { w: '', n: 0 };
+    return { w: io.map(function (p) { var n = p.n / g; return (n > 1 ? n + '×' : '') + '(' + signed(p.q) + ')'; }).join(' + '), n: tot };
+  }
+  var rows = '<tr><th></th><th>左边</th><th>右边</th><th></th></tr>', allOk = true;
+  els.forEach(function (x) {
+    var a = cnt(L, x), b = cnt(R, x); if (a !== b) allOk = false;
+    rows += '<tr><th>' + x + '</th><td>' + a + '</td><td>' + b + '</td><td class="' + (a === b ? 'good' : '') + '">' + (a === b ? '✓' : '✗') + '</td></tr>';
+  });
+  var cl = charge(L), cr = charge(R); if (cl.n !== cr.n) allOk = false;
+  rows += '<tr><th>charge</th><td class="w">' + (cl.w ? cl.w + ' = ' + signed(cl.n) : '0（没有 ion）') + '</td><td class="w">' + (cr.w ? cr.w + ' = ' + signed(cr.n) : '0（没有 ion）') + '</td><td class="' + (cl.n === cr.n ? 'good' : '') + '">' + (cl.n === cr.n ? '✓' : '✗') + '</td></tr>';
+  var specs = sk.slice().sort(function (a, b) { return (+b.split('|')[1] > 0) - (+a.split('|')[1] > 0); }).map(function (k) { var p = parts.L.filter(function (x) { return x.key === k; })[0]; return sub(p.f) + chg(p.q); });
+  Q('.bl-final').innerHTML = '<div class="bl-st ok"><div class="faint">ionic equation</div><span class="bl-big bl-ionic">' + eq + '</span>' +
+    (g > 1 ? '<br><span class="mut">（剩下的系数同除以 ' + g + '，写成最简整数比）</span>' : '') +
+    '<br>spectator ions：<b class="bl-specs">' + specs.join('、') + '</b></div>' +
+    '<table class="bl-chk">' + rows + '</table>' +
+    '<p class="' + (allOk ? 'good' : '') + '">' + (allOk ? '✓ atoms 和 charge 两边都平衡。' : '✗ 不平衡') + '</p>';
+  msg('');
+  Q('.bl-s3').disabled = true; Q('.bl-s2').disabled = true; Q('.bl-s2').classList.remove('on');
+  $root.setAttribute('data-ionic', allOk ? 'done' : 'unbalanced');
+  K.fit();
+});
+Q('.bl-ire').addEventListener('click', function () { ipick(ir); });
+ipick(0);
+</script>
