@@ -1,0 +1,378 @@
+<h3>titration 计算：从 burette 往回推到原样品</h3>
+<p class="mut">选一道题，或者直接改下面任何一个数——流程图上的 mol 数和下面每一步的算式会即时更新。蓝色箭头就是往回推的方向：burette → conical flask → (× dilution factor) → 原样品。</p>
+<div class="row tt-pre"></div>
+<div class="tt-eq card"></div>
+<div class="tt-form">
+  <div class="tt-grp"><span class="tt-h">burette</span>
+    <label><i>c</i> = <input type="text" class="tt-v" data-k="ct" spellcheck="false"> mol dm⁻³</label>
+    <label>titre = <input type="text" class="tt-v" data-k="vt" spellcheck="false"> cm³</label></div>
+  <div class="tt-grp"><span class="tt-h">mole ratio</span>
+    <label><span class="tt-an"></span> : <span class="tt-ti"></span> = <input type="text" class="tt-v tt-int" data-k="ra" spellcheck="false"> : <input type="text" class="tt-v tt-int" data-k="rb" spellcheck="false"></label></div>
+  <div class="tt-grp"><span class="tt-h">dilution</span>
+    <label class="tt-chk"><input type="checkbox" class="tt-dil"> 先定容</label>
+    <label class="tt-d1"><span>make up to <i>V</i>₁ =</span> <input type="text" class="tt-v" data-k="v1" spellcheck="false"> cm³</label>
+    <label>pipette <i>V</i>₂ = <input type="text" class="tt-v" data-k="v2" spellcheck="false"> cm³</label></div>
+  <div class="tt-grp"><span class="tt-h">要求</span>
+    <select class="tt-tg">
+      <option value="conc">concentration of original solution</option>
+      <option value="mass">mass in original sample</option>
+      <option value="pct">percentage by mass</option>
+    </select>
+    <label class="tt-f-v0"><span>original volume <i>V</i>₀ =</span> <input type="text" class="tt-v" data-k="v0" spellcheck="false"> cm³</label>
+    <label class="tt-f-mr"><span><i>M</i><sub>r</sub> =</span> <input type="text" class="tt-v" data-k="mr" spellcheck="false"></label>
+    <label class="tt-f-ms"><span>sample mass =</span> <input type="text" class="tt-v" data-k="ms" spellcheck="false"> g</label></div>
+</div>
+<svg class="tt-map" viewBox="0 0 780 548">
+  <defs>
+    <marker id="tt-a-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--acc)"/></marker>
+    <marker id="tt-a-fwd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--faint)"/></marker>
+  </defs>
+  <rect x="0" y="0" width="780" height="548" rx="10" class="tt-bgr"/>
+  <g class="tt-art"></g>
+  <g class="tt-wires"></g>
+  <g class="tt-labels"></g>
+</svg>
+<div class="row tt-ctl">
+  <button type="button" class="tt-next">下一步 ▸</button>
+  <button type="button" class="tt-all">全部展开</button>
+  <button type="button" class="tt-reset">从第 1 步重来</button>
+  <span class="faint tt-prog"></span>
+</div>
+<div class="tt-work card"></div>
+<style>
+.k .tt-pre button{font-size:14px;padding:3px 10px}
+.k .tt-eq{margin:6px 0;font-size:15px}
+.k .tt-eq .src{color:var(--faint);font-size:13px}
+.k .tt-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px;margin:8px 0}
+.k .tt-grp{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;font-size:14px}
+.k .tt-h{font-weight:650;width:100%;color:var(--mut);font-size:13px}
+.k .tt-grp label{white-space:nowrap}
+.k .tt-v{width:7.4em;text-align:center}
+.k .tt-v.tt-int{width:2.8em}
+.k .tt-v.bad{border-color:var(--bad);background:var(--bad-soft)}
+.k .tt-grp select{max-width:100%;font-size:14px}
+.k .tt-off{opacity:.45}
+.k .tt-map{margin:8px 0;user-select:none}
+.k .tt-bgr{fill:var(--card);stroke:var(--line)}
+.k .tt-art .gl{fill:none;stroke:var(--mut);stroke-width:2;stroke-linejoin:round}
+.k .tt-art .tick{stroke:var(--mut);stroke-width:1.2}
+.k .tt-art .dim{opacity:.3}
+.k .tt-wires path{fill:none}
+.k .tt-wires path.fwd{stroke:var(--faint);stroke-width:2;stroke-dasharray:6 4}
+.k .tt-wires path.back{stroke:var(--acc);stroke-width:3}
+.k .tt-labels text{font-size:15px;fill:var(--fg)}
+.k .tt-labels text.nm{fill:var(--mut)}
+.k .tt-labels text.mol{fill:var(--acc);font-weight:650}
+.k .tt-labels text.op{fill:var(--acc);font-weight:650}
+.k .tt-labels text.fw{fill:var(--faint)}
+.k .tt-labels text.dim{opacity:.4}
+.k .tt-map .hid{visibility:hidden}
+.k .tt-work ol{margin:4px 0;padding-left:24px}
+.k .tt-work li{margin:5px 0}
+.k .tt-work li.hid{display:none}
+.k .tt-work .dil{background:var(--hl);border-radius:4px;padding:0 4px}
+.k .tt-work .err{color:var(--bad)}
+.k .tt-work .fin{font-size:16px}
+</style>
+<script>
+/* ---------- presets（数值是字符串：显示时保留题目原样的位数） ---------- */
+var PRE = [
+  { id: 'naoh', btn: '① NaOH vs H₂SO₄', eq: '2NaOH + H₂SO₄ → Na₂SO₄ + 2H₂O', src: '正文例子',
+    an: 'NaOH', ti: 'H₂SO₄', tiAq: 'H₂SO₄(aq)', icon: 'beaker', sample: 'NaOH(aq)', hue: 'rgba(90,150,255,.28)',
+    v: { ct: '0.200', vt: '15.10', ra: '2', rb: '1', v1: '250.0', v2: '25.0', v0: '25.0', mr: '40.0', ms: '1.00' }, dil: false, tg: 'conc' },
+  { id: 'tab', btn: '② vitamin C tablet', eq: 'C₆H₈O₆ + I₂ → C₆H₆O₆ + 2HI（vitamin C : I₂ = 1 : 1）', src: '9701/21 May/June 2025 Q4(b)',
+    an: 'vitamin C', ti: 'I₂', tiAq: 'I₂(aq)', icon: 'tablet', sample: 'vitamin C tablet', hue: 'rgba(180,110,30,.45)',
+    v: { ct: '5.00 × 10⁻⁴', vt: '28.40', ra: '1', rb: '1', v1: '200.0', v2: '5.00', v0: '200.0', mr: '176', ms: '1.00' }, dil: true, tg: 'mass',
+    note: 'flask 里另加的 ~150 cm³ 水是干扰项：它不改变 flask 里 vitamin C 的 mol 数。mark scheme 的答案写 0.099968（3 s.f. 即 0.100 g），也接受先 × 176 再 × 200/5 的顺序。' },
+  { id: 'lemon', btn: '③ lemon', eq: 'C₆H₈O₆ + I₂ → C₆H₆O₆ + 2HI（vitamin C : I₂ = 1 : 1）', src: '9701/22 May/June 2025 Q5(b)',
+    an: 'vitamin C', ti: 'I₂', tiAq: 'I₂(aq)', icon: 'lemon', sample: 'lemon', hue: 'rgba(180,110,30,.45)',
+    v: { ct: '5.00 × 10⁻³', vt: '36.65', ra: '1', rb: '1', v1: '100.0', v2: '25.0', v0: '100.0', mr: '176', ms: '150.0' }, dil: true, tg: 'pct',
+    note: 'mark scheme：0.086 % 或 0.087 % 都给分（0.129 g 取整后再除会得到 0.086 %）。' },
+  { id: 'mn', btn: '④ Mn²⁺ with NaBiO₃', eq: '2Mn²⁺ + 5BiO₃⁻ + 14H⁺ → 2MnO₄⁻ + 5Bi³⁺ + 7H₂O', src: '9701/22 Feb/Mar 2024 Q1(e)',
+    an: 'Mn²⁺', ti: 'BiO₃⁻', tiAq: 'NaBiO₃(aq)', icon: 'beaker', sample: 'Mn²⁺(aq)', hue: 'rgba(200,120,40,.35)',
+    v: { ct: '0.100', vt: '21.50', ra: '2', rb: '5', v1: '1000', v2: '25.00', v0: '100.0', mr: '54.9', ms: '1.00' }, dil: true, tg: 'conc',
+    note: '1.00 dm³ 写成 1000 cm³；dilution factor = 1000 / 25.00 = 40。' }
+];
+
+/* ---------- numbers ---------- */
+var SUPD = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-', '⁺': '+' };
+function parseNum(raw) {
+  var s = String(raw).trim().replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+/g, function (m) { return '^' + m.split('').map(function (c) { return SUPD[c]; }).join(''); })
+    .replace(/[−–]/g, '-').replace(/\s+/g, '').replace(/,/g, '');
+  var m = s.match(/^(\d*\.?\d*)(?:[x×*X]10(?:\^|\*\*)?([-+]?\d+)|[eE]([-+]?\d+))?$/);
+  if (!m || !/\d/.test(m[1])) return null;
+  var man = m[1], ex = m[2] || m[3] || '0', v = parseFloat(man) * Math.pow(10, +ex);
+  var dg = man.replace('.', '').replace(/^0+/, ''), sf = man.indexOf('.') >= 0 ? dg.length : dg.replace(/0+$/, '').length || 1;
+  if (man.indexOf('.') < 0 && /0$/.test(man)) sf = Math.max(sf, Math.min(3, dg.length));   /* '250' → 3 s.f. */
+  return { v: v, sf: sf, plain: /^\d*\.?\d*$/.test(s) };
+}
+function fmt(x, sf) {
+  if (!isFinite(x)) return '—';
+  if (x === 0) return '0';
+  var r = +x.toPrecision(sf), e = Math.floor(Math.log10(Math.abs(r)));
+  if (e >= -3 && e < 5 && sf - 1 - e >= 0) return r.toFixed(sf - 1 - e);
+  if (e >= -3 && e < 5) return String(Math.round(r));
+  return (r / Math.pow(10, e)).toFixed(sf - 1) + ' × 10' + K.sup(e);
+}
+/* unrounded answer as a mark scheme prints it (5 s.f., trailing zeros dropped) */
+function full(x) { var e = Math.floor(Math.log10(Math.abs(x))); return e >= -3 && e < 5 ? String(+x.toPrecision(5)) : fmt(x, 5); }
+function fin(x, sf, unit) { var r = fmt(x, sf), f = full(x); return (f !== r ? f + ' → ' : '') + '<b class="fin">' + r + unit + '</b>（' + sf + ' s.f.）'; }
+function trim(x) { return String(+x.toPrecision(6)); }
+/* '100.0' cm³ → '0.1000' dm³: move the point, keep every written digit */
+function toDm3(raw, p) {
+  var s = raw.trim();
+  if (!p.plain) return fmt(p.v / 1000, Math.max(p.sf, 2));
+  if (s.indexOf('.') < 0) s += '.';
+  var i = s.indexOf('.'), d = s.replace('.', ''), j = i - 3, out;
+  out = j <= 0 ? '0.' + new Array(1 - j).join('0') + d : d.slice(0, j) + '.' + d.slice(j);
+  out = out.replace(/^0+(?=\d)/, '');
+  return out.replace(/\.$/, '');
+}
+
+/* ---------- DOM ---------- */
+var svg = $root.querySelector('.tt-map'), gArt = $root.querySelector('.tt-art'), gW = $root.querySelector('.tt-wires'), gL = $root.querySelector('.tt-labels');
+var work = $root.querySelector('.tt-work'), eqBox = $root.querySelector('.tt-eq'), dilBox = $root.querySelector('.tt-dil'), tgSel = $root.querySelector('.tt-tg');
+var inp = {}; K.$$($root, 'input.tt-v').forEach(function (e) { inp[e.getAttribute('data-k')] = e; });
+var P = PRE[0], shown = Infinity, nSteps = 0;
+
+var preBox = $root.querySelector('.tt-pre');
+PRE.forEach(function (p) {
+  var b = K.el('button', { type: 'button', 'data-pre': p.id }, p.btn);
+  b.addEventListener('click', function () { load(p); });
+  preBox.appendChild(b);
+});
+
+/* ---------- geometry ---------- */
+var W = 780, XO = 85, XV = 270, XP = 430, XC = 600, YF = 322;
+var RA = 400, RB = 427, RC1 = 478, RC2 = 505, RC3 = 532;
+
+function art(tag, a, cls) { var e = K.svg(tag, a); if (cls) e.setAttribute('class', cls); gArt.appendChild(e); return e; }
+function drawArt(vt, dil) {
+  gArt.innerHTML = '';
+  /* original sample */
+  var o = [];
+  if (P.icon === 'beaker') {
+    art('path', { d: 'M' + (XO - 38) + ',' + (YF - 12) + ' L' + (XO - 38) + ',' + (YF + 48) + ' L' + (XO + 38) + ',' + (YF + 48) + ' L' + (XO + 38) + ',' + (YF - 12) + ' L' + (XO + 38) + ',' + (YF - 30), style: 'fill:none' }, 'gl');
+    art('rect', { x: XO - 37, y: YF + 6, width: 74, height: 41, style: 'fill:' + (P.id === 'mn' ? 'rgba(230,140,170,.35)' : 'rgba(120,170,255,.22)') });
+    art('path', { d: 'M' + (XO - 38) + ',' + (YF - 30) + ' L' + (XO - 38) + ',' + (YF + 48) + ' L' + (XO + 38) + ',' + (YF + 48) + ' L' + (XO + 38) + ',' + (YF - 30) }, 'gl');
+    o = [XO - 38, YF - 30, 76, 78];
+  } else if (P.icon === 'tablet') {
+    art('ellipse', { cx: XO, cy: YF + 4, rx: 36, ry: 24, style: 'fill:rgba(240,240,235,.9)' }, 'gl');
+    art('line', { x1: XO - 30, y1: YF + 4, x2: XO + 30, y2: YF + 4 }, 'tick');
+    o = [XO - 36, YF - 20, 72, 48];
+  } else {
+    art('ellipse', { cx: XO, cy: YF + 4, rx: 42, ry: 30, style: 'fill:rgba(245,215,40,.85)' }, 'gl');
+    art('path', { d: 'M' + (XO - 42) + ',' + (YF + 4) + ' l-8,-3 l1,6 z M' + (XO + 42) + ',' + (YF + 4) + ' l8,-3 l-1,6 z', style: 'fill:rgba(245,215,40,.85)' }, 'gl');
+    o = [XO - 50, YF - 26, 100, 60];
+  }
+  /* volumetric flask */
+  /* no dilution → no volumetric flask in the picture (its name stays, dimmed) */
+  var g = dil ? art('g', { 'class': 'vf' }) : K.svg('g');
+  function sub(tag, a, cls) { var e = K.svg(tag, a); if (cls) e.setAttribute('class', cls); g.appendChild(e); return e; }
+  var NJ = YF + 20 - 37;   /* neck meets the bulb (centre YF+20, r 38) */
+  sub('path', { d: 'M' + (XV - 9) + ',' + NJ + ' L' + (XV - 9) + ',220 M' + (XV + 9) + ',' + NJ + ' L' + (XV + 9) + ',220', style: 'fill:none' }, 'gl');
+  sub('path', { d: 'M' + (XV - 9) + ',' + NJ + ' A38,38 0 1,0 ' + (XV + 9) + ',' + NJ, style: 'fill:rgba(120,170,255,.2)' }, 'gl');
+  sub('rect', { x: XV - 8, y: 240, width: 16, height: NJ - 240, style: 'fill:rgba(120,170,255,.2)' });
+  sub('line', { x1: XV - 14, y1: 240, x2: XV + 14, y2: 240 }, 'tick');
+  /* pipette */
+  art('path', { d: 'M' + (XP - 3) + ',206 L' + (XP - 3) + ',' + (YF - 26) + ' M' + (XP + 3) + ',206 L' + (XP + 3) + ',' + (YF - 26) +
+    ' M' + (XP - 3) + ',' + (YF + 26) + ' L' + (XP - 3) + ',' + (YF + 40) + ' L' + XP + ',' + (YF + 48) + ' L' + (XP + 3) + ',' + (YF + 40) + ' L' + (XP + 3) + ',' + (YF + 26) }, 'gl');
+  art('ellipse', { cx: XP, cy: YF, rx: 11, ry: 26, style: 'fill:rgba(120,170,255,.2)' }, 'gl');
+  art('line', { x1: XP - 10, y1: 228, x2: XP + 10, y2: 228 }, 'tick');
+  /* conical flask */
+  var cf = 'M' + (XC - 16) + ',266 L' + (XC - 16) + ',300 L' + (XC - 62) + ',372 L' + (XC + 62) + ',372 L' + (XC + 16) + ',300 L' + (XC + 16) + ',266';
+  art('path', { d: 'M' + (XC - 39) + ',336 L' + (XC - 62) + ',372 L' + (XC + 62) + ',372 L' + (XC + 39) + ',336 z', style: 'fill:rgba(225,90,150,.25)' });
+  art('path', { d: cf, style: 'fill:none' }, 'gl');
+  /* burette: 0 cm³ at the top, liquid level at the titre reading */
+  var top = 30, bot = 210, lev = top + Math.max(0, Math.min(50, vt || 0)) / 50 * (bot - top);
+  art('rect', { x: XC - 10, y: lev, width: 20, height: bot - lev, style: 'fill:' + P.hue });
+  art('rect', { x: XC - 11, y: 22, width: 22, height: bot - 22 + 2, style: 'fill:none' }, 'gl');
+  for (var t = 0; t <= 50; t += 5) art('line', { x1: XC - 11, y1: top + t / 50 * (bot - top), x2: XC - (t % 10 ? 5 : 1), y2: top + t / 50 * (bot - top) }, 'tick');
+  art('path', { d: 'M' + (XC - 20) + ',216 L' + (XC + 20) + ',216', style: 'stroke-width:4' }, 'gl');
+  art('path', { d: 'M' + (XC - 5) + ',212 L' + (XC - 2) + ',236 L' + (XC + 2) + ',236 L' + (XC + 5) + ',212' }, 'gl');
+  /* opaque-ish things for label placement */
+  return [
+    { x: o[0], y: o[1], w: o[2], h: o[3] },
+    dil ? { x: XV - 39, y: 218, w: 78, h: YF + 59 - 218 } : { x: -99, y: -99, w: 1, h: 1 },
+    { x: XP - 12, y: 204, w: 24, h: YF + 50 - 204 },
+    { x: XC - 63, y: 264, w: 126, h: 110 },
+    { x: XC - 21, y: 20, w: 42, h: 218 }
+  ];
+}
+
+/* label text → italic quantity symbols (n V c m M) after placement; same glyphs, so the box only shrinks */
+function ital(t) {
+  var s = t.textContent.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; });
+  t.innerHTML = s.replace(/(^|[^A-Za-z0-9])([nVcmM])(?=[^A-Za-z0-9]|$)/g, '$1<tspan font-style="italic">$2</tspan>');
+}
+var placed, avoid;
+function lab(x, y, text, cls, cands, step) {
+  var t = K.label(gL, x, y, text, { cls: cls, cands: cands, placed: placed, avoid: avoid, pad: 3 });
+  ital(t);
+  if (step) t.setAttribute('data-step', step);
+  return t;
+}
+var MID = [[0, 0, 'middle'], [0, 10, 'middle'], [0, -10, 'middle']];
+function bb(t) { var b = t.getBBox(); return { x: b.x, y: b.y, w: b.width, h: b.height }; }
+function wire(pts, cls, step, id) {
+  var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+  var e = K.svg('path', { d: d, 'class': cls, 'marker-end': cls === 'back' ? 'url(#tt-a-back)' : 'url(#tt-a-fwd)' });
+  if (step) e.setAttribute('data-step', step);
+  if (id) e.setAttribute('data-w', id);
+  gW.appendChild(e);
+  K.segs(pts).forEach(function (s) { avoid.push(s); });
+  return e;
+}
+
+/* ---------- compute + draw ---------- */
+function val(k) { var p = parseNum(inp[k].value); if (!p || !(p.v > 0)) return null; return p; }
+/* echo a datum as written ('5.00 × 10⁻³', '50.00'); only e-notation / '^' input is re-typeset */
+function raw(k) { var t = inp[k].value.trim(), p = parseNum(t); return p && !p.plain && !/×\s*10[⁻⁰-⁹]/.test(t) ? fmt(p.v, Math.max(2, p.sf)) : t; }
+
+function calc() {
+  var dil = dilBox.checked, tg = tgSel.value;
+  $root.querySelector('.tt-d1').classList.toggle('tt-off', !dil);
+  inp.v1.disabled = !dil;
+  $root.querySelector('.tt-f-v0').style.display = tg === 'conc' && dil ? '' : 'none';
+  $root.querySelector('.tt-f-mr').style.display = tg !== 'conc' ? '' : 'none';
+  $root.querySelector('.tt-f-ms').style.display = tg === 'pct' ? '' : 'none';
+  $root.querySelector('.tt-an').textContent = P.an; $root.querySelector('.tt-ti').textContent = P.ti;
+  K.$$($root, '.tt-pre button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-pre') === P.id); });
+  eqBox.innerHTML = P.eq + '　<span class="src">' + P.src + '</span>' + (P.note ? '<div class="faint">' + P.note + '</div>' : '');
+
+  var need = ['ct', 'vt', 'ra', 'rb', 'v2'];
+  if (dil) need.push('v1');
+  if (tg === 'conc' && dil) need.push('v0');
+  if (tg !== 'conc') need.push('mr');
+  if (tg === 'pct') need.push('ms');
+  var p = {}, bad = [];
+  Object.keys(inp).forEach(function (k) { inp[k].classList.remove('bad'); });
+  need.forEach(function (k) { p[k] = val(k); if (!p[k]) { bad.push(k); inp[k].classList.add('bad'); } });
+  if (!bad.length && dil && p.v1.v < p.v2.v) { bad.push('v1'); inp.v1.classList.add('bad'); }
+
+  /* s.f. of the answer = fewest s.f. among measured data (ratio is exact) */
+  var sf = 3;
+  if (!bad.length) {
+    sf = Math.min.apply(null, need.filter(function (k) { return k !== 'ra' && k !== 'rb'; }).map(function (k) { return p[k].sf; }));
+    sf = Math.max(2, Math.min(4, sf));
+  }
+  var R = {}, steps = [];
+  if (!bad.length) {
+    var nt = p.ct.v * p.vt.v / 1000, a = p.ra.v, b = p.rb.v, na = nt * a / b, fac = dil ? p.v1.v / p.v2.v : 1, nT = na * fac;
+    R.nt = fmt(nt, sf); R.na = fmt(na, sf); R.nT = fmt(nT, sf);
+    var rat = raw('ra') + '/' + raw('rb');
+    steps.push({ k: 'nt', h: '<i>n</i>(' + P.ti + ') = <i>c</i> × <i>V</i> ÷ 1000 = ' + raw('ct') + ' × ' + raw('vt') + ' ÷ 1000 = <b>' + R.nt + ' mol</b>' });
+    steps.push({ k: 'na', h: 'mole ratio ' + P.an + ' : ' + P.ti + ' = ' + raw('ra') + ' : ' + raw('rb') + ' → <i>n</i>(' + P.an + ') in conical flask = ' + R.nt + ' × ' + rat + ' = <b>' + R.na + ' mol</b>' });
+    if (dil) {
+      R.fac = trim(fac);
+      steps.push({ k: 'nT', h: '<span class="dil">dilution factor = <i>V</i>₁ / <i>V</i>₂ = ' + raw('v1') + ' / ' + raw('v2') + ' = ' + R.fac + '</span>：pipette 只取了 ' + raw('v2') + ' cm³，整个 ' + raw('v1') + ' cm³ 里有 <i>n</i>(' + P.an + ') = ' + R.na + ' × ' + raw('v1') + '/' + raw('v2') + ' = <b>' + R.nT + ' mol</b>' });
+    }
+    var nn = dil ? R.nT : R.na;
+    if (tg === 'conc') {
+      var vk = dil ? 'v0' : 'v2', vd = toDm3(inp[vk].value, p[vk]), c = nT / (p[vk].v / 1000);
+      R.fin = fmt(c, sf) + ' mol dm⁻³'; R.op = '÷ ' + vd + ' dm³';
+      steps.push({ k: 'fin', h: (dil ? '这些 ' + P.an + ' 全部来自 ' + raw('v0') + ' cm³ original solution：' : '') + '<i>c</i> = <i>n</i> ÷ <i>V</i> = ' + nn + ' ÷ ' + vd + ' = ' + fin(c, sf, ' mol dm⁻³') });
+    } else {
+      var m = nT * p.mr.v;
+      R.fin = fmt(m, sf) + ' g'; R.op = '× ' + raw('mr');
+      steps.push({ k: 'fin', h: '<i>m</i> = <i>n</i> × <i>M</i> = ' + nn + ' × ' + raw('mr') + ' = ' + fin(m, sf, ' g') });
+      if (tg === 'pct') {
+        R.pct = fmt(m / p.ms.v * 100, sf);
+        steps.push({ k: 'pct', h: 'percentage by mass = ' + fmt(m, sf) + ' ÷ ' + raw('ms') + ' × 100 = ' + fin(m / p.ms.v * 100, sf, ' %') });
+      }
+    }
+  }
+  nSteps = steps.length;
+  var kOf = {}; steps.forEach(function (s, i) { kOf[s.k] = i + 1; });
+
+  /* ---------- diagram ---------- */
+  gW.innerHTML = ''; gL.innerHTML = '';
+  placed = drawArt(p.vt ? p.vt.v : parseFloat(inp.vt.value), dil).slice(); avoid = [];
+  var tiTxt = P.tiAq + ', ' + raw('ct') + ' mol dm⁻³';
+  var bur = [[-26, 0, 'end']];
+  lab(XC, 46, 'burette', 'nm', bur);
+  lab(XC, 73, tiTxt, '', bur);
+  lab(XC, 100, 'titre = ' + raw('vt') + ' cm³', '', bur);
+  var sampleTxt = tg === 'pct' ? raw('ms') + ' g ' + P.sample : tg === 'conc' && dil ? raw('v0') + ' cm³ ' + P.sample : P.sample;
+  lab(XO, RA, 'original sample', 'nm', MID); lab(XO, RB, sampleTxt, '', MID);
+  lab(XV, RA, 'volumetric flask', 'nm' + (dil ? '' : ' dim'), MID); lab(XV, RB, dil ? 'V₁ = ' + raw('v1') + ' cm³' : '（不稀释）', dil ? '' : 'dim', MID);
+  lab(XP, RA, 'pipette', 'nm', MID); lab(XP, RB, 'V₂ = ' + raw('v2') + ' cm³', '', MID);
+  lab(XC, RA, 'conical flask', 'nm', MID); lab(XC, RB, '+ indicator', 'nm', MID);
+
+  /* legend in the empty top-left corner */
+  wire([[22, 44], [70, 44]], 'fwd', 0, 'lg1'); lab(78, 44, '实验步骤（往前做）', 'fw', [[0, 5, 'start']]);
+  wire([[22, 72], [70, 72]], 'back', 0, 'lg2'); lab(78, 72, '往回推 mol（计算方向）', 'op', [[0, 5, 'start']]);
+  /* forward (experiment) arrows */
+  var fw = [];
+  var oR = placed[0].x + placed[0].w;
+  if (dil) {
+    fw.push(wire([[oR + 8, YF], [XV - 33 - 9, YF]], 'fwd', 0, 'f1'));
+    fw.push(wire([[XV + 33 + 8, YF], [XP - 3 - 9, YF]], 'fwd', 0, 'f2'));
+  } else fw.push(wire([[oR + 8, YF], [XP - 3 - 9, YF]], 'fwd', 0, 'f2'));
+  fw.push(wire([[XP + 3 + 8, YF], [XC - 29 - 9, YF]], 'fwd', 0, 'f3'));
+  var UP = [[0, -10, 'middle'], [0, -22, 'middle'], [0, 20, 'middle']];
+  if (dil) lab((oR + XV - 33) / 2, YF, 'make up', 'fw', UP);
+  if (dil) lab((XV + 33 + XP) / 2, YF, 'withdraw', 'fw', UP);
+  else lab((oR + XP) / 2, YF, 'pipette', 'fw', UP);
+  lab((XP + XC - 29) / 2, YF, 'run in', 'fw', UP);
+
+  if (!bad.length) {
+    /* burette n */
+    var ntA = lab(XC, 112, 'n(' + P.ti + ')', 'mol', [[24, 0, 'start']], kOf.nt);
+    var ntB = lab(XC, 139, '= ' + R.nt + ' mol', 'mol', [[24, 0, 'start']], kOf.nt);
+    var cA = lab(XC, RC1, 'n(' + P.an + ')', 'mol', MID, kOf.na), cB = lab(XC, RC2, '= ' + R.na + ' mol', 'mol', MID, kOf.na);
+    var nb = bb(ntB), xr = Math.min(766, nb.x + nb.w - 8), ca = bb(cA);
+    var ry = ca.y + ca.h / 2;
+    wire([[xr, nb.y + nb.h + 8], [xr, ry], [ca.x + ca.w + 9, ry]], 'back', kOf.na, 'ratio');
+    lab(xr, (nb.y + nb.h + ry) / 2, '× ' + raw('ra') + '/' + raw('rb'), 'op', [[-8, 5, 'end'], [-8, 30, 'end'], [-8, -20, 'end']], kOf.na);
+    var leftOf = ca, fromStep;
+    if (dil) {
+      var vA = lab(XV, RC1, 'n(' + P.an + ')', 'mol', MID, kOf.nT); lab(XV, RC2, '= ' + R.nT + ' mol', 'mol', MID, kOf.nT);
+      var va = bb(vA);
+      wire([[ca.x - 8, ry], [va.x + va.w + 9, ry]], 'back', kOf.nT, 'dil');
+      lab((ca.x + va.x + va.w) / 2, ry, '× ' + raw('v1') + '/' + raw('v2') + ' (= ' + R.fac + ')', 'op', [[0, -14, 'middle'], [0, -26, 'middle']], kOf.nT);
+      leftOf = va;
+    }
+    var finName = tg === 'conc' ? 'c(' + P.an + ')' : 'm(' + P.an + ')';
+    var oA = lab(XO, RC1, finName, 'mol', MID, kOf.fin); lab(XO, RC2, '= ' + R.fin, 'mol', MID, kOf.fin);
+    var oa = bb(oA);
+    wire([[leftOf.x - 8, ry], [oa.x + oa.w + 9, ry]], 'back', kOf.fin, 'fin');
+    lab((leftOf.x + oa.x + oa.w) / 2, ry, R.op, 'op', [[0, -14, 'middle'], [0, -26, 'middle'], [0, 46, 'middle']], kOf.fin);
+    if (tg === 'pct') lab(XO, RC3, '= ' + R.pct + ' % by mass', 'mol', [[0, 0, 'middle'], [6, 0, 'start']], kOf.pct);
+  }
+
+  /* ---------- working ---------- */
+  if (bad.length) {
+    work.innerHTML = '<p class="err">' + (dil && p.v1 && p.v2 && p.v1.v < p.v2.v ? '<i>V</i>₁ 要比 <i>V</i>₂ 大：pipette 是从定容后的溶液里取一部分。' :
+      '标红的格子看不懂——要一个正数（可以写 5.00 × 10⁻⁴、5.00e-4 或 5.00 x 10^-4）。') + '</p>';
+  } else {
+    work.innerHTML = '<ol>' + steps.map(function (s, i) { return '<li data-step="' + (i + 1) + '" data-k="' + s.k + '">' + s.h + '</li>'; }).join('') + '</ol>' +
+      '<p class="faint">答案取 ' + sf + ' s.f.（数据里最少的 s.f.；mole ratio 是精确数）。中间步骤显示的是四舍五入后的值，计算时用的是完整数值。</p>';
+  }
+  applySteps();
+  K.fit();
+}
+
+function applySteps() {
+  var s = Math.min(shown, nSteps);
+  K.$$($root, '[data-step]').forEach(function (e) { e.classList.toggle('hid', +e.getAttribute('data-step') > s); });
+  $root.querySelector('.tt-prog').textContent = '已展开 ' + s + ' / ' + nSteps + ' 步';
+  $root.querySelector('.tt-next').disabled = s >= nSteps;
+}
+
+function load(p) {
+  P = p;
+  Object.keys(p.v).forEach(function (k) { inp[k].value = p.v[k]; });
+  dilBox.checked = p.dil; tgSel.value = p.tg;
+  if (shown !== Infinity) shown = 0;
+  calc();
+}
+
+Object.keys(inp).forEach(function (k) { inp[k].addEventListener('input', calc); });
+dilBox.addEventListener('change', calc);
+tgSel.addEventListener('change', calc);
+$root.querySelector('.tt-next').addEventListener('click', function () { shown = Math.min(shown, nSteps) + 1; applySteps(); K.fit(); });
+$root.querySelector('.tt-all').addEventListener('click', function () { shown = Infinity; applySteps(); K.fit(); });
+$root.querySelector('.tt-reset').addEventListener('click', function () { shown = 0; applySteps(); K.fit(); });
+load(PRE[1]);
+</script>
