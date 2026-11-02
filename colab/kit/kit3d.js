@@ -225,5 +225,193 @@
     return g;
   };
 
+  // ---- ch3: molecules (ball-and-stick), VSEPR geometry, lone-pair / hybrid / p lobes, angle arcs, arrows ----
+  /* CPK-like colours, softened so every atom reads on both the light and the dark card */
+  var CPK = { H: '#e6e9ee', C: '#4b5059', N: '#3d63dd', O: '#e0362c', F: '#86d04a', Cl: '#2fb24a', Br: '#a33a2e', I: '#8a3fb0',
+              S: '#e2c11c', P: '#f08c1a', B: '#eba0a0', Be: '#a7d63a', Al: '#b3a7a7', Si: '#d9b58c', Xe: '#3aa6be',
+              Na: '#a06ae6', Li: '#c08af2', Mg: '#69c24a', Ca: '#56a356', K: '#9050d6' };
+  var ARAD = { H: 0.2, C: 0.3, N: 0.29, O: 0.28, F: 0.27, Cl: 0.36, Br: 0.39, I: 0.44, S: 0.37, P: 0.37, B: 0.29,
+               Be: 0.28, Al: 0.4, Si: 0.39, Xe: 0.44 };
+  K3.CPK = CPK; K3.ARAD = ARAD;
+  K3.v = function (T, a) { return a && a.isVector3 ? a.clone() : new T.Vector3(a[0], a[1], a[2]); };
+  function lum(hex) { var c = parseInt(hex.slice(1), 16); return (0.299 * (c >> 16) + 0.587 * (c >> 8 & 255) + 0.114 * (c & 255)) / 255; }
+
+  /* upright (non-italic) text sprite, optionally on a rounded pill so it stays readable over lobes and bonds.
+     o: { color, bg (pill colour or null), size (world height), bold } */
+  K3.tag = function (T, text, o) {
+    o = o || {};
+    var cv = document.createElement('canvas'), g = cv.getContext('2d');
+    var font = (o.bold === false ? '500' : '650') + ' 44px "Noto Sans","DejaVu Sans","Segoe UI",sans-serif';
+    g.font = font;
+    var pad = o.bg ? 18 : 8, w = Math.ceil(g.measureText(text).width) + 2 * pad, h = 64;
+    cv.width = w; cv.height = h; g = cv.getContext('2d'); g.font = font;
+    if (o.bg) {
+      g.fillStyle = o.bg; var r = 22;
+      g.beginPath(); g.moveTo(r, 2); g.lineTo(w - r, 2); g.quadraticCurveTo(w - 2, 2, w - 2, r); g.lineTo(w - 2, h - r);
+      g.quadraticCurveTo(w - 2, h - 2, w - r, h - 2); g.lineTo(r, h - 2); g.quadraticCurveTo(2, h - 2, 2, h - r); g.lineTo(2, r);
+      g.quadraticCurveTo(2, 2, r, 2); g.fill();
+    }
+    g.fillStyle = o.color || '#111'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, w / 2, h / 2 + 2);
+    var tex = new T.CanvasTexture(cv); tex.anisotropy = 4;
+    var sp = new T.Sprite(new T.SpriteMaterial({ map: tex, depthTest: false, transparent: true }));
+    var s = o.size || 0.26; sp.scale.set(s * w / h, s, 1); sp.renderOrder = 20;
+    sp.userData.aspect = w / h;
+    return sp;
+  };
+  /* resize a K3.tag sprite to world height s (e.g. to keep labels a constant screen size while zooming) */
+  K3.tagSize = function (sp, s) { sp.scale.set(s * sp.userData.aspect, s, 1); };
+
+  /* cylinder from a to b */
+  K3.rod = function (T, a, b, r, mat) {
+    var A = K3.v(T, a), B = K3.v(T, b), d = B.clone().sub(A), L = d.length();
+    var m = new T.Mesh(new T.CylinderGeometry(r, r, L, 20, 1), mat);
+    m.position.copy(A).add(B).multiplyScalar(0.5);
+    m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), d.normalize());
+    return m;
+  };
+  /* arrow a → b: shaft + cone head ending exactly at b. o: { r, head, cross } — cross puts the
+     "+" bar near the tail, as a dipole arrow is drawn in exams (the head points to δ−) */
+  K3.arrow = function (T, a, b, color, o) {
+    o = o || {};
+    var r = o.r || 0.035, A = K3.v(T, a), B = K3.v(T, b), d = B.clone().sub(A), L = d.length(), u = d.clone().normalize();
+    var head = Math.min(o.head || 0.26, L * 0.45), g = new T.Group(), mat = new T.MeshPhongMaterial({ color: color, shininess: 30 });
+    g.add(K3.rod(T, A, B.clone().sub(u.clone().multiplyScalar(head * 0.9)), r, mat));
+    var cone = new T.Mesh(new T.ConeGeometry(r * 2.9, head, 24), mat);
+    cone.position.copy(B).sub(u.clone().multiplyScalar(head / 2));
+    cone.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), u); g.add(cone);
+    if (o.cross) {
+      var side = new T.Vector3(0, 0, 1).cross(u); if (side.lengthSq() < 1e-4) side = new T.Vector3(1, 0, 0).cross(u);
+      side.normalize().multiplyScalar(Math.min(0.16, L * 0.12));
+      var c = A.clone().add(u.clone().multiplyScalar(Math.min(0.22, L * 0.18)));
+      g.add(K3.rod(T, c.clone().sub(side), c.clone().add(side), r * 0.9, mat));
+    }
+    return g;
+  };
+
+  /* teardrop lobe from `origin` along `dir` (length len, max half-width w): a lone pair, or the big
+     lobe of a hybrid orbital. Pointed at the nucleus, round at the far end. */
+  K3.lobe = function (T, origin, dir, len, w, color, opacity) {
+    var pts = [], i, n = 28;
+    for (i = 0; i <= n; i++) {
+      var t = i / n;
+      pts.push(new T.Vector2(w * Math.sin(Math.PI * Math.pow(t, 0.75)) * (0.35 + 0.65 * Math.sqrt(t)) + 1e-4, t * len));
+    }
+    var op = opacity == null ? 0.55 : opacity;
+    var m = new T.Mesh(new T.LatheGeometry(pts, 40), new T.MeshPhongMaterial({ color: color, transparent: op < 1, opacity: op,
+      shininess: 50, side: T.DoubleSide, depthWrite: op >= 1 }));
+    m.position.copy(K3.v(T, origin));
+    m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), K3.v(T, dir).normalize());
+    return m;
+  };
+  /* hybrid orbital (sp / sp² / sp³ all look alike): big lobe along dir + small back lobe */
+  K3.hybrid = function (T, origin, dir, len, color, opacity) {
+    var g = new T.Group(), d = K3.v(T, dir).normalize();
+    g.add(K3.lobe(T, origin, d, len, len * 0.36, color, opacity));
+    g.add(K3.lobe(T, origin, d.clone().negate(), len * 0.3, len * 0.15, color, opacity));
+    return g;
+  };
+  /* unhybridised p orbital: two equal lobes along axis, one per phase colour */
+  K3.porb = function (T, origin, axis, len, colorA, colorB, opacity) {
+    var g = new T.Group(), d = K3.v(T, axis).normalize();
+    g.add(K3.lobe(T, origin, d, len, len * 0.42, colorA, opacity));
+    g.add(K3.lobe(T, origin, d.clone().negate(), len, len * 0.42, colorB || colorA, opacity));
+    return g;
+  };
+
+  /* bond-angle arc between directions a and b (from centre), radius r, as a thin tube.
+     Returns { mesh, mid } — mid is where the angle label goes (on the bisector, just outside the arc). */
+  K3.arc = function (T, center, a, b, r, color) {
+    var C = K3.v(T, center), A = K3.v(T, a).normalize(), B = K3.v(T, b).normalize(), pts = [], i;
+    var ang = A.angleTo(B), ax = new T.Vector3().crossVectors(A, B);
+    if (ax.lengthSq() < 1e-8) ax = Math.abs(A.y) < 0.9 ? new T.Vector3(0, 1, 0).cross(A) : new T.Vector3(1, 0, 0).cross(A);
+    ax.normalize();
+    for (i = 0; i <= 32; i++) pts.push(A.clone().applyAxisAngle(ax, ang * i / 32).multiplyScalar(r).add(C));
+    var mesh = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts), 48, 0.014, 6, false), new T.MeshBasicMaterial({ color: color }));
+    var mid = A.clone().applyAxisAngle(ax, ang / 2).multiplyScalar(r * 1.35).add(C);
+    return { mesh: mesh, mid: mid, deg: ang * 180 / Math.PI };
+  };
+
+  /* VSEPR electron-pair directions round a central atom at the origin.
+     Returns { bonds: [[x,y,z]…], lps: [[x,y,z]…] } (unit vectors). Lone pairs go where they repel least:
+     the top vertex (3, 4 pairs), equatorial (5), trans to each other (6).
+     real = true squeezes the bonds of NH₃-like (107°) and H₂O-like (104.5°) molecules to the real angle. */
+  K3.vsepr = function (bp, lp, real) {
+    var n = bp + lp, s8 = Math.sqrt(8 / 9), c = Math.cos, s = Math.sin, d2r = Math.PI / 180, slots, lpi;
+    if (n === 2) { slots = [[1, 0, 0], [-1, 0, 0]]; lpi = []; }
+    else if (n === 3) { slots = [[0, 1, 0], [-c(30 * d2r), -0.5, 0], [c(30 * d2r), -0.5, 0]]; lpi = [0]; }
+    else if (n === 4 && lp === 2) {
+      var hb = (real ? 104.5 : 109.47) / 2 * d2r;
+      return { bonds: [[-s(hb), -c(hb), 0], [s(hb), -c(hb), 0]], lps: [[0, 0.5774, 0.8165], [0, 0.5774, -0.8165]] };
+    }
+    else if (n === 4) {
+      var top = [0, 1, 0], rest = [90, 210, 330].map(function (a) { return [s8 * c(a * d2r), -1 / 3, s8 * s(a * d2r)]; });
+      if (lp === 1 && real) {
+        var phi = Math.asin(Math.sqrt((1 - Math.cos(107 * d2r)) / 1.5));
+        rest = [90, 210, 330].map(function (a) { return [s(phi) * c(a * d2r), -c(phi), s(phi) * s(a * d2r)]; });
+      }
+      if (lp === 3) return { bonds: [[0, -1, 0]], lps: rest.map(function (v) { return [v[0], -v[1], v[2]]; }) };
+      slots = [top].concat(rest); lpi = [0];
+    }
+    else if (n === 5) {
+      var eq = [0, 120, 240].map(function (a) { return [c(a * d2r), 0, s(a * d2r)]; });
+      slots = eq.concat([[0, 1, 0], [0, -1, 0]]); lpi = [0, 1, 2];
+    }
+    else if (n === 6) { slots = [[0, 1, 0], [0, -1, 0], [1, 0, 0], [-1, 0, 0], [0, 0, 1], [0, 0, -1]]; lpi = [0, 1]; }
+    else return null;
+    var take = lpi.slice(0, lp), out = { bonds: [], lps: [] };
+    slots.forEach(function (v, i) { (take.indexOf(i) >= 0 ? out.lps : out.bonds).push(v); });
+    return out;
+  };
+  /* shape name + bond angle for bp bonding pairs and lp lone pairs (syllabus wording where it has one) */
+  K3.SHAPES = {
+    '2-0': ['linear', '180°'], '3-0': ['trigonal planar', '120°'], '2-1': ['non-linear (bent)', 'about 118°'],
+    '4-0': ['tetrahedral', '109.5°'], '3-1': ['pyramidal', '107°'], '2-2': ['non-linear', '104.5°'],
+    '5-0': ['trigonal bipyramidal', '120° and 90°'], '4-1': ['see-saw', 'about 117° and 87°'], '3-2': ['T-shaped', 'about 87°'],
+    '2-3': ['linear', '180°'], '6-0': ['octahedral', '90°'], '5-1': ['square pyramidal', 'about 85°'], '4-2': ['square planar', '90°']
+  };
+
+  /* ball-and-stick molecule. spec = {
+       atoms: [{ el, p:[x,y,z], r (optional radius) }],
+       bonds: [[i, j, order (1|2|3), plane-normal (optional, for the offset of double/triple rods)]],
+       lps:   [{ at: i, dir:[x,y,z], len (optional) }] }
+     o: { labels: true, bondR: 0.07, lpColor, lpOpacity, scale }
+     Bonds are two-tone (each half in its atom's colour). Returns a Group; userData = { atoms: [mesh], tags: [sprite], lps: [mesh], pos: [Vector3] } */
+  K3.molecule = function (T, api, spec, o) {
+    o = o || {};
+    var g = new T.Group(), k = o.scale || 1, br = (o.bondR || 0.07) * k, ud = { atoms: [], tags: [], lps: [], pos: [] };
+    var mats = {};
+    function mat(el) { return mats[el] || (mats[el] = new T.MeshPhongMaterial({ color: CPK[el] || '#999999', shininess: 60 })); }
+    spec.atoms.forEach(function (a) { ud.pos.push(K3.v(T, a.p).multiplyScalar(k)); });
+    spec.atoms.forEach(function (a, i) {
+      var r = (a.r || ARAD[a.el] || 0.36) * k;
+      var m = new T.Mesh(new T.SphereGeometry(r, 36, 24), mat(a.el)); m.position.copy(ud.pos[i]); m.userData.el = a.el;
+      g.add(m); ud.atoms.push(m);
+      if (o.labels !== false) {
+        var col = CPK[a.el] || '#999999', t = K3.tag(T, a.el, { color: lum(col) > 0.6 ? '#1b1e24' : '#ffffff', size: Math.max(0.17, r * 0.95) });
+        t.position.copy(ud.pos[i]); g.add(t); ud.tags.push(t);
+      }
+    });
+    (spec.bonds || []).forEach(function (b) {
+      var A = ud.pos[b[0]], B = ud.pos[b[1]], order = b[2] || 1, d = B.clone().sub(A).normalize();
+      var nrm = b[3] ? K3.v(T, b[3]) : new T.Vector3(0, 0, 1);
+      var off = nrm.clone().cross(d); if (off.lengthSq() < 1e-6) off = new T.Vector3(0, 1, 0).cross(d);
+      off.normalize();
+      var shifts = order === 1 ? [0] : order === 2 ? [-1, 1] : [-1.6, 0, 1.6], r = order === 1 ? br : br * 0.62;
+      shifts.forEach(function (sh) {
+        var v = off.clone().multiplyScalar(sh * br * 1.15), a1 = A.clone().add(v), b1 = B.clone().add(v), mid = a1.clone().add(b1).multiplyScalar(0.5);
+        g.add(K3.rod(T, a1, mid, r, mat(spec.atoms[b[0]].el)));
+        g.add(K3.rod(T, mid, b1, r, mat(spec.atoms[b[1]].el)));
+      });
+    });
+    var lpc = o.lpColor || (api ? api.color('--s5') : '#8a5cf0');
+    (spec.lps || []).forEach(function (l) {
+      var m = K3.lobe(T, ud.pos[l.at], l.dir, (l.len || 0.95) * k, 0.3 * k, lpc, o.lpOpacity == null ? 0.42 : o.lpOpacity);
+      m.renderOrder = 2; g.add(m); ud.lps.push(m);
+    });
+    g.userData = ud;
+    return g;
+  };
+  // ---- end ch3 ----
+
   window.K3 = K3;
 })();

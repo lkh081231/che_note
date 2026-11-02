@@ -213,10 +213,13 @@ iframe 高度自适应（交互展开后调用 `google.colab.output` 的 resize�
 
 ```bash
 # A：写 + 测
-agy -p "<cell 的完整规格>" --model claude-opus-5-5-high --mode accept-edits --add-dir /media/lkh/OS/che_note
+agy -p "<cell 的完整规格>" --model claude-opus-5-5-high --mode auto --add-dir /media/lkh/OS/che_note
 # B：审图 + 改（截图绝对路径 + 图里画了什么 + 规格 + pass/fail 线 + 逐字转写 ≥8 条最小字 + VERDICT 行）
-agy -p "<审改 prompt>" --model gemini-4-argon-high --mode accept-edits --add-dir /media/lkh/OS/che_note
+agy -p "<审改 prompt>" --model gemini-4-argon-high --mode auto --add-dir /media/lkh/OS/che_note
 ```
+
+**必须 `--mode auto`**：`--mode accept-edits` 在 headless 下会自动拒绝所有 shell 命令
+（`a tool required the "command" permission that headless mode cannot prompt for`），A/B 没法 build / 跑测试，一启动就退出（2026-11-02 ch4 踩过）。
 
 审图和修改是同一个 subagent（B），但 B 不是写 cell 的那个（A）：B 第一次读图时必须是干净上下文，
 先只看截图 + 规格下结论，再去看源码改。
