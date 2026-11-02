@@ -257,6 +257,13 @@ bug 通过了一整轮几何校验和视觉检查。
 - 本机 headless chromium 并发跑时 GPU 进程会卡住、rAF 不触发，playwright 截图卡在 "waiting for element to be stable"：
   测试 launch 一律加 `args=['--disable-gpu']`（3D cell 用 swiftshader 那套另说）。
 - 结果 s.f.：减法保留两数中**最少**的小数位；mark scheme 的 0.099968 是 3 s.f. 的 **0.100**，别截断成 0.0999——cell 的作者 A 会算错，规格也会写错，审的时候对一遍。
+- **Colab markdown 的上标**：Colab 正文字体（Google Sans）只有 Latin-1 的 ¹²³，⁰ ⁴–⁹ 落到 fallback，10⁻²⁷ 里 ² 和 ⁷ 大小、基线都不同。
+  源文件照旧写 Unicode；`build_colab.py` 的 `md_sup()` 在 markdown cell 里把所有上标串转成 `<sup>`（行内代码除外），
+  `check_colab.py` 比对 LO 时再折回 Unicode。只在本地预览里看不出来，必须在 Colab 里实拍。（ch2）
+- dark 下原生 checkbox 是白色实心块：kit 的 dark 块加了 `color-scheme:dark`，并给 checkbox/radio 设 `accent-color`。
+- **在 Colab 里实拍**：用已登录 Google 的 chromium profile 起一个带 `--remote-debugging-port` 的独立实例，playwright `connect_over_cdp`
+  驱动（别抢 agy 正在用的那个 playwright-mcp 浏览器）。notebook 在内部容器里滚动，元素截图只拍得到视口内的部分——
+  先 `set_viewport_size` 拉到 ~2600px 高再逐 cell 截图；iframe 的 `content_frame()` 能读到 output 文档，用来量高度 / 横向溢出、点按钮。
 - **Colab 输出 iframe 默认 `maxHeight=1000`**：`google.colab.output.setIframeHeight(h, true)` 不传第 3 个参数时会在 1000px 截断并出内层滚动条；`K.fit()` 必须传 `{ maxHeight: 5000 }`，且量 `.k` 的 `getBoundingClientRect().height`（不能量 `documentElement.scrollHeight`，否则收起答案后 iframe 不会缩回）。
 
 ## Commit 节奏

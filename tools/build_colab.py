@@ -282,8 +282,22 @@ def lines_of(s):
     return [l + '\n' for l in ls[:-1]] + [ls[-1]]
 
 
+SUP_MAP = dict(zip('⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻', '0123456789+−'))
+SUP_RUN = re.compile('[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+')
+
+
+def md_sup(s):
+    """Colab's markdown font (Google Sans) has only ¹²³ (Latin-1); ⁰ ⁴–⁹ fall back to another font, so
+    10⁻²⁷ shows ² and ⁷ at different sizes. Every superscript run becomes <sup> (all from one font),
+    except inside `code` spans, where <sup> would show literally (the mono font has all the glyphs)."""
+    parts = re.split(r'(`[^`\n]*`)', s)
+    return ''.join(p if p.startswith('`') else
+                   SUP_RUN.sub(lambda m: '<sup>' + ''.join(SUP_MAP[c] for c in m.group(0)) + '</sup>', p)
+                   for p in parts)
+
+
 def md_cell(src, cid):
-    return {'cell_type': 'markdown', 'id': cid, 'metadata': {'id': cid}, 'source': lines_of(src.strip('\n'))}
+    return {'cell_type': 'markdown', 'id': cid, 'metadata': {'id': cid}, 'source': lines_of(md_sup(src.strip('\n')))}
 
 
 def code_cell(title, page, cid):

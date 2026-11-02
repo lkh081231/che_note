@@ -160,7 +160,7 @@ with sync_playwright() as p:
         print('== AlCl3 preset')
         page.click('.lr-pick button[data-pre="al"]')
         w = work()
-        check('18 ÷ 27.0 = 0.667 mol Al', '18 ÷ 27.0 = 0.667 mol' in w, w)
+        check('18.0 ÷ 27.0 = 0.667 mol Al', '18.0 ÷ 27.0 = 0.667 mol' in w, w)
         check('Al limiting (excess Cl2)', 'Al is the limiting reagent' in w and lim() == 0, w)
         check('AlCl3 theoretical 89.0 g', '0.667 × 133.5 = 89.0 g' in w, w)
         check('AlCl3 Mr working 27.0 + 3 × 35.5 = 133.5', '27.0 + 3 × 35.5 = 133.5' in page.inner_text('.lr-mr'))

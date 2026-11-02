@@ -101,7 +101,7 @@ mass spectrometer 把 atom 变成 +1 ion，按 *m*/*e* 分开；每个 peak 对�
 
 ion 的 charge 可以从 Periodic Table 上的位置预测：
 
-| 位置 | 怎样达到 noble gas configuration | ion | 例 |
+| 位置 | 怎样达到 noble gas configuration | ion charge | 例 |
 |---|---|---|---|
 | Group 1 | 失 1 个 electron | +1 | Na⁺、K⁺ |
 | Group 2 | 失 2 个 | +2 | Mg²⁺、Ca²⁺ |
@@ -139,7 +139,7 @@ Group 1 / 2 / 13 的 compound 不写 Roman numeral：magnesium oxide，不是 ma
 2. 数两边每种 atom；
 3. 一次配一种 atom，最后配出现在多个物质里的那一种（通常是 O 或 H）。
 
-例：Fe₂O₃ + CO → Fe + CO₂ → 先配 Fe：Fe₂O₃ + CO → **2**Fe + CO₂ → O 两边分别是 3 + *x* 和 2*x* → *x* = 3：
+例：Fe₂O₃ + CO → Fe + CO₂ → 先配 Fe：Fe₂O₃ + CO → **2**Fe + CO₂ → 设 CO 和 CO₂ 的系数都是 *x*（C 守恒），O 两边分别是 3 + *x* 和 2*x* → *x* = 3：
 Fe₂O₃ + 3CO → 2Fe + 3CO₂。
 
 真题里「Construct an equation」常给产物的描述，要自己写 formula：
@@ -223,7 +223,7 @@ balanced equation 的系数就是 **mole ratio**（stoichiometry）。所有题�
 
 **percentage yield** = actual yield ÷ theoretical (predicted) yield × 100%。theoretical yield 是 limiting reagent 全部转化、没有 side reaction 时算出来的量。yield 低于 100% 的原因：side reactions、reaction 没有进行完全（reversible）、操作中损失产物。
 
-例：18 g Al 与 excess Cl₂：2Al + 3Cl₂ → 2AlCl₃，实得 71.0 g AlCl₃。theoretical = 18 / 27.0 × 133.5 = 89.0 g → yield = 71.0 / 89.0 × 100 = **79.8%**。
+例：18.0 g Al 与 excess Cl₂：2Al + 3Cl₂ → 2AlCl₃，实得 71.0 g AlCl₃。theoretical = 18.0 / 27.0 × 133.5 = 89.0 g → yield = 71.0 / 89.0 × 100 = **79.8%**。
 
 **significant figures**：答案的 s.f. 跟题目数据里最少的那个一致；**中间步骤不要先四舍五入**，最后一步才 round。0.004 是 1 s.f.，0.0040 是 2 s.f.。mark scheme 对 s.f. 是认真的：9701/22 May/June 2026 Q4(b)(iii) 的 1.875 × 10⁻³ mol，接受 1.88 × 10⁻³ / 1.9 × 10⁻³，但**拒绝** 1.880 × 10⁻³、1.90 × 10⁻³、2.0 × 10⁻³（凭空多出来的 0 = 不合理的精度），也拒绝截断成 1.87 × 10⁻³。
 

@@ -16,6 +16,7 @@
 }
 @media (prefers-color-scheme:dark){
   .k{
+    color-scheme:dark;   /* native checkbox / radio / scrollbars follow the theme (were white blocks) */
     --bg:#1b1e24; --card:#23272f; --fg:#e6e8eb; --mut:#aab1bb; --faint:#7d8590; --line:#3a3f48;
     --acc:#7aa2ff; --acc-soft:#2a3550; --pos:#ff7b6b; --neg:#7aa2ff; --neu:#9aa3ad;
     --ok:#4ac26b; --ok-soft:#1d3a26; --bad:#ff7b72; --bad-soft:#4a2224; --hl:#4a4020;
@@ -37,7 +38,7 @@
 @media (prefers-color-scheme:dark){.k button.on{color:#0d1220}}
 .k select,.k input[type=number],.k input[type=text],.k input.fill:not([type]){background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:3px 7px}
 .k input[type=number]{width:5.2em}
-.k input[type=range]{accent-color:var(--acc)}
+.k input[type=range],.k input[type=checkbox],.k input[type=radio]{accent-color:var(--acc)}
 .k label{cursor:pointer}
 .k table{border-collapse:collapse;margin:8px 0;font-size:14px}
 .k th,.k td{border:1px solid var(--line);padding:4px 9px;text-align:left;vertical-align:top}

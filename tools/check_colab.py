@@ -81,7 +81,8 @@ def main():
     # 2. every learning outcome verbatim
     print('== learning outcomes')
     los, notes = load_los(chapter)
-    md_all = '\n'.join(md_text)
+    unsup = dict(zip('0123456789+−', '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻'))
+    md_all = re.sub(r'<sup>([0-9+−]+)</sup>', lambda m: ''.join(unsup[c] for c in m.group(1)), '\n'.join(md_text))
     for k, lo in los.items():
         for piece in [lo['text']] + lo['subs']:
             if piece not in md_all:
