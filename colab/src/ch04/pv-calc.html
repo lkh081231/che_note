@@ -1,0 +1,377 @@
+<h3>🔬 <i>pV</i> = <i>nRT</i> 计算器：单位换算 + working</h3>
+<p class="mut">先选「求哪个量」，再填已知量、选单位（或点一个预设）。下面的 working 按 mark scheme 的 M1–M4 写：rearrange → 换成 SI 单位 → 代入（中间不 round）→ 3 s.f. 结果。
+<b>红色那一行</b>是不换单位直接代入会得到的错误答案。换一个单位下拉框，数值会跟着换算，结果不变。</p>
+<div class="row pv-mode"><span class="nm">求：</span></div>
+<div class="row pv-pre"><span class="nm">预设：</span></div>
+<div class="pv-src faint"></div>
+<div class="row pv-srcrow">
+  <label class="pv-nsrcw">amount 用 <select class="pv-nsrc"><option value="n">n（mol）</option><option value="m">m（g）和 Mᵣ</option></select></label>
+  <label class="pv-msrcw">已知 <select class="pv-msrc"><option value="mV">m（g）和 V</option><option value="rho">density（g dm⁻³）</option></select></label>
+</div>
+<div class="pv-in"></div>
+<div class="card pv-work"></div>
+<div class="pv-forgot"></div>
+<div class="pv-lad">
+  <div class="faint">volume 的单位阶梯（往小单位走一级 × 1000，往大单位走一级 ÷ 1000）</div>
+  <svg class="pv-fig" viewBox="0 0 660 116"></svg>
+</div>
+<p class="faint"><i>R</i> = 8.31 J K⁻¹ mol⁻¹（data booklet）；<i>T</i> / K = <i>θ</i> / °C + 273；1 atm = 101 325 Pa。只填数字（可以写 6.17e-4 这种 e 记法）。</p>
+<style>
+.k .pv-mode .nm,.k .pv-pre .nm{font-weight:650;min-width:3em}
+.k .pv-mode button{min-width:3.2em}
+.k .pv-pre button{font-size:13.5px}
+.k .pv-src{min-height:1.4em;margin:2px 0 4px}
+.k .pv-srcrow{margin:4px 0}
+.k .pv-srcrow label[hidden]{display:none}
+.k .pv-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:8px 12px;margin:8px 0}
+.k .pv-f{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 9px}
+.k .pv-f[hidden]{display:none}
+.k .pv-f .nm{flex:0 0 6.6em;min-width:0}
+.k .pv-f .nm small{display:block;color:var(--faint);font-size:12.5px;line-height:1.2}
+.k .pv-f input[type=text]{width:6em;text-align:right;min-width:5.6em;flex:1 1 auto}
+.k .pv-f .un{min-width:3.4em}
+.k .pv-f input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.k .pv-work ol{margin:4px 0;padding-left:4px;list-style:none}
+.k .pv-work li{margin:4px 0;padding-left:3.2em;text-indent:-3.2em}
+.k .pv-work .ms{display:inline-block;width:2.8em;text-indent:0;text-align:center;margin-right:.4em;border-radius:5px;background:var(--acc-soft);color:var(--acc);font-weight:700;font-size:13px}
+.k .pv-work .ms.q{background:var(--hl);color:var(--fg)}
+.k .pv-work .h{font-weight:600}
+.k .pv-work .err{color:var(--bad);font-weight:600}
+.k .pv-work .cv{color:var(--mut)}
+.k .pv-res{font-size:18px;color:var(--acc)}
+.k .pv-alt{color:var(--mut)}
+.k .pv-forgot{margin:8px 0;padding:7px 11px;border-radius:0 6px 6px 0;font-size:14.5px}
+.k .pv-forgot:empty{display:none}
+.k .pv-forgot.bad{border-left:3px solid var(--bad);background:var(--bad-soft);color:var(--bad)}
+.k .pv-forgot.bad b{color:var(--bad)}
+.k .pv-forgot.okn{border-left:3px solid var(--ok);background:var(--ok-soft)}
+.k .pv-forgot.si{border-left:3px solid var(--line);color:var(--mut)}
+.k .pv-forgot .fx{color:var(--fg);font-weight:600}
+.k .pv-forgot .eq,.k .pv-forgot .fx{display:inline-block}
+.k .pv-lad{margin-top:6px}
+.k .pv-fig{margin:4px 0;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.k .pv-fig text{font-size:16px}
+.k .pv-fig text.bx{font-weight:700;stroke:none}
+.k .pv-fig text.ar{fill:var(--mut)}
+.k .pv-fig text.vl{fill:var(--acc)}
+.k .pv-fig rect.box{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.k .pv-fig rect.box.cur{fill:var(--acc-soft);stroke:var(--acc);stroke-width:2}
+.k .pv-fig line.arw{stroke:var(--mut);stroke-width:1.6}
+</style>
+<script>
+var R = 8.31;
+var UNITS = { p: [['Pa', 1], ['kPa', 1e3], ['atm', 101325]], V: [['m³', 1], ['dm³', 1e-3], ['cm³', 1e-6]], T: [['K', 0], ['°C', 273]] };
+var FLD = {
+  p: { lab: '<i>p</i>', nm: 'pressure' }, V: { lab: '<i>V</i>', nm: 'volume' }, T: { lab: '<i>T</i>', nm: 'temperature' },
+  n: { lab: '<i>n</i>', nm: 'amount', unit: 'mol' }, m: { lab: '<i>m</i>', nm: 'mass', unit: 'g' },
+  M: { lab: '<i>M</i>ᵣ', nm: '', unit: '' }, rho: { lab: 'density', nm: '', unit: 'g dm⁻³' }
+};
+var ORDER = ['p', 'V', 'T', 'n', 'm', 'M', 'rho'];
+var MODES = [['p', '<i>p</i>'], ['V', '<i>V</i>'], ['n', '<i>n</i>'], ['T', '<i>T</i>'], ['M', '<i>M</i>ᵣ']];
+/* presets: results (3 s.f.) are checked against the notes / mark schemes in colab/tests/ch04_pv-calc.py */
+var PRE = [
+  { id: 'ex1', b: '例 1：CO₂ 的 <i>V</i>', src: '正文 4.1 C 例 1：0.500 mol CO₂，150 kPa，19 °C → 8.09 × 10⁻³ m³',
+    mode: 'V', nsrc: 'n', v: { n: '0.500', p: '150', T: '19' }, u: { p: 'kPa', V: 'dm³', T: '°C' } },
+  { id: 'ex2', b: '例 2：O₂ 的 <i>p</i>', src: '正文 4.1 C 例 2：4.00 g O₂（<i>M</i>ᵣ 32.0）在 5.00 dm³ flask，127 °C → 8.31 × 10⁴ Pa',
+    mode: 'p', nsrc: 'm', v: { m: '4.00', M: '32.0', V: '5.00', T: '127' }, u: { p: 'kPa', V: 'dm³', T: '°C' } },
+  { id: 'ex3', b: '例 3：ethane 的 <i>M</i>ᵣ', src: '正文 4.1 C 例 3：ethane density 1.264 g dm⁻³，20 °C，1 atm → 30.4',
+    mode: 'M', msrc: 'rho', v: { rho: '1.264', p: '1', T: '20' }, u: { p: 'atm', V: 'dm³', T: '°C' } },
+  { id: 'pr1', b: '练习：flask 里 gas 的 <i>M</i>ᵣ', src: '讲义练习：2.00 dm³ flask 含 5.28 g gas，200 kPa，20 °C → 32.1',
+    mode: 'M', msrc: 'mV', v: { m: '5.28', V: '2.00', p: '200', T: '20' }, u: { p: 'kPa', V: 'dm³', T: '°C' } },
+  { id: 'pr2', b: '练习：CO 的 <i>T</i>', src: '讲义练习：0.25 mol CO 在 10 dm³ flask，120 kPa → 578 K',
+    mode: 'T', nsrc: 'n', v: { n: '0.25', V: '10', p: '120' }, u: { p: 'kPa', V: 'dm³', T: 'K' } },
+  { id: 'mj23', b: '9701/23 M/J 2026 Q2(c)', src: '9701/23 May/June 2026 Q2(c)：1.775 g gas X，617.0 cm³，300 K，101 kPa → <i>M</i>ᵣ = 71.0（X 是 Cl₂）',
+    mode: 'M', msrc: 'mV', v: { m: '1.775', V: '617.0', T: '300', p: '101' }, u: { p: 'kPa', V: 'cm³', T: 'K' } },
+  { id: 'fm22', b: '9701/22 F/M 2026 Q2(b)', src: '9701/22 Feb/Mar 2026 Q2(b)：NO from 0.00393 mol Cu，5 °C，101 kPa → 59.9 cm³',
+    mode: 'V', nsrc: 'n', v: { n: '0.00262', T: '5', p: '101' }, u: { p: 'kPa', V: 'cm³', T: '°C' },
+    pre: '<i>n</i>(NO) = 0.00393 × 2/3 = 0.00262 mol（equation 里 3Cu → 2NO）' },
+  { id: 'mj21', b: '9701/21 M/J 2026 Q2(c)(ii)', src: '9701/21 May/June 2026 Q2(c)(ii)：O₂ that reacts with 0.500 mol SO₂，400 °C，101 kPa → 0.0138 m³',
+    mode: 'V', nsrc: 'n', v: { n: '0.250', T: '400', p: '101' }, u: { p: 'kPa', V: 'm³', T: '°C' },
+    pre: '<i>n</i>(O₂) = 0.500 ÷ 2 = 0.250 mol（equation 1 里 2SO₂ : 1O₂）' }
+];
+
+var NB = ' ';
+function num(s) { s = String(s).trim(); return /^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(s) ? parseFloat(s) : NaN; }
+function dps(s) { var i = s.indexOf('.'); return i < 0 || /e/i.test(s) ? 0 : s.length - i - 1; }
+function sfOf(s) { var d = s.replace(/^[-+]/, '').replace(/e.*$/i, '').replace('.', '').replace(/^0+/, ''); return Math.max(1, d.length); }
+/* 101325 → 101 325 (no-break space) for integer parts with ≥ 5 digits, like the notes */
+function grp(str) {
+  var m = /^(-?)(\d+)(\.\d+)?$/.exec(str);
+  if (!m || m[2].length < 5) return str;
+  return m[1] + m[2].replace(/\B(?=(\d{3})+(?!\d))/g, NB) + (m[3] || '');
+}
+function minus(s) { return String(s).replace(/^-/, '−'); }
+/* user-typed number → display (e-notation becomes × 10ⁿ) */
+function show(s) {
+  s = String(s).trim().replace(/^\+/, '');
+  var m = /^(-?[\d.]+)e([-+]?\d+)$/i.exec(s);
+  if (m) return minus(m[1]) + ' × 10' + K.sup(+m[2]);
+  return minus(grp(s));
+}
+function plain(x) { return grp(String(+x.toPrecision(12))); }
+/* n s.f.; × 10ⁿ when the exponent is ≤ −3 or ≥ 4 */
+function fmt(x, sf) {
+  sf = sf || 3;
+  if (!isFinite(x)) return '—';
+  if (x === 0) return '0';
+  var r = +x.toPrecision(sf), e = Math.floor(Math.log10(Math.abs(r)));
+  if (e > -3 && e < 4) return minus(sf - 1 - e >= 0 ? r.toFixed(sf - 1 - e) : String(Math.round(r)));
+  return minus((r / Math.pow(10, e)).toFixed(sf - 1)) + ' × 10' + K.sup(e);
+}
+function long(x) { return fmt(x, 5).replace(/(\.\d*?)0+(?=$| ×)/, '$1').replace(/\.(?=$| ×)/, ''); }
+/* a value in a unit for an <input>: keeps the significant figures, never × 10ⁿ */
+function inStr(x, sf) {
+  if (Math.abs(x) >= Math.pow(10, sf)) return String(Math.round(x));
+  var t = x.toPrecision(sf);
+  return /e/.test(t) ? String(+t) : t;
+}
+function par(s) { return /[×\/ ]/.test(s.replace(/ /g, '')) ? '(' + s + ')' : s; }
+
+var modeBar = K.$($root, '.pv-mode'), preBar = K.$($root, '.pv-pre'), srcBox = K.$($root, '.pv-src');
+var nsrcSel = K.$($root, '.pv-nsrc'), msrcSel = K.$($root, '.pv-msrc'), inBox = K.$($root, '.pv-in');
+var work = K.$($root, '.pv-work'), forgot = K.$($root, '.pv-forgot'), svg = K.$($root, '.pv-fig');
+var S = { mode: 'V', pre: null }, inp = {}, sel = {}, row = {}, last = null;
+
+MODES.forEach(function (m) {
+  var b = K.el('button', { type: 'button', 'data-mode': m[0] }, m[1]);
+  b.addEventListener('click', function () { setMode(m[0]); });
+  modeBar.appendChild(b);
+});
+PRE.forEach(function (q) {
+  var b = K.el('button', { type: 'button', 'data-pre': q.id }, q.b);
+  b.addEventListener('click', function () { load(q); });
+  preBar.appendChild(b);
+});
+ORDER.forEach(function (k) {
+  var f = FLD[k], r = K.el('div', { 'class': 'pv-f', 'data-f': k });
+  r.innerHTML = '<span class="nm">' + f.lab + (f.nm ? '<small>' + f.nm + '</small>' : '') + '</span>';
+  var t = K.el('input', { type: 'text', inputmode: 'decimal', spellcheck: 'false', 'data-f': k, 'aria-label': k });
+  r.appendChild(t);
+  if (UNITS[k]) {
+    var s = K.el('select', { 'data-f': k });
+    UNITS[k].forEach(function (u) { s.appendChild(K.el('option', { value: u[0] }, u[0])); });
+    s.__prev = UNITS[k][0][0];
+    s.addEventListener('change', function () { convert(k, s.__prev, s.value); s.__prev = s.value; calc(); });
+    r.appendChild(s); sel[k] = s;
+  } else r.appendChild(K.el('span', { 'class': 'un' }, f.unit || '（无单位）'));
+  t.addEventListener('input', function () { unPre(); calc(); });
+  inBox.appendChild(r); inp[k] = t; row[k] = r;
+});
+nsrcSel.addEventListener('change', function () { unPre(); calc(); });
+msrcSel.addEventListener('change', function () { unPre(); calc(); });
+
+function uf(k, u) { return UNITS[k].filter(function (x) { return x[0] === u; })[0][1]; }
+/* a unit change rewrites the number so the quantity stays the same */
+function convert(k, from, to) {
+  var s = inp[k].value.trim(), v = num(s);
+  if (!isFinite(v) || from === to) return;
+  var si = k === 'T' ? v + uf(k, from) : v * uf(k, from), nv = k === 'T' ? si - uf(k, to) : si / uf(k, to);
+  inp[k].value = k === 'T' ? nv.toFixed(dps(s)) : inStr(nv, Math.max(sfOf(s), 3));
+}
+function unPre() {
+  if (!S.pre) return;
+  S.pre = null;
+  K.$$(preBar, 'button').forEach(function (b) { b.classList.remove('on'); });
+}
+function setUnit(k, u) { sel[k].value = u; sel[k].__prev = u; }
+
+function load(q) {
+  ORDER.forEach(function (k) { inp[k].value = q.v[k] || ''; });
+  ['p', 'V', 'T'].forEach(function (k) { setUnit(k, q.u[k]); });
+  if (q.nsrc) nsrcSel.value = q.nsrc;
+  if (q.msrc) msrcSel.value = q.msrc;
+  S.mode = q.mode;
+  S.pre = q;
+  K.$$(preBar, 'button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-pre') === q.id); });
+  srcBox.innerHTML = '出处：' + q.src;
+  calc();
+}
+
+/* switching what to solve for: the old answer becomes an input (4 s.f. so a round trip does not drift, in that field's unit) */
+function setMode(m) {
+  if (m === S.mode) return;
+  var old = S.mode, L = last;
+  if (old === 'M' && msrcSel.value === 'rho') {
+    inp.m.value = inp.rho.value; inp.V.value = '1'; setUnit('V', 'dm³'); msrcSel.value = 'mV';
+  }
+  if (L) {
+    if (old === 'p' || old === 'V') inp[old].value = inStr(L.si / uf(old, sel[old].value), 4);
+    if (old === 'T') inp.T.value = (L.si - uf('T', sel.T.value)).toFixed(0);
+    if (old === 'n') { inp.n.value = inStr(L.si, 4); nsrcSel.value = 'n'; }
+    if (old === 'M') { inp.M.value = inStr(L.si, 4); nsrcSel.value = 'm'; }
+  }
+  if (m === 'M' && !(num(inp.m.value) > 0) && num(inp.n.value) > 0 && num(inp.M.value) > 0)
+    inp.m.value = inStr(num(inp.n.value) * num(inp.M.value), 3);
+  if (m === 'M') msrcSel.value = 'mV';
+  S.mode = m;
+  unPre();
+  srcBox.innerHTML = '';
+  calc();
+}
+
+function need() {
+  var m = S.mode, src = nsrcSel.value === 'n' ? ['n'] : ['m', 'M'];
+  if (m === 'p') return ['V', 'T'].concat(src);
+  if (m === 'V') return ['p', 'T'].concat(src);
+  if (m === 'n') return ['p', 'V', 'T'];
+  if (m === 'T') return ['p', 'V'].concat(src);
+  return ['p', 'T'].concat(msrcSel.value === 'mV' ? ['m', 'V'] : ['rho']);
+}
+
+var UN = { p: 'Pa', V: 'm³', n: 'mol', T: 'K', M: '' };
+function calc() {
+  var m = S.mode, nd = need();
+  K.$$(modeBar, 'button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-mode') === m); });
+  ORDER.forEach(function (k) { row[k].hidden = nd.indexOf(k) < 0; });
+  K.$($root, '.pv-nsrcw').hidden = !(m === 'p' || m === 'V' || m === 'T');
+  K.$($root, '.pv-msrcw').hidden = m !== 'M';
+
+  /* read + validate */
+  var raw = {}, bad = [];
+  nd.forEach(function (k) {
+    var s = inp[k].value.trim(), v = num(s), ok = k === 'T' ? isFinite(v) : v > 0;
+    inp[k].classList.toggle('bad', !ok);
+    raw[k] = { s: s, v: v };
+    if (!ok) bad.push(k);
+  });
+  ORDER.forEach(function (k) { if (nd.indexOf(k) < 0) inp[k].classList.remove('bad'); });
+  last = null;
+  if (bad.length) {
+    work.innerHTML = '<p class="err">' + bad.map(function (k) {
+      return (k === 'M' ? 'Mᵣ' : k === 'rho' ? 'density' : k) + (k === 'T' ? ' 要填一个数' : ' 要填一个 > 0 的数');
+    }).join('；') + '。</p>';
+    forgot.className = 'pv-forgot'; forgot.innerHTML = ''; drawLadder(null); K.fit(); return;
+  }
+  var si = {}, sub = {}, conv = [];
+  if (raw.p) {
+    var pu = sel.p.value; si.p = raw.p.v * uf('p', pu); sub.p = pu === 'Pa' ? show(raw.p.s) : plain(si.p);
+    conv.push(pu === 'Pa' ? '<i>p</i> = ' + sub.p + ' Pa（已是 SI）' : '<i>p</i> = ' + show(raw.p.s) + ' ' + pu + ' = <b>' + sub.p + ' Pa</b>');
+  }
+  if (raw.V) {
+    var vu = sel.V.value; si.V = raw.V.v * uf('V', vu);
+    sub.V = vu === 'm³' ? show(raw.V.s) : show(raw.V.s) + ' × 10' + (vu === 'dm³' ? '⁻³' : '⁻⁶');
+    conv.push(vu === 'm³' ? '<i>V</i> = ' + sub.V + ' m³（已是 SI）' : '<i>V</i> = ' + show(raw.V.s) + ' ' + vu + ' = <b>' + sub.V + ' m³</b>');
+  }
+  if (raw.rho) {
+    si.V = 1e-3; sub.V = '1 × 10⁻³'; si.m = raw.rho.v; sub.m = show(raw.rho.s);
+    conv.push('density ' + show(raw.rho.s) + ' g dm⁻³：取 1 dm³ → <i>m</i> = ' + sub.m + ' g，<i>V</i> = 1 dm³ = <b>1 × 10⁻³ m³</b>');
+  }
+  if (raw.T) {
+    var tu = sel.T.value; si.T = raw.T.v + uf('T', tu);
+    sub.T = tu === 'K' ? show(raw.T.s) : minus((raw.T.v + 273).toFixed(dps(raw.T.s)));
+    if (si.T <= 0) {
+      inp.T.classList.add('bad');
+      work.innerHTML = '<p class="err"><i>T</i> = ' + show(raw.T.s) + ' ' + tu + ' = ' + minus(plain(si.T)) + ' K：不可能。absolute zero 是 0 K（−273 °C），<i>T</i> 必须 &gt; 0 K。</p>';
+      forgot.className = 'pv-forgot'; forgot.innerHTML = ''; drawLadder(null); K.fit(); return;
+    }
+    conv.push(tu === 'K' ? '<i>T</i> = ' + sub.T + ' K（已是 SI）' : '<i>T</i> = ' + show(raw.T.s) + ' °C = ' + show(raw.T.s) + ' + 273 = <b>' + sub.T + ' K</b>');
+  }
+  if (raw.m) { si.m = raw.m.v; sub.m = show(raw.m.s); }
+  if (raw.n) { si.n = raw.n.v; sub.n = show(raw.n.s); }
+  else if (raw.M && m !== 'M') {
+    si.M = raw.M.v; si.n = si.m / si.M; sub.n = long(si.n);
+    conv.push('<i>n</i> = <i>m</i> / <i>M</i>ᵣ = ' + sub.m + ' / ' + show(raw.M.s) + ' = <b>' + sub.n + ' mol</b>');
+  }
+
+  var L = [], ans, x;
+  function li(tag, h, cls) { L.push('<li><span class="ms' + (cls ? ' ' + cls : '') + '">' + tag + '</span>' + h + '</li>'); }
+  if (S.pre && S.pre.pre && raw.n && raw.n.s === S.pre.v.n) li('先', S.pre.pre, 'q');
+  var re = {
+    p: '<i>p</i> = <i>nRT</i> / <i>V</i>', V: '<i>V</i> = <i>nRT</i> / <i>p</i>', n: '<i>n</i> = <i>pV</i> / (<i>RT</i>)',
+    T: '<i>T</i> = <i>pV</i> / (<i>nR</i>)', M: '<i>n</i> = <i>pV</i> / (<i>RT</i>)，再 <i>M</i>ᵣ = <i>m</i> / <i>n</i>'
+  }[m];
+  li('M1', '<i>pV</i> = <i>nRT</i>　→　' + re);
+  li('M2', '换成 SI 单位：' + conv.join('；'));
+  if (m === 'p') { x = si.n * R * si.T / si.V; li('M3', '<i>p</i> = ' + sub.n + ' × 8.31 × ' + sub.T + ' / ' + par(sub.V) + ' = ' + long(x) + ' Pa'); }
+  if (m === 'V') { x = si.n * R * si.T / si.p; li('M3', '<i>V</i> = ' + sub.n + ' × 8.31 × ' + sub.T + ' / ' + par(sub.p) + ' = ' + long(x) + ' m³'); }
+  if (m === 'n') { x = si.p * si.V / (R * si.T); li('M3', '<i>n</i> = ' + sub.p + ' × ' + sub.V + ' / (8.31 × ' + sub.T + ') = ' + long(x) + ' mol'); }
+  if (m === 'T') { x = si.p * si.V / (si.n * R); li('M3', '<i>T</i> = ' + sub.p + ' × ' + sub.V + ' / (' + sub.n + ' × 8.31) = ' + long(x) + ' K'); }
+  if (m === 'M') {
+    var nn = si.p * si.V / (R * si.T);
+    li('M3', '<i>n</i> = ' + sub.p + ' × ' + sub.V + ' / (8.31 × ' + sub.T + ') = ' + long(nn) + ' mol');
+    x = si.m / nn;
+  }
+  var alt = '';
+  if (m === 'p') alt = '= ' + fmt(x / 1e3) + ' kPa = ' + fmt(x / 101325) + ' atm';
+  if (m === 'V') alt = '= ' + fmt(x * 1e3) + ' dm³ = ' + fmt(x * 1e6) + ' cm³';
+  if (m === 'T') alt = '= ' + fmt(x - 273) + ' °C';
+  ans = fmt(x) + (UN[m] ? ' ' + UN[m] : '');
+  if (m === 'M') li('M4', '<i>M</i>ᵣ = <i>m</i> / <i>n</i> = ' + sub.m + ' / ' + long(nn) + ' = ' + long(x) + ' → <b class="pv-res">' + ans + '</b>（3 s.f.）');
+  else li('M4', '<b class="pv-res">' + MODES.filter(function (q) { return q[0] === m; })[0][1] + ' = ' + ans + '</b>（3 s.f.）' + (alt ? '　<span class="pv-alt">' + alt + '</span>' : ''));
+  work.innerHTML = '<div class="h">working（中间值不 round，最后取 3 s.f.）</div><ol>' + L.join('') + '</ol>';
+  last = { mode: m, si: x, ans: ans, V: m === 'V' ? x : si.V, vu: raw.V ? sel.V.value : null };
+  forgotLine(m, raw, si, sub, x);
+  drawLadder(last);
+  K.fit();
+}
+
+/* the same substitution with the numbers exactly as given (no unit conversion) */
+function forgotLine(m, raw, si, sub, good) {
+  var issues = [], rv = {}, rs = {};
+  if (raw.p) { rv.p = raw.p.v; rs.p = show(raw.p.s); if (sel.p.value !== 'Pa') issues.push('<i>p</i> 用 ' + sel.p.value + ' 不换成 Pa'); }
+  if (raw.V) { rv.V = raw.V.v; rs.V = show(raw.V.s); if (sel.V.value !== 'm³') issues.push('<i>V</i> 用 ' + sel.V.value + ' 不换成 m³'); }
+  if (raw.rho) { rv.V = 1; rs.V = '1'; issues.push('<i>V</i> 直接写 1（dm³）'); }
+  var tC = raw.T && sel.T.value === '°C';
+  if (raw.T) { rv.T = raw.T.v; rs.T = show(raw.T.s); if (tC) issues.push('<i>T</i> 直接用 ' + show(raw.T.s) + ' °C'); }
+  if (!issues.length) { forgot.className = 'pv-forgot si'; forgot.innerHTML = '这组数据已经全是 SI 单位（Pa、m³、K），直接代入。'; return; }
+  var n = si.n, sn = sub.n, x, s;
+  if (m === 'p') { x = n * R * rv.T / rv.V; s = '<i>p</i> = ' + sn + ' × 8.31 × ' + rs.T + ' / ' + rs.V; }
+  if (m === 'V') { x = n * R * rv.T / rv.p; s = '<i>V</i> = ' + sn + ' × 8.31 × ' + rs.T + ' / ' + rs.p; }
+  if (m === 'n') { x = rv.p * rv.V / (R * rv.T); s = '<i>n</i> = ' + rs.p + ' × ' + rs.V + ' / (8.31 × ' + rs.T + ')'; }
+  if (m === 'T') { x = rv.p * rv.V / (n * R); s = '<i>T</i> = ' + rs.p + ' × ' + rs.V + ' / (' + sn + ' × 8.31)'; }
+  if (m === 'M') { x = si.m * R * rv.T / (rv.p * rv.V); s = '<i>M</i>ᵣ = ' + sub.m + ' × 8.31 × ' + rs.T + ' / (' + rs.p + ' × ' + rs.V + ')'; }
+  var k = x / good, ok = null;
+  if (!tC && isFinite(k)) {
+    if (Math.abs(k - 1) < 1e-9) ok = UN[m] || '（无单位）';
+    else if (UNITS[m]) UNITS[m].forEach(function (u) { if (u[1] && Math.abs(k * u[1] - 1) < 1e-9) ok = u[0]; });
+  }
+  if (ok) {
+    forgot.className = 'pv-forgot okn';
+    forgot.innerHTML = '不换单位也行吗？' + s + ' = ' + fmt(x) + '——这里碰巧对（结果单位是 ' + ok + '）：<i>p</i> 用 kPa（数字小 1000 倍）、<i>V</i> 用 dm³（数字大 1000 倍），乘积 <i>pV</i> 不变，mark scheme 接受这种一致换算。但 Pa 配 dm³、kPa 配 cm³ 就错了。';
+    return;
+  }
+  forgot.className = 'pv-forgot bad';
+  var u = UN[m] ? ' ' + UN[m] : '';
+  forgot.innerHTML = '<b>✗ 如果忘了换算</b>（' + issues.join('，') + '）：<span class="eq">' + s + ' = ' +
+    (isFinite(x) && x > 0 ? '<b class="pv-wrong">' + fmt(x) + u + '</b>' : '<b class="pv-wrong">算不出来（÷ 0 或负数）</b>') +
+    '</span>　<span class="fx">正确：' + last_ans(good, m) + '</span>';
+}
+function last_ans(x, m) { return fmt(x) + (UN[m] ? ' ' + UN[m] : ''); }
+
+/* ---------- m³ ⇄ dm³ ⇄ cm³ ladder ---------- */
+function drawLadder(s) {
+  svg.innerHTML = '';
+  var defs = K.svg('defs'), mk = K.svg('marker', { id: 'pvArr', markerUnits: 'userSpaceOnUse', markerWidth: 10, markerHeight: 10, refX: 9, refY: 5, orient: 'auto' });
+  mk.appendChild(K.svg('path', { d: 'M0,0 L10,5 L0,10 z', style: 'fill:var(--mut)' })); defs.appendChild(mk); svg.appendChild(defs);
+  var U3 = ['m³', 'dm³', 'cm³'], X = [30, 255, 480], W = 150, Y = 18, H = 52, placed = [], avoid = [];
+  var gB = K.svg('g'), gL = K.svg('g'); svg.appendChild(gB); svg.appendChild(gL);
+  U3.forEach(function (u, i) {
+    gB.appendChild(K.svg('rect', { x: X[i], y: Y, width: W, height: H, rx: 7, 'class': 'box' + (s && s.vu === u ? ' cur' : ''), 'data-u': u }));
+  });
+  for (var i = 0; i < 2; i++) {
+    var a = X[i] + W + 6, b = X[i + 1] - 6, y1 = Y + 15, y2 = Y + H - 15;
+    gB.appendChild(K.svg('line', { x1: a, y1: y1, x2: b - 1, y2: y1, 'class': 'arw', 'marker-end': 'url(#pvArr)' }));
+    gB.appendChild(K.svg('line', { x1: b, y1: y2, x2: a + 1, y2: y2, 'class': 'arw', 'marker-end': 'url(#pvArr)' }));
+    avoid.push([a, y1, b, y1], [a, y2, b, y2]);
+  }
+  U3.forEach(function (u, i) { lab(X[i] + W / 2, Y + H / 2 + 6, u, 'bx', [[0, 0, 'middle']]); });
+  U3.forEach(function (u, i) { placed.push({ x: X[i], y: Y, w: W, h: H }); });
+  for (i = 0; i < 2; i++) {
+    var cx = (X[i] + W + X[i + 1]) / 2;
+    lab(cx, Y + 15, '× 1000', 'ar', [[0, -6, 'middle'], [0, -9, 'middle']]);
+    lab(cx, Y + H - 15, '÷ 1000', 'ar', [[0, 18, 'middle'], [0, 21, 'middle']]);
+  }
+  if (s && isFinite(s.V)) {
+    [1, 1e3, 1e6].forEach(function (f, i) {
+      lab(X[i] + W / 2, Y + H + 30, fmt(s.V * f) + ' ' + U3[i], 'vl', [[0, 0, 'middle'], [0, 6, 'middle']]).setAttribute('data-v', U3[i]);
+    });
+  }
+  function lab(x, y, t, cls, cands) {
+    var e = K.label(svg, x, y, t, { cls: cls, cands: cands, placed: placed, avoid: avoid, pad: 2 });
+    gL.appendChild(e); return e;
+  }
+}
+
+$root.__pv = { load: function (id) { load(PRE.filter(function (q) { return q.id === id; })[0]); } };
+load(PRE[0]);
+</script>
