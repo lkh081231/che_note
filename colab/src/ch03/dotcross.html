@@ -1,0 +1,660 @@
+<h3>Dot-and-cross diagram 画板</h3>
+<p class="mut">每个 atom 画一个圆（outer shell）。covalent bond 的两个圆<b>相交</b>，shared pair 画在相交区；不同 atom 的 electrons 用不同符号（• × ○ △）。
+  ionic compound 的每个 ion 单独画，加 <b>square brackets</b> 和 charge。先选一类，再选一个物种。</p>
+
+<div class="row dc-groups">
+  <button data-g="ion">ionic</button>
+  <button data-g="cov">covalent</button>
+  <button data-g="dat">coordinate (dative covalent)</button>
+</div>
+<div class="dc-chips"></div>
+
+<div class="row dc-opts">
+  <label><input type="checkbox" class="dc-exam"> 考卷模式（先藏起 electrons，自己画完再逐步对答案）</label>
+  <span class="dc-ionopts">
+    <label><input type="checkbox" class="dc-new"> show new outer shell（cation）</label>
+    <label><input type="checkbox" class="dc-all"> all electrons（每个 shell 都画）</label>
+    <label class="dc-coefw"><input type="checkbox" class="dc-coef"> 写系数 2（不画两次）</label>
+  </span>
+  <span class="dc-steps"><button data-step="1">① NH₃ 与 H⁺</button><button data-step="2">② NH₄⁺ 与 Cl⁻</button></span>
+</div>
+
+<div class="dc-main">
+  <div class="card dc-fig">
+    <div class="dc-title"></div>
+    <svg class="dc-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="row dc-exambar"><button class="dc-next"></button><span class="faint dc-exhint"></span></div>
+    <div class="dc-legend"></div>
+    <div class="dc-structw"><div class="dc-cap">结构式（displayed formula）</div><svg class="dc-struct" xmlns="http://www.w3.org/2000/svg"></svg></div>
+  </div>
+  <div class="card dc-count"></div>
+</div>
+<div class="card dc-note"></div>
+
+<style>
+.k .dc-groups button{font-weight:600}
+.k .dc-chips{margin:4px 0 2px}
+.k .dc-sub{font-size:13px;color:var(--mut);margin:6px 0 3px}
+.k .dc-chiprow{display:flex;flex-wrap:wrap;gap:5px}
+.k .dc-chiprow button{min-width:3.6em;padding:3px 9px;font-size:15px}
+.k .dc-opts{font-size:14px;gap:6px 16px}
+.k .dc-opts label{white-space:nowrap}
+.k .dc-ionopts,.k .dc-steps{display:inline-flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.k .dc-opts label.dc-off{opacity:.45;cursor:default}
+.k .dc-main{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;align-items:flex-start}
+.k .dc-fig{flex:1 1 430px;min-width:0}
+.k .dc-count{flex:1 1 220px;font-size:14px}
+.k .dc-title{font-size:18px;font-weight:650;margin-bottom:2px}
+.k .dc-title small{font-size:14px;font-weight:400;color:var(--mut);margin-left:8px}
+.k .dc-svg,.k .dc-struct{margin:4px auto}
+.k .dc-svg .dc-shell{fill:none;stroke:var(--mut);stroke-width:1.5}
+.k .dc-svg .dc-shell.dc-empty{stroke-dasharray:5 4}
+.k .dc-svg .dc-inner{fill:none;stroke:var(--faint);stroke-width:1.2}
+.k .dc-svg .dc-sym{font-size:19px;font-weight:600;fill:var(--fg)}
+.k .dc-svg .dc-sym.dc-small{font-size:16px}
+.k .dc-halo{fill:var(--card)}
+.k .dc-mk-dot{fill:var(--s1)}
+.k .dc-mk-cross{stroke:var(--s2);stroke-width:1.9;stroke-linecap:round;fill:none}
+.k .dc-mk-circ{stroke:var(--s3);stroke-width:1.5;fill:none}
+.k .dc-mk-tri{stroke:var(--s5);stroke-width:1.5;fill:none;stroke-linejoin:round}
+.k .dc-dat{fill:color-mix(in srgb,var(--s4) 32%,transparent);stroke:var(--s4);stroke-width:1}
+.k .dc-ring{fill:none;stroke:var(--s4);stroke-width:1.7}
+.k .dc-brk{fill:none;stroke:var(--fg);stroke-width:1.8}
+.k .dc-arw{fill:none;stroke:var(--s4);stroke-width:1.7}
+.k .dc-arwhead{fill:var(--s4)}
+.k .dc-svg text.dc-chg{font-size:16px;font-weight:600}
+.k .dc-svg text.dc-coef{font-size:24px;font-weight:600}
+.k .dc-svg text.dc-ann{font-size:13px;fill:var(--s4);font-weight:600}
+/* 考卷模式 */
+.k .dc-svg.ex0 .dc-e,.k .dc-svg.ex0 .dc-dat,.k .dc-svg.ex0 .dc-ring,.k .dc-svg.ex0 .dc-ann{visibility:hidden}
+.k .dc-svg.ex1 .dc-e:not(.dc-step1),.k .dc-svg.ex1 .dc-ring,.k .dc-svg.ex1 .dc-ann{visibility:hidden}
+.k .dc-exambar{display:none}
+.k .dc-exambar.show{display:flex}
+/* legend */
+.k .dc-legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;margin-top:6px;color:var(--fg)}
+.k .dc-legend span{display:inline-flex;align-items:center;gap:5px}
+.k .dc-legend svg{display:inline-block;width:16px;height:16px}
+.k .dc-structw{border-top:1px dashed var(--line);margin-top:8px;padding-top:4px}
+.k .dc-cap{font-size:13px;color:var(--mut)}
+.k .dc-struct .dc-bl{stroke:var(--fg);stroke-width:1.7;fill:none}
+.k .dc-struct .dc-ba{stroke:var(--s4);stroke-width:1.9;fill:none}
+.k .dc-struct .dc-ssym{font-size:17px;font-weight:600;fill:var(--fg)}
+.k .dc-struct text.dc-chg{font-size:14px;font-weight:600}
+/* count card */
+.k .dc-count h4{margin:0 0 6px}
+.k .dc-count table{width:100%;margin:4px 0;font-size:14px}
+.k .dc-count td{padding:3px 7px}
+.k .dc-count td.dc-v{font-weight:650;text-align:right;white-space:nowrap}
+.k .dc-tag{display:inline-block;font-size:13px;font-weight:600;padding:0 7px;border-radius:9px;margin-left:4px;border:1px solid}
+.k .dc-tag.oct{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+.k .dc-tag.exp{color:var(--s5);border-color:var(--s5)}
+.k .dc-tag.def{color:var(--s4);border-color:var(--s4)}
+.k .dc-tag.rad{color:var(--bad);border-color:var(--bad);background:var(--bad-soft)}
+.k .dc-tag.duo{color:var(--s1);border-color:var(--s1)}
+.k .dc-note p{margin:4px 0}
+.k .dc-ms{border-left:3px solid var(--acc);padding:3px 10px;margin:6px 0 2px;font-size:14px}
+.k .dc-ms b.dc-m{color:var(--acc)}
+.k .dc-src{font-size:13px;color:var(--faint)}
+</style>
+
+<script>
+var $ = function (s) { return $root.querySelector(s); };
+var VAL = { H: 1, Li: 1, B: 3, C: 4, N: 5, O: 6, F: 7, Na: 1, Mg: 2, Al: 3, P: 5, S: 6, Cl: 7, Ca: 2 };
+var ZSH = { H: [1], Li: [2, 1], Na: [2, 8, 1], Mg: [2, 8, 2], Ca: [2, 8, 8, 2], O: [2, 6], F: [2, 7], Cl: [2, 8, 7] };
+var NOBLE = { '2': 'He', '2,8': 'Ne', '2,8,8': 'Ar' };
+var ER = 3.3, SEP = 5.5, SCALE = 1.3;
+var MKCH = { dot: '•', cross: '×', circ: '○', tri: '△' };
+var NAME = { H: 'H', Li: 'Li', B: 'B', C: 'C', N: 'N', O: 'O', F: 'F', Na: 'Na', Mg: 'Mg', Al: 'Al', P: 'P', S: 'S', Cl: 'Cl', Ca: 'Ca' };
+function rad(d) { return d * Math.PI / 180; }
+function angOf(dx, dy) { var a = Math.atan2(-dy, dx) * 180 / Math.PI; return (a + 360) % 360; }
+function adiff(a, b) { var d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; }
+function chgTxt(q) { var a = Math.abs(q); return (a === 1 ? '' : a) + (q > 0 ? '+' : '−'); }
+function supQ(q) { return K.sup((Math.abs(q) === 1 ? '' : Math.abs(q)) + (q > 0 ? '+' : '-')); }
+
+/* ---------------- species ----------------
+   atom: [id, el, mark, pos, extra]; pos = [x, y] (svg units, y down) or [parentId, angle°] (maths angle, 0 = right, 90 = up)
+   bond: [a, b, order, donorId, lens] — lens = width of the overlap (default 24 for multiple bonds, 18 with H, else 20) */
+function A(id, el, mk, pos, x) { var a = { id: id, el: el, mk: mk, pos: pos }; for (var k in x || {}) a[k] = x[k]; return a; }
+function ring(cid, el, mk, angs, pre, ord) {
+  return angs.map(function (g, i) { return A(pre + (i + 1), el, mk, [cid, g]); });
+}
+function star(cid, n, ord, pre) { var out = []; for (var i = 1; i <= n; i++) out.push([cid, pre + i, ord || 1]); return out; }
+
+var B26 = Math.SQRT1_2 * 54;   /* Al₂Cl₆: Al–Cl centre distance 54 (lens 18) on a square */
+var SP = [
+  { id: 'NaCl', f: 'NaCl', name: 'sodium chloride', g: 'ion', ions: [['Na', 1, 1], ['Cl', -1, 1]],
+    note: 'Na（2,8,1）把 1 个 electron 交给 Cl（2,8,7）：Na⁺ 是 2,8（= Ne），Cl⁻ 是 2,8,8（= Ar）。Cl⁻ 外层 8 个里有 1 个是 ×——那是从 Na 转移过来的。' },
+  { id: 'MgO', f: 'MgO', name: 'magnesium oxide', g: 'ion', ions: [['Mg', 2, 1], ['O', -2, 1]],
+    note: 'Mg（2,8,2）把 2 个 electrons 交给 O（2,6）：Mg²⁺ 和 O²⁻ 都是 2,8（= Ne）。ions 带 2+ / 2−，吸引比 NaCl 强得多，melting point 2852 °C vs 801 °C。' },
+  { id: 'CaF2', f: 'CaF₂', name: 'calcium fluoride', g: 'ion', ions: [['Ca', 2, 1], ['F', -1, 2]],
+    note: 'Ca（2,8,8,2）各给 1 个 electron 给<b>两个</b> F（2,7）：Ca²⁺ 是 2,8,8，每个 F⁻ 是 2,8。两个 F⁻ 可以画两次，也可以写成 2[F]⁻。' },
+  { id: 'Na2O', f: 'Na₂O', name: 'sodium oxide', g: 'ion', ions: [['Na', 1, 2], ['O', -2, 1]],
+    note: '两个 Na 各给 O 1 个 electron：O²⁻ 外层 8 个里有 2 个 ×。系数 2 写在括号前：2[Na]⁺。' },
+  { id: 'MgCl2', f: 'MgCl₂', name: 'magnesium chloride', g: 'ion', ions: [['Mg', 2, 1], ['Cl', -1, 2]],
+    note: 'Mg 的 2 个外层 electrons 分给两个 Cl，各 1 个：每个 Cl⁻ 外层 7 • + 1 ×。' },
+  { id: 'Li2O', f: 'Li₂O', name: 'lithium oxide', g: 'ion', ions: [['Li', 1, 2], ['O', -2, 1]], allHint: true,
+    note: '打开「all electrons」：Li⁺ 只剩 1s²（2 个），O²⁻ 是 2,8（10 个）。',
+    ms: [['M1', 'charges 正确：O²⁻ 与 Li⁺'], ['M2', '其余全对：Li⁺ 只剩 1s²，O²⁻ 是 2,8，square brackets，系数 2（或画两个 Li⁺）'], ['', '误画成 covalent（圆圈相交）最多 1 分']],
+    src: '9701/22 May/June 2026 Q1(b)：the arrangement of <b>all</b> the electrons' },
+
+  { id: 'H2', f: 'H₂', name: 'hydrogen', g: 'cov', sub: 'o', central: 'a',
+    parts: [{ atoms: [A('a', 'H', 'dot', [0, 0]), A('b', 'H', 'cross', ['a', 0])], bonds: [['a', 'b', 1]] }],
+    note: 'H 的 outer shell 是 1s，只装 2 个 electrons——H 达到的是 He 的 configuration（duplet），不是 octet。' },
+  { id: 'Cl2', f: 'Cl₂', name: 'chlorine', g: 'cov', sub: 'o', central: 'a',
+    parts: [{ atoms: [A('a', 'Cl', 'dot', [0, 0], { tag: '左' }), A('b', 'Cl', 'cross', ['a', 0], { tag: '右' })], bonds: [['a', 'b', 1]] }],
+    note: '1 对 shared pair（一 •、一 ×），每个 Cl 还有 3 对 lone pairs。同一种 element 的两个 atoms 也用不同符号，才数得清谁出了哪个 electron。' },
+  { id: 'HCl', f: 'HCl', name: 'hydrogen chloride', g: 'cov', sub: 'o', central: 'c',
+    parts: [{ atoms: [A('c', 'Cl', 'dot', [0, 0]), A('h', 'H', 'cross', ['c', 180])], bonds: [['c', 'h', 1]] }],
+    note: 'H 2 个（duplet），Cl 8 个：1 对 shared pair + 3 对 lone pairs。' },
+  { id: 'O2', f: 'O₂', name: 'oxygen', g: 'cov', sub: 'o', central: 'a',
+    parts: [{ atoms: [A('a', 'O', 'dot', [0, 0], { tag: '左' }), A('b', 'O', 'cross', ['a', 0], { tag: '右' })], bonds: [['a', 'b', 2]] }],
+    note: 'O=O <b>double bond</b>：相交区里 2 对 shared pairs（4 个 electrons），每个 O 还有 2 对 lone pairs。' },
+  { id: 'N2', f: 'N₂', name: 'nitrogen', g: 'cov', sub: 'o', central: 'a',
+    parts: [{ atoms: [A('a', 'N', 'dot', [0, 0], { tag: '左' }), A('b', 'N', 'cross', ['a', 0], { tag: '右' })], bonds: [['a', 'b', 3]] }],
+    note: 'N≡N <b>triple bond</b>：相交区里 3 对 shared pairs，每个 N 还有 1 对 lone pair。' },
+  { id: 'CO2', f: 'CO₂', name: 'carbon dioxide', g: 'cov', sub: 'o', central: 'c',
+    parts: [{ atoms: [A('c', 'C', 'dot', [0, 0]), A('o1', 'O', 'cross', ['c', 180]), A('o2', 'O', 'cross', ['c', 0])],
+      bonds: [['c', 'o1', 2], ['c', 'o2', 2]] }],
+    note: 'O=C=O：两个 double bonds。C 上没有 lone pair，每个 O 有 2 对。' },
+  { id: 'NH3', f: 'NH₃', name: 'ammonia', g: 'cov', sub: 'o', central: 'n',
+    parts: [{ atoms: [A('n', 'N', 'dot', [0, 0])].concat(ring('n', 'H', 'cross', [180, 0, 270], 'h')), bonds: star('n', 3, 1, 'h') }],
+    note: '3 个 N–H，N 上 1 对 lone pair——正是这对 lone pair 能和 H⁺ 形成 coordinate bond（见 coordinate 组的 NH₄Cl）。' },
+  { id: 'CH4', f: 'CH₄', name: 'methane', g: 'cov', sub: 'o', central: 'c',
+    parts: [{ atoms: [A('c', 'C', 'dot', [0, 0])].concat(ring('c', 'H', 'cross', [90, 0, 270, 180], 'h')), bonds: star('c', 4, 1, 'h') }],
+    note: '4 个 C–H，C 上没有 lone pair。' },
+  { id: 'H2O', f: 'H₂O', name: 'water', g: 'cov', sub: 'o', central: 'o',
+    parts: [{ atoms: [A('o', 'O', 'dot', [0, 0])].concat(ring('o', 'H', 'cross', [225, 315], 'h')), bonds: star('o', 2, 1, 'h') }],
+    note: '2 个 O–H，O 上 2 对 lone pairs。' },
+  { id: 'C2H6', f: 'C₂H₆', name: 'ethane', g: 'cov', sub: 'o', central: 'c1', centralTxt: '每个 C',
+    parts: [{ atoms: [A('c1', 'C', 'dot', [0, 0], { tag: '左' }), A('c2', 'C', 'cross', ['c1', 0], { tag: '右' })]
+      .concat(ring('c1', 'H', 'circ', [100, 180, 260], 'h'), ring('c2', 'H', 'circ', [80, 0, 280], 'k')),
+      bonds: [['c1', 'c2', 1, null, 16]].concat(star('c1', 3, 1, 'h'), star('c2', 3, 1, 'k')) }],
+    note: 'C–C + 6 个 C–H，每个 C 都是 8 个、没有 lone pair。三种 atoms 用三种符号。' },
+  { id: 'C2H4', f: 'C₂H₄', name: 'ethene', g: 'cov', sub: 'o', central: 'c1', centralTxt: '每个 C',
+    parts: [{ atoms: [A('c1', 'C', 'dot', [0, 0], { tag: '左' }), A('c2', 'C', 'cross', ['c1', 0], { tag: '右' })]
+      .concat(ring('c1', 'H', 'circ', [120, 240], 'h'), ring('c2', 'H', 'circ', [60, 300], 'k')),
+      bonds: [['c1', 'c2', 2]].concat(star('c1', 2, 1, 'h'), star('c2', 2, 1, 'k')) }],
+    note: 'C=C 是 2 对 shared pairs，再加 4 个 C–H：每个 C 仍是 8 个。' },
+  { id: 'HCN', f: 'HCN', name: 'hydrogen cyanide', g: 'cov', sub: 'o', central: 'c',
+    parts: [{ atoms: [A('c', 'C', 'dot', [0, 0]), A('h', 'H', 'cross', ['c', 180]), A('n', 'N', 'circ', ['c', 0])],
+      bonds: [['c', 'h', 1], ['c', 'n', 3]] }],
+    note: 'H–C≡N：C 8 个（1 + 3 对 shared pairs），N 8 个（3 对 shared + 1 对 lone pair）。' },
+  { id: 'BF3', f: 'BF₃', name: 'boron trifluoride', g: 'cov', sub: 'x', central: 'b',
+    parts: [{ atoms: [A('b', 'B', 'dot', [0, 0])].concat(ring('b', 'F', 'cross', [90, 210, 330], 'f')), bonds: star('b', 3, 1, 'f') }],
+    note: '<b>electron deficient</b>：B（Group 13）只有 3 个外层 electrons，3 个 B–F 之后 B 外层只有 6 个。AlCl₃ 的 Al 也是 6 个。' },
+  { id: 'SO2', f: 'SO₂', name: 'sulfur dioxide', g: 'cov', sub: 'x', central: 's',
+    parts: [{ atoms: [A('s', 'S', 'dot', [0, 0], { r: 40 })].concat(ring('s', 'O', 'cross', [210, 330], 'o')), bonds: star('s', 2, 2, 'o') }],
+    note: 'O=S=O，S 上还有 1 对 lone pair：S 外层 10 个（<b>expanded octet</b>）。只有 Period 3 及以后的 element 能这样——n = 3 shell 有空的 3d orbitals。' },
+  { id: 'PCl5', f: 'PCl₅', name: 'phosphorus(V) chloride', g: 'cov', sub: 'x', central: 'p',
+    parts: [{ atoms: [A('p', 'P', 'dot', [0, 0], { r: 50 })].concat(ring('p', 'Cl', 'cross', [90, 162, 234, 306, 18], 'c')), bonds: star('p', 5, 1, 'c') }],
+    note: '5 个 P–Cl：P 外层 10 个（expanded octet），没有 lone pair。' },
+  { id: 'SF6', f: 'SF₆', name: 'sulfur hexafluoride', g: 'cov', sub: 'x', central: 's',
+    parts: [{ atoms: [A('s', 'S', 'dot', [0, 0], { r: 58 })].concat(ring('s', 'F', 'cross', [90, 30, 330, 270, 210, 150], 'f')), bonds: star('s', 6, 1, 'f') }],
+    note: '6 个 S–F：S 外层 12 个（expanded octet），S 上没有 lone pair。',
+    ms: [['', '6 对 bonding pairs，每个 F 3 对 lone pairs，S 上没有 lone pair'], ['', '符号随意；electrons 画在圆周上或空隙里都行，non-bonding electrons 不必成对'], ['', '多画 inner electrons 不扣分也不给分']],
+    src: '9701/21 May/June 2026 Q1(a)(i)' },
+  { id: 'SCl2', f: 'SCl₂', name: 'sulfur dichloride', g: 'cov', sub: 'x', central: 's', octetHere: true,
+    parts: [{ atoms: [A('s', 'S', 'dot', [0, 0])].concat(ring('s', 'Cl', 'cross', [225, 315], 'c')), bonds: star('s', 2, 1, 'c') }],
+    note: 'S 用 2 个 electrons 成 2 个 S–Cl，剩下 4 个是 2 对 lone pairs：S 外层 8 个（这里没有 expand）。',
+    ms: [['M1', '每个 S–Cl 之间一对 shared pair（一 ×、一 •）'], ['M2', '每个 Cl 另有 6 个 non-bonding electrons（只用 ×），S 另有 4 个（只用 •）']],
+    src: '9701/21 May/June 2024 Q2(b)(i)' },
+  { id: 'NO', f: 'NO', name: 'nitrogen monoxide', g: 'cov', sub: 'x', central: 'n',
+    parts: [{ atoms: [A('n', 'N', 'dot', [0, 0]), A('o', 'O', 'cross', ['n', 0])], bonds: [['n', 'o', 2]] }],
+    note: 'N 5 + O 6 = <b>11</b> 个 outer electrons，是 odd number：N=O 之后 N 上 1 对 lone pair + 1 个 <b>unpaired electron</b>（N 外层只有 7 个）。有 unpaired electron 的 species 叫 <b>(free) radical</b>。',
+    src: '9701/22 Feb/Mar 2026 Q2(a)(i)' },
+
+  { id: 'NH4Cl', f: 'NH₄Cl', name: 'ammonium chloride', g: 'dat', central: 'n', steps: true },
+  { id: 'Al2Cl6', f: 'Al₂Cl₆', name: 'aluminium chloride dimer', g: 'dat', central: 'a1', centralTxt: '每个 Al',
+    parts: [{ atoms: [A('a1', 'Al', 'dot', [-B26, 0], { tag: '' }), A('a2', 'Al', 'dot', [B26, 0]),
+      A('ct', 'Cl', 'cross', [0, -B26]), A('cb', 'Cl', 'cross', [0, B26]),
+      A('t1', 'Cl', 'cross', ['a1', 135]), A('t2', 'Cl', 'cross', ['a1', 225]), A('t3', 'Cl', 'cross', ['a2', 45]), A('t4', 'Cl', 'cross', ['a2', 315])],
+      bonds: [['a1', 'ct', 1, null, 18], ['a2', 'ct', 1, 'ct', 18], ['a2', 'cb', 1, null, 18], ['a1', 'cb', 1, 'cb', 18],
+        ['a1', 't1', 1, null, 18], ['a1', 't2', 1, null, 18], ['a2', 't3', 1, null, 18], ['a2', 't4', 1, null, 18]] }],
+    note: '低温下两个 AlCl₃ 结合成 dimer。每个 AlCl₃ 的 Al 只有 6 个外层 electrons；另一个分子上的 Cl 用 lone pair 填进去，形成两个 Cl→Al（底色标出的两对，两个 electrons 都是 ×）。每个 Al 周围变成 4 对、8 个，tetrahedral。' },
+  { id: 'BF3NH3', f: 'F₃B←NH₃', name: 'BF₃ + NH₃ adduct', g: 'dat', central: 'b',
+    parts: [{ atoms: [A('b', 'B', 'dot', [0, 0])].concat(ring('b', 'F', 'cross', [90, 180, 270], 'f'), [A('n', 'N', 'circ', ['b', 0])], ring('n', 'H', 'tri', [80, 0, 280], 'h')),
+      bonds: star('b', 3, 1, 'f').concat([['b', 'n', 1, 'n', 12]], star('n', 3, 1, 'h')) }],
+    note: 'BF₃ + NH₃ → F₃B←NH₃：N 的 lone pair 进入 B 的空 orbital。B 从 6 个（electron deficient）变成 8 个。' }
+];
+var NH4 = {
+  1: [{ atoms: [A('n', 'N', 'dot', [0, 0])].concat(ring('n', 'H', 'cross', [90, 180, 270], 'h')), bonds: star('n', 3, 1, 'h'), gap: 135 },
+      { atoms: [A('hp', 'H', 'cross', [0, 0], { q: 1, ion: true })], bracket: 1 },
+      { atoms: [A('cl', 'Cl', 'circ', [0, 0], { q: -1, ion: true, gain: ['cross'] })], bracket: -1, under: 58 }],
+  2: [{ atoms: [A('n', 'N', 'dot', [0, 0])].concat(ring('n', 'H', 'cross', [90, 180, 270], 'h'), [A('hp', 'H', 'cross', ['n', 0], { q: 1, tag: '⁺' })]),
+        bonds: star('n', 3, 1, 'h').concat([['n', 'hp', 1, 'n']]), bracket: 1 },
+      { atoms: [A('cl', 'Cl', 'circ', [0, 0], { q: -1, ion: true, gain: ['cross'] })], bracket: -1 }]
+};
+SP.forEach(function (s) { if (s.id === 'NH4Cl') {
+  s.note = 'NH₃(g) + HCl(g) → NH₄Cl(s)。① HCl 把 H⁺ 交给 NH₃（H 原来的 electron 留在 Cl 上，Cl⁻ 里那个 × 就是它）；② N 的 lone pair 与 H⁺ 形成 N→H。NH₄Cl 里三种 bond 都有：NH₄⁺ 与 Cl⁻ 之间是 ionic；4 个 N–H 中 3 个 covalent、1 个 coordinate——形成之后 4 个 N–H 完全一样。';
+  s.ms = [['M1', 'NH₄⁺ AND Cl⁻ AND 4 个 N–H 共用 pair'], ['M2', '其中一个画成方向正确的箭头（或那一对只用一种符号）']];
+  s.src = '9701/23 May/June 2024 Q4(a)';
+} });
+
+/* ---------------- state ---------------- */
+var st = { g: 'ion', sp: 'NaCl', exam: false, stage: 2, nw: false, all: false, coef: false, step: 1 };
+function spec(id) { return SP.filter(function (s) { return s.id === (id || st.sp); })[0]; }
+
+/* ionic species → parts (cations first, then anions; ×n or a coefficient) */
+function ionParts(s) {
+  var metal = s.ions[0][0], parts = [];
+  s.ions.forEach(function (r) {
+    var el = r[0], q = r[1], n = r[2], mk = q > 0 ? 'cross' : 'dot';
+    var gain = []; for (var i = 0; i < -q; i++) gain.push('cross');
+    var copies = st.coef ? 1 : n;
+    for (var c = 0; c < copies; c++)
+      parts.push({ atoms: [A(el + (c + 1), el, mk, [0, 0], { q: q, ion: true, gain: gain })], bracket: q, coef: st.coef && n > 1 ? n : 0 });
+  });
+  return parts;
+}
+function partsOf(s) {
+  if (s.g === 'ion') return ionParts(s);
+  if (s.steps) return NH4[st.step];
+  return s.parts;
+}
+function ionShells(el, q) {
+  var sh = ZSH[el].slice();
+  if (q > 0) { var left = q; while (left > 0) { var t = Math.min(left, sh[sh.length - 1]); sh[sh.length - 1] -= t; left -= t; if (!sh[sh.length - 1]) sh.pop(); } }
+  if (q < 0) sh[sh.length - 1] -= q;
+  return sh;
+}
+
+/* ---------------- geometry ---------------- */
+function rOf(a) { return a.r || (a.el === 'H' ? 30 : 36); }
+function lensOf(b, A1, A2) { return b[4] || (b[2] > 1 ? 24 : (A1.el === 'H' || A2.el === 'H' ? 18 : 20)); }
+function findBond(bonds, x, y) { return bonds.filter(function (b) { return (b[0] === x && b[1] === y) || (b[0] === y && b[1] === x); })[0]; }
+
+/* lay out one part in local coordinates → { atoms, es, hl, bbox } */
+function layPart(part) {
+  var atoms = part.atoms.map(function (a) { var c = {}; for (var k in a) c[k] = a[k]; return c; });
+  var by = {}; atoms.forEach(function (a) { by[a.id] = a; });
+  var bonds = part.bonds || [];
+  var es = [], hl = [], rings = [];
+  atoms.forEach(function (a) {
+    a.r = rOf(a);
+    if (a.ion) {
+      a.q = a.q || 0;
+      var sh = a.el === 'H' && a.q > 0 ? [] : ionShells(a.el, a.q);
+      if (st.all) { a.shells = sh; a.r = sh.length ? 18 + 12 * (sh.length - 1) : a.r; }
+      else if (a.q > 0) a.shells = st.nw && sh.length ? [sh[sh.length - 1]] : [];
+      else a.shells = [sh[sh.length - 1]];
+      a.empty = !a.shells.length;
+    }
+  });
+  atoms.forEach(function (a) {
+    if (Array.isArray(a.pos) && typeof a.pos[0] === 'string') {
+      var p = by[a.pos[0]], b = findBond(bonds, p.id, a.id), d = p.r + a.r - lensOf(b, p, a);
+      a.x = p.x + d * Math.cos(rad(a.pos[1])); a.y = p.y - d * Math.sin(rad(a.pos[1]));
+    } else { a.x = a.pos[0]; a.y = a.pos[1]; }
+  });
+  function push(x, y, mk, ats, kind, extra) {
+    var e = { x: x, y: y, mk: mk, atoms: ats, kind: kind }; for (var k in extra || {}) e[k] = extra[k]; es.push(e); return e;
+  }
+  /* shared pairs inside the lens */
+  var contrib = {}; atoms.forEach(function (a) { contrib[a.id] = 0; });
+  bonds.forEach(function (b, bi) {
+    var P = by[b[0]], Q = by[b[1]], dx = Q.x - P.x, dy = Q.y - P.y, d = Math.hypot(dx, dy);
+    var u = [dx / d, dy / d], v = [-u[1], u[0]], s0 = d - Q.r, s1 = P.r, m = (s0 + s1) / 2, w = (s1 - s0) / 2;
+    var M = [P.x + u[0] * m, P.y + u[1] * m], n = b[2], donor = b[3];
+    var side = w >= SEP + ER - 1e-6;
+    for (var k = 0; k < n; k++) {
+      var off = (k - (n - 1) / 2) * 10.5, c = [M[0] + v[0] * off, M[1] + v[1] * off];
+      var mk1 = donor ? by[donor].mk : P.mk, mk2 = donor ? by[donor].mk : Q.mk;
+      var e1 = side ? [c[0] - u[0] * SEP, c[1] - u[1] * SEP] : [c[0] - v[0] * SEP, c[1] - v[1] * SEP];
+      var e2 = side ? [c[0] + u[0] * SEP, c[1] + u[1] * SEP] : [c[0] + v[0] * SEP, c[1] + v[1] * SEP];
+      var ex = { bond: bi, dative: donor ? 1 : 0, owner1: donor || P.id, owner2: donor || Q.id };
+      push(e1[0], e1[1], mk1, [P.id, Q.id], 'bond', { owner: donor || P.id, bond: bi, dative: donor ? 1 : 0 });
+      push(e2[0], e2[1], mk2, [P.id, Q.id], 'bond', { owner: donor || Q.id, bond: bi, dative: donor ? 1 : 0 });
+      if (donor) hl.push({ x: c[0], y: c[1], ang: Math.atan2(u[1], u[0]) * 180 / Math.PI + (side ? 0 : 90) });
+    }
+    if (donor) contrib[donor] += 2 * n; else { contrib[P.id] += n; contrib[Q.id] += n; }
+  });
+  /* electrons of unbonded ions: concentric shells */
+  atoms.forEach(function (a) {
+    if (!a.ion) return;
+    var sh = a.shells, nsh = sh.length;
+    a.radii = sh.map(function (c, i) { return st.all ? 18 + 12 * i : a.r; });
+    sh.forEach(function (cnt, i) {
+      var R = a.radii[i], outer = i === nsh - 1, compass = (nsh - 1 - i) % 2 === 0;
+      var angs = cnt === 2 ? [90] : (compass ? [180, 0, 90, 270] : [135, 45, 225, 315]);
+      var gain = outer && a.q < 0 ? a.gain.slice() : [], dl = SEP / R;
+      angs.forEach(function (g) {
+        var t = rad(g), pts = [t + dl, t - dl];
+        pts.forEach(function (tt, j) {
+          var mk = a.mk, kind = 'shell';
+          if (j === 1 && gain.length) { mk = gain.shift(); kind = 'gain'; }
+          push(a.x + R * Math.cos(tt), a.y - R * Math.sin(tt), mk, [a.id], kind, { owner: kind === 'gain' ? 'other' : a.id, shell: i + 1 });
+        });
+      });
+    });
+  });
+  /* lone pairs / unpaired electrons of bonded atoms: best spread of angles round the circle */
+  atoms.forEach(function (a) {
+    if (a.ion) return;
+    var tot = VAL[a.el] - Math.max(a.q || 0, 0) - contrib[a.id];
+    if (tot <= 0) return;
+    var nP = Math.floor(tot / 2), nS = tot % 2, nslot = nP + nS;
+    var bang = bonds.filter(function (b) { return b[0] === a.id || b[1] === a.id; })
+      .map(function (b) { var o = by[b[0] === a.id ? b[1] : b[0]]; return angOf(o.x - a.x, o.y - a.y); });
+    var dl = SEP / a.r;
+    function pts(g) { var t = rad(g); return [[t, 0], [t + dl, 1], [t - dl, 1]].map(function (z) { return [a.x + a.r * Math.cos(z[0]), a.y - a.r * Math.sin(z[0])]; }); }
+    var cands = [];
+    for (var g = 0; g < 360; g += 15) {
+      var ok = pts(g).every(function (p) {
+        return atoms.every(function (o) { return o === a || Math.hypot(p[0] - o.x, p[1] - o.y) >= o.r + ER + 1.5; }) &&
+               es.every(function (e) { return Math.hypot(p[0] - e.x, p[1] - e.y) >= 2 * ER + 2.5; });
+      });
+      if (ok) cands.push(g);
+    }
+    var best = null, bs = null;
+    (function rec(start, chosen) {
+      if (chosen.length === nslot) {
+        var all = bang.concat(chosen), mn = 360;
+        for (var i = 0; i < all.length; i++) for (var j = i + 1; j < all.length; j++) mn = Math.min(mn, adiff(all[i], all[j]));
+        var sc = [Math.round(mn), chosen.filter(function (x) { return x % 90 === 0; }).length,
+          chosen.reduce(function (t, x) { return t + Math.sin(rad(x)); }, 0)];
+        if (!bs || sc[0] > bs[0] || (sc[0] === bs[0] && (sc[1] > bs[1] || (sc[1] === bs[1] && sc[2] > bs[2] + 1e-9)))) { bs = sc; best = chosen.slice(); }
+        return;
+      }
+      for (var i = start; i < cands.length; i++) { chosen.push(cands[i]); rec(i + 1, chosen); chosen.pop(); }
+    })(0, []);
+    if (!best) { a.lpFail = 1; return; }
+    best.sort(function (x, y) { return Math.sin(rad(y)) - Math.sin(rad(x)); });
+    best.forEach(function (g, i) {
+      var p = pts(g);
+      if (i < nS) { var e = push(p[0][0], p[0][1], a.mk, [a.id], 'one', { owner: a.id }); rings.push(e); }
+      else { push(p[1][0], p[1][1], a.mk, [a.id], 'lp', { owner: a.id }); push(p[2][0], p[2][1], a.mk, [a.id], 'lp', { owner: a.id }); }
+    });
+  });
+  var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  atoms.forEach(function (a) { x0 = Math.min(x0, a.x - a.r); x1 = Math.max(x1, a.x + a.r); y0 = Math.min(y0, a.y - a.r); y1 = Math.max(y1, a.y + a.r); });
+  return { part: part, atoms: atoms, bonds: bonds, es: es, hl: hl, rings: rings, bb: [x0, y0, x1, y1] };
+}
+
+/* ---------------- drawing ---------------- */
+var svg = $('.dc-svg'), ssvg = $('.dc-struct');
+function S(tag, at, parent, cls) { var e = K.svg(tag, at); if (cls) e.setAttribute('class', cls); (parent || svg).appendChild(e); return e; }
+function circSegs(x, y, r) { var out = [], n = 28; for (var i = 0; i < n; i++) { var a = 2 * Math.PI * i / n, b = 2 * Math.PI * (i + 1) / n; out.push([x + r * Math.cos(a), y + r * Math.sin(a), x + r * Math.cos(b), y + r * Math.sin(b)]); } return out; }
+function markEl(g, mk, x, y) {
+  if (mk === 'dot') return S('circle', { cx: x, cy: y, r: ER }, g, 'dc-mk-dot');
+  if (mk === 'cross') return S('path', { d: 'M' + (x - 2.9) + ' ' + (y - 2.9) + 'L' + (x + 2.9) + ' ' + (y + 2.9) + 'M' + (x - 2.9) + ' ' + (y + 2.9) + 'L' + (x + 2.9) + ' ' + (y - 2.9) }, g, 'dc-mk-cross');
+  if (mk === 'circ') return S('circle', { cx: x, cy: y, r: 2.9 }, g, 'dc-mk-circ');
+  return S('path', { d: 'M' + x + ' ' + (y - 3.6) + 'L' + (x + 3.3) + ' ' + (y + 2.3) + 'L' + (x - 3.3) + ' ' + (y + 2.3) + 'Z' }, g, 'dc-mk-tri');
+}
+function bracket(parent, bb, cls) {
+  var x0 = bb[0] - 7, x1 = bb[2] + 7, y0 = bb[1] - 7, y1 = bb[3] + 7, s = 6;
+  S('path', { d: 'M' + (x0 + s) + ' ' + y0 + 'H' + x0 + 'V' + y1 + 'H' + (x0 + s) + 'M' + (x1 - s) + ' ' + y0 + 'H' + x1 + 'V' + y1 + 'H' + (x1 - s) }, parent, cls || 'dc-brk');
+  return [[x0, y0, x0 + s, y0], [x0, y0, x0, y1], [x0, y1, x0 + s, y1], [x1 - s, y0, x1, y0], [x1, y0, x1, y1], [x1 - s, y1, x1, y1]];
+}
+
+var cur = null;   /* last layout, for the count card and the test */
+function render() {
+  var s = spec(), parts = partsOf(s).map(layPart);
+  /* row of parts, vertically centred */
+  var x = 0, GAP = 26, atoms = [], es = [], hl = [], rings = [], bonds = [], pieces = [];
+  parts.forEach(function (P, pi) {
+    var bb = P.bb, lead = (P.part.coef ? 26 : 0) + (P.part.bracket ? 8 : 0), dx = x + lead - bb[0], dy = -(bb[1] + bb[3]) / 2;
+    /* part.under: stack below the previous part (same centre line), so a 3-part row does not get too wide */
+    var prev = pieces[pieces.length - 1];
+    P.uy = 0;
+    if (P.part.under && prev) { dx = (prev.bb[0] + prev.bb[2]) / 2 - (bb[0] + bb[2]) / 2; P.uy = prev.bb[3] + P.part.under - bb[1] - dy; dy += P.uy; }
+    P.atoms.forEach(function (a) { a.x += dx; a.y += dy; a.part = pi; atoms.push(a); });
+    P.es.forEach(function (e) { e.x += dx; e.y += dy; es.push(e); });
+    P.hl.forEach(function (h) { h.x += dx; h.y += dy; hl.push(h); });
+    P.rings.forEach(function (e) { rings.push(e); });
+    P.bonds.forEach(function (b) { bonds.push(b); });
+    P.bb = [bb[0] + dx, bb[1] + dy, bb[2] + dx, bb[3] + dy];
+    pieces.push(P);
+    x = Math.max(P.part.under ? x : 0, P.bb[2] + (P.part.bracket ? 8 + 24 : 0) + (P.part.gap || GAP));
+  });
+  var X0 = -10, X1 = x - GAP + 10, Y0 = 1e9, Y1 = -1e9;
+  pieces.forEach(function (P) { Y0 = Math.min(Y0, P.bb[1]); Y1 = Math.max(Y1, P.bb[3]); });
+  svg.innerHTML = '';
+  svg.setAttribute('viewBox', [X0 - 200, Y0 - 90, X1 - X0 + 400, Y1 - Y0 + 180].join(' '));
+  var avoid = [], placed = [];
+  /* shells */
+  atoms.forEach(function (a) {
+    (a.radii && a.radii.length > 1 ? a.radii.slice(0, -1) : []).forEach(function (R) { S('circle', { cx: a.x, cy: a.y, r: R }, null, 'dc-inner'); avoid = avoid.concat(circSegs(a.x, a.y, R)); });
+    S('circle', { cx: a.x, cy: a.y, r: a.r, 'data-atom': a.id, 'data-el': a.el, 'data-r': a.r }, null, 'dc-shell' + (a.empty ? ' dc-empty' : ''));
+    avoid = avoid.concat(circSegs(a.x, a.y, a.r));
+  });
+  hl.forEach(function (h) { S('ellipse', { cx: h.x, cy: h.y, rx: SEP + ER + 2.6, ry: ER + 2.8, transform: 'rotate(' + h.ang + ' ' + h.x + ' ' + h.y + ')' }, null, 'dc-dat'); });
+  atoms.forEach(function (a) {
+    var t = S('text', { x: a.x, y: a.y, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'data-atom': a.id }, null, 'dc-sym' + (st.all && a.ion ? ' dc-small' : ''));
+    t.textContent = a.el;
+    var b = t.getBBox(); placed.push({ x: b.x - 1, y: b.y - 1, w: b.width + 2, h: b.height + 2 });
+  });
+  es.forEach(function (e, i) {
+    var g = S('g', { 'data-atoms': e.atoms.join(' '), 'data-kind': e.kind, 'data-mk': e.mk, 'data-x': e.x.toFixed(2), 'data-y': e.y.toFixed(2),
+      'data-owner': e.owner || '', 'data-dative': e.dative || 0, 'data-bond': e.bond == null ? '' : e.bond }, null,
+      'dc-e' + ((e.kind === 'bond' || e.kind === 'gain') ? ' dc-step1' : ''));
+    S('circle', { cx: e.x, cy: e.y, r: 4.7 }, g, 'dc-halo');
+    markEl(g, e.mk, e.x, e.y);
+    placed.push({ x: e.x - 5, y: e.y - 5, w: 10, h: 10 });
+  });
+  rings.forEach(function (e) { S('circle', { cx: e.x, cy: e.y, r: 7.6 }, null, 'dc-ring'); placed.push({ x: e.x - 9, y: e.y - 9, w: 18, h: 18 }); });
+  /* brackets, coefficients, charges */
+  pieces.forEach(function (P) {
+    if (!P.part.bracket) return;
+    var segs = bracket(svg, P.bb); avoid = avoid.concat(segs);
+    placed.push({ x: P.bb[0] - 8, y: P.bb[1] - 8, w: 3, h: P.bb[3] - P.bb[1] + 16 });
+  });
+  pieces.forEach(function (P) {
+    if (!P.part.bracket) return;
+    var q = P.part.bracket, c = K.label(svg, P.bb[2] + 7, P.bb[1] - 7, chgTxt(q), { cls: 'dc-chg', avoid: avoid, placed: placed, cands: [[3, 3, 'start'], [4, 0, 'start'], [4, 8, 'start']] });
+    c.setAttribute('data-charge', chgTxt(q));
+    if (P.part.coef) {
+      var t = K.label(svg, P.bb[0] - 7, (P.bb[1] + P.bb[3]) / 2, String(P.part.coef), { cls: 'dc-coef', avoid: avoid, placed: placed, cands: [[-5, 8, 'end'], [-7, 8, 'end']] });
+      t.setAttribute('data-coef', P.part.coef);
+    }
+  });
+  /* step ① of NH₄Cl: curved arrow lone pair → H⁺ */
+  if (s.steps && st.step === 1) {
+    var lp = es.filter(function (e) { return e.kind === 'lp' && e.atoms[0] === 'n'; }), hp = atoms.filter(function (a) { return a.id === 'hp'; })[0];
+    var sx = (lp[0].x + lp[1].x) / 2 + 10, sy = (lp[0].y + lp[1].y) / 2, ex = hp.x - hp.r - 7 - 7, ey = hp.y, cx = (sx + ex) / 2, cy = sy - 46;
+    S('path', { d: 'M' + sx + ' ' + sy + 'Q' + cx + ' ' + cy + ' ' + ex + ' ' + ey }, null, 'dc-arw dc-ann');
+    var ang = Math.atan2(ey - cy, ex - cx), hx = ex + 7 * Math.cos(ang), hy = ey + 7 * Math.sin(ang);
+    S('path', { d: 'M' + hx + ' ' + hy + 'L' + (ex - 2 * Math.cos(ang) - 5 * Math.sin(ang)) + ' ' + (ey - 2 * Math.sin(ang) + 5 * Math.cos(ang)) +
+      'L' + (ex - 2 * Math.cos(ang) + 5 * Math.sin(ang)) + ' ' + (ey - 2 * Math.sin(ang) - 5 * Math.cos(ang)) + 'Z' }, null, 'dc-arwhead dc-ann');
+    var poly = []; for (var i = 0; i <= 16; i++) { var t = i / 16; poly.push([(1 - t) * (1 - t) * sx + 2 * t * (1 - t) * cx + t * t * ex, (1 - t) * (1 - t) * sy + 2 * t * (1 - t) * cy + t * t * ey]); }
+    avoid = avoid.concat(K.segs(poly));
+    var mid = poly[8];
+    K.label(svg, mid[0], mid[1], 'N 的 lone pair 给 H⁺', { cls: 'dc-ann', avoid: avoid, placed: placed, cands: [[0, -9, 'middle'], [0, -15, 'middle'], [0, 34, 'middle'], [0, 44, 'middle'], [8, 54, 'middle']] });
+    K.label(svg, hp.x, hp.y + hp.r + 7, 'H⁺ 来自 HCl', { cls: 'dc-ann', avoid: avoid, placed: placed, cands: [[0, 16, 'middle'], [0, 26, 'middle']] });
+  }
+  rings.forEach(function (e) {
+    var t = K.label(svg, e.x, e.y, 'unpaired electron → (free) radical', { cls: 'dc-ann', avoid: avoid, placed: placed,
+      cands: [[0, -16, 'middle'], [-10, -16, 'end'], [10, -16, 'start'], [0, -26, 'middle']] });
+    t.setAttribute('data-ann', 'radical');
+    /* leader from the ring to the label */
+    var lb = t.getBBox(), ly = lb.y + lb.height + 1, lx = Math.max(lb.x + 6, Math.min(e.x, lb.x + lb.width - 6));
+    if (ly < e.y - 9) S('path', { d: 'M' + e.x + ' ' + (e.y - 8.6) + 'L' + lx + ' ' + ly }, null, 'dc-arw dc-ann');
+  });
+  /* shrink the viewBox to what was drawn */
+  var bb = svg.getBBox(), pad = 8;
+  var vb = [bb.x - pad, bb.y - pad, bb.width + 2 * pad, bb.height + 2 * pad];
+  svg.setAttribute('viewBox', vb.map(function (v) { return v.toFixed(1); }).join(' '));
+  svg.style.width = (vb[2] * SCALE) + 'px';
+  svg.setAttribute('class', 'dc-svg' + (st.exam ? ' ex' + st.stage : ''));
+  cur = { s: s, atoms: atoms, es: es, bonds: bonds, pieces: pieces };
+  struct(s, pieces);
+  legend(s, atoms, es, hl, rings);
+  counts(s, atoms, es, bonds);
+  examBar(s);
+  K.fit();
+}
+
+/* displayed formula: same positions, lines between symbols, arrow for a coordinate bond */
+function struct(s, pieces) {
+  var w = $('.dc-structw');
+  if (s.g === 'ion' || (st.exam && st.stage < 2)) { w.style.display = 'none'; return; }
+  w.style.display = '';
+  ssvg.innerHTML = ''; ssvg.setAttribute('viewBox', '-400 -300 1200 600');
+  var k = 0.8, avoid = [], placed = [], offs = 0;
+  pieces.forEach(function (P, pi) {
+    var by = {}; P.atoms.forEach(function (a) { by[a.id] = a; });
+    var base = P.atoms[0].x * k;
+    var sh = offs - (P.bb[0] * k);
+    function pos(a) { return [a.x * k + sh, (a.y - (P.uy || 0)) * k]; }  /* displayed formula keeps every part in one row */
+    P.bonds.forEach(function (b) {
+      var p = pos(by[b[0]]), q = pos(by[b[1]]), dx = q[0] - p[0], dy = q[1] - p[1], d = Math.hypot(dx, dy), u = [dx / d, dy / d], v = [-u[1], u[0]], cut = 12;
+      var from = b[3] ? (b[3] === b[0] ? p : q) : p, to = b[3] ? (b[3] === b[0] ? q : p) : q;
+      var fu = [(to[0] - from[0]) / d, (to[1] - from[1]) / d];
+      var a0 = [from[0] + fu[0] * cut, from[1] + fu[1] * cut], a1 = [to[0] - fu[0] * cut, to[1] - fu[1] * cut];
+      if (b[3]) {
+        S('path', { d: 'M' + a0[0] + ' ' + a0[1] + 'L' + (a1[0] - fu[0] * 6) + ' ' + (a1[1] - fu[1] * 6) }, ssvg, 'dc-ba');
+        S('path', { d: 'M' + a1[0] + ' ' + a1[1] + 'L' + (a1[0] - fu[0] * 8 - fu[1] * 4.5) + ' ' + (a1[1] - fu[1] * 8 + fu[0] * 4.5) +
+          'L' + (a1[0] - fu[0] * 8 + fu[1] * 4.5) + ' ' + (a1[1] - fu[1] * 8 - fu[0] * 4.5) + 'Z', 'data-arrow': by[b[3]].el + '→' + by[b[3] === b[0] ? b[1] : b[0]].el }, ssvg, 'dc-arwhead');
+      } else {
+        for (var i = 0; i < b[2]; i++) {
+          var o = (i - (b[2] - 1) / 2) * 4.5;
+          S('path', { d: 'M' + (a0[0] + v[0] * o) + ' ' + (a0[1] + v[1] * o) + 'L' + (a1[0] + v[0] * o) + ' ' + (a1[1] + v[1] * o) }, ssvg, 'dc-bl');
+        }
+      }
+      avoid.push([a0[0], a0[1], a1[0], a1[1]]);
+    });
+    var x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    P.atoms.forEach(function (a) {
+      var p = pos(a), t = S('text', { x: p[0], y: p[1], 'text-anchor': 'middle', 'dominant-baseline': 'central' }, ssvg, 'dc-ssym');
+      t.textContent = a.el;
+      var bb = t.getBBox(); placed.push({ x: bb.x, y: bb.y, w: bb.width, h: bb.height });
+      x0 = Math.min(x0, bb.x); x1 = Math.max(x1, bb.x + bb.width); y0 = Math.min(y0, bb.y); y1 = Math.max(y1, bb.y + bb.height);
+    });
+    if (P.part.bracket) {
+      var bbx = [x0 - 2, y0 - 2, x1 + 2, y1 + 2];
+      if (P.atoms.length > 1) { avoid = avoid.concat(bracket(ssvg, bbx)); }
+      K.label(ssvg, (P.atoms.length > 1 ? bbx[2] + 7 : x1 - 1), bbx[1] + (P.atoms.length > 1 ? -7 : 9), chgTxt(P.part.bracket), { cls: 'dc-chg', avoid: avoid, placed: placed, cands: [[2, 3, 'start'], [3, 0, 'start']], pad: 0 });
+      x1 += 30;
+    }
+    offs = x1 + 30;
+  });
+  var bb = ssvg.getBBox(), pad = 6, vb = [bb.x - pad, bb.y - pad, bb.width + 2 * pad, bb.height + 2 * pad];
+  ssvg.setAttribute('viewBox', vb.map(function (v) { return v.toFixed(1); }).join(' '));
+  ssvg.style.width = (vb[2] * SCALE) + 'px';
+}
+
+function mkSvg(mk) {
+  var d = { dot: '<circle cx="8" cy="8" r="3.6" class="dc-mk-dot"/>',
+    cross: '<path d="M4.6 4.6L11.4 11.4M4.6 11.4L11.4 4.6" class="dc-mk-cross"/>',
+    circ: '<circle cx="8" cy="8" r="3.4" class="dc-mk-circ"/>',
+    tri: '<path d="M8 3.6L11.8 10.6H4.2Z" class="dc-mk-tri"/>' }[mk];
+  return '<svg viewBox="0 0 16 16">' + d + '</svg>';
+}
+function legend(s, atoms, es, hl, rings) {
+  var seen = {}, out = [];
+  atoms.forEach(function (a) {
+    var key = a.mk + a.el;
+    if (seen[key]) return; seen[key] = 1;
+    var same = atoms.filter(function (b) { return b.el === a.el && b.mk !== a.mk; }).length;
+    var who = a.el + (same && a.tag ? '（' + a.tag + '）' : '');
+    if (s.id === 'NH4Cl' && a.el === 'H') who = 'H（含 HCl 的 H）';
+    out.push('<span data-mk="' + a.mk + '">' + mkSvg(a.mk) + who + ' 的 electron</span>');
+  });
+  if (s.g === 'ion' && atoms.some(function (a) { return a.empty; }))
+    out.push('<span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="var(--mut)" stroke-width="1.3" stroke-dasharray="3 2.5"/></svg>虚线圆 = 已经空了的 outer shell</span>');
+  if (hl.length) out.push('<span><svg viewBox="0 0 16 16"><ellipse cx="8" cy="8" rx="7" ry="4.5" class="dc-dat"/></svg>coordinate bond 的 pair（两个都来自 donor atom）</span>');
+  if (rings.length) out.push('<span><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5" class="dc-ring"/></svg>unpaired electron</span>');
+  $('.dc-legend').innerHTML = out.join('');
+}
+
+function cnt(id) { return cur.es.filter(function (e) { return e.atoms.indexOf(id) >= 0; }).length; }
+function counts(s, atoms, es, bonds) {
+  var box = $('.dc-count'), hide = st.exam && st.stage < 2;
+  function v(x) { return hide ? '?' : x; }
+  if (s.g === 'ion') {
+    var rows = [], done = {};
+    atoms.forEach(function (a) {
+      if (done[a.el]) return; done[a.el] = 1;
+      var sh = ionShells(a.el, a.q), cfg = sh.join(','), n = atoms.filter(function (b) { return b.el === a.el; }).length;
+      var mult = s.ions.filter(function (r) { return r[0] === a.el; })[0][2];
+      rows.push('<tr data-ion="' + a.el + '"><td><b>' + a.el + supQ(a.q) + '</b>' + (mult > 1 ? ' ×' + mult : '') + '<br><span class="faint">' +
+        (a.q > 0 ? '失去 ' + a.q : '得到 ' + (-a.q)) + ' 个 electron' + (a.q === 1 || a.q === -1 ? '' : 's') + '</span></td>' +
+        '<td class="dc-v" data-k="drawn">' + v(cnt(a.id)) + '</td><td data-k="cfg">' + v(cfg + (NOBLE[cfg] ? '（= ' + NOBLE[cfg] + '）' : '')) + '</td></tr>');
+    });
+    box.innerHTML = '<h4>数一数</h4><table><tr><th>ion</th><th>图上 electrons</th><th>shells</th></tr>' + rows.join('') + '</table>' +
+      '<p class="faint">' + (st.all ? '现在画的是 <b>all electrons</b>（每个 shell）。' : '默认只画 outer shell；cation 失去了整个外层，括号里是空的。') + '</p>';
+    return;
+  }
+  var c = s.central, ce = cnt(c), ca = atoms.filter(function (a) { return a.id === c; })[0];
+  var bp = cur.es.filter(function (e) { return e.kind === 'bond' && e.atoms.indexOf(c) >= 0; }).length / 2;
+  var lp = cur.es.filter(function (e) { return e.kind === 'lp' && e.atoms[0] === c; }).length / 2;
+  var one = cur.es.filter(function (e) { return e.kind === 'one'; }).length;
+  var dat = cur.es.filter(function (e) { return e.dative; }).length / 2;
+  var tag = ca.el === 'H' && ce === 2 ? ['duo', 'duplet（H 只要 2 个）'] : ce % 2 ? ['rad', 'odd electron → radical'] :
+    ce === 8 ? ['oct', 'octet'] : ce > 8 ? ['exp', 'expanded octet'] : ['def', 'electron deficient'];
+  var who = s.centralTxt || ('central atom ' + ca.el);
+  if (['H2', 'Cl2', 'O2', 'N2'].indexOf(s.id) >= 0) who = '每个 ' + ca.el;
+  var trs = [
+    ['ce', who + ' 外层 electrons', v(ce) + (hide ? '' : ' <span class="dc-tag ' + tag[0] + '">' + tag[1] + '</span>')],
+    ['bp', 'bonding pairs（' + ca.el + ' 周围）', v(bp)],
+    ['lp', 'lone pairs（' + ca.el + ' 上）', v(lp)]];
+  if (one) trs.push(['one', 'unpaired electrons', v(one)]);
+  if (dat) trs.push(['dat', 'coordinate bonds', v(dat)]);
+  trs.push(['tot', '图上 outer electrons 总数', v(cur.es.length)]);
+  box.innerHTML = '<h4>数一数</h4><table>' + trs.map(function (r) { return '<tr data-k="' + r[0] + '"><td>' + r[1] + '</td><td class="dc-v">' + r[2] + '</td></tr>'; }).join('') + '</table>' +
+    (hide ? '<p class="faint">考卷模式：全部显示后才给数字。</p>' : '');
+  box.setAttribute('data-ce', ce); box.setAttribute('data-bp', bp); box.setAttribute('data-lp', lp); box.setAttribute('data-tot', cur.es.length);
+}
+
+function examBar(s) {
+  var bar = $('.dc-exambar'), b = $('.dc-next');
+  bar.classList.toggle('show', st.exam);
+  var ion = s.g === 'ion';
+  b.textContent = st.stage === 0 ? (ion ? '下一步：显示转移来的 electrons' : '下一步：显示 shared pairs') :
+    st.stage === 1 ? (ion ? '下一步：显示其余 electrons' : '下一步：显示 lone pairs') : '再藏起来';
+  $('.dc-exhint').textContent = st.stage === 0 ? '先在纸上画，再对答案' : st.stage === 1 ? (ion ? '× 是从 metal 转移来的' : '相交区里的就是 shared pairs') : '';
+}
+
+function note(s) {
+  var h = '<p>' + s.note + '</p>';
+  if (s.ms) h += '<div class="dc-ms"><div><b>mark scheme</b>' + (s.src ? ' <span class="dc-src">' + s.src + '</span>' : '') + '</div>' +
+    s.ms.map(function (m) { return '<div>' + (m[0] ? '<b class="dc-m">' + m[0] + '</b> ' : '· ') + m[1] + '</div>'; }).join('') + '</div>';
+  else if (s.src) h += '<p class="dc-src">' + s.src + '</p>';
+  $('.dc-note').innerHTML = h;
+}
+
+/* ---------------- controls ---------------- */
+function chips() {
+  var box = $('.dc-chips'); box.innerHTML = '';
+  var groups = st.g === 'cov' ? [['o', 'octet（每个 atom 外层 8 个，H 2 个）'], ['x', 'octet 的例外：electron deficient / expanded octet / odd electron']] : [[null, null]];
+  groups.forEach(function (gr) {
+    if (gr[1]) box.appendChild(K.el('div', { 'class': 'dc-sub' }, gr[1]));
+    var row = K.el('div', { 'class': 'dc-chiprow' });
+    SP.filter(function (s) { return s.g === st.g && (!gr[0] || s.sub === gr[0]); }).forEach(function (s) {
+      var b = K.el('button', { 'data-sp': s.id, title: s.name }, s.f);
+      b.addEventListener('click', function () { pick(s.id); });
+      row.appendChild(b);
+    });
+    box.appendChild(row);
+  });
+}
+function sync() {
+  var s = spec();
+  K.$$($root, '.dc-groups button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-g') === st.g); });
+  K.$$($root, '.dc-chips button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-sp') === st.sp); });
+  $('.dc-ionopts').style.display = s.g === 'ion' ? '' : 'none';
+  $('.dc-steps').style.display = s.steps ? '' : 'none';
+  K.$$($root, '.dc-steps button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-step') === st.step); });
+  var two = s.g === 'ion' && s.ions.some(function (r) { return r[2] > 1; });
+  $('.dc-coef').disabled = !two; $('.dc-coefw').classList.toggle('dc-off', !two);
+  $('.dc-new').disabled = st.all; $('.dc-new').parentNode.classList.toggle('dc-off', st.all);
+  $('.dc-title').innerHTML = s.f + '<small>' + s.name + '</small>';
+  note(s);
+  render();
+}
+function pick(id) { st.sp = id; st.step = 1; if (st.exam) st.stage = 0; sync(); }
+K.$$($root, '.dc-groups button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    st.g = b.getAttribute('data-g'); chips();
+    pick(SP.filter(function (s) { return s.g === st.g; })[0].id);
+  });
+});
+$('.dc-exam').addEventListener('change', function () { st.exam = this.checked; st.stage = st.exam ? 0 : 2; sync(); });
+$('.dc-new').addEventListener('change', function () { st.nw = this.checked; sync(); });
+$('.dc-all').addEventListener('change', function () { st.all = this.checked; sync(); });
+$('.dc-coef').addEventListener('change', function () { st.coef = this.checked; sync(); });
+K.$$($root, '.dc-steps button').forEach(function (b) { b.addEventListener('click', function () { st.step = +b.getAttribute('data-step'); sync(); }); });
+$('.dc-next').addEventListener('click', function () { st.stage = (st.stage + 1) % 3; sync(); });
+
+$root.__dc = { SP: SP, st: st, cur: function () { return cur; } };
+chips(); sync();
+</script>
