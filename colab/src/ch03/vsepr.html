@@ -1,0 +1,562 @@
+<h3>VSEPR：electron pairs 怎样决定 shape <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
+<div class="vs-presets">
+  <div class="row vs-prow vs-syl"><span class="vs-rl">★ syllabus 点名（必背）</span></div>
+  <div class="row vs-prow vs-ana"><span class="vs-rl">类比（3.5 B）</span></div>
+  <div class="row vs-prow vs-crossed"><span class="vs-rl">讲义划掉，了解即可</span></div>
+</div>
+<div class="row vs-sel">
+  <span class="vs-rl">自己选</span>
+  <span class="vs-grp"><span class="mut">bonding pairs</span> <span class="vs-bp"></span></span>
+  <span class="vs-grp"><span class="mut">lone pairs</span> <span class="vs-lp"></span></span>
+</div>
+<div class="row vs-tools">
+  <button class="vs-cmp">比较 CH₄ → NH₃ → H₂O</button>
+  <button class="vs-lpt">隐藏 lone pairs</button>
+  <button data-3d="reset">复位视角</button>
+  <button data-3d="spin">自动旋转</button>
+</div>
+<div class="vs-main">
+  <div class="stage"><div class="hud"><b class="vs-lpkey">紫色半透明 lobe = lone pair</b> · 彩色弧 + 标签 = bond angle · shape 只看 atoms 的位置</div></div>
+  <div class="card vs-info"></div>
+</div>
+<div class="fallback card"><p><b>3D 没有加载</b>（<span class="why"></span>），下面是 syllabus 点名的 7 个 shape（静态线框；紫色 = lone pair）：</p>
+  <div class="vs-fbgrid"></div>
+  <table class="vs-fbtab"><thead><tr><th>molecule</th><th>bonding pairs</th><th>lone pairs</th><th>shape</th><th>bond angle</th></tr></thead><tbody></tbody></table>
+</div>
+<style>
+.k .vs-prow{margin:3px 0;gap:6px}
+.k .vs-rl{display:inline-block;min-width:10.5em;color:var(--mut);font-size:13px}
+.k .vs-presets button{min-width:3.6em}
+.k .vs-syl button b{color:var(--s4);font-weight:600;margin-right:2px}
+.k .vs-crossed button{color:var(--mut);font-size:13px;padding:2px 9px;border-style:dashed;background:transparent}
+.k .vs-crossed button.on{background:var(--faint);border-color:var(--faint);border-style:solid;color:var(--card)}
+.k .vs-sel{margin-top:8px;gap:6px 14px}
+.k .vs-grp{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+.k .vs-sel button{min-width:2.3em;padding:3px 8px}
+.k .vs-sel button:disabled{opacity:.32;cursor:not-allowed;border-style:dashed}
+.k .vs-tools{margin-top:6px}
+.k .vs-main{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:8px}
+.k .vs-main .stage{flex:3 1 430px;width:auto;height:430px}
+.k .vs-main .stage .hud{font-size:12.5px}
+.k .vs-lpkey{color:var(--s5);font-weight:600}
+.k .vs-info{flex:1 1 270px;min-width:0}
+.k .vs-f{font-size:22px;font-weight:650;line-height:1.25}
+.k .vs-tag{display:inline-block;font-size:12.5px;font-weight:500;color:var(--mut);border:1px solid var(--line);border-radius:10px;padding:0 7px;margin-left:6px;vertical-align:3px}
+.k .vs-tag.vs-star{color:var(--s4);border-color:var(--s4)}
+.k .vs-xy{font-size:13px;color:var(--mut);margin:2px 0 0}
+.k .vs-shape{font-size:25px;font-weight:700;color:var(--acc);line-height:1.2;margin:8px 0 2px}
+.k .vs-shl{font-size:12.5px;color:var(--mut);text-transform:none}
+.k .vs-info table{width:100%;margin:8px 0 6px;font-size:14px}
+.k .vs-info td:first-child{color:var(--mut);width:52%}
+.k .vs-info td b{font-weight:650}
+.k .vs-why{font-size:14px;border-left:3px solid var(--s5);padding:2px 0 2px 9px;margin:8px 0}
+.k .vs-note{font-size:14px;color:var(--mut)}
+.k .vs-cross{font-size:13px;color:var(--bad);margin-top:6px}
+.k .vs-ct td,.k .vs-ct th{padding:3px 6px}
+.k .vs-ct td:first-child{color:var(--fg);width:auto}
+.k .vs-fbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:8px 0}
+.k .vs-fbgrid figure{margin:0;text-align:center;border:1px solid var(--line);border-radius:6px;padding:4px;background:var(--card)}
+.k .vs-fbgrid figcaption{font-size:13px;line-height:1.35}
+.k .vs-fbgrid svg{margin:0 auto}
+</style>
+<script>
+var VS_SUB = '₀₁₂₃₄₅₆₇₈₉';
+function vsSub(n) { return String(n).split('').map(function (c) { return VS_SUB[+c]; }).join(''); }
+/* presets: central atom c, terminal atom t, double bonds (dbl), group (syl / ana / x) */
+var VS_P = [
+  { id: 'CO2', f: 'CO₂', c: 'C', t: 'O', bp: 2, lp: 0, dbl: 1, g: 'syl', bpTxt: '2（两个 C=O double bond，各算一个区域）',
+    note: 'C 的 4 个 outer electrons 全部用在两个 C=O 上；double bond 在决定 shape 时算一个区域（和 single bond 一样），所以只有 2 个区域。' },
+  { id: 'BF3', f: 'BF₃', c: 'B', t: 'F', bp: 3, lp: 0, g: 'syl',
+    note: 'B 只有 3 个 outer electrons，3 个 B–F 之后没有 lone pair（B 外层只有 6 个 electrons，不满足 octet）。' },
+  { id: 'CH4', f: 'CH₄', c: 'C', t: 'H', bp: 4, lp: 0, g: 'syl',
+    note: '4 个 C–H bonding pairs 排斥程度一样，指向 tetrahedron 的 4 个顶点。' },
+  { id: 'NH3', f: 'NH₃', c: 'N', t: 'H', bp: 3, lp: 1, g: 'syl',
+    note: '4 对 electron pairs 是 tetrahedral 排布，但 shape 只看 atoms → pyramidal；lone pair 把 N–H 挤近：109.5° → 107°。' },
+  { id: 'H2O', f: 'H₂O', c: 'O', t: 'H', bp: 2, lp: 2, g: 'syl',
+    note: '4 对 electron pairs 是 tetrahedral 排布；2 个 lone pairs 挤得更厉害：109.5° → 104.5°。shape 只看 3 个 atoms → non-linear。' },
+  { id: 'PF5', f: 'PF₅', c: 'P', t: 'F', bp: 5, lp: 0, g: 'syl',
+    note: '3 个 F 在 equatorial（互成 120°），2 个 F 在 axial（与 equatorial 成 90°）。' },
+  { id: 'SF6', f: 'SF₆', c: 'S', t: 'F', bp: 6, lp: 0, g: 'syl',
+    note: '6 个 S–F 指向 octahedron 的 6 个顶点，相邻两个都是 90°。' },
+  { id: 'SO2', f: 'SO₂', c: 'S', t: 'O', bp: 2, lp: 1, dbl: 1, g: 'ana', bpTxt: '2（两个 S=O，各算一个区域）',
+    note: 'S：6 个 outer electrons，两个 S=O 用掉 4，剩 2 = 1 lone pair；3 个区域 → trigonal planar 排布，lone pair 让角度略小于 120°。' },
+  { id: 'H2S', f: 'H₂S', c: 'S', t: 'H', bp: 2, lp: 2, g: 'ana', ang: 92.5, angTxt: '92.5°', ana: 'H₂O（但角度更小）',
+    note: '同样是 2 bp + 2 lp，H₂S（92.5°）比 H₂O（104.5°）小：O 比 S electronegative 得多（3.5 vs 2.5），O–H 的 bonding pairs 被拉得更靠近 O，两对 bonding pairs 靠得近、repulsion 大，张开的角度就大。' },
+  { id: 'NH4', f: 'NH₄⁺', c: 'N', t: 'H', bp: 4, lp: 0, g: 'ana', ana: 'CH₄',
+    note: 'N：5 − 1 = 4，4 个 N–H 用掉 4，没有 lone pair → 和 CH₄ 一样。' },
+  { id: 'H3O', f: 'H₃O⁺', c: 'O', t: 'H', bp: 3, lp: 1, g: 'ana', ana: 'NH₃',
+    note: 'O：6 − 1 = 5，3 个 O–H 用掉 3，剩 2 = 1 lone pair → 和 NH₃ 一样。' },
+  { id: 'PCl4', f: 'PCl₄⁺', c: 'P', t: 'Cl', bp: 4, lp: 0, g: 'ana', ana: 'CH₄',
+    note: 'P：5 − 1 = 4，4 个 P–Cl 用掉 4 → 和 CH₄ 一样。PCl₅ 在 solid 里变成 PCl₄⁺（tetrahedral）和 PCl₆⁻（octahedral）。' },
+  { id: 'PCl6', f: 'PCl₆⁻', c: 'P', t: 'Cl', bp: 6, lp: 0, g: 'ana', ana: 'SF₆',
+    note: 'P：5 + 1 = 6，6 个 P–Cl 用掉 6 → 和 SF₆ 一样。' },
+  { id: 'XeF4', f: 'XeF₄', c: 'Xe', t: 'F', bp: 4, lp: 2, g: 'ana',
+    note: 'Xe：8，4 个 Xe–F 用掉 4，剩 4 = 2 lone pairs；6 个区域是 octahedral 排布，两个 lone pairs 互成 180°（离得最远），4 个 F 在同一平面 → square planar。' },
+  { id: 'SF4', f: 'SF₄', c: 'S', t: 'F', bp: 4, lp: 1, g: 'x' },
+  { id: 'ClF3', f: 'ClF₃', c: 'Cl', t: 'F', bp: 3, lp: 2, g: 'x' },
+  { id: 'XeF2', f: 'XeF₂', c: 'Xe', t: 'F', bp: 2, lp: 3, g: 'x' },
+  { id: 'BrF5', f: 'BrF₅', c: 'Br', t: 'F', bp: 5, lp: 1, g: 'x' }
+];
+var VS_BYID = {}; VS_P.forEach(function (p) { VS_BYID[p.id] = p; });
+var VS_ARR = { 2: 'linear', 3: 'trigonal planar', 4: 'tetrahedral', 5: 'trigonal bipyramidal', 6: 'octahedral' };
+/* where the lone pairs sit for the 5- / 6-pair cases */
+var VS_KNOTE = {
+  '4-1': 'lone pair 放在 equatorial：那里与它成 90° 的邻居只有 2 个（axial 位置有 3 个），repulsion 最小。',
+  '3-2': '两个 lone pairs 都放在 equatorial，剩下 3 个 atoms 排成 T 形。',
+  '2-3': '三个 lone pairs 都在 equatorial，两个 atoms 在 axial 两端 → 又是 linear。',
+  '5-1': 'lone pair 占 octahedron 的一个顶点，4 个 basal bonds 被它推开一点。',
+  '4-2': '两个 lone pairs 互成 180°（trans），离得最远；4 个 atoms 在同一平面。'
+};
+var VS_XKEY = { '4-1': 1, '3-2': 1, '2-3': 1, '5-1': 1 };   /* not named by the syllabus, crossed out in the notes */
+/* bond-angle labels per shape: ideal angle a (to pick bond pairs), text, ax = one bond must be axial */
+var VS_LAB = {
+  '2-0': [{ a: 180, t: '180°' }], '3-0': [{ a: 120, t: '120°' }], '2-1': [{ a: 120, t: '≈118°' }],
+  '4-0': [{ a: 109.5, t: '109.5°' }], '3-1': [{ a: 107, t: '107°' }], '2-2': [{ a: 104.5, t: '104.5°' }],
+  '5-0': [{ a: 120, t: '120°' }, { a: 90, t: '90°', ax: 1 }], '4-1': [{ a: 120, t: '≈117°' }, { a: 90, t: '≈87°', ax: 1 }],
+  '3-2': [{ a: 90, t: '≈87°', ax: 1 }], '2-3': [{ a: 180, t: '180°' }], '6-0': [{ a: 90, t: '90°' }],
+  '5-1': [{ a: 90, t: '≈85°', ax: 1 }], '4-2': [{ a: 90, t: '90°' }]
+};
+/* lone pairs push the bonds away a little (degrees per lone pair) so the 5- / 6-pair shapes are not exactly ideal */
+var VS_TILT = { '2-1': 1, '4-1': 1.5, '3-2': 3, '5-1': 5 };
+/* recommended view per shape [rx, ry] */
+var VS_VIEW = {
+  '2-0': [0.22, -0.3], '3-0': [0.12, -0.22], '2-1': [0.12, -0.22], '4-0': [0.3, -0.5], '3-1': [0.3, -0.5], '2-2': [0.45, -0.6],
+  '5-0': [0.35, -0.75], '4-1': [0.6, 0.9], '3-2': [0.5, 1.05], '2-3': [0.35, -0.3], '6-0': [0.35, -0.55], '5-1': [0.3, -0.5], '4-2': [0.5, -0.4]
+};
+var VS_BL = { H: 1.05, F: 1.25, O: 1.2, Cl: 1.45, Y: 1.3 };
+
+var vs = { pid: 'CH4', bp: 4, lp: 0, cmp: false, showLp: true };
+var vsBox = $root.querySelector('.vs-info');
+
+function vsKey(bp, lp) { return bp + '-' + lp; }
+function vsValid(bp, lp) { var n = bp + lp; return n >= 2 && n <= 6 && !!K3.SHAPES[vsKey(bp, lp)]; }
+function vsPlural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+
+/* ---------- controls ---------- */
+VS_P.forEach(function (p) {
+  var b = K.el('button', { 'data-p': p.id }, p.g === 'syl' ? '<b>★</b>' + p.f : p.f);
+  $root.querySelector({ syl: '.vs-syl', ana: '.vs-ana', x: '.vs-crossed' }[p.g]).appendChild(b);
+  b.addEventListener('click', function () { vs.pid = p.id; vs.bp = p.bp; vs.lp = p.lp; vs.cmp = false; vsUpdate(true); });
+});
+[1, 2, 3, 4, 5, 6].forEach(function (n) {
+  var b = K.el('button', { 'data-bp': n }, String(n));
+  $root.querySelector('.vs-bp').appendChild(b);
+  b.addEventListener('click', function () {
+    vs.bp = n;
+    if (!vsValid(vs.bp, vs.lp)) for (var l = 3; l >= 0; l--) if (vsValid(n, l) && l <= vs.lp) { vs.lp = l; break; }
+    if (!vsValid(vs.bp, vs.lp)) vs.lp = 0;
+    vs.pid = null; vs.cmp = false; vsUpdate(true);
+  });
+});
+[0, 1, 2, 3].forEach(function (n) {
+  var b = K.el('button', { 'data-lp': n }, String(n));
+  $root.querySelector('.vs-lp').appendChild(b);
+  b.addEventListener('click', function () { vs.lp = n; vs.pid = null; vs.cmp = false; vsUpdate(true); });
+});
+$root.querySelector('.vs-cmp').addEventListener('click', function () { vs.cmp = !vs.cmp; vsUpdate(true); });
+$root.querySelector('.vs-lpt').addEventListener('click', function () { vs.showLp = !vs.showLp; vsUpdate(false); });
+
+/* ---------- info card ---------- */
+function vsInfo() {
+  if (vs.cmp) {
+    vsBox.setAttribute('data-shape', 'compare');
+    vsBox.innerHTML = '<div class="vs-f">CH₄ → NH₃ → H₂O</div>' +
+      '<p class="vs-note" style="margin-top:4px">都是 4 对 electron pairs（tetrahedral 排布），只是 lone pairs 一个个多起来：</p>' +
+      '<table class="vs-ct"><thead><tr><th></th><th>bp</th><th>lp</th><th>shape</th><th>angle</th></tr></thead><tbody>' +
+      '<tr><td>CH₄</td><td>4</td><td>0</td><td>tetrahedral</td><td><b>109.5°</b></td></tr>' +
+      '<tr><td>NH₃</td><td>3</td><td>1</td><td>pyramidal</td><td><b>107°</b></td></tr>' +
+      '<tr><td>H₂O</td><td>2</td><td>2</td><td>non-linear</td><td><b>104.5°</b></td></tr></tbody></table>' +
+      '<p class="vs-why"><b>每多一个 lone pair，bond angle 减小约 2.5°</b>：lone pairs repel more than bonding pairs（lp–lp &gt; lp–bp &gt; bp–bp）。</p>' +
+      '<p class="vs-note">考试写法（SCl₂ 同理）：104.5°；2 bonding pairs and 2 lone pairs；lone pairs repel more than bonding pairs。</p>';
+    return;
+  }
+  var key = vsKey(vs.bp, vs.lp), sh = K3.SHAPES[key], p = vs.pid ? VS_BYID[vs.pid] : null, n = vs.bp + vs.lp;
+  var ang = p && p.angTxt ? p.angTxt : sh[1];
+  var head = p ? p.f : 'XY' + vsSub(vs.bp);
+  var tag = p && p.g === 'syl' ? '<span class="vs-tag vs-star">★ syllabus</span>' : p && p.g === 'ana' ? '<span class="vs-tag">类比' + (p.ana ? '：' + p.ana : '') + '</span>' : '';
+  var why = vs.lp === 0
+    ? vsPlural(vs.bp, 'bonding pair') + ', no lone pairs; electron pairs repel equally, so they get as far apart as possible.'
+    : vsPlural(vs.bp, 'bonding pair') + ' and ' + vsPlural(vs.lp, 'lone pair') + '; lone pairs repel more than bonding pairs.';
+  var extra = '';
+  if (key === '3-1') extra = '（所以比 109.5° 小约 2.5°）';
+  if (key === '2-2') extra = p && p.id === 'H2S' ? '' : '（所以比 109.5° 小约 5°）';
+  if (key === '2-1') extra = '（所以略小于 120°）';
+  var note = p && p.note ? p.note : (VS_KNOTE[key] || (p ? '' : 'X = central atom（灰），Y = terminal atom（蓝）；预设按钮会换成真实元素。'));
+  if (p && !p.note && VS_KNOTE[key]) note = VS_KNOTE[key];
+  var crossed = (p && p.g === 'x') || (!p && VS_XKEY[key]);
+  vsBox.setAttribute('data-shape', sh[0]);
+  vsBox.innerHTML = '<div class="vs-f">' + head + tag + '</div>' +
+    (p ? '' : '<p class="vs-xy">X = central atom，Y = terminal atom</p>') +
+    '<div class="vs-shape"><span class="vs-shl">shape：</span><span class="vs-sh">' + sh[0] + '</span></div>' +
+    '<table><tbody>' +
+    '<tr><td>bonding pairs</td><td class="vs-nbp"><b>' + (p && p.bpTxt ? p.bpTxt : vs.bp) + '</b></td></tr>' +
+    '<tr><td>lone pairs</td><td class="vs-nlp"><b>' + vs.lp + '</b></td></tr>' +
+    '<tr><td>electron pairs（区域）</td><td class="vs-ntot"><b>' + n + '</b></td></tr>' +
+    '<tr><td>electron-pair 排布</td><td class="vs-arr">' + VS_ARR[n] + '</td></tr>' +
+    '<tr><td>bond angle</td><td class="vs-ang"><b>' + ang + '</b></td></tr></tbody></table>' +
+    '<p class="vs-why">' + why + extra + '</p>' +
+    (note ? '<p class="vs-note">' + note + '</p>' : '') +
+    (crossed ? '<p class="vs-cross">5 / 6 对 electron pairs 带 lone pair 的情形 syllabus 没有点名，讲义也划掉了，了解即可。</p>' : '') +
+    (!vs.showLp && vs.lp ? '<p class="vs-note">lone pairs 已隐藏：现在看到的就是 shape（只看 atoms）。</p>' : '');
+}
+
+function vsControls() {
+  $root.querySelectorAll('[data-p]').forEach(function (b) { b.classList.toggle('on', !vs.cmp && b.getAttribute('data-p') === vs.pid); });
+  $root.querySelectorAll('[data-bp]').forEach(function (b) {
+    var n = +b.getAttribute('data-bp'), any = [0, 1, 2, 3].some(function (l) { return vsValid(n, l); });
+    b.disabled = !any; b.classList.toggle('on', !vs.cmp && n === vs.bp);
+  });
+  $root.querySelectorAll('[data-lp]').forEach(function (b) {
+    var n = +b.getAttribute('data-lp');
+    b.disabled = !vsValid(vs.bp, n); b.classList.toggle('on', !vs.cmp && n === vs.lp);
+  });
+  $root.querySelector('.vs-cmp').classList.toggle('on', vs.cmp);
+  var t = $root.querySelector('.vs-lpt'); t.textContent = vs.showLp ? '隐藏 lone pairs' : '显示 lone pairs'; t.classList.toggle('on', !vs.showLp);
+  $root.setAttribute('data-vs', vs.cmp ? 'compare' : vsKey(vs.bp, vs.lp) + (vs.pid ? ':' + vs.pid : ''));
+}
+
+/* ---------- geometry ---------- */
+function vsDirs(bp, lp, p) {
+  var d = K3.vsepr(bp, lp, true), key = vsKey(bp, lp);
+  var bonds = d.bonds.map(function (v) { return v.slice(); }), lps = d.lps.map(function (v) { return v.slice(); });
+  if (p && p.ang) {   /* H₂S: same 2 bp + 2 lp arrangement, smaller angle */
+    var hb = p.ang / 2 * Math.PI / 180;
+    bonds = [[-Math.sin(hb), -Math.cos(hb), 0], [Math.sin(hb), -Math.cos(hb), 0]];
+  }
+  if (key === '5-1') {   /* apex up, lone pair underneath, as the shape is usually drawn */
+    bonds.forEach(function (v) { v[1] = -v[1]; }); lps.forEach(function (v) { v[1] = -v[1]; });
+  }
+  var ideal = bonds.map(function (v) { return v.slice(); });
+  var dt = VS_TILT[key];
+  if (dt) {
+    bonds = bonds.map(function (b) {
+      var x = b.slice();
+      lps.forEach(function (l) { x = vsAway(x, l, dt); });
+      return x;
+    });
+  }
+  return { bonds: bonds, lps: lps, ideal: ideal };
+}
+function vsAway(b, l, deg) {   /* turn unit vector b away from l by deg (in their common plane) */
+  var dot = b[0] * l[0] + b[1] * l[1] + b[2] * l[2];
+  if (dot < -0.999) return b;
+  var px = l[0] - dot * b[0], py = l[1] - dot * b[1], pz = l[2] - dot * b[2], m = Math.hypot(px, py, pz);
+  if (m < 1e-6) return b;
+  var t = deg * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
+  /* b' = b cos t − p̂ sin t, with p̂ the part of l perpendicular to b */
+  var o = [b[0] * c - px / m * s, b[1] * c - py / m * s, b[2] * c - pz / m * s], n = Math.hypot(o[0], o[1], o[2]);
+  return [o[0] / n, o[1] / n, o[2] / n];
+}
+function vsAngle(a, b) {
+  var d = (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]) / Math.hypot(a[0], a[1], a[2]) / Math.hypot(b[0], b[1], b[2]);
+  return Math.acos(Math.max(-1, Math.min(1, d))) * 180 / Math.PI;
+}
+
+/* ---------- 3D ---------- */
+var vsApi = null, vsT = null, vsHold = null, vsSubs = [], vsMols = [], vsAngTags = [], vsElTags = [], vsCap = [];
+var VS_LPX = 27, VS_EPX = 21;   /* on-screen heights (px) of angle tags and element tags */
+
+function vsPx(api) { var H = api.renderer.domElement.clientHeight || 430; return 2 * Math.tan(20 * Math.PI / 180) * api.dist / H; }
+/* K3.tag's CanvasTexture has no colorSpace, so three.js treats the sRGB canvas as linear and the text
+   comes out washed out; mark it sRGB */
+function vsSrgb(sp) { var m = sp.material.map; if (m && m.colorSpace !== vsT.SRGBColorSpace) { m.colorSpace = vsT.SRGBColorSpace; m.needsUpdate = true; } return sp; }
+function vsSize() {
+  if (!vsApi) return;
+  var w = vsPx(vsApi);
+  vsAngTags.forEach(function (t) { K3.tagSize(t, VS_LPX * w * (t.userData.k || 1)); });
+  vsCap.forEach(function (t) { K3.tagSize(t, VS_LPX * w * (t.userData.k || 1)); });
+  vsElTags.forEach(function (t) { K3.tagSize(t, Math.max(t.userData.base, VS_EPX * w)); });
+  vsOcclude();
+}
+/* K3.tag sprites ignore depth, so the symbol of an atom hidden behind a nearer atom would print on top
+   of it (CH₄ in the compare row read "HC"); hide a tag whose atom centre sits behind a nearer sphere */
+function vsOcclude() {
+  var api = vsApi; if (!api || !vsHold) return;
+  vsHold.updateMatrixWorld(true);
+  vsMols.forEach(function (m) {
+    var ud = m.userData;
+    var q = ud.atoms.map(function (a) {
+      var p = vsProj(api, m, [a.position.x, a.position.y, a.position.z]);
+      p.d = m.localToWorld(a.position.clone()).distanceTo(api.camera.position);
+      p.r = a.geometry.parameters.radius * p.ppu; return p;
+    });
+    ud.tags.forEach(function (t, i) {
+      var hid = false;
+      q.forEach(function (o, j) { if (j !== i && o.d < q[i].d && Math.hypot(o.x - q[i].x, o.y - q[i].y) < o.r * 0.8) hid = true; });
+      t.visible = !hid;
+    });
+  });
+}
+
+function vsBuildMol(T, api, parent, p, bp, lp, scale) {
+  var d = vsDirs(bp, lp, p), c = p ? p.c : 'X', t = p ? p.t : 'Y', L = VS_BL[t] || 1.3;
+  var spec = { atoms: [{ el: c, p: [0, 0, 0] }], bonds: [], lps: [] };
+  d.bonds.forEach(function (v, i) {
+    spec.atoms.push({ el: t, p: [v[0] * L, v[1] * L, v[2] * L] });
+    spec.bonds.push([0, i + 1, p && p.dbl ? 2 : 1, [0, 0, 1]]);
+  });
+  var lpLen = bp + lp >= 5 ? 1.15 : 0.95;   /* big central atoms (5 / 6 pairs) would swallow a short lobe */
+  d.lps.forEach(function (v) { spec.lps.push({ at: 0, dir: v, len: lpLen }); });
+  var m = K3.molecule(T, api, spec, { scale: scale });
+  if (!p) {   /* generic X / Y: X dark grey, Y blue (the CPK table has neither) */
+    m.userData.atoms[0].material.color.set('#6b7280');
+    if (m.userData.atoms[1]) m.userData.atoms[1].material.color.set('#4f8fc9');
+  }
+  m.userData.tags.forEach(function (tg) { vsSrgb(tg); tg.userData.base = tg.scale.y; vsElTags.push(tg); });
+  m.userData.lps.forEach(function (l) { l.visible = vs.showLp; });
+  m.userData.dirs = d; m.userData.L = L * scale; m.userData.lpLen = lpLen * scale; m.userData.scale = scale; m.userData.key = vsKey(bp, lp); m.userData.p = p;
+  parent.add(m); vsMols.push(m);
+  return m;
+}
+
+/* screen-space helpers for label placement (pixels in the canvas) */
+function vsProj(api, obj, v) {
+  var T = vsT, w = obj.localToWorld(new T.Vector3(v[0], v[1], v[2])), cam = api.camera;
+  var depth = w.distanceTo(cam.position), q = w.clone().project(cam), el = api.renderer.domElement;
+  var W = el.clientWidth, H = el.clientHeight;
+  return { x: (q.x + 1) / 2 * W, y: (1 - q.y) / 2 * H, ppu: H / (2 * Math.tan(20 * Math.PI / 180) * depth), W: W, H: H };
+}
+function vsRectCircle(r, c) {
+  var dx = Math.max(r.x - c.x, 0, c.x - (r.x + r.w)), dy = Math.max(r.y - c.y, 0, c.y - (r.y + r.h));
+  return Math.max(0, c.r - Math.hypot(dx, dy));
+}
+function vsRectRect(a, b) {
+  var ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+  return ox > 0 && oy > 0 ? Math.min(ox, oy) : 0;
+}
+function vsSegRect(s, r, pad) {   /* how deep a segment (with half-width pad) reaches into rect r: sampled */
+  var worst = 0;
+  for (var i = 0; i <= 12; i++) {
+    var x = s[0] + (s[2] - s[0]) * i / 12, y = s[1] + (s[3] - s[1]) * i / 12;
+    worst = Math.max(worst, vsRectCircle(r, { x: x, y: y, r: pad }));
+  }
+  return worst;
+}
+function vsAtomsPx(api) {   /* every atom as a screen circle, every bond as a screen segment */
+  var out = { atoms: [], bonds: [], lobes: [] };
+  vsMols.forEach(function (m) {
+    var ud = m.userData;
+    if (vs.showLp) ud.dirs.lps.forEach(function (l) {   /* a lone-pair lobe as three circles along its axis */
+      [0.45, 0.7, 0.9].forEach(function (f) {
+        var len = ud.lpLen * f, q = vsProj(api, m, [l[0] * len, l[1] * len, l[2] * len]);
+        out.lobes.push({ x: q.x, y: q.y, r: 0.24 * ud.scale * q.ppu });
+      });
+    });
+    ud.atoms.forEach(function (a, i) {
+      var q = vsProj(api, m, [a.position.x, a.position.y, a.position.z]);
+      var r = a.geometry.parameters.radius * q.ppu;
+      out.atoms.push({ x: q.x, y: q.y, r: Math.max(r, VS_EPX * 0.62), el: a.userData.el });
+      if (i) {
+        var c = vsProj(api, m, [0, 0, 0]);
+        out.bonds.push([c.x, c.y, q.x, q.y]);
+      }
+    });
+  });
+  return out;
+}
+function vsTagRect(q, sp, k) {
+  var h = VS_LPX * (k || 1), w = h * sp.userData.aspect;
+  return { x: q.x - w / 2, y: q.y - h / 2, w: w, h: h };
+}
+/* arc geometry exactly as K3.arc builds it: rotation axis and the bisector direction */
+function vsArcAxis(T, A, B) {
+  var ax = new T.Vector3().crossVectors(A, B);
+  if (ax.lengthSq() < 1e-8) ax = Math.abs(A.y) < 0.9 ? new T.Vector3(0, 1, 0).cross(A) : new T.Vector3(1, 0, 0).cross(A);
+  return ax.normalize();
+}
+
+/* choose, for each bond-angle label of molecule m, the bond pair + distance where the label hides
+   no atom, no bond and no other label, and whose arc faces the viewer best */
+function vsPlace(T, api, m, placed, colors, hudH) {
+  var ud = m.userData, d = ud.dirs, L = ud.L, labs = VS_LAB[ud.key].slice();
+  if (ud.p && ud.p.ang) labs = [{ a: ud.p.ang, t: ud.p.angTxt }];
+  var scr = vsAtomsPx(api), rc = ud.atoms[0].geometry.parameters.radius;
+  labs.forEach(function (lab, li) {
+    var best = null, R = Math.max(rc + 0.2 * L, [0.5, 0.66][li] * L), col = api.color(colors[li]);
+    var tg = vsSrgb(K3.tag(T, lab.t, { color: col.getStyle(), bg: api.color('--card').getStyle(), size: 0.3 }));
+    for (var i = 0; i < d.bonds.length; i++) for (var j = i + 1; j < d.bonds.length; j++) {
+      var ia = vsAngle(d.ideal[i], d.ideal[j]);
+      if (Math.abs(ia - lab.a) > (lab.a === 180 ? 2 : 8)) continue;
+      if (Math.abs(lab.a - 90) < 1 && Math.abs(ia - 180) < 5) continue;
+      if (lab.ax && !(Math.abs(d.ideal[i][1]) > 0.9 || Math.abs(d.ideal[j][1]) > 0.9)) continue;
+      var A = new T.Vector3().fromArray(d.bonds[i]), B0 = new T.Vector3().fromArray(d.bonds[j]), Bs = [B0];
+      if (ia > 170) {
+        /* a straight angle has no plane of its own: draw the half circle in the plane facing the viewer
+           (either side), by aiming the arc at a point a hair short of 180° */
+        var vw = m.worldToLocal(api.camera.position.clone()).normalize();
+        var nn = vw.sub(A.clone().multiplyScalar(vw.dot(A))).normalize();
+        Bs = [A.clone().applyAxisAngle(nn, Math.PI - 0.01), A.clone().applyAxisAngle(nn.clone().negate(), Math.PI - 0.01)];
+      }
+      Bs.forEach(function (B) {
+      var ax = vsArcAxis(T, A, B), ang = A.angleTo(B), dir = A.clone().applyAxisAngle(ax, ang / 2).normalize();
+      /* how face-on the arc is (its axis in world space against the view direction), and whether its
+         middle is in front of the central atom (an arc behind it is hidden) */
+      var n = ax.clone().transformDirection(m.matrixWorld), facing = Math.abs(n.z);
+      var front = dir.clone().transformDirection(m.matrixWorld).z;
+      [0.5, 0.35, 0.65, 0.22, 0.78].forEach(function (t) { [1.3, 1.5, 1.75, 2.0, 2.3].forEach(function (f) {
+        var pos = A.clone().applyAxisAngle(ax, ang * t).multiplyScalar(R * f), q = vsProj(api, m, pos.toArray());
+        var r = vsTagRect(q, tg);
+        var bad = 0;
+        scr.atoms.forEach(function (c) { bad += vsRectCircle(r, { x: c.x, y: c.y, r: c.r + 3 }) * 3; });
+        scr.bonds.forEach(function (s) { bad += vsSegRect(s, r, 5) * 3; });
+        scr.lobes.forEach(function (c) { bad += vsRectCircle(r, c) * 0.6; });
+        placed.forEach(function (o) { bad += vsRectRect(r, o) * 4 + (vsRectRect({ x: r.x - 4, y: r.y - 4, w: r.w + 8, h: r.h + 8 }, o) ? 2 : 0); });
+        if (r.x < 4 || r.y < hudH + 4 || r.x + r.w > q.W - 4 || r.y + r.h > q.H - 4) bad += 60;
+        var score = bad + (1 - facing) * 18 - front * 8 + (f - 1.3) * 6 + Math.abs(t - 0.5) * 10;
+        if (!best || score < best.score) best = { score: score, A: A, B: B, pos: pos, r: r };
+      }); });
+      });
+    }
+    if (!best) return;
+    var arc = K3.arc(T, [0, 0, 0], best.A, best.B, R, col);
+    m.add(arc.mesh);
+    tg.renderOrder = 30; tg.position.copy(best.pos); tg.userData.text = lab.t; tg.userData.arc = [best.A.toArray(), best.B.toArray()];
+    m.add(tg); vsAngTags.push(tg);
+    placed.push(vsTagRect(vsProj(api, m, best.pos.toArray()), tg));
+  });
+}
+
+function vsClear() {
+  if (!vsHold) return;
+  while (vsHold.children.length) vsHold.remove(vsHold.children[0]);
+  vsSubs = []; vsMols = []; vsAngTags = []; vsElTags = []; vsCap = [];
+}
+
+function vsDraw(newView) {
+  var T = vsT, api = vsApi;
+  if (!api) return;
+  vsClear();
+  var hudH = ($root.querySelector('.stage .hud') || { offsetHeight: 24 }).offsetHeight;
+  if (vs.cmp) {
+    if (newView) { api.rx = 0.4; api.ry = -0.5; api.dist = 8.6; }
+    var trio = [VS_BYID.CH4, VS_BYID.NH3, VS_BYID.H2O], X = [-2.9, 0, 2.9];
+    trio.forEach(function (p, i) {
+      var sg = new T.Group(); sg.position.set(X[i], 0.25, 0); vsHold.add(sg); vsSubs.push(sg);
+      vsBuildMol(T, api, sg, p, p.bp, p.lp, 1.05);
+    });
+  } else {
+    var p = vs.pid ? VS_BYID[vs.pid] : null, key = vsKey(vs.bp, vs.lp);
+    var mm = vsBuildMol(T, api, vsHold, p, vs.bp, vs.lp, 1);
+    if (newView) {
+      var v = VS_VIEW[key], ext = mm.userData.L + (K3.ARAD[p ? p.t : 'Y'] || 0.36);
+      api.rx = v[0]; api.ry = v[1];
+      api.dist = (ext + 0.4) / (Math.tan(20 * Math.PI / 180) * 0.92);   /* the molecule fills ~70 % of the height */
+    }
+  }
+  if (newView) { api.rx0 = api.rx; api.ry0 = api.ry; api.dist0 = api.dist; }
+  api.view();
+  vsHold.updateMatrixWorld(true);
+  var placed = [];
+  if (vs.cmp) {
+    var w = vsPx(api);
+    [['CH₄', '0 lone pairs'], ['NH₃', '1 lone pair'], ['H₂O', '2 lone pairs']].forEach(function (c, i) {
+      var a = vsSrgb(K3.tag(T, c[0], { color: api.color('--fg').getStyle(), size: 0.3 })), b = vsSrgb(K3.tag(T, c[1], { color: api.color('--mut').getStyle(), size: 0.3, bold: false }));
+      a.userData.k = 1.05; b.userData.k = 0.8;
+      a.position.set(X[i], -1.95, 0); b.position.set(X[i], -2.45, 0);
+      vsHold.add(a); vsHold.add(b); vsCap.push(a, b);
+    });
+    [-1.52, 1.52].forEach(function (x) {
+      var t = vsSrgb(K3.tag(T, '→ −2.5°', { color: api.color('--s2').getStyle(), size: 0.3 }));
+      t.userData.k = 0.85; t.position.set(x, -1.95, 0); vsHold.add(t); vsCap.push(t);
+    });
+    vsSize(); vsHold.updateMatrixWorld(true);
+    vsCap.forEach(function (t) { placed.push(vsTagRect(vsProj(api, vsHold, t.position.toArray()), t, t.userData.k)); });
+  }
+  vsMols.forEach(function (m) { vsPlace(T, api, m, placed, ['--s4', '--s1'], hudH); });
+  vsSize(); api.view();
+}
+
+function vsUpdate(rebuild) {
+  vsControls(); vsInfo();
+  if (vsApi) {
+    if (rebuild) vsDraw(true);
+    else { vsMols.forEach(function (m) { m.userData.lps.forEach(function (l) { l.visible = vs.showLp; }); }); vsApi.render(); }
+  }
+  K.fit();
+}
+
+/* ---------- fallback: 7 syllabus shapes as line drawings ---------- */
+(function () {
+  var grid = $root.querySelector('.vs-fbgrid'), tb = $root.querySelector('.vs-fbtab tbody');
+  VS_P.filter(function (p) { return p.g === 'syl'; }).forEach(function (p) {
+    var key = vsKey(p.bp, p.lp), d = vsDirs(p.bp, p.lp, p), v = VS_VIEW[key], cx = Math.cos(v[0]), sx = Math.sin(v[0]), cy = Math.cos(v[1]), sy = Math.sin(v[1]);
+    function pr(a, s) {   /* same rotation as the 3D view (Ry then Rx), orthographic */
+      var x = a[0] * cy + a[2] * sy, z = -a[0] * sy + a[2] * cy, y = a[1] * cx - z * sx, zz = a[1] * sx + z * cx;
+      return [65 + x * s, 58 - y * s, zz];
+    }
+    var svg = K.svg('svg', { viewBox: '0 0 130 116', width: 130, height: 116 }), S = 40;
+    var items = d.lps.map(function (l) { return { lp: 1, q: pr(l, S * 0.75) }; }).concat(d.bonds.map(function (b) { return { lp: 0, q: pr(b, S) }; }));
+    items.sort(function (a, b) { return a.q[2] - b.q[2]; });
+    items.forEach(function (it) {
+      if (it.lp) svg.appendChild(K.svg('ellipse', { cx: (65 + it.q[0]) / 2, cy: (58 + it.q[1]) / 2, rx: 11, ry: 6, fill: 'var(--s5)', 'fill-opacity': 0.35,
+        transform: 'rotate(' + (Math.atan2(it.q[1] - 58, it.q[0] - 65) * 180 / Math.PI) + ' ' + (65 + it.q[0]) / 2 + ' ' + (58 + it.q[1]) / 2 + ')' }));
+      else {
+        svg.appendChild(K.svg('line', { x1: 65, y1: 58, x2: it.q[0], y2: it.q[1], stroke: 'var(--mut)', 'stroke-width': p.dbl ? 4 : 2.2 }));
+        svg.appendChild(K.svg('circle', { cx: it.q[0], cy: it.q[1], r: p.t === 'H' ? 6 : 8, fill: K3.CPK[p.t], stroke: 'var(--fg)', 'stroke-width': 0.6 }));
+      }
+    });
+    svg.appendChild(K.svg('circle', { cx: 65, cy: 58, r: 10, fill: K3.CPK[p.c], stroke: 'var(--fg)', 'stroke-width': 0.6 }));
+    var fig = K.el('figure'); fig.appendChild(svg);
+    var sh = K3.SHAPES[key];
+    fig.appendChild(K.el('figcaption', {}, '<b>' + p.f + '</b> · ' + sh[0] + '<br>' + sh[1]));
+    grid.appendChild(fig);
+    tb.appendChild(K.el('tr', {}, '<td>' + p.f + '</td><td>' + p.bp + '</td><td>' + p.lp + '</td><td>' + sh[0] + '</td><td>' + sh[1] + '</td>'));
+  });
+})();
+
+vsUpdate(false);
+
+K3.start($root, function (T, api) {
+  vsT = T; vsApi = api;
+  vsHold = new T.Group(); api.group.add(vsHold);
+  api.scene.position.y = -0.12;   /* clear of the HUD strip */
+  /* compare mode turns each molecule about its own centre instead of the whole row like a carousel;
+     labels keep a constant size on screen while zooming */
+  api.view = function () {
+    if (vs.cmp) { api.group.rotation.set(0, 0, 0); vsSubs.forEach(function (s) { s.rotation.set(api.rx, api.ry, 0); }); }
+    else api.group.rotation.set(api.rx, api.ry, 0);
+    api.camera.position.set(0, 0, api.dist); api.camera.lookAt(0, 0, 0);
+    vsSize(); api.render();
+  };
+  vsDraw(true);
+  if (window.ResizeObserver) {
+    var last = 0;
+    new ResizeObserver(function () {
+      var w = api.renderer.domElement.clientWidth;
+      if (Math.abs(w - last) > 30 && last) setTimeout(function () { vsDraw(false); }, 30);
+      last = w;
+    }).observe($root.querySelector('.stage'));
+  }
+});
+
+/* for tests: current molecules and the screen layout of labels / atoms */
+$root.__vs = {
+  state: vs, VIEW: VS_VIEW,
+  mols: function () { return vsMols; },
+  angles: function () {   /* every X–A–X angle (degrees) from the atom meshes in the scene */
+    return vsMols.map(function (m) {
+      var a = m.userData.atoms, c = a[0].position, out = [];
+      for (var i = 1; i < a.length; i++) for (var j = i + 1; j < a.length; j++)
+        out.push(a[i].position.clone().sub(c).angleTo(a[j].position.clone().sub(c)) * 180 / Math.PI);
+      return { el: a[1] ? a[1].userData.el : null, angles: out };
+    });
+  },
+  layout: function () {
+    if (!vsApi) return null;
+    vsApi.scene.updateMatrixWorld(true);
+    var s = vsAtomsPx(vsApi), tags = [], caps = [];
+    vsAngTags.forEach(function (t) {
+      var q = vsProj(vsApi, t.parent, t.position.toArray());
+      /* real on-screen size of the sprite (world size × pixels per world unit at its depth) */
+      var w = t.scale.x * q.ppu, h = t.scale.y * q.ppu;
+      tags.push({ x: q.x - w / 2, y: q.y - h / 2, w: w, h: h, text: t.userData.text });
+    });
+    vsCap.forEach(function (t) { var r = vsTagRect(vsProj(vsApi, t.parent, t.position.toArray()), t, t.userData.k); caps.push(r); });
+    var el = vsApi.renderer.domElement;
+    return { tags: tags, caps: caps, atoms: s.atoms, W: el.clientWidth, H: el.clientHeight,
+             hud: ($root.querySelector('.stage .hud') || { offsetHeight: 0 }).offsetHeight,
+             lpVisible: vsMols.some(function (m) { return m.userData.lps.some(function (l) { return l.visible; }); }),
+             nLp: vsMols.reduce(function (n, m) { return n + m.userData.lps.length; }, 0) };
+  }
+};
+</script>
