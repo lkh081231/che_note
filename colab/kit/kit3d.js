@@ -389,6 +389,24 @@
       if (o.labels !== false) {
         var col = CPK[a.el] || '#999999', t = K3.tag(T, a.el, { color: lum(col) > 0.6 ? '#1b1e24' : '#ffffff', size: Math.max(0.17, r * 0.95) });
         t.position.copy(ud.pos[i]); g.add(t); ud.tags.push(t);
+        /* tags draw on top of everything (depthTest off), so the symbol of an atom hidden behind a
+           nearer atom would print onto it (CH₄'s back H read as "HC"): fade it out at render time
+           when its view ray passes through a nearer atom's sphere */
+        (function (idx, tag) {
+          var pa = new T.Vector3(), pb = new T.Vector3(), cp = new T.Vector3();
+          tag.onBeforeRender = function (rd, sc, cam) {
+            cp.setFromMatrixPosition(cam.matrixWorld);
+            ud.atoms[idx].getWorldPosition(pa); var da = pa.sub(cp), la = da.length(); da.divideScalar(la);
+            var hide = ud.atoms.some(function (m, j) {
+              if (j === idx || !m.visible) return false;
+              m.getWorldPosition(pb); var db = pb.sub(cp), lb = db.length();
+              if (lb >= la - 1e-6) return false;
+              var rw = m.geometry.parameters.radius * m.getWorldScale(cp.clone()).x;
+              return Math.acos(Math.min(1, da.dot(db.divideScalar(lb)))) < 0.8 * Math.asin(Math.min(1, rw / lb));
+            });
+            tag.material.opacity = hide ? 0 : 1;
+          };
+        })(i, t);
       }
     });
     (spec.bonds || []).forEach(function (b) {
