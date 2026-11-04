@@ -1,0 +1,302 @@
+<h3>推断 structure and bonding</h3>
+<p class="mut">每张卡片只给题目会给的数据（标 <span class="dd-sup">补</span> 的是为了走完流程图补上的事实）。先选 <b>structure</b> 和 <b>bonding</b>，再按「提交」：判分、给出 mark scheme 式的「结论 AND 证据」，下面的流程图会点亮这张卡片该走的路径。</p>
+<div class="row dd-nav">
+  <button type="button" class="dd-prev">← 上一张</button>
+  <button type="button" class="dd-next">下一张 →</button>
+  <button type="button" class="dd-rand">随机</button>
+  <span class="dd-pos mut"></span>
+  <span class="dd-score"></span>
+</div>
+<div class="card dd-card">
+  <div class="dd-name"></div>
+  <ul class="dd-data"></ul>
+  <div class="dd-src faint"></div>
+</div>
+<div class="dd-ask">
+  <div class="dd-q"><span class="dd-lab">structure</span><span class="dd-opts" data-k="s"></span></div>
+  <div class="dd-q"><span class="dd-lab">bonding</span><span class="dd-opts" data-k="b"></span></div>
+  <div class="row"><button type="button" class="dd-go">提交</button><button type="button" class="dd-redo">重做这张</button><span class="dd-hint faint"></span></div>
+</div>
+<div class="card dd-res"></div>
+<svg class="dd-fig" viewBox="0 0 800 400" role="img" aria-label="decision flowchart for structure and bonding"></svg>
+<p class="faint">流程图是做题的顺序，不是定义：mp 的「高 / 低」没有硬界线，题目一般给得很悬殊（−73 °C vs 2852 °C）。room temperature 下是 liquid 或 gas 就等于 low melting point。</p>
+<style>
+.k .dd-nav .dd-score{margin-left:auto;font-weight:650}
+.k .dd-card{margin:6px 0}
+.k .dd-name{font-size:19px;font-weight:650}
+.k .dd-data{margin:4px 0 2px}
+.k .dd-data li{margin:2px 0}
+.k .dd-sup{display:inline-block;font-size:12px;line-height:1.3;padding:0 5px;border-radius:4px;background:var(--hl);color:var(--fg);vertical-align:1px;margin-left:4px}
+.k .dd-src{margin-top:4px}
+.k .dd-q{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0}
+.k .dd-lab{font-weight:650;min-width:5.6em}
+.k .dd-opts{display:flex;flex-wrap:wrap;gap:6px}
+.k .dd-opts button.good{background:var(--ok-soft);border-color:var(--ok);color:var(--fg)}
+.k .dd-opts button.badv{background:var(--bad-soft);border-color:var(--bad);color:var(--fg)}
+.k .dd-opts button:disabled{cursor:default}
+.k .dd-go{font-weight:650}
+.k .dd-redo{display:none}
+.k .dd-res{display:none;margin:8px 0}
+.k .dd-res.show{display:block}
+.k .dd-res .v{font-weight:650;font-size:16px}
+.k .dd-res .v.ok{color:var(--ok)} .k .dd-res .v.no{color:var(--bad)}
+.k .dd-res ul{margin:4px 0}
+.k .dd-res .m{font-weight:700;margin-right:4px}
+.k .dd-res .trap{margin-top:6px;padding:4px 10px;border-left:3px solid var(--s4);background:var(--hl);border-radius:0 6px 6px 0}
+.k .dd-fig{margin:8px 0 2px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.k .dd-fig text{font-size:15px}
+.k .dd-fig text.t{font-weight:700;font-size:16px}
+.k .dd-fig g[data-st] text.t{font-size:15px}
+.k .dd-fig text.s{fill:var(--mut)}
+.k .dd-fig text.in{stroke:none}
+.k .dd-fig text.yn{font-weight:700;fill:var(--mut)}
+.k .dd-fig .box{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.k .dd-fig .box.term{stroke:var(--faint);stroke-width:1.5}
+.k .dd-fig .edge line{stroke:var(--faint);stroke-width:1.6}
+.k .dd-fig .arr{fill:var(--faint)}
+.k .dd-fig .arr.on{fill:var(--acc)}
+.k .dd-fig g{transition:opacity .2s}
+.k .dd-fig.lit g.dim{opacity:.4}
+.k .dd-fig g.on .box{stroke:var(--acc);stroke-width:3;fill:var(--acc-soft)}
+.k .dd-fig g.on.end .box{stroke:var(--ok);fill:var(--ok-soft)}
+.k .dd-fig g.on .box ~ text.s{fill:var(--fg)}
+.k .dd-fig g.edge.on line{stroke:var(--acc);stroke-width:3.2}
+.k .dd-fig g.edge.on text.yn{fill:var(--acc)}
+.k .dd-fig g.pick .box{stroke:var(--bad);stroke-width:2.5;stroke-dasharray:6 4}
+.k .dd-fig.lit g.pick{opacity:.8}
+</style>
+<script>
+/* t: 题目给的（逐字或几乎逐字）; x: 为了走完流程图补上的事实 */
+var CARDS = [
+  { id: 'bi2o3', name: 'bismuth oxide, Bi₂O₃',
+    data: [['yellow insoluble solid', 't'], ['melts at 1090 K', 't'], ['the molten compound conducts electricity', 't'], ['the solid does not conduct', 'x']],
+    src: '9701/22 Feb/Mar 2024 Q1(b)(ii)', s: 'gi', b: 'ion', path: ['q1', 'q3', 'q4', 'ti'], yn: ['no', 'yes', 'yes'],
+    m1: '<b>giant AND</b> has a high melting point', m2: '<b>ionic AND</b> conducts electricity (only) when molten',
+    ms: 'M1、M2 都是 mark scheme 原文。',
+    trap: '1090 K = 817 °C，单位是 K，仍然是 high melting point。只写 "giant ionic" 没有理由 → 0 分。' },
+  { id: 'w', name: '<b>W</b>, P₂Cl₄',
+    data: [['a liquid at room temperature and pressure', 't'], ['reacts vigorously with water to form an acidic solution', 't'], ['does not conduct electricity', 'x']],
+    src: '9701/22 Feb/Mar 2025 Q1(a)(iv)', s: 'sm', b: 'cov', path: ['q1', 'q3', 'ts'], yn: ['no', 'no'],
+    m1: '<b>simple / molecular</b>, because (it has a) low melting point / weak intermolecular forces', m2: '<b>covalent</b>, because (it is) hydrolysed',
+    ms: 'M1、M2 都是 mark scheme 原文。',
+    trap: 'liquid at r.t.p. 就等于 low melting point。与 water 反应得 acidic solution = hydrolysis → covalent chloride；ionic chloride（NaCl）溶于 water 得 neutral solution。' },
+  { id: 'na', name: 'sodium, Na',
+    data: [['solid sodium conducts electricity', 't'], ['silvery, soft solid; a Group 1 element', 'x']],
+    src: '9701/21 May/June 2025 Q1(a)', s: 'gm', b: 'met', path: ['q1', 'q2', 'tm'], yn: ['yes', 'yes'],
+    m1: '<b>giant metallic AND</b> the solid conducts electricity', m2: '<b>metallic AND</b> delocalised electrons move (through the structure)',
+    ms: 'M2 的证据句是 Q1(a)(ii) 的 mark scheme 原文；bonding 那一格的答案是 "sodium – metallic"。',
+    trap: 'sodium 的 melting point 只有 98 °C，但它是 metal：先看 solid 导不导电，mp 不是唯一判据。' },
+  { id: 'na2o', name: 'sodium oxide, Na₂O',
+    data: [['conducts electricity when molten but not when solid', 't'], ['melting point 1132 °C', 'x']],
+    src: '9701/21 May/June 2025 Q1(a)（mp 取自 9701/22 May/June 2025 Table 1.1）', s: 'gi', b: 'ion', path: ['q1', 'q3', 'q4', 'ti'], yn: ['no', 'yes', 'yes'],
+    m1: '<b>giant AND</b> has a high melting point', m2: '<b>ionic AND</b> conducts when molten: (sodium and oxide) <b>ions</b> move (through the liquid)',
+    ms: 'M2 的证据句是 Q1(a)(iii) 的 mark scheme 原文；bonding 那一格的答案是 "sodium oxide – ionic"。',
+    trap: '导电靠 <b>ions</b> move，写 "electrons move" 不给分。solid 不导电是因为 ions 固定在 lattice 里，不能移动。' },
+  { id: 'sn', name: 'tin, Sn',
+    data: [['silvery solid (standard state)', 't'], ['electrical conductivity: good', 't']],
+    src: '9701/21 Oct/Nov 2024 Q3(a)', s: 'gm', b: 'met', path: ['q1', 'q2', 'tm'], yn: ['yes', 'yes'],
+    m1: '<b>giant AND</b> good electrical conductivity as a solid', m2: '<b>metallic AND</b> its delocalised electrons are free to move',
+    ms: 'Table 3.1 给的是 "metallic"，要填的 type of structure = giant；M2 证据句是 Q3(a)(iii) 的 mark scheme 原文。',
+    trap: '同一族的 C（graphite）也是 good conductor，但它是 covalent。Sn 是 metal：silvery + conducts。' },
+  { id: 'sio2', name: 'silicon(IV) oxide, SiO₂',
+    data: [['white solid that melts above 1700 °C', 't'], ['does not conduct electricity, solid or molten', 'x']],
+    src: '9701/21 Oct/Nov 2024 Q3(e)(iii)', s: 'gc', b: 'cov', path: ['q1', 'q3', 'q4', 'tc'], yn: ['no', 'yes', 'no'],
+    m1: '<b>giant AND</b> has a (very) high melting point', m2: '<b>covalent AND</b> does not conduct even when molten (no ions, no delocalised electrons)',
+    ms: 'mark scheme 的说法是 "SiO₂ is giant covalent"；M1 / M2 按 Bi₂O₃ 的句式写。',
+    trap: 'SiO₂ 熔化要断大量 strong covalent bonds，不是 overcome intermolecular forces——它没有 molecules。' },
+  { id: 'sicl4', name: 'silicon(IV) chloride, SiCl₄',
+    data: [['colourless liquid at room temperature', 't'], ['added to water: misty / steamy fumes', 't'], ['does not conduct electricity', 'x']],
+    src: '9701/21 Oct/Nov 2024 Q3(e)(ii)、(e)(iii)', s: 'sm', b: 'cov', path: ['q1', 'q3', 'ts'], yn: ['no', 'no'],
+    m1: '<b>simple molecular AND</b> liquid at room temperature (low melting point)', m2: '<b>covalent AND</b> hydrolysed by water (misty fumes of HCl)',
+    ms: 'mark scheme：SiCl₄ is simple covalent / simple molecular / molecular；M1 / M2 按 W 的句式写。',
+    trap: 'SiCl₄ 熔化时 Si–Cl covalent bonds <b>没有</b>断，只 overcome intermolecular forces。写 "SiCl₄ has weak bonds" 是错的。' },
+  { id: 'bn', name: 'boron nitride, BN',
+    data: [['white solid that melts above 2900 °C', 't'], ['B and N atoms arranged in layers (Figure 2.2)', 't'], ['does not conduct electricity', 'x']],
+    src: '9701/21 May/June 2024 Q2(d)', s: 'gc', b: 'cov', path: ['q1', 'q3', 'q4', 'tc'], yn: ['no', 'yes', 'no'],
+    m1: '<b>giant AND</b> melts above 2900 °C (very high melting point)', m2: '<b>covalent AND</b> layers like graphite, does not conduct',
+    ms: 'Q2(d)(ii) 的答案是 graphite（layers 类似）；M1 / M2 按 Bi₂O₃ 的句式写。',
+    trap: '和 graphite 一样是 layers，但 boron nitride 不导电：B、N 的 electrons 没有像 graphite 那样 delocalised。' },
+  { id: 'mgo', name: 'magnesium oxide, MgO',
+    data: [['melting point 2852 °C', 't'], ['white solid; conducts when molten, not when solid', 'x']],
+    src: '9701/22 May/June 2025 Q1(d)', s: 'gi', b: 'ion', path: ['q1', 'q3', 'q4', 'ti'], yn: ['no', 'yes', 'yes'],
+    m1: '<b>giant AND</b> has a high melting point (2852 °C)', m2: '<b>ionic AND</b> conducts electricity (only) when molten',
+    ms: 'Table 1.1 填的是 I（ionic bond）；M1 / M2 按 Bi₂O₃ 的句式写。',
+    trap: 'MgO（2852 °C）比 NaCl（801 °C）高得多：Mg²⁺ / O²⁻ 的 charge 是两倍、ions 更小 → attraction 更强。' },
+  { id: 'so2', name: 'sulfur dioxide, SO₂',
+    data: [['melting point −73 °C', 't'], ['a gas at room temperature; does not conduct', 'x']],
+    src: '9701/22 May/June 2025 Q1(d)', s: 'sm', b: 'cov', path: ['q1', 'q3', 'ts'], yn: ['no', 'no'],
+    m1: '<b>simple molecular AND</b> low melting point (−73 °C) / weak intermolecular forces', m2: '<b>covalent AND</b> does not conduct (no ions, no delocalised electrons)',
+    ms: 'Table 1.1 填的是 p.d.（permanent dipole–permanent dipole）；M1 / M2 按 W 的句式写。',
+    trap: 'SO₂ 熔化破坏的是 p.d. forces（polar 的 bent molecule），S=O covalent bonds 没断。' },
+  { id: 'gr', name: 'carbon (graphite), C',
+    data: [['grey shiny solid', 't'], ['electrical conductivity: good', 't'], ['very high melting point; carbon is a non-metal', 'x']],
+    src: '9701/21 Oct/Nov 2024 Q3(a)', s: 'gc', b: 'cov', path: ['q1', 'q2', 'tg'], yn: ['yes', 'no'],
+    m1: '<b>giant molecular AND</b> very high melting point', m2: '<b>covalent AND</b> conducts because delocalised electrons move through / between the layers',
+    ms: 'Q3(a)(i) bonding = covalent，(a)(ii) lattice = giant molecular；M2 的证据句来自 9701/22 May/June 2025 Q1(a)(ii)。',
+    trap: 'graphite 导电但<b>不是</b> metallic：bonding 是 covalent，structure 是 giant molecular。shiny + conducts 不一定是 metal。' },
+  { id: 'i2', name: 'iodine, I₂',
+    data: [['grey-black solid at room temperature', 'x'], ['sublimes on gentle warming (melting point 114 °C)', 'x'], ['does not conduct electricity', 'x']],
+    src: 'syllabus 4.2.1 点名的例子（2024–2026 Paper 2 没考过）', s: 'sm', b: 'cov', path: ['q1', 'q3', 'ts'], yn: ['no', 'no'],
+    m1: '<b>simple molecular AND</b> low melting point / sublimes: weak id-id forces between I₂ molecules', m2: '<b>covalent AND</b> does not conduct',
+    ms: '没有真题，按 W 的句式写。',
+    trap: 'iodine sublime 只 overcome I₂ molecules 之间的 id-id forces；I–I covalent bond 没断。' }
+];
+var SNAME = { gi: 'giant ionic', gm: 'giant metallic', gc: 'giant molecular', sm: 'simple molecular' };
+var BNAME = { ion: 'ionic', met: 'metallic', cov: 'covalent' };
+
+/* ---------- flowchart ---------- */
+var W = 800;
+var NODES = {
+  q1: { x: 400, y: 34, w: 336, h: 42, t: 'Does the solid conduct electricity?' },
+  q2: { x: 166, y: 136, w: 270, h: 56, t: 'Is it a metal element?', s: '(shiny / silvery, malleable)' },
+  q3: { x: 552, y: 136, w: 310, h: 56, t: 'High melting point?', s: '(liquid or gas at r.t.p. = low)' },
+  q4: { x: 626, y: 242, w: 316, h: 42, t: 'Conducts when molten or aqueous?' },
+  tm: { x: 78, y: 352, w: 146, h: 56, t: 'giant metallic', s: 'metallic', st: 'gm', term: 1 },
+  tg: { x: 238, y: 352, w: 162, h: 56, t: 'giant molecular', s: 'covalent (graphite)', st: 'gc', term: 1 },
+  ts: { x: 404, y: 352, w: 158, h: 56, t: 'simple molecular', s: 'covalent', st: 'sm', term: 1 },
+  ti: { x: 557, y: 352, w: 136, h: 56, t: 'giant ionic', s: 'ionic', st: 'gi', term: 1 },
+  tc: { x: 712, y: 352, w: 162, h: 56, t: 'giant molecular', s: 'covalent', st: 'gc', term: 1 }
+};
+/* from, to, label, start offset along the parent's bottom edge */
+var EDGES = [['q1', 'q2', 'yes', -90], ['q1', 'q3', 'no', 90], ['q2', 'tm', 'yes', -70], ['q2', 'tg', 'no', 70],
+             ['q3', 'ts', 'no', -100], ['q3', 'q4', 'yes', 60], ['q4', 'ti', 'yes', -70], ['q4', 'tc', 'no', 70]];
+var svg = $root.querySelector('.dd-fig');
+var figG = {};   /* id → <g> for nodes, 'a>b' → <g> for edges */
+function drawFig() {
+  svg.innerHTML = '';
+  var defs = K.svg('defs');
+  ['', 'on'].forEach(function (c) {
+    var m = K.svg('marker', { id: 'dd-ar' + c + '-' + $root.id, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 10, markerHeight: 10, markerUnits: 'userSpaceOnUse', orient: 'auto' });
+    m.appendChild(K.svg('path', { d: 'M0,0 L10,5 L0,10 z', 'class': 'arr ' + c }));
+    defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+  var gE = K.svg('g'), gN = K.svg('g');
+  svg.appendChild(gE); svg.appendChild(gN);
+  var avoid = [], placed = [], segs = {};
+  EDGES.forEach(function (e) {
+    var a = NODES[e[0]], b = NODES[e[1]];
+    var x1 = a.x + e[3], y1 = a.y + a.h / 2, x2 = b.x, y2 = b.y - b.h / 2 - 1;
+    segs[e[0] + '>' + e[1]] = [x1, y1, x2, y2];
+    avoid.push([x1, y1, x2, y2]);
+  });
+  /* node boxes and their text */
+  Object.keys(NODES).forEach(function (id) {
+    var n = NODES[id], g = K.svg('g', { 'data-node': id }), x0 = n.x - n.w / 2, y0 = n.y - n.h / 2;
+    if (n.st) g.setAttribute('data-st', n.st);
+    g.appendChild(K.svg('rect', { x: x0, y: y0, width: n.w, height: n.h, rx: n.term ? 10 : 6, 'class': 'box' + (n.term ? ' term' : '') }));
+    gN.appendChild(g);
+    var ty = n.s ? n.y - 7 : n.y + 5;
+    g.appendChild(K.label(svg, n.x, ty, n.t, { cls: 'in t', cands: [[0, 0, 'middle']], avoid: avoid, placed: placed, pad: 1 }));
+    if (n.s) g.appendChild(K.label(svg, n.x, n.y + 18, n.s, { cls: 'in s', cands: [[0, 0, 'middle']], avoid: avoid, placed: placed, pad: 1 }));
+    figG[id] = g;
+  });
+  Object.keys(NODES).forEach(function (id) { var n = NODES[id]; placed.push({ x: n.x - n.w / 2, y: n.y - n.h / 2, w: n.w, h: n.h }); });
+  /* edges and yes / no labels */
+  EDGES.forEach(function (e) {
+    var key = e[0] + '>' + e[1], s = segs[key], g = K.svg('g', { 'class': 'edge', 'data-edge': key });
+    g.appendChild(K.svg('line', { x1: s[0], y1: s[1], x2: s[2], y2: s[3], 'marker-end': 'url(#dd-ar-' + $root.id + ')' }));
+    gE.appendChild(g);
+    var mx = s[0] + (s[2] - s[0]) * 0.42, my = s[1] + (s[3] - s[1]) * 0.42, left = s[2] < s[0];
+    var c = left ? [[-8, 5, 'end'], [-8, -6, 'end'], [8, 5, 'start'], [8, 16, 'start'], [-8, 18, 'end'], [10, 24, 'start'], [0, -14, 'middle'], [0, 30, 'middle']]
+                 : [[8, 5, 'start'], [8, -6, 'start'], [-8, 5, 'end'], [-8, 16, 'end'], [8, 18, 'start'], [0, -14, 'middle'], [0, 30, 'middle']];
+    g.appendChild(K.label(svg, mx, my, e[2], { cls: 'yn', cands: c, avoid: avoid, placed: placed, pad: 2 }));
+    figG[key] = g;
+  });
+}
+function litFig(card, pick) {
+  var on = {};
+  if (card) {
+    card.path.forEach(function (id, i) { on[id] = 1; if (i) on[card.path[i - 1] + '>' + id] = 1; });
+  }
+  svg.classList.toggle('lit', !!card);
+  Object.keys(figG).forEach(function (k) {
+    var g = figG[k], isOn = !!on[k];
+    g.classList.toggle('on', isOn);
+    g.classList.toggle('dim', !!card && !isOn);
+    g.classList.toggle('end', !!card && k === card.path[card.path.length - 1]);
+    g.classList.toggle('pick', !!card && !!pick && pick !== card.s && g.getAttribute('data-st') === pick);
+    var ln = g.querySelector('line');
+    if (ln) ln.setAttribute('marker-end', 'url(#dd-ar' + (isOn ? 'on' : '') + '-' + $root.id + ')');
+  });
+}
+
+/* ---------- card UI ---------- */
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+var rand = rng(4023);
+var $ = function (s) { return $root.querySelector(s); };
+var nameBox = $('.dd-name'), dataBox = $('.dd-data'), srcBox = $('.dd-src'), res = $('.dd-res'), hint = $('.dd-hint');
+var goBtn = $('.dd-go'), redoBtn = $('.dd-redo');
+var cur = 0, ST = CARDS.map(function () { return { s: null, b: null, done: false }; });
+var score = { right: 0, n: 0 };   /* first submission of each card only */
+
+function opts(k, names) {
+  var box = $root.querySelector('.dd-opts[data-k="' + k + '"]');
+  Object.keys(names).forEach(function (v) {
+    var b = K.el('button', { type: 'button', 'data-v': v }, names[v]);
+    b.addEventListener('click', function () {
+      var st = ST[cur]; if (st.done) return;
+      st[k] = v; hint.textContent = ''; paint();
+    });
+    box.appendChild(b);
+  });
+}
+opts('s', SNAME); opts('b', BNAME);
+
+function show(i) {
+  cur = (i + CARDS.length) % CARDS.length;
+  var c = CARDS[cur];
+  nameBox.innerHTML = c.name;
+  dataBox.innerHTML = c.data.map(function (d) { return '<li>' + d[0] + (d[1] === 'x' ? '<span class="dd-sup" title="补充的事实，题目没给">补</span>' : '') + '</li>'; }).join('');
+  srcBox.textContent = '出处：' + c.src;
+  hint.textContent = '';
+  paint();
+}
+function paint() {
+  var c = CARDS[cur], st = ST[cur];
+  ['s', 'b'].forEach(function (k) {
+    K.$$($root, '.dd-opts[data-k="' + k + '"] button').forEach(function (b) {
+      var v = b.getAttribute('data-v');
+      b.classList.toggle('on', !st.done && st[k] === v);
+      b.classList.toggle('good', st.done && v === c[k]);
+      b.classList.toggle('badv', st.done && st[k] === v && v !== c[k]);
+      b.disabled = st.done;
+    });
+  });
+  goBtn.style.display = st.done ? 'none' : '';
+  redoBtn.style.display = st.done ? 'inline-block' : 'none';
+  $('.dd-pos').textContent = 'card ' + (cur + 1) + ' / ' + CARDS.length;
+  $('.dd-score').innerHTML = '得分 <span class="dd-x">' + score.right + '</span> / <span class="dd-n">' + score.n + '</span>';
+  if (!st.done) { res.classList.remove('show'); res.innerHTML = ''; litFig(null); K.fit(); return; }
+  var okS = st.s === c.s, okB = st.b === c.b, ok = okS && okB;
+  res.innerHTML = '<div class="v ' + (ok ? 'ok' : 'no') + '" data-verdict="' + (ok ? 'right' : 'wrong') + '">' +
+      (ok ? '✓ 正确：' : '✗ 不对：') + 'structure ' + (okS ? '✓' : '✗') + '，bonding ' + (okB ? '✓' : '✗') + '</div>' +
+    '<div>正确答案：<b class="dd-ans">' + SNAME[c.s] + '</b> structure，<b>' + BNAME[c.b] + '</b> bonding' +
+      (ok ? '' : '（你选的是 ' + SNAME[st.s] + ' · ' + BNAME[st.b] + '）') + '</div>' +
+    '<div style="margin-top:6px">写成两个得分点，每一分都是「结论 AND 证据」：</div>' +
+    '<ul><li><span class="m">M1</span>' + c.m1 + '</li><li><span class="m">M2</span>' + c.m2 + '</li></ul>' +
+    '<div class="faint">' + c.ms + '</div>' +
+    '<div class="trap"><b>易错点</b>　' + c.trap + '</div>';
+  res.classList.add('show');
+  litFig(c, st.s);
+  K.fit();
+}
+goBtn.addEventListener('click', function () {
+  var st = ST[cur], c = CARDS[cur];
+  if (!st.s || !st.b) { hint.textContent = '两项都要选（structure 和 bonding）。'; return; }
+  if (!st.counted) { st.counted = true; score.n++; if (st.s === c.s && st.b === c.b) score.right++; }
+  st.done = true; paint();
+});
+redoBtn.addEventListener('click', function () { var st = ST[cur]; st.done = false; st.s = st.b = null; paint(); });
+$('.dd-prev').addEventListener('click', function () { show(cur - 1); });
+$('.dd-next').addEventListener('click', function () { show(cur + 1); });
+$('.dd-rand').addEventListener('click', function () {
+  var j = cur; while (j === cur) j = Math.floor(rand() * CARDS.length);
+  show(j);
+});
+
+K.init($root);
+drawFig();
+show(0);
+$root.__dd = { CARDS: CARDS, NODES: NODES, show: show, cur: function () { return cur; }, score: score };
+</script>
