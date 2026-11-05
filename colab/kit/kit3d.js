@@ -431,5 +431,444 @@
   };
   // ---- end ch3 ----
 
+  // ---- ch4: lattice ----
+  /* Crystal lattices (ch4, LO 4.2.1). K3.lattice(kind, n) is pure geometry in nm, no three.js:
+       { atoms: [{ el, name, p:[x,y,z], r (drawing radius), rr (real ionic / metallic radius, optional), mol, layer }],
+         bonds: [{ a, b, kind }]   kind = cov | hb | ionic | vdw,
+         cell:  [[p1, p2], …]      unit-cell edges,
+         info:  { nb: nearest neighbours of every atom (what hover highlights), … numbers for tests } }
+     kind ∈ nacl mgo cu diamond graphite sio2 i2 c60 ice; n = 1–3 (unit cells along each edge; graphite: 2n layers;
+     ice: (n + 1)³ hexagonal cells; c60: 1 molecule / 1 fcc cell / 2 × 2 × 2 fcc cells).
+     K3.latticeMesh(T, api, data, o) draws it: InstancedMesh spheres, two-tone cylinder bonds, dashed hb / vdw
+     (rows of short cylinders: a 1 px LineDashedMaterial line all but vanishes at a zoomed-out scale), thin
+     unit-cell lines, optional delocalised-electron dots. */
+  var LCOL = { Na: '#a06ae6', Cl: '#2fb24a', Mg: '#69c24a', O: '#e0362c', Cu: '#de7c3c', C: '#3f4652',
+               Si: '#d9a66a', I: '#8a3fb0', H: '#b4c3d6' };
+  K3.LCOL = LCOL;
+  /* colour of an element on this card: C is lifted on a dark card, otherwise a dark-grey ball vanishes into it */
+  K3.lcol = function (el, dark) { return dark && el === 'C' ? '#9aa4b2' : dark && el === 'H' ? '#dde6f2' : LCOL[el] || '#999999'; };
+  K3.rng = function (seed) {   /* mulberry32: fixed-seed random numbers, so every run draws the same thing */
+    return function () {
+      seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  };
+  function ldist(p, q) { return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]); }
+  function lbox(a, b, c, o) {   /* 12 edges of the parallelepiped at o spanned by a, b, c */
+    o = o || [0, 0, 0];
+    function P(i, j, k) { return [0, 1, 2].map(function (t) { return o[t] + i * a[t] + j * b[t] + k * c[t]; }); }
+    var E = [], i, j;
+    for (i = 0; i < 2; i++) for (j = 0; j < 2; j++) {
+      E.push([P(0, i, j), P(1, i, j)]); E.push([P(i, 0, j), P(i, 1, j)]); E.push([P(i, j, 0), P(i, j, 1)]);
+    }
+    return E;
+  }
+  /* every pair of atoms d·(1 ± tol) apart (spatial hash); filter(a, b) may veto a pair */
+  function llink(atoms, d, kind, tol, filter) {
+    tol = tol || 0.03;
+    var cs = d * (1 + tol), H = {}, out = [];
+    function cell(p) { return [Math.floor(p[0] / cs), Math.floor(p[1] / cs), Math.floor(p[2] / cs)]; }
+    atoms.forEach(function (a, i) { var c = cell(a.p).join(); (H[c] = H[c] || []).push(i); });
+    atoms.forEach(function (a, i) {
+      var c = cell(a.p), dx, dy, dz;
+      for (dx = -1; dx <= 1; dx++) for (dy = -1; dy <= 1; dy++) for (dz = -1; dz <= 1; dz++) {
+        (H[[c[0] + dx, c[1] + dy, c[2] + dz].join()] || []).forEach(function (j) {
+          if (j <= i) return;
+          var dd = ldist(a.p, atoms[j].p);
+          if (Math.abs(dd - d) <= d * tol && (!filter || filter(a, atoms[j]))) out.push({ a: i, b: j, kind: kind });
+        });
+      }
+    });
+    return out;
+  }
+  function lnb(N, bonds, kinds) {
+    var nb = [], i;
+    for (i = 0; i < N; i++) nb.push([]);
+    bonds.forEach(function (b) { if (kinds.indexOf(b.kind) >= 0) { nb[b.a].push(b.b); nb[b.b].push(b.a); } });
+    return nb;
+  }
+  /* drop atoms with fewer than min bonds (repeat until none left) and renumber */
+  function lprune(atoms, linkFn, min) {
+    for (;;) {
+      var bonds = linkFn(atoms), deg = atoms.map(function () { return 0; });
+      bonds.forEach(function (b) { deg[b.a]++; deg[b.b]++; });
+      var keep = atoms.filter(function (a, i) { return deg[i] >= min; });
+      if (keep.length === atoms.length) return { atoms: atoms, bonds: bonds };
+      atoms = keep;
+    }
+  }
+
+  /* rock-salt: 6 : 6, anions on an fcc lattice, cations in every octahedral hole */
+  function rocksalt(n, a, C, A) {
+    var atoms = [], i, j, k;
+    for (i = 0; i <= 2 * n; i++) for (j = 0; j <= 2 * n; j++) for (k = 0; k <= 2 * n; k++) {
+      var s = (i + j + k) % 2 === 0 ? A : C;
+      atoms.push({ el: s.el, name: s.name, ion: s.ion, p: [i * a / 2, j * a / 2, k * a / 2], rr: s.r, r: s.r * 0.55 });
+    }
+    var bonds = llink(atoms, a / 2, 'ionic');
+    return { atoms: atoms, bonds: bonds, cell: [],
+             info: { a: a, d: a / 2, nb: lnb(atoms.length, bonds, ['ionic']) } };
+  }
+  /* diamond sites in quarter-cell units 0..4n: fcc points (all even) + the fcc shifted by (¼, ¼, ¼) */
+  function tetraSites(n, a) {
+    var pts = [], i, j, k, q = a / 4;
+    for (i = 0; i <= 4 * n; i++) for (j = 0; j <= 4 * n; j++) for (k = 0; k <= 4 * n; k++) {
+      var e = i % 2 === 0 && j % 2 === 0 && k % 2 === 0, o = i % 2 === 1 && j % 2 === 1 && k % 2 === 1;
+      if (e && (i + j + k) / 2 % 2 === 0) pts.push([i * q, j * q, k * q]);
+      else if (o && (i + j + k - 3) / 2 % 2 === 0) pts.push([i * q, j * q, k * q]);
+    }
+    return pts;
+  }
+  var GEN = {
+    nacl: function (n) {
+      return rocksalt(n, 0.564, { el: 'Na', name: 'Na⁺ ion', ion: 1, r: 0.095 }, { el: 'Cl', name: 'Cl⁻ ion', ion: -1, r: 0.181 });
+    },
+    mgo: function (n) {
+      return rocksalt(n, 0.421, { el: 'Mg', name: 'Mg²⁺ ion', ion: 2, r: 0.065 }, { el: 'O', name: 'O²⁻ ion', ion: -2, r: 0.140 });
+    },
+    cu: function (n) {
+      var a = 0.361, atoms = [], i, j, k;
+      for (i = 0; i <= 2 * n; i++) for (j = 0; j <= 2 * n; j++) for (k = 0; k <= 2 * n; k++)
+        if ((i + j + k) % 2 === 0) atoms.push({ el: 'Cu', name: 'positive copper ion', p: [i * a / 2, j * a / 2, k * a / 2], rr: 0.128, r: 0.128 * 0.55 });
+      var near = llink(atoms, a / Math.SQRT2, 'nb');
+      return { atoms: atoms, bonds: [], cell: lbox([a, 0, 0], [0, a, 0], [0, 0, a]),
+               info: { a: a, d: a / Math.SQRT2, nb: lnb(atoms.length, near, ['nb']), electrons: true } };
+    },
+    diamond: function (n) {
+      /* corner atoms with no bond inside the box would float: drop them */
+      var a = 0.357, pr = lprune(tetraSites(n, a).map(function (p) { return { el: 'C', name: 'C atom', p: p, r: 0.042 }; }),
+                                 function (at) { return llink(at, a * Math.sqrt(3) / 4, 'cov'); }, 1);
+      var atoms = pr.atoms, bonds = pr.bonds;
+      return { atoms: atoms, bonds: bonds, cell: lbox([a, 0, 0], [0, a, 0], [0, 0, a]),
+               info: { a: a, d: a * Math.sqrt(3) / 4, nb: lnb(atoms.length, bonds, ['cov']) } };
+    },
+    sio2: function (n) {
+      /* ideal β-cristobalite: Si on diamond sites, an O half-way along every Si–Si line (Si–O 0.161 nm) */
+      var dSiO = 0.161, a = 2 * dSiO * 4 / Math.sqrt(3);
+      var pr = lprune(tetraSites(n, a).map(function (p) { return { el: 'Si', name: 'Si atom', p: p, r: 0.052 }; }),
+                      function (at) { return llink(at, a * Math.sqrt(3) / 4, 'ss'); }, 1);
+      var si = pr.atoms, ss = pr.bonds, atoms = si.slice(), bonds = [];
+      ss.forEach(function (b) {
+        var P = si[b.a].p, Q = si[b.b].p, o = atoms.length;
+        atoms.push({ el: 'O', name: 'O atom', p: [(P[0] + Q[0]) / 2, (P[1] + Q[1]) / 2, (P[2] + Q[2]) / 2], r: 0.04 });
+        bonds.push({ a: b.a, b: o, kind: 'cov' }, { a: o, b: b.b, kind: 'cov' });
+      });
+      return { atoms: atoms, bonds: bonds, cell: lbox([a, 0, 0], [0, a, 0], [0, 0, a]),
+               info: { a: a, d: dSiO, nb: lnb(atoms.length, bonds, ['cov']) } };
+    },
+    graphite: function (n) {
+      /* hexagonal layers in the x–z plane, stacked along y, ABAB: layer B is layer A moved one bond length,
+         so half its atoms sit right over atoms of A and half over hexagon centres */
+      var A = 0.246, d = 0.142, gap = 0.335, W = 0.26 + 0.14 * n, raw = [], L, i, j, s;
+      for (L = 0; L < 2 * n; L++) for (i = -14; i <= 14; i++) for (j = -14; j <= 14; j++) for (s = 0; s < 2; s++) {
+        var x = i * A + j * A / 2, z = j * A * Math.sqrt(3) / 2 + s * d + (L % 2 ? d : 0);
+        if (Math.abs(x) <= W && Math.abs(z) <= W) raw.push({ el: 'C', name: 'C atom', layer: L, p: [x, L * gap, z], r: 0.036 });
+      }
+      var same = function (p, q) { return p.layer === q.layer; };
+      var pr = lprune(raw, function (at) { return llink(at, d, 'cov', 0.03, same); }, 2), atoms = pr.atoms;
+      var vdw = llink(atoms, gap, 'vdw', 0.01, function (p, q) { return Math.abs(p.layer - q.layer) === 1; });
+      var bonds = pr.bonds.concat(vdw);
+      return { atoms: atoms, bonds: bonds, cell: [],
+               info: { a: A, d: d, gap: gap, layers: 2 * n, nb: lnb(atoms.length, bonds, ['cov']) } };
+    },
+    i2: function (n) {
+      /* orthorhombic (Cmca) iodine: x = c (wide), y = b (up), z = a (depth). Molecules lie in the c–b (x–y) plane,
+         at the corners and face centres, two orientations (herringbone). I–I set to the bond length 0.267 nm. */
+      var a = 0.7136, b = 0.4686, c = 0.9784, h = [0.1174 * c, 0.1543 * b, 0], s = 0.1335 / Math.hypot(h[0], h[1]);
+      var h1 = [h[0] * s, h[1] * s, 0], h2 = [h1[0], -h1[1], 0];
+      var types = [[[0, 0, 0], h1], [[0.5, 0.5, 0], h2], [[0, 0.5, 0.5], h1], [[0.5, 0, 0.5], h2]];   /* (c, b, a) fractions */
+      var atoms = [], bonds = [], i, j, k, m = 0;
+      for (i = 0; i <= n; i++) for (j = 0; j <= n; j++) for (k = 0; k <= n; k++) types.forEach(function (t) {
+        var f = [t[0][0] + i, t[0][1] + j, t[0][2] + k];
+        if (f[0] > n + 1e-9 || f[1] > n + 1e-9 || f[2] > n + 1e-9) return;
+        var C = [f[0] * c, f[1] * b, f[2] * a], o = atoms.length;
+        atoms.push({ el: 'I', name: 'I atom', mol: m, p: [C[0] + t[1][0], C[1] + t[1][1], C[2] + t[1][2]], r: 0.064 });
+        atoms.push({ el: 'I', name: 'I atom', mol: m, p: [C[0] - t[1][0], C[1] - t[1][1], C[2] - t[1][2]], r: 0.064 });
+        bonds.push({ a: o, b: o + 1, kind: 'cov' }); m++;
+      });
+      var vdw = llink(atoms, 0.350, 'vdw', 0.02, function (p, q) { return p.mol !== q.mol; });
+      var dInter = Math.min.apply(null, vdw.map(function (v) { return ldist(atoms[v.a].p, atoms[v.b].p); }));
+      return { atoms: atoms, bonds: bonds.concat(vdw), cell: lbox([c, 0, 0], [0, b, 0], [0, 0, a]),
+               info: { dIntra: 0.267, dInter: dInter, molecules: m, nb: lnb(atoms.length, bonds, ['cov']) } };
+    },
+    c60: function (n) {
+      /* truncated icosahedron: cyclic permutations of (0, ±1, ±3φ), (±1, ±(2+φ), ±2φ), (±φ, ±2, ±(2φ+1)), edge 2 → 0.144 nm */
+      var ph = (1 + Math.sqrt(5)) / 2, base = [[0, 1, 3 * ph], [1, 2 + ph, 2 * ph], [ph, 2, 2 * ph + 1]], V = [], seen = {};
+      var sc = n === 1 ? 0.072 : n === 2 ? 0.043 : 0.032, ar = n === 1 ? 0.032 : n === 2 ? 0.019 : 0.014;
+      base.forEach(function (v) {
+        [1, -1].forEach(function (sx) { [1, -1].forEach(function (sy) { [1, -1].forEach(function (sz) {
+          var w = [sx * v[0], sy * v[1], sz * v[2]];
+          [[w[0], w[1], w[2]], [w[1], w[2], w[0]], [w[2], w[0], w[1]]].forEach(function (u) {
+            var key = u.map(function (x) { return x.toFixed(4); }).join();
+            if (!seen[key]) { seen[key] = 1; V.push([u[0] * sc, u[1] * sc, u[2] * sc]); }
+          });
+        }); }); });
+      });
+      var tmpl = llink(V.map(function (p) { return { p: p }; }), 2 * sc, 'cov');
+      var A = 1.417, cen = [], i, j, k, m = n === 1 ? 0 : n - 1;
+      if (n === 1) cen.push([0, 0, 0]);
+      else for (i = 0; i <= 2 * m; i++) for (j = 0; j <= 2 * m; j++) for (k = 0; k <= 2 * m; k++)
+        if ((i + j + k) % 2 === 0) cen.push([i * A / 2, j * A / 2, k * A / 2]);
+      var atoms = [], bonds = [];
+      cen.forEach(function (C, mi) {
+        var o = atoms.length;
+        V.forEach(function (p) { atoms.push({ el: 'C', name: 'C atom', mol: mi, p: [C[0] + p[0], C[1] + p[1], C[2] + p[2]], r: ar }); });
+        tmpl.forEach(function (b) { bonds.push({ a: o + b.a, b: o + b.b, kind: 'cov' }); });
+      });
+      return { atoms: atoms, bonds: bonds, cell: n === 1 ? [] : lbox([A, 0, 0], [0, A, 0], [0, 0, A]),
+               info: { a: A, d: 2 * sc, molecules: cen.length, nb: lnb(atoms.length, bonds, ['cov']) } };
+    },
+    ice: function (n) {
+      /* ice Ih: O on the hexagonal-diamond sites (O···O 0.276 nm, c up = y). One H on every O···O line, 0.10 nm
+         from one O (covalent) and 0.176 nm from the other (hydrogen bond). Which O gets it: orient the O···O
+         graph along an Euler circuit (odd-degree O joined to one extra vertex first), so every O has as many
+         lines leaving as arriving → each inner O has exactly 2 covalent H + 2 hydrogen bonds. An O on the edge
+         that ends up with fewer than 2 H gets one along an empty tetrahedral direction (still an H₂O molecule). */
+      var d = 0.276, c = 8 * d / 3, a = d * Math.sqrt(8 / 3), m = n + 1;   /* m cells along every edge */
+      var a1 = [a, 0, 0], a2 = [-a / 2, 0, a * Math.sqrt(3) / 2], cz = [0, c, 0];
+      var basis = [[1 / 3, 2 / 3, 0], [2 / 3, 1 / 3, 0.5], [1 / 3, 2 / 3, 3 / 8], [2 / 3, 1 / 3, 7 / 8]], pad = [], i, j, k;
+      for (i = -1; i <= m; i++) for (j = -1; j <= m; j++) for (k = -1; k <= m; k++) basis.forEach(function (f) {
+        var u = i + f[0], v = j + f[1], w = k + f[2];
+        pad.push({ p: [0, 1, 2].map(function (t) { return u * a1[t] + v * a2[t] + w * cz[t]; }),
+                   inside: u >= 0 && u < m && v >= 0 && v < m && w >= 0 && w < m });
+      });
+      var pb = llink(pad, d, 'oo'), adj = pad.map(function () { return []; });
+      pb.forEach(function (b) { adj[b.a].push(b.b); adj[b.b].push(b.a); });
+      /* keep the inside O, then drop any left with < 2 O neighbours */
+      var keep = pad.map(function (q) { return q.inside; }), changed = true;
+      while (changed) {
+        changed = false;
+        pad.forEach(function (q, x) {
+          if (keep[x] && adj[x].filter(function (y) { return keep[y]; }).length < 2) { keep[x] = false; changed = true; }
+        });
+      }
+      var idx = {}, O = [];
+      pad.forEach(function (q, x) { if (keep[x]) { idx[x] = O.length; O.push(x); } });
+      var E = [];
+      pb.forEach(function (b) { if (keep[b.a] && keep[b.b]) E.push([idx[b.a], idx[b.b]]); });
+      var N = O.length, deg = O.map(function () { return 0; });
+      E.forEach(function (e) { deg[e[0]]++; deg[e[1]]++; });
+      var real = E.length;
+      deg.forEach(function (g, x) { if (g % 2) E.push([x, N]); });
+      var inc = []; for (i = 0; i <= N; i++) inc.push([]);
+      E.forEach(function (e, x) { inc[e[0]].push(x); inc[e[1]].push(x); });
+      var used = E.map(function () { return false; }), dir = E.map(function () { return null; }), ptr = inc.map(function () { return 0; });
+      for (var s0 = 0; s0 <= N; s0++) {   /* Hierholzer: every closed walk leaves and enters each vertex equally often */
+        var st = [s0];
+        while (st.length) {
+          var v = st[st.length - 1];
+          while (ptr[v] < inc[v].length && used[inc[v][ptr[v]]]) ptr[v]++;
+          if (ptr[v] === inc[v].length) { st.pop(); continue; }
+          var e = inc[v][ptr[v]], w = E[e][0] === v ? E[e][1] : E[e][0];
+          used[e] = true; dir[e] = [v, w]; st.push(w);
+        }
+      }
+      var atoms = O.map(function (x) { return { el: 'O', name: 'O atom', mol: idx[x], p: pad[x].p, r: 0.048 }; });
+      var bonds = [], nH = O.map(function () { return 0; });
+      function addH(o, toward, len) {
+        var P = atoms[o].p, u = [0, 1, 2].map(function (t) { return (toward[t] - P[t]) / len; }), h = atoms.length;
+        atoms.push({ el: 'H', name: 'H atom', mol: o, p: [0, 1, 2].map(function (t) { return P[t] + 0.1 * u[t]; }), r: 0.028 });
+        bonds.push({ a: o, b: h, kind: 'cov' }); nH[o]++;
+        return h;
+      }
+      for (i = 0; i < real; i++) {
+        var t0 = dir[i][0], t1 = dir[i][1], hh = addH(t0, atoms[t1].p, d);
+        bonds.push({ a: hh, b: t1, kind: 'hb' });
+      }
+      O.forEach(function (x, o) {   /* edge O short of H: point one along a tetrahedral direction with no O */
+        adj[x].filter(function (y) { return !keep[y]; }).forEach(function (y) {
+          if (nH[o] < 2) addH(o, pad[y].p, d);
+        });
+      });
+      var nb0 = lnb(atoms.length, bonds, ['cov', 'hb']), nb = nb0.map(function (list, x) {
+        if (atoms[x].el !== 'O') return list;
+        var ext = list.slice();
+        list.forEach(function (h) { nb0[h].forEach(function (o2) { if (o2 !== x && ext.indexOf(o2) < 0) ext.push(o2); }); });
+        return ext;
+      });
+      return { atoms: atoms, bonds: bonds, cell: [],
+               info: { dOO: d, dOH: 0.1, dHB: d - 0.1, O: N, degO: deg, nb: nb } };
+    }
+  };
+  K3.lattice = function (kind, n) {
+    var g = GEN[kind];
+    if (!g) return null;
+    var out = g(Math.max(1, Math.min(3, n || 1)));
+    out.kind = kind; out.n = n;
+    return out;
+  };
+
+  /* bounding centre + radius (nm) of a lattice, counting the larger of the two radii so the real-size
+     switch does not change the zoom */
+  K3.latticeBounds = function (data) {
+    var lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9];
+    data.atoms.forEach(function (a) { for (var t = 0; t < 3; t++) { lo[t] = Math.min(lo[t], a.p[t]); hi[t] = Math.max(hi[t], a.p[t]); } });
+    var c = [0, 1, 2].map(function (t) { return (lo[t] + hi[t]) / 2; }), R = 0;
+    data.atoms.forEach(function (a) { R = Math.max(R, ldist(a.p, c) + Math.max(a.r, a.rr || 0)); });
+    return { c: c, R: R };
+  };
+
+  /* o: { S (world units per nm), centre [nm], real (draw rr where an atom has one), seed }
+     userData: { meshes, pick(raycaster) → atom index | -1, highlight(set | null), elec (or null), dispose() } */
+  K3.latticeMesh = function (T, api, data, o) {
+    o = o || {};
+    var S = o.S || 1, c0 = o.centre || [0, 0, 0], g = new T.Group(), N = data.atoms.length, ud = { meshes: [] };
+    var card = api.color('--card'), dark = card.r * 0.3 + card.g * 0.59 + card.b * 0.11 < 0.4;
+    function W(p) { return new T.Vector3((p[0] - c0[0]) * S, (p[1] - c0[1]) * S, (p[2] - c0[2]) * S); }
+    var pos = data.atoms.map(function (a) { return W(a.p); });
+    var rad = data.atoms.map(function (a) { return (o.real && a.rr ? a.rr : a.r) * S; });
+    var M = new T.Matrix4(), Q = new T.Quaternion(), V = new T.Vector3(), Y = new T.Vector3(0, 1, 0), I = new T.Quaternion();
+    var seg = N > 1500 ? [14, 10] : N > 400 ? [20, 14] : [28, 18];
+    var sph = new T.SphereGeometry(1, seg[0], seg[1]), cyl = new T.CylinderGeometry(1, 1, 1, 10, 1, true);
+    var base = {}, dimc = {};
+    function colOf(el) {
+      if (!base[el]) { base[el] = new T.Color(K3.lcol(el, dark)); dimc[el] = base[el].clone().lerp(card, 0.86); }
+      return base[el];
+    }
+    var byEl = {};
+    data.atoms.forEach(function (a, i) { (byEl[a.el] = byEl[a.el] || []).push(i); });
+    var where = [];   /* atom → [mesh, instance] */
+    Object.keys(byEl).forEach(function (el) {
+      var list = byEl[el], m = new T.InstancedMesh(sph, new T.MeshPhongMaterial({ color: 0xffffff, shininess: 55 }), list.length);
+      list.forEach(function (ai, k) {
+        M.compose(pos[ai], I, V.set(rad[ai], rad[ai], rad[ai])); m.setMatrixAt(k, M); m.setColorAt(k, colOf(el));
+        where[ai] = [m, k];
+      });
+      m.userData = { idx: list, el: el }; m.computeBoundingSphere(); g.add(m); ud.meshes.push(m);
+    });
+    /* solid bonds: covalent = neutral grey rod matching the legend; ionic = thinner, lighter reference line */
+    var solid = data.bonds.filter(function (b) { return b.kind === 'cov' || b.kind === 'ionic'; });
+    var covCol = new T.Color(dark ? '#687280' : '#8b939e'), ionCol = new T.Color(dark ? '#4d5562' : '#b2b9c2');
+    var halves = solid.map(function (b) {
+      var isIon = b.kind === 'ionic';
+      return { from: pos[b.a], to: pos[b.b], pair: b, r: (isIon ? 0.0046 : (o.bondR || 0.013)) * S, col: isIon ? ionCol : covCol };
+    });
+    function rodMatrix(A, B, r) {
+      var d = B.clone().sub(A), L = d.length();
+      Q.setFromUnitVectors(Y, d.normalize());
+      return M.compose(A.clone().add(B).multiplyScalar(0.5), Q, V.set(r, L, r));
+    }
+    var rods = null;
+    if (halves.length) {
+      rods = new T.InstancedMesh(cyl, new T.MeshPhongMaterial({ color: 0xffffff, shininess: 30 }), halves.length);
+      halves.forEach(function (h, k) {
+        rods.setMatrixAt(k, rodMatrix(h.from, h.to, h.r));
+        h.base = h.col; h.dim = h.base.clone().lerp(card, 0.86);
+        rods.setColorAt(k, h.base);
+      });
+      g.add(rods);
+    }
+    /* dashed: hydrogen bonds (--s4) and id-id forces (--mut), from sphere surface to sphere surface */
+    var dashes = [];
+    data.bonds.forEach(function (b) {
+      if (b.kind !== 'hb' && b.kind !== 'vdw') return;
+      var A = pos[b.a], B = pos[b.b], u = B.clone().sub(A), L = u.length(); u.normalize();
+      var s = A.clone().add(u.clone().multiplyScalar(rad[b.a] * 1.15)), e = B.clone().sub(u.clone().multiplyScalar(rad[b.b] * 1.15));
+      var len = s.distanceTo(e), unit = 0.034 * S, k = Math.max(2, Math.round((len + unit * 0.45) / unit)), dl = len / (k - 0.45);
+      for (var q = 0; q < k; q++) {
+        var p0 = s.clone().add(u.clone().multiplyScalar(q * dl)), p1 = p0.clone().add(u.clone().multiplyScalar(dl * 0.55));
+        dashes.push({ from: p0, to: p1, pair: b, kind: b.kind, r: (b.kind === 'hb' ? 0.0075 : 0.0052) * S });
+      }
+    });
+    var dmesh = null;
+    if (dashes.length) {
+      var hbC = api.color('--s4'), vdC = api.color('--mut');
+      dmesh = new T.InstancedMesh(cyl, new T.MeshBasicMaterial({ color: 0xffffff }), dashes.length);
+      dashes.forEach(function (h, k) {
+        dmesh.setMatrixAt(k, rodMatrix(h.from, h.to, h.r));
+        h.base = h.kind === 'hb' ? hbC : vdC; h.dim = h.base.clone().lerp(card, 0.86); dmesh.setColorAt(k, h.base);
+      });
+      g.add(dmesh);
+    }
+    /* unit cell: thin lines */
+    if (data.cell && data.cell.length) {
+      var pts = [];
+      data.cell.forEach(function (e) { pts.push(W(e[0]), W(e[1])); });
+      g.add(new T.LineSegments(new T.BufferGeometry().setFromPoints(pts),
+        new T.LineBasicMaterial({ color: api.color('--acc'), transparent: true, opacity: 0.78 })));
+    }
+    /* delocalised electrons: small dots doing a random walk inside the lattice (fixed seed, stratified start) */
+    ud.elec = null;
+    if (data.info.electrons) {
+      var rnd = K3.rng(o.seed || 7), lo = new T.Vector3(1e9, 1e9, 1e9), hi = new T.Vector3(-1e9, -1e9, -1e9);
+      pos.forEach(function (p) { lo.min(p); hi.max(p); });
+      var ne = Math.max(42, Math.round(N * 2.8)), ep = [], ev = [], er = 0.0145 * S, step = 0.012 * S;
+      var em = new T.InstancedMesh(new T.SphereGeometry(1, 10, 8), new T.MeshBasicMaterial({ color: api.color('--s1') }), ne);
+      for (var x = 0; x < ne; x++) {
+        var ox = x % 2, oy = (x >> 1) % 2, oz = (x >> 2) % 2;
+        ep.push(new T.Vector3(
+          lo.x + (ox * 0.47 + 0.03 + rnd() * 0.47) * (hi.x - lo.x),
+          lo.y + (oy * 0.47 + 0.03 + rnd() * 0.47) * (hi.y - lo.y),
+          lo.z + (oz * 0.47 + 0.03 + rnd() * 0.47) * (hi.z - lo.z)
+        ));
+        ev.push(new T.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).multiplyScalar(step));
+      }
+      var put = function () {
+        ep.forEach(function (p, x) { M.compose(p, I, V.set(er, er, er)); em.setMatrixAt(x, M); });
+        em.instanceMatrix.needsUpdate = true;
+      };
+      put(); g.add(em);
+      ud.elec = {
+        mesh: em, pos: ep,
+        step: function (k) {
+          for (var t = 0; t < (k || 1); t++) ep.forEach(function (p, x) {
+            var v = ev[x];
+            v.x += (rnd() - 0.5) * step * 0.6; v.y += (rnd() - 0.5) * step * 0.6; v.z += (rnd() - 0.5) * step * 0.6;
+            if (v.length() > step) v.setLength(step);
+            p.add(v);
+            ['x', 'y', 'z'].forEach(function (ax) {
+              if (p[ax] < lo[ax]) { p[ax] = lo[ax]; v[ax] = Math.abs(v[ax]); }
+              if (p[ax] > hi[ax]) { p[ax] = hi[ax]; v[ax] = -Math.abs(v[ax]); }
+            });
+          });
+          put();
+        }
+      };
+    }
+    ud.pos = pos;
+    ud.pick = function (ray) {
+      var hit = ray.intersectObjects(ud.meshes, false)[0];
+      return hit && hit.instanceId != null ? hit.object.userData.idx[hit.instanceId] : -1;
+    };
+    /* set = { atom index: true } to keep bright (everything else shrinks + fades toward card); null = all bright */
+    ud.highlight = function (set, focus) {
+      Object.keys(byEl).forEach(function (el) {
+        byEl[el].forEach(function (ai) {
+          var w = where[ai], onA = !set || set[ai], scA = !set ? 1 : ai === focus ? 1.12 : onA ? 1 : 0.72, rA = rad[ai] * scA;
+          M.compose(pos[ai], I, V.set(rA, rA, rA)); w[0].setMatrixAt(w[1], M);
+          w[0].setColorAt(w[1], onA ? base[el] : dimc[el]);
+        });
+      });
+      ud.meshes.forEach(function (m) { m.instanceColor.needsUpdate = true; m.instanceMatrix.needsUpdate = true; m.computeBoundingSphere(); });
+      function on(b) { return !set || (set[b.a] && set[b.b]); }
+      if (rods) {
+        halves.forEach(function (h, k) {
+          var ok = on(h.pair);
+          rods.setMatrixAt(k, rodMatrix(h.from, h.to, h.r * (ok ? 1 : 0.6)));
+          rods.setColorAt(k, ok ? h.base : h.dim);
+        });
+        rods.instanceColor.needsUpdate = true; rods.instanceMatrix.needsUpdate = true;
+      }
+      if (dmesh) {
+        dashes.forEach(function (h, k) {
+          var ok = on(h.pair);
+          dmesh.setMatrixAt(k, rodMatrix(h.from, h.to, h.r * (ok ? 1 : 0.6)));
+          dmesh.setColorAt(k, ok ? h.base : h.dim);
+        });
+        dmesh.instanceColor.needsUpdate = true; dmesh.instanceMatrix.needsUpdate = true;
+      }
+    };
+    ud.dispose = function () {
+      g.traverse(function (ob) {
+        if (ob.geometry) ob.geometry.dispose();
+        if (ob.material) ob.material.dispose();
+        if (ob.isInstancedMesh && ob.dispose) ob.dispose();
+      });
+    };
+    g.userData = ud;
+    return g;
+  };
+  // ---- end ch4: lattice ----
+
   window.K3 = K3;
 })();

@@ -1,0 +1,298 @@
+<h3>lattice 3D：九种晶格 <span class="faint">拖动旋转 · 滚轮缩放 · 指向 atom / ion 看名字和近邻</span></h3>
+<div class="lt-pick">
+  <div class="lt-grp"><span class="lt-gl">giant ionic</span><button data-k="nacl">NaCl</button><button data-k="mgo">MgO</button></div>
+  <div class="lt-grp"><span class="lt-gl">giant metallic</span><button data-k="cu">copper</button></div>
+  <div class="lt-grp"><span class="lt-gl">giant molecular</span><button data-k="diamond">diamond</button><button data-k="graphite">graphite</button><button data-k="sio2">SiO₂</button></div>
+  <div class="lt-grp"><span class="lt-gl">simple molecular</span><button data-k="i2">iodine</button><button data-k="c60">C₆₀</button><button data-k="ice">ice</button></div>
+</div>
+<div class="row lt-tools">
+  <span class="mut lt-nl">大小</span><button data-n="1">1</button><button data-n="2">2</button><button data-n="3">3</button>
+  <span class="faint lt-nt"></span>
+  <button data-3d="reset">复位视角</button><button data-3d="spin">自动旋转</button>
+  <button class="lt-real">实际大小</button><button class="lt-pause">暂停 electrons</button>
+</div>
+<div class="lt-main">
+  <div class="lt-left">
+    <div class="stage"><div class="hud"></div><div class="lt-tip"></div></div>
+    <div class="lt-legend"></div>
+  </div>
+  <div class="card lt-info"></div>
+</div>
+<div class="fallback card"><p><b>3D 没有加载</b> — <span class="why"></span>。下面是两张静态示意和九种晶格的对照表：</p>
+  <div class="lt-fbgrid">
+    <figure><svg viewBox="0 0 200 200" class="lt-fb-nacl" role="img" aria-label="NaCl layer"></svg>
+      <figcaption>NaCl 的一层：Na⁺（小，紫）和 Cl⁻（大，绿）交替排列</figcaption></figure>
+    <figure><svg viewBox="0 0 200 200" class="lt-fb-gr" role="img" aria-label="graphite layer"></svg>
+      <figcaption>graphite 的一层：每个 C 连 3 个 C，组成 hexagons</figcaption></figure>
+  </div>
+  <table class="lt-fbtab"><thead><tr><th>substance</th><th>type of structure</th><th>particles</th><th>把它们连起来的力</th></tr></thead><tbody></tbody></table>
+</div>
+<style>
+.k .lt-pick{display:flex;flex-wrap:wrap;gap:6px 14px;margin:4px 0 2px}
+.k .lt-grp{display:inline-flex;flex-wrap:wrap;align-items:center;gap:5px;padding:3px 7px 3px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.k .lt-gl{font-size:12.5px;color:var(--mut);margin-right:2px}
+.k .lt-tools{margin-top:6px;gap:6px}
+.k .lt-tools [data-n]{min-width:2.2em;padding:3px 8px}
+.k .lt-nt{font-size:12.5px;margin-right:6px}
+.k .lt-main{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-top:8px}
+.k .lt-left{flex:3 1 430px;min-width:0}
+.k .lt-main .stage{height:440px}
+.k .lt-main .stage .hud{font-size:12.5px}
+.k .lt-info{flex:1 1 260px;min-width:0;font-size:14px}
+.k .lt-info .lt-t{font-size:19px;font-weight:650;line-height:1.25}
+.k .lt-info .lt-ty{display:inline-block;font-size:13px;color:var(--acc);border:1px solid var(--acc);border-radius:10px;padding:0 8px;margin:4px 0 6px}
+.k .lt-info ul{padding-left:18px;margin:4px 0}
+.k .lt-info li{margin:3px 0}
+.k .lt-info .lt-note{font-size:13px;color:var(--mut);border-left:3px solid var(--line);padding:2px 0 2px 8px;margin-top:8px}
+.k .lt-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--fg);margin:6px 2px 0}
+.k .lt-legend span{display:inline-flex;align-items:center;gap:5px}
+.k .lt-legend i{display:inline-block;flex:none}
+.k .lt-legend .ball{width:13px;height:13px;border-radius:50%;box-shadow:inset -2px -2px 3px rgba(0,0,0,.28);outline:1px solid var(--line)}
+.k .lt-legend .rod{width:24px;height:4px;border-radius:2px}
+.k .lt-legend .dash{width:24px;height:0;border-top:3px dashed}
+.k .lt-legend .cell{width:24px;height:0;border-top:1px solid var(--acc)}
+.k .lt-legend .el{width:7px;height:7px;border-radius:50%;background:var(--s1)}
+.k .lt-tip{position:absolute;z-index:2;pointer-events:none;background:var(--fg);color:var(--bg);font-size:13px;line-height:1.4;padding:4px 8px;border-radius:5px;max-width:280px;display:none}
+.k .lt-tip.show{display:block}
+.k .lt-fbgrid{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.k .lt-fbgrid figure{margin:0;flex:1 1 200px;max-width:260px;border:1px solid var(--line);border-radius:6px;padding:6px;background:var(--card)}
+.k .lt-fbgrid figcaption{font-size:13px;line-height:1.4;margin-top:4px}
+.k .lt-fbtab{font-size:13.5px}
+/* without 3D the buttons, stage and info card have nothing to drive */
+.k[data-3d=fallback] .lt-pick,.k[data-3d=fallback] .lt-tools,.k[data-3d=fallback] .lt-main{display:none}
+</style>
+<script>
+/* what each structure is, in the words of 4.2 A–D. hud = key line on top of the 3D view */
+var LT = {
+  nacl: { t: 'sodium chloride, NaCl', ty: 'giant ionic', rx: 0.42, ry: -0.62, real: true,
+    hud: '细线只连最近的异号 ions；ionic bonding 作用于 all directions，不是一根根 bond',
+    li: ['Na⁺ 和 Cl⁻ 在三维里交替排列：<b>giant ionic lattice</b>，cubic',
+         '每个 Na⁺ 周围 6 个 Cl⁻，每个 Cl⁻ 周围 6 个 Na⁺：<b>6 : 6 coordination</b>（指向一个 ion 看它的 6 个近邻）',
+         'ionic bonding：oppositely charged ions 之间的 strong electrostatic attraction，作用于 all directions',
+         'ionic radius：Cl⁻ 0.181 nm，Na⁺ 0.095 nm；Na⁺ 嵌在 Cl⁻ 之间的空隙里',
+         'melting point 801 °C'],
+    note: '默认把 ions 缩小到实际大小的 0.55 倍，方便看清排列；点「实际大小」看 ions 几乎相切。' },
+  mgo: { t: 'magnesium oxide, MgO', ty: 'giant ionic', rx: 0.42, ry: -0.62, real: true,
+    hud: '细线只连最近的异号 ions；ionic bonding 作用于 all directions',
+    li: ['和 NaCl 同一种 lattice：Mg²⁺ 和 O²⁻ 交替，<b>6 : 6 coordination</b>',
+         'ionic radius：O²⁻ 0.140 nm，Mg²⁺ 0.065 nm',
+         'charge 是 NaCl 的两倍、ions 又更小 → attraction 强得多',
+         'melting point 2852 °C，远高于 NaCl 的 801 °C'],
+    note: '默认 ions 是实际大小的 0.55 倍；点「实际大小」切换。' },
+  cu: { t: 'copper, Cu', ty: 'giant metallic', rx: 0.42, ry: -0.62, real: true, elec: true,
+    hud: '蓝色小点 = sea of delocalised electrons（动画只是示意）',
+    li: ['positive copper ions 排成规则的层：cubic close packing（face-centred cubic）',
+         '每个 ion 有 <b>12</b> 个最近邻（指向一个 ion 看看）',
+         'metallic bonding：positive ions 与 sea of delocalised electrons 之间的 attraction，all directions',
+         '受力时 layers 滑过彼此、metallic bonds 立即重新形成 → malleable、ductile',
+         'delocalised electrons move through the structure → 导电'],
+    note: '默认 ions 是实际大小（0.128 nm）的 0.55 倍；点「实际大小」看 close packing。' },
+  diamond: { t: 'diamond, C', ty: 'giant molecular', rx: 0.42, ry: -0.62,
+    hud: '实线 = covalent bond（每个 C 4 根，tetrahedral）',
+    li: ['每个 C 以 strong covalent bonds 连 4 个 C，<b>tetrahedral</b>，bond angle 109.5°',
+         'C–C 0.154 nm；strong covalent bonds 贯穿整个 structure',
+         '4 个 outer electrons 全部用于 bonding → <b>no delocalised electrons</b> → does not conduct',
+         'very high melting point；very hard（drill tip）'],
+    note: '和 graphite 一样是 carbon 的 allotrope（同一 element 的不同 structural forms）。' },
+  graphite: { t: 'graphite, C', ty: 'giant molecular', rx: 0.38, ry: -0.5,
+    hud: '实线 = covalent bond · 虚线 = weak id-id forces between layers',
+    li: ['每个 C 连 3 个 C（120°），hexagons 组成平面 <b>layers</b>；C–C 0.142 nm',
+         'layers 之间 0.335 nm，只有 <b>weak id-id forces</b>（虚线）→ layers 容易 slide：soft、slippery',
+         '每个 C 的第 4 个 outer electron delocalised → delocalised electrons move along / between the layers → conducts',
+         'layer 内 strong covalent bonds → very high melting point',
+         '相邻 layers 错开（ABAB）：一半的 C 正对上下层的 C，另一半正对 hexagon 的中心'],
+    note: '「大小」= layer 数的一半（1 → 2 layers，3 → 6 layers）。' },
+  sio2: { t: 'silicon(IV) oxide, SiO₂', ty: 'giant molecular', rx: 0.42, ry: -0.62,
+    hud: '实线 = covalent bond · 每个 Si 连 4 个 O，每个 O 连 2 个 Si',
+    li: ['每个 Si 连 4 个 O（tetrahedral）、每个 O 连 2 个 Si → formula SiO₂',
+         'Si–O 0.161 nm；strong covalent bonds throughout → very high melting point（> 1600 °C），hard',
+         'no delocalised electrons → does not conduct',
+         '可以看成 diamond 里每个 C 换成 Si，每两个 Si 之间插一个 O'],
+    note: '这里画的是理想化的 β-cristobalite。quartz（sand 的主要成分）的排列不同，但同样是每个 Si 4 个 O、每个 O 2 个 Si。' },
+  i2: { t: 'iodine, I₂', ty: 'simple molecular', rx: 0.34, ry: -0.18,
+    hud: '实线 = I–I covalent bond（molecule 内）· 虚线 = weak id-id forces（molecules 之间）',
+    li: ['I₂ molecules 规则排列成 lattice（orthorhombic，face-centred）',
+         'molecule <b>内</b> I–I 0.27 nm（strong covalent bond）< molecules <b>之间</b>最近的 I···I ≈ 0.35 nm（weak id-id forces）',
+         '加热只需 overcome id-id forces → melting point 低，还会 sublime'],
+    note: '同一个 lattice 里有两种取向的 molecules（herringbone）。' },
+  c60: { t: 'buckminsterfullerene, C₆₀', ty: 'simple molecular', rx: 0.42, ry: -0.62,
+    hud: '实线 = covalent bond · 每个 C 连 3 个 C · 大小 2、3 = C₆₀ molecules 排成 face-centred cubic',
+    li: ['60 个 C 组成足球形的笼子：<b>12 pentagons + 20 hexagons</b>，每个 C 连 3 个 C',
+         '是 <b>simple molecule</b>，不是 giant structure：molecules 之间只有 weak intermolecular forces',
+         '→ 约 600 °C sublime、比较软、能少量溶于 methylbenzene',
+         '有一部分 electrons delocalised，但比 graphite 少 → conductivity 远不如 graphite'],
+    note: '「大小」1 = 一个 molecule，2 = 一个 face-centred cubic unit cell（14 个 molecules），3 = 2 × 2 × 2 个 unit cell。' },
+  ice: { t: 'ice, H₂O', ty: 'simple molecular', rx: 0.3, ry: -0.45,
+    hud: '实线 = O–H covalent bond（0.10 nm）· 橙色虚线 = hydrogen bond（0.18 nm）',
+    li: ['每个 O 周围 4 个 H：<b>2 个 covalent bond + 2 个 hydrogen bond</b>，tetrahedral 排列',
+         '相邻两个 O 之间正好 1 个 H：离一个 O 0.10 nm（covalent），离另一个 0.18 nm（hydrogen bond）；O···O 0.276 nm',
+         'hydrogen bonds 撑出空旷的 hexagonal <b>open lattice</b> → density 比 liquid water 小，ice 浮在水面上'],
+    note: '边上的 H₂O 只画出了一部分 hydrogen bonds（它们的另一半邻居在画面外）。hydrogen bonding 的细节见 chapter 3。' }
+};
+var NAMES = { Na: 'Na⁺ ion', Cl: 'Cl⁻ ion', Mg: 'Mg²⁺ ion', Cu: 'positive copper ion', C: 'C atom', Si: 'Si atom', I: 'I atom', H: 'H atom' };
+function ntText(k, n) {
+  return k === 'graphite' ? '共 ' + 2 * n + ' layers' :
+         k === 'c60' ? (n === 1 ? '1 个 molecule' : n === 2 ? '1 个 fcc unit cell（14 molecules）' : '2 × 2 × 2 fcc unit cells') :
+         k === 'ice' ? '每边 ' + (n + 1) + ' 个 hexagonal cells' : 'unit cells / 每边';
+}
+var FB = [['NaCl', 'giant ionic', 'Na⁺、Cl⁻ ions', 'ionic bonding'], ['MgO', 'giant ionic', 'Mg²⁺、O²⁻ ions', 'ionic bonding'],
+  ['copper', 'giant metallic', 'positive ions + delocalised electrons', 'metallic bonding'],
+  ['diamond', 'giant molecular', 'C atoms（4 bonds each）', 'covalent bonds throughout'],
+  ['graphite', 'giant molecular', 'C atoms（3 bonds each, layers）', 'covalent bonds；layers 之间 weak id-id forces'],
+  ['SiO₂', 'giant molecular', 'Si、O atoms', 'covalent bonds throughout'],
+  ['iodine', 'simple molecular', 'I₂ molecules', 'molecule 内 covalent；之间 id-id forces'],
+  ['C₆₀', 'simple molecular', 'C₆₀ molecules', 'molecule 内 covalent；之间 weak intermolecular forces'],
+  ['ice', 'simple molecular', 'H₂O molecules', 'molecule 内 covalent；之间 hydrogen bonds']];
+
+(function fallbackArt() {
+  var tb = $root.querySelector('.lt-fbtab tbody');
+  FB.forEach(function (r) { var tr = document.createElement('tr'); tr.innerHTML = r.map(function (c) { return '<td>' + c + '</td>'; }).join(''); tb.appendChild(tr); });
+  var s1 = $root.querySelector('.lt-fb-nacl'), i, j;
+  for (i = 0; i < 5; i++) for (j = 0; j < 5; j++) {
+    var cl = (i + j) % 2 === 0;
+    s1.appendChild(K.svg('circle', { cx: 20 + i * 40, cy: 20 + j * 40, r: cl ? 18 : 9.5, fill: cl ? K3.LCOL.Cl : K3.LCOL.Na, stroke: 'var(--line)' }));
+  }
+  var s2 = $root.querySelector('.lt-fb-gr'), A = 34, d = A / Math.sqrt(3), pts = [];
+  for (i = -4; i <= 5; i++) for (j = -4; j <= 5; j++) for (var s = 0; s < 2; s++) {
+    var x = 100 + i * A + j * A / 2, y = 100 + j * A * Math.sqrt(3) / 2 + s * d - d / 2;
+    if (x > 8 && x < 192 && y > 8 && y < 192) pts.push([x, y]);
+  }
+  pts.forEach(function (p, a) { pts.forEach(function (q, b) {
+    if (b > a && Math.abs(Math.hypot(p[0] - q[0], p[1] - q[1]) - d) < 0.5)
+      s2.appendChild(K.svg('line', { x1: p[0], y1: p[1], x2: q[0], y2: q[1], stroke: 'var(--mut)', 'stroke-width': 2.5 }));
+  }); });
+  pts.forEach(function (p) { s2.appendChild(K.svg('circle', { cx: p[0], cy: p[1], r: 5.5, fill: K3.LCOL.C })); });
+})();
+
+var LTS = { k: 'nacl', n: 1, real: false, paused: false, visible: true };
+K3.start($root, function (T, api) {
+  var holder = null, data = null, ray = new T.Raycaster(), stage = $root.querySelector('.stage'), tip = $root.querySelector('.lt-tip');
+  var canvas = api.renderer.domElement, hoverAt = -1, cc = api.color('--card'), dark = cc.r * 0.3 + cc.g * 0.59 + cc.b * 0.11 < 0.4;
+  function legend(d) {
+    var els = [], kinds = {};
+    d.atoms.forEach(function (a) { if (els.indexOf(a.el) < 0) els.push(a.el); });
+    d.bonds.forEach(function (b) { kinds[b.kind] = 1; });
+    var h = els.map(function (el) {
+      return '<span><i class="ball" style="background:' + K3.lcol(el, dark) + '"></i>' + nameOf({ el: el, name: NAMES[el] }) + '</span>';
+    });
+    if (kinds.cov) h.push('<span><i class="rod" style="background:var(--faint)"></i>covalent bond</span>');
+    if (kinds.ionic) h.push('<span><i class="rod" style="background:var(--faint);height:2px"></i>最近的异号 ions</span>');
+    if (kinds.hb) h.push('<span><i class="dash" style="border-color:var(--s4)"></i>hydrogen bond</span>');
+    if (kinds.vdw) h.push('<span><i class="dash" style="border-color:var(--mut)"></i>weak id-id forces</span>');
+    if (d.info.electrons) h.push('<span><i class="el"></i>delocalised electron</span>');
+    if (d.cell.length) h.push('<span><i class="cell"></i>unit cell</span>');
+    $root.querySelector('.lt-legend').innerHTML = h.join('');
+  }
+  function info(k) {
+    var m = LT[k];
+    $root.querySelector('.lt-info').innerHTML = '<div class="lt-t">' + m.t + '</div><span class="lt-ty">' + m.ty + '</span><ul>' +
+      m.li.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' + (m.note ? '<div class="lt-note">' + m.note + '</div>' : '');
+    $root.querySelector('.hud').textContent = m.hud;
+  }
+  function nameOf(a) {
+    if (LTS.k === 'mgo' && a.el === 'O') return 'O²⁻ ion';
+    return a.el === 'O' ? 'O atom' : a.name;
+  }
+  /* tooltip text for atom i: name + what its highlighted neighbours are */
+  function tipText(i) {
+    var a = data.atoms[i], nb = data.info.nb[i], k = LTS.k, t = '<b>' + nameOf(a) + '</b>';
+    if (k === 'nacl' || k === 'mgo') t += '：' + nb.length + ' 个最近的 ' + (nb.length ? nameOf(data.atoms[nb[0]]) : '') + '（' + data.info.d.toFixed(3) + ' nm）' + (nb.length < 6 ? '；在边上，另外的在画面外' : '');
+    else if (k === 'cu') t += '：' + nb.length + ' 个最近的 ions（' + data.info.d.toFixed(3) + ' nm）' + (nb.length < 12 ? '；在边上，另外的在画面外' : '');
+    else if (k === 'ice') {
+      var cov = 0, hb = 0;
+      data.bonds.forEach(function (b) { if (b.a === i || b.b === i) { if (b.kind === 'cov') cov++; if (b.kind === 'hb') hb++; } });
+      t += a.el === 'O' ? '：' + cov + ' 个 covalent O–H + ' + hb + ' 个 hydrogen bond' : '：covalent bond 连 1 个 O' + (hb ? '，hydrogen bond 连另一个 O' : '');
+    }
+    else if (k === 'i2') t += '：I–I covalent bond 0.267 nm（同一个 I₂ molecule）';
+    else t += '：' + nb.length + ' 个 covalent bond' + (k === 'graphite' ? '（layer ' + (a.layer + 1) + '）' : k === 'c60' ? '（C₆₀ molecule ' + (a.mol + 1) + '）' : '');
+    return t;
+  }
+  function hover(i, cx, cy) {
+    if (!holder) return;
+    hoverAt = i;
+    if (i < 0) { holder.userData.highlight(null); tip.classList.remove('show'); api.render(); return; }
+    var set = {}; set[i] = true;
+    data.info.nb[i].forEach(function (j) { set[j] = true; });
+    holder.userData.highlight(set, i);
+    tip.style.left = '0px'; tip.style.top = '0px';
+    tip.innerHTML = tipText(i); tip.classList.add('show');
+    var W = stage.clientWidth, H = stage.clientHeight, w = tip.offsetWidth, h = tip.offsetHeight;
+    var x = 10, y = H - h - 10;
+    if (cx < w + 36 && cy > H - h - 42) y = 36;
+    tip.style.left = Math.max(4, Math.min(W - w - 4, x)) + 'px';
+    tip.style.top = Math.max(32, Math.min(H - h - 4, y)) + 'px';
+    api.render();
+  }
+  function pickAt(cx, cy) {
+    var W = canvas.clientWidth, H = canvas.clientHeight;
+    ray.setFromCamera(new T.Vector2(cx / W * 2 - 1, -cy / H * 2 + 1), api.camera);
+    return holder.userData.pick(ray);
+  }
+  canvas.addEventListener('pointermove', function (e) {
+    if (e.buttons) { if (hoverAt >= 0) hover(-1); return; }
+    var r = canvas.getBoundingClientRect(), cx = e.clientX - r.left, cy = e.clientY - r.top, i = pickAt(cx, cy);
+    if (i !== hoverAt || i >= 0) hover(i, cx, cy);
+  });
+  canvas.addEventListener('pointerleave', function () { hover(-1); });
+
+  function show(k, n) {
+    if (holder) { api.group.remove(holder); holder.userData.dispose(); holder = null; }
+    hover(-1);
+    LTS.k = k; LTS.n = n;
+    var m = LT[k];
+    data = K3.lattice(k, n);
+    var bb = K3.latticeBounds(data), S = 2 / bb.R;
+    holder = K3.latticeMesh(T, api, data, { S: S, centre: bb.c, real: LTS.real && m.real, seed: 11,
+                                            bondR: k === 'c60' ? (n === 1 ? 0.011 : n === 2 ? 0.006 : 0.0045) : k === 'i2' ? 0.016 : k === 'ice' ? 0.011 : 0.013 });
+    api.group.add(holder);
+    /* bounding sphere of radius 2 → ~80 % of the canvas height (vertical FOV 40°; perspective makes the near
+       side bigger, so not tighter); shifted down by half the HUD strip */
+    api.rx = api.rx0 = m.rx; api.ry = api.ry0 = m.ry; api.dist = api.dist0 = 2 / Math.sin(20 * Math.PI / 180) * 1.22;
+    api.group.position.y = -0.17;
+    $root.querySelectorAll('[data-k]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-k') === k); });
+    $root.querySelectorAll('[data-n]').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-n') === n); });
+    $root.querySelector('.lt-nt').textContent = ntText(k, n);
+    var rb = $root.querySelector('.lt-real'), pb = $root.querySelector('.lt-pause');
+    rb.style.display = m.real ? '' : 'none'; rb.classList.toggle('on', LTS.real);
+    pb.style.display = m.elec ? '' : 'none';
+    legend(data); info(k);
+    api.view(); K.fit();
+  }
+  $root.querySelectorAll('[data-k]').forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-k'), LTS.n); }); });
+  $root.querySelectorAll('[data-n]').forEach(function (b) { b.addEventListener('click', function () { show(LTS.k, +b.getAttribute('data-n')); }); });
+  $root.querySelector('.lt-real').addEventListener('click', function () {
+    LTS.real = !LTS.real;
+    var rx = api.rx, ry = api.ry, dist = api.dist;
+    show(LTS.k, LTS.n); api.rx = rx; api.ry = ry; api.dist = dist; api.view();
+  });
+  var pbtn = $root.querySelector('.lt-pause');
+  pbtn.addEventListener('click', function () {
+    LTS.paused = !LTS.paused; pbtn.textContent = LTS.paused ? '继续 electrons' : '暂停 electrons'; pbtn.classList.toggle('on', LTS.paused);
+  });
+  /* electrons move only while the cell is on screen and not paused */
+  if (window.IntersectionObserver) new IntersectionObserver(function (es) { LTS.visible = es[0].isIntersecting; }).observe(stage);
+  (function loop() {
+    var e = holder && holder.userData.elec;
+    if (e && !LTS.paused && LTS.visible && document.visibilityState !== 'hidden') { e.step(1); api.render(); }
+    requestAnimationFrame(loop);
+  })();
+
+  /* test hooks */
+  $root.__lat = {
+    api: api, show: show, state: LTS,
+    data: function () { return data; },
+    tick: function (k) { var e = holder.userData.elec; if (e) { e.step(k); api.render(); } },
+    elec: function () { var e = holder.userData.elec; return e ? e.pos.map(function (p) { return [p.x, p.y, p.z]; }) : null; },
+    /* screen position (CSS px inside the canvas) of atom i, and whether it is the front-most thing there */
+    screen: function (i) {
+      var v = holder.userData.pos[i].clone(); holder.updateMatrixWorld(true); v.applyMatrix4(holder.matrixWorld).project(api.camera);
+      var x = (v.x + 1) / 2 * canvas.clientWidth, y = (1 - v.y) / 2 * canvas.clientHeight;
+      return { x: x, y: y, hit: pickAt(x, y) };
+    },
+    hovered: function () { return hoverAt; },
+    tip: function () { return tip.classList.contains('show') ? tip.textContent : ''; },
+    mem: function () { return { geo: api.renderer.info.memory.geometries, tex: api.renderer.info.memory.textures }; }
+  };
+  show('nacl', 1);
+});
+</script>
