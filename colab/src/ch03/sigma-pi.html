@@ -1,0 +1,562 @@
+<h3>σ bond 与 π bond：orbitals 怎样 overlap <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
+<div class="row sp-mols"><span class="sp-rl">molecule</span></div>
+<div class="row sp-slide">
+  <span class="sp-rl">把 atoms 拉近</span>
+  <span class="mut sp-end">分开</span><input type="range" class="sp-t" min="0" max="100" step="1" value="100" aria-label="把 atoms 拉近"><span class="mut sp-end">成键位置</span>
+  <span class="sp-tv"></span>
+</div>
+<div class="row sp-tools">
+  <span class="sp-rl">显示</span>
+  <button data-show="all">全部</button><button data-show="sigma">只看 σ</button><button data-show="pi">只看 π</button>
+  <span class="faint">｜</span>
+  <button data-3d="reset">复位视角</button><button data-3d="spin">自动旋转</button>
+</div>
+<div class="sp-main">
+  <div class="stage"><div class="hud"><b>每条 bond 都有 1 个 σ；double = 1σ + 1π；triple = 1σ + 2π</b> · <span class="sp-ks">■ σ</span> <span class="sp-kp">■ π</span> <span class="sp-kp2">■ 第二个 π</span></div></div>
+  <div class="card sp-info"></div>
+</div>
+<p class="sp-cap"></p>
+<p class="sp-ms"><b>为什么 π bond 先断</b>（electrophilic addition）：(pair of) electrons in π bond are <b>further away from the nuclei</b> so <b>weaker attraction</b>（反过来说：σ 的 electrons closer to the two nuclei so stronger attraction）。</p>
+<div class="fallback card"><p><b>3D 没有加载</b>（<span class="why"></span>），下面是 C₂H₄ 的 σ + π 侧视示意（molecular plane 侧着看是一条线）：</p>
+  <div class="sp-fb"></div>
+</div>
+<style>
+.k .sp-rl{display:inline-block;min-width:6.6em;color:var(--mut);font-size:13px}
+.k .sp-mols button{min-width:3.4em}
+.k .sp-slide{gap:8px}
+.k .sp-t{flex:0 1 260px;min-width:120px}
+.k .sp-end{font-size:13px}
+.k .sp-tv{font-size:13px;color:var(--fg);min-width:13em}
+.k .sp-main{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:8px}
+.k .sp-main .stage{flex:3 1 440px;width:auto;height:440px}
+.k .sp-main .stage .hud{font-size:12.5px}
+.k .sp-ks{color:var(--s1);font-weight:600}
+.k .sp-kp{color:var(--s2);font-weight:600}
+.k .sp-kp2{color:var(--s4);font-weight:600}
+.k .sp-info{flex:1 1 260px;min-width:0}
+.k .sp-f{font-size:22px;font-weight:650;line-height:1.25}
+.k .sp-cnt{display:flex;gap:14px;margin:8px 0 4px}
+.k .sp-cnt div{font-size:14px;color:var(--mut)}
+.k .sp-cnt b{display:block;font-size:26px;line-height:1.15}
+.k .sp-cnt .sp-cs b{color:var(--s1)}
+.k .sp-cnt .sp-cp b{color:var(--s2)}
+.k .sp-info table{width:100%;margin:6px 0;font-size:13.5px}
+.k .sp-info td:nth-child(2),.k .sp-info td:nth-child(3),.k .sp-info th:nth-child(2),.k .sp-info th:nth-child(3){text-align:center;white-space:nowrap}
+.k .sp-note{font-size:13.5px;color:var(--mut);margin:4px 0}
+.k .sp-cap{border-left:3px solid var(--s1);padding:2px 0 2px 9px;margin:8px 0 4px}
+.k .sp-ms{border-left:3px solid var(--s2);padding:2px 0 2px 9px;margin:4px 0;font-size:14px}
+.k .sp-fb svg{margin:6px auto 0}
+.k .sp-fb svg text{font-size:15px}
+</style>
+<script>
+var SP_ORDER = ['H2', 'Cl2', 'C2H6', 'C2H4', 'HCN', 'N2'];
+var SP_F = { H2: 'H₂', Cl2: 'Cl₂', C2H6: 'C₂H₆', C2H4: 'C₂H₄', HCN: 'HCN', N2: 'N₂' };
+var SP_BAND = { s: '--s1', p1: '--s2', p2: '--s4' };
+var SP_TAG = 26, SP_PHR = 22, SP_EL = 20;   /* on-screen heights (px) of σ / π tags, phrase tags, element letters */
+
+/* tiny vector helpers on plain arrays */
+function spAdd(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+function spSub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+function spMul(a, k) { return [a[0] * k, a[1] * k, a[2] * k]; }
+function spLen(a) { return Math.hypot(a[0], a[1], a[2]); }
+function spNorm(a) { var l = spLen(a); return [a[0] / l, a[1] / l, a[2] / l]; }
+
+/* ---------- species ----------
+   atoms: { el, p (bonded position), off (extra displacement at slider 0), r }
+   orbs:  { k: s | hyb | p, at, dir, len, w, band: s (σ) | p1 (π, first) | p2 (π, second) }
+   clouds (the bond, fading in near slider 1): { k: sig | pi, a, b, rad, ext, axis, h, band }
+   labels: { text, band, phase: orb | bond | both, kind: tag | phrase, on: { orb: i, f } | { cloud: i, side } | { plane: 1 }, pref } */
+function spH(c, u, d, g) { return { el: 'H', p: spAdd(c.p, spMul(u, d)), off: spAdd(c.off, spMul(u, g)), r: 0.15 }; }
+var SP = {
+  H2: function () {
+    return {
+      atoms: [{ el: 'H', p: [-0.45, 0, 0], off: [-0.8, 0, 0], r: 0.15 }, { el: 'H', p: [0.45, 0, 0], off: [0.8, 0, 0], r: 0.15 }],
+      orbs: [{ k: 's', at: 0, len: 0.5, band: 's' }, { k: 's', at: 1, len: 0.5, band: 's' }],
+      clouds: [{ k: 'sig', a: 0, b: 1, rad: 0.46, ext: 0.4, band: 's' }],
+      labels: [{ text: 's orbital', band: 's', phase: 'orb', on: { orb: 0, f: 0.6 }, pref: [0, 1, 0] },
+               { text: 's orbital', band: 's', phase: 'orb', on: { orb: 1, f: 0.6 }, pref: [0, 1, 0] },
+               { text: 'σ (s–s)', band: 's', phase: 'bond', on: { cloud: 0 }, pref: [0, 1, 0] },
+               { text: 'direct (end-on) overlap', band: 's', phase: 'bond', kind: 'phrase', on: { cloud: 0 }, pref: [0, -1, 0] }],
+      view: [0.32, -0.45], sigma: 1, pi: 0,
+      rows: [['H–H', 1, 0, 's–s']],
+      cap: '<b>H₂</b>：H 是 s-block，画<b>球形 s orbital</b>。两个 1s orbital 沿两个 nuclei 的连线 <b>direct overlap</b> → 1 个 σ bond；electron density 围住两个 nuclei、集中在连线上。'
+    };
+  },
+  Cl2: function () {
+    return {
+      atoms: [{ el: 'Cl', p: [-1.0, 0, 0], off: [-0.75, 0, 0], r: 0.24 }, { el: 'Cl', p: [1.0, 0, 0], off: [0.75, 0, 0], r: 0.24 }],
+      orbs: [{ k: 'hyb', at: 0, dir: [1, 0, 0], len: 1.3, band: 's' }, { k: 'hyb', at: 1, dir: [-1, 0, 0], len: 1.3, band: 's' }],
+      clouds: [{ k: 'sig', a: 0, b: 1, rad: 0.4, ext: 0.05, band: 's' }],
+      labels: [{ text: 'modified p orbital', band: 's', phase: 'orb', on: { orb: 0, f: 0.7 }, pref: [0, 1, 0] },
+               { text: 'σ (p–p)', band: 's', phase: 'bond', on: { cloud: 0 }, pref: [0, 1, 0] },
+               { text: 'p–p, direct (end-on) overlap', band: 's', phase: 'bond', kind: 'phrase', on: { cloud: 0 }, pref: [0, -1, 0] }],
+      view: [0.32, -0.42], sigma: 1, pi: 0,
+      rows: [['Cl–Cl', 1, 0, 'p–p（direct / end-on）']],
+      cap: '<b>Cl₂</b>：Cl 是 p-block。形成 σ bond 时每个 Cl 画一个「一大一小」的 <b>modified p orbital</b>，<b>大瓣相对</b>，沿连线 direct (end-on) overlap → 1 个 σ。（每个 Cl 的 3 个 lone pairs 没画）'
+    };
+  },
+  C2H6: function () {
+    var C1 = { el: 'C', p: [-0.78, 0, 0], off: [-0.75, 0, 0], r: 0.2 }, C2 = { el: 'C', p: [0.78, 0, 0], off: [0.75, 0, 0], r: 0.2 };
+    var s8 = Math.sqrt(8 / 9), atoms = [C1, C2], orbs = [{ k: 'hyb', at: 0, dir: [1, 0, 0], len: 0.82, band: 's' }, { k: 'hyb', at: 1, dir: [-1, 0, 0], len: 0.82, band: 's' }];
+    var clouds = [{ k: 'sig', a: 0, b: 1, rad: 0.34, ext: 0.12, band: 's' }];
+    [[0, -1, [90, 210, 330]], [1, 1, [270, 30, 150]]].forEach(function (q) {
+      q[2].forEach(function (ph) {
+        var a = ph * Math.PI / 180, u = [q[1] / 3, s8 * Math.cos(a), s8 * Math.sin(a)], i = atoms.length;
+        atoms.push(spH(atoms[q[0]], u, 1.12, 0.6));
+        orbs.push({ k: 'hyb', at: q[0], dir: u, len: 0.74, band: 's' }, { k: 's', at: i, len: 0.38, band: 's' });
+        clouds.push({ k: 'sig', a: q[0], b: i, rad: 0.27, ext: 0.22, band: 's' });
+      });
+    });
+    return {
+      atoms: atoms, orbs: orbs, clouds: clouds,
+      labels: [{ text: 'sp³', band: 's', phase: 'orb', on: { orb: 0, f: 0.8 }, pref: [0, -1, 0] },
+               { text: 's', band: 's', phase: 'orb', on: { orb: 3, f: 0.6 }, pref: [0, 1, 0] },
+               { text: 'σ (sp³–sp³)', band: 's', phase: 'bond', on: { cloud: 0 }, pref: [0, -1, 0] },
+               { text: 'σ (sp³–s)', band: 's', phase: 'bond', on: { cloud: 1 }, pref: [-1, 1, 0] },
+               { text: 'direct (end-on) overlap', band: 's', phase: 'bond', kind: 'phrase', on: { cloud: 0 }, pref: [0, -1, 0] }],
+      view: [0.3, -0.5], sigma: 7, pi: 0,
+      rows: [['C–C', 1, 0, 'sp³–sp³'], ['C–H × 6', 6, 0, 'sp³–s']],
+      cap: '<b>C₂H₆</b>：每个 C 是 <b>sp³</b>（4 个 σ，109.5°）。C–C 是 sp³–sp³ 的 σ，6 个 C–H 是 sp³–s 的 σ。全是 single bond → <b>7σ、0π</b>。'
+    };
+  },
+  C2H4: function () {
+    var C1 = { el: 'C', p: [-0.65, 0, 0], off: [-0.8, 0, 0], r: 0.2 }, C2 = { el: 'C', p: [0.65, 0, 0], off: [0.8, 0, 0], r: 0.2 };
+    var atoms = [C1, C2], c3 = Math.sqrt(3) / 2;
+    var orbs = [{ k: 'hyb', at: 0, dir: [1, 0, 0], len: 0.8, band: 's' }, { k: 'hyb', at: 1, dir: [-1, 0, 0], len: 0.8, band: 's' },
+                { k: 'p', at: 0, dir: [0, 1, 0], len: 0.82, w: 0.36, band: 'p1' }, { k: 'p', at: 1, dir: [0, 1, 0], len: 0.82, w: 0.36, band: 'p1' }];
+    var clouds = [{ k: 'sig', a: 0, b: 1, rad: 0.28, ext: 0.12, band: 's' }, { k: 'pi', a: 0, b: 1, axis: [0, 1, 0], h: 0.6, rad: 0.3, ext: 0.4, band: 'p1' }];
+    [[0, [-0.5, 0, -c3]], [0, [-0.5, 0, c3]], [1, [0.5, 0, -c3]], [1, [0.5, 0, c3]]].forEach(function (q) {
+      var i = atoms.length;
+      atoms.push(spH(atoms[q[0]], q[1], 1.1, 0.55));
+      orbs.push({ k: 'hyb', at: q[0], dir: q[1], len: 0.72, band: 's' }, { k: 's', at: i, len: 0.38, band: 's' });
+      clouds.push({ k: 'sig', a: q[0], b: i, rad: 0.26, ext: 0.22, band: 's' });
+    });
+    return {
+      atoms: atoms, orbs: orbs, clouds: clouds, plane: true,
+      labels: [{ text: 'sp²', band: 's', phase: 'orb', on: { orb: 0, f: 0.8 }, pref: [0, -1, 0.4] },
+               { text: 'p', band: 'p1', phase: 'orb', on: { orb: 2, f: 0.8 }, pref: [0, 1, 0] },
+               { text: 'p', band: 'p1', phase: 'orb', on: { orb: 3, f: 0.8 }, pref: [0, 1, 0] },
+               { text: 's', band: 's', phase: 'orb', on: { orb: 7, f: 0.6 }, pref: [0, 0, 1] },
+               { text: 'σ (sp²–sp²)', band: 's', phase: 'bond', on: { cloud: 0 }, pref: [0, -0.4, 1] },
+               { text: 'σ (sp²–s)', band: 's', phase: 'bond', on: { cloud: 5 }, pref: [1, 0, 1] },
+               { text: 'π (p–p)', band: 'p1', phase: 'bond', on: { cloud: 1, side: 1 }, pref: [0, 1, 0] },
+               { text: 'π', band: 'p1', phase: 'bond', on: { cloud: 1, side: -1 }, pref: [0, -1, 0] },
+               { text: 'sideways overlap of adjacent p orbitals', band: 'p1', phase: 'bond', kind: 'phrase', on: { cloud: 1, side: 1 }, pref: [0, 1, 0] },
+               { text: 'direct (end-on) overlap', band: 's', phase: 'bond', kind: 'phrase', on: { cloud: 0 }, pref: [0, -1, 1] },
+               { text: 'molecular plane', band: 'plane', phase: 'both', kind: 'phrase', on: { plane: 1 }, pref: [-1, 0, 1] }],
+      view: [0.42, -0.5], sigma: 5, pi: 1,
+      rows: [['C=C', 1, 1, 'σ：sp²–sp²<br>π：p–p'], ['C–H × 4', 4, 0, 'sp²–s']],
+      cap: '<b>C₂H₄</b>：每个 C 是 <b>sp²</b>（3 个 σ 在同一平面，120°），剩下 1 个 <b>p orbital 垂直于 molecular plane</b>。两个 p <b>sideways overlap</b> → π：electron density 在 σ bond 的<b>上方和下方两团</b>，合起来是<b>一个</b> π bond（2 个 electrons）。6 个 atoms 全在灰色的 molecular plane 上。'
+    };
+  },
+  HCN: function () {
+    var atoms = [{ el: 'H', p: [-1.15, 0, 0], off: [-0.8, 0, 0], r: 0.15 }, { el: 'C', p: [-0.05, 0, 0], off: [0, 0, 0], r: 0.2 },
+                 { el: 'N', p: [1.1, 0, 0], off: [0.8, 0, 0], r: 0.2 }];
+    var orbs = [{ k: 's', at: 0, len: 0.4, band: 's' }, { k: 'hyb', at: 1, dir: [-1, 0, 0], len: 0.74, band: 's' },
+                { k: 'hyb', at: 1, dir: [1, 0, 0], len: 0.78, band: 's' }, { k: 'hyb', at: 2, dir: [-1, 0, 0], len: 0.78, band: 's' },
+                { k: 'p', at: 1, dir: [0, 1, 0], len: 0.74, w: 0.32, band: 'p1' }, { k: 'p', at: 2, dir: [0, 1, 0], len: 0.74, w: 0.32, band: 'p1' },
+                { k: 'p', at: 1, dir: [0, 0, 1], len: 0.74, w: 0.32, band: 'p2' }, { k: 'p', at: 2, dir: [0, 0, 1], len: 0.74, w: 0.32, band: 'p2' }];
+    var clouds = [{ k: 'sig', a: 0, b: 1, rad: 0.27, ext: 0.25, band: 's' }, { k: 'sig', a: 1, b: 2, rad: 0.24, ext: 0.1, band: 's' },
+                  { k: 'pi', a: 1, b: 2, axis: [0, 1, 0], h: 0.58, rad: 0.21, ext: 0.36, band: 'p1' },
+                  { k: 'pi', a: 1, b: 2, axis: [0, 0, 1], h: 0.58, rad: 0.21, ext: 0.36, band: 'p2' }];
+    return {
+      atoms: atoms, orbs: orbs, clouds: clouds,
+      labels: [{ text: 's', band: 's', phase: 'orb', on: { orb: 0, f: 0.6 }, pref: [-1, 0.5, 0] },
+               { text: 'sp', band: 's', phase: 'orb', on: { orb: 2, f: 0.8 }, pref: [0, -1, 0] },
+               { text: 'p', band: 'p1', phase: 'orb', on: { orb: 4, f: 0.8 }, pref: [0, 1, 0] },
+               { text: 'p', band: 'p2', phase: 'orb', on: { orb: 6, f: 0.8 }, pref: [0, 0, 1] },
+               { text: 'σ (s–sp)', band: 's', phase: 'bond', on: { cloud: 0 }, pref: [-1, -1, 0] },
+               { text: 'σ (sp–sp)', band: 's', phase: 'bond', on: { cloud: 1 }, pref: [0, -1, 0] },
+               { text: 'π', band: 'p1', phase: 'bond', on: { cloud: 2, side: 1 }, pref: [0, 1, 0] },
+               { text: 'π', band: 'p2', phase: 'bond', on: { cloud: 3, side: 1 }, pref: [0, 0, 1] },
+               { text: 'sideways overlap of adjacent p orbitals', band: 'p1', phase: 'bond', kind: 'phrase', on: { cloud: 2, side: 1 }, pref: [0, 1, 0] },
+               { text: 'direct (end-on) overlap', band: 's', phase: 'bond', kind: 'phrase', on: { cloud: 0 }, pref: [0, -1, 0] }],
+      view: [0.22, -1.0], sigma: 2, pi: 2,
+      rows: [['H–C', 1, 0, 's–sp'], ['C≡N', 1, 2, 'σ：sp–sp<br>2 个 π：p–p']],
+      cap: '<b>HCN</b>：C 是 <b>sp</b>（2 个 σ，180°），剩下 <b>2 个互相垂直的 p</b>。C≡N = 1σ + 2π：一个 π 在上下（红），另一个在前后（橙），<b>两个 π 互相垂直</b>。（N 的 lone pair 没画）'
+    };
+  },
+  N2: function () {
+    var atoms = [{ el: 'N', p: [-0.58, 0, 0], off: [-0.8, 0, 0], r: 0.2 }, { el: 'N', p: [0.58, 0, 0], off: [0.8, 0, 0], r: 0.2 }];
+    var orbs = [{ k: 'hyb', at: 0, dir: [1, 0, 0], len: 0.8, band: 's' }, { k: 'hyb', at: 1, dir: [-1, 0, 0], len: 0.8, band: 's' },
+                { k: 'p', at: 0, dir: [0, 1, 0], len: 0.74, w: 0.32, band: 'p1' }, { k: 'p', at: 1, dir: [0, 1, 0], len: 0.74, w: 0.32, band: 'p1' },
+                { k: 'p', at: 0, dir: [0, 0, 1], len: 0.74, w: 0.32, band: 'p2' }, { k: 'p', at: 1, dir: [0, 0, 1], len: 0.74, w: 0.32, band: 'p2' }];
+    var clouds = [{ k: 'sig', a: 0, b: 1, rad: 0.24, ext: 0.1, band: 's' },
+                  { k: 'pi', a: 0, b: 1, axis: [0, 1, 0], h: 0.58, rad: 0.21, ext: 0.36, band: 'p1' },
+                  { k: 'pi', a: 0, b: 1, axis: [0, 0, 1], h: 0.58, rad: 0.21, ext: 0.36, band: 'p2' }];
+    return {
+      atoms: atoms, orbs: orbs, clouds: clouds,
+      labels: [{ text: 'p', band: 'p1', phase: 'orb', on: { orb: 2, f: 0.8 }, pref: [0, 1, 0] },
+               { text: 'p', band: 'p2', phase: 'orb', on: { orb: 4, f: 0.8 }, pref: [0, 0, 1] },
+               { text: 'σ', band: 's', phase: 'bond', on: { cloud: 0 }, pref: [0, -1, 0] },
+               { text: 'π', band: 'p1', phase: 'bond', on: { cloud: 1, side: 1 }, pref: [0, 1, 0] },
+               { text: 'π', band: 'p2', phase: 'bond', on: { cloud: 2, side: 1 }, pref: [0, 0, 1] },
+               { text: 'sideways overlap of adjacent p orbitals', band: 'p1', phase: 'bond', kind: 'phrase', on: { cloud: 1, side: 1 }, pref: [0, 1, 0] },
+               { text: 'direct (end-on) overlap', band: 's', phase: 'bond', kind: 'phrase', on: { cloud: 0 }, pref: [0, -1, 0] }],
+      view: [0.22, -1.0], sigma: 1, pi: 2,
+      rows: [['N≡N', 1, 2, 'σ：direct overlap<br>π：sideways overlap of adjacent p orbitals']],
+      cap: '<b>N₂</b>：N≡N = <b>1σ + 2π</b>。σ 是 <b>direct</b> overlap（沿连线），π 是 <b>sideways overlap of adjacent p orbitals</b>；两个 π <b>互相垂直</b>（红 = 上下，橙 = 前后）。（每个 N 的 lone pair 没画）'
+    };
+  }
+};
+
+var sp = { id: 'C2H4', t: 1, show: 'all' };
+var spS = null;   /* current species spec */
+var spInfo = $root.querySelector('.sp-info'), spRange = $root.querySelector('.sp-t');
+
+/* ---------- controls ---------- */
+SP_ORDER.forEach(function (id) {
+  var b = K.el('button', { 'data-sp': id }, SP_F[id]);
+  $root.querySelector('.sp-mols').appendChild(b);
+  b.addEventListener('click', function () { sp.id = id; spSpecies(true); });
+});
+$root.querySelectorAll('[data-show]').forEach(function (b) {
+  b.addEventListener('click', function () { sp.show = b.getAttribute('data-show'); spUpdate(); });
+});
+spRange.addEventListener('input', function () { sp.t = +spRange.value / 100; spUpdate(); });
+
+function spSmooth(a, b, x) { var u = Math.max(0, Math.min(1, (x - a) / (b - a))); return u * u * (3 - 2 * u); }
+function spPhase() { return sp.t >= 0.7 ? 'bond' : 'orb'; }
+function spBandOn(band) { return band === 'plane' || (band === 's' ? sp.show !== 'pi' : sp.show !== 'sigma'); }
+
+function spPanel() {
+  var S = spS;
+  var rows = S.rows.map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td><td>' + r[3] + '</td></tr>'; }).join('');
+  spInfo.innerHTML = '<div class="sp-f">' + SP_F[sp.id] + '</div>' +
+    '<div class="sp-cnt"><div class="sp-cs">σ bonds<b class="sp-ns">' + S.sigma + '</b></div><div class="sp-cp">π bonds<b class="sp-np">' + S.pi + '</b></div></div>' +
+    '<table><thead><tr><th>bond</th><th>σ</th><th>π</th><th>overlap 的 orbitals</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<p class="sp-note">数法：每一条线（不管单、双、三）都有且只有 1 个 σ，多出来的才是 π。</p>' +
+    (sp.show === 'pi' && !S.pi ? '<p class="sp-note sp-nopi"><b>' + SP_F[sp.id] + ' 没有 π bond</b>：只看 π 时只剩下 atoms。</p>' : '');
+  $root.querySelector('.sp-cap').innerHTML = S.cap;
+}
+function spControls() {
+  $root.querySelectorAll('[data-sp]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-sp') === sp.id); });
+  $root.querySelectorAll('[data-show]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-show') === sp.show); });
+  var tv = sp.t <= 0 ? 'atoms 分开：orbitals 还没 overlap' : sp.t >= 1 ? '成键位置：orbitals overlap' : '靠近中…（' + Math.round(sp.t * 100) + '%）';
+  $root.querySelector('.sp-tv').textContent = tv;
+  $root.setAttribute('data-sp', sp.id); $root.setAttribute('data-show', sp.show); $root.setAttribute('data-t', sp.t.toFixed(2));
+}
+
+/* ---------- 3D ---------- */
+var spApi = null, spT = null, spHold = null, spMol = null, spOrbG = null, spLabG = null, spTags = [], spObst = [], spTimer = null;
+
+function spSrgb(sp_) { var m = sp_.material.map; if (m && m.colorSpace !== spT.SRGBColorSpace) { m.colorSpace = spT.SRGBColorSpace; m.needsUpdate = true; } return sp_; }
+function spPos(i) { var a = spS.atoms[i]; return spAdd(a.p, spMul(a.off, 1 - sp.t)); }
+function spCol(band) { return spApi.color(band === 'plane' ? '--mut' : SP_BAND[band]); }
+function spDispose(g) {
+  g.traverse(function (o) { if (o.geometry) o.geometry.dispose(); if (o.material && !o.material.map) o.material.dispose(); });
+  while (g.children.length) g.remove(g.children[0]);
+}
+
+/* where every cloud sits for the current slider value (between the atoms' current positions) */
+function spCloud(c) {
+  var A = spPos(c.a), B = spPos(c.b), u = spNorm(spSub(B, A)), d = spLen(spSub(B, A)), mid = spMul(spAdd(A, B), 0.5);
+  return { mid: mid, u: u, half: d / 2 + c.ext, d: d };
+}
+function spEllipsoid(T, centre, ex, ey, ez, sx, sy, sz, color, op) {
+  var m = new T.Mesh(new T.SphereGeometry(1, 40, 24), new T.MeshPhongMaterial({ color: color, transparent: true, opacity: op, shininess: 40,
+    side: T.DoubleSide, depthWrite: false }));
+  var M = new T.Matrix4().makeBasis(new T.Vector3().fromArray(ex), new T.Vector3().fromArray(ey), new T.Vector3().fromArray(ez));
+  m.quaternion.setFromRotationMatrix(M); m.scale.set(sx, sy, sz); m.position.fromArray(centre);
+  return m;
+}
+function spPerp(u, axis) {   /* frame (u, axis', w) with axis' ⟂ u */
+  var a = axis || (Math.abs(u[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0]);
+  var d = u[0] * a[0] + u[1] * a[1] + u[2] * a[2], y = spNorm(spSub(a, spMul(u, d)));
+  var w = [u[1] * y[2] - u[2] * y[1], u[2] * y[0] - u[0] * y[2], u[0] * y[1] - u[1] * y[0]];
+  return [y, w];
+}
+
+/* rebuild orbitals + clouds + plane for the current slider value; records obstacle circles (local) for label placement */
+function spBuildOrbs() {
+  var T = spT, api = spApi, S = spS, s = spSmooth(0.6, 1, sp.t);
+  spDispose(spOrbG); spObst = [];
+  var opO = 0.5 - 0.4 * s, opC = 0.52 * s;
+  S.atoms.forEach(function (a, i) {
+    var P = spPos(i); spMol.userData.atoms[i].position.fromArray(P);
+    if (spMol.userData.tags[i]) spMol.userData.tags[i].position.fromArray(P);
+    spObst.push({ p: P, r: a.r, w: 5, atom: 1 });
+  });
+  S.orbs.forEach(function (o, oi) {
+    var on = spBandOn(o.band), col = spCol(o.band), P = spPos(o.at), m;
+    if (o.k === 's') {
+      m = new T.Mesh(new T.SphereGeometry(o.len, 32, 20), new T.MeshPhongMaterial({ color: col, transparent: true, opacity: opO, shininess: 40, side: T.DoubleSide, depthWrite: false }));
+      m.position.fromArray(P);
+      if (on) spObst.push({ p: P, r: o.len * 0.9, w: 1 });
+    } else if (o.k === 'hyb') {
+      m = K3.hybrid(T, P, o.dir, o.len, col, opO);
+      if (on) [0.4, 0.65, 0.88].forEach(function (f) { spObst.push({ p: spAdd(P, spMul(spNorm(o.dir), o.len * f)), r: o.len * 0.3, w: 1 }); });
+    } else {
+      m = new T.Group(); var d = spNorm(o.dir);
+      m.add(K3.lobe(T, P, d, o.len, o.w, col, opO)); m.add(K3.lobe(T, P, spMul(d, -1), o.len, o.w, col, opO));
+      if (on) [1, -1].forEach(function (sg) { [0.45, 0.8].forEach(function (f) { spObst.push({ p: spAdd(P, spMul(d, sg * o.len * f)), r: o.w * 0.85, w: 1 }); }); });
+    }
+    m.visible = on; m.renderOrder = 2; m.userData = { band: o.band, orb: oi }; spOrbG.add(m);
+  });
+  S.clouds.forEach(function (c, ci) {
+    var g = spCloud(c), on = spBandOn(c.band), col = spCol(c.band), grp = new T.Group();
+    if (c.k === 'sig') {
+      var f = spPerp(g.u);
+      grp.add(spEllipsoid(T, g.mid, g.u, f[0], f[1], g.half, c.rad, c.rad, col, opC));
+      if (on && s > 0.05) [-0.6, -0.3, 0, 0.3, 0.6].forEach(function (k) { spObst.push({ p: spAdd(g.mid, spMul(g.u, k * g.half)), r: c.rad, w: 1 }); });
+    } else {
+      var q = spPerp(g.u, c.axis);
+      [1, -1].forEach(function (sg) {
+        var ctr = spAdd(g.mid, spMul(q[0], sg * c.h));
+        grp.add(spEllipsoid(T, ctr, g.u, q[0], q[1], g.half, c.rad, c.rad * 1.2, col, opC));
+        if (on && s > 0.05) [-0.55, 0, 0.55].forEach(function (k) { spObst.push({ p: spAdd(ctr, spMul(g.u, k * g.half)), r: c.rad, w: 1 }); });
+      });
+    }
+    grp.visible = on && s > 0.001; grp.renderOrder = 3; grp.userData = { band: c.band, cloud: ci, k: c.k, mid: g.mid, axis: c.k === 'pi' ? spPerp(g.u, c.axis)[0] : null, h: c.h, u: g.u };
+    grp.children.forEach(function (ch) { ch.renderOrder = 3; });
+    spOrbG.add(grp);
+  });
+  /* Phong shading darkens the translucent colours (dark red / brown on white): lift them with some emissive */
+  spOrbG.traverse(function (o) { if (o.isMesh && o.material.emissive) o.material.emissive.copy(o.material.color).multiplyScalar(0.35); });
+  if (S.plane) {   /* C₂H₄: the molecular plane (x–z), sized to the atoms */
+    var lo = [1e9, 1e9], hi = [-1e9, -1e9];
+    S.atoms.forEach(function (a, i) { var P = spPos(i); lo[0] = Math.min(lo[0], P[0]); hi[0] = Math.max(hi[0], P[0]); lo[1] = Math.min(lo[1], P[2]); hi[1] = Math.max(hi[1], P[2]); });
+    var mg = 0.5, x0 = lo[0] - mg, x1 = hi[0] + mg, z0 = lo[1] - mg, z1 = hi[1] + mg;
+    var pg = new T.PlaneGeometry(x1 - x0, z1 - z0);
+    var pl = new T.Mesh(pg, new T.MeshBasicMaterial({ color: api.color('--faint'), transparent: true, opacity: 0.16, side: T.DoubleSide, depthWrite: false }));
+    pl.rotation.x = -Math.PI / 2; pl.position.set((x0 + x1) / 2, 0, (z0 + z1) / 2); pl.renderOrder = 1;
+    var edge = new T.LineLoop(new T.BufferGeometry().setFromPoints([new T.Vector3(x0, 0, z0), new T.Vector3(x1, 0, z0), new T.Vector3(x1, 0, z1), new T.Vector3(x0, 0, z1)]),
+      new T.LineBasicMaterial({ color: api.color('--faint'), transparent: true, opacity: 0.8 }));
+    pl.userData = { band: 'plane', corner: [x0, 0, z1] }; edge.userData = { band: 'plane' };
+    spOrbG.add(pl); spOrbG.add(edge);
+  }
+}
+
+/* ---------- labels: screen-space placement with a leader line ---------- */
+function spWpp(depth) { var H = spApi.renderer.domElement.clientHeight || 440; return 2 * Math.tan(20 * Math.PI / 180) * depth / H; }
+function spProj(v) {
+  var T = spT, w = spHold.localToWorld(new T.Vector3(v[0], v[1], v[2])), cam = spApi.camera, el = spApi.renderer.domElement;
+  var q = w.clone().project(cam), W = el.clientWidth, H = el.clientHeight, depth = w.distanceTo(cam.position);
+  return { x: (q.x + 1) / 2 * W, y: (1 - q.y) / 2 * H, z: q.z, ppu: 1 / spWpp(depth), W: W, H: H };
+}
+function spUnproj(x, y, z) {
+  var el = spApi.renderer.domElement, v = new spT.Vector3(x / el.clientWidth * 2 - 1, 1 - y / el.clientHeight * 2, z).unproject(spApi.camera);
+  return spHold.worldToLocal(v);
+}
+function spRectCircle(r, c) {
+  var dx = Math.max(r.x - c.x, 0, c.x - (r.x + r.w)), dy = Math.max(r.y - c.y, 0, c.y - (r.y + r.h));
+  return Math.max(0, c.r - Math.hypot(dx, dy));
+}
+function spRectRect(a, b) {
+  var ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+  return ox > 0 && oy > 0 ? Math.min(ox, oy) : 0;
+}
+function spSegRect(s, r) {
+  var worst = 0;
+  for (var i = 1; i < 12; i++) worst = Math.max(worst, spRectCircle(r, { x: s[0] + (s[2] - s[0]) * i / 12, y: s[1] + (s[3] - s[1]) * i / 12, r: 3 }));
+  return worst;
+}
+function spAnchor(L) {
+  var on = L.on, ud;
+  if (on.plane) { ud = spOrbG.children.filter(function (c) { return c.userData.corner; })[0]; return ud ? ud.userData.corner : [0, 0, 0]; }
+  if (on.cloud != null) {
+    var c = spS.clouds[on.cloud], g = spCloud(c);
+    if (c.k === 'pi') return spAdd(g.mid, spMul(spPerp(g.u, c.axis)[0], (on.side || 1) * c.h));
+    return g.mid;
+  }
+  var o = spS.orbs[on.orb], P = spPos(o.at);
+  return o.k === 's' ? P : spAdd(P, spMul(spNorm(o.dir), o.len * on.f));
+}
+function spTagPx(t) { return t.userData.L.kind === 'phrase' ? SP_PHR : SP_TAG; }
+function spPlace() {
+  if (!spApi || !spS) return;
+  spApi.scene.updateMatrixWorld(true);
+  spDispose(spLabG);
+  var hud = ($root.querySelector('.stage .hud') || { offsetHeight: 24 }).offsetHeight, phase = spPhase();
+  var obst = spObst.map(function (o) { var q = spProj(o.p); return { x: q.x, y: q.y, r: Math.max(o.r * q.ppu, o.atom ? SP_EL * 0.62 : 0), w: o.w }; });
+  var placed = [], leaders = [];
+  /* anchors of every visible label are kept clear too, so no label hides what another one points at */
+  var act = spTags.filter(function (t) { var L = t.userData.L; return (L.phase === 'both' || L.phase === phase) && spBandOn(L.band); });
+  var anc = act.map(function (t) { return spProj(spAnchor(t.userData.L)); });
+  spTags.forEach(function (t) { t.visible = false; });
+  act.forEach(function (t, ti) {
+    var L = t.userData.L, A = spAnchor(L), q = anc[ti], h = spTagPx(t), w = h * t.userData.aspect;
+    var pq = spProj(spAdd(A, L.pref || [0, 1, 0])), pd = [pq.x - q.x, pq.y - q.y], pl = Math.hypot(pd[0], pd[1]) || 1;
+    pd = [pd[0] / pl, pd[1] / pl];
+    var best = null;
+    for (var k = 0; k < 24; k++) {
+      var th = k * Math.PI / 12, dx = Math.cos(th), dy = Math.sin(th);
+      [34, 52, 74, 100, 130, 165, 205].forEach(function (dist) {
+        /* the rect's nearest edge sits `dist` from the anchor along (dx, dy) */
+        var cx = q.x + dx * (dist + Math.abs(dx) * w / 2), cy = q.y + dy * (dist + Math.abs(dy) * h / 2);
+        var r = { x: cx - w / 2, y: cy - h / 2, w: w, h: h }, rp = { x: r.x - 3, y: r.y - 3, w: w + 6, h: h + 6 };
+        var bad = 0;
+        obst.forEach(function (o) { bad += spRectCircle(rp, o) * (o.w || 1); });
+        anc.forEach(function (a, j) { bad += spRectCircle(rp, { x: a.x, y: a.y, r: 8 }) * 6; });
+        placed.forEach(function (o) { bad += spRectRect(rp, o) * 8 + (spRectRect({ x: rp.x - 5, y: rp.y - 5, w: rp.w + 10, h: rp.h + 10 }, o) ? 6 : 0); });
+        var seg = [q.x, q.y, cx, cy];
+        placed.forEach(function (o) { bad += spSegRect(seg, o) * 4; });
+        leaders.forEach(function (s) { /* a new rect must not sit on an existing leader */ bad += spSegRect(s, rp) * 3; });
+        if (r.x < 4 || r.y < hud + 4 || r.x + r.w > q.W - 4 || r.y + r.h > q.H - 4) bad += 400;
+        var score = bad + dist * 0.06 - (dx * pd[0] + dy * pd[1]) * 9;
+        if (!best || score < best.score) best = { score: score, r: r, cx: cx, cy: cy, dx: dx, dy: dy, dist: dist };
+      });
+    }
+    placed.push(best.r);
+    var start = [q.x + best.dx * 6, q.y + best.dy * 6];
+    leaders.push([start[0], start[1], best.cx, best.cy]);
+    var P = spUnproj(best.cx, best.cy, q.z);
+    t.position.copy(P); t.visible = true; t.userData.rect = best.r; t.userData.anchor = A;
+    var S0 = spUnproj(start[0], start[1], q.z);
+    var ln = new spT.Line(new spT.BufferGeometry().setFromPoints([S0, P]),
+      new spT.LineBasicMaterial({ color: spCol(L.band), depthTest: false, transparent: true, opacity: 0.9 }));
+    ln.renderOrder = 19; spLabG.add(ln);
+    var dot = new spT.Mesh(new spT.SphereGeometry(1, 10, 8), new spT.MeshBasicMaterial({ color: spCol(L.band), depthTest: false, transparent: true }));
+    dot.position.fromArray(A); dot.renderOrder = 19; dot.userData.dot = 1; spLabG.add(dot);
+  });
+  spSize();
+}
+/* keep every sprite a constant size on screen */
+function spSize() {
+  if (!spApi) return;
+  var cam = spApi.camera, v = new spT.Vector3();
+  spTags.forEach(function (t) { t.getWorldPosition(v); K3.tagSize(t, spTagPx(t) * spWpp(v.distanceTo(cam.position)) / spApi.group.scale.y); });
+  if (spMol) spMol.userData.tags.forEach(function (t) { t.getWorldPosition(v); K3.tagSize(t, Math.max(t.userData.base, SP_EL * spWpp(v.distanceTo(cam.position)))); });
+  if (spLabG) spLabG.children.forEach(function (d) { if (d.userData.dot) { d.getWorldPosition(v); d.scale.setScalar(3 * spWpp(v.distanceTo(cam.position))); } });
+}
+
+function spSpecies(newView) {
+  spS = SP[sp.id]();
+  spPanel(); spControls();
+  if (!spApi) { K.fit(); return; }
+  var T = spT, api = spApi;
+  spDispose(spHold); spTags = [];
+  spMol = K3.molecule(T, api, { atoms: spS.atoms.map(function (a) { return { el: a.el, p: a.p, r: a.r }; }), bonds: [] }, {});
+  spMol.userData.tags.forEach(function (tg) { spSrgb(tg); tg.userData.base = tg.scale.y; });
+  spOrbG = new T.Group(); spLabG = new T.Group();
+  spHold.add(spMol); spHold.add(spOrbG); spHold.add(spLabG);
+  var card = api.color('--card').getStyle();
+  spS.labels.forEach(function (L) {
+    var tg = spSrgb(K3.tag(T, L.text, { color: L.kind === 'phrase' ? api.color(L.band === 'plane' ? '--mut' : '--fg').getStyle() : spCol(L.band).getStyle(),
+                                       bg: card, size: 0.3, bold: L.kind !== 'phrase' }));
+    tg.renderOrder = 30; tg.userData.L = L; tg.visible = false; spHold.add(tg); spTags.push(tg);
+  });
+  if (newView) {
+    /* camera distance from the extent at slider 0 (the widest layout), so nothing leaves the stage */
+    var R = 0;
+    spS.atoms.forEach(function (a) { R = Math.max(R, spLen(spAdd(a.p, a.off)) + 0.55); });
+    var el = api.renderer.domElement, asp = Math.min(1, (el.clientWidth || 560) / (el.clientHeight || 440));
+    api.rx = spS.view[0]; api.ry = spS.view[1];
+    api.dist = (R + 0.5) / (Math.tan(20 * Math.PI / 180) * asp) * 0.84;
+    api.rx0 = api.rx; api.ry0 = api.ry; api.dist0 = api.dist;
+  }
+  spUpdate();
+}
+
+function spUpdate() {
+  spControls(); spPanel();
+  if (spApi) {
+    spBuildOrbs();
+    api_view_raw();
+    spPlace();
+    spApi.render();
+  }
+  K.fit();
+}
+function api_view_raw() {
+  var api = spApi;
+  api.group.rotation.set(api.rx, api.ry, 0);
+  api.camera.position.set(0, 0, api.dist); api.camera.lookAt(0, 0, 0);
+  api.scene.updateMatrixWorld(true);
+}
+
+/* ---------- fallback: C₂H₄ side view (σ on the axis, π above and below) ---------- */
+function spFallback() {
+  var box = $root.querySelector('.sp-fb');
+  if (box.firstChild) return;
+  var S = getComputedStyle($root), c1 = S.getPropertyValue('--s1').trim(), c2 = S.getPropertyValue('--s2').trim();
+  var svg = K.svg('svg', { viewBox: '0 0 640 320', width: 640, height: 320 }), avoid = [], placed = [];
+  box.appendChild(svg);
+  function ell(cx, cy, rx, ry, col, op) {
+    svg.appendChild(K.svg('ellipse', { cx: cx, cy: cy, rx: rx, ry: ry, fill: col, 'fill-opacity': op, stroke: col, 'stroke-width': 1.2 }));
+    var pts = [];
+    for (var i = 0; i <= 32; i++) pts.push([cx + rx * Math.cos(i / 32 * 2 * Math.PI), cy + ry * Math.sin(i / 32 * 2 * Math.PI)]);
+    avoid = avoid.concat(K.segs(pts));
+  }
+  var y0 = 160;
+  svg.appendChild(K.svg('line', { x1: 20, y1: y0, x2: 620, y2: y0, stroke: 'var(--faint)', 'stroke-width': 1.5, 'stroke-dasharray': '6 5' }));   /* molecular plane, edge-on */
+  avoid.push([20, y0, 620, y0]);
+  ell(320, y0 - 72, 120, 26, c2, 0.35); ell(320, y0 + 72, 120, 26, c2, 0.35);   /* π: above and below */
+  ell(320, y0, 80, 16, c1, 0.4);                                                 /* σ C=C */
+  ell(192, y0, 56, 13, c1, 0.3); ell(448, y0, 56, 13, c1, 0.3);                  /* σ C–H (the two H on each C overlap in side view) */
+  var AT = [[260, 'C'], [380, 'C'], [140, 'H'], [500, 'H']];
+  AT.forEach(function (a) {
+    svg.appendChild(K.svg('circle', { cx: a[0], cy: y0, r: a[1] === 'C' ? 10 : 7, fill: K3.CPK[a[1]], stroke: 'var(--fg)', 'stroke-width': 0.8 }));
+  });
+  var lab = function (x, y, t, c, cls) { return K.label(svg, x, y, t, { avoid: avoid, placed: placed, cands: c, cls: cls || '' }); };
+  AT.forEach(function (a) { lab(a[0], y0, a[1], [[0, -22, 'middle'], [0, -20, 'middle']]); });
+  lab(320, y0 - 72, 'π（上下两团 = 一个 π bond）', [[0, -36, 'middle'], [0, -40, 'middle']], 'sp-fbp');
+  lab(320, y0 + 72, 'sideways overlap of adjacent p orbitals', [[0, 46, 'middle'], [0, 50, 'middle']], 'sp-fbp');
+  lab(320, y0, 'σ (sp²–sp²)', [[0, 36, 'middle'], [0, 38, 'middle']]);
+  lab(20, y0, 'σ：direct (end-on) overlap', [[0, 40, 'start'], [0, 44, 'start']]);
+  lab(620, y0, 'molecular plane', [[0, 40, 'end'], [0, -22, 'end']]);
+  svg.querySelectorAll('text.sp-fbp').forEach(function (e) { e.style.fill = c2; });
+  K.fit();
+}
+new MutationObserver(function () { if ($root.getAttribute('data-3d') === 'fallback') spFallback(); }).observe($root, { attributes: true, attributeFilter: ['data-3d'] });
+
+spSpecies(false);
+
+K3.start($root, function (T, api) {
+  spT = T; spApi = api;
+  spHold = new T.Group(); api.group.add(spHold);
+  api.scene.position.y = -0.1;   /* clear of the HUD strip */
+  /* labels keep a constant size on screen; after the view stops moving they are placed again */
+  api.view = function () {
+    api_view_raw(); spSize(); api.render();
+    clearTimeout(spTimer);
+    spTimer = setTimeout(function () { if (!api.spin) { spPlace(); api.render(); } }, 220);
+  };
+  spSpecies(true);
+  if (window.ResizeObserver) {
+    var last = 0;
+    new ResizeObserver(function () {
+      var w = api.renderer.domElement.clientWidth;
+      if (Math.abs(w - last) > 30 && last) setTimeout(function () { spSpecies(true); }, 40);
+      last = w;
+    }).observe($root.querySelector('.stage'));
+  }
+});
+
+/* for tests */
+$root.__sp = {
+  state: sp,
+  spec: function () { return spS; },
+  clouds: function () {
+    return spOrbG ? spOrbG.children.filter(function (c) { return c.userData.cloud != null; }).map(function (c) {
+      return { k: c.userData.k, band: c.userData.band, visible: c.visible, mid: c.userData.mid, axis: c.userData.axis, h: c.userData.h, u: c.userData.u,
+               centres: c.children.map(function (m) { return m.position.toArray(); }), opacity: c.children[0].material.opacity,
+               color: '#' + c.children[0].material.color.getHexString() };
+    }) : [];
+  },
+  orbs: function () {
+    return spOrbG ? spOrbG.children.filter(function (c) { return c.userData.orb != null; }).map(function (c) { return { band: c.userData.band, visible: c.visible }; }) : [];
+  },
+  atoms: function () { return spMol ? spMol.userData.atoms.map(function (m) { return { el: m.userData.el, p: m.position.toArray() }; }) : []; },
+  proj: function (v) { spApi.scene.updateMatrixWorld(true); var q = spProj(v); return [q.x, q.y]; },
+  layout: function () {
+    if (!spApi) return null;
+    spApi.scene.updateMatrixWorld(true);
+    var el = spApi.renderer.domElement, v = new spT.Vector3(), tags = [], atoms = [], els = [];
+    spTags.forEach(function (t) {
+      if (!t.visible) return;
+      var q = spProj(t.position.toArray()), w = t.scale.x * q.ppu * spApi.group.scale.y, h = t.scale.y * q.ppu * spApi.group.scale.y;
+      var a = spProj(t.userData.anchor);
+      tags.push({ x: q.x - w / 2, y: q.y - h / 2, w: w, h: h, text: t.userData.L.text, band: t.userData.L.band, ax: a.x, ay: a.y });
+    });
+    spMol.userData.atoms.forEach(function (m, i) {
+      var q = spProj(m.position.toArray());
+      atoms.push({ x: q.x, y: q.y, r: m.geometry.parameters.radius * q.ppu, el: m.userData.el });
+      var tg = spMol.userData.tags[i]; tg.getWorldPosition(v);
+      els.push(tg.scale.y / spWpp(v.distanceTo(spApi.camera.position)));
+    });
+    return { tags: tags, atoms: atoms, elH: els, W: el.clientWidth, H: el.clientHeight,
+             hud: ($root.querySelector('.stage .hud') || { offsetHeight: 0 }).offsetHeight };
+  }
+};
+</script>
