@@ -450,7 +450,7 @@ H 的 δ+ 与邻近 molecule 的 lone pair 吸引。hydrogen bond 大约是 cova
 
 | property | 现象 | 原因 |
 |---|---|---|
-| relatively high melting and boiling points | H₂O 100 °C，而 H₂S −60 °C、H₂Se −41 °C、H₂Te −2 °C（按趋势 H₂O 应约 −80 °C） | Group 16 其他 hydrides 只有 id-id + pd-pd；water 之间有 extensive hydrogen bonding，需要多得多的 energy 才能分开 |
+| relatively high melting and boiling points | H₂O 100 °C，而 H₂S −60 °C、H₂Se −41 °C、H₂Te −2 °C（按 H₂S → H₂Te 的趋势外推，H₂O 应约 −90 °C） | Group 16 其他 hydrides 只有 id-id + pd-pd；water 之间有 extensive hydrogen bonding，需要多得多的 energy 才能分开 |
 | relatively high surface tension | 水面像一层膜，比多数 liquid 的 surface tension 大 | 表面的 molecules 被下面的 molecules 用 hydrogen bonds 往里拉 |
 | density of ice < liquid water | ice 浮在水上（大多数 substance 的 solid 比 liquid 密） | ice 里每个 O 被 4 个 H 以 tetrahedral 方式包围，形成 3D hydrogen-bonded 的 **open lattice**；hydrogen bonds 比 covalent bonds 长，molecules 离得比 liquid 里远；熔化时 lattice 部分塌缩，molecules 靠得更近 |
 

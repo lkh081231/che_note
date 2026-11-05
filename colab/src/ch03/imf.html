@@ -1,0 +1,659 @@
+<h3>Boiling point 与 intermolecular forces</h3>
+<div class="tabbar">
+  <button data-tab="hyd">① hydride boiling points</button>
+  <button data-tab="ele">② id-id vs electrons</button>
+  <button data-tab="con">③ contact points</button>
+  <button data-tab="pd">④ pd-pd</button>
+  <button data-tab="ani">⑤ id-id 动画</button>
+</div>
+
+<!-- ① hydrides of Groups 14–17 -->
+<div data-pane="hyd">
+  <p class="mut">Groups 14–17 的 hydrides：从 Period 3 起，number of electrons 增加 → id-id 更强 → boiling point 一路上升。
+    只有 Period 2 的 NH₃、H₂O、HF 反常地高——它们之间有 <b>hydrogen bonding</b>。点 / 悬停一个点看原因。</p>
+  <div class="row imf-ctl">
+    <button type="button" class="imf-g on" aria-pressed="true" data-g="14"><i class="imf-sw"></i>Group 14</button>
+    <button type="button" class="imf-g on" aria-pressed="true" data-g="15"><i class="imf-sw"></i>Group 15</button>
+    <button type="button" class="imf-g on" aria-pressed="true" data-g="16"><i class="imf-sw"></i>Group 16</button>
+    <button type="button" class="imf-g on" aria-pressed="true" data-g="17"><i class="imf-sw"></i>Group 17</button>
+    <label class="imf-ext"><input type="checkbox" class="imf-extbox"> 显示趋势外推（Period 3–5 → Period 2）</label>
+  </div>
+  <div class="card imf-plot"><svg class="imf-svg imf-hsvg" viewBox="0 0 860 540" aria-label="boiling points of Group 14 to 17 hydrides"></svg></div>
+  <div class="card imf-info" aria-live="polite"></div>
+</div>
+
+<!-- ② id-id vs number of electrons -->
+<div data-pane="ele">
+  <p class="mut">noble gases 是单个 atoms，halogens 是 non-polar diatomic molecules——它们之间都<b>只有 id-id</b>。横轴是 number of electrons。</p>
+  <div class="card imf-plot"><svg class="imf-svg imf-esvg" viewBox="0 0 860 400" aria-label="boiling point against number of electrons"></svg></div>
+  <div class="card imf-ms">
+    <div class="imf-mshead">mark scheme 写法（解释 boiling point 升高）</div>
+    <div class="imf-chain">
+      <span>number of <b>electrons</b> increases</span><i>→</i>
+      <span>stronger <b>id-id</b> forces</span><i>→</i>
+      <span>more <b>energy</b> needed to overcome them</span><i>→</i>
+      <span>boiling point increases</span>
+    </div>
+    <div class="imf-warn">⚠ 写 “number of protons” 或 “size of molecule” 不给分——要写 number of <b>electrons</b>。</div>
+    <div class="imf-note">Group 14 hydrides CH₄ → PbH₄（9701/21 Oct/Nov 2024 Q3(d)(i)）：M1 molecules have <b>greater number of electrons</b>；
+      M2 <b>stronger id-id forces</b>（或 more energy required to overcome the id-id forces）。</div>
+    <div class="imf-note">Ar（18 electrons，−186 °C）和 F₂（18 electrons，−188 °C）electron 数相同，boiling point 几乎一样。</div>
+  </div>
+</div>
+
+<!-- ③ contact points -->
+<div data-pane="con">
+  <p class="mut">同分异构体的 electron 数一样；分子越「直」，相邻 molecules 之间的 <b>contact points</b>（表面积）越多 → id-id 越强。
+    图里只画 C atoms（H 省略），上下两个是相邻的 molecules，虚线 = contact point。</p>
+  <div class="row imf-sets">
+    <button type="button" class="imf-set on" data-set="c5">C₅H₁₂（42 electrons）</button>
+    <button type="button" class="imf-set" data-set="c6">C₆H₁₄（50 electrons）</button>
+  </div>
+  <div class="card imf-plot"><svg class="imf-svg imf-csvg" viewBox="0 0 860 420" aria-label="contact points between neighbouring isomer molecules"></svg></div>
+  <div class="card imf-ms imf-cms"></div>
+</div>
+
+<!-- ④ pd-pd -->
+<div data-pane="pd">
+  <p class="mut">electron 数相近时，polar molecule（有 permanent dipole）多了 <b>pd-pd</b>，boiling point 比只有 id-id 的 non-polar molecule 高。</p>
+  <div class="row faint imf-key"><span><i class="imf-kp"></i> polar：pd-pd + id-id</span><span><i class="imf-kn"></i> non-polar：只有 id-id</span></div>
+  <div class="card imf-plot"><svg class="imf-svg imf-psvg" viewBox="0 0 860 400" aria-label="boiling points of polar and non-polar pairs"></svg></div>
+  <div class="imf-pcards">
+    <div class="card imf-pc" data-pair="0">
+      <div class="imf-pch">propanone vs butane（32 vs 34 electrons）</div>
+      <div>propanone（polar，56 °C，liquid）vs butane（non-polar，−1 °C，gas）：electron 数几乎一样，id-id 差不多；
+        propanone 的 C=O 让 molecule 有 permanent dipole → 多了 pd-pd → boiling point 高得多。</div>
+    </div>
+    <div class="card imf-pc" data-pair="1">
+      <div class="imf-pch">ICl vs Br₂（70 vs 70 electrons）</div>
+      <div>electron 数相同 → id-id 相同；ICl 有 permanent dipole（Cl 比 I electronegative）→ 另有 pd-pd → 97 °C &gt; 59 °C。</div>
+    </div>
+    <div class="card imf-pc" data-pair="2">
+      <div class="imf-pch">methanal vs CO₂（9701/21 Oct/Nov 2025 Q1(c)(iv)）</div>
+      <div>methanal 在 −30 °C 是 liquid、CO₂ 是 gas。M1 CO₂ has <b>only id-id</b> forces AND methanal has <b>pd-pd</b> (and id-id) forces；
+        M2 IMFs in methanal are <b>stronger</b>。CO₂ 有 polar bonds，但 molecule non-polar（linear，dipoles 抵消）。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ id-id animation -->
+<div data-pane="ani">
+  <p class="mut">两个相邻的 non-polar 粒子（例如两个 Ar atoms）。electron cloud 一直在动，dipole 一直在变、是暂时的——但任何时刻都在互相吸引。</p>
+  <div class="row imf-steps" aria-label="animation phases">
+    <span class="imf-st" data-st="1">① instantaneous dipole</span>
+    <span class="imf-st" data-st="2">② induced dipole</span>
+    <span class="imf-st" data-st="3">③ id-id attraction</span>
+  </div>
+  <div class="card imf-plot"><svg class="imf-svg imf-asvg" viewBox="0 0 860 270" aria-label="instantaneous dipole induced dipole animation"></svg></div>
+  <div class="row imf-actl">
+    <button type="button" class="imf-play">⏸ 暂停</button>
+    <button type="button" class="imf-step">单步 ▶|</button>
+    <span class="imf-cap"></span>
+  </div>
+</div>
+
+<style>
+.k .imf-plot{padding:6px}
+.k .imf-svg{width:100%}
+.k .imf-svg text{font-size:13px}
+.k .imf-svg text.imf-tick{fill:var(--mut)}
+.k .imf-svg text.imf-axt{fill:var(--mut);font-size:13px}
+.k .imf-svg text.imf-sm{font-size:12px}
+.k .imf-svg text.imf-cname{font-size:14px}
+.k .imf-svg text.imf-b{font-weight:650}
+.k .imf-svg .imf-c1{fill:var(--s1)} .k .imf-svg .imf-c2{fill:var(--s2)} .k .imf-svg .imf-c3{fill:var(--s3)}
+.k .imf-svg .imf-c4{fill:var(--s4)} .k .imf-svg .imf-c5{fill:var(--s5)}
+.k .imf-svg text.imf-dneg{fill:var(--neg);font-size:16px;font-weight:650}
+.k .imf-svg text.imf-dpos{fill:var(--pos);font-size:16px;font-weight:650}
+.k .imf-svg .imf-grid{stroke:var(--line);stroke-width:1}
+.k .imf-svg .imf-zero{stroke:var(--mut);stroke-width:1.3;stroke-dasharray:6 4}
+.k .imf-svg .imf-ax{stroke:var(--mut);stroke-width:1.3}
+.k .imf-svg .imf-pt.sel{stroke:var(--fg);stroke-width:2.5}
+.k .imf-ctl .imf-g{display:inline-flex;align-items:center;gap:6px}
+.k .imf-ctl .imf-g:not(.on){opacity:.55;text-decoration:line-through}
+.k .imf-ctl .imf-g.on{background:var(--card);color:var(--fg);border-color:var(--mut)}
+.k .imf-sw{display:inline-block;width:14px;height:4px;border-radius:2px;background:currentColor}
+.k .imf-g[data-g="14"] .imf-sw{background:var(--s1)} .k .imf-g[data-g="15"] .imf-sw{background:var(--s3)}
+.k .imf-g[data-g="16"] .imf-sw{background:var(--s2)} .k .imf-g[data-g="17"] .imf-sw{background:var(--s5)}
+.k .imf-ext{margin-left:6px}
+.k .imf-info{margin-top:8px;min-height:7.2em}
+.k .imf-info .imf-ih{font-weight:650;font-size:16px}
+.k .imf-info .imf-ih small{font-weight:400;color:var(--mut);font-size:13px;margin-left:8px}
+.k .imf-info dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:4px 0}
+.k .imf-info dt{color:var(--mut)} .k .imf-info dd{margin:0}
+.k .imf-tag{display:inline-block;border:1px solid var(--line);border-radius:10px;padding:0 8px;margin:0 4px 2px 0;font-size:13px}
+.k .imf-tag.hb{border-color:var(--s4);color:var(--s4);font-weight:650}
+.k .imf-ms{margin-top:8px}
+.k .imf-mshead,.k .imf-pch{font-weight:650;margin-bottom:4px}
+.k .imf-chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.k .imf-chain span{background:var(--acc-soft);border-radius:6px;padding:2px 9px}
+.k .imf-chain i{font-style:normal;color:var(--mut)}
+.k .imf-warn{margin-top:6px;padding:4px 10px;border-left:3px solid var(--bad);background:var(--bad-soft);border-radius:0 6px 6px 0}
+.k .imf-note{margin-top:6px;color:var(--mut);font-size:14px}
+.k .imf-ms ol{margin:4px 0}
+.k .imf-pcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin-top:8px;font-size:14px}
+.k .imf-key span{display:inline-flex;align-items:center;gap:6px;margin-right:12px}
+.k .imf-kp,.k .imf-kn{display:inline-block;width:14px;height:14px;border-radius:3px}
+.k .imf-kp{background:var(--s2)} .k .imf-kn{background:var(--s1)}
+.k .imf-steps{gap:6px}
+.k .imf-st{border:1px solid var(--line);border-radius:14px;padding:2px 11px;color:var(--mut);background:var(--card)}
+.k .imf-st.on{border-color:var(--acc);background:var(--acc);color:#fff;font-weight:650}
+@media (prefers-color-scheme:dark){.k .imf-st.on{color:#0d1220}}
+.k .imf-cap{color:var(--mut);font-size:14px;flex:1 1 300px}
+</style>
+
+<script>
+K.init($root);
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+var NS = 'http://www.w3.org/2000/svg';
+function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function fmt(v) { return v < 0 ? '−' + Math.abs(v) : String(v); }
+function add(par, tag, at) { var e = K.svg(tag, at); par.appendChild(e); return e; }
+function widthOf(svg, def) { return Math.max(Math.round(svg.getBoundingClientRect().width) || def, 520); }
+function visible(svg) { return svg.getBoundingClientRect().width > 0; }
+function lab(svg, x, y, txt, o) {
+  var t = K.label(svg, x, y, txt, o);
+  t.setAttribute('data-ax', x); t.setAttribute('data-ay', y);
+  return t;
+}
+function measure(svg, txt, cls) {
+  var t = add(svg, 'text', { x: 0, y: -50, 'class': cls || '' }); t.textContent = txt;
+  var w = t.getBBox().width; svg.removeChild(t); return w;
+}
+function ptRect(x, y, r) { return { x: x - r, y: y - r, w: 2 * r, h: 2 * r }; }
+var CANDS = [[9, 5, 'start'], [-9, 5, 'end'], [8, -8, 'start'], [-8, -8, 'end'], [8, 18, 'start'], [-8, 18, 'end'],
+             [0, -11, 'middle'], [0, 22, 'middle'], [13, -16, 'start'], [-13, -16, 'end'], [13, 26, 'start'], [-13, 26, 'end'],
+             [20, 5, 'start'], [-20, 5, 'end'], [0, -20, 'middle'], [0, 31, 'middle']];
+/* dense ring of label positions around a point, nearest first; pref −1 = above, +1 = below, 0 = beside */
+function gridCands(pref) {
+  var out = [];
+  [8, 13, 18, 24, 30].forEach(function (dx) {
+    for (var cy = -26; cy <= 26; cy += 4) {
+      [1, -1].forEach(function (sd) {
+        var pen = pref && cy * pref < 0 ? 14 : 0;
+        out.push({ c: [sd * dx, cy + 4.5, sd > 0 ? 'start' : 'end'], d: Math.hypot(dx, cy) + pen + (sd < 0 ? 0.5 : 0) });
+      });
+    }
+  });
+  [-13, -17, -21, 13, 17, 21].forEach(function (cy) {
+    var pen = pref && cy * pref < 0 ? 14 : 0;
+    out.push({ c: [0, cy + 4.5, 'middle'], d: Math.abs(cy) - 4 + pen });
+  });
+  return out.sort(function (a, b) { return a.d - b.d; }).map(function (o) { return o.c; });
+}
+var UP = [[0, -11, 'middle'], [8, -8, 'start'], [-8, -8, 'end'], [13, -16, 'start'], [-13, -16, 'end'], [0, -20, 'middle']];
+var DOWN = [[0, 22, 'middle'], [8, 18, 'start'], [-8, 18, 'end'], [13, 26, 'start'], [-13, 26, 'end'], [0, 31, 'middle']];
+var SIDE = [[9, 5, 'start'], [-9, 5, 'end'], [9, 13, 'start'], [-9, 13, 'end'], [9, -3, 'start'], [-9, -3, 'end'],
+            [20, 5, 'start'], [-20, 5, 'end'], [20, 15, 'start'], [-20, 15, 'end'], [20, -5, 'start'], [-20, -5, 'end']];
+
+/* ================= ① hydrides ================= */
+var GROUPS = [14, 15, 16, 17];
+var GCOL = { 14: 1, 15: 3, 16: 2, 17: 5 };            /* --s1 … --s5 */
+var ELEC = [10, 18, 36, 54];                           /* electrons per molecule, Period 2–5 */
+var HYD = {
+  14: [['CH₄', -162], ['SiH₄', -112], ['GeH₄', -88], ['SnH₄', -52]],
+  15: [['NH₃', -33], ['PH₃', -88], ['AsH₃', -62], ['SbH₃', -17]],
+  16: [['H₂O', 100], ['H₂S', -60], ['H₂Se', -41], ['H₂Te', -2]],
+  17: [['HF', 20], ['HCl', -85], ['HBr', -67], ['HI', -35]]
+};
+/* least-squares line through Periods 3–5, evaluated at Period 2 */
+function expected(g) {
+  var y = HYD[g].slice(1).map(function (r) { return r[1]; });
+  var mean = (y[0] + y[1] + y[2]) / 3, slope = (y[2] - y[0]) / 2;
+  return Math.round(mean - 2 * slope);
+}
+var EXP = { 15: expected(15), 16: expected(16), 17: expected(17) };
+var HB_WHY = {
+  15: 'NH₃ 的 N–H 让 molecules 之间形成 hydrogen bonding；N 上只有 1 对 lone pair → 平均每个 molecule 只有 1 个 hydrogen bond，所以比 H₂O 低得多，但仍比 PH₃ 高。',
+  16: 'H₂O 有 2 个 H + 2 对 lone pairs → 平均每个 molecule 2 个 hydrogen bonds（extensive hydrogen bonding），要多得多的 energy 才能分开 → 100 °C，比 H₂S 高 160 °C。',
+  17: 'H–F 极度 polar，HF molecules 之间有 hydrogen bonding → +20 °C，比 HCl（−85 °C）高得多，虽然 HF 的 electrons 更少。'
+};
+function hydInfo(g, p) {
+  var r = HYD[g][p - 2], e = ELEC[p - 2], imf = ['id-id'], why;
+  if (g !== 14) imf.push('pd-pd');
+  if (g !== 14 && p === 2) imf.push('hydrogen bonding');
+  if (g === 14) {
+    why = p === 2 ? 'CH₄ 是 non-polar，只有 id-id；10 个 electrons 是这组最少的 → boiling point 最低。Group 14 没有 hydrogen bonding，曲线没有反常、一路上升。'
+                  : r[0] + ' 是 non-polar，只有 id-id；number of electrons 增加（' + e + ' 个）→ id-id 更强 → 需要更多 energy 克服 → boiling point 更高。';
+  } else if (p === 2) {
+    why = HB_WHY[g];
+  } else if (p === 3) {
+    why = r[0] + ' 是 polar（pd-pd + id-id），但没有 hydrogen bonding——只有 H 连在 N / O / F 上才有。它是本组最低的，Period 2 的反常是 hydrogen bonding 造成的。';
+  } else {
+    why = r[0] + ' 是 polar（pd-pd + id-id）；从 Period 3 往下 number of electrons 增加（' + e + ' 个）→ id-id 更强 → boiling point 升高。';
+  }
+  return { f: r[0], bp: r[1], e: e, imf: imf, why: why, g: g, p: p };
+}
+var hsvg = $('.imf-hsvg'), info = $('.imf-info');
+var gOn = { 14: true, 15: true, 16: true, 17: true }, showExt = false, pinned = { g: 16, p: 2, exp: false };
+
+function showInfo(s) {
+  info.setAttribute('data-f', s.exp ? s.f + '-expected' : s.f);
+  if (s.exp) {
+    var d = HYD[s.g][0][1] - EXP[s.g];
+    info.innerHTML = '<div class="imf-ih">' + s.f + '：expected without hydrogen bonding<small>Group ' + s.g + '，Period 2（外推）</small></div>' +
+      '<dl><dt>expected boiling point</dt><dd>≈ ' + fmt(EXP[s.g]) + ' °C（Period 3–5 的 linear trend 外推到 Period 2）</dd>' +
+      '<dt>actual boiling point</dt><dd>' + fmt(HYD[s.g][0][1]) + ' °C → 高出约 ' + d + ' °C</dd></dl>' +
+      '<div>多出来的这一段来自 <b>hydrogen bonding</b>：' + HB_WHY[s.g] + '</div>';
+    K.fit();
+    return;
+  }
+  var x = hydInfo(s.g, s.p);
+  info.innerHTML = '<div class="imf-ih">' + x.f + '：' + fmt(x.bp) + ' °C<small>Group ' + x.g + '，Period ' + x.p + '</small></div>' +
+    '<dl><dt>electrons per molecule</dt><dd class="imf-ie">' + x.e + '</dd>' +
+    '<dt>intermolecular forces</dt><dd class="imf-ii">' + x.imf.map(function (m) {
+      return '<span class="imf-tag' + (m === 'hydrogen bonding' ? ' hb' : '') + '">' + m + '</span>';
+    }).join('') + '</dd></dl><div class="imf-iw">' + x.why + '</div>';
+  K.fit();
+}
+
+function drawHyd() {
+  if (!visible(hsvg)) return;
+  clear(hsvg);
+  var W = widthOf(hsvg, 860), H = 600;
+  hsvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var L = 52, T = 44, B = H - 44, YMIN = -200, YMAX = 120;
+  var wHb = measure(hsvg, 'hydrogen bonding', 'halo imf-b'), wEx = measure(hsvg, 'hydrogen bonding', 'halo');
+  var wEnd = Math.max.apply(null, GROUPS.map(function (g) { return measure(hsvg, HYD[g][3][0] + '  Group ' + g, 'halo'); }));
+  var ZONE = Math.ceil(Math.max(42 + 10 + wHb, 12 + wEx)) + 8;
+  var x2 = L + ZONE, xr = W - wEnd - 30, step = (xr - x2) / 3;
+  function X(p) { return x2 + (p - 2) * step; }
+  function Y(v) { return T + (YMAX - v) / (YMAX - YMIN) * (B - T); }
+  hsvg.setAttribute('data-y0', Y(0)); hsvg.setAttribute('data-ky', (B - T) / (YMAX - YMIN));
+  var avoid = [], placed = [];
+  var gGrid = add(hsvg, 'g', {}), gLines = add(hsvg, 'g', {}), gPts = add(hsvg, 'g', {});
+
+  for (var v = YMIN; v <= YMAX; v += 40) {
+    add(gGrid, 'line', { x1: L, x2: W - 8, y1: Y(v), y2: Y(v), 'class': v === 0 ? 'imf-zero' : 'imf-grid' });
+    lab(hsvg, L - 6, Y(v), fmt(v), { cands: [[0, 4, 'end']], placed: placed, cls: 'imf-tick' });
+  }
+  avoid.push([L, T - 6, L, B], [L, B, W - 8, B], [L, Y(0), W - 8, Y(0)]);
+  add(gGrid, 'line', { x1: L, x2: L, y1: T - 6, y2: B, 'class': 'imf-ax' });
+  add(gGrid, 'line', { x1: L, x2: W - 8, y1: B, y2: B, 'class': 'imf-ax' });
+  lab(hsvg, L - 40, T - 22, 'boiling point / °C', { cands: [[0, 0, 'start']], placed: placed, cls: 'imf-axt' });
+  for (var p = 2; p <= 5; p++) {
+    add(gGrid, 'line', { x1: X(p), x2: X(p), y1: B, y2: B + 5, 'class': 'imf-ax' });
+    lab(hsvg, X(p), B + 22, 'Period ' + p, { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-tick' });
+  }
+
+  var on = GROUPS.filter(function (g) { return gOn[g]; });
+  /* lines and points */
+  on.forEach(function (g) {
+    var pts = HYD[g].map(function (r, i) { return [X(i + 2), Y(r[1])]; });
+    add(gLines, 'polyline', { points: pts.map(function (q) { return q.join(','); }).join(' '), fill: 'none',
+      stroke: 'var(--s' + GCOL[g] + ')', 'stroke-width': 2.4, 'stroke-linejoin': 'round', 'class': 'imf-line', 'data-g': g });
+    avoid = avoid.concat(K.segs(pts));
+    pts.forEach(function (q, i) {
+      add(gPts, 'circle', { cx: q[0], cy: q[1], r: 5, fill: 'var(--s' + GCOL[g] + ')', 'class': 'imf-pt', 'data-g': g, 'data-p': i + 2,
+        'data-f': HYD[g][i][0], 'data-bp': HYD[g][i][1], 'data-e': ELEC[i] });
+      placed.push(ptRect(q[0], q[1], 7));
+    });
+  });
+  /* extrapolation: dashed trend line, hollow point, double arrow */
+  var ARX = { 16: 14, 17: 28, 15: 42 }, HBY = { 16: 60, 17: -8, 15: -80 };
+  var gExt = add(hsvg, 'g', { 'class': 'imf-extg' });
+  var extOn = showExt ? on.filter(function (g) { return g !== 14; }) : [];
+  extOn.forEach(function (g) {
+    var c = 'var(--s' + GCOL[g] + ')', x3 = X(3), y3 = Y(HYD[g][1][1]), ye = Y(EXP[g]), ya = Y(HYD[g][0][1]);
+    add(gExt, 'line', { x1: x3, y1: y3, x2: x2, y2: ye, stroke: c, 'stroke-width': 2, 'stroke-dasharray': '6 4', 'class': 'imf-dash', 'data-g': g });
+    avoid.push([x3, y3, x2, ye]);
+    add(gExt, 'circle', { cx: x2, cy: ye, r: 5, fill: 'var(--card)', stroke: c, 'stroke-width': 2, 'class': 'imf-exp', 'data-g': g, 'data-bp': EXP[g] });
+    placed.push(ptRect(x2, ye, 6));
+    var ax = x2 - ARX[g], top = Math.min(ye, ya) + 1, bot = Math.max(ye, ya) - 1;
+    add(gExt, 'line', { x1: ax, x2: ax, y1: top + 6, y2: bot - 6, stroke: c, 'stroke-width': 1.8, 'class': 'imf-arrow', 'data-g': g });
+    add(gExt, 'path', { d: 'M' + ax + ',' + top + 'l-4.5,8h9z', fill: c });
+    add(gExt, 'path', { d: 'M' + ax + ',' + bot + 'l-4.5,-8h9z', fill: c });
+    avoid.push([ax - 5, top, ax - 5, bot], [ax + 5, top, ax + 5, bot]);
+  });
+  extOn.forEach(function (g) {
+    var t = lab(hsvg, x2 - ARX[g] - 9, Y(HBY[g]), 'hydrogen bonding', { cands: [[0, 4, 'end'], [0, 14, 'end'], [0, -6, 'end']],
+      avoid: avoid, placed: placed, cls: 'imf-hblab imf-b imf-c' + GCOL[g] });
+    t.setAttribute('data-g', g);
+  });
+  if (extOn.length) {
+    var low = Math.min.apply(null, extOn.map(function (g) { return EXP[g]; }));
+    /* two lines, right-aligned under the hollow points */
+    ['expected without', 'hydrogen bonding'].forEach(function (txt, i) {
+      lab(hsvg, x2 - 10, Y(low) + 22 + 18 * i, txt, { cands: [[0, 0, 'end'], [0, 8, 'end']], avoid: avoid, placed: placed, pad: 0, cls: 'imf-exlab' });
+    });
+  }
+  /* line-end labels at Period 5: hydride + Group */
+  on.forEach(function (g) {
+    var q = [X(5), Y(HYD[g][3][1])];
+    var t = lab(hsvg, q[0], q[1], HYD[g][3][0] + '  Group ' + g, { cands: [[10, 5, 'start'], [10, -3, 'start'], [10, 13, 'start'], [10, -10, 'start'], [10, 20, 'start']],
+      avoid: avoid, placed: placed, cls: 'imf-plab imf-endlab' });
+    t.textContent = '';
+    var a = add(t, 'tspan', {}); a.textContent = HYD[g][3][0] + '  ';
+    a.setAttribute('class', 'imf-c' + GCOL[g]);
+    var b = add(t, 'tspan', { 'class': 'imf-glab imf-c' + GCOL[g] }); b.textContent = 'Group ' + g;
+    t.setAttribute('data-f', HYD[g][3][0]); t.setAttribute('data-g', g);
+  });
+  /* the other point labels, most crowded column first */
+  [3, 4, 2].forEach(function (p) {
+    /* topmost point in a column looks up first, bottommost down first, the ones in between sideways */
+    var col = on.slice().sort(function (a, b) { return HYD[b][p - 2][1] - HYD[a][p - 2][1]; });
+    col.forEach(function (g, rank) {
+      var cands = gridCands(rank === 0 ? -1 : rank === col.length - 1 ? 1 : 0);
+      var t = lab(hsvg, X(p), Y(HYD[g][p - 2][1]), HYD[g][p - 2][0], { cands: cands, avoid: avoid, placed: placed, cls: 'imf-plab imf-c' + GCOL[g] });
+      t.setAttribute('data-f', HYD[g][p - 2][0]); t.setAttribute('data-g', g);
+    });
+  });
+  /* hover / click picks the nearest point within 14 px — PH₃ and HCl are only a few px apart,
+     so per-point hit circles would overlap and show the wrong card */
+  hsvg.__pts = $$('.imf-hsvg .imf-pt, .imf-hsvg .imf-exp').map(function (c) {
+    var isExp = c.classList.contains('imf-exp'), g = +c.getAttribute('data-g'), p = isExp ? 2 : +c.getAttribute('data-p');
+    return { x: +c.getAttribute('cx'), y: +c.getAttribute('cy'), s: { g: g, p: p, exp: isExp, f: HYD[g][p - 2][0] } };
+  });
+  markSel();
+}
+function nearest(ev) {
+  var box = hsvg.getBoundingClientRect(), k = hsvg.viewBox.baseVal.width / box.width;
+  var x = (ev.clientX - box.left) * k, y = (ev.clientY - box.top) * k, best = null, bd = 14 * k;
+  (hsvg.__pts || []).forEach(function (q) { var d = Math.hypot(q.x - x, q.y - y); if (d < bd) { bd = d; best = q.s; } });
+  return best;
+}
+var hoverF = null;
+hsvg.addEventListener('mousemove', function (ev) {
+  var s = nearest(ev), f = s ? s.f + (s.exp ? '-expected' : '') : null;
+  hsvg.style.cursor = s ? 'pointer' : '';
+  if (f === hoverF) return;
+  hoverF = f; showInfo(s || pinned);
+});
+hsvg.addEventListener('mouseleave', function () { hoverF = null; showInfo(pinned); });
+hsvg.addEventListener('click', function (ev) { var s = nearest(ev); if (s) { pinned = s; hoverF = null; markSel(); showInfo(s); } });
+function markSel() {
+  $$('.imf-hsvg .imf-pt').forEach(function (c) {
+    c.classList.toggle('sel', !pinned.exp && +c.getAttribute('data-g') === pinned.g && +c.getAttribute('data-p') === pinned.p);
+  });
+}
+pinned.f = 'H₂O';
+showInfo(pinned);
+$$('.imf-g').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var g = +b.getAttribute('data-g'); gOn[g] = !gOn[g]; b.classList.toggle('on', gOn[g]);
+    b.setAttribute('aria-pressed', gOn[g]); drawHyd();
+  });
+});
+$('.imf-extbox').addEventListener('change', function () { showExt = this.checked; drawHyd(); });
+
+/* ================= ② id-id vs electrons ================= */
+var NOBLE = [['He', 2, -269], ['Ne', 10, -246], ['Ar', 18, -186], ['Kr', 36, -153], ['Xe', 54, -108]];
+var HAL = [['F₂', 18, -188], ['Cl₂', 34, -35], ['Br₂', 70, 59], ['I₂', 106, 184]];
+var esvg = $('.imf-esvg');
+function drawEle() {
+  if (!visible(esvg)) return;
+  clear(esvg);
+  var W = widthOf(esvg, 860), H = 440, L = 52, T = 44, B = H - 60, R = W - 90, XMAX = 110, YMIN = -350, YMAX = 200;
+  esvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  function X(e) { return L + 30 + e / XMAX * (R - L - 30); }
+  function Y(v) { return T + (YMAX - v) / (YMAX - YMIN) * (B - T); }
+  var avoid = [[L, T - 6, L, B], [L, B, W - 8, B]], placed = [];
+  var gg = add(esvg, 'g', {});
+  for (var v = YMIN; v <= YMAX; v += 50) {
+    add(gg, 'line', { x1: L, x2: W - 8, y1: Y(v), y2: Y(v), 'class': v === 0 ? 'imf-zero' : 'imf-grid' });
+    lab(esvg, L - 6, Y(v), fmt(v), { cands: [[0, 4, 'end']], placed: placed, cls: 'imf-tick' });
+  }
+  for (var e = 0; e <= 100; e += 20) {
+    add(gg, 'line', { x1: X(e), x2: X(e), y1: B, y2: B + 5, 'class': 'imf-ax' });
+    lab(esvg, X(e), B + 24, String(e), { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-tick' });
+  }
+  add(gg, 'line', { x1: L, x2: L, y1: T - 6, y2: B, 'class': 'imf-ax' });
+  add(gg, 'line', { x1: L, x2: W - 8, y1: B, y2: B, 'class': 'imf-ax' });
+  lab(esvg, L - 40, T - 22, 'boiling point / °C', { cands: [[0, 0, 'start']], placed: placed, cls: 'imf-axt' });
+  lab(esvg, W - 8, B + 50, 'number of electrons', { cands: [[0, 0, 'end']], placed: placed, cls: 'imf-axt' });
+  var series = [[NOBLE, 1, 'noble gases'], [HAL, 2, 'halogens']];
+  series.forEach(function (s) {
+    var pts = s[0].map(function (r) { return [X(r[1]), Y(r[2])]; });
+    add(esvg, 'polyline', { points: pts.map(function (q) { return q.join(','); }).join(' '), fill: 'none', stroke: 'var(--s' + s[1] + ')', 'stroke-width': 2.4 });
+    avoid = avoid.concat(K.segs(pts));
+    pts.forEach(function (q) { placed.push(ptRect(q[0], q[1], 6)); });
+  });
+  series.forEach(function (s) {
+    s[0].forEach(function (r) {
+      var c = add(esvg, 'circle', { cx: X(r[1]), cy: Y(r[2]), r: 5, fill: 'var(--s' + s[1] + ')', 'class': 'imf-ept', 'data-f': r[0], 'data-e': r[1], 'data-bp': r[2] });
+      c.setAttribute('data-tip', r[0] + '：' + r[1] + ' electrons，b.p. ' + fmt(r[2]) + ' °C（只有 id-id）');
+    });
+  });
+  /* the coinciding Ar / F₂ pair first: one on each side */
+  var order = [['Ar', [[-8, -8, 'end'], [-13, -16, 'end'], [-9, 5, 'end']]], ['F₂', [[8, 18, 'start'], [13, 26, 'start'], [9, 5, 'start']]]];
+  function plab(r, sc, cands) {
+    var t = lab(esvg, X(r[1]), Y(r[2]), r[0] + '  ' + fmt(r[2]), { cands: cands || CANDS, avoid: avoid, placed: placed, cls: 'imf-elab imf-c' + sc });
+    t.setAttribute('data-f', r[0]);
+  }
+  /* series names at the middle of the last segment, placed before the point labels */
+  lab(esvg, (X(36) + X(54)) / 2, (Y(-153) + Y(-108)) / 2, 'noble gases', { cands: [[0, 26, 'middle'], [0, -14, 'middle'], [0, 34, 'middle'], [0, 42, 'middle'], [24, 30, 'start'], [-24, 30, 'end'], [0, -24, 'middle']], avoid: avoid, placed: placed, cls: 'imf-b imf-c1 imf-slab' });
+  lab(esvg, (X(70) + X(106)) / 2, (Y(59) + Y(184)) / 2, 'halogens', { cands: [[10, 22, 'start'], [16, 30, 'start'], [-10, -12, 'end']], avoid: avoid, placed: placed, cls: 'imf-b imf-c2 imf-slab' });
+  plab(NOBLE[2], 1, order[0][1]); plab(HAL[0], 2, order[1][1]);
+  NOBLE.forEach(function (r) { if (r[0] !== 'Ar') plab(r, 1); });
+  HAL.forEach(function (r) { if (r[0] !== 'F₂') plab(r, 2); });
+
+}
+
+/* ================= ③ contact points ================= */
+/* atoms in bond-length units; y = 0 is the side facing the neighbouring molecule, y < 0 points away.
+   sp³ carbons drawn as upright crosses (straight chain, branches perpendicular). */
+var ISO = {
+  pentane: { e: 42, bp: 36, at: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]], bd: [[0, 1], [1, 2], [2, 3], [3, 4]], shape: '直链' },
+  '2,2-dimethylpropane': { e: 42, bp: 10, at: [[0, -1], [1, -1], [2, -1], [1, -2], [1, 0]], bd: [[0, 1], [1, 2], [1, 3], [1, 4]], shape: '接近球形' },
+  hexane: { e: 50, bp: 69, at: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]], bd: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]], shape: '直链' },
+  '2-methylpentane': { e: 50, bp: 60, at: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [1, -1]], bd: [[0, 1], [1, 2], [2, 3], [3, 4], [1, 5]], shape: '一个支链' },
+  '2,3-dimethylbutane': { e: 50, bp: 58, at: [[0, 0], [1, 0], [2, 0], [3, 0], [1, -1], [2, -1]], bd: [[0, 1], [1, 2], [2, 3], [1, 4], [2, 5]], shape: '两个支链' }
+};
+Object.keys(ISO).forEach(function (n) { ISO[n].contacts = ISO[n].at.filter(function (a) { return a[1] === 0; }).length; });
+var SETS = { c5: ['pentane', '2,2-dimethylpropane'], c6: ['hexane', '2-methylpentane', '2,3-dimethylbutane'] };
+var curSet = 'c5', csvg = $('.imf-csvg');
+var CMS = {
+  c5: '<div class="imf-mshead">pentane（36 °C）&gt; 2,2-dimethylpropane（10 °C）</div>' +
+      '<div>两者都是 C₅H₁₂、electron 数相同（42）。pentane 是直链，相邻 molecules 可以并排贴着，<b>contact points</b> 多 → id-id 更强 → 需要更多 energy 才能分开；' +
+      '2,2-dimethylpropane 接近球形，只能在一点上接触 → id-id 弱 → boiling point 低。</div>',
+  c6: '<div class="imf-mshead">9701/22 Oct/Nov 2025 Q3(d)(ii)：按 boiling point 递增排列 A、B 和 hexane 并解释</div>' +
+      '<ol><li>M1 <b>B &lt; A &lt; hexane</b>（2,3-dimethylbutane 58 °C &lt; 2-methylpentane 60 °C &lt; hexane 69 °C）</li>' +
+      '<li>M2 hexane / unbranched has <b>stronger / more IMFs</b></li>' +
+      '<li>M3 hexane / unbranched requires <b>most / more energy</b>（to separate the molecules）</li></ol>' +
+      '<div class="imf-note">三者都是 C₆H₁₄、electron 数相同（50）：差别只来自形状——支链越多越紧凑，contact points 越少，id-id 越弱。</div>'
+};
+function drawCon() {
+  if (!visible(csvg)) return;
+  clear(csvg);
+  var names = SETS[curSet], n = names.length;
+  var W = widthOf(csvg, 860);
+  var pw = (W - 16) / n, bl = Math.min(34, (pw - 40) / 6.4), rr = bl * 0.62, G = bl * 1.75;
+  var yA = 44 + 2 * bl + rr, yB = yA + G, PH = yB + 2 * bl + rr + 44, H = PH + 30 + n * 34 + 14;
+  csvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  csvg.setAttribute('data-set', curSet);
+  var avoid = [], placed = [];
+  names.forEach(function (nm, k) {
+    var m = ISO[nm], cx = 8 + pw * (k + 0.5);
+    var xs = m.at.map(function (a) { return a[0]; }), xmid = (Math.min.apply(null, xs) + Math.max.apply(null, xs)) / 2;
+    var gm = add(csvg, 'g', { 'class': 'imf-mol', 'data-name': nm });
+    var mols = [function (a) { return [cx + (a[0] - xmid) * bl, yA + a[1] * bl]; }, function (a) { return [cx + (a[0] - xmid) * bl, yB - a[1] * bl]; }];
+    mols.forEach(function (P, mi) {
+      var col = mi ? 'var(--s3)' : 'var(--s1)';
+      m.at.forEach(function (a) { var q = P(a); add(gm, 'circle', { cx: q[0], cy: q[1], r: rr, fill: col, 'fill-opacity': 0.16 }); });
+      m.bd.forEach(function (b) {
+        var p1 = P(m.at[b[0]]), p2 = P(m.at[b[1]]);
+        add(gm, 'line', { x1: p1[0], y1: p1[1], x2: p2[0], y2: p2[1], stroke: 'var(--mut)', 'stroke-width': 2.2 });
+      });
+      m.at.forEach(function (a) { var q = P(a); add(gm, 'circle', { cx: q[0], cy: q[1], r: Math.max(5.5, bl * 0.2), fill: col }); });
+      m.at.forEach(function (a) { var q = P(a); placed.push(ptRect(q[0], q[1], rr)); });
+    });
+    m.at.forEach(function (a) {
+      if (a[1] !== 0) return;
+      var p1 = mols[0](a), p2 = mols[1](a);
+      add(gm, 'line', { x1: p1[0], y1: p1[1] + bl * 0.24, x2: p2[0], y2: p2[1] - bl * 0.24, stroke: 'var(--s4)', 'stroke-width': 2.2, 'stroke-dasharray': '3 3', 'class': 'imf-contact' });
+    });
+    lab(csvg, cx, 24, nm, { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-b imf-cname' }).setAttribute('data-name', nm);
+    lab(csvg, cx, PH - 22, m.shape + '：contact points ' + m.contacts, { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-cnt imf-c4 imf-b' }).setAttribute('data-name', nm);
+  });
+  /* boiling point bars */
+  var y0 = PH + 20, wName = Math.max.apply(null, names.map(function (nm) { return measure(csvg, nm, 'halo'); }));
+  var bx = 14 + wName + 12, bw = W - bx - 90;
+  lab(csvg, 14, y0 - 6, 'boiling point / °C（同一 scale，0 – 80 °C）', { cands: [[0, 0, 'start']], placed: placed, cls: 'imf-axt' });
+  names.forEach(function (nm, k) {
+    var y = y0 + 10 + k * 34, len = ISO[nm].bp / 80 * bw;
+    add(csvg, 'rect', { x: bx, y: y, width: len, height: 20, rx: 3, fill: 'var(--s1)', 'fill-opacity': 0.8, 'class': 'imf-cbar', 'data-name': nm, 'data-bp': ISO[nm].bp });
+    lab(csvg, bx - 8, y + 10, nm, { cands: [[0, 5, 'end']], placed: placed, cls: 'imf-bname' });
+    lab(csvg, bx + len + 8, y + 10, ISO[nm].bp + ' °C', { cands: [[0, 5, 'start']], placed: placed, cls: 'imf-b imf-bval' }).setAttribute('data-name', nm);
+  });
+  $('.imf-cms').innerHTML = CMS[curSet];
+}
+$$('.imf-set').forEach(function (b) {
+  b.addEventListener('click', function () {
+    curSet = b.getAttribute('data-set');
+    $$('.imf-set').forEach(function (o) { o.classList.toggle('on', o === b); });
+    drawCon(); K.fit();
+  });
+});
+
+/* ================= ④ pd-pd ================= */
+var PAIRS = [
+  { cap: '32 vs 34 electrons', a: ['propanone', 56, 32], b: ['butane', -1, 34] },
+  { cap: '70 vs 70 electrons', a: ['ICl', 97, 70], b: ['Br₂', 59, 70] },
+  { cap: '16 vs 22 electrons', a: ['methanal', -19, 16], b: ['CO₂', -78, 22, 'sublimes'] }
+];
+var psvg = $('.imf-psvg');
+function drawPd() {
+  if (!visible(psvg)) return;
+  clear(psvg);
+  var W = widthOf(psvg, 860), H = 430, L = 52, T = 70, B = H - 66, YMIN = -120, YMAX = 120;
+  psvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  function Y(v) { return T + (YMAX - v) / (YMAX - YMIN) * (B - T); }
+  var placed = [], avoid = [];
+  for (var v = YMIN; v <= YMAX; v += 20) {
+    if (v % 40) continue;
+    add(psvg, 'line', { x1: L, x2: W - 8, y1: Y(v), y2: Y(v), 'class': v === 0 ? 'imf-ax' : 'imf-grid' });
+    lab(psvg, L - 6, Y(v), fmt(v), { cands: [[0, 4, 'end']], placed: placed, cls: 'imf-tick' });
+  }
+  add(psvg, 'line', { x1: L, x2: L, y1: T - 6, y2: B, 'class': 'imf-ax' });
+  avoid.push([L, T - 6, L, B], [L, Y(0), W - 8, Y(0)]);
+  lab(psvg, L - 40, 18, 'boiling point / °C', { cands: [[0, 0, 'start']], placed: placed, cls: 'imf-axt' });
+  var gw = (W - L - 10) / 3, bw = Math.min(52, gw * 0.26);
+  PAIRS.forEach(function (pr, k) {
+    var gx = L + gw * (k + 0.5);
+    lab(psvg, gx, 46, pr.cap, { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-pcap imf-b' });
+    [pr.a, pr.b].forEach(function (m, j) {
+      var x = gx + (j ? 0.12 * gw : -0.12 * gw - bw) , y0 = Y(0), y1 = Y(m[1]);
+      var r = add(psvg, 'rect', { x: x, y: Math.min(y0, y1), width: bw, height: Math.max(Math.abs(y1 - y0), 1.5), rx: 2,
+        fill: j ? 'var(--s1)' : 'var(--s2)', 'fill-opacity': 0.85, 'class': 'imf-pbar', 'data-name': m[0], 'data-bp': m[1], 'data-pair': k });
+      r.setAttribute('data-tip', m[0] + '：' + m[2] + ' electrons，b.p. ' + fmt(m[1]) + ' °C' + (m[3] ? '（' + m[3] + '）' : '') + '<br>' + (j ? 'non-polar：只有 id-id' : 'polar：pd-pd + id-id'));
+      placed.push({ x: x, y: Math.min(y0, y1), w: bw, h: Math.abs(y1 - y0) });
+      var cx = x + bw / 2, vt = fmt(m[1]) + ' °C' + (m[3] ? '（' + m[3] + '）' : '');
+      var vc = m[1] >= 0 ? [[0, -8, 'middle'], [0, -18, 'middle']] : [[0, 18, 'middle'], [0, 28, 'middle'], [bw / 2 + 4, 18, 'end'], [bw / 2 + 4, 28, 'end']];
+      lab(psvg, cx, y1, vt, { cands: vc, avoid: avoid, placed: placed, cls: 'imf-pval imf-b' }).setAttribute('data-name', m[0]);
+      lab(psvg, cx, B + 22, m[0], { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-pname imf-b' }).setAttribute('data-name', m[0]);
+      lab(psvg, cx, B + 46, j ? 'id-id only' : 'pd-pd + id-id', { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-pimf imf-sm imf-c' + (j ? 1 : 2) }).setAttribute('data-name', m[0]);
+    });
+  });
+}
+
+/* ================= ⑤ id-id animation ================= */
+var asvg = $('.imf-asvg'), PHMS = 1900, AMAX = 0.30, BMAX = 0.22;
+var anim = { t: 0, dir: 1, playing: true, last: null, phase: 0, drawnKey: '' };
+var aEls = null;
+function easeS(u) { u = Math.max(0, Math.min(1, u)); return u * u * (3 - 2 * u); }
+function buildAni() {
+  if (!visible(asvg)) return false;
+  clear(asvg);
+  var W = widthOf(asvg, 860), H = 270;
+  asvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var R = Math.min(62, W * 0.09), cy = 128, xa = W * 0.3, xb = W * 0.7;
+  var defs = add(asvg, 'defs', {}), gid = $root.id + '-imfcloud';
+  var rg = add(defs, 'radialGradient', { id: gid });
+  add(rg, 'stop', { offset: '0%', 'stop-color': 'var(--s1)', 'stop-opacity': 0.62 });
+  add(rg, 'stop', { offset: '70%', 'stop-color': 'var(--s1)', 'stop-opacity': 0.28 });
+  add(rg, 'stop', { offset: '100%', 'stop-color': 'var(--s1)', 'stop-opacity': 0.05 });
+  var line = add(asvg, 'line', { x1: xa + R * 1.05, x2: xb - R * 1.05, y1: cy, y2: cy, stroke: 'var(--s4)', 'stroke-width': 3, 'stroke-dasharray': '7 5', opacity: 0, 'class': 'imf-attr' });
+  var ca = add(asvg, 'ellipse', { cx: xa, cy: cy, rx: R, ry: R, fill: 'url(#' + gid + ')', 'class': 'imf-cloud', 'data-atom': 'A' });
+  var cb = add(asvg, 'ellipse', { cx: xb, cy: cy, rx: R, ry: R, fill: 'url(#' + gid + ')', 'class': 'imf-cloud', 'data-atom': 'B' });
+  add(asvg, 'circle', { cx: xa, cy: cy, r: 6, fill: 'var(--pos)' });
+  add(asvg, 'circle', { cx: xb, cy: cy, r: 6, fill: 'var(--pos)' });
+  aEls = { W: W, H: H, R: R, cy: cy, xa: xa, xb: xb, ca: ca, cb: cb, line: line };
+  anim.drawnKey = '';
+  return true;
+}
+var CAPS = {
+  1: '① 某一瞬间 atom A 的 electrons 偏到一侧 → 这一侧 δ−、另一侧 δ+：<b>instantaneous dipole</b>。',
+  2: '② A 的 dipole 让旁边 atom B 的 electron cloud 被排斥 / 吸引 → B 也极化：<b>induced dipole</b>。',
+  3: '③ A 的 δ− 与 B 的 δ+（或 A 的 δ+ 与 B 的 δ−）互相吸引：<b>id-id attraction</b>。下一瞬间 electrons 又换了位置，dipole 随之改变。'
+};
+function drawAniLabels(ph, dir) {
+  var e = aEls;
+  $$('.imf-asvg text').forEach(function (t) { t.parentNode.removeChild(t); });
+  var placed = [], avoid = [[e.xa + e.R * 1.05, e.cy, e.xb - e.R * 1.05, e.cy]];
+  /* electrons pile up on the +dir side of A; B's induced shift is in the same direction */
+  function deltas(x, atom) {
+    var neg = x + dir * e.R * 0.62, pos = x - dir * e.R * 0.62;
+    lab(asvg, neg, e.cy - e.R - 10, 'δ−', { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-dneg' }).setAttribute('data-atom', atom);
+    lab(asvg, pos, e.cy - e.R - 10, 'δ+', { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-dpos' }).setAttribute('data-atom', atom);
+  }
+  if (ph >= 1) deltas(e.xa, 'A');
+  if (ph >= 2) deltas(e.xb, 'B');
+  lab(asvg, e.xa, e.cy + e.R + 26, 'atom A：instantaneous dipole', { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-b imf-alab' });
+  lab(asvg, e.xb, e.cy + e.R + 26, ph >= 2 ? 'atom B：induced dipole' : 'atom B', { cands: [[0, 0, 'middle']], placed: placed, cls: 'imf-b imf-blab' });
+  if (ph >= 3) lab(asvg, (e.xa + e.xb) / 2, e.cy, 'id-id attraction', { cands: [[0, -12, 'middle'], [0, 24, 'middle']], avoid: avoid, placed: placed, cls: 'imf-b imf-c4 imf-attrlab' });
+  asvg.setAttribute('data-phase', ph);
+  asvg.setAttribute('data-dir', dir);
+  $$('.imf-st').forEach(function (s) { s.classList.toggle('on', +s.getAttribute('data-st') === ph); });
+  $('.imf-cap').innerHTML = CAPS[ph];
+  K.fit();
+}
+function renderAni() {
+  if (!aEls) return;
+  var e = aEls, ph = Math.min(2, Math.floor(anim.t / PHMS)), u = (anim.t - ph * PHMS) / PHMS;
+  var a = 0, b = 0, op = 0, f = 1;
+  if (ph === 0) { a = AMAX * easeS(u / 0.6); }
+  else if (ph === 1) { a = AMAX; b = BMAX * easeS(u / 0.6); }
+  else { a = AMAX; b = BMAX; op = easeS(u / 0.2); if (u > 0.78) { f = 1 - easeS((u - 0.78) / 0.22); a *= f; b *= f; op *= f; } }
+  a *= anim.dir; b *= anim.dir;
+  function cloud(el, x, off) {
+    el.setAttribute('cx', (x + off * e.R).toFixed(2));
+    el.setAttribute('rx', (e.R * (1 + Math.abs(off) * 0.45)).toFixed(2));
+    el.setAttribute('ry', (e.R * (1 - Math.abs(off) * 0.25)).toFixed(2));
+  }
+  cloud(e.ca, e.xa, a); cloud(e.cb, e.xb, b);
+  e.line.setAttribute('opacity', op.toFixed(3));
+  asvg.setAttribute('data-a', a.toFixed(4)); asvg.setAttribute('data-b', b.toFixed(4));
+  var key = (ph + 1) + ':' + anim.dir;
+  if (key !== anim.drawnKey) { anim.drawnKey = key; drawAniLabels(ph + 1, anim.dir); }
+}
+function tick(ts) {
+  requestAnimationFrame(tick);
+  if (!$('[data-pane="ani"]').classList.contains('show')) { anim.last = null; return; }
+  if (!aEls && !buildAni()) return;
+  if (anim.playing) {
+    if (anim.last != null) anim.t += Math.min(ts - anim.last, 100);
+    anim.last = ts;
+    if (anim.t >= 3 * PHMS) { anim.t -= 3 * PHMS; anim.dir = -anim.dir; }
+  } else anim.last = null;
+  renderAni();
+}
+requestAnimationFrame(tick);
+var playBtn = $('.imf-play');
+function setPlaying(v) { anim.playing = v; playBtn.textContent = v ? '⏸ 暂停' : '▶ 播放'; playBtn.setAttribute('data-playing', v ? '1' : '0'); }
+playBtn.addEventListener('click', function () { setPlaying(!anim.playing); });
+$('.imf-step').addEventListener('click', function () {
+  setPlaying(false);
+  var ph = Math.min(2, Math.floor(anim.t / PHMS));
+  if (ph < 2) anim.t = (ph + 1) * PHMS + 0.65 * PHMS;
+  else { anim.dir = -anim.dir; anim.t = 0.65 * PHMS; }
+  renderAni();
+});
+setPlaying(true);
+
+/* ================= tabs & resize ================= */
+var DRAW = { hyd: drawHyd, ele: drawEle, con: drawCon, pd: drawPd, ani: function () { if (buildAni()) renderAni(); } };
+$$('.tabbar button[data-tab]').forEach(function (b) {
+  b.addEventListener('click', function () { DRAW[b.getAttribute('data-tab')](); K.fit(); });
+});
+drawHyd();
+var lastW = {};
+if (window.ResizeObserver) new ResizeObserver(function () {
+  Object.keys(DRAW).forEach(function (k) {
+    var svg = $('[data-pane="' + k + '"] svg'), w = svg.getBoundingClientRect().width;
+    if (!w || Math.abs(w - (lastW[k] || 0)) < 1) return;
+    lastW[k] = w; DRAW[k]();
+  });
+}).observe($root);
+K.fit();
+</script>
