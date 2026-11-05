@@ -92,14 +92,23 @@ def load_los(chapter):
         m = re.match(r'^(\d+)\. (.*)$', ln)
         if m:
             cur = f'{sec}.{m.group(1)}'
-            los[cur] = {'text': m.group(2), 'subs': [], 'extra': []}
+            los[cur] = {'text': m.group(2), 'subs': [], 'extra': [], 'parts': []}
+            continue
+        # 'parts' keeps source order: '(b) …' lines can come before the bullets that belong to them (3.6.1),
+        # and '     - ' bullets nest under the previous bullet (3.4.1(a)'s molecule list)
+        m = re.match(r'^     - (.*)$', ln)
+        if m and cur and los[cur]['parts'] and los[cur]['parts'][-1]['kind'] == 'sub':
+            los[cur]['parts'][-1]['kids'].append(m.group(1))
+            los[cur]['extra'].append(ln.strip())
             continue
         m = re.match(r'^   - (.*)$', ln)
         if m and cur:
             los[cur]['subs'].append(m.group(1))
+            los[cur]['parts'].append({'kind': 'sub', 'text': m.group(1), 'kids': []})
             continue
         if ln.startswith('   ') and ln.strip() and cur:
             los[cur]['extra'].append(ln.strip())
+            los[cur]['parts'].append({'kind': 'extra', 'text': ln.strip()})
     return los, notes
 
 
@@ -134,8 +143,14 @@ def inline_html(s):
 def lo_md(los, key):
     lo = los[key]
     out = [f'> **LO {key}** — {lo["text"]}']
-    out += [f'> - {s}' for s in lo['subs']]
-    out += [f'>\n> {e}' for e in lo['extra'] if not e.startswith('e.g. for Fe:')]
+    prev = 'text'
+    for p in lo['parts']:
+        if p['kind'] == 'sub':
+            out.append(('>\n' if prev == 'extra' else '') + f'> - {p["text"]}')
+            out += [f'>   - {k}' for k in p['kids']]
+        elif not p['text'].startswith('e.g. for Fe:'):
+            out.append(f'>\n> {p["text"]}')
+        prev = p['kind']
     return '\n'.join(out)
 
 
@@ -150,10 +165,24 @@ def lo_extra_html(e):
 
 def lo_html(los, key):
     lo = los[key]
-    subs = ''.join(f'<li>{inline_html(s)}</li>' for s in lo['subs'])
-    extra = ''.join(f'<br>{lo_extra_html(e)}' for e in lo['extra'] if not e.startswith('e.g. for Fe:'))
-    return (f'<div class="lo"><b>LO {key}</b> — {inline_html(lo["text"])}'
-            + (f'<ul>{subs}</ul>' if subs else '') + extra + '</div>')
+    return f'<div class="lo"><b>LO {key}</b> — {inline_html(lo["text"])}' + lo_parts_html(lo) + '</div>'
+
+
+def lo_parts_html(lo):
+    """bullets and continuation lines in source order; consecutive bullets share one <ul>"""
+    out, ul = [], []
+
+    def close():
+        if ul:
+            out.append('<ul>' + ''.join(ul) + '</ul>'); ul.clear()
+    for p in lo['parts']:
+        if p['kind'] == 'sub':
+            kids = ''.join(f'<li>{inline_html(k)}</li>' for k in p['kids'])
+            ul.append(f'<li>{inline_html(p["text"])}' + (f'<ul>{kids}</ul>' if kids else '') + '</li>')
+        elif not p['text'].startswith('e.g. for Fe:'):
+            close(); out.append(f'<br>{lo_extra_html(p["text"])}')
+    close()
+    return ''.join(out)
 
 
 def directives(text, los, notes, kind):
@@ -174,6 +203,23 @@ def directives(text, los, notes, kind):
 
 
 # ---------------------------------------------------------------- practice mini-markdown
+
+def split_row(row):
+    """split a table row on '|', except '\\|' and the '|' between alternative answers inside [[a|b]]"""
+    cells, cur, depth, i = [], '', 0, 0
+    while i < len(row):
+        if row.startswith('[[', i):
+            depth += 1; cur += '[['; i += 2; continue
+        if row.startswith(']]', i) and depth:
+            depth -= 1; cur += ']]'; i += 2; continue
+        if row.startswith('\\|', i):
+            cur += '\\|'; i += 2; continue
+        if row[i] == '|' and not depth:
+            cells.append(cur); cur = ''; i += 1; continue
+        cur += row[i]; i += 1
+    cells.append(cur)
+    return cells
+
 
 def practice_html(text):
     out, para, i = [], [], 0
@@ -215,7 +261,7 @@ def practice_html(text):
             flush()
             rows = []
             while i < len(lines) and lines[i].strip().startswith('|'):
-                cells = re.split(r'(?<!\\)\|', lines[i].strip().strip('|'))   # '\|' stays inside a cell
+                cells = split_row(lines[i].strip().strip('|'))
                 rows.append([c.strip().replace('\\|', '|') for c in cells]); i += 1
             head, body = rows[0], [r for r in rows[1:] if not all(re.fullmatch(r':?-+:?', c) for c in r)]
             t = '<table><tr>' + ''.join(f'<th>{inline_html(c)}</th>' for c in head) + '</tr>'
@@ -266,10 +312,8 @@ def checklist_body(los, key):
         rows.append(f'<h4>{sec}</h4>')
         for k in keys:
             lo = los[k]
-            subs = ''.join(f'<li>{inline_html(s)}</li>' for s in lo['subs'])
-            extra = ''.join(f'<br>{lo_extra_html(e)}' for e in lo['extra'] if not e.startswith('e.g. for Fe:'))
             rows.append(f'<label class="chk"><input type="checkbox" data-id="{k}"><span><b>{k}</b> '
-                        f'{inline_html(lo["text"])}' + (f'<ul>{subs}</ul>' if subs else '') + extra + '</span></label>')
+                        f'{inline_html(lo["text"])}' + lo_parts_html(lo) + '</span></label>')
     return (f'<h3>Learning outcomes 自查 <span class="faint count"></span></h3>'
             f'<p class="faint">勾选会存在这个浏览器里（localStorage）；Colab 不允许时只在当前页面有效。</p>'
             f'<div class="lolist" data-key="{key}"><div class="bar"><i></i></div>' + '\n'.join(rows) + '</div>')
