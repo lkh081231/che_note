@@ -1,0 +1,550 @@
+<h3>Polar 与 non-polar molecule：bond dipoles 抵消吗？ <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
+<div class="row po-mols"><span class="po-rl">molecule</span></div>
+<div class="row po-tools">
+  <span class="po-rl">显示</span>
+  <button class="po-tb on" data-t="bd">bond dipoles</button><button class="po-td on" data-t="dl">δ+ / δ−</button><button class="po-tn on" data-t="net">net dipole</button>
+  <button class="po-ta" data-t="auto">直接显示答案</button>
+  <span class="faint">｜</span>
+  <button data-3d="reset">复位视角</button><button data-3d="spin">自动旋转</button>
+</div>
+<div class="po-main">
+  <div class="stage"><div class="hud"><span class="po-kbd">━▶ bond dipole</span>（ΔEN 越大越长，指向 δ−）<span class="po-kn"> · <b>━▶ net dipole</b>（矢量和）</span><span class="po-klp"> · 淡紫 = lone pair</span>
+    <div class="po-res"></div></div></div>
+  <div class="card po-info"></div>
+</div>
+<div class="fallback card"><p><b>3D 没有加载</b>（<span class="why"></span>），下面是两个平面示意：CO₂ 的两个 bond dipoles 方向相反、抵消；H₂O 的两个不抵消，合成指向 O 一侧。上面的「先猜再看」照常可用。</p>
+  <div class="po-fb"></div>
+</div>
+<style>
+.k .po-rl{display:inline-block;min-width:5.6em;color:var(--mut);font-size:13px}
+.k .po-mols{gap:6px}
+.k .po-mols button{min-width:3.4em}
+.k .po-mols button.po-done{border-style:dashed}
+.k .po-mols button i{font-style:normal;font-size:12px;margin-left:3px}
+.k .po-mols button i.po-iok{color:var(--ok)}
+.k .po-mols button i.po-ibad{color:var(--bad)}
+.k .po-mols button.on i{color:#fff}
+.k .po-tools{margin-top:6px}
+.k .po-tools button:disabled{opacity:.4;cursor:not-allowed;border-style:dashed}
+.k .po-main{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:8px}
+.k .po-main .stage{flex:3 1 430px;width:auto;height:450px}
+.k .po-main .stage .hud{font-size:12.5px;line-height:1.45}
+.k .po-kbd{color:var(--s4);font-weight:650}
+.k .po-kn b{color:var(--fg);font-weight:700}
+.k .po-klp{color:var(--s5)}
+.k .po-res{font-size:14px;font-weight:650;color:var(--fg);margin-top:1px}
+.k .po-res.po-zero{color:var(--s3)}
+.k .po-res.po-wait{color:var(--mut);font-weight:500}
+.k .po-res .po-ch{font-weight:500;color:var(--mut);font-size:13px}
+.k .po-info{flex:1 1 280px;min-width:0}
+.k .po-f{font-size:24px;font-weight:700;line-height:1.2}
+.k .po-ask{margin:8px 0 4px;font-size:14.5px}
+.k .po-gb{display:flex;gap:8px;flex-wrap:wrap}
+.k .po-gb button{font-weight:600;min-width:6.5em}
+.k .po-gb button.po-pick{outline:2px solid var(--acc);outline-offset:1px}
+.k .po-gb button.good{background:var(--ok-soft);border-color:var(--ok)}
+.k .po-gb button.badv{background:var(--bad-soft);border-color:var(--bad)}
+.k .po-verdict{font-size:14.5px;font-weight:650;margin:6px 0 2px;min-height:1.2em}
+.k .po-verdict.po-ok{color:var(--ok)}
+.k .po-verdict.po-no{color:var(--bad)}
+.k .po-info table{width:100%;margin:8px 0 6px;font-size:13.5px}
+.k .po-info td:first-child{color:var(--mut);width:34%}
+.k .po-cl b{font-size:16px}
+.k .po-cl b.po-pol{color:var(--s2)}
+.k .po-cl b.po-npol{color:var(--s3)}
+.k .po-hint{font-size:13.5px;color:var(--mut);margin:4px 0}
+.k .po-rule{font-size:13.5px;border-left:3px solid var(--s4);padding:2px 0 2px 9px;margin:8px 0}
+.k .po-ms{font-size:13.5px;border-left:3px solid var(--bad);padding:2px 0 2px 9px;margin:8px 0}
+.k .po-ms b{color:var(--bad)}
+.k .po-score{font-size:13px;color:var(--mut);margin:6px 0 0}
+.k .po-fb svg{display:block;max-width:100%;height:auto;margin:6px auto}
+.k .po-fb text{font-size:15px}
+.k .po-fb text.po-ft{font-weight:650;font-size:16px}
+.k .po-fb text.po-fp{fill:var(--pos);font-weight:650}
+.k .po-fb text.po-fn{fill:var(--neg);font-weight:650}
+.k .po-fb text.po-fz{fill:var(--s3);font-weight:650}
+.k .po-fb text.po-fa{fill:var(--s4);font-size:13px}
+.k[data-3d=fallback] .po-tools,.k[data-3d=fallback] .po-main .stage{display:none}
+</style>
+<script>
+/* Pauling electronegativities from the notes (3.1 C) */
+var PO_EN = { H: 2.1, B: 2.0, C: 2.5, N: 3.0, O: 3.5, F: 4.0, S: 2.5, Cl: 3.0 };
+var PO_BL = { H: 1.2, F: 1.7, O: 1.35, Cl: 1.65 };   /* scene bond lengths from the central atom */
+/* bond dipole length = PO_KB0 + PO_KBD × ΔEN: grows with ΔEN but never a stub — strictly ∝ ΔEN a C–Cl (0.5) arrow is
+   a quarter of a B–F (2.0) one and reads as a blob beside a 1.65-long bond. net dipole: PO_KNET per unit |net| */
+var PO_KB0 = 0.55, PO_KBD = 0.6, PO_KNET = 0.65;
+var PO_NP = 0.45;                                       /* ΔEN below this is "virtually non-polar" (C–H, 0.4) */
+function poD(a, b) { return (Math.round(Math.abs(PO_EN[a] - PO_EN[b]) * 10) / 10).toFixed(1); }
+function poDen(a, b) { var hi = PO_EN[a] >= PO_EN[b] ? a : b, lo = hi === a ? b : a; return PO_EN[hi].toFixed(1) + ' − ' + PO_EN[lo].toFixed(1) + ' = ' + poD(a, b); }
+var PO_CH = 'C–H（' + poDen('C', 'H') + '）virtually non-polar';
+/* c = central atom, t = terminal atoms in K3.vsepr slot order (tetrahedral: top first), lp = lone pairs on c */
+var PO_M = [
+  { id: 'H2', f: 'H₂', pair: ['H', 'H'], L: 0.95, shape: 'linear', polar: false,
+    pb: '没有：H–H，ΔEN = 0（两个 atoms 一样）', cc: '没有 bond dipole，无从抵消', concl: 'non-polar',
+    note: 'electronegativity 相同 → bonding pair 平均共享，bond 本身就 non-polar。' },
+  { id: 'HCl', f: 'HCl', pair: ['H', 'Cl'], L: 1.5, shape: 'linear', polar: true,
+    pb: '有：H–Cl（' + poDen('H', 'Cl') + '）', cc: '只有一个 bond dipole，没有别的 dipole 来抵消', concl: 'polar（δ− 在 Cl）' },
+  { id: 'CO2', f: 'CO₂', c: 'C', t: ['O', 'O'], lp: 0, dbl: 1, shape: 'linear', polar: false,
+    pb: '有：2 × C=O（' + poDen('C', 'O') + '）', cc: '抵消：两个 bond dipoles 大小相等、方向相反（180°）', concl: 'non-polar',
+    rule: 1 },
+  { id: 'BF3', f: 'BF₃', c: 'B', t: ['F', 'F', 'F'], lp: 0, shape: 'trigonal planar', polar: false,
+    pb: '有：3 × B–F（' + poDen('B', 'F') + '，这里最 polar 的 bond）', cc: '抵消：三个 dipoles 互成 120°，对称', concl: 'non-polar', rule: 1 },
+  { id: 'CH4', f: 'CH₄', c: 'C', t: ['H', 'H', 'H', 'H'], lp: 0, shape: 'tetrahedral', polar: false,
+    pb: '没有：' + PO_CH, cc: '没有 polar bond；就算把 C–H 算上，tetrahedral 对称也会抵消', concl: 'non-polar' },
+  { id: 'CCl4', f: 'CCl₄', c: 'C', t: ['Cl', 'Cl', 'Cl', 'Cl'], lp: 0, shape: 'tetrahedral', polar: false,
+    pb: '有：4 × C–Cl（' + poDen('C', 'Cl') + '）', cc: '抵消：四个相同的 dipoles 指向 tetrahedron 的四个顶点，对称', concl: 'non-polar', rule: 1 },
+  { id: 'CH3Cl', f: 'CH₃Cl', c: 'C', t: ['Cl', 'H', 'H', 'H'], lp: 0, shape: 'tetrahedral', polar: true,
+    pb: '有：1 × C–Cl（' + poDen('C', 'Cl') + '）；' + PO_CH, cc: '不抵消：只有一个 C–Cl dipole，C–H 抵消不了它', concl: 'polar（δ− 在 Cl）' },
+  { id: 'CHCl3', f: 'CHCl₃', c: 'C', t: ['H', 'Cl', 'Cl', 'Cl'], lp: 0, shape: 'tetrahedral', polar: true,
+    pb: '有：3 × C–Cl（' + poDen('C', 'Cl') + '）；' + PO_CH, cc: '不抵消：三个 C–Cl 指向同一侧，没被 C–H 抵消', concl: 'polar（δ− 在 Cl 一侧）',
+    note: '同样是 tetrahedral，CCl₄ non-polar 而 CHCl₃ polar：shape 对称不够，四个 bond 还得一样。' },
+  { id: 'H2O', f: 'H₂O', c: 'O', t: ['H', 'H'], lp: 2, shape: 'non-linear', polar: true,
+    pb: '有：2 × O–H（' + poDen('O', 'H') + '）', cc: '不抵消：两个 dipoles 成 104.5°，合成指向 O 一侧', concl: 'polar（δ− 在 O）', ms: 'h2o' },
+  { id: 'NH3', f: 'NH₃', c: 'N', t: ['H', 'H', 'H'], lp: 1, shape: 'pyramidal', polar: true,
+    pb: '有：3 × N–H（' + poDen('N', 'H') + '）', cc: '不抵消：三个 dipoles 都向上指向 N，合成指向 N（lone pair 那一侧）', concl: 'polar（δ− 在 N）' },
+  { id: 'SCl2', f: 'SCl₂', c: 'S', t: ['Cl', 'Cl'], lp: 2, shape: 'non-linear', polar: true,
+    pb: '有：2 × S–Cl（' + poDen('S', 'Cl') + '）', cc: '不抵消：shape non-linear，合成指向两个 Cl 之间', concl: 'polar（δ− 在 Cl 一侧）', ms: 'scl2' },
+  { id: 'SF6', f: 'SF₆', c: 'S', t: ['F', 'F', 'F', 'F', 'F', 'F'], lp: 0, shape: 'octahedral', polar: false,
+    pb: '有：6 × S–F（' + poDen('S', 'F') + '）', cc: '抵消：每个 S–F 对面都有一个方向相反的 S–F', concl: 'non-polar', rule: 1 }
+];
+var PO_BY = {}; PO_M.forEach(function (m) { PO_BY[m.id] = m; });
+/* recommended view [rx, ry] */
+/* tetrahedral / pyramidal: no terminal atom straight behind (or in front of) the central atom, so every bond —
+   and the bond-dipole arrow beside it — is at most ~⅓ foreshortened and the net arrow misses the front atom */
+var PO_VIEW = { H2: [0.2, -0.3], HCl: [0.2, -0.3], CO2: [0.22, -0.3], BF3: [0.25, -0.3], CH4: [0.45, 0.32], CCl4: [0.45, 0.32],
+                CH3Cl: [0.45, 0.32], CHCl3: [0.45, 0.32], H2O: [0.2, -0.45], NH3: [0.45, 0.3], SCl2: [0.2, -0.45], SF6: [0.5, -0.8] };
+
+var po = { id: 'CHCl3', bd: true, dl: true, net: true, auto: false, guess: {} };
+
+/* ---------- pure geometry: atoms, bonds, bond dipoles, net dipole (no three.js) ---------- */
+function poAdd(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+function poSubV(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+function poMul(a, s) { return [a[0] * s, a[1] * s, a[2] * s]; }
+function poDot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+function poLen(a) { return Math.sqrt(poDot(a, a)); }
+function poUnit(a) { var l = poLen(a) || 1; return poMul(a, 1 / l); }
+function poCross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+
+function poGeom(id) {
+  var m = PO_BY[id], g = { atoms: [], bonds: [], lps: [] };
+  if (m.pair) {
+    g.atoms = [{ el: m.pair[0], p: [-m.L / 2, 0, 0] }, { el: m.pair[1], p: [m.L / 2, 0, 0] }];
+    g.bonds = [[0, 1, 1]];
+  } else {
+    var d = K3.vsepr(m.t.length, m.lp, true);
+    g.atoms.push({ el: m.c, p: [0, 0, 0] });
+    d.bonds.forEach(function (v, i) {
+      var el = m.t[i], L = PO_BL[el];
+      g.atoms.push({ el: el, p: poMul(v, L) });
+      g.bonds.push([0, i + 1, m.dbl ? 2 : 1, [0, 0, 1]]);
+    });
+    d.lps.forEach(function (v) { g.lps.push({ at: 0, dir: v, len: 0.85 }); });
+  }
+  /* bond dipoles: tail at the less electronegative atom, head towards the more electronegative (δ−) */
+  g.dip = []; g.np = []; g.q = g.atoms.map(function () { return 0; });
+  var net = [0, 0, 0];
+  g.bonds.forEach(function (b) {
+    var A = g.atoms[b[0]], B = g.atoms[b[1]], den = Math.abs(PO_EN[A.el] - PO_EN[B.el]);
+    if (den < 1e-9) return;
+    if (den < PO_NP) { g.np.push(b); return; }
+    var from = PO_EN[A.el] < PO_EN[B.el] ? b[0] : b[1], to = from === b[0] ? b[1] : b[0];
+    var u = poUnit(poSubV(g.atoms[to].p, g.atoms[from].p)), v = poMul(u, den);
+    g.dip.push({ from: from, to: to, den: den, u: u, v: v, bond: b });
+    g.q[from] += den; g.q[to] -= den;
+    net = poAdd(net, v);
+  });
+  g.net = net.map(function (x) { return Math.abs(x) < 1e-9 ? 0 : x; });
+  g.netLen = poLen(g.net);
+  /* centre the molecule on its atoms so it turns about its middle */
+  var c = [0, 0, 0];
+  g.atoms.forEach(function (a) { c = poAdd(c, a.p); });
+  g.c = poMul(c, 1 / g.atoms.length);
+  return g;
+}
+/* where the bond-dipole arrows go: beside each bond, pushed away from the molecule's other bonds; when
+   the others cancel (CO₂, BF₃, tetrahedral, octahedral) to the side seen at the default view, upward */
+function poArrows(g, view) {
+  var cx = Math.cos(view[0]), sx = Math.sin(view[0]), cy = Math.cos(view[1]), sy = Math.sin(view[1]);
+  /* inverse of the default rotation (Rx(rx)·Ry(ry), three.js 'XYZ') applied to world z (view) and y (up) */
+  function inv(w) { var x = w[0], y = w[1] * cx + w[2] * sx, z = -w[1] * sx + w[2] * cx; return [x * cy - z * sy, y, x * sy + z * cy]; }
+  var vw = inv([0, 0, 1]), up = inv([0, 1, 0]);
+  return g.dip.map(function (d) {
+    var A = g.atoms[d.from].p, B = g.atoms[d.to].p, u = d.u, others = [0, 0, 0];
+    var ctr = d.bond[0];
+    g.bonds.forEach(function (b) { if (b !== d.bond && (b[0] === ctr)) others = poAdd(others, poUnit(poSubV(g.atoms[b[1]].p, g.atoms[b[0]].p))); });
+    var mine = poUnit(poSubV(g.atoms[d.bond[1]].p, g.atoms[d.bond[0]].p));
+    /* candidate sides all round the bond: keep away from the other bonds of the same atom, stay side-on
+       to the default view (an arrow in front of its bond would hide it), and prefer up */
+    var oth = [];
+    g.bonds.forEach(function (b) { if (b !== d.bond && b[0] === ctr) oth.push(poUnit(poSubV(g.atoms[b[1]].p, g.atoms[b[0]].p))); });
+    var e1 = poCross(mine, Math.abs(mine[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0]); e1 = poUnit(e1); var e2 = poCross(mine, e1), off = null, bestS = 1e9;
+    for (var k = 0; k < 72; k++) {
+      var t = k * Math.PI / 36, o = poAdd(poMul(e1, Math.cos(t)), poMul(e2, Math.sin(t)));
+      var sc = 1.2 * Math.abs(poDot(o, vw)) - 0.08 * poDot(o, up);
+      oth.forEach(function (b) { sc = Math.max(sc, sc + 0.9 * Math.max(0, poDot(o, b))); });
+      if (sc < bestS - 1e-9) { bestS = sc; off = o; }
+    }
+    /* planar, 3 or more bonds round the centre (BF₃): every arrow on the same rotational side of its bond, so
+       neighbouring arrows sit on opposite sides of the gap between them and their tails never meet at B */
+    if (oth.length >= 2 && g.lps.length === 0) {
+      var nrm = poCross(oth[0], oth[1]);
+      if (poLen(nrm) > 1e-6 && Math.abs(poDot(poUnit(nrm), mine)) < 1e-6) {
+        nrm = poUnit(nrm); if (poDot(nrm, vw) < 0) nrm = poMul(nrm, -1);
+        off = poUnit(poCross(mine, nrm));
+      }
+    }
+    var ra = K3.ARAD[g.atoms[d.from].el] || 0.3, rb = K3.ARAD[g.atoms[d.to].el] || 0.3;
+    var D = Math.max(ra, rb) + 0.1, L = PO_KB0 + PO_KBD * d.den, tc = g.atoms.length > 2 ? 0.6 : 0.5;
+    var P0 = g.atoms[d.bond[0]].p, P1 = g.atoms[d.bond[1]].p;
+    var mid = poAdd(poAdd(P0, poMul(poSubV(P1, P0), tc)), poMul(off, D));
+    return { s: poAdd(mid, poMul(u, -L / 2)), e: poAdd(mid, poMul(u, L / 2)), from: d.from, to: d.to, den: d.den };
+  });
+}
+/* net dipole arrow along the vector sum. With a central atom it never crosses that atom: it ends at its
+   surface when the central atom is δ− (H₂O, NH₃: from between the H atoms up to O / N) and starts at its
+   surface when it is δ+ (SCl₂, CHCl₃, CH₃Cl: away towards the Cl side). HCl: below the bond. */
+function poNetArrow(g) {
+  if (g.netLen < 1e-6) return null;
+  var u = poUnit(g.net), L = 0.75 + PO_KNET * g.netLen, s, e;   /* grows with |net|; never a stub */
+  if (g.atoms.length === 2) {
+    var mid = poAdd(poMul(poAdd(g.atoms[0].p, g.atoms[1].p), 0.5), [0, -0.62, 0]);
+    s = poAdd(mid, poMul(u, -L / 2)); e = poAdd(mid, poMul(u, L / 2));
+  } else {
+    var c = g.atoms[0].p, r = (K3.ARAD[g.atoms[0].el] || 0.3) + 0.06;
+    if (g.q[0] < 0) { e = poAdd(c, poMul(u, -r)); s = poAdd(e, poMul(u, -L)); }
+    else { s = poAdd(c, poMul(u, r)); e = poAdd(s, poMul(u, L)); }
+  }
+  return { s: s, e: e };
+}
+
+/* ---------- controls ---------- */
+var poBox = $root.querySelector('.po-info');
+PO_M.forEach(function (m) {
+  var b = K.el('button', { 'data-m': m.id }, m.f + '<i></i>');
+  $root.querySelector('.po-mols').appendChild(b);
+  b.addEventListener('click', function () { po.id = m.id; poUpdate(true); });
+});
+$root.querySelectorAll('.po-tools [data-t]').forEach(function (b) {
+  b.addEventListener('click', function () { var k = b.getAttribute('data-t'); po[k] = !po[k]; poUpdate(false); });
+});
+function poShown() { return po.auto || po.guess[po.id] != null; }
+
+function poInfo() {
+  var m = PO_BY[po.id], g = poGeom(po.id), shown = poShown(), gs = po.guess[po.id];
+  var h = '<div class="po-f">' + m.f + '</div>' +
+    '<p class="po-ask">这个 molecule 是 polar 还是 non-polar？先猜，再看 net dipole。</p>' +
+    '<div class="po-gb"><button data-g="polar">polar</button><button data-g="non-polar">non-polar</button></div>' +
+    '<p class="po-verdict"></p>' +
+    '<table><tbody>' +
+    '<tr><td>polar bonds?</td><td class="po-pb">' + m.pb + '</td></tr>' +
+    '<tr><td>shape</td><td class="po-sh"><b>' + m.shape + '</b></td></tr>' +
+    (shown ? '<tr><td>bond dipoles 抵消？</td><td class="po-cc">' + m.cc + '</td></tr>' +
+             '<tr><td>结论</td><td class="po-cl"><b class="' + (m.polar ? 'po-pol' : 'po-npol') + '">' + m.concl + '</b></td></tr>' : '') +
+    '</tbody></table>';
+  h += '<p class="po-hint">dipole 箭头的画法：箭头指向 δ− 一端，尾部一小横（像 +）在 δ+ 一端。</p>';
+  if (!shown) h += '<p class="po-hint">提示：看 3D 图里的橙色 bond dipole 箭头——它们在空间里会不会互相抵消、合起来等于 0？</p>';
+  else {
+    if (m.note) h += '<p class="po-hint">' + m.note + '</p>';
+    if (m.rule) h += '<p class="po-rule"><b>not all molecules with polar bonds are polar molecules</b>——对称的 shape 让 bond dipoles 抵消。</p>';
+    if (m.ms === 'scl2') h += '<p class="po-ms"><b>判分</b>（9701/21 May/June 2026 Q1(c)(ii)）：在 SCl₂ 上标 dipoles，S 写 <b>δ+</b> AND 两个 Cl 都写 <b>δ−</b>；只写 δ 不写正负号 → 拒绝。</p>';
+    if (m.ms === 'scl2' || m.ms === 'h2o') h += '<p class="po-ms"><b>判分</b>：「H₂O has a greater dipole moment than SCl₂」的解释是 <b>electronegativity difference (between H and O) is greater (than S and Cl)</b>（O–H ' + poD('O', 'H') + ' vs S–Cl ' + poD('S', 'Cl') + '）。写 "oxygen is more electronegative than chlorine" 不给分——要比的是差值。</p>';
+  }
+  var done = Object.keys(po.guess), ok = done.filter(function (k) { return po.guess[k] === PO_BY[k].polar; }).length;
+  h += '<p class="po-score">已猜 ' + done.length + ' / ' + PO_M.length + '，对 ' + ok + ' 个' + (po.auto ? '（「直接显示答案」开着，猜了照样判分）' : '') + '</p>';
+  poBox.innerHTML = h;
+  poBox.setAttribute('data-mol', po.id); poBox.setAttribute('data-shown', shown ? '1' : '0');
+  var v = poBox.querySelector('.po-verdict');
+  if (gs != null) {
+    var right = gs === m.polar;
+    v.className = 'po-verdict ' + (right ? 'po-ok' : 'po-no');
+    v.textContent = (right ? '✓ 对：' : '✗ 不对：') + m.f + ' 是 ' + (m.polar ? 'polar' : 'non-polar') + (g.netLen < 1e-6 ? '，net dipole = 0。' : '，net dipole 不为 0。');
+    poBox.querySelectorAll('[data-g]').forEach(function (b) {
+      var pick = (b.getAttribute('data-g') === 'polar') === gs, truth = (b.getAttribute('data-g') === 'polar') === m.polar;
+      b.classList.toggle('po-pick', pick); b.classList.toggle('good', truth); b.classList.toggle('badv', pick && !truth);
+    });
+  } else if (po.auto) { v.className = 'po-verdict'; v.textContent = '答案：' + (m.polar ? 'polar' : 'non-polar'); }
+  poBox.querySelectorAll('[data-g]').forEach(function (b) {
+    b.addEventListener('click', function () { po.guess[po.id] = b.getAttribute('data-g') === 'polar'; poUpdate(false); });
+  });
+}
+
+function poHud() {
+  var g = poGeom(po.id), m = PO_BY[po.id], r = $root.querySelector('.po-res'), shown = poShown();
+  var ch = g.np.length ? ' <span class="po-ch">· ' + PO_CH + '，不画箭头</span>' : '';
+  if (!shown) { r.className = 'po-res po-wait'; r.innerHTML = 'net dipole：先在右边猜 polar / non-polar，再显示' + ch; }
+  else if (g.netLen < 1e-6) { r.className = 'po-res po-zero'; r.innerHTML = (g.dip.length ? 'net dipole = 0 — dipoles cancel' : 'net dipole = 0 — no polar bonds') + ch; }
+  else { r.className = 'po-res'; r.innerHTML = 'net dipole 不为 0（粗箭头，指向 δ− 一侧）→ polar molecule' + (po.net ? '' : '（net dipole 箭头已隐藏）') + ch; }
+  $root.querySelector('.po-klp').style.display = g.lps.length ? '' : 'none';
+  $root.querySelector('.po-kn').style.display = shown && po.net && g.netLen > 1e-6 ? '' : 'none';
+}
+
+function poControls() {
+  $root.querySelectorAll('.po-mols [data-m]').forEach(function (b) {
+    var id = b.getAttribute('data-m'), gs = po.guess[id], i = b.querySelector('i');
+    b.classList.toggle('on', id === po.id);
+    i.className = gs == null ? '' : gs === PO_BY[id].polar ? 'po-iok' : 'po-ibad';
+    i.textContent = gs == null ? '' : gs === PO_BY[id].polar ? '✓' : '✗';
+  });
+  ['bd', 'dl', 'net', 'auto'].forEach(function (k) { $root.querySelector('.po-tools [data-t="' + k + '"]').classList.toggle('on', po[k]); });
+  var tn = $root.querySelector('.po-tn');
+  tn.disabled = !poShown(); tn.title = poShown() ? '' : '先猜 polar / non-polar';
+  $root.setAttribute('data-po', po.id + (poShown() ? ':shown' : ':ask'));
+}
+
+/* ---------- 3D ---------- */
+var poApi = null, poT = null, poHold = null, poMol = null, poBd = [], poNetG = null, poDl = [], poElT = [];
+var PO_DPX = 23, PO_EPX = 20;   /* on-screen heights (px) of δ tags and element tags */
+function poSrgb(sp) { var m = sp.material.map; if (m && m.colorSpace !== poT.SRGBColorSpace) { m.colorSpace = poT.SRGBColorSpace; m.needsUpdate = true; } return sp; }
+function poPx() { var H = poApi.renderer.domElement.clientHeight || 450; return 2 * Math.tan(20 * Math.PI / 180) * poApi.dist / H; }
+function poProj(obj, v) {
+  var w = obj.localToWorld(new poT.Vector3(v[0], v[1], v[2])), cam = poApi.camera, el = poApi.renderer.domElement;
+  var depth = w.distanceTo(cam.position), q = w.clone().project(cam), W = el.clientWidth, H = el.clientHeight;
+  return { x: (q.x + 1) / 2 * W, y: (1 - q.y) / 2 * H, ppu: H / (2 * Math.tan(20 * Math.PI / 180) * depth), d: depth, W: W, H: H, w: w };
+}
+function poRC(r, c) { var dx = Math.max(r.x - c.x, 0, c.x - (r.x + r.w)), dy = Math.max(r.y - c.y, 0, c.y - (r.y + r.h)); return Math.max(0, c.r - Math.hypot(dx, dy)); }
+function poRR(a, b) { var ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y); return ox > 0 && oy > 0 ? Math.min(ox, oy) : 0; }
+function poSR(s, r, pad) { var w = 0; for (var i = 0; i <= 12; i++) w = Math.max(w, poRC(r, { x: s[0] + (s[2] - s[0]) * i / 12, y: s[1] + (s[3] - s[1]) * i / 12, r: pad })); return w; }
+
+/* screen layout of the molecule: atoms as discs, bonds and arrows as segments */
+function poScreen() {
+  var ud = poMol.userData, g = ud.g, out = { atoms: [], bonds: [], arrows: [] };
+  g.atoms.forEach(function (a, i) {
+    var q = poProj(poMol, a.p), r = ud.atoms[i].geometry.parameters.radius * q.ppu;
+    out.atoms.push({ x: q.x, y: q.y, r: Math.max(r, PO_EPX * 0.6), d: q.d, el: a.el, i: i });
+  });
+  g.bonds.forEach(function (b) { var A = out.atoms[b[0]], B = out.atoms[b[1]]; out.bonds.push([A.x, A.y, B.x, B.y]); });
+  if (po.bd) ud.arr.forEach(function (a) { var s = poProj(poMol, a.s), e = poProj(poMol, a.e); out.arrows.push([s.x, s.y, e.x, e.y]); });
+  if (poNetG && poNetG.visible) { var s = poProj(poMol, ud.netA.s), e = poProj(poMol, ud.netA.e); out.net = [s.x, s.y, e.x, e.y]; out.arrows.push(out.net); }
+  return out;
+}
+/* δ tags: screen-space placement beside their atom, away from its bonds, clear of every atom disc,
+   arrow and other δ tag; hidden when the atom itself is hidden behind a nearer atom */
+function poPlace() {
+  if (!poMol) return;
+  poHold.updateMatrixWorld(true);
+  var sc = poScreen(), ud = poMol.userData, g = ud.g, placed = [], w = poPx();
+  var hudH = ($root.querySelector('.stage .hud') || { offsetHeight: 40 }).offsetHeight;
+  poDl.forEach(function (t) {
+    var i = t.userData.at, A = sc.atoms[i];
+    var hid = sc.atoms.some(function (o, j) { return j !== i && o.d < A.d && Math.hypot(o.x - A.x, o.y - A.y) < o.r * 0.8; });
+    t.visible = po.dl && !hid; t.userData.hid = hid;
+    if (!t.visible) return;
+    var out = [0, 0];
+    g.bonds.forEach(function (b) {
+      if (b[0] !== i && b[1] !== i) return;
+      var o = sc.atoms[b[0] === i ? b[1] : b[0]], dx = o.x - A.x, dy = o.y - A.y, l = Math.hypot(dx, dy) || 1;
+      out[0] -= dx / l * Math.min(1, l / 40); out[1] -= dy / l * Math.min(1, l / 40);
+    });
+    var pref = Math.hypot(out[0], out[1]) > 0.35 ? Math.atan2(out[1], out[0]) : -Math.PI / 4;
+    var h = PO_DPX, tw = h * t.userData.aspect, best = null;
+    for (var k = 0; k < 24; k++) {
+      var ang = pref + (k % 2 ? 1 : -1) * Math.ceil(k / 2) * Math.PI / 12;
+      [0, 7, 15, 26].forEach(function (dd) {
+        var dist = A.r + dd + 0.5 * Math.hypot(tw * Math.cos(ang), h * Math.sin(ang)) + 2;
+        var x = A.x + Math.cos(ang) * dist, y = A.y + Math.sin(ang) * dist, r = { x: x - tw / 2, y: y - h / 2, w: tw, h: h };
+        var bad = 0;
+        sc.atoms.forEach(function (c) { bad += poRC(r, { x: c.x, y: c.y, r: c.r + 2 }) * 3; });
+        sc.bonds.forEach(function (s) { bad += poSR(s, r, 4) * 1.5; });
+        sc.arrows.forEach(function (s) { bad += poSR(s, r, 5) * 2; });
+        placed.forEach(function (o) { bad += poRR(r, o) * 4; });
+        if (r.x < 3 || r.y < hudH + 3 || r.x + r.w > A.W - 3 || r.y + r.h > A.H - 3) bad += 80;
+        var score = bad + Math.ceil(k / 2) * 0.8 + dd * 0.12;
+        if (!best || score < best.score) best = { score: score, x: x, y: y, r: r };
+      });
+    }
+    placed.push(best.r);
+    t.userData.rect = best.r;
+    /* screen offset → world point at the atom's depth → molecule-local position */
+    var q = poProj(poMol, g.atoms[i].p), wp = q.w.clone();
+    wp.x += (best.x - A.x) / q.ppu; wp.y -= (best.y - A.y) / q.ppu;
+    t.position.copy(poMol.worldToLocal(wp));
+  });
+}
+function poSize() {
+  if (!poApi) return;
+  var w = poPx();
+  poDl.forEach(function (t) { K3.tagSize(t, PO_DPX * w); });
+  poElT.forEach(function (t) { K3.tagSize(t, Math.max(t.userData.base, PO_EPX * w)); });
+}
+/* K3.arrow with a flat (unlit) material, so the colour reads the same from every side */
+function poArrowMesh(s, e, col, o, top) {
+  /* the kit's "+" bar scales with the arrow (≈ shaft width on a short C–Cl arrow): draw our own, fixed size */
+  var a = K3.arrow(poT, s, e, col, { r: o.r, head: o.head }), mat = new poT.MeshBasicMaterial({ color: col });
+  if (o.cross) {
+    var A = K3.v(poT, s), u = K3.v(poT, e).sub(A).normalize(), side = new poT.Vector3(0, 0, 1).cross(u);
+    if (side.lengthSq() < 1e-4) side = new poT.Vector3(1, 0, 0).cross(u);
+    side.normalize().multiplyScalar(o.bar || 0.14);
+    var c = A.clone().add(u.multiplyScalar(o.at || 0.12));
+    a.add(K3.rod(poT, c.clone().sub(side), c.clone().add(side), o.r * 0.95, mat));
+  }
+  if (top) { mat.depthTest = false; mat.transparent = true; }
+  a.traverse(function (c) { if (c.isMesh) { c.material = mat; c.renderOrder = top || 1; } });
+  return a;
+}
+function poDraw(newView) {
+  var T = poT, api = poApi;
+  if (!api) return;
+  while (poHold.children.length) poHold.remove(poHold.children[0]);
+  poBd = []; poDl = []; poElT = []; poNetG = null;
+  var g = poGeom(po.id), view = PO_VIEW[po.id];
+  var mol = K3.molecule(T, api, { atoms: g.atoms, bonds: g.bonds, lps: g.lps }, { lpOpacity: 0.2 });
+  mol.position.set(-g.c[0], -g.c[1], -g.c[2]);
+  poHold.add(mol); poMol = mol;
+  var ud = mol.userData; ud.g = g;
+  ud.tags.forEach(function (t) { poSrgb(t); t.userData.base = t.scale.y; poElT.push(t); });
+  /* bond dipoles */
+  var col = api.color('--s4');
+  ud.arr = poArrows(g, view);
+  ud.arr.forEach(function (a) {
+    var m = poArrowMesh(a.s, a.e, col, { cross: true, r: 0.038, head: 0.26 });
+    m.userData = { s: a.s, e: a.e, from: a.from, to: a.to }; m.visible = po.bd;
+    mol.add(m); poBd.push(m);
+  });
+  /* net dipole: drawn on top of the atoms (depthTest off) so it is never hidden inside the molecule */
+  ud.netA = poNetArrow(g);
+  if (ud.netA && g.atoms.length > 2) {
+    var nu = poUnit(g.net);
+    g.dip.forEach(function (d, i) {
+      if (poDot(d.u, nu) < 0.97) return;   /* only a bond lying along the net arrow (CH₃Cl's C–Cl) */
+      var a = ud.arr[i], P0 = g.atoms[d.bond[0]].p, P1 = g.atoms[d.bond[1]].p, ax = poUnit(poSubV(P1, P0));
+      var mid = poMul(poAdd(a.s, a.e), 0.5), rel = poSubV(mid, P0), side = poUnit(poSubV(rel, poMul(ax, poDot(rel, ax))));
+      var sh = poMul(side, -0.55);
+      ud.netA = { s: poAdd(ud.netA.s, sh), e: poAdd(ud.netA.e, sh) };
+    });
+  }
+  if (ud.netA) {
+    /* a --card halo behind it keeps the arrow readable over atoms of any colour (dark C, white H) */
+    var u = poUnit(poSubV(ud.netA.e, ud.netA.s));
+    var halo = poArrowMesh(poAdd(ud.netA.s, poMul(u, -0.05)), poAdd(ud.netA.e, poMul(u, 0.07)), api.color('--card'), { cross: true, r: 0.085, head: 0.42, bar: 0.21, at: 0.25 }, 14);
+    var n = poArrowMesh(ud.netA.s, ud.netA.e, api.color('--fg'), { cross: true, r: 0.055, head: 0.34, bar: 0.17, at: 0.2 }, 15);
+    var ng = new T.Group(); ng.add(halo); ng.add(n);
+    ng.userData = { s: ud.netA.s, e: ud.netA.e, net: 1, arrow: n };
+    mol.add(ng); poNetG = ng;
+  }
+  /* δ+ / δ− */
+  g.q.forEach(function (q, i) {
+    if (Math.abs(q) < 1e-9) return;
+    var t = poSrgb(K3.tag(T, q > 0 ? 'δ+' : 'δ−', { color: api.color(q > 0 ? '--pos' : '--neg').getStyle(), bg: api.color('--card').getStyle(), size: 0.3 }));
+    t.renderOrder = 25; t.userData.at = i; t.userData.text = q > 0 ? 'δ+' : 'δ−';
+    mol.add(t); poDl.push(t);
+  });
+  if (newView) {
+    var ext = 0;
+    g.atoms.forEach(function (a) { ext = Math.max(ext, poLen(poSubV(a.p, g.c)) + (K3.ARAD[a.el] || 0.3)); });
+    if (ud.netA) [ud.netA.s, ud.netA.e].forEach(function (p) { ext = Math.max(ext, poLen(poSubV(p, g.c)) + 0.1); });
+    api.rx = view[0]; api.ry = view[1];
+    api.dist = Math.max(3.6, (ext + 0.45) / (Math.tan(20 * Math.PI / 180) * 0.84));
+    api.rx0 = api.rx; api.ry0 = api.ry; api.dist0 = api.dist;
+  }
+  poVis();
+}
+function poVis() {
+  if (!poApi || !poMol) return;
+  poBd.forEach(function (m) { m.visible = po.bd; });
+  if (poNetG) poNetG.visible = po.net && poShown();
+  poApi.view();
+}
+
+function poUpdate(rebuild) {
+  poControls(); poInfo(); poHud();
+  if (poApi) { if (rebuild) poDraw(true); else poVis(); }
+  K.fit();
+}
+
+/* ---------- fallback: CO₂ and H₂O as flat drawings ---------- */
+function poFallback() {
+  var box = $root.querySelector('.po-fb');
+  if (box.firstChild) return;
+  var svg = K.svg('svg', { viewBox: '0 0 660 270', width: 660, height: 270 }), avoid = [], placed = [];
+  box.appendChild(svg);
+  function line(x1, y1, x2, y2, col, w) { svg.appendChild(K.svg('line', { x1: x1, y1: y1, x2: x2, y2: y2, stroke: col, 'stroke-width': w, 'stroke-linecap': 'round' })); avoid.push([x1, y1, x2, y2]); }
+  function atom(x, y, el, r) {
+    svg.appendChild(K.svg('circle', { cx: x, cy: y, r: r, fill: K3.CPK[el], stroke: 'var(--fg)', 'stroke-width': 0.8 }));
+    var t = K.svg('text', { x: x, y: y + 5, 'text-anchor': 'middle', fill: el === 'H' ? '#1b1e24' : '#ffffff', 'font-weight': 650 });
+    t.style.fill = el === 'H' ? '#1b1e24' : '#ffffff'; t.textContent = el; svg.appendChild(t);
+    placed.push({ x: x - r - 2, y: y - r - 2, w: 2 * r + 4, h: 2 * r + 4 });
+  }
+  function arrow(x1, y1, x2, y2, col, w) {   /* dipole arrow: + bar near the tail, head at (x2, y2) = δ− end */
+    var L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L, hd = 5 + w * 3, hw = 3 + w * 1.6;
+    line(x1, y1, x2 - ux * hd * 0.8, y2 - uy * hd * 0.8, col, w);
+    svg.appendChild(K.svg('polygon', { points: [x2, y2, x2 - ux * hd - uy * hw, y2 - uy * hd + ux * hw, x2 - ux * hd + uy * hw, y2 - uy * hd - ux * hw].join(' '), fill: col }));
+    var cx = x1 + ux * 8, cy = y1 + uy * 8, bw = 4 + w * 1.2;
+    line(cx - uy * bw, cy + ux * bw, cx + uy * bw, cy - ux * bw, col, w);
+    avoid.push([x2 - ux * hd - uy * hw, y2 - uy * hd + ux * hw, x2 - ux * hd + uy * hw, y2 - uy * hd - ux * hw]);
+  }
+  var lab = function (x, y, t, cls, c) { return K.label(svg, x, y, t, { avoid: avoid, placed: placed, cls: cls || '', cands: c }); };
+  var BD = 'var(--s4)', NET = 'var(--fg)';
+  /* CO₂ */
+  var y = 150, xs = [70, 170, 270];
+  line(xs[0], y - 4, xs[2], y - 4, 'var(--mut)', 3); line(xs[0], y + 4, xs[2], y + 4, 'var(--mut)', 3);
+  arrow(150, y - 40, 92, y - 40, BD, 3); arrow(190, y - 40, 248, y - 40, BD, 3);
+  atom(xs[0], y, 'O', 17); atom(xs[1], y, 'C', 17); atom(xs[2], y, 'O', 17);
+  lab(170, 28, 'CO₂：linear', 'po-ft', [[0, 0, 'middle']]);
+  lab(xs[0], y, 'δ−', 'po-fn', [[0, 38, 'middle'], [-22, 30, 'end']]);
+  lab(xs[2], y, 'δ−', 'po-fn', [[0, 38, 'middle'], [22, 30, 'start']]);
+  lab(xs[1], y, 'δ+', 'po-fp', [[0, 38, 'middle']]);
+  lab(170, y - 40, '方向相反、大小相等', 'po-fa', [[0, -14, 'middle']]);
+  lab(170, 232, 'net dipole = 0 — dipoles cancel', 'po-fz', [[0, 0, 'middle']]);
+  /* H₂O */
+  var ox = 500, oy = 112, hb = 52.25 * Math.PI / 180, L = 82, hx = L * Math.sin(hb), hy = L * Math.cos(hb);
+  var H1 = [ox - hx, oy + hy], H2 = [ox + hx, oy + hy];
+  line(ox, oy, H1[0], H1[1], 'var(--mut)', 3); line(ox, oy, H2[0], H2[1], 'var(--mut)', 3);
+  [[H1, -1], [H2, 1]].forEach(function (p) {   /* beside each O–H, outside the V, pointing H → O */
+    var hx0 = p[0][0], hy0 = p[0][1], ux = (ox - hx0) / L, uy = (oy - hy0) / L;
+    var nx = p[1] < 0 ? uy : -uy, ny = p[1] < 0 ? -ux : ux;
+    var mx = (ox + hx0) / 2 + nx * 24, my = (oy + hy0) / 2 + ny * 24;
+    arrow(mx - ux * 30, my - uy * 30, mx + ux * 30, my + uy * 30, BD, 3);
+  });
+  arrow(ox, oy + 70, ox, oy - 52, NET, 5);
+  atom(H1[0], H1[1], 'H', 13); atom(H2[0], H2[1], 'H', 13); atom(ox, oy, 'O', 17);
+  lab(ox, 28, 'H₂O：non-linear', 'po-ft', [[0, 0, 'middle']]);
+  lab(ox, oy, 'δ−', 'po-fn', [[-26, -14, 'end'], [26, -14, 'start'], [-22, -26, 'end'], [22, -26, 'start'], [-30, 0, 'end'], [30, 0, 'start'], [-14, -34, 'end'], [14, -34, 'start']]);
+  lab(H1[0], H1[1], 'δ+', 'po-fp', [[-18, 26, 'end'], [0, 32, 'middle']]);
+  lab(H2[0], H2[1], 'δ+', 'po-fp', [[18, 26, 'start'], [0, 32, 'middle']]);
+  lab(ox, oy - 52, 'net dipole', 'po-ft', [[14, 6, 'start'], [12, 18, 'start']]);
+  lab(ox, 252, 'net dipole 不为 0，指向 O 一侧 → polar', 'po-fz', [[0, 0, 'middle']]).style.fill = 'var(--s2)';
+  K.fit();
+}
+new MutationObserver(function () { if ($root.getAttribute('data-3d') === 'fallback') poFallback(); }).observe($root, { attributes: true, attributeFilter: ['data-3d'] });
+
+poUpdate(false);
+
+K3.start($root, function (T, api) {
+  poT = T; poApi = api;
+  poHold = new T.Group(); api.group.add(poHold);
+  api.scene.position.y = -0.18;   /* clear of the two-line HUD */
+  api.view = function () {
+    api.group.rotation.set(api.rx, api.ry, 0);
+    api.camera.position.set(0, 0, api.dist); api.camera.lookAt(0, 0, 0);
+    poSize(); poPlace(); api.render();
+  };
+  poDraw(true);
+  if (window.ResizeObserver) new ResizeObserver(function () { setTimeout(function () { if (poApi) poApi.view(); }, 20); }).observe($root.querySelector('.stage'));
+});
+
+/* for tests: the data behind the picture and its screen layout */
+$root.__po = {
+  state: po, M: PO_M, EN: PO_EN,
+  geom: function (id) { var g = poGeom(id); return { atoms: g.atoms, net: g.net, netLen: g.netLen, q: g.q, dip: g.dip.map(function (d) { return { from: d.from, to: d.to, den: d.den }; }), np: g.np.length }; },
+  scene: function () {   /* positions read back from the meshes actually drawn (molecule-local) */
+    if (!poMol) return null;
+    var ud = poMol.userData;
+    function cone(gr) { var c = null; gr.children.forEach(function (x) { if (x.geometry && x.geometry.type === 'ConeGeometry') c = x.position.toArray(); }); return c; }
+    return { atoms: ud.atoms.map(function (a) { return { el: a.userData.el, p: a.position.toArray() }; }),
+             bd: poBd.map(function (m) { return { from: m.userData.from, to: m.userData.to, s: m.userData.s, e: m.userData.e, cone: cone(m), visible: m.visible }; }),
+             net: poNetG ? { s: poNetG.userData.s, e: poNetG.userData.e, cone: cone(poNetG.userData.arrow), visible: poNetG.visible } : null,
+             dl: poDl.map(function (t) { return { at: t.userData.at, text: t.userData.text, visible: t.visible }; }) };
+  },
+  layout: function () {
+    if (!poApi || !poMol) return null;
+    poApi.view();
+    var sc = poScreen(), el = poApi.renderer.domElement;
+    return { atoms: sc.atoms, arrows: sc.arrows, net: sc.net || null, W: el.clientWidth, H: el.clientHeight,
+             hud: ($root.querySelector('.stage .hud') || { offsetHeight: 0 }).offsetHeight,
+             dl: poDl.filter(function (t) { return t.visible; }).map(function (t) {
+               var q = poProj(t.parent, t.position.toArray()), w = t.scale.x * q.ppu, h = t.scale.y * q.ppu;
+               return { x: q.x - w / 2, y: q.y - h / 2, w: w, h: h, text: t.userData.text, at: t.userData.at };
+             }) };
+  }
+};
+</script>
