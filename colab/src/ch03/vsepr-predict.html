@@ -1,0 +1,477 @@
+<h3>一步步推 shape 与 bond angle（VSEPR）</h3>
+<div class="tabbar">
+  <button data-tab="derive">分步推导</button>
+  <button data-tab="quiz">答题模式</button>
+</div>
+
+<div data-pane="derive">
+  <div class="vp-pick">
+    <div class="row vp-prow vp-rowB"><span class="vp-rl">3.5 B 类比（没见过的）</span></div>
+    <div class="row vp-prow vp-rowA"><span class="vp-rl">3.5 A syllabus 点名</span></div>
+  </div>
+  <div class="row vp-ctl">
+    <button class="vp-next">下一步 →</button>
+    <button class="vp-all">全部展开</button>
+    <button class="vp-reset">从头再来</button>
+    <span class="vp-count faint"></span>
+  </div>
+  <div class="vp-work vp-dwork"></div>
+</div>
+
+<div data-pane="quiz">
+  <p class="mut">随机给一个 species：选 bonding pairs、lone pairs 和 shape，填 bond angle，再判分。判完给出完整推导和 mark scheme 句式。</p>
+  <div class="card vp-q">
+    <div class="vp-qhead">推 <b class="vp-qsp"></b> 的 shape 与 bond angle</div>
+    <div class="vp-qgrid">
+      <span class="vp-ql">bonding pairs</span><span class="row vp-qbp"></span>
+      <span class="vp-ql">lone pairs</span><span class="row vp-qlp"></span>
+      <span class="vp-ql">shape</span><span class="row"><select class="vp-qshape" aria-label="shape"></select></span>
+      <span class="vp-ql">bond angle</span><span class="row"><input type="text" class="vp-qang" aria-label="bond angle" placeholder="例如 107"> °</span>
+    </div>
+    <div class="row">
+      <button class="vp-check">判分</button>
+      <button class="vp-new">换一题 →</button>
+      <span class="vp-score faint"></span>
+    </div>
+    <p class="faint vp-tolnote">判分容差：104.5° 接受 103–105°；107° 接受 106–108°；其余须精确。两个角的（PF₅）写成 “120 and 90”。</p>
+    <div class="vp-fb"></div>
+  </div>
+  <div class="vp-work vp-qwork"></div>
+</div>
+
+<style>
+.k .vp-pick{margin:2px 0 4px}
+.k .vp-prow{margin:3px 0;gap:6px}
+.k .vp-rl{display:inline-block;min-width:11.5em;color:var(--mut);font-size:13px}
+.k .vp-pick button{min-width:3.8em;padding:3px 9px}
+.k .vp-ctl{margin:8px 0 4px}
+.k .vp-ctl button:disabled{opacity:.4;cursor:not-allowed}
+.k .vp-main{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-top:6px}
+.k .vp-steps{flex:1 1 330px;min-width:0;margin:0}
+.k .vp-fig{flex:1 1 320px;max-width:420px;padding:6px 8px}
+.k .vp-svg{width:100%}
+.k .vp-svg text{font-size:15px}
+.k .vp-svg text.vp-sym{font-size:16px;font-weight:650}
+.k .vp-svg text.vp-lab{font-size:14px;fill:var(--mut)}
+.k .vp-svg text.vp-alab{font-size:14px;font-weight:650;fill:var(--s4)}
+.k .vp-svg text.vp-elab{font-size:14px;fill:var(--acc)}
+.k .vp-svg text.vp-chg{font-size:18px;font-weight:650}
+.k .vp-bond{stroke:var(--fg);stroke-width:2.2;stroke-linecap:round}
+.k .vp-brk{stroke:var(--mut);stroke-width:1.8;fill:none}
+.k .vp-at{fill:var(--card);stroke:var(--line);stroke-width:1.6}
+.k .vp-ctr{fill:var(--acc-soft);stroke:var(--acc);stroke-width:2}
+.k .vp-lobe{fill:color-mix(in srgb,var(--s5) 22%,var(--card));stroke:var(--s5);stroke-width:1.6}
+.k .vp-dot{fill:var(--s5)}
+.k .vp-lp-back .vp-lobe{stroke-dasharray:3.5 2.5;fill:color-mix(in srgb,var(--s5) 10%,var(--card))}
+.k .vp-wedge{fill:var(--fg);stroke:var(--fg);stroke-width:1;stroke-linejoin:round}
+.k .vp-hl{stroke:var(--fg);stroke-width:1.6;stroke-linecap:round}
+.k .vp-arc{stroke:var(--s4);stroke-width:2;fill:none}
+.k .vp-cap{font-size:14px;color:var(--mut);text-align:center;margin:2px 0 0}
+.k .vp-key{font-size:13px;color:var(--mut);text-align:center;margin:2px 0 0}
+.k .vp-cap b{color:var(--acc);font-size:16px}
+.k .vp-steps li{display:flex;gap:9px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--card);margin:0 0 6px;list-style:none}
+.k .vp-steps{padding:0}
+.k .vp-n{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--acc);color:var(--card);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.k .vp-st-b{min-width:0;flex:1 1 auto}
+.k .vp-st-t{font-weight:600;font-size:14px}
+.k .vp-eq{font-size:15px;margin-top:2px}
+.k .vp-c{background:var(--acc-soft);border-radius:4px;padding:0 5px;white-space:nowrap}
+.k .vp-steps li.vp-todo{background:transparent;border-style:dashed}
+.k .vp-steps li.vp-todo .vp-n{background:var(--line);color:var(--mut)}
+.k .vp-steps li.vp-todo .vp-st-t{color:var(--faint);font-weight:500}
+.k .vp-steps li.vp-cur{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.k .vp-sum{display:inline-block;margin-top:4px;white-space:normal;padding:1px 7px}
+.k .vp-res{width:100%;margin:4px 0 0}
+.k .vp-res th,.k .vp-res td{text-align:center;padding-left:5px;padding-right:5px}
+.k .vp-res td{font-weight:650}
+.k .vp-ms{margin-top:10px;border-left:4px solid var(--s4)}
+.k .vp-ms h4{margin:2px 0 6px}
+.k .vp-ms ol{margin:4px 0;padding-left:0;list-style:none}
+.k .vp-ms li{margin:3px 0}
+.k .vp-ms .vp-m{display:inline-block;min-width:2.4em;font-weight:700;color:var(--s4)}
+.k .vp-ms q{font-style:italic}
+.k .vp-warn{color:var(--bad);font-size:14px;margin:4px 0 0}
+.k .vp-q{margin:8px 0}
+.k .vp-qhead{font-size:17px;margin-bottom:8px}
+.k .vp-qhead b{font-size:24px;color:var(--acc);margin:0 4px}
+.k .vp-qgrid{display:grid;grid-template-columns:max-content 1fr;gap:6px 12px;align-items:center}
+.k .vp-ql{color:var(--mut);font-size:14px}
+.k .vp-qgrid .row{margin:0;gap:5px}
+.k .vp-qgrid button{min-width:2.3em;padding:3px 8px}
+.k .vp-qang{width:7em}
+.k .vp-fb{margin-top:8px}
+.k .vp-fb ul{list-style:none;padding:0;margin:4px 0}
+.k .vp-fb li{margin:2px 0}
+.k .vp-ok{color:var(--ok);font-weight:650}
+.k .vp-no{color:var(--bad);font-weight:650}
+.k .vp-verdict{font-weight:650;padding:4px 9px;border-radius:6px;display:inline-block}
+.k .vp-verdict.vp-good{background:var(--ok-soft);color:var(--ok)}
+.k .vp-verdict.vp-bad{background:var(--bad-soft);color:var(--bad)}
+.k .vp-qwork:empty{display:none}
+</style>
+
+<script>
+K.init($root);
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+
+/* species: central atom c (Group grp, ve outer electrons), charge q, n outer atoms t joined by bonds of order ord.
+   bp / lp / shape / angle are written out (3.5 A / 3.5 B tables) and must agree with the arithmetic below. */
+var SP = [
+  { id: 'NH4', f: 'NH₄⁺', c: 'N', grp: 15, ve: 5, q: 1, t: 'H', n: 4, ord: 1, bp: 4, lp: 0, shape: 'tetrahedral', ang: [109.5], ana: 'CH4', g: 'B' },
+  { id: 'H3O', f: 'H₃O⁺', c: 'O', grp: 16, ve: 6, q: 1, t: 'H', n: 3, ord: 1, bp: 3, lp: 1, shape: 'pyramidal', ang: [107], ana: 'NH3', g: 'B' },
+  { id: 'NH2', f: 'NH₂⁻', c: 'N', grp: 15, ve: 5, q: -1, t: 'H', n: 2, ord: 1, bp: 2, lp: 2, shape: 'non-linear', ang: [104.5], ana: 'H2O', g: 'B' },
+  { id: 'SCl2', f: 'SCl₂', c: 'S', grp: 16, ve: 6, q: 0, t: 'Cl', n: 2, ord: 1, bp: 2, lp: 2, shape: 'non-linear', ang: [104.5], angTxt: '104.5°（MS 接受 103–105°）', ana: 'H2O', g: 'B' },
+  { id: 'PCl3', f: 'PCl₃', c: 'P', grp: 15, ve: 5, q: 0, t: 'Cl', n: 3, ord: 1, bp: 3, lp: 1, shape: 'pyramidal', ang: [107], ana: 'NH3', g: 'B' },
+  { id: 'SiH4', f: 'SiH₄', c: 'Si', grp: 14, ve: 4, q: 0, t: 'H', n: 4, ord: 1, bp: 4, lp: 0, shape: 'tetrahedral', ang: [109.5], ana: 'CH4', g: 'B' },
+  { id: 'CCl4', f: 'CCl₄', c: 'C', grp: 14, ve: 4, q: 0, t: 'Cl', n: 4, ord: 1, bp: 4, lp: 0, shape: 'tetrahedral', ang: [109.5], ana: 'CH4', g: 'B' },
+  { id: 'BeCl2', f: 'BeCl₂', c: 'Be', grp: 2, ve: 2, q: 0, t: 'Cl', n: 2, ord: 1, bp: 2, lp: 0, shape: 'linear', ang: [180], ana: 'CO2', g: 'B' },
+  { id: 'CS2', f: 'CS₂', c: 'C', grp: 14, ve: 4, q: 0, t: 'S', n: 2, ord: 2, bp: 2, lp: 0, shape: 'linear', ang: [180], ana: 'CO2', g: 'B' },
+  { id: 'SO2', f: 'SO₂', c: 'S', grp: 16, ve: 6, q: 0, t: 'O', n: 2, ord: 2, bp: 2, lp: 1, shape: 'non-linear', shapeTxt: 'non-linear（bent）', ang: [118], angTxt: '约 118°（略小于 120°）', svgAng: '约 118°', ana: null, g: 'B' },
+  { id: 'PCl4', f: 'PCl₄⁺', c: 'P', grp: 15, ve: 5, q: 1, t: 'Cl', n: 4, ord: 1, bp: 4, lp: 0, shape: 'tetrahedral', ang: [109.5], ana: 'CH4', g: 'B' },
+  { id: 'PCl6', f: 'PCl₆⁻', c: 'P', grp: 15, ve: 5, q: -1, t: 'Cl', n: 6, ord: 1, bp: 6, lp: 0, shape: 'octahedral', ang: [90], ana: 'SF6', g: 'B' },
+  { id: 'XeF4', f: 'XeF₄', c: 'Xe', grp: 18, ve: 8, q: 0, t: 'F', n: 4, ord: 1, bp: 4, lp: 2, shape: 'square planar', ang: [90], ana: null, g: 'B' },
+  { id: 'CO2', f: 'CO₂', c: 'C', grp: 14, ve: 4, q: 0, t: 'O', n: 2, ord: 2, bp: 2, lp: 0, shape: 'linear', ang: [180], g: 'A' },
+  { id: 'BF3', f: 'BF₃', c: 'B', grp: 13, ve: 3, q: 0, t: 'F', n: 3, ord: 1, bp: 3, lp: 0, shape: 'trigonal planar', ang: [120], g: 'A' },
+  { id: 'CH4', f: 'CH₄', c: 'C', grp: 14, ve: 4, q: 0, t: 'H', n: 4, ord: 1, bp: 4, lp: 0, shape: 'tetrahedral', ang: [109.5], g: 'A' },
+  { id: 'NH3', f: 'NH₃', c: 'N', grp: 15, ve: 5, q: 0, t: 'H', n: 3, ord: 1, bp: 3, lp: 1, shape: 'pyramidal', ang: [107], g: 'A' },
+  { id: 'H2O', f: 'H₂O', c: 'O', grp: 16, ve: 6, q: 0, t: 'H', n: 2, ord: 1, bp: 2, lp: 2, shape: 'non-linear', ang: [104.5], g: 'A' },
+  { id: 'PF5', f: 'PF₅', c: 'P', grp: 15, ve: 5, q: 0, t: 'F', n: 5, ord: 1, bp: 5, lp: 0, shape: 'trigonal bipyramidal', ang: [120, 90], angTxt: '120° and 90°', g: 'A' },
+  { id: 'SF6', f: 'SF₆', c: 'S', grp: 16, ve: 6, q: 0, t: 'F', n: 6, ord: 1, bp: 6, lp: 0, shape: 'octahedral', ang: [90], g: 'A' }
+];
+var BY = {}; SP.forEach(function (s) { BY[s.id] = s; });
+var ARR = { 2: 'linear', 3: 'trigonal planar', 4: 'tetrahedral', 5: 'trigonal bipyramidal', 6: 'octahedral' };
+var SHAPES = ['linear', 'trigonal planar', 'tetrahedral', 'pyramidal', 'non-linear', 'trigonal bipyramidal', 'octahedral', 'square planar'];
+var MINUS = '−';
+
+function angTxt(s) { return s.angTxt || s.ang.map(function (a) { return a + '°'; }).join(' and '); }
+function shapeTxt(s) { return s.shapeTxt || s.shape; }
+function bondName(s) { return s.c + (s.ord === 2 ? '=' : '–') + s.t; }
+function lpWord(n) { return n + (n === 1 ? ' lone pair' : ' lone pairs'); }
+function bpWord(n) { return n + (n === 1 ? ' bonding pair' : ' bonding pairs'); }
+function chgTxt(q) { return q === 0 ? '' : (Math.abs(q) === 1 ? '' : Math.abs(q)) + (q > 0 ? '+' : MINUS); }
+
+/* the arithmetic, done once per species */
+function work(s) {
+  var e = s.ve - s.q, used = s.n * s.ord, left = e - used;
+  return { e: e, used: used, left: left, lp: left / 2, regions: s.n + left / 2 };
+}
+
+function stepHtml(s, k) {
+  var w = work(s), bn = bondName(s);
+  var eTxt = s.q === 0 ? String(s.ve) : s.ve + ' ' + (s.q > 0 ? MINUS : '+') + ' ' + Math.abs(s.q) + ' = ' + w.e;
+  switch (k) {
+    case 1:
+      return 'central atom：<b>' + s.c + '</b>（Group ' + s.grp + '）→ outer electrons = <b>' + s.ve + '</b>';
+    case 2:
+      if (s.q === 0) return 'neutral molecule：不加不减 → <b>' + s.ve + '</b>';
+      return (s.q > 0 ? '+' : MINUS) + Math.abs(s.q) + ' charge：' + (s.q > 0 ? '正电荷减' : '负电荷加') + ' ' + Math.abs(s.q) +
+        ' → <span class="vp-c">' + eTxt + '</span>';
+    case 3:
+      return s.n + ' 个 ' + bn + (s.ord === 2 ? ' double bond' : ' single bond') + '，每个用掉 ' + s.ord + ' → 用掉 <span class="vp-c">' +
+        (s.ord === 2 ? s.n + ' × 2 = ' + w.used : String(w.used)) + '</span>';
+    case 4:
+      return '剩 <span class="vp-c">' + w.e + ' ' + MINUS + ' ' + w.used + ' = ' + w.left + '</span> → <span class="vp-c">' + w.left + ' ÷ 2 = ' + w.lp + '</span> → <b>' + lpWord(w.lp) + '</b>' +
+        '<span class="vp-c vp-sum">' + s.c + '：' + eTxt + '；' + s.n + ' 个 ' + bn + ' 用掉 ' + w.used + ' → 剩 ' + w.left + ' → ' + lpWord(w.lp) + '</span>';
+    case 5:
+      var lpNote = w.lp ? '（shape 只看 atoms，lone pairs 不进名字）' : '';
+      return s.n + ' 个成键 atoms + ' + lpWord(w.lp) + ' = <b>' + w.regions + ' 个区域</b> → ' + ARR[w.regions] + ' 排布 → shape：<b>' +
+        shapeTxt(s) + '</b>' + lpNote + ' → bond angle <b>' + angTxt(s) + '</b>' +
+        '<table class="vp-res" data-bp="' + s.n + '" data-lp="' + w.lp + '" data-shape="' + s.shape + '" data-angle="' + s.ang.join(',') + '">' +
+        '<tr><th>bonding pairs</th><th>lone pairs</th><th>shape</th><th>bond angle</th></tr>' +
+        '<tr><td>' + s.n + '</td><td>' + w.lp + '</td><td>' + shapeTxt(s) + '</td><td>' + angTxt(s) + '</td></tr></table>';
+    case 6:
+      if (s.g === 'A') return '<b>' + s.f + '</b> 本身就是 syllabus 点名的 7 个之一（3.5 A，shape + bond angle 必背）';
+      if (s.ana) {
+        var a = BY[s.ana];
+        return '类比 <b>' + a.f + '</b>：同样 ' + a.bp + ' bp + ' + a.lp + ' lp → ' + a.shape + '，' + angTxt(a) +
+          (s.f.match(/[⁺⁻]/) ? '（ion 也一样：charge 只改 electron 数，不改推法）' : '');
+      }
+      if (s.id === 'SO2') return 'syllabus 没有点名的同形状例子。3 个区域像 BF₃ 一样是 trigonal planar 排布，但其中一个是 lone pair：' +
+        'shape 只看 atoms → non-linear（bent）；lone pair 排斥更强，角度略小于 120°（约 118°）';
+      return 'syllabus 没有点名的同形状例子。6 个区域像 SF₆ 一样是 octahedral 排布，2 个 lone pairs 占相对的两个位置（相距 180°，repulsion 最小）' +
+        '→ 4 个 F 在同一平面：square planar，90°';
+  }
+}
+var TITLES = ['', 'central atom 与 outer electrons', 'ion charge（负加正减）', 'bonds 用掉的 electrons（single 1、double 2）',
+  '剩余 ÷ 2 = lone pairs', '区域 = 成键 atoms + lone pairs → 排布 → shape → bond angle', '类比 syllabus 的例子'];
+
+/* MS sentence card */
+function msHtml(s) {
+  var w = work(s), bn = bondName(s);
+  var m1 = angTxt(s);
+  var m3 = w.lp ? '<q>lone pairs repel more than bonding pairs</q>（或 lp–lp &gt; lp–bp &gt; bp–bp）' : '<q>bonding pairs repel equally</q>';
+  var h = '<div class="card vp-ms" data-sp="' + s.id + '"><h4>Mark scheme 句式：解释 ' + s.f + ' 的 bond angle</h4><ol>' +
+    '<li><span class="vp-m">M1</span>bond angle <b>' + m1 + '</b></li>' +
+    '<li><span class="vp-m">M2</span><q>' + bpWord(s.n) + ' and ' + lpWord(w.lp) + ' (of electrons)</q>' +
+      (s.ord === 2 ? '<span class="faint">（double bond 算一个区域）</span>' : '') + '</li>' +
+    '<li><span class="vp-m">M3</span>' + m3 + '</li></ol>' +
+    '<p class="vp-warn">✗ 写「' + s.n + ' ' + bn + ' bonds」代替 bonding pairs → 不给 M2</p>';
+  if (s.id === 'SCl2') h += '<p class="vp-warn">✗ 写成「2 bonding pairs + 1 lone pair」且角度 107–109° → 最多 1 分（9701/21 May/June 2026 Q1(c)(i)）</p>';
+  return h + '</div>';
+}
+
+/* ---------------- 2D electron-pair schematic ---------------- */
+/* directions in degrees (SVG: 0 = right, 90 = down).
+   b = bonds, l = lone pairs; wedge / hash = indices into b drawn as a solid wedge (towards you) / hashed wedge (away);
+   short = drawn shorter (out of the page); lback = indices into l drawn dashed (behind the page).
+   4 regions are drawn as a tetrahedron in perspective (two bonds in the page ~110° apart + wedge + hash),
+   so the 109.5° / 107° / 104.5° arcs open at about 110°, not at 90°. */
+var LAYOUT = {
+  '2,0': { b: [180, 0], arcs: [[180, 360]] },
+  '3,0': { b: [-90, 30, 150], arcs: [[30, 150]] },
+  '4,0': { b: [-90, 160, 50, 10], wedge: [2], hash: [3], arcs: [[160, 270]] },
+  '5,0': { b: [-90, 90, 180, -35, 35], wedge: [4], hash: [3], arcs: [[-35, 35, '120°'], [180, 270, '90°']] },
+  '6,0': { b: [-90, 90, 180, 0, 135, -45], wedge: [4], hash: [5], short: [4, 5], arcs: [[180, 270]] },
+  '3,1': { b: [160, 50, 10], wedge: [1], hash: [2], l: [-90], arcs: [[50, 160]] },
+  '2,2': { b: [35, 145], l: [-50, -130], lback: [1], arcs: [[35, 145]] },
+  '2,1': { b: [30, 150], l: [-90], arcs: [[30, 150]] },
+  '4,2': { b: [0, 90, 180, -90], l: [-45, 135], lback: [0], arcs: [[0, 90]] }
+};
+var CX = 165, CY = 140, R = 84, RC = 20, RA = 16;
+function pt(a, r) { var t = a * Math.PI / 180; return [CX + r * Math.cos(t), CY + r * Math.sin(t)]; }
+function boxSegs(x, y, w, h) { return K.segs([[x, y], [x + w, y], [x + w, y + h], [x, y + h], [x, y]]); }
+
+function drawFig(svg, s, step) {
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  var W = 330, H = 280, w = work(s);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('data-step', step);
+  var L = LAYOUT[s.n + ',' + w.lp];
+  var avoid = [], placed = [];
+  var gB = K.svg('g'), gA = K.svg('g'), gT = K.svg('g');
+  svg.appendChild(gB); svg.appendChild(gA); svg.appendChild(gT);
+  function lab(x, y, txt, o) {
+    var t = K.label(svg, x, y, txt, { avoid: avoid, placed: placed, cls: o.cls, cands: o.cands, pad: o.pad });
+    t.setAttribute('data-ax', x); t.setAttribute('data-ay', y);
+    if (o.role) t.setAttribute('data-role', o.role);
+    return t;
+  }
+  /* ion brackets */
+  if (s.q && step >= 2) {
+    var bx1 = 22, bx2 = 308, by1 = 28, by2 = 252;
+    [[bx1 + 9, by1, bx1, by1, bx1, by2, bx1 + 9, by2], [bx2 - 9, by1, bx2, by1, bx2, by2, bx2 - 9, by2]].forEach(function (p) {
+      gB.appendChild(K.svg('polyline', { 'class': 'vp-brk', points: p.join(' ') }));
+      avoid = avoid.concat(K.segs([[p[0], p[1]], [p[2], p[3]], [p[4], p[5]], [p[6], p[7]]]));
+    });
+  }
+  /* central atom */
+  gA.appendChild(K.svg('circle', { 'class': 'vp-at vp-ctr', cx: CX, cy: CY, r: RC }));
+  avoid = avoid.concat(boxSegs(CX - RC, CY - RC, 2 * RC, 2 * RC));
+  var outer = [];
+  if (step >= 3) {
+    L.b.forEach(function (a, i) {
+      var r = L.short && L.short.indexOf(i) >= 0 ? R * 0.72 : R;
+      var p = pt(a, r), p0 = pt(a, RC), p1 = pt(a, r - RA);
+      var isW = L.wedge && L.wedge.indexOf(i) >= 0, isH = L.hash && L.hash.indexOf(i) >= 0;
+      var nx = -Math.sin(a * Math.PI / 180), ny = Math.cos(a * Math.PI / 180);
+      if (isW) {   /* solid wedge: narrow at the central atom, wide at the outer atom (towards you) */
+        var w0 = 1.2, w1 = 5;
+        gB.appendChild(K.svg('polygon', { 'class': 'vp-bond vp-wedge', 'data-bond': 'wedge', points: [
+          [p0[0] + nx * w0, p0[1] + ny * w0], [p1[0] + nx * w1, p1[1] + ny * w1], [p1[0] - nx * w1, p1[1] - ny * w1], [p0[0] - nx * w0, p0[1] - ny * w0]
+        ].map(function (q) { return q.join(','); }).join(' ') }));
+        avoid = avoid.concat(K.segs([[p0[0] + nx * w0, p0[1] + ny * w0], [p1[0] + nx * w1, p1[1] + ny * w1]]),
+          K.segs([[p0[0] - nx * w0, p0[1] - ny * w0], [p1[0] - nx * w1, p1[1] - ny * w1]]));
+      } else if (isH) {   /* hashed wedge (away from you) */
+        var gh = K.svg('g', { 'class': 'vp-bond vp-hash', 'data-bond': 'hash' }), nH = 6;
+        for (var j = 0; j < nH; j++) {
+          var f = (j + 0.5) / nH, hw = 1.5 + 3.8 * f;
+          var c0 = [p0[0] + (p1[0] - p0[0]) * f, p0[1] + (p1[1] - p0[1]) * f];
+          gh.appendChild(K.svg('line', { 'class': 'vp-hl', x1: c0[0] + nx * hw, y1: c0[1] + ny * hw, x2: c0[0] - nx * hw, y2: c0[1] - ny * hw }));
+        }
+        gB.appendChild(gh);
+        avoid = avoid.concat(K.segs([[p0[0] + nx * 1.5, p0[1] + ny * 1.5], [p1[0] + nx * 5.3, p1[1] + ny * 5.3]]),
+          K.segs([[p0[0] - nx * 1.5, p0[1] - ny * 1.5], [p1[0] - nx * 5.3, p1[1] - ny * 5.3]]));
+      }
+      var offs = isW || isH ? [] : s.ord === 2 ? [-3.6, 3.6] : [0];
+      offs.forEach(function (o) {
+        var dx = -Math.sin(a * Math.PI / 180) * o, dy = Math.cos(a * Math.PI / 180) * o;
+        gB.appendChild(K.svg('line', { 'class': 'vp-bond', x1: p0[0] + dx, y1: p0[1] + dy, x2: p1[0] + dx, y2: p1[1] + dy }));
+        avoid.push([p0[0] + dx, p0[1] + dy, p1[0] + dx, p1[1] + dy]);
+      });
+      gA.appendChild(K.svg('circle', { 'class': 'vp-at', cx: p[0], cy: p[1], r: RA, 'data-atom': s.t }));
+      avoid = avoid.concat(boxSegs(p[0] - RA, p[1] - RA, 2 * RA, 2 * RA));
+      outer.push({ a: a, p: p, r: r, i: i });
+    });
+  }
+  var lobes = [];
+  if (step >= 4 && L.l) {
+    L.l.forEach(function (a, li) {
+      var back = L.lback && L.lback.indexOf(li) >= 0;
+      var c = pt(a, RC + 17), g = K.svg('g', { 'class': 'vp-lp' + (back ? ' vp-lp-back' : ''), transform: 'rotate(' + a + ' ' + c[0] + ' ' + c[1] + ')' });
+      g.appendChild(K.svg('ellipse', { 'class': 'vp-lobe', cx: c[0], cy: c[1], rx: 17, ry: 11 }));
+      g.appendChild(K.svg('circle', { 'class': 'vp-dot', cx: c[0] + 3, cy: c[1] - 4.5, r: 2.6 }));
+      g.appendChild(K.svg('circle', { 'class': 'vp-dot', cx: c[0] + 3, cy: c[1] + 4.5, r: 2.6 }));
+      gB.appendChild(g);
+      var poly = [];   /* the rotated ellipse as a 12-gon, so labels may sit close to it */
+      for (var j = 0; j <= 12; j++) {
+        var u = j * Math.PI / 6, ex = 18 * Math.cos(u), ey = 12 * Math.sin(u), ra = a * Math.PI / 180;
+        poly.push([c[0] + ex * Math.cos(ra) - ey * Math.sin(ra), c[1] + ex * Math.sin(ra) + ey * Math.cos(ra)]);
+      }
+      avoid = avoid.concat(K.segs(poly));
+      lobes.push({ a: a, c: c });
+    });
+  }
+  /* bond angle arcs */
+  var arcs = [];
+  if (step >= 5) {
+    L.arcs.forEach(function (ar) {
+      var pts = [], rr = 34;
+      for (var i = 0; i <= 16; i++) pts.push(pt(ar[0] + (ar[1] - ar[0]) * i / 16, rr));
+      gB.appendChild(K.svg('polyline', { 'class': 'vp-arc', points: pts.map(function (q) { return q.join(','); }).join(' ') }));
+      avoid = avoid.concat(K.segs(pts));
+      arcs.push({ mid: (ar[0] + ar[1]) / 2, txt: ar[2] || s.svgAng || s.ang[0] + '°' });
+    });
+  }
+  /* text — the symbols first (fixed in their circles), then the rest around them */
+  lab(CX, CY, s.c, { cls: 'vp-sym', cands: [[0, 6, 'middle']], pad: 0, role: 'center' });
+  outer.forEach(function (o) { lab(o.p[0], o.p[1], s.t, { cls: 'vp-sym', cands: [[0, 6, 'middle']], pad: 0, role: 'outer' }); });
+  if (s.q && step >= 2) lab(308, 28, chgTxt(s.q), { cls: 'vp-chg', cands: [[4, 2, 'start'], [4, 8, 'start'], [-2, -4, 'start']], role: 'charge' });
+  if (step === 1 || step === 2) {
+    var et = step === 1 ? s.ve + ' outer electrons' : (s.q ? 'ion：' + w.e + ' electrons' : s.ve + ' electrons');
+    lab(CX, CY, et, { cls: 'vp-elab', cands: [[0, 46, 'middle'], [0, -32, 'middle']], role: 'electrons' });
+  }
+  arcs.forEach(function (ar) {
+    var m = pt(ar.mid, 52);
+    lab(m[0], m[1], ar.txt, { cls: 'vp-alab', role: 'angle', cands: [[0, 5, 'middle'], [0, 12, 'middle'], [0, -2, 'middle'], [8, 5, 'start'], [-8, 5, 'end'],
+      [0, 18, 'middle'], [0, -8, 'middle'], [14, 5, 'start'], [-14, 5, 'end']] });
+  });
+  if (outer.length) {
+    /* label the bond farthest (in angle) from every arc and lone pair, so the label has room */
+    var busy = arcs.map(function (x) { return x.mid; }).concat(lobes.map(function (x) { return x.a; }));
+    function gap(a) { return busy.reduce(function (m, b) { var d = Math.abs(((a - b) % 360 + 540) % 360 - 180); return Math.min(m, d); }, 999); }
+    function depth(o) { return o.i != null && ((L.wedge && L.wedge.indexOf(o.i) >= 0) || (L.hash && L.hash.indexOf(o.i) >= 0)) ? 1 : 0; }
+    /* prefer a bond in the page (not a wedge / hash), then the one with most room */
+    var o0 = outer.slice().sort(function (x, y) { return depth(x) - depth(y) || gap(y.a) - gap(x.a); })[0];
+    var bm = pt(o0.a, (RC + o0.r - RA) / 2);
+    lab(bm[0], bm[1], 'bonding pair', { cls: 'vp-lab', role: 'bp', cands: [[6, 18, 'start'], [6, -6, 'start'], [-6, 18, 'end'], [-6, -6, 'end'],
+      [0, -9, 'middle'], [0, 21, 'middle'], [10, 22, 'start'], [10, -11, 'start'], [-10, 22, 'end'], [-10, -11, 'end'], [12, 5, 'start'], [-12, 5, 'end'],
+      [0, 28, 'middle'], [0, -16, 'middle'], [0, 36, 'middle'], [0, -26, 'middle'], [16, 34, 'start'], [-16, 34, 'end'], [16, -22, 'start'], [-16, -22, 'end']] });
+  }
+  if (lobes.length) {
+    var tip = pt(lobes[0].a, RC + 36);
+    lab(tip[0], tip[1], 'lone pair', { cls: 'vp-lab', role: 'lp' });
+  }
+}
+
+/* ---------------- one "work" block (steps + figure + MS card), used by both panes ---------------- */
+function renderWork(box, s, step) {
+  box.innerHTML = '<div class="vp-main"><ol class="vp-steps"></ol><div class="card vp-fig"><svg class="vp-svg" viewBox="0 0 330 280" role="img"></svg>' +
+    '<p class="vp-cap"></p></div></div>';
+  box.setAttribute('data-sp', s.id); box.setAttribute('data-step', step);
+  var ol = box.querySelector('.vp-steps');
+  for (var k = 1; k <= 6; k++) {
+    var li = K.el('li', { 'class': k > step ? 'vp-todo' : (k === step && step < 6 ? 'vp-cur' : ''), 'data-n': k });
+    li.innerHTML = '<span class="vp-n">' + k + '</span><div class="vp-st-b"><div class="vp-st-t">' + TITLES[k] + '</div>' +
+      (k <= step ? '<div class="vp-eq">' + stepHtml(s, k) + '</div>' : '') + '</div>';
+    ol.appendChild(li);
+  }
+  drawFig(box.querySelector('.vp-svg'), s, step);
+  var w = work(s);
+  box.querySelector('.vp-svg').setAttribute('aria-label', s.f + ' electron pairs around ' + s.c);
+  box.querySelector('.vp-cap').innerHTML = step >= 5 ? s.f + '：<b>' + shapeTxt(s) + '</b> · ' + angTxt(s) :
+    step >= 4 ? s.f + '：' + bpWord(s.n) + ' + ' + lpWord(w.lp) : step >= 3 ? s.f + '：' + s.n + ' 个 ' + bondName(s) + ' bonds' : s.f + '：先数 central atom 的 electrons';
+  var Lk = LAYOUT[s.n + ',' + w.lp];
+  if (step >= 3 && (Lk.wedge || (Lk.lback && step >= 4)))
+    box.querySelector('.vp-fig').insertAdjacentHTML('beforeend', '<p class="vp-key">' +
+      (Lk.wedge ? '实心楔形 = 朝向你；虚线楔形 = 指向纸后' : '虚线 lobe = 在纸后（另一个在纸前）') + '</p>');
+  if (step >= 6) box.insertAdjacentHTML('beforeend', msHtml(s));
+}
+
+/* ---------------- derive pane ---------------- */
+var cur = BY.NH4, step = 1;
+SP.forEach(function (s) {
+  var b = K.el('button', { 'class': 'vp-sp', 'data-sp': s.id }, s.f);
+  $(s.g === 'A' ? '.vp-rowA' : '.vp-rowB').appendChild(b);
+  b.addEventListener('click', function () { cur = s; step = 1; showDerive(); });
+});
+function showDerive() {
+  $$('.vp-sp').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-sp') === cur.id); });
+  renderWork($('.vp-dwork'), cur, step);
+  $('.vp-next').disabled = step >= 6;
+  $('.vp-count').textContent = '步骤 ' + step + ' / 6';
+  K.fit();
+}
+$('.vp-next').addEventListener('click', function () { if (step < 6) { step++; showDerive(); } });
+$('.vp-all').addEventListener('click', function () { step = 6; showDerive(); });
+$('.vp-reset').addEventListener('click', function () { step = 1; showDerive(); });
+showDerive();
+
+/* ---------------- quiz pane ---------------- */
+var qs = null, pick = { bp: null, lp: null }, nAsk = 0, nRight = 0, judged = false;
+function chips(sel, key, max) {
+  var box = $(sel);
+  for (var i = 0; i <= max; i++) {
+    var b = K.el('button', { 'data-v': i }, String(i));
+    b.addEventListener('click', function () {
+      pick[key] = +this.getAttribute('data-v');
+      K.$$(box, 'button').forEach(function (o) { o.classList.toggle('on', +o.getAttribute('data-v') === pick[key]); });
+    });
+    box.appendChild(b);
+  }
+}
+chips('.vp-qbp', 'bp', 6); chips('.vp-qlp', 'lp', 3);
+$('.vp-qshape').innerHTML = '<option value="">— 选 shape —</option>' + SHAPES.map(function (x) { return '<option value="' + x + '">' + x + '</option>'; }).join('');
+
+function inTol(a, x) {
+  if (a === 104.5) return x >= 103 - 1e-9 && x <= 105 + 1e-9;
+  if (a === 107) return x >= 106 - 1e-9 && x <= 108 + 1e-9;
+  return Math.abs(a - x) < 1e-9;
+}
+function angleOk(s, txt) {
+  var nums = (String(txt).match(/\d+(?:\.\d+)?/g) || []).map(Number);
+  if (nums.length !== s.ang.length) return false;
+  var left = nums.slice();
+  return s.ang.every(function (a) {
+    for (var i = 0; i < left.length; i++) if (inTol(a, left[i])) { left.splice(i, 1); return true; }
+    return false;
+  });
+}
+function ask(id) {
+  if (id && BY[id]) qs = BY[id];
+  else {
+    var pool = SP.filter(function (s) { return !qs || s.id !== qs.id; });
+    qs = pool[Math.floor(Math.random() * pool.length)];
+  }
+  judged = false; pick = { bp: null, lp: null };
+  $('.vp-qsp').textContent = qs.f;
+  $('.vp-q').setAttribute('data-sp', qs.id);
+  $$('.vp-qbp button, .vp-qlp button').forEach(function (b) { b.classList.remove('on'); });
+  $('.vp-qshape').value = ''; $('.vp-qang').value = '';
+  $('.vp-fb').innerHTML = ''; $('.vp-fb').removeAttribute('data-result');
+  $('.vp-qwork').innerHTML = '';
+  K.fit();
+}
+function judge() {
+  var shape = $('.vp-qshape').value, angTxtIn = $('.vp-qang').value.trim();
+  if (pick.bp == null || pick.lp == null || !shape || !angTxtIn) {
+    $('.vp-fb').innerHTML = '<p class="vp-no">先把 4 项都填上：bonding pairs、lone pairs、shape、bond angle。</p>';
+    $('.vp-fb').setAttribute('data-result', 'incomplete');
+    K.fit(); return;
+  }
+  var w = work(qs);
+  var parts = [
+    ['bonding pairs', pick.bp === qs.n, String(pick.bp), String(qs.n)],
+    ['lone pairs', pick.lp === w.lp, String(pick.lp), String(w.lp)],
+    ['shape', shape === qs.shape, shape, shapeTxt(qs)],
+    ['bond angle', angleOk(qs, angTxtIn), angTxtIn + (/°/.test(angTxtIn) ? '' : '°'), angTxt(qs)]
+  ];
+  var nOk = parts.filter(function (p) { return p[1]; }).length, all = nOk === 4;
+  if (!judged) { nAsk++; if (all) nRight++; judged = true; }
+  $('.vp-fb').setAttribute('data-result', all ? 'right' : 'wrong');
+  $('.vp-fb').setAttribute('data-nok', nOk);
+  $('.vp-fb').innerHTML = '<span class="vp-verdict ' + (all ? 'vp-good' : 'vp-bad') + '">' + (all ? '全对 ' : '还差一点 ') + nOk + ' / 4</span><ul>' +
+    parts.map(function (p) {
+      return '<li data-part="' + p[0] + '" data-ok="' + (p[1] ? 1 : 0) + '">' + (p[1] ? '<span class="vp-ok">✓</span> ' : '<span class="vp-no">✗</span> ') +
+        p[0] + '：你写 <b>' + p[2] + '</b>' + (p[1] ? '' : '，正确是 <b>' + p[3] + '</b>') + '</li>';
+    }).join('') + '</ul><p class="faint">下面是完整推导：</p>';
+  $('.vp-score').textContent = '本轮 ' + nRight + ' / ' + nAsk + ' 题全对';
+  renderWork($('.vp-qwork'), qs, 6);
+  K.fit();
+}
+$('.vp-check').addEventListener('click', judge);
+$('.vp-new').addEventListener('click', function () { ask(); });
+$('.vp-qang').addEventListener('keydown', function (e) { if (e.key === 'Enter') judge(); });
+$root.__vpAsk = ask;   /* tests pick a fixed species */
+ask();
+</script>
