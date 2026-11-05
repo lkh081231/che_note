@@ -1,0 +1,364 @@
+<h3>Metallic bonding：positive metal ions 与 delocalised electrons</h3>
+
+<div class="mt-def"><b>metallic bonding</b>：the electrostatic attraction between positive metal ions and delocalised electrons</div>
+
+<div class="mt-pick" role="group" aria-label="choose a metal">
+  <div class="mt-ser" data-series="p3">
+    <span class="mt-slab">across Period 3：</span>
+    <button type="button" data-series="p3" data-metal="Na">Na</button>
+    <button type="button" data-series="p3" data-metal="Mg">Mg</button>
+    <button type="button" data-series="p3" data-metal="Al">Al</button>
+  </div>
+  <div class="mt-ser" data-series="g1">
+    <span class="mt-slab">down Group 1：</span>
+    <button type="button" data-series="g1" data-metal="Li">Li</button>
+    <button type="button" data-series="g1" data-metal="Na">Na</button>
+    <button type="button" data-series="g1" data-metal="K">K</button>
+  </div>
+</div>
+
+<div class="row mt-bar">
+  <button type="button" class="mt-pow" aria-pressed="false">接上电源</button>
+  <button type="button" class="mt-pause" aria-pressed="false">⏸ 暂停动画</button>
+  <span class="mt-count"></span>
+</div>
+
+<div class="mt-main">
+  <div class="card mt-figcard">
+    <svg class="mt-fig" viewBox="0 0 600 384" role="img" aria-label="metal lattice: positive metal ions in a regular arrangement surrounded by a sea of delocalised electrons"></svg>
+    <div class="mt-leg"><span><i class="mt-lg-ion">+</i>positive metal ion（圆的大小 = ion 的相对大小）</span><span><i class="mt-lg-e"></i>delocalised electron</span></div>
+    <div class="mt-cap" data-on="0"></div>
+  </div>
+
+  <div class="card mt-info">
+    <div class="mt-head"><span class="mt-ion"></span><span class="mt-name"></span></div>
+    <table class="mt-tab">
+      <tr><th>ion</th><td class="mt-t-ion"></td></tr>
+      <tr><th>每个 atom 贡献的 delocalised electrons</th><td class="mt-t-ne"></td></tr>
+      <tr><th>melting point</th><td class="mt-t-mp"></td></tr>
+    </table>
+    <div class="mt-sh">metallic bonding 强度（按 melting point）</div>
+    <div class="mt-bars"></div>
+    <div class="mt-trend"></div>
+    <div class="mt-why"></div>
+  </div>
+</div>
+
+<style>
+.k .mt-def{border-left:3px solid var(--acc);background:var(--acc-soft);padding:5px 11px;border-radius:0 6px 6px 0;margin:4px 0 8px}
+.k .mt-pick{display:flex;flex-wrap:wrap;gap:8px 22px;margin:6px 0}
+.k .mt-ser{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.k .mt-slab{font-size:14px;color:var(--mut)}
+.k .mt-ser button{min-width:3.2em;font-weight:600}
+.k .mt-bar{margin:4px 0 8px}
+.k .mt-pow.on{background:var(--pos);border-color:var(--pos)}
+.k .mt-count{font-size:14px;color:var(--mut);margin-left:4px}
+.k .mt-count b{color:var(--fg)}
+.k .mt-main{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.k .mt-figcard{flex:1 1 520px;min-width:0;padding:8px 8px 10px}
+.k .mt-info{flex:1 1 260px;min-width:0}
+.k .mt-fig{width:100%}
+/* svg pieces */
+.k .mt-block{fill:color-mix(in srgb,var(--neg) 6%,var(--card));stroke:var(--line);stroke-width:1.5}
+.k .mt-ionc{fill:color-mix(in srgb,var(--pos) 17%,var(--card));stroke:var(--pos);stroke-width:2}
+.k svg text.halo.mt-chg{stroke:none;fill:var(--pos);font-size:15px;font-weight:700}
+.k svg text.halo.mt-chg1{font-size:22px}
+.k .mt-e circle{fill:var(--neg)}
+.k .mt-e line{stroke:var(--card);stroke-width:1.7;stroke-linecap:round}
+.k .mt-lead{stroke:var(--fg);stroke-width:1.3;fill:none}
+.k .mt-dot{fill:var(--fg)}
+.k svg text.mt-lab{font-size:14px;font-weight:600}
+.k .mt-plate{stroke-width:2}
+.k .mt-plate.neg{fill:color-mix(in srgb,var(--neg) 22%,var(--card));stroke:var(--neg)}
+.k .mt-plate.pos{fill:color-mix(in srgb,var(--pos) 22%,var(--card));stroke:var(--pos)}
+.k svg text.mt-sign{font-size:22px;font-weight:700}
+.k svg text.mt-sign.neg{fill:var(--neg)} .k svg text.mt-sign.pos{fill:var(--pos)}
+.k svg text.mt-tlab{font-size:14px;fill:var(--mut)}
+.k .mt-wire{stroke:var(--mut);stroke-width:2;fill:none}
+.k .mt-cell-l{stroke:var(--fg);stroke-width:2}
+.k .mt-cell-s{stroke:var(--fg);stroke-width:5}
+.k .mt-circ{transition:opacity .2s}
+.k .mt-circ.off{opacity:.32}
+.k .mt-circ.off .mt-wire{stroke-dasharray:5 4}
+/* legend + caption */
+.k .mt-leg{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:13px;color:var(--mut);margin:4px 4px 0}
+.k .mt-leg span{display:inline-flex;align-items:center;gap:6px}
+.k .mt-lg-ion{display:inline-flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:13px;color:var(--pos);border:2px solid var(--pos);background:color-mix(in srgb,var(--pos) 17%,var(--card))}
+.k .mt-lg-e{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--neg);position:relative}
+.k .mt-lg-e::after{content:"";position:absolute;left:3px;right:3px;top:5px;height:2px;background:var(--card);border-radius:1px}
+.k .mt-cap{margin:8px 4px 0;padding:5px 10px;border-radius:6px;font-size:14px;border:1px dashed var(--line);color:var(--mut)}
+.k .mt-cap[data-on="1"]{border:1px solid var(--pos);background:color-mix(in srgb,var(--pos) 9%,var(--card));color:var(--fg)}
+.k .mt-cap .mt-q{font-weight:650}
+.k .mt-cap .mt-src{color:var(--faint);font-size:13px}
+/* info card */
+.k .mt-head{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
+.k .mt-ion{font-size:28px;font-weight:700;color:var(--pos);line-height:1.2}
+.k .mt-name{font-size:15px;color:var(--mut)}
+.k .mt-tab{width:100%;margin:4px 0 10px}
+.k .mt-tab th{width:62%;font-weight:600;font-size:13.5px}
+.k .mt-tab td{font-weight:650;font-size:15px}
+.k .mt-sh{font-size:13.5px;font-weight:650;color:var(--mut);margin-bottom:4px}
+.k .mt-brow{display:grid;grid-template-columns:2.2em 1fr 4.4em;gap:6px;align-items:center;margin:3px 0;font-size:14px}
+.k .mt-brow b{font-weight:650}
+.k .mt-track{height:14px;background:var(--line);border-radius:7px;overflow:hidden}
+.k .mt-track i{display:block;height:100%;background:color-mix(in srgb,var(--s4) 55%,var(--card));border-radius:7px;transition:width .25s}
+.k .mt-brow.sel .mt-track i{background:var(--s4)}
+.k .mt-brow.sel{font-weight:700}
+.k .mt-brow .mt-bv{text-align:right;color:var(--mut)}
+.k .mt-brow.sel .mt-bv{color:var(--fg)}
+.k .mt-trend{margin:8px 0 6px;font-size:14px;padding:3px 9px;border-left:3px solid var(--s4)}
+.k .mt-why{font-size:14px;line-height:1.55}
+</style>
+
+<script>
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+var svg = $('.mt-fig');
+
+/* pm = ionic radius, only used for the relative circle size (Li⁺ < Na⁺ < K⁺; Al³⁺ < Mg²⁺ < Na⁺) */
+var M = {
+  Li: { ion: 'Li⁺', q: 1, pm: 76, mp: 181, name: 'lithium' },
+  Na: { ion: 'Na⁺', q: 1, pm: 102, mp: 98, name: 'sodium' },
+  K: { ion: 'K⁺', q: 1, pm: 138, mp: 63, name: 'potassium' },
+  Mg: { ion: 'Mg²⁺', q: 2, pm: 72, mp: 650, name: 'magnesium' },
+  Al: { ion: 'Al³⁺', q: 3, pm: 53, mp: 660, name: 'aluminium' }
+};
+var SERIES = {
+  p3: { metals: ['Na', 'Mg', 'Al'], title: 'across Period 3', trend: 'charge ↑、ion 变小 → 增强' },
+  g1: { metals: ['Li', 'Na', 'K'], title: 'down Group 1', trend: 'ion 变大 → 减弱' }
+};
+var WHY = {
+  'p3:Na': 'Na⁺ 只带 1+ charge，是三者里最大的 ion；每个 atom 只贡献 <b>1</b> 个 delocalised electron → attraction 最弱，melting point 最低（98 °C）。',
+  'p3:Mg': 'Mg²⁺ 带 2+ charge、比 Na⁺ 小；每个 atom 贡献 <b>2</b> 个 delocalised electrons → positive ions 与 delocalised electrons 之间的 attraction 比 Na 强得多（650 °C）。',
+  'p3:Al': 'Al³⁺ 带 3+ charge、是三者里最小的 ion；每个 atom 贡献 <b>3</b> 个 delocalised electrons → metallic bonding 最强（660 °C）。',
+  'g1:Li': 'Li⁺ 是 Group 1 里最小的 ion，delocalised electrons 离 ion 最近 → attraction 最强（181 °C）。charge 都是 1+，所以只看 ion 大小。',
+  'g1:Na': 'Na⁺ 比 Li⁺ 大、比 K⁺ 小；每个 atom 都只贡献 <b>1</b> 个 delocalised electron → metallic bonding 居中（98 °C）。',
+  'g1:K': 'K⁺ 是三者里最大的 ion，delocalised electrons 离 ion 最远 → attraction 最弱，melting point 只有 63 °C。'
+};
+var MPMAX = 700;
+
+/* ---------- geometry (viewBox units) ---------- */
+var BX0 = 60, BX1 = 540, BY0 = 62, BY1 = 290;
+var COLS = [108, 204, 300, 396, 492], ROWS = [100, 176, 252];
+var ER = 5.5;                              /* electron radius */
+var XMIN = BX0 + ER, XMAX = BX1 - ER, YMIN = BY0 + ER, YMAX = BY1 - ER;
+var SPEED = 46, DRIFT = 44, TURN = 5;       /* px / s, px / s, rad / √s-ish */
+function rIon(m) { return Math.round((6 + M[m].pm * 0.18) * 10) / 10; }
+
+/* seeded rng so screenshots are reproducible */
+var seed = 9701;
+function rnd() { seed = (seed + 0x6D2B79F5) | 0; var t = seed; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+
+var state = { metal: 'Na', series: 'p3', on: false, paused: false };
+var ions = [], els = [], wraps = 0, inView = true;
+
+var gBlock = K.svg('g'), gIons = K.svg('g'), gEls = K.svg('g', { 'class': 'mt-els' }), gCirc = K.svg('g', { 'class': 'mt-circ off' }), gTop = K.svg('g');
+svg.appendChild(gCirc); svg.appendChild(gBlock); svg.appendChild(gIons); svg.appendChild(gEls); svg.appendChild(gTop);
+gBlock.appendChild(K.svg('rect', { 'class': 'mt-block', x: BX0, y: BY0, width: BX1 - BX0, height: BY1 - BY0, rx: 6 }));
+
+/* external circuit: plates at both ends, wires down to a cell (long line = +, short thick line = −) */
+var PL = [34, 52], PR = [548, 566], WY = 352, CX = 300;
+gCirc.appendChild(K.svg('rect', { 'class': 'mt-plate neg', x: PL[0], y: BY0, width: PL[1] - PL[0], height: BY1 - BY0, rx: 3 }));
+gCirc.appendChild(K.svg('rect', { 'class': 'mt-plate pos', x: PR[0], y: BY0, width: PR[1] - PR[0], height: BY1 - BY0, rx: 3 }));
+var WIRE_L = [[43, BY1], [43, WY], [CX - 7, WY]], WIRE_R = [[CX + 7, WY], [557, WY], [557, BY1]];
+function poly(pts, cls) { gCirc.appendChild(K.svg('polyline', { 'class': cls, points: pts.map(function (p) { return p.join(','); }).join(' ') })); }
+poly(WIRE_L, 'mt-wire'); poly(WIRE_R, 'mt-wire');
+gCirc.appendChild(K.svg('line', { 'class': 'mt-cell-s', x1: CX - 7, y1: WY - 9, x2: CX - 7, y2: WY + 9 }));
+gCirc.appendChild(K.svg('line', { 'class': 'mt-cell-l', x1: CX + 7, y1: WY - 18, x2: CX + 7, y2: WY + 18 }));
+var gCircLab = K.svg('g'); gCirc.appendChild(gCircLab);
+
+function segs() {
+  var s = [[BX0, BY0, BX1, BY0], [BX0, BY1, BX1, BY1], [BX0, BY0, BX0, BY1], [BX1, BY0, BX1, BY1],
+    [PL[0], BY0, PL[1], BY0], [PL[0], BY1, PL[1], BY1], [PL[0], BY0, PL[0], BY1], [PL[1], BY0, PL[1], BY1],
+    [PR[0], BY0, PR[1], BY0], [PR[0], BY1, PR[1], BY1], [PR[0], BY0, PR[0], BY1], [PR[1], BY0, PR[1], BY1],
+    [CX - 7, WY - 9, CX - 7, WY + 9], [CX + 7, WY - 18, CX + 7, WY + 18]];
+  return s.concat(K.segs(WIRE_L), K.segs(WIRE_R));
+}
+
+function free(x, y, pad) {
+  return ions.every(function (o) { var dx = x - o.x, dy = y - o.y; return dx * dx + dy * dy > Math.pow(o.r + ER + pad, 2); });
+}
+
+function buildEl(e) {
+  var g = K.svg('g', { 'class': 'mt-e' });
+  g.appendChild(K.svg('circle', { r: ER }));
+  g.appendChild(K.svg('line', { x1: -2.7, y1: 0, x2: 2.7, y2: 0 }));
+  gEls.appendChild(g); e.g = g;
+}
+
+function build() {
+  var m = M[state.metal], r = rIon(state.metal);
+  seed = 9701;
+  ions = []; gIons.innerHTML = ''; gEls.innerHTML = ''; gTop.innerHTML = ''; gCircLab.innerHTML = ''; els = []; wraps = 0;
+  var placed = [], avoid = segs();
+  ROWS.forEach(function (y, j) {
+    COLS.forEach(function (x, i) {
+      var o = { x: x, y: y, r: r };
+      ions.push(o);
+      gIons.appendChild(K.svg('circle', { 'class': 'mt-ionc mt-ion-c', cx: x, cy: y, r: r, 'data-charge': m.q, 'data-row': j, 'data-col': i }));
+      var t = K.label(svg, x, y, m.q === 1 ? '+' : m.q + '+', { cls: m.q === 1 ? 'mt-chg mt-chg1' : 'mt-chg', cands: [[0, m.q === 1 ? 7.5 : 5.5, 'middle']], pad: 0 });
+      gIons.appendChild(t);
+    });
+  });
+  /* electrons: ions × charge, never inside an ion */
+  var n = ions.length * m.q;
+  for (var k = 0; k < n; k++) {
+    var x, y, tries = 0;
+    do { x = XMIN + rnd() * (XMAX - XMIN); y = YMIN + rnd() * (YMAX - YMIN); tries++; }
+    while ((!free(x, y, 1.5) || els.some(function (o) { return Math.hypot(o.x - x, o.y - y) < 4 * ER; })) && tries < 500);
+    var e = { x: x, y: y, ux: x, th: rnd() * Math.PI * 2, s: SPEED * (0.75 + 0.5 * rnd()) };
+    buildEl(e); els.push(e);
+  }
+
+  /* the two mark-scheme labels, each with its own leader line, outside the lattice */
+  var a = ions[1];                                   /* top row, 2nd ion */
+  var l1 = [[a.x, a.y - a.r - 1], [a.x + 30, 30]];
+  var gap = [(COLS[0] + COLS[1]) / 2, ROWS[2]];      /* gap between two bottom-row ions */
+  var l2 = [gap, [gap[0] + 34, 318]];
+  [l1, l2].forEach(function (L, i) {
+    gTop.appendChild(K.svg('line', { 'class': 'mt-lead', x1: L[0][0], y1: L[0][1], x2: L[1][0], y2: L[1][1], 'data-lead': i ? 'electrons' : 'ions' }));
+    if (i) gTop.appendChild(K.svg('circle', { 'class': 'mt-dot', cx: L[0][0], cy: L[0][1], r: 2.4 }));
+  });
+  avoid = avoid.concat(K.segs(l1), K.segs(l2));
+  var t1 = K.label(svg, l1[1][0] + 4, l1[1][1], 'positive metal ions — regular arrangement',
+    { cls: 'mt-lab mt-lab-ions', cands: [[0, 5, 'start'], [0, 0, 'start'], [0, 10, 'start']], avoid: avoid, placed: placed });
+  var t2 = K.label(svg, l2[1][0] + 4, l2[1][1], '(sea of) delocalised electrons',
+    { cls: 'mt-lab mt-lab-els', cands: [[0, 5, 'start'], [0, 9, 'start'], [0, 0, 'start']], avoid: avoid, placed: placed });
+  var s1 = K.label(svg, (PL[0] + PL[1]) / 2, BY0 - 10, '−', { cls: 'mt-sign neg', cands: [[0, 0, 'middle'], [0, -4, 'middle']], avoid: avoid, placed: placed });
+  var s2 = K.label(svg, (PR[0] + PR[1]) / 2, BY0 - 10, '+', { cls: 'mt-sign pos', cands: [[0, 0, 'middle'], [0, -4, 'middle']], avoid: avoid, placed: placed });
+  var s3 = K.label(svg, 43, WY + 6, '− terminal', { cls: 'mt-tlab', cands: [[8, 18, 'start'], [8, -10, 'start']], avoid: avoid, placed: placed });
+  var s4 = K.label(svg, 557, WY + 6, '+ terminal', { cls: 'mt-tlab', cands: [[-8, 18, 'end'], [-8, -10, 'end']], avoid: avoid, placed: placed });
+  [t1, t2].forEach(function (t) { gTop.appendChild(t); });
+  [s1, s2, s3, s4].forEach(function (t) { gCircLab.appendChild(t); });
+  render();
+}
+
+function step(dt) {
+  var on = state.on, sq = Math.sqrt(dt);
+  els.forEach(function (e) {
+    e.th += (rnd() - 0.5) * 2 * TURN * sq;
+    var vx = e.s * Math.cos(e.th) + (on ? DRIFT : 0), vy = e.s * Math.sin(e.th), x0 = e.x, jump = 0;
+    e.x += vx * dt; e.y += vy * dt;
+    if (e.y < YMIN) { e.y = 2 * YMIN - e.y; e.th = -e.th; }
+    if (e.y > YMAX) { e.y = 2 * YMAX - e.y; e.th = -e.th; }
+    if (e.x < XMIN) { e.x = 2 * XMIN - e.x; e.th = Math.PI - e.th; }
+    if (e.x > XMAX) {
+      if (on) {                               /* leaves at the + end, a new one comes in from the − end */
+        e.x -= XMAX - XMIN; jump = XMAX - XMIN; wraps++;
+        var tries = 0; while (!free(e.x, e.y, 0.5) && tries++ < 40) e.y = YMIN + rnd() * (YMAX - YMIN);
+      } else { e.x = 2 * XMAX - e.x; e.th = Math.PI - e.th; }
+    }
+    ions.forEach(function (o) {
+      var dx = e.x - o.x, dy = e.y - o.y, d2 = dx * dx + dy * dy, R = o.r + ER;
+      if (d2 < R * R) {
+        var d = Math.sqrt(d2) || 1e-6, nx = dx / d, ny = dy / d;
+        e.x = o.x + nx * (R + 0.05); e.y = o.y + ny * (R + 0.05);
+        var cx = Math.cos(e.th), cy = Math.sin(e.th), dot = cx * nx + cy * ny;
+        if (dot < 0) e.th = Math.atan2(cy - 2 * dot * ny, cx - 2 * dot * nx);
+      }
+    });
+    e.ux += e.x - x0 + jump;               /* unwrapped x: net drift is measurable across wrap-arounds */
+  });
+  /* electrons repel: overlapping pairs are pushed apart (and bounce) so they never sit on top of each other */
+  var D = 2 * ER + 2.5;
+  for (var i = 0; i < els.length; i++) for (var j = i + 1; j < els.length; j++) {
+    var a = els[i], b = els[j], dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy;
+    if (d2 >= D * D) continue;
+    var d = Math.sqrt(d2) || 1e-3, push = (D - d) / 2, nx = dx / d, ny = dy / d;
+    a.x -= nx * push; a.y -= ny * push; a.ux -= nx * push;
+    b.x += nx * push; b.y += ny * push; b.ux += nx * push;
+    a.th = Math.atan2(-ny + 0.6 * Math.sin(a.th), -nx + 0.6 * Math.cos(a.th));
+    b.th = Math.atan2(ny + 0.6 * Math.sin(b.th), nx + 0.6 * Math.cos(b.th));
+  }
+  els.forEach(function (e) {             /* keep the push inside the lattice and out of the ions */
+    e.y = Math.min(YMAX, Math.max(YMIN, e.y));
+    if (e.x < XMIN) { e.ux += XMIN - e.x; e.x = XMIN; }
+    if (e.x > XMAX) { e.ux += XMAX - e.x; e.x = XMAX; }
+    ions.forEach(function (o) {
+      var dx = e.x - o.x, dy = e.y - o.y, d2 = dx * dx + dy * dy, R = o.r + ER;
+      if (d2 < R * R) { var d = Math.sqrt(d2) || 1e-6, nx2 = o.x + dx / d * (R + 0.05); e.ux += nx2 - e.x; e.x = nx2; e.y = o.y + dy / d * (R + 0.05); }
+    });
+  });
+}
+
+function render() {
+  els.forEach(function (e) { e.g.setAttribute('transform', 'translate(' + e.x.toFixed(1) + ',' + e.y.toFixed(1) + ')'); });
+}
+
+function info() {
+  var m = M[state.metal], ser = SERIES[state.series];
+  $('.mt-ion').textContent = m.ion;
+  $('.mt-name').textContent = m.name;
+  $('.mt-t-ion').textContent = m.ion;
+  $('.mt-t-ne').textContent = m.q;
+  $('.mt-t-mp').textContent = m.mp + ' °C';
+  var bars = $('.mt-bars'); bars.innerHTML = '';
+  ser.metals.forEach(function (k) {
+    var row = K.el('div', { 'class': 'mt-brow' + (k === state.metal ? ' sel' : ''), 'data-metal': k, 'data-mp': M[k].mp },
+      '<b>' + k + '</b><span class="mt-track"><i style="width:' + (100 * M[k].mp / MPMAX).toFixed(1) + '%"></i></span><span class="mt-bv">' + M[k].mp + ' °C</span>');
+    bars.appendChild(row);
+  });
+  $('.mt-trend').innerHTML = '<b>' + ser.title + '</b>：' + ser.trend;
+  $('.mt-why').innerHTML = WHY[state.series + ':' + state.metal];
+  $('.mt-count').innerHTML = '<b>' + ions.length + '</b> ions × <b>' + m.q + '</b> = <b>' + els.length + '</b> delocalised electrons';
+  $$('.mt-ser button').forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-metal') === state.metal && b.getAttribute('data-series') === state.series);
+  });
+}
+
+function caption() {
+  var c = $('.mt-cap');
+  c.setAttribute('data-on', state.on ? '1' : '0');
+  c.innerHTML = state.on
+    ? '<span class="mt-q">delocalised electrons move (through the structure)</span>：整体向 <b>+ terminal</b> 漂移（叠加在随机运动上），同时从 <b>− terminal</b> 补入；positive metal ions 留在原位不动。 <span class="mt-src">9701/21 May/June 2025 Q1(a)(ii)</span>'
+    : '未接电源：delocalised electrons 在整个 lattice 里随机运动，没有净方向；positive metal ions 固定在 lattice 位置上。';
+  gCirc.classList.toggle('off', !state.on);
+  var p = $('.mt-pow');
+  p.classList.toggle('on', state.on); p.setAttribute('aria-pressed', state.on);
+  p.textContent = state.on ? '断开电源' : '接上电源';
+}
+
+function setMetal(metal, series) { state.metal = metal; state.series = series; build(); info(); K.fit(); }
+function setOn(v) { state.on = !!v; caption(); K.fit(); }
+function setPaused(v) {
+  state.paused = !!v;
+  var b = $('.mt-pause');
+  b.textContent = state.paused ? '▶ 继续动画' : '⏸ 暂停动画';
+  b.setAttribute('aria-pressed', state.paused); b.classList.toggle('on', state.paused);
+}
+
+$$('.mt-ser button').forEach(function (b) {
+  b.addEventListener('click', function () { setMetal(b.getAttribute('data-metal'), b.getAttribute('data-series')); });
+});
+$('.mt-pow').addEventListener('click', function () { setOn(!state.on); });
+$('.mt-pause').addEventListener('click', function () { setPaused(!state.paused); });
+
+if (window.IntersectionObserver) {
+  new IntersectionObserver(function (en) { en.forEach(function (x) { inView = x.isIntersecting; }); }, { threshold: 0.01 }).observe(svg);
+}
+var last = null;
+function loop(ts) {
+  var dt = last == null ? 0 : Math.min(0.05, Math.max(0, (ts - last) / 1000));
+  last = ts;
+  if (!state.paused && inView && document.visibilityState !== 'hidden' && dt > 0) { step(dt); render(); }
+  requestAnimationFrame(loop);
+}
+
+/* test / inspection hook */
+$root.__mt = {
+  stats: function () {
+    var s = 0; els.forEach(function (e) { s += e.ux; });
+    return { metal: state.metal, series: state.series, on: state.on, paused: state.paused, inView: inView,
+      ions: ions.length, charge: M[state.metal].q, r: ions.length ? ions[0].r : 0, n: els.length, wraps: wraps,
+      meanUx: els.length ? s / els.length : 0,
+      inside: els.filter(function (e) { return !free(e.x, e.y, -0.2); }).length,
+      overlaps: els.reduce(function (n, a, i) { return n + els.slice(i + 1).filter(function (b) { return Math.hypot(a.x - b.x, a.y - b.y) < 2 * ER; }).length; }, 0) };
+  },
+  step: function (sec) { var n = Math.round(sec / 0.02); for (var i = 0; i < n; i++) step(0.02); render(); return this.stats(); },
+  setPaused: setPaused
+};
+
+K.init($root);
+setMetal('Na', 'p3'); caption(); setPaused(false);
+requestAnimationFrame(loop);
+</script>
