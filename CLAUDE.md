@@ -228,6 +228,9 @@ bug 通过了一整轮几何校验和视觉检查。
 **凡涉及前端审美的 subagent（设计交互件、审图 + 改）只用 Opus 5.5 或 Gemini 4 Argon**
 （`agy --model gemini-4-argon-high` / `claude-opus-5-5-high`）。细则见 `colab/PLAN.md`「每章流程」。
 
+**不要 resume context 超过 350k 的 subagent**（很耗额度）：让它先把现状 / 剩余规格 / 坑写进交接文件（如 `che_tmp/chNN/HANDOFF.md`），
+再开一个新的 subagent 从交接文件接着做。subagent 完成一项任务后也优先开新的，不要一直续用同一个。
+
 ### 踩过的坑
 
 - **字体**：Linux 的 `system-ui` / `monospace` 落到 Noto CJK，没有 ⁴–⁹ 上标，² 和 ⁶ 来自不同字体。
