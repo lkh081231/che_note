@@ -1,0 +1,611 @@
+<h3>Hybridisation：sp³ / sp² / sp hybrid orbitals <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
+<div class="row hy-modes"><span class="hy-rl">hybridisation</span></div>
+<div class="row hy-views">
+  <span class="hy-rl">显示</span>
+  <button data-view="iso">孤立的 hybrid orbitals</button><button data-view="mol">放到分子里</button>
+  <span class="faint">｜</span>
+  <button data-3d="reset">复位视角</button><button data-3d="spin">自动旋转</button>
+</div>
+<div class="hy-mix card"></div>
+<div class="hy-main">
+  <div class="stage"><div class="hud"><span class="hy-kh">■ hybrid orbital</span><span class="hy-kp"> · <b>■ 没 hybridise 的 p</b></span><span class="hy-kp2"> · <b>■ 第二个 p</b></span> · <span class="hy-ka">■ bond angle</span><span class="hy-ks"> · <b>■ H 的 1s</b></span></div></div>
+  <div class="card hy-info"></div>
+</div>
+<p class="hy-cap"></p>
+<div class="fallback card"><p><b>3D 没有加载</b>（<span class="why"></span>），下面是三种 hybridisation 的平面示意（蓝 = hybrid orbital，红 / 橙 = 没 hybridise 的 p）：</p>
+  <div class="hy-fb"></div>
+</div>
+<div class="hy-quiz card">
+  <h4>小测：这个 atom 是什么 hybridisation？</h4>
+  <p class="hy-qhint">数 σ bonds + lone pairs：4 → sp³、3 → sp²、2 → sp。propene 用 IUPAC 编号：C1 是 =CH₂。</p>
+  <div class="hy-prop"></div>
+  <div class="hy-qs"></div>
+  <p class="hy-score"></p>
+</div>
+<style>
+.k .hy-rl{display:inline-block;min-width:7.4em;color:var(--mut);font-size:13px}
+.k .hy-modes button{min-width:3.6em;font-weight:600}
+.k .hy-mix{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 26px;align-items:center}
+.k .hy-eq,.k .hy-box{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.k .hy-c{display:inline-block;border:2px solid var(--s1);border-radius:6px;padding:0 8px;font-weight:600;line-height:1.6}
+.k .hy-c.hy-cp{border-color:var(--s2);color:var(--s2)}
+.k .hy-c.hy-cp2{border-color:var(--s4);color:var(--s4)}
+.k .hy-c.hy-ch{background:var(--s1);color:var(--card)}
+.k .hy-op{color:var(--mut)}
+.k .hy-ob{display:inline-flex;align-items:center;gap:3px}
+.k .hy-ob .hy-on{font-size:13px;color:var(--mut);margin-right:2px}
+.k .hy-ob i{display:inline-block;width:26px;height:26px;border:1.5px solid var(--line);font-style:normal;text-align:center;line-height:23px;font-size:15px;background:var(--card)}
+.k .hy-ob i.hy-bh{border-color:var(--s1);color:var(--s1)}
+.k .hy-ob i.hy-bp{border-color:var(--s2);color:var(--s2)}
+.k .hy-ob i.hy-bp2{border-color:var(--s4);color:var(--s4)}
+.k .hy-mixn{flex-basis:100%;font-size:13.5px;color:var(--mut);margin:0}
+.k .hy-main{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-top:8px}
+.k .hy-main .stage{flex:3 1 430px;width:auto;height:430px}
+.k .hy-main .stage .hud{font-size:12.5px}
+.k .hy-kh{color:var(--s1);font-weight:600}
+.k .hy-kp b{color:var(--s2);font-weight:600}
+.k .hy-kp2 b{color:var(--s4);font-weight:600}
+.k .hy-ka{color:var(--s3);font-weight:600}
+.k .hy-ks b{color:var(--mut);font-weight:600}
+.k .hy-info{flex:1 1 270px;min-width:0}
+.k .hy-f{font-size:24px;font-weight:700;line-height:1.2;color:var(--s1)}
+.k .hy-cnt{display:flex;gap:14px;margin:8px 0 4px}
+.k .hy-cnt div{font-size:13.5px;color:var(--mut)}
+.k .hy-cnt b{display:block;font-size:26px;line-height:1.15}
+.k .hy-cnt .hy-chn b{color:var(--s1)}
+.k .hy-cnt .hy-cpn b{color:var(--s2)}
+.k .hy-cnt .hy-cpi b{color:var(--fg)}
+.k .hy-info table{width:100%;margin:6px 0;font-size:13.5px}
+.k .hy-info td:first-child{color:var(--mut);white-space:nowrap}
+.k .hy-rule{font-size:13.5px;border-left:3px solid var(--s3);padding:2px 0 2px 9px;margin:6px 0}
+.k .hy-cap{border-left:3px solid var(--s1);padding:2px 0 2px 9px;margin:8px 0 4px}
+.k[data-3d=fallback] .hy-views,.k[data-3d=fallback] .hy-main .stage{display:none}   /* 3D-only controls */
+.k .hy-fb svg{margin:6px auto 0}
+.k .hy-fb svg text{font-size:15px}
+.k .hy-fb svg text.hy-ft{font-weight:650}
+.k .hy-quiz{margin-top:10px}
+.k .hy-quiz h4{margin-top:0}
+.k .hy-qhint{font-size:13.5px;color:var(--mut)}
+.k .hy-prop svg{margin:4px 0}
+.k .hy-prop svg text{font-size:18px}
+.k .hy-prop svg text.hy-loc{font-size:14px;fill:var(--s1);font-weight:650}
+.k .hy-q{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:5px 0;border-top:1px dashed var(--line)}
+.k .hy-q:first-child{border-top:0}
+.k .hy-qn{min-width:12.5em}
+.k .hy-q button{min-width:3.4em}
+.k .hy-q button.good{background:var(--ok-soft);border-color:var(--ok)}
+.k .hy-q button.badv{background:var(--bad-soft);border-color:var(--bad)}
+.k .hy-qf{flex-basis:100%;font-size:13.5px;margin:0}
+.k .hy-qf .hy-ok{color:var(--ok);font-weight:650}
+.k .hy-qf .hy-no{color:var(--bad);font-weight:650}
+.k .hy-score{font-weight:600;margin-bottom:0}
+</style>
+<script>
+var HY_ORDER = ['sp3', 'sp2', 'sp'];
+var HY_NAME = { sp3: 'sp³', sp2: 'sp²', sp: 'sp' };
+var HY_BAND = { h: '--s1', p1: '--s2', p2: '--s4', s: '--mut', ang: '--s3', plane: '--faint' };
+var HY_TAG = 26, HY_EL = 20;   /* on-screen heights (px) of the label tags and the element letters */
+/* the chapter's table (3.4 E), word for word */
+var HY_TAB = {
+  sp3: { mix: '1 s + 3 p', n: 4, hyb: '4 个 sp³', ang: '109.5°（tetrahedral）', angT: '109.5°', np: 0, p: '0', pi: 0,
+         ex: 'CH₄、C₂H₆；NH₃、H₂O 的 N / O 也是 sp³（lone pair 占一个 hybrid orbital）', mol: 'CH₄' },
+  sp2: { mix: '1 s + 2 p', n: 3, hyb: '3 个 sp²', ang: '120°（同一平面）', angT: '120°', np: 1, p: '1 个 p，垂直于平面 → 形成 π', pi: 1,
+         ex: 'C₂H₄（每个 C）、C=O 的 C', mol: 'C₂H₄' },
+  sp:  { mix: '1 s + 1 p', n: 2, hyb: '2 个 sp', ang: '180°', angT: '180°', np: 2, p: '2 个 p，互相垂直 → 形成 2 个 π', pi: 2,
+         ex: 'C₂H₂、HCN 的 C', mol: 'C₂H₂' }
+};
+
+/* tiny vector helpers on plain arrays */
+function hyAdd(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+function hySub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+function hyMul(a, k) { return [a[0] * k, a[1] * k, a[2] * k]; }
+function hyLen(a) { return Math.hypot(a[0], a[1], a[2]); }
+function hyNorm(a) { var l = hyLen(a); return [a[0] / l, a[1] / l, a[2] / l]; }
+function hyDeg(a, b) { var d = (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]) / hyLen(a) / hyLen(b); return Math.acos(Math.max(-1, Math.min(1, d))) * 180 / Math.PI; }
+
+/* hybrid directions round one C. sp³: two up in the x–y plane (they carry the 109.5° arc), two down in
+   the y–z plane. sp²: in the x–z plane (a table top), p straight up. sp: along x, p along y and z. */
+var S8 = Math.sqrt(2 / 3), C3 = Math.sqrt(1 / 3), R3 = Math.sqrt(3) / 2;
+var HY_DIRS = {
+  sp3: [[-S8, C3, 0], [S8, C3, 0], [0, -C3, S8], [0, -C3, -S8]],
+  sp2: [[R3, 0, 0.5], [-R3, 0, 0.5], [0, 0, -1]],
+  sp: [[1, 0, 0], [-1, 0, 0]]
+};
+var HY_PD = { sp3: [], sp2: [[0, 1, 0]], sp: [[0, 1, 0], [0, 0, 1]] };
+var HY_VIEW = { 'sp3-iso': [0.3, -0.85], 'sp2-iso': [0.42, -0.3], 'sp-iso': [0.5, -0.5],
+                'sp3-mol': [0.3, -0.85], 'sp2-mol': [0.78, -0.22], 'sp-mol': [0.5, -0.5] };   /* C₂H₄ from higher up: the in-plane 120° reads better */
+var HY_SW = [0, -Math.SQRT1_2, Math.SQRT1_2];   /* the 180° arc goes round between the −y and +z p lobes */
+
+/* ---------- scenes ----------
+   atoms: { el, p, r };  orbs: { k: hyb | p | s, at, dir, len, w, band };
+   arcs: { at, a, b, through (only for 180°), r, text };
+   labels: { text, band, on: { orb, f } | { arc } | { pt }, pref } */
+function hyScene(mode, view) {
+  var T = HY_TAB[mode], D = HY_DIRS[mode], P = HY_PD[mode], s = { atoms: [], orbs: [], arcs: [], labels: [], plane: mode === 'sp2' };
+  var pb = ['p1', 'p2'];
+  if (view === 'iso') {
+    s.atoms.push({ el: 'C', p: [0, 0, 0], r: 0.22 });
+    D.forEach(function (d) { s.orbs.push({ k: 'hyb', at: 0, dir: d, len: 1.28, band: 'h' }); });
+    P.forEach(function (d, i) { s.orbs.push({ k: 'p', at: 0, dir: d, len: 1.02, w: 0.36, band: pb[i] }); });
+    s.arcs.push({ at: 0, a: D[0], b: D[1], through: mode === 'sp' ? HY_SW : null, r: 0.62, text: T.angT });
+    s.labels.push({ text: HY_NAME[mode], band: 'h', on: { orb: mode === 'sp3' ? 2 : mode === 'sp2' ? 2 : 0, f: 0.75 }, pref: mode === 'sp3' ? [1, -0.4, 0.4] : [0.3, -1, 0] });
+    P.forEach(function (d, i) { s.labels.push({ text: 'p', band: pb[i], on: { orb: D.length + i, f: 0.8 }, pref: i ? [0, -0.5, 1] : [1, 0.4, 0] }); });
+    s.labels.push({ text: T.angT, band: 'ang', on: { arc: 0 }, pref: mode === 'sp' ? HY_SW : hyNorm(hyAdd(D[0], D[1])) });
+    s.R = 1.4;
+  } else if (mode === 'sp3') {   /* CH₄ */
+    s.atoms.push({ el: 'C', p: [0, 0, 0], r: 0.22 });
+    D.forEach(function (d, i) {
+      s.atoms.push({ el: 'H', p: hyMul(d, 1.38), r: 0.15 });
+      s.orbs.push({ k: 'hyb', at: 0, dir: d, len: 1.1, band: 'h' });
+      s.orbs.push({ k: 's', at: i + 1, len: 0.34, band: 's' });
+    });
+    s.arcs.push({ at: 0, a: D[0], b: D[1], r: 0.58, text: T.angT });
+    s.labels.push({ text: 'sp³', band: 'h', on: { orb: 4, f: 0.55 }, pref: [1, -0.3, 0.5] },
+                  { text: 's (H)', band: 's', on: { orb: 7, f: 0 }, pref: [0, -1, 0.3] },
+                  { text: 'σ (sp³–s)', band: 'h', on: { pt: hyMul(D[3], 1.08) }, pref: [-1, -0.2, 0] },
+                  { text: T.angT, band: 'ang', on: { arc: 0 }, pref: [0, 1, 0] });
+    s.R = 1.7;
+  } else if (mode === 'sp2') {   /* C₂H₄ in the x–z plane, both p along y */
+    var cx = 0.67, hd = [[-0.5, 0, R3], [-0.5, 0, -R3]];
+    s.atoms.push({ el: 'C', p: [-cx, 0, 0], r: 0.22 }, { el: 'C', p: [cx, 0, 0], r: 0.22 });
+    [0, 1].forEach(function (c) {
+      var sg = c ? -1 : 1, C = s.atoms[c].p;
+      s.orbs.push({ k: 'hyb', at: c, dir: [sg, 0, 0], len: 0.74, band: 'h' });
+      hd.forEach(function (d) {
+        var u = [d[0] * sg, 0, d[2]], i = s.atoms.length;
+        s.atoms.push({ el: 'H', p: hyAdd(C, hyMul(u, 1.12)), r: 0.15 });
+        s.orbs.push({ k: 'hyb', at: c, dir: u, len: 0.86, band: 'h' });
+        s.orbs.push({ k: 's', at: i, len: 0.32, band: 's' });
+      });
+      s.orbs.push({ k: 'p', at: c, dir: [0, 1, 0], len: 0.86, w: 0.33, band: 'p1' });
+    });
+    /* orbs: C1 [0 hyb→C2, 1 hyb→H, 2 s, 3 hyb→H, 4 s, 5 p], C2 [6 …, 11 p] */
+    s.arcs.push({ at: 0, a: hd[0], b: hd[1], r: 0.52, text: T.angT });
+    s.labels.push({ text: 'sp²', band: 'h', on: { orb: 7, f: 0.6 }, pref: [1, -0.6, 0.6] },
+                  { text: 'p', band: 'p1', on: { orb: 5, f: 0.85 }, pref: [-1, 0.5, 0] },
+                  { text: 'p', band: 'p1', on: { orb: 11, f: 0.85 }, pref: [1, 0.5, 0] },
+                  { text: 'π: p ∥ p, sideways overlap', band: 'p1', on: { pt: [0, 0.62, 0] }, pref: [0, 1, 0] },
+                  { text: T.angT, band: 'ang', on: { arc: 0 }, pref: [-1, 0, 0] });
+    s.R = 1.95;
+  } else {   /* C₂H₂ along x */
+    var c2 = 0.6;
+    s.atoms.push({ el: 'C', p: [-c2, 0, 0], r: 0.22 }, { el: 'C', p: [c2, 0, 0], r: 0.22 });
+    [0, 1].forEach(function (c) {
+      var sg = c ? -1 : 1, C = s.atoms[c].p, i = s.atoms.length;
+      s.orbs.push({ k: 'hyb', at: c, dir: [sg, 0, 0], len: 0.66, band: 'h' });
+      s.atoms.push({ el: 'H', p: hyAdd(C, [-sg * 1.06, 0, 0]), r: 0.15 });
+      s.orbs.push({ k: 'hyb', at: c, dir: [-sg, 0, 0], len: 0.8, band: 'h' });
+      s.orbs.push({ k: 's', at: i, len: 0.32, band: 's' });
+      s.orbs.push({ k: 'p', at: c, dir: [0, 1, 0], len: 0.78, w: 0.3, band: 'p1' });
+      s.orbs.push({ k: 'p', at: c, dir: [0, 0, 1], len: 0.78, w: 0.3, band: 'p2' });
+    });
+    /* orbs: C1 [0 hyb→C2, 1 hyb→H, 2 s, 3 p y, 4 p z], C2 [5 …, 9] */
+    s.arcs.push({ at: 0, a: [-1, 0, 0], b: [1, 0, 0], through: HY_SW, r: 0.44, text: T.angT });
+    s.labels.push({ text: 'sp', band: 'h', on: { orb: 6, f: 0.6 }, pref: [0.4, -1, 0] },
+                  { text: 'p', band: 'p1', on: { orb: 3, f: 0.85 }, pref: [-1, 0.6, 0] },
+                  { text: 'p', band: 'p2', on: { orb: 4, f: 0.85 }, pref: [-1, -0.3, 1] },
+                  { text: 'π', band: 'p1', on: { pt: [0, 0.55, 0] }, pref: [0.4, 1, 0] },
+                  { text: 'π', band: 'p2', on: { pt: [0, 0, 0.55] }, pref: [1, -0.4, 1] },
+                  { text: T.angT, band: 'ang', on: { arc: 0 }, pref: HY_SW });
+    s.R = 2.05;
+  }
+  return s;
+}
+
+var HY_CAP = {
+  'sp3-iso': '<b>sp³</b>：1 个 2s + 3 个 2p 混合 → <b>4 个一样的 sp³</b> hybrid orbitals，指向 tetrahedron 的 4 个顶点，互成 <b>109.5°</b>。没有剩下的 p，所以 sp³ 的 atom 不形成 π bond。',
+  'sp2-iso': '<b>sp²</b>：1 个 2s + 2 个 2p → <b>3 个 sp²</b>，在<b>同一平面</b>（灰色）上互成 <b>120°</b>；剩下 <b>1 个 p</b>（红）<b>垂直于平面</b>，用来形成 π bond。',
+  'sp-iso': '<b>sp</b>：1 个 2s + 1 个 2p → <b>2 个 sp</b>，互成 <b>180°</b>；剩下 <b>2 个 p</b>（红、橙）<b>互相垂直</b>，也都垂直于 sp 的轴 → 可以形成 2 个 π。',
+  'sp3-mol': '<b>CH₄</b>：C 的 4 个 sp³ 各和一个 H 的 1s direct overlap → 4 个 σ (sp³–s)，H–C–H = <b>109.5°</b>。NH₃ 的 N、H₂O 的 O 也是 sp³：其中 1 / 2 个 sp³ 放的是 lone pair。',
+  'sp2-mol': '<b>C₂H₄</b>：每个 C 是 sp²：3 个 sp² 形成 3 个 σ（1 个 C–C + 2 个 C–H），6 个 atoms 在同一平面（灰色），<b>120°</b>。两个 C 剩下的 p <b>互相平行</b>、都垂直于平面 → sideways overlap 形成 <b>π bond</b>。',
+  'sp-mol': '<b>C₂H₂</b>：每个 C 是 sp：2 个 sp 形成 2 个 σ（C–H 和 C–C），H–C≡C–H 是一条直线（<b>180°</b>）。每个 C 剩下 2 个 p：上下的一对（红）和前后的一对（橙）各自平行 → <b>2 个 π，互相垂直</b>，C≡C = 1σ + 2π。HCN 的 C 也一样。'
+};
+
+var hy = { mode: 'sp3', view: 'iso' };
+var hyS = null;
+var hyInfo = $root.querySelector('.hy-info');
+
+/* ---------- controls ---------- */
+HY_ORDER.forEach(function (m) {
+  var b = K.el('button', { 'data-hy': m }, HY_NAME[m]);
+  $root.querySelector('.hy-modes').appendChild(b);
+  b.addEventListener('click', function () { hy.mode = m; hyRebuild(true); });
+});
+$root.querySelectorAll('[data-view]').forEach(function (b) {
+  b.addEventListener('click', function () { hy.view = b.getAttribute('data-view'); hyRebuild(true); });
+});
+
+function hyChips() {
+  var m = hy.mode, T = HY_TAB[m], h = '<div class="hy-eq"><span class="hy-c">2s</span>';
+  for (var i = 0; i < 3 - T.np; i++) h += '<span class="hy-op">+</span><span class="hy-c">2p</span>';
+  h += '<span class="hy-op">→</span><span class="hy-c hy-ch">' + T.n + ' × ' + HY_NAME[m] + '</span>';
+  for (i = 0; i < T.np; i++) h += '<span class="hy-op">' + (i ? '+' : '，剩') + '</span><span class="hy-c ' + (i ? 'hy-cp2' : 'hy-cp') + '">2p</span>';
+  h += '</div>';
+  var box = function (n, cls) { var s = ''; for (var j = 0; j < n; j++) s += '<i class="' + cls + '">↑</i>'; return s; };
+  h += '<div class="hy-box"><span class="hy-ob"><span class="hy-on">ground state 2s</span><i>↑↓</i><span class="hy-on">&nbsp;2p</span><i>↑</i><i>↑</i><i></i></span>' +
+       '<span class="hy-op">→</span><span class="hy-ob"><span class="hy-on">' + HY_NAME[m] + '</span>' + box(T.n, 'hy-bh') + '</span>' +
+       (T.np ? '<span class="hy-ob"><span class="hy-on">&nbsp;p</span>' + (T.np > 1 ? '<i class="hy-bp">↑</i><i class="hy-bp2">↑</i>' : '<i class="hy-bp">↑</i>') + '</span>' : '') + '</div>';
+  h += '<p class="hy-mixn">混了几个 orbitals 就得到几个 hybrid orbitals；C 的 4 个 outer electrons 每个 orbital 放 1 个 → ' +
+       (T.np ? T.n + ' 个 σ bond（hybrid）+ ' + T.np + ' 个 π bond（p）' : '4 个 σ bond') + '。</p>';
+  $root.querySelector('.hy-mix').innerHTML = h;
+}
+function hyPanel() {
+  var m = hy.mode, T = HY_TAB[m];
+  hyInfo.innerHTML = '<div class="hy-f">' + HY_NAME[m] + '</div>' +
+    '<div class="hy-cnt"><div class="hy-chn">hybrid orbitals<b class="hy-nh">' + T.n + '</b></div><div class="hy-cpn">剩下的 p<b class="hy-np">' + T.np + '</b></div>' +
+    '<div class="hy-cpi">可形成 π<b class="hy-npi">' + T.pi + '</b></div></div>' +
+    '<table><tbody><tr><td>混合</td><td class="hy-tmix">' + T.mix + '</td></tr><tr><td>hybrid orbitals</td><td class="hy-thyb">' + T.hyb + '</td></tr>' +
+    '<tr><td>夹角</td><td class="hy-tang">' + T.ang + '</td></tr><tr><td>剩下没混的 p</td><td class="hy-tp">' + T.p + '</td></tr>' +
+    '<tr><td>例</td><td class="hy-tex">' + T.ex + '</td></tr></tbody></table>' +
+    '<p class="hy-rule"><b>判断方法</b>：数 σ bonds + lone pairs：4 → sp³、3 → sp²、2 → sp。hybrid orbital 只形成 σ bond（或放 lone pair），π bond 永远来自没 hybridise 的 p。</p>';
+  $root.querySelector('.hy-cap').innerHTML = HY_CAP[m + '-' + hy.view];
+  $root.querySelector('.hy-kp').style.display = HY_TAB[m].np ? '' : 'none';
+  $root.querySelector('.hy-kp2').style.display = HY_TAB[m].np > 1 ? '' : 'none';
+  $root.querySelector('.hy-ks').style.display = hy.view === 'mol' ? '' : 'none';
+}
+function hyControls() {
+  $root.querySelectorAll('[data-hy]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-hy') === hy.mode); });
+  $root.querySelectorAll('[data-view]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-view') === hy.view); });
+  $root.setAttribute('data-hy', hy.mode); $root.setAttribute('data-view', hy.view);
+  $root.setAttribute('data-nh', HY_TAB[hy.mode].n); $root.setAttribute('data-np', HY_TAB[hy.mode].np);
+}
+
+/* ---------- 3D ---------- */
+var hyApi = null, hyT = null, hyHold = null, hyMol = null, hyOrbG = null, hyLabG = null, hyTags = [], hyObst = [], hyArcs = [], hyTimer = null;
+
+function hySrgb(s) { var m = s.material.map; if (m && m.colorSpace !== hyT.SRGBColorSpace) { m.colorSpace = hyT.SRGBColorSpace; m.needsUpdate = true; } return s; }
+function hyCol(band) { return hyApi.color(HY_BAND[band]); }
+function hyDispose(g) {
+  g.traverse(function (o) { if (o.geometry) o.geometry.dispose(); if (o.material && !o.material.map) o.material.dispose(); });
+  while (g.children.length) g.remove(g.children[0]);
+}
+/* the second arm of an arc: for a straight angle aim a hair short of 180°, so the half circle passes `through` */
+function hyArcB(A, B, through) {
+  if (!through) return B;
+  var T = hyT, a = new T.Vector3().fromArray(A).normalize(), n = new T.Vector3().crossVectors(a, new T.Vector3().fromArray(through)).normalize();
+  return a.clone().applyAxisAngle(n, Math.PI - 0.01).toArray();
+}
+
+function hyBuild() {
+  var T = hyT, api = hyApi, S = hyS;
+  hyDispose(hyHold); hyTags = []; hyObst = []; hyArcs = [];
+  hyMol = K3.molecule(T, api, { atoms: S.atoms, bonds: [] }, {});
+  hyMol.userData.tags.forEach(function (tg) { hySrgb(tg); tg.userData.base = tg.scale.y; });
+  hyOrbG = new T.Group(); hyLabG = new T.Group();
+  hyHold.add(hyMol); hyHold.add(hyOrbG); hyHold.add(hyLabG);
+  S.atoms.forEach(function (a) { hyObst.push({ p: a.p, r: a.r, w: 5, atom: 1 }); });
+  S.orbs.forEach(function (o, oi) {
+    var col = hyCol(o.band), P = S.atoms[o.at].p, m, d = o.dir ? hyNorm(o.dir) : null;
+    if (o.k === 's') {
+      m = new T.Mesh(new T.SphereGeometry(o.len, 32, 20), new T.MeshPhongMaterial({ color: col, transparent: true, opacity: 0.32, shininess: 30, side: T.DoubleSide, depthWrite: false }));
+      m.position.fromArray(P);
+      hyObst.push({ p: P, r: o.len * 0.85, w: 1 });
+    } else if (o.k === 'hyb') {
+      m = K3.hybrid(T, P, d, o.len, col, 0.45);
+      [0.4, 0.65, 0.88].forEach(function (f) { hyObst.push({ p: hyAdd(P, hyMul(d, o.len * f)), r: o.len * 0.3, w: 1 }); });
+    } else {
+      m = K3.porb(T, P, d, o.len, col, col, 0.45);
+      [1, -1].forEach(function (sg) { [0.45, 0.8].forEach(function (f) { hyObst.push({ p: hyAdd(P, hyMul(d, sg * o.len * f)), r: (o.w || 0.4) * 0.85, w: 1 }); }); });
+    }
+    /* renderOrder only on meshes: a Group's renderOrder becomes the sort key of everything inside it,
+       which would draw the lobes after the angle arc and the element letters and wash them out */
+    m.traverse(function (c) { if (c.isMesh) c.renderOrder = 2; });
+    m.userData = { k: o.k, band: o.band, orb: oi, at: o.at, dir: d };
+    hyOrbG.add(m);
+  });
+  /* Phong shading darkens the translucent colours: lift them with some emissive (as in sigma-pi) */
+  hyOrbG.traverse(function (o) { if (o.isMesh && o.material.emissive) o.material.emissive.copy(o.material.color).multiplyScalar(0.35); });
+  S.arcs.forEach(function (a) {
+    var C = S.atoms[a.at].p, B = hyArcB(a.a, a.b, a.through), col = hyCol('ang');
+    var arc = K3.arc(T, C, a.a, B, a.r, col);
+    /* the arc sits inside translucent lobes: draw it on top so it is never washed out */
+    arc.mesh.material.depthTest = false; arc.mesh.material.transparent = true; arc.mesh.renderOrder = 15;
+    hyOrbG.add(arc.mesh);
+    var anchor = hyAdd(C, hyMul(hySub([arc.mid.x, arc.mid.y, arc.mid.z], C), 1 / 1.35));   /* on the arc, at its middle */
+    hyArcs.push({ deg: arc.deg, text: a.text, anchor: anchor, a: a.a, b: B, C: C, r: a.r });
+    for (var i = 0; i <= 8; i++) {   /* labels keep off the arc itself */
+      var v = new T.Vector3().fromArray(a.a).normalize(), ax = new T.Vector3().crossVectors(v, new T.Vector3().fromArray(B)).normalize();
+      hyObst.push({ p: hyAdd(C, v.applyAxisAngle(ax, arc.deg * Math.PI / 180 * i / 8).multiplyScalar(a.r).toArray()), r: 0.03, w: 4, px: 5 });
+    }
+  });
+  if (S.plane) {   /* sp²: the plane of the three hybrids (x–z) */
+    var lo = [-1.55, -1.55], hi = [1.55, 1.55];
+    if (hy.view === 'mol') { lo = [-1.75, -1.45]; hi = [1.75, 1.45]; }
+    var pl = new T.Mesh(new T.PlaneGeometry(hi[0] - lo[0], hi[1] - lo[1]),
+      new T.MeshBasicMaterial({ color: api.color('--faint'), transparent: true, opacity: 0.15, side: T.DoubleSide, depthWrite: false }));
+    pl.rotation.x = -Math.PI / 2; pl.renderOrder = 1; pl.userData = { plane: 1 };
+    var edge = new T.LineLoop(new T.BufferGeometry().setFromPoints([new T.Vector3(lo[0], 0, lo[1]), new T.Vector3(hi[0], 0, lo[1]), new T.Vector3(hi[0], 0, hi[1]), new T.Vector3(lo[0], 0, hi[1])]),
+      new T.LineBasicMaterial({ color: api.color('--faint'), transparent: true, opacity: 0.8 }));
+    edge.userData = { plane: 1 };
+    hyOrbG.add(pl); hyOrbG.add(edge);
+  }
+  var card = api.color('--card').getStyle();
+  S.labels.forEach(function (L) {
+    var tg = hySrgb(K3.tag(T, L.text, { color: hyCol(L.band).getStyle(), bg: card, size: 0.3 }));
+    tg.renderOrder = 30; tg.userData.L = L; tg.visible = false; hyHold.add(tg); hyTags.push(tg);
+  });
+}
+
+/* ---------- labels: screen-space placement with a leader line (as in sigma-pi) ---------- */
+function hyWpp(depth) { var H = hyApi.renderer.domElement.clientHeight || 430; return 2 * Math.tan(20 * Math.PI / 180) * depth / H; }
+function hyProj(v) {
+  var T = hyT, w = hyHold.localToWorld(new T.Vector3(v[0], v[1], v[2])), cam = hyApi.camera, el = hyApi.renderer.domElement;
+  var q = w.clone().project(cam), W = el.clientWidth, H = el.clientHeight, depth = w.distanceTo(cam.position);
+  return { x: (q.x + 1) / 2 * W, y: (1 - q.y) / 2 * H, z: q.z, ppu: 1 / hyWpp(depth), W: W, H: H };
+}
+function hyUnproj(x, y, z) {
+  var el = hyApi.renderer.domElement, v = new hyT.Vector3(x / el.clientWidth * 2 - 1, 1 - y / el.clientHeight * 2, z).unproject(hyApi.camera);
+  return hyHold.worldToLocal(v);
+}
+function hyRectCircle(r, c) {
+  var dx = Math.max(r.x - c.x, 0, c.x - (r.x + r.w)), dy = Math.max(r.y - c.y, 0, c.y - (r.y + r.h));
+  return Math.max(0, c.r - Math.hypot(dx, dy));
+}
+function hyRectRect(a, b) {
+  var ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+  return ox > 0 && oy > 0 ? Math.min(ox, oy) : 0;
+}
+function hySegRect(s, r) {
+  var worst = 0;
+  for (var i = 1; i < 12; i++) worst = Math.max(worst, hyRectCircle(r, { x: s[0] + (s[2] - s[0]) * i / 12, y: s[1] + (s[3] - s[1]) * i / 12, r: 3 }));
+  return worst;
+}
+function hyAnchor(L) {
+  var on = L.on;
+  if (on.arc != null) return hyArcs[on.arc].anchor;
+  if (on.pt) return on.pt;
+  var o = hyS.orbs[on.orb], P = hyS.atoms[o.at].p;
+  return o.k === 's' ? hyAdd(P, [0, -o.len * 0.7, 0]) : hyAdd(P, hyMul(hyNorm(o.dir), o.len * on.f));
+}
+function hyPlace() {
+  if (!hyApi || !hyS) return;
+  hyApi.scene.updateMatrixWorld(true);
+  hyDispose(hyLabG);
+  var hud = ($root.querySelector('.stage .hud') || { offsetHeight: 24 }).offsetHeight;
+  var obst = hyObst.map(function (o) { var q = hyProj(o.p); return { x: q.x, y: q.y, r: o.px || Math.max(o.r * q.ppu, o.atom ? HY_EL * 0.62 : 0), w: o.w }; });
+  var placed = [], leaders = [];
+  var anc = hyTags.map(function (t) { return hyProj(hyAnchor(t.userData.L)); });
+  hyTags.forEach(function (t, ti) {
+    var L = t.userData.L, A = hyAnchor(L), q = anc[ti], h = HY_TAG, w = h * t.userData.aspect, isAng = L.on.arc != null;
+    var pq = hyProj(hyAdd(A, L.pref || [0, 1, 0])), pd = [pq.x - q.x, pq.y - q.y], pl = Math.hypot(pd[0], pd[1]) || 1;
+    pd = [pd[0] / pl, pd[1] / pl];
+    var best = null, dists = isAng ? [8, 16, 26, 38, 52, 70, 95] : [30, 46, 64, 86, 112, 145, 185];
+    for (var k = 0; k < 24; k++) {
+      var th = k * Math.PI / 12, dx = Math.cos(th), dy = Math.sin(th);
+      dists.forEach(function (dist) {
+        var cx = q.x + dx * (dist + Math.abs(dx) * w / 2), cy = q.y + dy * (dist + Math.abs(dy) * h / 2);
+        var r = { x: cx - w / 2, y: cy - h / 2, w: w, h: h }, rp = { x: r.x - 3, y: r.y - 3, w: w + 6, h: h + 6 };
+        var bad = 0;
+        obst.forEach(function (o) { bad += hyRectCircle(rp, o) * (o.w || 1) * (isAng && o.w === 1 ? 0.3 : 1); });   /* an angle tag may sit on a translucent lobe, next to its arc */
+        anc.forEach(function (a, j) { bad += hyRectCircle(rp, { x: a.x, y: a.y, r: 8 }) * 6; });
+        placed.forEach(function (o) { bad += hyRectRect(rp, o) * 8 + (hyRectRect({ x: rp.x - 5, y: rp.y - 5, w: rp.w + 10, h: rp.h + 10 }, o) ? 6 : 0); });
+        var seg = [q.x, q.y, cx, cy];
+        placed.forEach(function (o) { bad += hySegRect(seg, o) * 4; });
+        leaders.forEach(function (s) { bad += hySegRect(s, rp) * 3; });
+        if (r.x < 4 || r.y < hud + 4 || r.x + r.w > q.W - 4 || r.y + r.h > q.H - 4) bad += 400;
+        var score = bad + dist * (isAng ? 0.25 : 0.06) - (dx * pd[0] + dy * pd[1]) * 9;
+        if (!best || score < best.score) best = { score: score, r: r, cx: cx, cy: cy, dx: dx, dy: dy, dist: dist };
+      });
+    }
+    placed.push(best.r);
+    var start = [q.x + best.dx * 5, q.y + best.dy * 5];
+    leaders.push([start[0], start[1], best.cx, best.cy]);
+    var P = hyUnproj(best.cx, best.cy, q.z);
+    t.position.copy(P); t.visible = true; t.userData.rect = best.r; t.userData.anchor = A;
+    var col = hyCol(L.band);
+    if (best.dist > 12) {
+      var ln = new hyT.Line(new hyT.BufferGeometry().setFromPoints([hyUnproj(start[0], start[1], q.z), P]),
+        new hyT.LineBasicMaterial({ color: col, depthTest: false, transparent: true, opacity: 0.9 }));
+      ln.renderOrder = 19; hyLabG.add(ln);
+    }
+    var dot = new hyT.Mesh(new hyT.SphereGeometry(1, 10, 8), new hyT.MeshBasicMaterial({ color: col, depthTest: false, transparent: true }));
+    dot.position.fromArray(A); dot.renderOrder = 19; dot.userData.dot = 1; hyLabG.add(dot);
+  });
+  hySize();
+}
+/* keep every sprite a constant size on screen */
+function hySize() {
+  if (!hyApi) return;
+  var cam = hyApi.camera, v = new hyT.Vector3();
+  hyTags.forEach(function (t) { t.getWorldPosition(v); K3.tagSize(t, HY_TAG * hyWpp(v.distanceTo(cam.position))); });
+  if (hyMol) hyMol.userData.tags.forEach(function (t) { t.getWorldPosition(v); K3.tagSize(t, Math.max(t.userData.base, HY_EL * hyWpp(v.distanceTo(cam.position)))); });
+  if (hyLabG) hyLabG.children.forEach(function (d) { if (d.userData.dot) { d.getWorldPosition(v); d.scale.setScalar(3 * hyWpp(v.distanceTo(cam.position))); } });
+}
+function hyViewRaw() {
+  var api = hyApi;
+  api.group.rotation.set(api.rx, api.ry, 0);
+  api.camera.position.set(0, 0, api.dist); api.camera.lookAt(0, 0, 0);
+  api.scene.updateMatrixWorld(true);
+}
+
+function hyRebuild(newView) {
+  hyS = hyScene(hy.mode, hy.view);
+  hyControls(); hyChips(); hyPanel();
+  if (hyApi) {
+    var api = hyApi;
+    hyBuild();
+    if (newView) {
+      var el = api.renderer.domElement, asp = Math.min(1, (el.clientWidth || 560) / (el.clientHeight || 430)), v = HY_VIEW[hy.mode + '-' + hy.view];
+      api.rx = v[0]; api.ry = v[1];
+      api.dist = (hyS.R + 0.45) / (Math.tan(20 * Math.PI / 180) * asp) * 0.95;
+      api.rx0 = api.rx; api.ry0 = api.ry; api.dist0 = api.dist;
+    }
+    hyViewRaw(); hyPlace(); api.render();
+  }
+  K.fit();
+}
+
+/* ---------- fallback: the three hybridisations as flat drawings ---------- */
+function hyFallback() {
+  var box = $root.querySelector('.hy-fb');
+  if (box.firstChild) return;
+  var svg = K.svg('svg', { viewBox: '0 0 690 270', width: 690, height: 270 }), avoid = [], placed = [];
+  box.appendChild(svg);
+  var rx = 0.42, ry = -0.5, cx = Math.cos(rx), sx = Math.sin(rx), cy = Math.cos(ry), sy = Math.sin(ry);
+  function pr(a) { var x = a[0] * cy + a[2] * sy, z = -a[0] * sy + a[2] * cy; return [x, -(a[1] * cx - z * sx), a[1] * sx + z * cx]; }
+  function ell(x0, y0, u, L, off, w, col, op) {   /* ellipse along screen direction u, centre at off·L */
+    var a = Math.atan2(u[1], u[0]), c = [x0 + u[0] * L * off, y0 + u[1] * L * off], rx_ = L * 0.5;
+    svg.appendChild(K.svg('ellipse', { cx: c[0], cy: c[1], rx: rx_, ry: w, fill: col, 'fill-opacity': op, stroke: col, 'stroke-width': 1.3,
+      transform: 'rotate(' + (a * 180 / Math.PI) + ' ' + c[0] + ' ' + c[1] + ')' }));
+    var pts = [];
+    for (var i = 0; i <= 24; i++) {
+      var t = i / 24 * 2 * Math.PI, ex = rx_ * Math.cos(t), ey = w * Math.sin(t);
+      pts.push([c[0] + ex * Math.cos(a) - ey * Math.sin(a), c[1] + ex * Math.sin(a) + ey * Math.cos(a)]);
+    }
+    avoid = avoid.concat(K.segs(pts));
+  }
+  var lab = function (x, y, t, c, cls) { return K.label(svg, x, y, t, { avoid: avoid, placed: placed, cands: c, cls: cls || '' }); };
+  var PX = [115, 345, 575], y0 = 140, S = 78;
+  HY_ORDER.forEach(function (m, k) {
+    var x0 = PX[k], items = [];
+    HY_DIRS[m].forEach(function (d) { items.push({ k: 'h', q: pr(d) }); });
+    HY_PD[m].forEach(function (d, i) { items.push({ k: 'p', i: i, q: pr(d) }); });
+    items.sort(function (a, b) { return a.q[2] - b.q[2]; });
+    if (m === 'sp2') {   /* the plane of the three sp² */
+      var pp = [[-1, 0, -1], [1, 0, -1], [1, 0, 1], [-1, 0, 1]].map(function (v) { var q = pr(hyMul(v, 1.15)); return (x0 + q[0] * S) + ',' + (y0 + q[1] * S); });
+      svg.appendChild(K.svg('polygon', { points: pp.join(' '), fill: 'var(--faint)', 'fill-opacity': 0.15, stroke: 'var(--faint)', 'stroke-width': 1 }));
+    }
+    items.forEach(function (it) {
+      var l = Math.hypot(it.q[0], it.q[1]), u = [it.q[0] / (l || 1), it.q[1] / (l || 1)];
+      if (it.k === 'h') { ell(x0, y0, u, S * Math.max(0.3, l), 0.55, 15, 'var(--s1)', 0.4); ell(x0, y0, [-u[0], -u[1]], S * 0.3, 0.4, 6, 'var(--s1)', 0.4); }
+      else { var col = it.i ? 'var(--s4)' : 'var(--s2)', L = S * 0.8 * Math.max(0.35, l); ell(x0, y0, u, L, 0.5, 13, col, 0.35); ell(x0, y0, [-u[0], -u[1]], L, 0.5, 13, col, 0.35); }
+    });
+    svg.appendChild(K.svg('circle', { cx: x0, cy: y0, r: 8, fill: K3.CPK.C, stroke: 'var(--fg)', 'stroke-width': 0.8 }));
+    /* angle arc between the first two hybrids, on screen */
+    var a0 = pr(HY_DIRS[m][0]), a1 = pr(HY_DIRS[m][1]), t0 = Math.atan2(a0[1], a0[0]), t1 = Math.atan2(a1[1], a1[0]), R = 30;
+    var sweep, dt;
+    if (m === 'sp') { dt = Math.PI; sweep = 1; }
+    else { dt = t1 - t0; while (dt > Math.PI) dt -= 2 * Math.PI; while (dt < -Math.PI) dt += 2 * Math.PI; sweep = dt > 0 ? 1 : 0; dt = Math.abs(dt); }
+    var e0 = [x0 + R * Math.cos(t0), y0 + R * Math.sin(t0)], tm = t0 + (sweep ? 1 : -1) * dt / 2, e1 = [x0 + R * Math.cos(t0 + (sweep ? 1 : -1) * dt), y0 + R * Math.sin(t0 + (sweep ? 1 : -1) * dt)];
+    svg.appendChild(K.svg('path', { d: 'M' + e0[0] + ' ' + e0[1] + ' A' + R + ' ' + R + ' 0 0 ' + sweep + ' ' + e1[0] + ' ' + e1[1], fill: 'none', stroke: 'var(--s3)', 'stroke-width': 2.2 }));
+    var mx = x0 + (R + 4) * Math.cos(tm), my = y0 + (R + 4) * Math.sin(tm), ux = Math.cos(tm), uy = Math.sin(tm);
+    var anc = ux > 0.3 ? 'start' : ux < -0.3 ? 'end' : 'middle', cands = [];
+    [10, 20, 32, 46, 62, 80, 100].forEach(function (dd) { cands.push([ux * dd, uy * dd + 5, anc]); });
+    [[1, 0], [-1, 0]].forEach(function (sd) { [20, 40, 60].forEach(function (dd) { cands.push([ux * 30 + sd[0] * dd, uy * 30 + 5, sd[0] > 0 ? 'start' : 'end']); }); });
+    var at = lab(mx, my, HY_TAB[m].angT, cands, 'hy-fa');
+    at.style.fill = 'var(--s3)';
+    lab(x0, 26, HY_NAME[m] + '：' + HY_TAB[m].n + ' × ' + HY_NAME[m] + '，剩 ' + HY_TAB[m].np + ' 个 p', [[0, 0, 'middle'], [0, -4, 'middle']], 'hy-ft');
+    HY_PD[m].forEach(function (d, i) {
+      var q = pr(d), e = lab(x0 + q[0] * S * 0.8, y0 + q[1] * S * 0.8, 'p', [[0, -10, 'middle'], [12, 0, 'start'], [-12, 0, 'end'], [14, -12, 'start'], [-14, -12, 'end'], [0, 22, 'middle']]);
+      e.style.fill = i ? 'var(--s4)' : 'var(--s2)';
+    });
+    var d0 = pr(HY_DIRS[m][m === 'sp' ? 0 : 2]);
+    var hl = lab(x0 + d0[0] * S, y0 + d0[1] * S, HY_NAME[m], [[12, 18, 'start'], [-12, 18, 'end'], [14, 0, 'start'], [-14, 0, 'end'], [0, 24, 'middle'], [0, -14, 'middle']]);
+    hl.style.fill = 'var(--s1)';
+  });
+  K.fit();
+}
+new MutationObserver(function () { if ($root.getAttribute('data-3d') === 'fallback') hyFallback(); }).observe($root, { attributes: true, attributeFilter: ['data-3d'] });
+
+/* ---------- quiz ---------- */
+var HY_Q = [
+  { id: 'C1', q: 'propene 的 C1（=CH₂）', a: 'sp2', why: 'C1：3 个 σ（1 个 C1–C2 + 2 个 C–H），0 lone pair → 3 → sp²（C1=C2 的 π 来自没 hybridise 的 p）。' },
+  { id: 'C2', q: 'propene 的 C2（=CH–）', a: 'sp2', why: 'C2：3 个 σ（C2–C1、C2–C3、C2–H），0 lone pair → 3 → sp²。' },
+  { id: 'C3', q: 'propene 的 C3（–CH₃）', a: 'sp3', why: 'C3：4 个 σ（C3–C2 + 3 个 C–H）→ 4 → sp³（109.5°）。' },
+  { id: 'N', q: 'NH₃ 的 N', a: 'sp3', why: 'N：3 个 σ（N–H）+ 1 lone pair → 4 → sp³（lone pair 占一个 sp³）。' },
+  { id: 'O', q: 'H₂O 的 O', a: 'sp3', why: 'O：2 个 σ（O–H）+ 2 lone pairs → 4 → sp³。' }
+];
+var hyAns = {};
+(function () {
+  var box = $root.querySelector('.hy-qs');
+  HY_Q.forEach(function (it) {
+    var row = K.el('div', { 'class': 'hy-q', 'data-q': it.id }, '<span class="hy-qn">' + it.q + '</span>');
+    HY_ORDER.forEach(function (m) {
+      var b = K.el('button', { 'data-a': m }, HY_NAME[m]);
+      b.addEventListener('click', function () {
+        hyAns[it.id] = m;
+        K.$$(row, 'button').forEach(function (o) { o.classList.remove('good', 'badv'); });
+        var ok = m === it.a;
+        b.classList.add(ok ? 'good' : 'badv');
+        row.setAttribute('data-ok', ok ? 1 : 0);
+        row.querySelector('.hy-qf').innerHTML = (ok ? '<span class="hy-ok">✓ 对</span> ' : '<span class="hy-no">✗ 不是 ' + HY_NAME[m] + '</span>，答案 <b>' + HY_NAME[it.a] + '</b>。') + it.why;
+        hyScore(); K.fit();
+      });
+      row.appendChild(b);
+    });
+    row.appendChild(K.el('p', { 'class': 'hy-qf' }, ''));
+    box.appendChild(row);
+  });
+})();
+function hyScore() {
+  var n = Object.keys(hyAns).length, ok = HY_Q.filter(function (it) { return hyAns[it.id] === it.a; }).length;
+  $root.querySelector('.hy-score').textContent = n ? '答对 ' + ok + ' / ' + HY_Q.length + (n < HY_Q.length ? '（还有 ' + (HY_Q.length - n) + ' 题没答）' : '') : '';
+  $root.querySelector('.hy-score').setAttribute('data-ok', ok);
+}
+/* propene with IUPAC locants: C1 is the =CH₂ end */
+function hyPropene() {
+  var box = $root.querySelector('.hy-prop'), svg = K.svg('svg', { viewBox: '0 0 400 92', width: 400, height: 92 }), placed = [], avoid = [];
+  box.appendChild(svg);
+  var X = [70, 200, 330], y = 40;
+  svg.appendChild(K.svg('line', { x1: 98, y1: y - 9, x2: 172, y2: y - 9, stroke: 'var(--fg)', 'stroke-width': 1.8 }));
+  svg.appendChild(K.svg('line', { x1: 98, y1: y - 3, x2: 172, y2: y - 3, stroke: 'var(--fg)', 'stroke-width': 1.8 }));
+  svg.appendChild(K.svg('line', { x1: 228, y1: y - 6, x2: 302, y2: y - 6, stroke: 'var(--fg)', 'stroke-width': 1.8 }));
+  avoid.push([98, y - 9, 172, y - 9], [98, y - 3, 172, y - 3], [228, y - 6, 302, y - 6]);
+  ['H₂C', 'CH', 'CH₃'].forEach(function (t, i) {
+    K.label(svg, X[i], y, t, { avoid: avoid, placed: placed, cands: [[0, 0, 'middle'], [0, 2, 'middle']] });
+    K.label(svg, X[i], y, 'C' + (i + 1), { avoid: avoid, placed: placed, cands: [[0, 34, 'middle'], [0, 38, 'middle']], cls: 'hy-loc' });
+  });
+}
+hyPropene();
+
+hyRebuild(false);
+
+K3.start($root, function (T, api) {
+  hyT = T; hyApi = api;
+  hyHold = new T.Group(); api.group.add(hyHold);
+  api.scene.position.y = -0.1;   /* clear of the HUD strip */
+  /* labels keep a constant size on screen; after the view stops moving they are placed again */
+  api.view = function () {
+    hyViewRaw(); hySize(); api.render();
+    clearTimeout(hyTimer);
+    hyTimer = setTimeout(function () { if (!api.spin) { hyPlace(); api.render(); } }, 220);
+  };
+  hyRebuild(true);
+  if (window.ResizeObserver) {
+    var last = 0;
+    new ResizeObserver(function () {
+      var w = api.renderer.domElement.clientWidth;
+      if (Math.abs(w - last) > 30 && last) setTimeout(function () { hyRebuild(true); }, 40);
+      last = w;
+    }).observe($root.querySelector('.stage'));
+  }
+});
+
+/* for tests */
+$root.__hy = {
+  state: hy, TAB: HY_TAB,
+  orbs: function () {
+    return hyOrbG ? hyOrbG.children.filter(function (c) { return c.userData.orb != null; }).map(function (c) {
+      var mesh = null; c.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
+      return { k: c.userData.k, band: c.userData.band, at: c.userData.at, dir: c.userData.dir, visible: c.visible,
+               color: '#' + mesh.material.color.getHexString(), centre: c.userData.dir ? hyAdd(hyS.atoms[c.userData.at].p, hyMul(c.userData.dir, hyS.orbs[c.userData.orb].len * 0.6)) : hyS.atoms[c.userData.at].p };
+    }) : [];
+  },
+  arcs: function () { return hyArcs.map(function (a) { return { deg: a.deg, text: a.text, anchor: a.anchor, a: a.a, b: a.b }; }); },
+  atoms: function () { return hyMol ? hyMol.userData.atoms.map(function (m) { return { el: m.userData.el, p: m.position.toArray() }; }) : []; },
+  proj: function (v) { hyApi.scene.updateMatrixWorld(true); var q = hyProj(v); return [q.x, q.y]; },
+  layout: function () {
+    if (!hyApi) return null;
+    hyApi.scene.updateMatrixWorld(true);
+    var el = hyApi.renderer.domElement, v = new hyT.Vector3(), tags = [], atoms = [], els = [];
+    hyTags.forEach(function (t) {
+      if (!t.visible) return;
+      var q = hyProj(t.position.toArray()), w = t.scale.x * q.ppu, h = t.scale.y * q.ppu, a = hyProj(t.userData.anchor);
+      tags.push({ x: q.x - w / 2, y: q.y - h / 2, w: w, h: h, text: t.userData.L.text, band: t.userData.L.band, ax: a.x, ay: a.y, arc: t.userData.L.on.arc != null });
+    });
+    hyMol.userData.atoms.forEach(function (m, i) {
+      var q = hyProj(m.position.toArray());
+      atoms.push({ x: q.x, y: q.y, r: m.geometry.parameters.radius * q.ppu, el: m.userData.el });
+      var tg = hyMol.userData.tags[i]; tg.getWorldPosition(v);
+      els.push(tg.scale.y / hyWpp(v.distanceTo(hyApi.camera.position)));
+    });
+    var arcs = hyArcs.map(function (a) {
+      var pts = [], T = hyT, A = new T.Vector3().fromArray(a.a).normalize(), ax = new T.Vector3().crossVectors(A, new T.Vector3().fromArray(a.b)).normalize();
+      for (var i = 0; i <= 16; i++) { var q = hyProj(hyAdd(a.C, A.clone().applyAxisAngle(ax, a.deg * Math.PI / 180 * i / 16).multiplyScalar(a.r).toArray())); pts.push([q.x, q.y]); }
+      return pts;
+    });
+    return { tags: tags, atoms: atoms, elH: els, arcs: arcs, W: el.clientWidth, H: el.clientHeight,
+             hud: ($root.querySelector('.stage .hud') || { offsetHeight: 0 }).offsetHeight };
+  }
+};
+</script>
