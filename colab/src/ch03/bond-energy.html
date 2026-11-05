@@ -1,0 +1,366 @@
+<h3>Bond energy 与 bond length</h3>
+<div class="tabbar">
+  <button data-tab="plot">① bond energy vs bond length</button>
+  <button data-tab="pe">② potential energy curve</button>
+</div>
+
+<!-- ① scatter -->
+<div data-pane="plot">
+  <p class="mut">每个点是一种 covalent bond：横轴 bond length，纵轴 bond energy。选一个 family 看规律；悬停 / 点一个点看数值。</p>
+  <div class="row be-fams" role="group" aria-label="bond families">
+    <button type="button" class="be-fam on" aria-pressed="true" data-fam="all">全部</button>
+    <button type="button" class="be-fam" aria-pressed="false" data-fam="cc"><i class="be-sw"></i>carbon–carbon</button>
+    <button type="button" class="be-fam" aria-pressed="false" data-fam="hx"><i class="be-sw"></i>hydrogen halides</button>
+    <button type="button" class="be-fam" aria-pressed="false" data-fam="hal"><i class="be-sw"></i>halogens</button>
+    <button type="button" class="be-fam" aria-pressed="false" data-fam="nn"><i class="be-sw"></i>N₂ vs O₂</button>
+  </div>
+  <div class="card be-plot"><svg class="be-svg be-ssvg" viewBox="0 0 860 520" aria-label="bond energy against bond length"></svg></div>
+  <div class="card be-read" aria-live="polite"></div>
+  <div class="card be-exp" aria-live="polite"></div>
+  <p class="be-foot">bond energy：data booklet；bond length：教科书值</p>
+</div>
+
+<!-- ② potential energy curve -->
+<div data-pane="pe">
+  <p class="mut">两个 atoms 从很远处靠近：potential energy 怎么变？拖动 slider 改变 internuclear distance（定性曲线，横轴以 bond length 为单位）。</p>
+  <div class="row be-ctl">
+    <label class="be-sl">internuclear distance
+      <input type="range" class="be-r" min="0.6" max="3.2" step="0.01" value="1" aria-label="internuclear distance">
+    </label>
+    <span class="be-rv"></span>
+  </div>
+  <div class="card be-plot"><svg class="be-svg be-psvg" viewBox="0 0 860 460" aria-label="potential energy against internuclear distance"></svg></div>
+  <div class="card be-state" aria-live="polite"></div>
+</div>
+
+<style>
+.k .be-plot{padding:6px}
+.k .be-svg{width:100%;display:block}
+.k .be-svg text{font-size:13px}
+.k .be-svg text.be-tick,.k .be-svg text.be-axt{fill:var(--mut)}
+.k .be-svg text.be-b{font-weight:650}
+.k .be-svg text.be-plab{font-size:14px;font-weight:650}
+.k .be-svg .be-c1{fill:var(--s1)} .k .be-svg .be-c3{fill:var(--s3)} .k .be-svg .be-c4{fill:var(--s4)}
+.k .be-svg .be-c5{fill:var(--s5)} .k .be-svg .be-c0{fill:var(--mut)}
+.k .be-svg text.be-anom{fill:var(--bad);font-weight:650}
+.k .be-svg .be-grid{stroke:var(--line);stroke-width:1}
+.k .be-svg .be-ax{stroke:var(--mut);stroke-width:1.3}
+.k .be-svg .be-dim{opacity:.3}
+.k .be-svg .be-pt.sel{stroke:var(--fg);stroke-width:2.5}
+.k .be-fams .be-fam{display:inline-flex;align-items:center;gap:6px}
+.k .be-fams .be-fam.on{background:var(--acc);border-color:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.k .be-fams .be-fam.on{color:#0d1220}}
+.k .be-sw{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--card)}
+.k .be-fam[data-fam="cc"] .be-sw{background:var(--s1)} .k .be-fam[data-fam="hx"] .be-sw{background:var(--s3)}
+.k .be-fam[data-fam="hal"] .be-sw{background:var(--s5)} .k .be-fam[data-fam="nn"] .be-sw{background:var(--s4)}
+.k .be-fam.on .be-sw{border-color:#fff}
+.k .be-read{margin-top:8px;min-height:1.6em}
+.k .be-read .be-hint{color:var(--mut)}
+.k .be-exp{margin-top:8px}
+.k .be-exp .be-eh{font-weight:650;margin-bottom:4px}
+.k .be-exp ul{margin:2px 0;padding-left:1.3em}
+.k .be-exp .be-ms{margin-top:6px;padding:4px 10px;border-left:3px solid var(--acc);background:var(--acc-soft);border-radius:0 6px 6px 0}
+.k .be-exp .be-warn{margin-top:6px;padding:4px 10px;border-left:3px solid var(--bad);background:var(--bad-soft);border-radius:0 6px 6px 0}
+.k .be-foot{color:var(--mut);font-size:13px;margin:6px 2px 0}
+.k .be-ctl{align-items:center;gap:10px}
+.k .be-sl{display:inline-flex;align-items:center;gap:8px;flex:1 1 320px}
+.k .be-sl input{flex:1 1 auto;min-width:140px}
+.k .be-rv{font-variant-numeric:tabular-nums;font-weight:650;min-width:11em}
+.k .be-state{margin-top:8px;min-height:4.6em}
+.k .be-state .be-sh{font-weight:650;font-size:16px;margin-bottom:2px}
+.k .be-state[data-state="repulsion"] .be-sh{color:var(--bad)}
+.k .be-state[data-state="bond-length"] .be-sh{color:var(--ok)}
+.k .be-state[data-state="attraction"] .be-sh,.k .be-state[data-state="weak"] .be-sh{color:var(--acc)}
+</style>
+
+<script>
+K.init($root);
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function add(par, tag, at) { var e = K.svg(tag, at); par.appendChild(e); return e; }
+function widthOf(svg, def) { return Math.max(Math.round(svg.getBoundingClientRect().width) || def, 520); }
+function visible(svg) { return svg.getBoundingClientRect().width > 0; }
+function lab(svg, x, y, txt, o) {
+  var t = K.label(svg, x, y, txt, o);
+  t.setAttribute('data-ax', x); t.setAttribute('data-ay', y);
+  return t;
+}
+function ptRect(x, y, r) { return { x: x - r, y: y - r, w: 2 * r, h: 2 * r }; }
+/* dense ring of label positions around a point, nearest first */
+function ring() {
+  var out = [];
+  [9, 14, 20, 27, 35].forEach(function (dx) {
+    for (var cy = -24; cy <= 24; cy += 4) {
+      [1, -1].forEach(function (sd) { out.push({ c: [sd * dx, cy + 5, sd > 0 ? 'start' : 'end'], d: Math.hypot(dx, cy) + (sd < 0 ? 0.5 : 0) }); });
+    }
+  });
+  [-14, -19, -24, 14, 19, 24].forEach(function (cy) { out.push({ c: [0, cy + 5, 'middle'], d: Math.abs(cy) - 3 }); });
+  return out.sort(function (a, b) { return a.d - b.d; }).map(function (o) { return o.c; });
+}
+
+/* ================= ① bond energy vs bond length ================= */
+/* bond energy / kJ mol⁻¹ (data booklet), bond length / nm (textbook) — chapter 3.4 F */
+var BONDS = [
+  { b: 'C–C', E: 350, l: 0.154, f: 'cc' }, { b: 'C=C', E: 610, l: 0.134, f: 'cc' }, { b: 'C≡C', E: 840, l: 0.120, f: 'cc' },
+  { b: 'H–F', E: 562, l: 0.092, f: 'hx' }, { b: 'H–Cl', E: 431, l: 0.127, f: 'hx' }, { b: 'H–Br', E: 366, l: 0.141, f: 'hx' }, { b: 'H–I', E: 299, l: 0.161, f: 'hx' },
+  { b: 'F–F', E: 158, l: 0.142, f: 'hal' }, { b: 'Cl–Cl', E: 242, l: 0.199, f: 'hal' }, { b: 'Br–Br', E: 193, l: 0.228, f: 'hal' }, { b: 'I–I', E: 151, l: 0.267, f: 'hal' },
+  { b: 'N≡N', E: 944, l: 0.110, f: 'nn' }, { b: 'O=O', E: 496, l: 0.121, f: 'nn' },
+  { b: 'C–H', E: 410, l: 0.109, f: '' }, { b: 'O–H', E: 460, l: 0.096, f: '' }
+];
+var FAM = { cc: { n: 'carbon–carbon', c: 1 }, hx: { n: 'hydrogen halides', c: 3 }, hal: { n: 'halogens', c: 5 }, nn: { n: 'N₂ vs O₂', c: 4 } };
+function famCol(f) { return f ? 'var(--s' + FAM[f].c + ')' : 'var(--mut)'; }
+function bond(n) { return BONDS.filter(function (r) { return r.b === n; })[0]; }
+var EXP = {
+  all: '<div class="be-eh">三条规律</div><ul>' +
+    '<li><b>multiple bond 更短、更强</b>：C–C → C=C → C≡C（carbon–carbon）。</li>' +
+    '<li><b>atom 越大，bond 越长、越弱</b>：H–F &gt; H–Cl &gt; H–Br &gt; H–I；Cl–Cl &gt; Br–Br &gt; I–I。</li>' +
+    '<li><b>F–F 是例外</b>（红圈）：158 &lt; 242，比 Cl–Cl 还弱。</li></ul>' +
+    '<div>点上面的 family 按钮看每条规律的解释。</div>',
+  cc: '<div class="be-eh">carbon–carbon：multiple bond 更短、更强</div>' +
+    '<div>C–C 350 kJ mol⁻¹ / 0.154 nm → C=C 610 / 0.134 → C≡C 840 / 0.120。multiple bond 在两个 nuclei 之间多了 electrons，把 atoms 拉得更近、更难拉开。</div>' +
+    '<div class="be-ms"><b>C=C 610 &lt; 2 × 350 = 700</b>（图中虚线）→ 多出来的 π bond 比 σ bond 弱。所以 alkene 的 π bond 容易断、比 alkane 活泼。</div>',
+  hx: '<div class="be-eh">hydrogen halides：atom 越大，bond 越长、越弱</div>' +
+    '<div>H–F 562 &gt; H–Cl 431 &gt; H–Br 366 &gt; H–I 299 kJ mol⁻¹；bond length 0.092 → 0.161 nm。halogen atom 越大 → bonding pair 离 nuclei 越远 → 吸引越弱。</div>' +
+    '<div class="be-ms">所以 thermal stability：<b>HF &gt; HCl &gt; HBr &gt; HI</b>（hot glass rod 能分解 HI，不能分解 HCl；chapter 11）。</div>',
+  hal: '<div class="be-eh">halogens：Cl–Cl &gt; Br–Br &gt; I–I，但 F–F 反常地弱</div>' +
+    '<div>Cl–Cl 242 &gt; Br–Br 193 &gt; I–I 151 kJ mol⁻¹：atom 越大，bond 越长、越弱。</div>' +
+    '<div class="be-warn"><b>F–F 反常地弱（158 &lt; 242）</b>：F–F 太短，两个 F 上各 3 对 lone pairs 靠得太近，repulsion 很大，削弱了 bond。' +
+    'H–F 没有这个问题（H 上没有 lone pair），所以 H–F 是 hydrogen halides 里最强的（562）。</div>',
+  nn: '<div class="be-eh">N₂ vs O₂：944 vs 496</div>' +
+    '<div>N≡N 944 kJ mol⁻¹ 几乎是 O=O 496 的两倍 → N₂ 很不活泼，O₂ 活泼得多。</div>' +
+    '<div class="be-ms">mark scheme（9701/23 May/June 2024 Q1(a)(i)）：N₂ 不活泼因为 <b>strong triple (covalent) bond AND non-polar</b>——两点都要写。</div>'
+};
+var ssvg = $('.be-ssvg'), fam = 'all', pinned = null, hoverB = null;
+
+function drawScatter() {
+  if (!visible(ssvg)) return;
+  clear(ssvg);
+  var W = widthOf(ssvg, 860), H = 540;
+  ssvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var L = 58, R = W - 20, T = 46, B = H - 58, XMIN = 0.08, XMAX = 0.28, YMAX = 1000;
+  function X(l) { return L + (l - XMIN) / (XMAX - XMIN) * (R - L); }
+  function Y(e) { return B - e / YMAX * (B - T); }
+  ssvg.setAttribute('data-geo', [L, R, T, B].join(','));
+  var avoid = [[L, T - 8, L, B], [L, B, R, B]], placed = [];
+  var gGrid = add(ssvg, 'g', {}), gLines = add(ssvg, 'g', {}), gPts = add(ssvg, 'g', {});
+  for (var v = 0; v <= YMAX; v += 200) {
+    add(gGrid, 'line', { x1: L, x2: R, y1: Y(v), y2: Y(v), 'class': v ? 'be-grid' : 'be-ax' });
+    lab(ssvg, L - 7, Y(v), String(v), { cands: [[0, 4.5, 'end']], placed: placed, cls: 'be-tick' });
+  }
+  for (var i = 0; i <= 10; i++) {
+    var l = XMIN + i * 0.02;
+    add(gGrid, 'line', { x1: X(l), x2: X(l), y1: B, y2: B + 5, 'class': 'be-ax' });
+    lab(ssvg, X(l), B + 27, l.toFixed(2), { cands: [[0, 0, 'middle']], placed: placed, cls: 'be-tick' });
+  }
+  add(gGrid, 'line', { x1: L, x2: L, y1: T - 8, y2: B, 'class': 'be-ax' });
+  lab(ssvg, L - 44, T - 22, 'bond energy / kJ mol⁻¹', { cands: [[0, 0, 'start']], placed: placed, cls: 'be-axt' });
+  lab(ssvg, R, B + 50, 'bond length / nm', { cands: [[0, 0, 'end']], placed: placed, cls: 'be-axt' });
+
+  /* 2 × C–C reference (only shown for carbon–carbon, but always avoided so labels do not jump) */
+  var y700 = Y(700), x700a = X(0.110), x700b = R;
+  avoid.push([x700a, y700, x700b, y700]);
+  if (fam === 'cc') add(gLines, 'line', { x1: x700a, x2: x700b, y1: y700, y2: y700, stroke: 'var(--s1)', 'stroke-width': 1.6, 'stroke-dasharray': '6 4', 'class': 'be-ref' });
+
+  /* family lines */
+  Object.keys(FAM).forEach(function (f) {
+    var rows = BONDS.filter(function (r) { return r.f === f; }).sort(function (a, b) { return a.l - b.l; });
+    var pts = rows.map(function (r) { return [X(r.l), Y(r.E)]; });
+    add(gLines, 'polyline', { points: pts.map(function (q) { return q.join(','); }).join(' '), fill: 'none', stroke: famCol(f),
+      'stroke-width': 2.2, 'stroke-linejoin': 'round', 'class': 'be-line' + (fam !== 'all' && fam !== f ? ' be-dim' : ''), 'data-fam': f });
+    avoid = avoid.concat(K.segs(pts));
+  });
+  /* points */
+  BONDS.forEach(function (r) {
+    var dim = fam !== 'all' && fam !== r.f;
+    add(gPts, 'circle', { cx: X(r.l), cy: Y(r.E), r: 5.5, fill: famCol(r.f), 'class': 'be-pt' + (dim ? ' be-dim' : ''),
+      'data-b': r.b, 'data-e': r.E, 'data-l': r.l.toFixed(3), 'data-fam': r.f || 'none' });
+    placed.push(ptRect(X(r.l), Y(r.E), 7));
+  });
+  /* F–F anomaly: hollow red ring */
+  var ff = bond('F–F'), fx = X(ff.l), fy = Y(ff.E), showAn = fam === 'all' || fam === 'hal';
+  if (showAn) {
+    add(gPts, 'circle', { cx: fx, cy: fy, r: 12, fill: 'none', stroke: 'var(--bad)', 'stroke-width': 2.4, 'class': 'be-ring' });
+    placed.push(ptRect(fx, fy, 14));
+  }
+  /* labels: the anomaly first, then the crowded short-bond corner, then the rest */
+  function plab(r) {
+    var dim = fam !== 'all' && fam !== r.f;
+    /* keep-out halo round every OTHER point, so a label never sits closer to a neighbour's dot than to its own
+       (narrow 全部 used to read «C–H ● H–Cl»: H–Cl's label right next to the C–H dot) */
+    var halos = BONDS.filter(function (q) { return q !== r; }).map(function (q) { return ptRect(X(q.l), Y(q.E), 17); });
+    var tmp = placed.concat(halos);
+    var t = lab(ssvg, X(r.l), Y(r.E), r.b, { cands: ring(), avoid: avoid, placed: tmp, cls: 'be-plab be-c' + (r.f ? FAM[r.f].c : 0) + (dim ? ' be-dim' : '') });
+    placed.push(tmp[tmp.length - 1]);
+    t.setAttribute('data-b', r.b);
+  }
+  plab(ff);
+  if (showAn) {
+    var a = lab(ssvg, fx, fy, 'anomaly', { cands: [[0, 32, 'middle'], [18, 30, 'start'], [-18, 30, 'end'], [20, 5, 'start'], [-20, 5, 'end'], [0, -22, 'middle']],
+      avoid: avoid, placed: placed, cls: 'be-anom' });
+    a.setAttribute('data-b', 'F–F');
+  }
+  BONDS.slice().sort(function (p, q) { return p.l - q.l; }).forEach(function (r) { if (r.b !== 'F–F') plab(r); });
+  if (fam === 'cc') {
+    lab(ssvg, x700b - 4, y700, '2 × C–C = 700', { cands: [[0, -7, 'end'], [0, 17, 'end']], avoid: avoid, placed: placed, cls: 'be-c1 be-b be-reflab' });
+  }
+  ssvg.__pts = BONDS.map(function (r) { return { x: X(r.l), y: Y(r.E), b: r.b }; });
+  markSel();
+}
+function nearest(ev) {
+  var box = ssvg.getBoundingClientRect(), k = ssvg.viewBox.baseVal.width / box.width;
+  var x = (ev.clientX - box.left) * k, y = (ev.clientY - box.top) * k, best = null, bd = 14 * k;
+  (ssvg.__pts || []).forEach(function (q) { var d = Math.hypot(q.x - x, q.y - y); if (d < bd) { bd = d; best = q.b; } });
+  return best;
+}
+function showRead(n) {
+  var el = $('.be-read');
+  if (!n) {
+    el.removeAttribute('data-b');
+    el.innerHTML = '<span class="be-hint">悬停 / 点一个点：显示 bond energy 和 bond length。</span>';
+  } else {
+    var r = bond(n);
+    el.setAttribute('data-b', n);
+    el.innerHTML = '<b>' + r.b + '</b>：bond energy <b class="be-rE">' + r.E + '</b> kJ mol⁻¹，bond length <b class="be-rl">' + r.l.toFixed(3) + '</b> nm' +
+      '<span class="faint">（' + (r.f ? FAM[r.f].n : '不属于上面的 family') + '）</span>';
+  }
+  K.fit();
+}
+function markSel() {
+  $$('.be-ssvg .be-pt').forEach(function (c) { c.classList.toggle('sel', c.getAttribute('data-b') === pinned); });
+}
+ssvg.addEventListener('mousemove', function (ev) {
+  var n = nearest(ev);
+  ssvg.style.cursor = n ? 'pointer' : '';
+  if (n === hoverB) return;
+  hoverB = n; showRead(n || pinned);
+});
+ssvg.addEventListener('mouseleave', function () { hoverB = null; showRead(pinned); });
+ssvg.addEventListener('click', function (ev) { var n = nearest(ev); if (n) { pinned = n; hoverB = null; markSel(); showRead(n); } });
+function setFam(f) {
+  fam = f;
+  $$('.be-fam').forEach(function (b) { var on = b.getAttribute('data-fam') === f; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  var ex = $('.be-exp'); ex.setAttribute('data-fam', f); ex.innerHTML = EXP[f];
+  drawScatter(); K.fit();
+}
+$$('.be-fam').forEach(function (b) { b.addEventListener('click', function () { setFam(b.getAttribute('data-fam')); }); });
+
+/* ================= ② potential energy curve ================= */
+/* qualitative Morse curve, r in units of the bond length, V in units of the bond energy */
+var MA = 2.2;
+function V(r) { var e = Math.exp(-MA * (r - 1)); return (1 - e) * (1 - e) - 1; }
+function dV(r) { var e = Math.exp(-MA * (r - 1)); return 2 * MA * e * (1 - e); }
+var psvg = $('.be-psvg'), slider = $('.be-r');
+var STATES = {
+  repulsion: ['太近：repulsion 急升', '两个 nuclei 互相排斥，非成键 electrons 之间也互相排斥；距离再缩短，repulsion 急剧增大 → potential energy 急升，atoms 被推开。'],
+  'bond-length': ['最低点 = bond length', 'attraction（bonding pair 同时被两个 nuclei 吸引）与 repulsion 平衡，potential energy 最低、最稳定。这个距离就是 <b>bond length</b>；阱深就是 <b>bond energy</b>（把 bond 拉断要补回的 energy）。'],
+  attraction: ['靠近：attraction 增强', 'bonding pair 被两个 nuclei 同时吸引；atoms 再靠近一点，吸引更强，potential energy 继续下降。'],
+  weak: ['太远：attraction 很弱', '两个 nuclei 离得太远，对 bonding pair 的吸引很弱，potential energy 接近 0——基本就是两个分开的 atoms。']
+};
+function stateOf(r) { return r < 0.95 ? 'repulsion' : r <= 1.05 ? 'bond-length' : r <= 2 ? 'attraction' : 'weak'; }
+
+function drawPe() {
+  if (!visible(psvg)) return;
+  clear(psvg);
+  var r = +slider.value;
+  var W = widthOf(psvg, 860), H = 470;
+  psvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  /* top band: two atoms on their own scale (1 bond length = 72 px), with net-force arrows */
+  var cyA = 66, RA = 40, U = 72, mid = W / 2, d = r * U, xa = mid - d / 2, xb = mid + d / 2;
+  var placed = [], avoid = [];
+  var gAt = add(psvg, 'g', { 'class': 'be-atoms' });
+  [xa, xb].forEach(function (x, i) {
+    add(gAt, 'circle', { cx: x, cy: cyA, r: RA, fill: 'var(--s1)', 'fill-opacity': 0.16, stroke: 'var(--s1)', 'stroke-opacity': 0.5, 'class': 'be-atom', 'data-atom': i ? 'B' : 'A' });
+  });
+  [xa, xb].forEach(function (x) { add(gAt, 'circle', { cx: x, cy: cyA, r: 6, fill: 'var(--pos)', 'class': 'be-nuc' }); });
+  /* force on each atom: −dV/dr (positive = pushed apart) */
+  var st = stateOf(r), bal = st === 'bond-length';
+  var F = -dV(r), len = bal ? 0 : Math.max(12, Math.min(54, Math.abs(F) * 46)), kind = F > 0 ? 'repulsion' : 'attraction';
+  psvg.setAttribute('data-r', r.toFixed(2)); psvg.setAttribute('data-force', bal ? 'balanced' : kind);
+  if (!bal) {
+    var col = F > 0 ? 'var(--bad)' : 'var(--acc)';
+    [[xa, -1], [xb, 1]].forEach(function (q) {
+      var dir = F > 0 ? q[1] : -q[1], y = cyA + RA + 14, x0 = q[0], x1 = q[0] + dir * len;
+      add(gAt, 'line', { x1: x0, y1: y, x2: x1 - dir * 7, y2: y, stroke: col, 'stroke-width': 2.4, 'class': 'be-farrow' });
+      add(gAt, 'path', { d: 'M' + x1 + ',' + y + 'l' + (-dir * 9) + ',-5v10z', fill: col });
+      avoid.push([Math.min(x0, x1), y - 5, Math.max(x0, x1), y - 5], [Math.min(x0, x1), y + 5, Math.max(x0, x1), y + 5]);
+    });
+  }
+  placed.push({ x: xa - RA, y: cyA - RA, w: xb - xa + 2 * RA, h: 2 * RA });
+  var ft = bal ? 'attraction = repulsion' : st === 'weak' ? 'net attraction（very weak）' : 'net ' + kind;
+  lab(psvg, mid, cyA + RA + 14, ft, { cands: [[0, 22, 'middle'], [0, 28, 'middle']], avoid: avoid, placed: placed,
+    cls: 'be-b be-flab ' + (bal ? 'be-c3' : F > 0 ? 'be-anom' : 'be-c1') });
+  lab(psvg, xa - RA - 8, cyA, 'atom A', { cands: [[0, 5, 'end']], placed: placed, cls: 'be-tick' });
+  lab(psvg, xb + RA + 8, cyA, 'atom B', { cands: [[0, 5, 'start']], placed: placed, cls: 'be-tick' });
+
+  /* curve */
+  var L = 58, R = W - 20, T = 160, B = H - 44, RMAX = 3.3, VMIN = -1.25, VMAX = 1.5;
+  function X(q) { return L + q / RMAX * (R - L); }
+  function Y(v) { return T + (VMAX - v) / (VMAX - VMIN) * (B - T); }
+  avoid.push([L, T - 8, L, B], [L, B, R, B], [L, Y(0), R, Y(0)]);
+  add(psvg, 'line', { x1: L, x2: L, y1: T - 8, y2: B, 'class': 'be-ax' });
+  add(psvg, 'line', { x1: L, x2: R, y1: B, y2: B, 'class': 'be-ax' });
+  add(psvg, 'line', { x1: L, x2: R, y1: Y(0), y2: Y(0), 'class': 'be-ax', 'stroke-dasharray': '6 4' });
+  lab(psvg, L - 44, T - 20, 'potential energy', { cands: [[0, 0, 'start']], placed: placed, cls: 'be-axt' });
+  lab(psvg, R, B + 22, 'internuclear distance', { cands: [[0, 0, 'end']], placed: placed, cls: 'be-axt' });
+  lab(psvg, L - 6, Y(0), '0', { cands: [[0, 4.5, 'end']], placed: placed, cls: 'be-tick' });
+  var pts = [];
+  for (var q = 0.5; q <= RMAX + 1e-9; q += 0.01) { var v = V(q); if (v <= VMAX) pts.push([X(q), Y(v)]); }
+  add(psvg, 'polyline', { points: pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '), fill: 'none',
+    stroke: 'var(--s5)', 'stroke-width': 2.6, 'class': 'be-curve' });
+  var segs = []; for (var j = 2; j < pts.length; j += 2) segs.push([pts[j - 2][0], pts[j - 2][1], pts[j][0], pts[j][1]]);
+  avoid = avoid.concat(segs);
+  /* the moving point */
+  var px = X(r), py = Y(V(r));
+  add(psvg, 'line', { x1: px, x2: px, y1: py + 7, y2: B, stroke: 'var(--mut)', 'stroke-width': 1, 'stroke-dasharray': '2 3', 'class': 'be-guide' });
+  var dotEl = add(psvg, 'circle', { cx: px, cy: py, r: 7, fill: 'var(--s5)', stroke: 'var(--card)', 'stroke-width': 2, 'class': 'be-dot' });
+  placed.push(ptRect(px, py, 9)); avoid.push([px, py + 7, px, B]);
+  /* bond length: dashed drop from the minimum to the axis */
+  var x1 = X(1), ymin = Y(-1);
+  add(psvg, 'line', { x1: x1, x2: x1, y1: ymin + 6, y2: B, stroke: 'var(--ok)', 'stroke-width': 1.6, 'stroke-dasharray': '5 4', 'class': 'be-blen' });
+  avoid.push([x1, ymin, x1, B]);
+  lab(psvg, x1, B + 22, 'bond length', { cands: [[0, 0, 'middle']], placed: placed, cls: 'be-b be-c3 be-blab' });
+  /* bond energy: well depth, double arrow from the minimum up to 0 (right of the minimum, so the dot does not cover it) */
+  var xd = x1 + 16, y0 = Y(0);
+  add(psvg, 'line', { x1: xd, x2: xd, y1: y0 + 8, y2: ymin - 8, stroke: 'var(--s4)', 'stroke-width': 2, 'class': 'be-depth' });
+  add(psvg, 'path', { d: 'M' + xd + ',' + y0 + 'l-4.5,9h9z', fill: 'var(--s4)' });
+  add(psvg, 'path', { d: 'M' + xd + ',' + ymin + 'l-4.5,-9h9z', fill: 'var(--s4)' });
+  add(psvg, 'line', { x1: x1 + 9, x2: xd + 8, y1: ymin, y2: ymin, stroke: 'var(--s4)', 'stroke-width': 1.4 });
+  avoid.push([xd - 5, y0, xd - 5, ymin], [xd + 5, y0, xd + 5, ymin], [x1 + 9, ymin, xd + 8, ymin]);
+  var ecands = [];
+  [-0.4, -0.3, -0.5, -0.22, -0.6].forEach(function (v) { ecands.push([9, Y(v) - Y(-0.4) + 5, 'start']); });
+  lab(psvg, xd, Y(-0.4), 'bond energy', { cands: ecands, avoid: avoid, placed: placed, cls: 'be-b be-c4 be-elab' });
+  lab(psvg, R, y0, '0 = atoms far apart', { cands: [[0, -14, 'end'], [0, -24, 'end']], avoid: avoid, placed: placed, cls: 'be-tick' });
+  /* zone labels */
+  var rr = 1 - Math.log(2.5) / MA, xr = X(rr), yr = Y(1.25);   /* where V = +1.25 on the repulsive wall */
+  lab(psvg, xr, yr, 'strong repulsion', { cands: [[12, 5, 'start'], [14, 18, 'start'], [12, -8, 'start'], [16, 30, 'start']], avoid: avoid, placed: placed, cls: 'be-anom be-zrep' });
+  var xw = X(2.6), yw = Y(V(2.6));
+  lab(psvg, xw, yw, 'weak attraction', { cands: [[0, 26, 'middle'], [0, 38, 'middle'], [-75, 30, 'middle'], [75, 30, 'middle'], [-75, 42, 'middle'], [75, 42, 'middle']], avoid: avoid, placed: placed, cls: 'be-c1 be-zweak' });
+  psvg.appendChild(dotEl);   /* on top of every line */
+  psvg.setAttribute('data-geo', [L, R, T, B, X(1), Y(-1), Y(0)].map(function (n) { return n.toFixed(2); }).join(','));
+
+  var box = $('.be-state');
+  box.setAttribute('data-state', st);
+  box.innerHTML = '<div class="be-sh">' + STATES[st][0] + '</div><div>' + STATES[st][1] + '</div>';
+  $('.be-rv').textContent = '= ' + r.toFixed(2) + ' × bond length';
+  K.fit();
+}
+slider.addEventListener('input', drawPe);
+
+/* ================= tabs & resize ================= */
+var DRAW = { plot: drawScatter, pe: drawPe };
+$$('.tabbar button[data-tab]').forEach(function (b) {
+  b.addEventListener('click', function () { DRAW[b.getAttribute('data-tab')](); K.fit(); });
+});
+showRead(null);
+setFam('all');
+var lastW = {};
+if (window.ResizeObserver) new ResizeObserver(function () {
+  Object.keys(DRAW).forEach(function (k) {
+    var svg = $('[data-pane="' + k + '"] svg'), w = svg.getBoundingClientRect().width;
+    if (!w || Math.abs(w - (lastW[k] || 0)) < 1) return;
+    lastW[k] = w; DRAW[k]();
+  });
+}).observe($root);
+K.fit();
+</script>
