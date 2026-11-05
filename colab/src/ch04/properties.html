@@ -1,0 +1,1066 @@
+<h3>受力与导电：metal vs ionic</h3>
+<div class="tabbar">
+  <button type="button" data-tab="force">① 受力：malleable vs brittle</button>
+  <button type="button" data-tab="cond">② 导电：electrical conductivity</button>
+  <button type="button" class="pr-pause" style="margin-left:auto">⏸ 暂停</button>
+</div>
+
+<div data-pane="force">
+  <p class="mut">拖动 slider 推动晶格上半部分（0 → 1 个 lattice spacing），对比 <b>giant metallic</b> 与 <b>giant ionic</b> 受切向力时的反应；勾选 <b>alloy</b> 观察加入较大 Zn atoms 后的变化。</p>
+  <div class="row pr-fctl">
+    <label class="pr-sl">
+      <span>上半层位移</span>
+      <input type="range" class="pr-disp" min="0" max="1" step="0.01" value="0">
+      <code class="pr-dval">0.00</code>
+    </label>
+    <button type="button" class="pr-pre" data-d="0">0（原位）</button>
+    <button type="button" class="pr-pre" data-d="0.5">0.5（半间距）</button>
+    <button type="button" class="pr-pre" data-d="1">1.0（到位）</button>
+    <label class="pr-al"><input type="checkbox" class="pr-alloy"> <span>alloy（brass：Cu + 较大 Zn atoms）</span></label>
+  </div>
+  <svg class="pr-svg pr-svg1" viewBox="0 0 780 386"></svg>
+  <div class="grid2 pr-caps">
+    <div class="card pr-cap-metal"></div>
+    <div class="card pr-cap-ionic"></div>
+  </div>
+</div>
+
+<div data-pane="cond">
+  <p class="mut">切换样品放入 d.c. 电路，观察灯泡亮灭与微观带电粒子的运动（左电极接正极为 <b>anode (+)</b>，右电极接负极为 <b>cathode (−)</b>）。</p>
+  <div class="row pr-picks"></div>
+  <svg class="pr-svg pr-svg2" viewBox="0 0 780 354"></svg>
+  <div class="card pr-cap-cond"></div>
+</div>
+
+<style>
+.k .pr-fctl{gap:10px}
+.k .pr-sl{display:inline-flex;align-items:center;gap:8px;flex:1;min-width:230px}
+.k .pr-sl input[type=range]{flex:1;min-width:110px}
+.k .pr-dval{min-width:3.2em;text-align:center}
+.k .pr-al{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card)}
+.k .pr-pre{padding:3px 9px;font-size:14px}
+.k .pr-picks button{font-size:14px;padding:4px 10px}
+.k .pr-svg{
+  --ion-ink:#ffffff;
+  margin:8px 0;background:var(--card);border:1px solid var(--line);border-radius:8px;user-select:none
+}
+@media (prefers-color-scheme:dark){
+  .k .pr-svg{--ion-ink:#0d1220}
+}
+.k .pr-svg text{font-size:16px}
+.k .pr-svg text.hd{font-weight:700}
+.k .pr-svg text.sub{fill:var(--mut)}
+.k .pr-svg text.ok{fill:var(--ok);font-weight:700}
+.k .pr-svg text.bad{fill:var(--bad);font-weight:700}
+.k .pr-svg text.warn{fill:var(--s4);font-weight:700}
+.k .pr-svg text.pos{fill:var(--pos);font-weight:700}
+.k .pr-svg text.neg{fill:var(--neg);font-weight:700}
+.k .pr-svg text.sgn{fill:var(--ion-ink);font-weight:700;pointer-events:none}
+.k .pr-svg text.sgn-lg{fill:var(--ion-ink);font-size:19px;font-weight:700;pointer-events:none}
+.k .pr-svg .bk{fill:var(--card)}
+.k .pr-svg .div{stroke:var(--line);stroke-width:1.4}
+.k .pr-svg .slip{stroke:var(--faint);stroke-width:1.4;stroke-dasharray:5 4}
+.k .pr-svg .sea{fill:var(--acc-soft);stroke:var(--acc);stroke-width:1;stroke-opacity:.35}
+.k .pr-svg .m-cu{fill:var(--pos);stroke:var(--card);stroke-width:1.4}
+.k .pr-svg .m-zn{fill:var(--s4);stroke:var(--card);stroke-width:1.8}
+.k .pr-svg .i-pos{fill:var(--pos);stroke:var(--card);stroke-width:1.4}
+.k .pr-svg .i-neg{fill:var(--neg);stroke:var(--card);stroke-width:1.4}
+.k .pr-svg .el-dot{fill:var(--neg);stroke:var(--card);stroke-width:1}
+.k .pr-svg .el-minus{stroke:var(--ion-ink);stroke-width:1.8;stroke-linecap:round}
+.k .pr-svg .wire{fill:none;stroke:var(--fg);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.k .pr-svg .cham{fill:var(--bg);stroke:var(--line);stroke-width:1.6}
+.k .pr-svg .cham-molten{fill:color-mix(in srgb,var(--s4) 13%,var(--card));stroke:var(--s4);stroke-width:1.6}
+.k .pr-svg .cham-aq{fill:color-mix(in srgb,var(--acc) 12%,var(--card));stroke:var(--acc);stroke-width:1.6}
+.k .pr-svg .elec-pos{fill:color-mix(in srgb,var(--pos) 18%,var(--card));stroke:var(--pos);stroke-width:2.4}
+.k .pr-svg .elec-neg{fill:color-mix(in srgb,var(--neg) 18%,var(--card));stroke:var(--neg);stroke-width:2.4}
+.k .pr-svg .cov{stroke:var(--fg);stroke-width:2.6;stroke-linecap:round}
+.k .pr-svg .imf{stroke:var(--faint);stroke-width:1.3;stroke-dasharray:4 4}
+.k .pr-svg .c-atom{fill:var(--neu);stroke:var(--card);stroke-width:1.4}
+.k .pr-svg .i2-atom{fill:var(--s5);stroke:var(--card);stroke-width:1.3}
+.k .pr-svg .bulb-glow1{fill:var(--s4);opacity:.18}
+.k .pr-svg .bulb-glow2{fill:var(--hl);opacity:.65}
+.k .pr-svg .bulb-on{fill:color-mix(in srgb,var(--hl) 78%,var(--s4));stroke:var(--s4);stroke-width:2.5}
+.k .pr-svg .bulb-off{fill:var(--bg);stroke:var(--faint);stroke-width:2}
+.k .pr-svg .bulb-x-on{fill:none;stroke:var(--s4);stroke-width:2.2;stroke-linejoin:round}
+.k .pr-svg .bulb-x-off{fill:none;stroke:var(--faint);stroke-width:2.1;stroke-linejoin:round}
+.k .pr-caps{margin-top:8px}
+.k .pr-cap-metal,.k .pr-cap-ionic,.k .pr-cap-cond{font-size:14.5px;line-height:1.55}
+.k .pr-ms{display:inline-block;padding:1px 7px;border-radius:5px;background:var(--ok-soft);color:var(--ok);font-weight:650}
+.k .pr-ms-off{display:inline-block;padding:1px 7px;border-radius:5px;background:var(--acc-soft);color:var(--acc);font-weight:650}
+.k .pr-pit{margin-top:5px;padding:5px 9px;border-left:3px solid var(--bad);background:var(--bad-soft);border-radius:0 5px 5px 0;font-size:13.8px}
+</style>
+
+<script>
+K.init($root);
+
+/* deterministic seeded PRNG (mulberry32) */
+function mulberry(seed) {
+  var a = seed >>> 0;
+  return function () {
+    a = (a + 0x6D2B79F5) >>> 0;
+    var t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+var curTab = 'force';
+var svg1 = $root.querySelector('.pr-svg1');
+var svg2 = $root.querySelector('.pr-svg2');
+var dispRange = $root.querySelector('.pr-disp');
+var dispVal = $root.querySelector('.pr-dval');
+var alloyChk = $root.querySelector('.pr-alloy');
+var capMetal = $root.querySelector('.pr-cap-metal');
+var capIonic = $root.querySelector('.pr-cap-ionic');
+var capCond = $root.querySelector('.pr-cap-cond');
+var pauseBtn = $root.querySelector('.pr-pause');
+
+/* Helper: place label on <svg> via K.label and add card backing rect behind it */
+function placeLab(svg, gBack, gText, x, y, txt, cls, cands, avoid, placed) {
+  var e = K.label(svg, x, y, txt, { cls: cls || '', cands: cands, avoid: avoid, placed: placed, pad: 2 });
+  gText.appendChild(e);
+  if (gBack) {
+    var b = e.getBBox();
+    gBack.appendChild(K.svg('rect', { x: b.x - 3, y: b.y - 1, width: b.width + 6, height: b.height + 2, 'class': 'bk' }));
+  }
+  return e;
+}
+
+/* Helper: draw an explicit arrow (single or double headed) with visible shaft */
+function arrowPath(x1, y1, x2, y2, headLen, headHalf, dbl) {
+  var dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy) || 1;
+  var ux = dx / L, uy = dy / L, px = -uy, py = ux;
+  var hl = Math.min(headLen || 8, L * (dbl ? 0.36 : 0.48)), hw = headHalf || 4.8;
+  var sx1 = dbl ? x1 + ux * (hl * 0.7) : x1, sy1 = dbl ? y1 + uy * (hl * 0.7) : y1;
+  var sx2 = x2 - ux * (hl * 0.7), sy2 = y2 - uy * (hl * 0.7);
+  var d = 'M' + sx1.toFixed(1) + ',' + sy1.toFixed(1) + 'L' + sx2.toFixed(1) + ',' + sy2.toFixed(1);
+  var bx2 = x2 - ux * hl, by2 = y2 - uy * hl;
+  d += ' M' + x2.toFixed(1) + ',' + y2.toFixed(1) +
+       'L' + (bx2 + px * hw).toFixed(1) + ',' + (by2 + py * hw).toFixed(1) +
+       'L' + (bx2 - px * hw).toFixed(1) + ',' + (by2 - py * hw).toFixed(1) + 'Z';
+  if (dbl) {
+    var bx1 = x1 + ux * hl, by1 = y1 + uy * hl;
+    d += ' M' + x1.toFixed(1) + ',' + y1.toFixed(1) +
+         'L' + (bx1 + px * hw).toFixed(1) + ',' + (by1 + py * hw).toFixed(1) +
+         'L' + (bx1 - px * hw).toFixed(1) + ',' + (by1 - py * hw).toFixed(1) + 'Z';
+  }
+  return d;
+}
+
+/* ==========================================================================
+   TAB 1: 受力 — malleable vs brittle (+ alloy)
+   ========================================================================== */
+var DM = 54, DI = 50;
+var metalElectrons = (function () {
+  var rng = mulberry(9701041);
+  /* 16 interstitial electron anchors placed at triangle centroids / sea margins well clear of all 16 metal ions */
+  var raw = [
+    /* Upper block: 4 along top sea margin + 4 in triangular voids between row 0 (y=126) and row 1 (y=174) */
+    { bx: 105, by: 106, upper: true },
+    { bx: 159, by: 106, upper: true },
+    { bx: 213, by: 106, upper: true },
+    { bx: 267, by: 106, upper: true },
+    { bx: 64,  by: 152, upper: true },
+    { bx: 105, by: 142, upper: true },
+    { bx: 213, by: 142, upper: true },
+    { bx: 278, by: 146, upper: true },
+    /* Lower block: 4 in triangular voids between row 2 (y=222) and row 3 (y=270) + 4 along bottom sea margin */
+    { bx: 64,  by: 248, upper: false },
+    { bx: 105, by: 238, upper: false },
+    { bx: 132, by: 254, upper: false },
+    { bx: 240, by: 254, upper: false },
+    { bx: 78,  by: 290, upper: false },
+    { bx: 132, by: 290, upper: false },
+    { bx: 186, by: 290, upper: false },
+    { bx: 240, by: 290, upper: false }
+  ];
+  return raw.map(function (p) {
+    return {
+      bx: p.bx,
+      by: p.by,
+      upper: p.upper,
+      ax: 2.4 + rng() * 1.2,
+      ay: 2.0 + rng() * 1.1,
+      wx: 2.3 + rng() * 1.9,
+      wy: 2.1 + rng() * 2.0,
+      px: rng() * Math.PI * 2,
+      py: rng() * Math.PI * 2
+    };
+  });
+})();
+
+var tab1Dom = { eCircles: [], eLines: [] };
+var lastMetalShiftPx = 0, lastRepulsionShown = false, lastIonicState = 'intact';
+
+function drawForce() {
+  if (curTab !== 'force') return;
+  var s = +dispRange.value;
+  var isAlloy = alloyChk.checked;
+  dispVal.textContent = s.toFixed(2);
+
+  /* Metal displacement: pure copper slides full DM (54 px); alloy jams at ~0.20 * DM (10.8 px) where larger Zn atoms collide */
+  var mFrac = isAlloy ? Math.min(s, 0.20) : s;
+  var mShift = mFrac * DM;
+  lastMetalShiftPx = mShift;
+
+  /* Ionic displacement & cleavage geometry */
+  var iDx, iLift, iDrop;
+  if (s <= 0.5) {
+    iDx = (s / 0.5) * DI;
+    var sep = s < 0.22 ? 0 : ((s - 0.22) / 0.28);
+    iLift = sep * 18;
+    iDrop = sep * 18;
+  } else {
+    var u = (s - 0.5) / 0.5;
+    /* stays aligned like-over-like: repulsion forces the two halves apart across the cleavage plane */
+    iDx = DI;
+    iLift = 18 + u * 10;
+    iDrop = 18 + u * 10;
+  }
+  var showRepel = s >= 0.4 - 1e-9;
+  var shattered = s >= 0.85 - 1e-9;
+  lastRepulsionShown = showRepel;
+  lastIonicState = shattered ? 'shattered' : (showRepel ? 'repel' : 'intact');
+
+  svg1.innerHTML = '';
+  tab1Dom.eCircles = [];
+  tab1Dom.eLines = [];
+
+  var gSea = K.svg('g'), gStruct = K.svg('g'), gIons = K.svg('g'), gElec = K.svg('g'), gFx = K.svg('g'), gBack = K.svg('g'), gLab = K.svg('g');
+  [gSea, gStruct, gIons, gElec, gFx, gBack, gLab].forEach(function (g) { svg1.appendChild(g); });
+
+  var avoid = [[390, 14, 390, 372]], placed = [];
+  gStruct.appendChild(K.svg('line', { x1: 390, y1: 14, x2: 390, y2: 372, 'class': 'div' }));
+
+  /* ---- Left Panel: Metal / Alloy ---- */
+  var mCols = [78, 132, 186, 240];
+  var mRows = [126, 174, 222, 270];
+  /* Sea of delocalised electrons: two identical-width rounded envelopes meeting cleanly at slip plane y=198 */
+  gSea.appendChild(K.svg('rect', { x: 52 + mShift, y: 97, width: 242, height: 100, rx: 16, 'class': 'sea' }));
+  gSea.appendChild(K.svg('rect', { x: 52, y: 199, width: 242, height: 100, rx: 16, 'class': 'sea' }));
+  gStruct.appendChild(K.svg('line', { x1: 38, y1: 198, x2: 362, y2: 198, 'class': 'slip' }));
+
+  /* Applied shear force arrow on upper metal block (moves with the upper block) */
+  var mArrowX1 = 16 + mShift, mArrowX2 = 46 + mShift;
+  gFx.appendChild(K.svg('path', {
+    d: arrowPath(mArrowX1, 148, mArrowX2, 148, 8, 4.8, false),
+    style: 'fill:var(--acc);stroke:var(--acc);stroke-width:2.4'
+  }));
+  avoid.push([mArrowX1, 148, mArrowX2, 148]);
+
+  for (var mr = 0; mr < 4; mr++) {
+    var stag = (mr % 2) * 27;
+    var rowShift = mr < 2 ? mShift : 0;
+    for (var mc = 0; mc < 4; mc++) {
+      var isZn = isAlloy && ((mr === 1 && mc === 1) || (mr === 2 && mc === 2));
+      /* Neighbour distortion in alloy: larger Zn atoms visibly disrupt the regular rows */
+      var distX = 0, distY = 0;
+      if (isAlloy) {
+        if (mr === 1 && mc === 1) distY = 4;
+        if (mr === 2 && mc === 2) distY = -4;
+        if (mr === 1 && mc === 0) { distX = -4; distY = -2; }
+        if (mr === 1 && mc === 2) { distX = 5; distY = -2; }
+        if (mr === 0 && mc === 1) { distY = -3; }
+        if (mr === 0 && mc === 2) { distY = -3; }
+        if (mr === 2 && mc === 1) { distX = -5; distY = 2; }
+        if (mr === 2 && mc === 3) { distX = 4; distY = 2; }
+        if (mr === 3 && mc === 1) { distY = 3; }
+        if (mr === 3 && mc === 2) { distY = 3; }
+      }
+      var cx = mCols[mc] + stag + rowShift + distX;
+      var cy = mRows[mr] + distY;
+      var rad = isZn ? 22.5 : 16.5;
+      gIons.appendChild(K.svg('circle', {
+        cx: cx.toFixed(1), cy: cy.toFixed(1), r: rad,
+        'class': isZn ? 'm-zn' : 'm-cu',
+        'data-role': 'metal-ion',
+        'data-layer': mr < 2 ? 'upper' : 'lower',
+        'data-kind': isZn ? 'zn' : 'cu'
+      }));
+      var st = K.svg('text', { x: cx.toFixed(1), y: (cy + 5.5).toFixed(1), 'text-anchor': 'middle', 'class': 'sgn' });
+      st.textContent = isZn ? 'Zn' : '+';
+      gIons.appendChild(st);
+      placed.push({ x: cx - rad - 2, y: cy - rad - 2, w: rad * 2 + 4, h: rad * 2 + 4 });
+    }
+  }
+
+  /* Jammed contact highlight when alloy blocks layer slip */
+  if (isAlloy && s >= 0.15) {
+    var jx1 = mCols[1] + 27 + mShift, jy1 = mRows[1] + 4;
+    var jx2 = mCols[2], jy2 = mRows[2] - 4;
+    var mx = (jx1 + jx2) / 2, my = (jy1 + jy2) / 2;
+    var jamG = K.svg('g', { 'data-role': 'alloy-jam' });
+    jamG.appendChild(K.svg('line', {
+      x1: (mx - 12).toFixed(1), y1: (my + 9).toFixed(1), x2: (mx + 12).toFixed(1), y2: (my - 9).toFixed(1),
+      style: 'stroke:var(--card);stroke-width:5.2;stroke-linecap:round'
+    }));
+    jamG.appendChild(K.svg('line', {
+      x1: (mx - 12).toFixed(1), y1: (my + 9).toFixed(1), x2: (mx + 12).toFixed(1), y2: (my - 9).toFixed(1),
+      style: 'stroke:var(--bad);stroke-width:3;stroke-linecap:round'
+    }));
+    gFx.appendChild(jamG);
+  }
+
+  /* Delocalised electrons in metal */
+  metalElectrons.forEach(function (me, idx) {
+    var c = K.svg('circle', { r: 5.2, 'class': 'el-dot', 'data-role': 'metal-e', 'data-idx': idx });
+    var ln = K.svg('line', { 'class': 'el-minus' });
+    gElec.appendChild(c);
+    gElec.appendChild(ln);
+    tab1Dom.eCircles.push({ el: c, ln: ln, cfg: me, shift: me.upper ? mShift : 0 });
+  });
+
+  /* ---- Right Panel: Giant Ionic (NaCl) ---- */
+  var iCols = [462, 512, 562, 612];
+  var iRows = [132, 174, 218, 260];
+  if (!shattered) {
+    var slipY = (174 - iLift + 218 + iDrop) / 2;
+    gStruct.appendChild(K.svg('line', { x1: 424, y1: slipY.toFixed(1), x2: 744, y2: slipY.toFixed(1), 'class': 'slip' }));
+  }
+
+  /* Applied shear force arrow on upper ionic block */
+  var iArrowX1 = 412 + Math.min(iDx, 50) * 0.6, iArrowX2 = 442 + Math.min(iDx, 50) * 0.6;
+  var iArrowY = 153 - iLift;
+  gFx.appendChild(K.svg('path', {
+    d: arrowPath(iArrowX1, iArrowY, iArrowX2, iArrowY, 8, 4.8, false),
+    style: 'fill:var(--acc);stroke:var(--acc);stroke-width:2.4'
+  }));
+  avoid.push([iArrowX1, iArrowY, iArrowX2, iArrowY]);
+
+  for (var ir = 0; ir < 4; ir++) {
+    var iShiftX = ir < 2 ? iDx : 0;
+    var iShiftY = ir < 2 ? -iLift : iDrop;
+    for (var ic = 0; ic < 4; ic++) {
+      /* At s=0: row 1 is (+, −, +, −), row 2 is (−, +, −, +); at s=0.5 (iDx=50), row 1 (+,−,+) aligns over row 2 (+,−,+) at cols 1,2,3! */
+      var isPos = ((ir + ic) % 2 === 1);
+      var icx = iCols[ic] + iShiftX;
+      var icy = iRows[ir] + iShiftY;
+      var irad = isPos ? 12.5 : 18.5;
+      gIons.appendChild(K.svg('circle', {
+        cx: icx.toFixed(1), cy: icy.toFixed(1), r: irad,
+        'class': isPos ? 'i-pos' : 'i-neg',
+        'data-role': 'ionic-ion',
+        'data-charge': isPos ? 'pos' : 'neg',
+        'data-layer': ir < 2 ? 'upper' : 'lower'
+      }));
+      var ist = K.svg('text', {
+        x: icx.toFixed(1), y: (icy + (isPos ? 5.5 : 6.2)).toFixed(1),
+        'text-anchor': 'middle', 'class': isPos ? 'sgn' : 'sgn-lg'
+      });
+      ist.textContent = isPos ? '+' : '−';
+      gIons.appendChild(ist);
+      placed.push({ x: icx - irad - 2, y: icy - irad - 2, w: irad * 2 + 4, h: irad * 2 + 4 });
+    }
+  }
+
+  /* Jagged fracture / cleavage crack line when shattered (s >= 0.85) */
+  if (shattered) {
+    var cyMid = (iRows[1] - iLift + iRows[2] + iDrop) / 2;
+    var pts = [[432, cyMid + 4], [472, cyMid - 6], [512, cyMid + 5], [556, cyMid - 6], [600, cyMid + 6], [646, cyMid - 5], [692, cyMid + 5], [736, cyMid - 4]];
+    var cd = 'M' + pts.map(function (p) { return p[0] + ',' + p[1].toFixed(1); }).join('L');
+    gFx.appendChild(K.svg('path', {
+      d: cd,
+      style: 'fill:none;stroke:var(--bad);stroke-width:2.2;stroke-dasharray:6 4;opacity:0.75',
+      'data-role': 'cleavage-crack'
+    }));
+    avoid = avoid.concat(K.segs(pts));
+  }
+
+  /* Red double-headed repulsion arrows when s >= 0.4 */
+  if (showRepel) {
+    /* Aligned pairs: upper row 1 (ic = 0, 1, 2) faces lower row 2 (ic = 1, 2, 3) */
+    for (var k = 0; k < 3; k++) {
+      var isPosPair = ((1 + k) % 2 === 1);
+      var pr = isPosPair ? 12.5 : 18.5;
+      var pad = isPosPair ? 6.5 : 4.2;
+      var ux = iCols[k] + iDx, uy = iRows[1] - iLift + pr + pad;
+      var lx = iCols[k + 1], ly = iRows[2] + iDrop - pr - pad;
+      var rg = K.svg('g', { 'data-role': 'repulsion-arrow' });
+      var ap = arrowPath(ux, uy, lx, ly, 7.2, 4.4, true);
+      /* Card-coloured halo behind arrow so cleavage crack never muddies the arrow shaft */
+      rg.appendChild(K.svg('path', {
+        d: ap,
+        style: 'fill:var(--card);stroke:var(--card);stroke-width:6.5;stroke-linejoin:round'
+      }));
+      rg.appendChild(K.svg('path', {
+        d: ap,
+        style: 'fill:var(--bad);stroke:var(--bad);stroke-width:2.4'
+      }));
+      gFx.appendChild(rg);
+      avoid.push([ux, uy, lx, ly]);
+    }
+  }
+
+  /* ---- All SVG text annotations via K.label ---- */
+  placeLab(svg1, gBack, gLab, 196, 24,
+    isAlloy ? 'alloy: brass (Cu + larger Zn)' : 'giant metallic: copper',
+    'hd', [[0, 0, 'middle']], avoid, placed);
+  placeLab(svg1, gBack, gLab, 584, 24,
+    'giant ionic: sodium chloride',
+    'hd', [[0, 0, 'middle']], avoid, placed);
+
+  placeLab(svg1, gBack, gLab, 196, 51,
+    isAlloy ? '+ Cu ions, larger Zn & delocalised e⁻' : '+ metal ions & sea of delocalised e⁻',
+    'sub', [[0, 0, 'middle'], [0, 3, 'middle']], avoid, placed);
+  placeLab(svg1, gBack, gLab, 584, 51,
+    'small + = Na⁺  ·  large − = Cl⁻',
+    'sub', [[0, 0, 'middle'], [0, 3, 'middle']], avoid, placed);
+
+  if (isAlloy) {
+    placeLab(svg1, gBack, gLab, 196, 328,
+      'larger Zn disrupts regular layers',
+      'warn', [[0, 0, 'middle']], avoid, placed);
+    placeLab(svg1, gBack, gLab, 196, 360,
+      s >= 0.15 ? 'layers jammed → harder / stronger' : 'harder to slide → alloy is harder',
+      'warn', [[0, 0, 'middle']], avoid, placed);
+  } else {
+    placeLab(svg1, gBack, gLab, 196, 328,
+      'delocalised e⁻ keep attracting + ions',
+      'sub', [[0, 0, 'middle']], avoid, placed);
+    placeLab(svg1, gBack, gLab, 196, 360,
+      'metallic bonds re-form → malleable',
+      'ok', [[0, 0, 'middle']], avoid, placed);
+  }
+
+  if (shattered) {
+    placeLab(svg1, gBack, gLab, 584, 328,
+      'like charges repel across cleavage plane',
+      'bad', [[0, 0, 'middle']], avoid, placed);
+    placeLab(svg1, gBack, gLab, 584, 360,
+      'lattice shatters → brittle',
+      'bad', [[0, 0, 'middle']], avoid, placed);
+  } else if (showRepel) {
+    placeLab(svg1, gBack, gLab, 584, 328,
+      'Na⁺ faces Na⁺, Cl⁻ faces Cl⁻',
+      'bad', [[0, 0, 'middle']], avoid, placed);
+    placeLab(svg1, gBack, gLab, 584, 360,
+      'like charges repel (red arrows)',
+      'bad', [[0, 0, 'middle']], avoid, placed);
+  } else {
+    placeLab(svg1, gBack, gLab, 584, 328,
+      'Na⁺ and Cl⁻ alternate in lattice',
+      'sub', [[0, 0, 'middle']], avoid, placed);
+    placeLab(svg1, gBack, gLab, 584, 360,
+      'opposite charges attract (intact)',
+      'sub', [[0, 0, 'middle']], avoid, placed);
+  }
+
+  /* ---- HTML Captions ---- */
+  if (isAlloy) {
+    capMetal.innerHTML = '<b>Alloy（brass = copper + zinc）</b>：<b>Zn atoms 比 Cu 大，打乱 layers 的规则排列，layers 不容易 slide → alloy 更 hard / strong</b>（上半层在较大 Zn 处受阻卡住，最大位移仅 0.20 间距）。';
+  } else {
+    capMetal.innerHTML = '<b>Giant metallic（copper）</b>：positive metal ions 浸在 sea of delocalised electrons 中。受力滑移时，<b>layers slide，metallic bonds 在新位置立即重新形成 → malleable / ductile</b>。';
+  }
+
+  if (shattered) {
+    capIonic.innerHTML = '<b>Giant ionic（NaCl）— 到位裂开</b>：移过半间距同号对齐后，<b>like charges repel → lattice shatters → brittle</b>（沿滑移面脆性断裂）。';
+  } else if (showRepel) {
+    capIonic.innerHTML = '<b>Giant ionic（NaCl）— 半间距同号对齐</b>：Na⁺ 对齐 Na⁺、Cl⁻ 对齐 Cl⁻，<b>like charges repel → lattice shatters → brittle</b>（红色双箭头表示同号静电排斥）。';
+  } else {
+    capIonic.innerHTML = '<b>Giant ionic（NaCl）</b>：Na⁺（小）与 Cl⁻（大）呈 checkerboard 交替排列，opposite charges attract；继续拖动 slider 到 0.5 观察同号对齐时的 repulsion 与 brittle 断裂。';
+  }
+
+  updateForceAnim();
+}
+
+function updateForceAnim() {
+  if (curTab !== 'force') return;
+  tab1Dom.eCircles.forEach(function (o) {
+    var me = o.cfg;
+    var ex = me.bx + o.shift + me.ax * Math.sin(me.wx * simTime + me.px);
+    var ey = me.by + me.ay * Math.cos(me.wy * simTime + me.py);
+    o.el.setAttribute('cx', ex.toFixed(2));
+    o.el.setAttribute('cy', ey.toFixed(2));
+    o.ln.setAttribute('x1', (ex - 2.8).toFixed(2));
+    o.ln.setAttribute('y1', ey.toFixed(2));
+    o.ln.setAttribute('x2', (ex + 2.8).toFixed(2));
+    o.ln.setAttribute('y2', ey.toFixed(2));
+  });
+}
+
+/* ==========================================================================
+   TAB 2: 导电 — electrical conductivity (7 samples)
+   ========================================================================== */
+var SAMPLES = {
+  'cu': {
+    label: 'copper (s)',
+    struct: 'giant metallic',
+    conducts: true,
+    summary: 'copper (s) — delocalised e⁻ drift towards (+)',
+    ms: 'delocalised electrons move (through the structure)',
+    extra: 'positive metal ions 固定在晶格原位不动；外加电压下 delocalised electrons 定向漂移形成电流（也可答 <i>delocalised electrons are free to move</i>）。',
+    pit: ''
+  },
+  'nacl-s': {
+    label: 'sodium chloride (s)',
+    struct: 'giant ionic (solid)',
+    conducts: false,
+    summary: 'sodium chloride (s) — ions vibrate in fixed positions',
+    ms: 'ions cannot move / ions are fixed in the lattice',
+    extra: 'solid NaCl 虽含有带电的 Na⁺ 和 Cl⁻，但被 strong ionic bonds 锁在晶格格点上只能原位 vibrate，且没有 delocalised electrons → 不导电。',
+    pit: ''
+  },
+  'nacl-l': {
+    label: 'sodium chloride (l)',
+    struct: 'giant ionic (molten)',
+    conducts: true,
+    summary: 'sodium chloride (l) — Na⁺ → cathode (−), Cl⁻ → anode (+)',
+    ms: 'ions move (through the liquid)',
+    extra: '熔化破坏了固定晶格：Na⁺ 移向 <b>cathode (−)</b>，Cl⁻ 移向 <b>anode (+)</b>（mark scheme 完整句：<i>(sodium and chloride) ions move (through the liquid)</i>）。',
+    pit: '常见错：molten ionic 写 <code>"electrons move"</code> <b>不给分</b>（9701/21 May/June 2025 Q1(a)(iii)）——molten NaCl 里导电的是 <b>ions</b>，没有 delocalised electrons。'
+  },
+  'nacl-aq': {
+    label: 'sodium chloride (aq)',
+    struct: 'giant ionic (aqueous)',
+    conducts: true,
+    summary: 'sodium chloride (aq) — Na⁺(aq) → cathode (−), Cl⁻(aq) → anode (+)',
+    ms: 'ions move (through the liquid / solution)',
+    extra: '溶于 water 后 lattice 解离出自由移动的 hydrated ions：Na⁺ 移向 <b>cathode (−)</b>，Cl⁻ 移向 <b>anode (+)</b>。',
+    pit: '常见错：aqueous ionic solution 同样靠 <b>mobile ions</b> 导电，写 <code>"electrons move"</code> 不给分（9701/21 May/June 2025 Q1(a)(iii)）。'
+  },
+  'graphite': {
+    label: 'graphite (s)',
+    struct: 'giant molecular (layered)',
+    conducts: true,
+    summary: 'graphite (s) — delocalised e⁻ move along layers',
+    ms: 'delocalised electrons move through / between the layers',
+    extra: '每个 C atom 只用 3 个 outer electrons 成 covalent bonds，第 4 个 electron 在层间 delocalised 并沿层定向移动（也可答 <i>delocalised electrons move through the structure</i>，9701/22 May/June 2025 Q1(a)(ii)）。',
+    pit: ''
+  },
+  'diamond': {
+    label: 'diamond (s)',
+    struct: 'giant molecular (3D network)',
+    conducts: false,
+    summary: 'diamond (s) — all 4 outer e⁻ localised in covalent bonds',
+    ms: 'no delocalised electrons / all (4) outer electrons are used in bonding',
+    extra: '三维 tetrahedral giant covalent network 中每个 C atom 连 4 个 C，没有任何自由移动的 electrons 或 ions（9701/22 May/June 2025 Q1(a)(iii)）。',
+    pit: ''
+  },
+  'iodine': {
+    label: 'iodine (s)',
+    struct: 'simple molecular (I₂)',
+    conducts: false,
+    summary: 'iodine (s) — neutral I₂ molecules (no mobile charges)',
+    ms: 'no mobile charged particles（molecules are neutral）',
+    extra: '晶格由电中性的双原子 I₂ molecules 靠 weak id-id forces 排列而成：既没有 mobile ions，也没有 delocalised electrons → 不导电。',
+    pit: ''
+  }
+};
+
+var SAMPLE_ORDER = ['cu', 'nacl-s', 'nacl-l', 'nacl-aq', 'graphite', 'diamond', 'iodine'];
+var curSample = 'cu';
+var picksBox = $root.querySelector('.pr-picks');
+SAMPLE_ORDER.forEach(function (id) {
+  var b = K.el('button', { type: 'button', 'data-sample': id }, SAMPLES[id].label);
+  b.addEventListener('click', function () { selectSample(id); });
+  picksBox.appendChild(b);
+});
+
+var tab2Dom = { movers: [], wireDots: [] };
+/* Sample chamber interior drift bounds: anode right edge = 214, cathode left edge = 566 */
+var XL = 228, XR = 552, XSPAN = XR - XL;
+
+function selectSample(id) {
+  curSample = id;
+  K.$$(picksBox, 'button').forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-sample') === id);
+  });
+  drawCond();
+}
+
+function drawCond() {
+  if (curTab !== 'cond') return;
+  K.$$(picksBox, 'button').forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-sample') === curSample);
+  });
+  var S = SAMPLES[curSample];
+  svg2.innerHTML = '';
+  tab2Dom.movers = [];
+  tab2Dom.wireDots = [];
+
+  var gCham = K.svg('g'), gWire = K.svg('g'), gSample = K.svg('g'), gWireDots = K.svg('g'), gBack = K.svg('g'), gLab = K.svg('g');
+  [gCham, gWire, gSample, gWireDots, gBack, gLab].forEach(function (g) { svg2.appendChild(g); });
+
+  var avoid = [], placed = [];
+
+  /* ---- Circuit outer wires ---- */
+  /* Left electrode top (203,118) -> (203,54) -> battery left (286,54) */
+  /* Battery right (322,54) -> bulb left (467,54); bulb right (503,54) -> (577,54) -> right electrode top (577,118) */
+  var segs = [
+    [[203, 118], [203, 54], [286, 54]],
+    [[322, 54], [467, 54]],
+    [[503, 54], [577, 54], [577, 118]]
+  ];
+  segs.forEach(function (pts) {
+    var d = 'M' + pts.map(function (p) { return p[0] + ',' + p[1]; }).join('L');
+    gWire.appendChild(K.svg('path', { d: d, 'class': 'wire' }));
+    avoid = avoid.concat(K.segs(pts));
+  });
+
+  /* ---- Battery (d.c. cell) at x = 286..322, y = 54 ---- */
+  /* Left = positive (+, long thin), Right = negative (−, short thick), two cells in series */
+  var batLines = [
+    { x: 288, h: 28, w: 2.8, col: 'var(--pos)' },
+    { x: 298, h: 15, w: 5.0, col: 'var(--neg)' },
+    { x: 310, h: 28, w: 2.8, col: 'var(--pos)' },
+    { x: 320, h: 15, w: 5.0, col: 'var(--neg)' }
+  ];
+  batLines.forEach(function (bl) {
+    gWire.appendChild(K.svg('line', {
+      x1: bl.x, y1: 54 - bl.h / 2, x2: bl.x, y2: 54 + bl.h / 2,
+      style: 'stroke:' + bl.col + ';stroke-width:' + bl.w + ';stroke-linecap:round'
+    }));
+  });
+  placed.push({ x: 280, y: 36, w: 48, h: 36 });
+
+  /* ---- Lamp / Bulb at (485, 54) ---- */
+  var bulbG = K.svg('g', { 'class': 'pr-bulb', 'data-on': S.conducts ? 'true' : 'false' });
+  if (S.conducts) {
+    bulbG.appendChild(K.svg('circle', { cx: 485, cy: 54, r: 31, 'class': 'bulb-glow1' }));
+    bulbG.appendChild(K.svg('circle', { cx: 485, cy: 54, r: 23, 'class': 'bulb-glow2' }));
+    var rayG = K.svg('g', { 'data-role': 'lamp-rays' });
+    for (var ra = 0; ra < 8; ra++) {
+      var ang = ra * Math.PI / 4;
+      /* skip horizontal rays that lie directly on the wire */
+      if (ra === 0 || ra === 4) continue;
+      var rx1 = 485 + Math.cos(ang) * 22, ry1 = 54 + Math.sin(ang) * 22;
+      var rx2 = 485 + Math.cos(ang) * 31, ry2 = 54 + Math.sin(ang) * 31;
+      rayG.appendChild(K.svg('line', {
+        x1: rx1.toFixed(1), y1: ry1.toFixed(1), x2: rx2.toFixed(1), y2: ry2.toFixed(1),
+        style: 'stroke:var(--s4);stroke-width:2.6;stroke-linecap:round'
+      }));
+      avoid.push([rx1, ry1, rx2, ry2]);
+    }
+    bulbG.appendChild(rayG);
+  }
+  bulbG.appendChild(K.svg('circle', {
+    cx: 485, cy: 54, r: 18,
+    'class': S.conducts ? 'bulb-on' : 'bulb-off'
+  }));
+  /* circuit symbol for a lamp: circle with a cross */
+  bulbG.appendChild(K.svg('path', {
+    d: 'M472.3,41.3 L497.7,66.7 M472.3,66.7 L497.7,41.3',
+    'class': S.conducts ? 'bulb-x-on' : 'bulb-x-off'
+  }));
+  gWire.appendChild(bulbG);
+  placed.push({ x: 450, y: 19, w: 70, h: 70 });
+
+  /* External wire electron dots when conducting (stay strictly on uncovered wire segments) */
+  if (S.conducts) {
+    var wSegs = [
+      { trk: [[332, 54], [446, 54]], phases: [0.38] },
+      { trk: [[524, 54], [577, 54], [577, 106]], phases: [0.22, 0.72] },
+      { trk: [[203, 106], [203, 54], [276, 54]], phases: [0.25, 0.75] }
+    ];
+    wSegs.forEach(function (sg) {
+      sg.phases.forEach(function (ph) {
+        var wc = K.svg('circle', { r: 3.8, style: 'fill:var(--neg)' });
+        gWireDots.appendChild(wc);
+        tab2Dom.wireDots.push({ el: wc, trk: sg.trk, phase: ph });
+      });
+    });
+  }
+
+  /* ---- Sample Chamber & Two Electrodes ---- */
+  var chamCls = curSample === 'nacl-l' ? 'cham-molten' : (curSample === 'nacl-aq' ? 'cham-aq' : 'cham');
+  gCham.appendChild(K.svg('rect', { x: 186, y: 124, width: 408, height: 174, rx: 8, 'class': chamCls }));
+
+  if (curSample === 'nacl-l' || curSample === 'nacl-aq') {
+    gCham.appendChild(K.svg('path', {
+      d: 'M215,136 Q260,131 305,136 T395,136 T485,136 T565,136',
+      style: 'fill:none;stroke:' + (curSample === 'nacl-l' ? 'var(--s4)' : 'var(--acc)') + ';stroke-width:1.4;opacity:0.55'
+    }));
+  }
+
+  /* Left electrode = anode (+), Right electrode = cathode (−) */
+  gCham.appendChild(K.svg('rect', { x: 192, y: 116, width: 22, height: 174, rx: 4, 'class': 'elec-pos', 'data-electrode': 'anode' }));
+  gCham.appendChild(K.svg('rect', { x: 566, y: 116, width: 22, height: 174, rx: 4, 'class': 'elec-neg', 'data-electrode': 'cathode' }));
+
+  var epTxt = K.svg('text', { x: 203, y: 141, 'text-anchor': 'middle', 'class': 'pos' });
+  epTxt.textContent = '+'; gCham.appendChild(epTxt);
+  var enTxt = K.svg('text', { x: 577, y: 141, 'text-anchor': 'middle', 'class': 'neg' });
+  enTxt.textContent = '−'; gCham.appendChild(enTxt);
+
+  /* Block entire chamber + electrodes in placed so external K.labels stay cleanly outside */
+  placed.push({ x: 184, y: 114, w: 412, h: 186 });
+
+  /* ---- Populate Sample Microscopic Structure & Carriers ---- */
+  buildSampleScene(gSample);
+
+  /* ---- Place all Tab 2 circuit & electrode labels via K.label ---- */
+  placeLab(svg2, gBack, gLab, 304, 24, 'd.c. supply', 'sub', [[0, 0, 'middle']], avoid, placed);
+  placeLab(svg2, gBack, gLab, 288, 92, '+', 'pos', [[0, 0, 'middle'], [0, 4, 'middle']], avoid, placed);
+  placeLab(svg2, gBack, gLab, 320, 92, '−', 'neg', [[0, 0, 'middle'], [0, 4, 'middle']], avoid, placed);
+
+  placeLab(svg2, gBack, gLab, 526, 40,
+    S.conducts ? 'lamp: ON' : 'lamp: OFF',
+    S.conducts ? 'ok' : 'sub',
+    [[0, 0, 'start'], [64, 19, 'start']], avoid, placed);
+
+  placeLab(svg2, gBack, gLab, 176, 194, 'anode (+)', 'pos', [[0, 0, 'end']], avoid, placed);
+  placeLab(svg2, gBack, gLab, 604, 194, 'cathode (−)', 'neg', [[0, 0, 'start']], avoid, placed);
+
+  if (curSample === 'nacl-l' || curSample === 'nacl-aq') {
+    placeLab(svg2, gBack, gLab, 176, 226, '← Cl⁻', 'neg', [[0, 0, 'end']], avoid, placed);
+    placeLab(svg2, gBack, gLab, 604, 226, 'Na⁺ →', 'pos', [[0, 0, 'start']], avoid, placed);
+  } else if (curSample === 'cu' || curSample === 'graphite') {
+    placeLab(svg2, gBack, gLab, 176, 226, '← e⁻ drift', 'neg', [[0, 0, 'end']], avoid, placed);
+    placeLab(svg2, gBack, gLab, 604, 226, '← e⁻ enters', 'neg', [[0, 0, 'start']], avoid, placed);
+  }
+
+  placeLab(svg2, gBack, gLab, 390, 334, S.summary,
+    S.conducts ? 'hd' : 'sub', [[0, 0, 'middle']], avoid, placed);
+
+  /* ---- HTML Caption with verbatim mark scheme phrasing ---- */
+  capCond.innerHTML =
+    '<div><b>' + S.label + '</b>（' + S.struct + '）— 灯泡 <b>' + (S.conducts ? '亮（conducts）' : '不亮（does not conduct）') + '</b></div>' +
+    '<div style="margin-top:4px">Mark scheme 原句：<span class="' + (S.conducts ? 'pr-ms' : 'pr-ms-off') + '">' + S.ms + '</span></div>' +
+    '<div class="mut" style="margin-top:4px">' + S.extra + '</div>' +
+    (S.pit ? '<div class="pr-pit">' + S.pit + '</div>' : '');
+
+  updateCondAnim();
+}
+
+function buildSampleScene(g) {
+  var rng = mulberry(9701042);
+  if (curSample === 'cu') {
+    /* Stationary 3x5 positive Cu ions + drifting delocalised electrons towards anode (+) */
+    g.appendChild(K.svg('rect', { x: 222, y: 134, width: 336, height: 154, rx: 12, 'class': 'sea' }));
+    var xs = [254, 322, 390, 458, 526], ys = [160, 211, 262];
+    ys.forEach(function (y) {
+      xs.forEach(function (x) {
+        g.appendChild(K.svg('circle', { cx: x, cy: y, r: 14.5, 'class': 'm-cu', 'data-role': 'cu-ion' }));
+        var t = K.svg('text', { x: x, y: y + 5.5, 'text-anchor': 'middle', 'class': 'sgn' });
+        t.textContent = '+'; g.appendChild(t);
+      });
+    });
+    var eLanes = [185, 236, 140, 281];
+    eLanes.forEach(function (ly, li) {
+      for (var k = 0; k < 4; k++) {
+        var c = K.svg('circle', { r: 5.5, 'class': 'el-dot', 'data-carrier': 'e' });
+        var ln = K.svg('line', { 'class': 'el-minus' });
+        var ar = K.svg('path', { style: 'fill:var(--neg);stroke:var(--neg);stroke-width:1.6' });
+        g.appendChild(ar); g.appendChild(c); g.appendChild(ln);
+        tab2Dom.movers.push({
+          kind: 'drift-e', c: c, ln: ln, ar: ar, y: ly,
+          u0: (0.14 + k / 4 + (li % 2) * 0.08) % 1, speed: 0.16, ampY: 2.2, ph: rng() * 6.28
+        });
+      }
+    });
+  } else if (curSample === 'nacl-s') {
+    /* Rigid 6x3 checkerboard of Na+ and Cl- vibrating in place (zero net drift) */
+    var nxs = [245, 303, 361, 419, 477, 535], nys = [158, 211, 264];
+    nys.forEach(function (y, ri) {
+      nxs.forEach(function (x, ci) {
+        var pos = (ri + ci) % 2 === 0;
+        var rad = pos ? 12 : 17.5;
+        var c = K.svg('circle', {
+          cx: x, cy: y, r: rad, 'class': pos ? 'i-pos' : 'i-neg',
+          'data-carrier': pos ? 'cation' : 'anion', 'data-mode': 'vibrate'
+        });
+        var t = K.svg('text', {
+          x: x, y: y + (pos ? 5.5 : 6.2), 'text-anchor': 'middle',
+          'class': pos ? 'sgn' : 'sgn-lg'
+        });
+        t.textContent = pos ? '+' : '−';
+        /* subtle vibration arcs around every ion */
+        g.appendChild(K.svg('path', {
+          d: 'M' + (x - rad - 3.5) + ',' + (y - 5.5) + ' Q' + (x - rad - 6.2) + ',' + y + ' ' + (x - rad - 3.5) + ',' + (y + 5.5) +
+             ' M' + (x + rad + 3.5) + ',' + (y - 5.5) + ' Q' + (x + rad + 6.2) + ',' + y + ' ' + (x + rad + 3.5) + ',' + (y + 5.5),
+          style: 'fill:none;stroke:var(--faint);stroke-width:1.2'
+        }));
+        g.appendChild(c); g.appendChild(t);
+        tab2Dom.movers.push({
+          kind: 'vib-ion', c: c, t: t, bx: x, by: y, dyTxt: pos ? 5.5 : 6.2,
+          ax: 2.1, ay: 1.8, wx: 15 + rng() * 4, wy: 14 + rng() * 4, px: rng() * 6.28, py: rng() * 6.28
+        });
+      });
+    });
+  } else if (curSample === 'nacl-l' || curSample === 'nacl-aq') {
+    /* Staggered non-overlapping lanes: Cl- -> anode (+, left), Na+ -> cathode (-, right) */
+    var lanes = [
+      { y: 156, pos: false },
+      { y: 192, pos: true },
+      { y: 228, pos: false },
+      { y: 264, pos: true }
+    ];
+    lanes.forEach(function (lnCfg, li) {
+      var pos = lnCfg.pos, rad = pos ? 12 : 16.5;
+      for (var k = 0; k < 3; k++) {
+        var ar = K.svg('path', {
+          style: 'fill:' + (pos ? 'var(--pos)' : 'var(--neg)') + ';stroke:' + (pos ? 'var(--pos)' : 'var(--neg)') + ';stroke-width:2'
+        });
+        var c = K.svg('circle', {
+          r: rad, 'class': pos ? 'i-pos' : 'i-neg',
+          'data-carrier': pos ? 'cation' : 'anion', 'data-mode': 'drift'
+        });
+        var t = K.svg('text', {
+          'text-anchor': 'middle', 'class': pos ? 'sgn' : 'sgn-lg'
+        });
+        t.textContent = pos ? '+' : '−';
+        g.appendChild(ar); g.appendChild(c); g.appendChild(t);
+        tab2Dom.movers.push({
+          kind: pos ? 'drift-pos' : 'drift-neg',
+          c: c, t: t, ar: ar, y: lnCfg.y, rad: rad, dyTxt: pos ? 5.5 : 6.2,
+          /* keep initial u0 in [0.14..0.86] so t=0..0.4s has zero wrap-around */
+          u0: (0.15 + k / 3 + (li % 2) * 0.09) % 1,
+          speed: 0.13, ph: rng() * 6.28
+        });
+      }
+    });
+  } else if (curSample === 'graphite') {
+    /* 3 covalent C layers + interlayer weak id-id dashed lines + drifting delocalised electrons along layers */
+    var lys = [152, 211, 270], cxs = [238, 288, 338, 388, 438, 488, 538];
+    /* vertical weak id-id indicators */
+    [263, 363, 463, 513].forEach(function (vx) {
+      g.appendChild(K.svg('line', { x1: vx, y1: 162, x2: vx, y2: 201, 'class': 'imf' }));
+      g.appendChild(K.svg('line', { x1: vx, y1: 221, x2: vx, y2: 260, 'class': 'imf' }));
+    });
+    lys.forEach(function (ly) {
+      g.appendChild(K.svg('line', { x1: cxs[0], y1: ly - 3, x2: cxs[cxs.length - 1], y2: ly - 3, 'class': 'cov' }));
+      g.appendChild(K.svg('line', { x1: cxs[0], y1: ly + 3, x2: cxs[cxs.length - 1], y2: ly + 3, 'class': 'cov' }));
+      cxs.forEach(function (cx) {
+        g.appendChild(K.svg('circle', { cx: cx, cy: ly, r: 8.5, 'class': 'c-atom', 'data-role': 'c-atom' }));
+      });
+    });
+    [181.5, 240.5].forEach(function (ey, li) {
+      for (var k = 0; k < 4; k++) {
+        var c = K.svg('circle', { r: 5.5, 'class': 'el-dot', 'data-carrier': 'e' });
+        var ln = K.svg('line', { 'class': 'el-minus' });
+        var ar = K.svg('path', { style: 'fill:var(--neg);stroke:var(--neg);stroke-width:1.6' });
+        g.appendChild(ar); g.appendChild(c); g.appendChild(ln);
+        tab2Dom.movers.push({
+          kind: 'drift-e', c: c, ln: ln, ar: ar, y: ey,
+          u0: (0.14 + k / 4 + li * 0.08) % 1, speed: 0.16, ampY: 1.4, ph: rng() * 6.28
+        });
+      }
+    });
+  } else if (curSample === 'diamond') {
+    /* 3D tetrahedral covalent network projection: every interior C bonded to 4 neighbours, 0 free electrons */
+    var nodes = [
+      [255, 152], [325, 152], [395, 152], [465, 152], [525, 152],
+      [290, 188], [360, 188], [430, 188], [500, 188],
+      [255, 228], [325, 228], [395, 228], [465, 228], [525, 228],
+      [290, 266], [360, 266], [430, 266], [500, 266]
+    ];
+    var bonds = [
+      [0,5],[1,5],[1,6],[2,6],[2,7],[3,7],[3,8],[4,8],
+      [5,9],[5,10],[6,10],[6,11],[7,11],[7,12],[8,12],[8,13],
+      [9,14],[10,14],[10,15],[11,15],[11,16],[12,16],[12,17],[13,17]
+    ];
+    bonds.forEach(function (b) {
+      g.appendChild(K.svg('line', {
+        x1: nodes[b[0]][0], y1: nodes[b[0]][1], x2: nodes[b[1]][0], y2: nodes[b[1]][1], 'class': 'cov'
+      }));
+    });
+    nodes.forEach(function (nd) {
+      g.appendChild(K.svg('circle', { cx: nd[0], cy: nd[1], r: 9.5, 'class': 'c-atom', 'data-role': 'c-atom' }));
+    });
+  } else if (curSample === 'iodine') {
+    /* Discrete neutral I2 diatomic molecules with strong covalent bond inside & weak id-id dashed lines between */
+    var mxs = [268, 350, 432, 514], mys = [174, 248];
+    /* Weak intermolecular id-id dashed lines between adjacent I2 molecules */
+    for (var mi = 0; mi < 3; mi++) {
+      g.appendChild(K.svg('line', { x1: mxs[mi] + 22, y1: 174, x2: mxs[mi + 1] - 22, y2: 174, 'class': 'imf' }));
+      g.appendChild(K.svg('line', { x1: mxs[mi] + 22, y1: 248, x2: mxs[mi + 1] - 22, y2: 248, 'class': 'imf' }));
+    }
+    mxs.forEach(function (mx) {
+      g.appendChild(K.svg('line', { x1: mx, y1: 192, x2: mx, y2: 230, 'class': 'imf' }));
+    });
+    mys.forEach(function (my, ri) {
+      mxs.forEach(function (mx, ci) {
+        var ang = ((ri + ci) % 2 === 0 ? 26 : -26) * Math.PI / 180;
+        var dx = Math.cos(ang) * 10.5, dy = Math.sin(ang) * 10.5;
+        var bl = K.svg('line', { 'class': 'cov' });
+        var a1 = K.svg('circle', { r: 10.5, 'class': 'i2-atom', 'data-role': 'i2-atom' });
+        var a2 = K.svg('circle', { r: 10.5, 'class': 'i2-atom', 'data-role': 'i2-atom' });
+        g.appendChild(bl); g.appendChild(a1); g.appendChild(a2);
+        tab2Dom.movers.push({
+          kind: 'vib-i2', bl: bl, a1: a1, a2: a2, bx: mx, by: my, dx: dx, dy: dy,
+          ax: 1.7, ay: 1.5, wx: 10 + rng() * 3, wy: 9 + rng() * 3, px: rng() * 6.28, py: rng() * 6.28
+        });
+      });
+    });
+  }
+}
+
+function pointOnPoly(pts, u) {
+  var segs = [], tot = 0;
+  for (var i = 1; i < pts.length; i++) {
+    var L = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    segs.push({ a: pts[i - 1], b: pts[i], L: L }); tot += L;
+  }
+  var target = ((u % 1) + 1) % 1 * tot, acc = 0;
+  for (i = 0; i < segs.length; i++) {
+    if (acc + segs[i].L >= target || i === segs.length - 1) {
+      var f = (target - acc) / (segs[i].L || 1);
+      return [segs[i].a[0] + (segs[i].b[0] - segs[i].a[0]) * f, segs[i].a[1] + (segs[i].b[1] - segs[i].a[1]) * f];
+    }
+    acc += segs[i].L;
+  }
+  return pts[0];
+}
+
+function edgeAlpha(u) {
+  return u < 0.05 ? u / 0.05 : (u > 0.95 ? (1 - u) / 0.05 : 1);
+}
+
+function updateCondAnim() {
+  if (curTab !== 'cond') return;
+  tab2Dom.wireDots.forEach(function (wd) {
+    var pt = pointOnPoly(wd.trk, wd.phase + simTime * 0.28);
+    wd.el.setAttribute('cx', pt[0].toFixed(1));
+    wd.el.setAttribute('cy', pt[1].toFixed(1));
+  });
+  tab2Dom.movers.forEach(function (m) {
+    if (m.kind === 'drift-e') {
+      /* Electrons drift right -> left towards anode (+) */
+      var u = ((m.u0 - simTime * m.speed) % 1 + 1) % 1;
+      var ex = XL + u * XSPAN;
+      var ey = m.y + m.ampY * Math.sin(simTime * 5.2 + m.ph);
+      var op = edgeAlpha(u).toFixed(2);
+      m.c.setAttribute('cx', ex.toFixed(2)); m.c.setAttribute('cy', ey.toFixed(2));
+      m.ln.setAttribute('x1', (ex - 2.8).toFixed(2)); m.ln.setAttribute('y1', ey.toFixed(2));
+      m.ln.setAttribute('x2', (ex + 2.8).toFixed(2)); m.ln.setAttribute('y2', ey.toFixed(2));
+      m.ar.setAttribute('d', arrowPath(ex - 6, ey, ex - 16, ey, 5, 3.0, false));
+      m.c.style.opacity = op; m.ln.style.opacity = op; m.ar.style.opacity = op;
+    } else if (m.kind === 'drift-pos') {
+      /* Na+ cation drifts left -> right towards cathode (−) */
+      var up = (m.u0 + simTime * m.speed) % 1;
+      var px = XL + up * XSPAN, py = m.y + 1.6 * Math.sin(simTime * 3.8 + m.ph);
+      var opp = edgeAlpha(up).toFixed(2);
+      m.c.setAttribute('cx', px.toFixed(2)); m.c.setAttribute('cy', py.toFixed(2));
+      m.t.setAttribute('x', px.toFixed(2)); m.t.setAttribute('y', (py + m.dyTxt).toFixed(2));
+      m.ar.setAttribute('d', arrowPath(px + m.rad + 2, py, px + m.rad + 16, py, 6, 3.6, false));
+      m.c.style.opacity = opp; m.t.style.opacity = opp; m.ar.style.opacity = opp;
+    } else if (m.kind === 'drift-neg') {
+      /* Cl- anion drifts right -> left towards anode (+) */
+      var un = ((m.u0 - simTime * m.speed) % 1 + 1) % 1;
+      var nx = XL + un * XSPAN, ny = m.y + 1.6 * Math.cos(simTime * 3.6 + m.ph);
+      var opn = edgeAlpha(un).toFixed(2);
+      m.c.setAttribute('cx', nx.toFixed(2)); m.c.setAttribute('cy', ny.toFixed(2));
+      m.t.setAttribute('x', nx.toFixed(2)); m.t.setAttribute('y', (ny + m.dyTxt).toFixed(2));
+      m.ar.setAttribute('d', arrowPath(nx - m.rad - 2, ny, nx - m.rad - 16, ny, 6, 3.6, false));
+      m.c.style.opacity = opn; m.t.style.opacity = opn; m.ar.style.opacity = opn;
+    } else if (m.kind === 'vib-ion') {
+      var vx = m.bx + m.ax * Math.sin(m.wx * simTime + m.px);
+      var vy = m.by + m.ay * Math.cos(m.wy * simTime + m.py);
+      m.c.setAttribute('cx', vx.toFixed(2)); m.c.setAttribute('cy', vy.toFixed(2));
+      m.t.setAttribute('x', vx.toFixed(2)); m.t.setAttribute('y', (vy + m.dyTxt).toFixed(2));
+    } else if (m.kind === 'vib-i2') {
+      var ix = m.bx + m.ax * Math.sin(m.wx * simTime + m.px);
+      var iy = m.by + m.ay * Math.cos(m.wy * simTime + m.py);
+      m.a1.setAttribute('cx', (ix - m.dx).toFixed(2)); m.a1.setAttribute('cy', (iy - m.dy).toFixed(2));
+      m.a2.setAttribute('cx', (ix + m.dx).toFixed(2)); m.a2.setAttribute('cy', (iy + m.dy).toFixed(2));
+      m.bl.setAttribute('x1', (ix - m.dx).toFixed(2)); m.bl.setAttribute('y1', (iy - m.dy).toFixed(2));
+      m.bl.setAttribute('x2', (ix + m.dx).toFixed(2)); m.bl.setAttribute('y2', (iy + m.dy).toFixed(2));
+    }
+  });
+}
+
+/* ==========================================================================
+   Animation Loop: rAF + IntersectionObserver + Pause + Deterministic __sim
+   ========================================================================== */
+var simTime = 0;
+var userPaused = false;
+var ioVisible = true;
+var rafId = 0, lastTs = 0;
+
+function renderFrame() {
+  if (curTab === 'force') updateForceAnim();
+  else updateCondAnim();
+}
+
+function shouldRun() {
+  return !userPaused && ioVisible && document.visibilityState !== 'hidden';
+}
+
+function tick(ts) {
+  rafId = 0;
+  if (!shouldRun()) { lastTs = 0; return; }
+  if (lastTs) {
+    var dt = Math.min(0.05, Math.max(0, (ts - lastTs) / 1000));
+    simTime += dt;
+    renderFrame();
+  }
+  lastTs = ts;
+  rafId = requestAnimationFrame(tick);
+}
+
+function syncLoop() {
+  if (shouldRun()) {
+    if (!rafId) { lastTs = 0; rafId = requestAnimationFrame(tick); }
+  } else if (rafId) {
+    cancelAnimationFrame(rafId);
+    rafId = 0;
+    lastTs = 0;
+  }
+}
+
+pauseBtn.addEventListener('click', function () {
+  userPaused = !userPaused;
+  pauseBtn.classList.toggle('on', userPaused);
+  pauseBtn.textContent = userPaused ? '▶ 继续' : '⏸ 暂停';
+  syncLoop();
+});
+
+if (window.IntersectionObserver) {
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.target === $root) {
+        ioVisible = en.isIntersecting;
+        syncLoop();
+      }
+    });
+  }, { threshold: 0.01 }).observe($root);
+}
+document.addEventListener('visibilitychange', syncLoop);
+
+/* ---- Event bindings ---- */
+function onDisp() { drawForce(); K.fit(); }
+dispRange.addEventListener('input', onDisp);
+alloyChk.addEventListener('change', onDisp);
+K.$$($root, '.pr-pre').forEach(function (b) {
+  b.addEventListener('click', function () {
+    dispRange.value = b.getAttribute('data-d');
+    onDisp();
+  });
+});
+
+$root.addEventListener('tab', function (ev) {
+  curTab = ev.detail;
+  if (curTab === 'force') drawForce();
+  else drawCond();
+  renderFrame();
+});
+
+/* Initial render of Tab 1 */
+drawForce();
+syncLoop();
+
+/* Testing & synchronous fast-forward hook */
+$root.__sim = {
+  step: function (dtSec) { simTime += dtSec; renderFrame(); return simTime; },
+  resetTime: function (t) { simTime = t || 0; renderFrame(); return simTime; },
+  time: function () { return simTime; },
+  isRunning: shouldRun,
+  isVisible: function () { return ioVisible; },
+  isPaused: function () { return userPaused; },
+  setPaused: function (p) { if (!!p !== userPaused) pauseBtn.click(); },
+  setDisp: function (v) { dispRange.value = v; onDisp(); },
+  setAlloy: function (on) { alloyChk.checked = !!on; onDisp(); },
+  setSample: function (id) { selectSample(id); },
+  state: function () {
+    return {
+      tab: curTab,
+      disp: +dispRange.value,
+      alloy: alloyChk.checked,
+      metalShiftPx: lastMetalShiftPx,
+      repulsionShown: lastRepulsionShown,
+      ionicState: lastIonicState,
+      sample: curSample,
+      lampOn: SAMPLES[curSample].conducts
+    };
+  }
+};
+</script>
