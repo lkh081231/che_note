@@ -1,0 +1,794 @@
+<h3>Hydrogen bond 怎样画</h3>
+<div class="tabbar">
+  <button data-tab="draw">① 画 hydrogen bond（M1–M3）</button>
+  <button data-tab="count">② 每个 molecule 几个 hydrogen bonds</button>
+  <button data-tab="water">③ water 的 anomalous properties</button>
+</div>
+
+<!-- ① drawing a hydrogen bond, mark by mark -->
+<div data-pane="draw">
+  <p class="mut">选一对 molecules，逐个打开 mark scheme 的 M1–M3，看每一分要画出什么（9701/22 Feb/Mar 2026 Q4(b)）。
+    lone pairs 画成两点；N / O 周围的 bonds 和 lone pairs 按 tetrahedral 排布（楔形 = 指向你，虚楔 = 指向纸后）。</p>
+  <div class="row hb-pairs" role="group" aria-label="molecule pairs">
+    <button type="button" class="hb-pair on" aria-pressed="true" data-pair="ww">H₂O···H₂O</button>
+    <button type="button" class="hb-pair" aria-pressed="false" data-pair="nw">NH₃···H₂O</button>
+    <button type="button" class="hb-pair" aria-pressed="false" data-pair="ew">ethanol···water</button>
+    <button type="button" class="hb-pair" aria-pressed="false" data-pair="aw">CH₂(CN)COOH···H₂O</button>
+    <button type="button" class="hb-pair" aria-pressed="false" data-pair="mw">CH₄···H₂O（反例）</button>
+  </div>
+  <div class="row hb-dirrow">
+    <span class="hb-type"></span>
+    <button type="button" class="hb-swap">⇄ 换方向</button>
+  </div>
+  <div class="card hb-plot"><svg class="hb-svg hb-dsvg" viewBox="0 0 860 300" aria-label="two molecules and the hydrogen bond between them"></svg></div>
+  <div class="card hb-ms">
+    <div class="hb-mshead">mark scheme checklist <span class="faint">（打开 = 画出来；全部打开才是满分画法）</span></div>
+    <label class="hb-m" data-mk="1"><input type="checkbox" class="hb-mbox"><span class="hb-mt"><b>M1</b> <span class="hb-mtx"></span></span><span class="hb-mres"></span></label>
+    <label class="hb-m" data-mk="2"><input type="checkbox" class="hb-mbox"><span class="hb-mt"><b>M2</b> <span class="hb-mtx"></span></span><span class="hb-mres"></span></label>
+    <label class="hb-m" data-mk="3"><input type="checkbox" class="hb-mbox"><span class="hb-mt"><b>M3</b> <span class="hb-mtx"></span></span><span class="hb-mres"></span></label>
+    <div class="row hb-btns">
+      <button type="button" class="hb-all">全部显示</button>
+      <button type="button" class="hb-none">全部隐藏</button>
+    </div>
+    <div class="row hb-errs" role="group" aria-label="common mistakes">
+      <span class="hb-elab">常见错误：</span>
+      <button type="button" class="hb-err" data-err="ch">虚线连到 C 上的 H</button>
+      <button type="button" class="hb-err" data-err="dl">缺一个 δ</button>
+      <button type="button" class="hb-err" data-err="lp">没画 lone pair</button>
+      <button type="button" class="hb-err" data-err="lab">没有标注</button>
+    </div>
+    <div class="hb-verdict" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- ② how many hydrogen bonds per molecule -->
+<div data-pane="count">
+  <p class="mut">每个 hydrogen bond 要<b>一个</b>连在 N / O 上的 H 加上<b>一对</b> lone pair。所以每个 molecule 平均形成几个，看 H 数和 lone pair 数中<b>较少</b>的那个。</p>
+  <div class="row hb-cmols" role="group" aria-label="molecule">
+    <button type="button" class="hb-cmol on" aria-pressed="true" data-cm="w">H₂O</button>
+    <button type="button" class="hb-cmol" aria-pressed="false" data-cm="n">NH₃</button>
+  </div>
+  <div class="hb-cgrid">
+    <div class="card hb-plot"><svg class="hb-svg hb-csvg" viewBox="0 0 520 440" aria-label="a central molecule and its hydrogen-bonded neighbours"></svg></div>
+    <div class="card hb-count" aria-live="polite"></div>
+  </div>
+  <p class="faint">虚线 = hydrogen bond（从 H 指向邻居的 lone pair）；两点 = lone pair；楔形 / 虚楔 = 指向你 / 指向纸后的 N–H。</p>
+</div>
+
+<!-- ③ anomalous properties of water -->
+<div data-pane="water">
+  <p class="mut">water 之间有 extensive hydrogen bonding，所以有三个 anomalous properties。</p>
+  <div class="hb-props">
+    <div class="card hb-prop" data-prop="bp">
+      <div class="hb-ph">relatively high melting and boiling points</div>
+      <div class="hb-pk">现象</div>
+      <div>H₂O <span class="hb-nw">100 °C</span>，而 H₂S <span class="hb-nw">−60 °C</span>、H₂Se <span class="hb-nw">−41 °C</span>、H₂Te <span class="hb-nw">−2 °C</span>（按 H₂S → H₂Te 的趋势外推，H₂O 应约 <span class="hb-nw">−90 °C</span>）</div>
+      <div class="hb-pk">原因</div>
+      <div>Group 16 其他 hydrides 只有 <span class="hb-nw">id-id</span> + <span class="hb-nw">pd-pd</span>；water 之间有 extensive hydrogen bonding，需要多得多的 energy 才能分开</div>
+    </div>
+    <div class="card hb-prop" data-prop="st">
+      <div class="hb-ph">relatively high surface tension</div>
+      <div class="hb-pk">现象</div>
+      <div>水面像一层膜，比多数 liquid 的 surface tension 大</div>
+      <div class="hb-pk">原因</div>
+      <div>表面的 molecules 被下面的 molecules 用 hydrogen bonds 往里拉</div>
+    </div>
+    <div class="card hb-prop" data-prop="ice">
+      <div class="hb-ph">density of ice &lt; liquid water</div>
+      <div class="hb-pk">现象</div>
+      <div>ice 浮在水上（大多数 substance 的 solid 比 liquid 密）</div>
+      <div class="hb-pk">原因</div>
+      <div>ice 里每个 O 被 4 个 H 以 tetrahedral 方式包围，形成 3D hydrogen-bonded 的 <b>open lattice</b>；hydrogen bonds 比 covalent bonds 长，molecules 离得比 liquid 里远；熔化时 lattice 部分塌缩，molecules 靠得更近</div>
+    </div>
+  </div>
+  <div class="card hb-icecard">
+    <div class="hb-ph">ice vs liquid water（2D 示意，同一比例）</div>
+    <div class="row hb-states" role="group" aria-label="state">
+      <button type="button" class="hb-state on" aria-pressed="true" data-st="ice">ice（solid）</button>
+      <button type="button" class="hb-state" aria-pressed="false" data-st="liq">liquid water</button>
+    </div>
+    <div class="hb-key faint">
+      <span><i class="hb-kO"></i> O</span><span><i class="hb-kH"></i> H</span>
+      <span><i class="hb-kc"></i> covalent bond</span><span><i class="hb-kd"></i> hydrogen bond</span>
+      <span><i class="hb-kz"></i> 第 4 个 H（在纸面外：上 / 下一层）</span>
+    </div>
+    <svg class="hb-svg hb-isvg" viewBox="0 0 860 360" aria-label="ice open lattice or liquid water"></svg>
+    <div class="hb-area"></div>
+    <div class="hb-icenote" aria-live="polite"></div>
+  </div>
+</div>
+
+<style>
+.k .hb-plot{padding:6px}
+.k .hb-svg{width:100%;display:block}
+.k .hb-svg text{font-size:14px}
+.k .hb-svg text.hb-at{font-size:20px;font-weight:600;dominant-baseline:central;text-anchor:middle}
+.k .hb-svg text.hb-O{fill:var(--s2)} .k .hb-svg text.hb-N{fill:var(--s1)}
+.k .hb-svg text.hb-dl{font-size:16px;font-weight:650;fill:var(--s5)}
+.k .hb-svg text.hb-hblab{font-weight:650;fill:var(--s4)}
+.k .hb-svg text.hb-lplab{font-weight:650;fill:var(--acc)}
+.k .hb-svg text.hb-name{fill:var(--mut)}
+.k .hb-svg text.hb-err{fill:var(--bad);font-weight:650}
+.k .hb-svg text.hb-no{fill:var(--bad);font-weight:700;font-size:15px}
+.k .hb-svg text.hb-spare{fill:var(--mut)}
+.k .hb-svg .hb-bd{stroke:var(--fg);stroke-width:2;stroke-linecap:round;fill:none}
+.k .hb-svg .hb-wedge{fill:var(--fg);stroke:var(--fg);stroke-width:1;stroke-linejoin:round}
+.k .hb-svg .hb-hl{stroke:var(--fg);stroke-width:1.6;stroke-linecap:round}
+.k .hb-svg .hb-lp circle{fill:var(--fg)}
+.k .hb-svg .hb-lp.hb-lpk circle{fill:var(--acc)}
+.k .hb-svg .hb-hb{stroke:var(--s4);stroke-width:2.4;stroke-dasharray:6 4;stroke-linecap:round;fill:none}
+.k .hb-svg .hb-hb.hb-bad{stroke:var(--bad)}
+.k .hb-svg .hb-lead{stroke:var(--acc);stroke-width:1.2}
+.k .hb-svg .hb-gap{stroke:var(--bad);stroke-width:1.6;stroke-dasharray:2 5;stroke-linecap:round;opacity:.8}
+.k .hb-svg .hb-ring{fill:none;stroke:var(--bad);stroke-width:2}
+.k .hb-dirrow{min-height:2.1em}
+.k .hb-type{font-weight:650}
+.k .hb-type .hb-tsub{font-weight:400;color:var(--mut)}
+.k .hb-pairs .hb-pair.on,.k .hb-cmols .hb-cmol.on,.k .hb-states .hb-state.on,.k .hb-errs .hb-err.on{background:var(--acc);border-color:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.k .hb-pairs .hb-pair.on,.k .hb-cmols .hb-cmol.on,.k .hb-states .hb-state.on,.k .hb-errs .hb-err.on{color:#0d1220}}
+.k .hb-errs .hb-err.on{background:var(--bad);border-color:var(--bad)}
+.k .hb-ms{margin-top:8px}
+.k .hb-mshead{font-weight:650;margin-bottom:4px}
+.k .hb-m{display:flex;gap:8px;align-items:flex-start;padding:5px 8px;margin:3px 0;border:1px solid var(--line);border-left-width:4px;border-radius:6px}
+.k .hb-m input{margin-top:5px;flex:none}
+.k .hb-m .hb-mt{flex:1 1 auto}
+.k .hb-m .hb-mres{flex:none;font-weight:700}
+.k .hb-m.on{background:var(--ok-soft);border-color:var(--ok)}
+.k .hb-m.ok{background:var(--ok-soft);border-color:var(--ok)} .k .hb-m.ok .hb-mres{color:var(--ok)}
+.k .hb-m.bad{background:var(--bad-soft);border-color:var(--bad)} .k .hb-m.bad .hb-mres{color:var(--bad)}
+.k .hb-m.dis{opacity:.55;cursor:not-allowed}
+.k .hb-elab{color:var(--mut)}
+.k .hb-err[disabled]{opacity:.45;cursor:not-allowed}
+.k .hb-verdict{margin-top:6px;padding:6px 10px;border-left:3px solid var(--acc);background:var(--acc-soft);border-radius:0 6px 6px 0}
+.k .hb-verdict.hb-vok{border-left-color:var(--ok);background:var(--ok-soft)}
+.k .hb-verdict.hb-vbad{border-left-color:var(--bad);background:var(--bad-soft)}
+.k .hb-verdict .hb-vh{font-weight:650}
+.k .hb-cgrid{display:grid;grid-template-columns:minmax(0,3fr) minmax(220px,2fr);gap:10px;align-items:start}
+@media (max-width:760px){.k .hb-cgrid{grid-template-columns:1fr}}
+.k .hb-count table{margin:4px 0 8px;width:100%}
+.k .hb-count td.hb-num{text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.k .hb-count tr.hb-min td{background:var(--ok-soft)}
+.k .hb-count .hb-res{font-size:16px;font-weight:650;margin:4px 0}
+.k .hb-props{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.k .hb-ph{font-weight:650;margin-bottom:4px}
+.k .hb-pk{color:var(--mut);font-size:13px;margin-top:6px}
+.k .hb-icecard{margin-top:10px}
+.k .hb-nw{white-space:nowrap}
+.k .hb-key{display:flex;flex-wrap:wrap;gap:4px 14px;margin:4px 0}
+.k .hb-key span{display:inline-flex;align-items:center;gap:5px}
+.k .hb-key i{display:inline-block}
+.k .hb-kO{width:14px;height:14px;border-radius:50%;background:var(--s2)}
+.k .hb-kH{width:9px;height:9px;border-radius:50%;background:var(--card);border:1.5px solid var(--fg)}
+.k .hb-kc{width:18px;border-top:2px solid var(--fg)}
+.k .hb-kd{width:20px;border-top:2.4px dashed var(--s4)}
+.k .hb-kz{width:9px;height:9px;border-radius:50%;background:var(--card);border:1.5px dashed var(--fg)}
+.k .hb-isvg .hb-iO{fill:var(--s2)}
+.k .hb-isvg .hb-iH{fill:var(--card);stroke:var(--fg);stroke-width:1.5}
+.k .hb-isvg .hb-iZ{fill:var(--card);stroke:var(--fg);stroke-width:1.4;stroke-dasharray:2 1.6}
+.k .hb-isvg .hb-ic{stroke:var(--fg);stroke-width:2}
+.k .hb-isvg .hb-id{stroke:var(--s4);stroke-width:2;stroke-dasharray:4 3}
+.k .hb-isvg .hb-box{fill:none;stroke:var(--mut);stroke-width:1.4;stroke-dasharray:7 5}
+.k .hb-isvg text.hb-boxlab{fill:var(--mut);font-weight:650}
+.k .hb-area{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;margin:6px 0}
+.k .hb-area .hb-bar{height:14px;background:var(--line);border-radius:4px;overflow:hidden}
+.k .hb-area .hb-bar>i{display:block;height:100%;background:var(--acc)}
+.k .hb-area .hb-arow.on{font-weight:700}
+.k .hb-area .hb-pct{font-variant-numeric:tabular-nums}
+.k .hb-icenote{padding:6px 10px;border-left:3px solid var(--acc);background:var(--acc-soft);border-radius:0 6px 6px 0}
+</style>
+
+<script>
+K.init($root);
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function add(par, tag, at) { var e = K.svg(tag, at); par.appendChild(e); return e; }
+function visible(svg) { return svg.getBoundingClientRect().width > 0; }
+function widthOf(svg, min) { return Math.max(Math.round(svg.getBoundingClientRect().width) || 860, min); }
+var RAD = Math.PI / 180;
+/* math angle (degrees, anticlockwise, y up) → svg offset */
+function P(ang, len) { return [len * Math.cos(ang * RAD), -len * Math.sin(ang * RAD)]; }
+function angOf(dx, dy) { return Math.atan2(-dy, dx) / RAD; }
+function box(x, y, r) { return { x: x - r, y: y - r, w: 2 * r, h: 2 * r }; }
+function lab(svg, x, y, txt, o) {
+  var t = K.label(svg, x, y, txt, o);
+  t.setAttribute('data-ax', x.toFixed(2)); t.setAttribute('data-ay', y.toFixed(2));
+  return t;
+}
+
+/* ================= molecules =================
+   atoms: [id, element, from, angle, length, bond]   bond 1 | 2 | 3 | 'w' (wedge, towards you) | 'h' (hashed, away)
+   lps:   [atom, angle]  (lone pairs, drawn as two dots)
+   tetrahedral N / O / C: two directions in the page ~110° apart, the other two as wedge + hash (or as lone pairs) */
+var MOL = {
+  /* water, H–O–H 104.5°, lone pairs on the other side */
+  w_d: { name: 'H₂O', atoms: [['O', 'O'], ['H1', 'H', 'O', 0, 42, 1], ['H2', 'H', 'O', 104.5, 42, 1]], lps: [['O', 177.25], ['O', 287.25]] },
+  w_a: { name: 'H₂O', atoms: [['O', 'O'], ['H1', 'H', 'O', 2.75, 42, 1], ['H2', 'H', 'O', 107.25, 42, 1]], lps: [['O', 180], ['O', 290]] },
+  /* centre of tab ② */
+  w_c: { name: 'H₂O', atoms: [['O', 'O'], ['H1', 'H', 'O', 217.75, 42, 1], ['H2', 'H', 'O', 322.25, 42, 1]], lps: [['O', 35], ['O', 145]] },
+  /* ammonia, pyramidal: one N–H and the lone pair in the page, two N–H as wedge + hash */
+  n_d: { name: 'NH₃', atoms: [['N', 'N'], ['H1', 'H', 'N', 0, 42, 1], ['H2', 'H', 'N', 255, 40, 'w'], ['H3', 'H', 'N', 215, 40, 'h']], lps: [['N', 110]] },
+  n_a: { name: 'NH₃', atoms: [['N', 'N'], ['H1', 'H', 'N', 70, 42, 1], ['H2', 'H', 'N', 285, 40, 'w'], ['H3', 'H', 'N', 325, 40, 'h']], lps: [['N', 180]] },
+  n_c: { name: 'NH₃', atoms: [['N', 'N'], ['H1', 'H', 'N', 200, 42, 1], ['H2', 'H', 'N', 305, 40, 'w'], ['H3', 'H', 'N', 345, 40, 'h']], lps: [['N', 90]] },
+  /* methane: tetrahedral, two C–H in the page + wedge + hash */
+  m_d: { name: 'CH₄', atoms: [['C', 'C'], ['H1', 'H', 'C', 0, 42, 1], ['H2', 'H', 'C', 110, 42, 1], ['H3', 'H', 'C', 255, 40, 'w'], ['H4', 'H', 'C', 215, 40, 'h']], lps: [] },
+  /* ethanol CH₃CH₂OH as donor: O–H points right */
+  e_d: { name: 'ethanol', atoms: [['O', 'O'], ['H', 'H', 'O', 0, 42, 1], ['Cb', 'C', 'O', 120, 48, 1], ['Ca', 'C', 'Cb', 180, 50, 1],
+    ['Hb1', 'H', 'Cb', 40, 38, 'w'], ['Hb2', 'H', 'Cb', 80, 38, 'h'], ['Ha1', 'H', 'Ca', 240, 40, 1], ['Ha2', 'H', 'Ca', 100, 38, 'w'], ['Ha3', 'H', 'Ca', 140, 38, 'h']],
+    lps: [['O', 190], ['O', 290]] },
+  /* ethanol as acceptor: a lone pair on O points left, the chain goes off to the right */
+  e_a: { name: 'ethanol', atoms: [['O', 'O'], ['H', 'H', 'O', 107.5, 42, 1], ['Cb', 'C', 'O', 2.5, 48, 1], ['Ca', 'C', 'Cb', 62.5, 50, 1],
+    ['Hb1', 'H', 'Cb', 282.5, 38, 'w'], ['Hb2', 'H', 'Cb', 322.5, 38, 'h'], ['Ha1', 'H', 'Ca', 2.5, 40, 1], ['Ha2', 'H', 'Ca', 102.5, 38, 'w'], ['Ha3', 'H', 'Ca', 142.5, 38, 'h']],
+    lps: [['O', 180], ['O', 290]] },
+  /* CH₂(CN)COOH (9701/22 Feb/Mar 2026 Q4(b)) as donor: carboxylic O–H points right */
+  a_d: { name: 'CH₂(CN)COOH', atoms: [['Oh', 'O'], ['H', 'H', 'Oh', 0, 42, 1], ['Cc', 'C', 'Oh', 120, 48, 1], ['Od', 'O', 'Cc', 60, 44, 2],
+    ['Ca', 'C', 'Cc', 180, 50, 1], ['Cn', 'C', 'Ca', 240, 50, 1], ['N', 'N', 'Cn', 240, 42, 3], ['Ha1', 'H', 'Ca', 100, 38, 'w'], ['Ha2', 'H', 'Ca', 140, 38, 'h']],
+    lps: [['Oh', 190], ['Oh', 290], ['Od', 0], ['Od', 120], ['N', 240]] },
+  /* as acceptor: a lone pair on the C=O oxygen points left */
+  a_a: { name: 'CH₂(CN)COOH', atoms: [['Od', 'O'], ['Cc', 'C', 'Od', 300, 44, 2], ['Oh', 'O', 'Cc', 0, 48, 1], ['H', 'H', 'Oh', 300, 42, 1],
+    ['Ca', 'C', 'Cc', 240, 50, 1], ['Cn', 'C', 'Ca', 180, 50, 1], ['N', 'N', 'Cn', 180, 42, 3], ['Ha1', 'H', 'Ca', 280, 38, 'w'], ['Ha2', 'H', 'Ca', 320, 38, 'h']],
+    lps: [['Od', 180], ['Od', 60], ['Oh', 5], ['Oh', 115], ['N', 180]] },
+  /* the common mistake: a C–H of the CH₂ points at the water */
+  a_c: { name: 'CH₂(CN)COOH', atoms: [['Ca', 'C'], ['H1', 'H', 'Ca', 0, 40, 1], ['Cc', 'C', 'Ca', 110, 50, 1], ['Oh', 'O', 'Cc', 50, 48, 1], ['H', 'H', 'Oh', 350, 42, 1],
+    ['Od', 'O', 'Cc', 170, 44, 2], ['Cn', 'C', 'Ca', 255, 50, 'w'], ['N', 'N', 'Cn', 255, 42, 3], ['H2', 'H', 'Ca', 215, 38, 'h']],
+    lps: [['Oh', 55], ['Oh', 165], ['Od', 110], ['Od', 230], ['N', 255]] }
+};
+
+var SC = 1.2;   /* bond lengths in MOL × SC = viewBox px */
+function build(key) {
+  var m = MOL[key], at = {}, order = [], bonds = [];
+  m.atoms.forEach(function (a) {
+    var p = a[2] ? (function () { var f = at[a[2]], d = P(a[3], a[4] * SC); return [f.x + d[0], f.y + d[1]]; })() : [0, 0];
+    at[a[0]] = { id: a[0], el: a[1], x: p[0], y: p[1] };
+    order.push(a[0]);
+    if (a[2]) bonds.push({ a: a[2], b: a[0], k: a[5] });
+  });
+  return { key: key, name: m.name, at: at, order: order, bonds: bonds, lps: m.lps.map(function (l) { return { at: l[0], ang: l[1] }; }) };
+}
+function rotate(mol, cx, cy, deg) {
+  var c = Math.cos(deg * RAD), s = Math.sin(deg * RAD);
+  mol.order.forEach(function (id) {
+    var a = mol.at[id], dx = a.x - cx, dy = -(a.y - cy);
+    a.x = cx + dx * c - dy * s; a.y = cy - (dx * s + dy * c);
+  });
+  mol.lps.forEach(function (l) { l.ang += deg; });
+}
+function shift(mol, dx, dy) { mol.order.forEach(function (id) { mol.at[id].x += dx; mol.at[id].y += dy; }); }
+/* donor: rotate so X→H points along dir, then put H at (hx, hy) */
+function placeDonor(key, X, H, hx, hy, dir) {
+  var m = build(key), x = m.at[X], h = m.at[H];
+  rotate(m, x.x, x.y, dir - angOf(h.x - x.x, h.y - x.y));
+  shift(m, hx - m.at[H].x, hy - m.at[H].y);
+  m.X = X; m.H = H; return m;
+}
+/* acceptor: rotate so lone pair li points along dir, then put atom A at (ax, ay) */
+function placeAcceptor(key, A, li, ax, ay, dir) {
+  var m = build(key), a = m.at[A];
+  rotate(m, a.x, a.y, dir - m.lps[li].ang);
+  shift(m, ax - m.at[A].x, ay - m.at[A].y);
+  m.A = A; m.li = li; return m;
+}
+var LPR = 18, HB = 150;
+function lpCentre(m, l) { var a = m.at[l.at], d = P(l.ang, LPR); return [a.x + d[0], a.y + d[1]]; }
+function rAt(el) { return el === 'H' ? 9 : 12; }
+
+/* draw one molecule into g; returns { avoid: segments, rects: atom boxes, lp: [lone pair centres] } */
+function drawMol(svg, g, m, o) {
+  o = o || {};
+  var avoid = [], rects = [], gB = add(g, 'g', { 'class': 'hb-bonds', 'data-mol': o.tag || '' }), gL = add(g, 'g', {}), gA = add(g, 'g', {});
+  m.bonds.forEach(function (b) {
+    var A = m.at[b.a], B = m.at[b.b], dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L, nx = -uy, ny = ux;
+    var r0 = rAt(A.el), r1 = rAt(B.el), p0 = [A.x + ux * r0, A.y + uy * r0], p1 = [B.x - ux * r1, B.y - uy * r1];
+    if (b.k === 'w') {
+      var w0 = 1.2, w1 = 5;
+      var pts = [[p0[0] + nx * w0, p0[1] + ny * w0], [p1[0] + nx * w1, p1[1] + ny * w1], [p1[0] - nx * w1, p1[1] - ny * w1], [p0[0] - nx * w0, p0[1] - ny * w0]];
+      add(gB, 'polygon', { 'class': 'hb-wedge', 'data-bond': 'wedge', points: pts.map(function (q) { return q.map(function (v) { return v.toFixed(2); }).join(','); }).join(' ') });
+      avoid = avoid.concat(K.segs([pts[0], pts[1]]), K.segs([pts[3], pts[2]]));
+    } else if (b.k === 'h') {
+      var gh = add(gB, 'g', { 'data-bond': 'hash' });
+      for (var j = 0; j < 6; j++) {
+        var f = (j + 0.5) / 6, hw = 1.4 + 3.8 * f, c0 = [p0[0] + (p1[0] - p0[0]) * f, p0[1] + (p1[1] - p0[1]) * f];
+        add(gh, 'line', { 'class': 'hb-hl', x1: c0[0] + nx * hw, y1: c0[1] + ny * hw, x2: c0[0] - nx * hw, y2: c0[1] - ny * hw });
+      }
+      avoid = avoid.concat(K.segs([[p0[0] + nx * 1.5, p0[1] + ny * 1.5], [p1[0] + nx * 5.3, p1[1] + ny * 5.3]]),
+        K.segs([[p0[0] - nx * 1.5, p0[1] - ny * 1.5], [p1[0] - nx * 5.3, p1[1] - ny * 5.3]]));
+    } else {
+      var offs = b.k === 2 ? [-3, 3] : b.k === 3 ? [-4.2, 0, 4.2] : [0];
+      offs.forEach(function (of) {
+        add(gB, 'line', { 'class': 'hb-bd', 'data-bond': b.a + '-' + b.b, x1: p0[0] + nx * of, y1: p0[1] + ny * of, x2: p1[0] + nx * of, y2: p1[1] + ny * of });
+        avoid.push([p0[0] + nx * of, p0[1] + ny * of, p1[0] + nx * of, p1[1] + ny * of]);
+      });
+    }
+  });
+  var lpc = [];
+  if (o.lps) m.lps.forEach(function (l, i) {
+    var c = lpCentre(m, l), n = P(l.ang + 90, 3.8), key = o.keyLp === i;
+    var gl = add(gL, 'g', { 'class': 'hb-lp' + (key ? ' hb-lpk' : ''), 'data-atom': l.at, 'data-mol': o.tag || '', 'data-cx': c[0].toFixed(2), 'data-cy': c[1].toFixed(2), 'data-ang': l.ang.toFixed(2) });
+    [1, -1].forEach(function (s) { add(gl, 'circle', { cx: c[0] + s * n[0], cy: c[1] + s * n[1], r: key ? 2.9 : 2.5 }); });
+    rects.push(box(c[0], c[1], 6.5));
+    lpc.push(c);
+  });
+  m.order.forEach(function (id) {
+    var a = m.at[id];
+    var t = add(gA, 'text', { 'class': 'hb-at hb-' + a.el, x: a.x.toFixed(2), y: a.y.toFixed(2), 'data-id': id, 'data-el': a.el, 'data-mol': o.tag || '',
+      'data-x': a.x.toFixed(2), 'data-y': a.y.toFixed(2) });
+    t.textContent = a.el;
+    /* ink box: glyph width, cap height (the em box above / below the letter is empty) */
+    var tb = t.getBBox();
+    rects.push({ x: tb.x, y: a.y - 9, w: tb.width, h: 18 });
+  });
+  return { avoid: avoid, rects: rects, lp: lpc };
+}
+function bboxOf(mols) {
+  var b = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 };
+  mols.forEach(function (m) {
+    m.order.forEach(function (id) { var a = m.at[id]; b.x0 = Math.min(b.x0, a.x); b.x1 = Math.max(b.x1, a.x); b.y0 = Math.min(b.y0, a.y); b.y1 = Math.max(b.y1, a.y); });
+    m.lps.forEach(function (l) { var c = lpCentre(m, l); b.x0 = Math.min(b.x0, c[0]); b.x1 = Math.max(b.x1, c[0]); b.y0 = Math.min(b.y0, c[1]); b.y1 = Math.max(b.y1, c[1]); });
+  });
+  return b;
+}
+/* label ring around an atom, nearest first */
+function ring(rad, pref) {
+  if (pref === true) pref = 90;
+  var out = [];
+  [0, 1, 2, 3, 4, 5].forEach(function (k) {
+    var r = (rad || 17) + k * 4, row = [];
+    for (var a = 0; a < 360; a += 22.5) {
+      var d = P(a, r), anc = Math.abs(d[0]) < r * 0.35 ? 'middle' : d[0] > 0 ? 'start' : 'end';
+      /* pref = preferred direction (degrees); candidates of one radius are tried nearest that direction first */
+      row.push({ c: [d[0] + (anc === 'start' ? -4 : anc === 'end' ? 4 : 0), d[1] + 5.5, anc], w: pref != null ? Math.abs(((a - pref) % 360 + 540) % 360 - 180) : 0 });
+    }
+    row.sort(function (p, q) { return p.w - q.w; });
+    row.forEach(function (o) { out.push(o.c); });
+  });
+  return out;
+}
+
+/* keep only label positions whose box centre is clearly nearer its own atom than any other atom
+   (K.label only avoids overlaps; it does not know which atom a δ belongs to) */
+function ownCands(svg, a, others, txt, cls, pref) {
+  var t = K.svg('text', { 'class': 'halo ' + cls, x: 0, y: 0, 'text-anchor': 'middle' });
+  t.textContent = txt; svg.appendChild(t);
+  var bb = t.getBBox(); svg.removeChild(t);
+  var mid = bb.y + bb.height / 2, list = [];
+  /* candidates by label CENTRE on rings round the atom; score = distance + 0.15 px per degree away from pref */
+  for (var r = 20; r <= 40; r += 2) {
+    for (var th = 0; th < 360; th += 15) {
+      var d = P(th, r), cx = a.x + d[0], cy = a.y + d[1];
+      var ok = others.every(function (o) { return Math.hypot(cx - o.x, cy - o.y) >= r * 1.35; });
+      list.push({ c: [d[0], d[1] - mid, 'middle'], ok: ok, w: r + 0.15 * Math.abs(((th - pref) % 360 + 540) % 360 - 180) });
+    }
+  }
+  list.sort(function (p, q) { return p.w - q.w; });
+  var out = list.filter(function (o) { return o.ok; }).map(function (o) { return o.c; }), all = list.map(function (o) { return o.c; });
+  return out.length ? out : all;
+}
+
+/* ================= ① pairs ================= */
+var PAIRS = {
+  ww: { d: ['w_d', 'O', 'H1'], a: ['w_a', 'O', 0] },
+  nw: { d: ['n_d', 'N', 'H1'], a: ['w_a', 'O', 0], sw: { d: ['w_d', 'O', 'H1'], a: ['n_a', 'N', 0] } },
+  ew: { d: ['e_d', 'O', 'H'], a: ['w_a', 'O', 0], sw: { d: ['w_d', 'O', 'H1'], a: ['e_a', 'O', 0] }, ch: { d: ['e_a', 'Ca', 'Ha1'], a: ['w_a', 'O', 0] } },
+  aw: { d: ['a_d', 'Oh', 'H'], a: ['w_a', 'O', 0], sw: { d: ['w_d', 'O', 'H1'], a: ['a_a', 'Od', 0] }, ch: { d: ['a_c', 'Ca', 'H1'], a: ['w_a', 'O', 0] } },
+  mw: { d: ['m_d', 'C', 'H1'], a: ['w_a', 'O', 0], none: true }
+};
+var ERRS = {
+  ch: { t: '虚线连到 C 上的 H', m: [1, 0, 0],
+    why: ['虚线 + 标注都有（M1 只看这两样）', 'H 必须<b>连在 O（或 N）上</b>；C–H 几乎 non-polar（ΔEN = 2.5 − 2.1 = 0.4），这个 H 没有明显的 δ+', 'C 不带 δ−；三个 δ 应该是 δ− O–H δ+ ···· δ− O'] },
+  dl: { t: '缺一个 δ', m: [1, 1, 0],
+    why: ['虚线 + 标注 "hydrogen bond"', '虚线从 lone pair 指向连在 O / N 上的 H', '只写了两个 δ：漏掉 donor 那个 O / N 上的 δ−。三个要<b>连续</b>写全'] },
+  lp: { t: '没画 lone pair', m: [1, 0, 1],
+    why: ['虚线 + 标注 "hydrogen bond"', '虚线从 atom 本身画出，没有画 <b>lone pair</b>——M2 要求从 lone pair 出发', '三个 δ 都对'] },
+  lab: { t: '没有标注', m: [0, 1, 1],
+    why: ['画了虚线但<b>没写</b> "hydrogen bond"——M1 要"画清楚 AND 标注"', '虚线从 lone pair 指向连在 O / N 上的 H', '三个 δ 都对'] }
+};
+var dsvg = $('.hb-dsvg'), pair = 'ww', swapped = false, err = null, mk = [false, false, false];
+
+function cfg() {
+  var p = PAIRS[pair];
+  if (err === 'ch') return p.ch;
+  return swapped && p.sw ? p.sw : p;
+}
+function elOf(spec, id) { return MOL[spec[0]].atoms.filter(function (a) { return a[0] === id; })[0][1]; }
+function typeText(c) {
+  var dX = elOf(c.d, c.d[1]), aA = elOf(c.a, c.a[1]);
+  return dX + '–H···' + aA;
+}
+function drawPair() {
+  if (!visible(dsvg)) return;
+  clear(dsvg);
+  var p = PAIRS[pair], c = cfg();
+  var W = widthOf(dsvg, 540);
+  /* geometry first (H at origin), then centre it */
+  var don = placeDonor(c.d[0], c.d[1], c.d[2], 0, 0, 0);
+  var acc = placeAcceptor(c.a[0], c.a[1], c.a[2], HB, 0, 180);
+  var bb = bboxOf([don, acc]), padT = 52;
+  var bottom = Math.max(bb.y1 + 22, 72), H = Math.max(Math.round(bottom - bb.y0 + padT + 42), 250);
+  var dx = W / 2 - (bb.x0 + bb.x1) / 2, dy = padT - bb.y0;
+  shift(don, dx, dy); shift(acc, dx, dy);
+  var nameY = bottom + dy + 26;
+  dsvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var showHb = !p.none && (err ? err !== null : mk[0]);
+  var showLp = p.none || (err ? err !== 'lp' : mk[1]);
+  var showD = !p.none && (err ? true : mk[2]);
+  var hbLabel = showHb && err !== 'lab';
+  var lpFrom = showLp && err !== 'lp';
+  var gM = add(dsvg, 'g', {}), gHb = add(dsvg, 'g', {});
+  var dd = drawMol(dsvg, gM, don, { lps: showLp, tag: 'd' });
+  var da = drawMol(dsvg, gM, acc, { lps: showLp, keyLp: (showLp && !p.none) ? c.a[2] : -1, tag: 'a' });
+  var avoid = dd.avoid.concat(da.avoid), placed = dd.rects.concat(da.rects);
+  var Hd = don.at[c.d[2]], Xd = don.at[c.d[1]], Aa = acc.at[c.a[1]], lc = lpCentre(acc, acc.lps[c.a[2]]);
+  dsvg.setAttribute('data-geo', [Xd.x, Xd.y, Hd.x, Hd.y, Aa.x, Aa.y, lc[0], lc[1]].map(function (v) { return v.toFixed(2); }).join(','));
+  dsvg.setAttribute('data-pair', pair); dsvg.setAttribute('data-err', err || ''); dsvg.setAttribute('data-swap', swapped && p.sw && err !== 'ch' ? '1' : '0');
+  dsvg.setAttribute('data-x', Xd.el); dsvg.setAttribute('data-a', Aa.el);
+  var mid = null;
+  if (showHb) {
+    var x1 = Hd.x + 11, x2 = lpFrom ? lc[0] - 6 : Aa.x - 15;
+    var ln = add(gHb, 'line', { 'class': 'hb-hb' + (err === 'ch' ? ' hb-bad' : ''), x1: x1, y1: Hd.y, x2: x2, y2: Aa.y, 'data-to': lpFrom ? 'lp' : 'atom' });
+    avoid.push([x1, Hd.y, x2, Aa.y]);
+    mid = [(x1 + x2) / 2, Hd.y];
+  }
+  if (p.none) {
+    /* the counterexample: a gap, no hydrogen bond */
+    var g1 = Hd.x + 12, g2 = lc[0] - 8;
+    add(gHb, 'line', { 'class': 'hb-gap', x1: g1, y1: Hd.y, x2: g2, y2: Hd.y });
+    avoid.push([g1, Hd.y, g2, Hd.y]);
+  }
+  /* every atom is a keep-out zone for labels that belong to another atom */
+  function halosBut(ids) {
+    var out = [];
+    [[don, 'd'], [acc, 'a']].forEach(function (mt) {
+      mt[0].order.forEach(function (id) { if (ids.indexOf(mt[1] + id) < 0) out.push(box(mt[0].at[id].x, mt[0].at[id].y, 13)); });
+    });
+    return out;
+  }
+  function atomLab(m, tag, id, txt, cls, pref) {
+    var a = m.at[id], others = [];
+    [[don, 'd'], [acc, 'a']].forEach(function (mt) { mt[0].order.forEach(function (k) { if (mt[1] + k !== tag + id) others.push(mt[0].at[k]); }); });
+    var cands = ownCands(dsvg, a, others, txt, cls, pref);
+    var tmp = placed.slice();
+    var t = lab(dsvg, a.x, a.y, txt, { cands: cands, avoid: avoid, placed: tmp, cls: cls });
+    placed.push(tmp[tmp.length - 1]);
+    t.setAttribute('data-for', tag + id);
+    return t;
+  }
+  /* labels: δ first (closest to their atoms), then lone pair, hydrogen bond, names */
+  if (showLp && !p.none) {
+    /* lone pair label sits below, joined to the dots by a short leader */
+    var tmpL = placed.slice();
+    var tl = lab(dsvg, lc[0], lc[1], 'lone pair', { cands: [[0, 58, 'middle'], [8, 58, 'start'], [-8, 58, 'end'], [0, 66, 'middle'], [0, -44, 'middle'], [0, -54, 'middle']],
+      avoid: avoid, placed: tmpL, cls: 'hb-lplab' });
+    placed.push(tmpL[tmpL.length - 1]); tl.setAttribute('data-for', 'lp');
+    var tb = tl.getBBox(), up = tb.y > lc[1], ly = up ? tb.y - 2 : tb.y + tb.height + 2, lx = Math.max(tb.x + 4, Math.min(tb.x + tb.width - 4, lc[0]));
+    var l0 = [lc[0], lc[1] + (up ? 7 : -7)];
+    add(gHb, 'line', { 'class': 'hb-lead', x1: l0[0], y1: l0[1], x2: lx, y2: ly });
+    avoid.push([l0[0], l0[1], lx, ly]);
+  }
+  if (hbLabel) {
+    var tmpH = placed.slice();
+    var th = lab(dsvg, mid[0] - 6, mid[1], 'hydrogen bond', { cands: [[0, 28, 'middle'], [-6, 28, 'middle'], [6, 28, 'middle'], [0, -14, 'middle'], [0, -22, 'middle'], [0, 36, 'middle']],
+      avoid: avoid, placed: tmpH, cls: 'hb-hblab' });
+    placed.push(tmpH[tmpH.length - 1]); th.setAttribute('data-for', 'hb');
+  }
+  if (p.none) {
+    var tmpN = placed.slice();
+    var tn = lab(dsvg, (Hd.x + lc[0]) / 2, Hd.y, '✗ no hydrogen bond', { cands: [[0, -14, 'middle'], [0, 26, 'middle'], [0, -26, 'middle'], [0, 38, 'middle'], [0, -38, 'middle'], [0, 50, 'middle']],
+      avoid: avoid, placed: tmpN, cls: 'hb-no' });
+    placed.push(tmpN[tmpN.length - 1]); tn.setAttribute('data-for', 'gap');
+  }
+  /* what is wrong, in red, next to the place it is wrong */
+  if (err) {
+    var e = { ch: [don, 'd', c.d[2], '✗ H 连在 C 上', 90], dl: [don, 'd', c.d[1], '✗ 缺 δ−', 225], lp: [acc, 'a', c.a[1], '✗ 没有 lone pair', 30], lab: null }[err];
+    if (e) {
+      var ea = e[0].at[e[2]];
+      add(gHb, 'circle', { 'class': 'hb-ring', cx: ea.x, cy: ea.y, r: 13 });
+      avoid = avoid.concat(K.segs(ringPts(ea.x, ea.y, 13)));
+      var tmpE = placed.slice();
+      var te = lab(dsvg, ea.x, ea.y, e[3], { cands: ring(24, e[4]), avoid: avoid, placed: tmpE, cls: 'hb-err' });
+      placed.push(tmpE[tmpE.length - 1]); te.setAttribute('data-for', e[1] + e[2]);
+    } else {
+      var tmpX = placed.slice();
+      var tx = lab(dsvg, mid[0], mid[1], '✗ 没有标注', { cands: [[0, -12, 'middle'], [0, 24, 'middle'], [0, -22, 'middle'], [0, 34, 'middle'], [0, -32, 'middle'], [0, 44, 'middle']],
+        avoid: avoid, placed: tmpX, cls: 'hb-err' });
+      placed.push(tmpX[tmpX.length - 1]); tx.setAttribute('data-for', 'hb');
+    }
+  }
+  if (showD) {
+    /* each δ on the side of its atom away from the hydrogen bond, where possible */
+    if (err !== 'dl') atomLab(don, 'd', c.d[1], 'δ−', 'hb-dl', 135);
+    atomLab(don, 'd', c.d[2], 'δ+', 'hb-dl', 90);
+    atomLab(acc, 'a', c.a[1], 'δ−', 'hb-dl', 45);
+  }
+  /* molecule names on a row under the drawing */
+  [[don, 'd'], [acc, 'a']].forEach(function (mt) {
+    var b = bboxOf([mt[0]]), cx = (b.x0 + b.x1) / 2;
+    var tmp = placed.slice();
+    var t = lab(dsvg, cx, nameY, mt[0].name, { cands: [[0, 0, 'middle'], [-20, 0, 'middle'], [20, 0, 'middle'], [0, 10, 'middle']], avoid: avoid, placed: tmp, cls: 'hb-name' });
+    placed.push(tmp[tmp.length - 1]); t.setAttribute('data-for', 'name-' + mt[1]);
+  });
+}
+function ringPts(x, y, r) { var o = []; for (var a = 0; a <= 360; a += 30) { var d = P(a, r); o.push([x + d[0], y + d[1]]); } return o; }
+
+var MTXT = {
+  1: function () { return 'hydrogen bond 画清楚（<b>虚线</b>）并<b>标注</b> "hydrogen bond"'; },
+  2: function (c) { var A = elOf(c.a, c.a[1]), X = c.none ? 'O' : elOf(c.d, c.d[1]); return '从 ' + A + ' 上的 <b>lone pair</b> 指向另一个 molecule 里<b>连在 ' + X + ' 上的 H</b>'; },
+  3: function (c) { var A = elOf(c.a, c.a[1]), X = c.none ? 'O' : elOf(c.d, c.d[1]); return '跨两个 molecules 连续三个 partial charges：<b>δ− ' + X + '–H δ+ ···· δ− ' + A + '</b>'; }
+};
+function refreshPair() {
+  var p = PAIRS[pair], c = (swapped && p.sw) ? p.sw : p;
+  $$('.hb-pairs .hb-pair').forEach(function (b) { var on = b.getAttribute('data-pair') === pair; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+  var sw = $('.hb-swap');
+  sw.style.visibility = p.sw && err !== 'ch' ? 'visible' : 'hidden';
+  sw.disabled = !p.sw || err === 'ch';
+  var cc = cfg(), dn = MOL[cc.d[0]].name, an = MOL[cc.a[0]].name;
+  $('.hb-type').innerHTML = p.none ? 'C–H···O？<span class="hb-tsub">　CH₄ 的 C–H 不能形成 hydrogen bond</span>'
+    : typeText(cc) + '<span class="hb-tsub">　' + dn + ' 提供连在 ' + elOf(cc.d, cc.d[1]) + ' 上的 H（donor），' + an + ' 的 ' + elOf(cc.a, cc.a[1]) + ' 提供 lone pair</span>';
+  if (err === 'ch') $('.hb-type').innerHTML = 'C–H···O<span class="hb-tsub">　（错误画法：' + dn + ' 的 H 连在 C 上）</span>';
+  $$('.hb-ms .hb-m').forEach(function (row, i) {
+    var box = row.querySelector('input');
+    row.querySelector('.hb-mtx').innerHTML = MTXT[i + 1](c);
+    box.disabled = !!p.none;
+    box.checked = !p.none && !err && mk[i];
+    row.classList.toggle('dis', !!p.none);
+    row.classList.toggle('on', !p.none && !err && mk[i]);
+    row.classList.toggle('ok', !!err && ERRS[err].m[i] === 1);
+    row.classList.toggle('bad', !!err && ERRS[err].m[i] === 0);
+    row.querySelector('.hb-mres').textContent = err ? (ERRS[err].m[i] ? '✓' : '✗') : '';
+    row.setAttribute('data-state', p.none ? 'dis' : err ? (ERRS[err].m[i] ? 'ok' : 'bad') : (mk[i] ? 'on' : 'off'));
+  });
+  $('.hb-all').disabled = $('.hb-none').disabled = !!p.none;
+  $$('.hb-errs .hb-err').forEach(function (b) {
+    var e = b.getAttribute('data-err'), dis = !!p.none || (e === 'ch' && !p.ch);
+    b.disabled = dis;
+    b.title = dis ? (p.none ? 'CH₄ 本来就没有 hydrogen bond' : '这一对 molecules 里没有 C–H') : '';
+    b.classList.toggle('on', err === e);
+  });
+  var v = $('.hb-verdict');
+  v.classList.remove('hb-vok', 'hb-vbad');
+  var n = mk.filter(Boolean).length;
+  if (p.none) {
+    v.classList.add('hb-vbad');
+    v.setAttribute('data-v', 'none');
+    v.innerHTML = '<div class="hb-vh">CH₄ 和 H₂O 之间不形成 hydrogen bond</div>' +
+      '<div>C–H 不够 polar：C 和 H 的 electronegativity 很接近（ΔEN = 2.5 − 2.1 = 0.4），H 上几乎没有 δ+；hydrogen bond 要 H <b>直接连在 N / O / F 上</b>。CH₄ 的 C 上也没有 lone pair。</div>' +
+      '<div>所以 CH₄ 之间只有 id-id——Group 14 hydrides 的 boiling point 没有反常，一路随 electron 数上升。</div>';
+  } else if (err) {
+    var E = ERRS[err], got = E.m.reduce(function (s, x) { return s + x; }, 0);
+    v.classList.add('hb-vbad');
+    v.setAttribute('data-v', 'err-' + err);
+    v.innerHTML = '<div class="hb-vh">常见错误：' + E.t + ' → ' + got + ' / 3</div><ul>' +
+      E.why.map(function (w, i) { return '<li><b>M' + (i + 1) + ' ' + (E.m[i] ? '✓' : '✗') + '</b>　' + w + '</li>'; }).join('') + '</ul>' +
+      (err === 'ch' ? '<div>这根本不是 hydrogen bond：' + dn + ' 里能形成 hydrogen bond 的只有连在 O 上的那个 H。</div>' : '') +
+      '<div class="faint">点上面任一 M 开关或「全部显示」回到正确画法。</div>';
+  } else if (n === 3) {
+    v.classList.add('hb-vok');
+    v.setAttribute('data-v', 'full');
+    v.innerHTML = '<div class="hb-vh">3 / 3：满分画法</div><div>' + typeText(c) + ' 三个 atoms 在一条直线上（180°）；hydrogen bond 比 covalent bond 长，强度大约是 covalent bond 的 1/10。</div>';
+  } else {
+    v.setAttribute('data-v', 'partial');
+    v.innerHTML = '<div class="hb-vh">已画出 ' + n + ' / 3</div><div>' + (n ? '再打开其余的 mark，或点「全部显示」。' : '逐个打开 M1–M3，看每一分要画什么；或者点「全部显示」。') + '</div>';
+  }
+  drawPair();
+  K.fit();
+}
+$$('.hb-pairs .hb-pair').forEach(function (b) {
+  b.addEventListener('click', function () { pair = b.getAttribute('data-pair'); swapped = false; err = null; refreshPair(); });
+});
+$('.hb-swap').addEventListener('click', function () { swapped = !swapped; refreshPair(); });
+$$('.hb-ms .hb-m').forEach(function (row, i) {
+  row.querySelector('input').addEventListener('change', function (ev) {
+    if (err) { err = null; mk = [false, false, false]; }
+    mk[i] = ev.target.checked; refreshPair();
+  });
+});
+$('.hb-all').addEventListener('click', function () { err = null; mk = [true, true, true]; refreshPair(); });
+$('.hb-none').addEventListener('click', function () { err = null; mk = [false, false, false]; refreshPair(); });
+$$('.hb-errs .hb-err').forEach(function (b) {
+  b.addEventListener('click', function () { var e = b.getAttribute('data-err'); err = err === e ? null : e; refreshPair(); });
+});
+
+/* ================= ② counting ================= */
+var csvg = $('.hb-csvg'), cmol = 'w';
+var CM = {
+  w: { c: 'w_c', X: 'O', nH: 2, nLp: 2, name: 'H₂O',
+    donors: [['H1', 217.75], ['H2', 322.25]],   /* centre H → neighbour lone pair */
+    lps: [0, 1] },                               /* centre lone pair ← neighbour H */
+  n: { c: 'n_c', X: 'N', nH: 3, nLp: 1, name: 'NH₃', donors: [['H1', 200]], lps: [0], spare: ['H2', 'H3'] }
+};
+function drawCount() {
+  if (!visible(csvg)) return;
+  clear(csvg);
+  var C = CM[cmol], W = widthOf(csvg, 360), HB2 = 104;
+  var cen = build(C.c), mols = [cen], hbs = [];
+  var cX = cen.at[C.X];
+  C.donors.forEach(function (d) {
+    var h = cen.at[d[0]], q = P(d[1], HB2);
+    var nb = placeAcceptor(cmol === 'w' ? 'w_a' : 'n_a', cmol === 'w' ? 'O' : 'N', 0, h.x + q[0], h.y + q[1], d[1] + 180);
+    mols.push(nb);
+    hbs.push({ X: [cX.x, cX.y], H: [h.x, h.y], A: [nb.at[nb.A].x, nb.at[nb.A].y], lp: lpCentre(nb, nb.lps[0]), dir: d[1], m: nb, role: 'acc' });
+  });
+  C.lps.forEach(function (li) {
+    var l = cen.lps[li], q = P(l.ang, HB2);
+    var nb = placeDonor(cmol === 'w' ? 'w_d' : 'n_d', cmol === 'w' ? 'O' : 'N', 'H1', cX.x + q[0], cX.y + q[1], l.ang + 180);
+    mols.push(nb);
+    var nh = nb.at['H1'], nx = nb.at[nb.X];
+    hbs.push({ X: [nx.x, nx.y], H: [nh.x, nh.y], A: [cX.x, cX.y], lp: lpCentre(cen, l), dir: l.ang + 180, m: nb, role: 'don' });
+  });
+  var bb = bboxOf(mols), pad = 34, Hh = Math.round(bb.y1 - bb.y0 + 2 * pad + 20);
+  var dx = W / 2 - (bb.x0 + bb.x1) / 2, dy = pad - bb.y0;
+  mols.forEach(function (m) { shift(m, dx, dy); });
+  hbs.forEach(function (h) { ['X', 'H', 'A', 'lp'].forEach(function (k) { h[k] = [h[k][0] + dx, h[k][1] + dy]; }); });
+  csvg.setAttribute('viewBox', '0 0 ' + W + ' ' + Hh);
+  csvg.setAttribute('data-mol', cmol);
+  var gM = add(csvg, 'g', {}), gH = add(csvg, 'g', {}), avoid = [], placed = [];
+  mols.forEach(function (m, i) {
+    var r = drawMol(csvg, gM, m, { lps: true, tag: i ? 'n' + i : 'c', keyLp: -1 });
+    avoid = avoid.concat(r.avoid); placed = placed.concat(r.rects);
+  });
+  hbs.forEach(function (h, i) {
+    var u = P(h.dir, 1), x1 = h.H[0] + u[0] * 11, y1 = h.H[1] + u[1] * 11, x2 = h.lp[0] - u[0] * 6, y2 = h.lp[1] - u[1] * 6;
+    add(gH, 'line', { 'class': 'hb-hb', x1: x1.toFixed(2), y1: y1.toFixed(2), x2: x2.toFixed(2), y2: y2.toFixed(2), 'data-role': h.role,
+      'data-geo': [h.X, h.H, h.A, h.lp].map(function (p) { return p[0].toFixed(2) + ',' + p[1].toFixed(2); }).join(';') });
+    avoid.push([x1, y1, x2, y2]);
+  });
+  if (C.spare) {
+    C.spare.forEach(function (id) {
+      var a = cen.at[id], halos = [];
+      mols.forEach(function (m, mi) { m.order.forEach(function (k) { if (!(mi === 0 && k === id)) halos.push(box(m.at[k].x, m.at[k].y, 15)); }); });
+      var tmp = placed.concat(halos);
+      var t = lab(csvg, a.x, a.y, '多余的 H', { cands: ring(16), avoid: avoid, placed: tmp, cls: 'hb-spare' });
+      placed.push(tmp[tmp.length - 1]); t.setAttribute('data-for', 'c' + id);
+    });
+  }
+  var n = C.nH < C.nLp ? C.nH : C.nLp;
+  $('.hb-count').setAttribute('data-nh', C.nH); $('.hb-count').setAttribute('data-nlp', C.nLp); $('.hb-count').setAttribute('data-n', n);
+  $('.hb-count').innerHTML = '<table><tr><th>' + C.name + '</th><th>数目</th></tr>' +
+    '<tr class="' + (C.nH <= C.nLp ? 'hb-min' : '') + '"><td>连在 ' + C.X + ' 上的 H</td><td class="hb-num hb-nh">' + C.nH + '</td></tr>' +
+    '<tr class="' + (C.nLp <= C.nH ? 'hb-min' : '') + '"><td>' + C.X + ' 上的 lone pairs</td><td class="hb-num hb-nlp">' + C.nLp + '</td></tr></table>' +
+    '<div class="hb-res">平均 <b class="hb-n">' + n + '</b> 个 hydrogen bond' + (n > 1 ? 's' : '') + ' per molecule</div>' +
+    (cmol === 'w'
+      ? '<div>2 个 H、2 对 lone pairs，刚好配满：中心 H₂O 的 2 个 H 各连一个邻居的 lone pair，2 对 lone pairs 各接一个邻居的 H → 被 <b>4</b> 个邻居包围。每个 hydrogen bond 由两个 molecules 共享 → 平均 4 ÷ 2 = <b>2</b>（extensively hydrogen bonded）。</div>'
+      : '<div>3 个 H 但只有 1 对 lone pair：整个 liquid 里 lone pairs 不够分，每对 lone pair 只接一个 H → 中心 NH₃ 只参与 2 个（1 个用 lone pair、1 个用 H），另外 2 个 H「多余」。每个 hydrogen bond 由两个 molecules 共享 → 平均 2 ÷ 2 = <b>1</b>。</div>' +
+        '<div class="faint">所以 NH₃ 的 boiling point（−33 °C）比 H₂O（100 °C）低得多。</div>');
+}
+$$('.hb-cmols .hb-cmol').forEach(function (b) {
+  b.addEventListener('click', function () {
+    cmol = b.getAttribute('data-cm');
+    $$('.hb-cmols .hb-cmol').forEach(function (o) { var on = o === b; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    drawCount(); K.fit();
+  });
+});
+
+/* ================= ③ ice vs liquid ================= */
+var isvg = $('.hb-isvg'), istate = 'ice';
+var D = 46, CH = 0.36;   /* O–O distance in ice; covalent O–H is 36 % of it, the hydrogen bond the rest */
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+/* honeycomb of whole hexagons (pointy-top, 3 rows × 4): vertex type A (bottom / upper-left / upper-right of a ring) has
+   neighbours below, up-left, up-right; type B the mirror. A donates its two slanted O–H, B its vertical O–H. */
+function iceModel() {
+  var pts = {}, list = [], edges = [], seen = {};
+  function vkey(x, y) { return Math.round(x * 10) + ',' + Math.round(y * 10); }
+  for (var r = 0; r < 3; r++) for (var c = 0; c < 4; c++) {
+    var cx = (c + (r % 2 ? 0.5 : 0)) * Math.sqrt(3) * D, cy = r * 1.5 * D, ring = [];
+    for (var k = 0; k < 6; k++) {
+      var th = 30 + 60 * k, d = P(th, D), x = cx + d[0], y = cy + d[1], kk = vkey(x, y);
+      if (!pts[kk]) { pts[kk] = { k: kk, t: (th === 30 || th === 150 || th === 270) ? 'A' : 'B', x: x, y: y }; list.push(pts[kk]); }
+      ring.push(pts[kk]);
+    }
+    for (var k2 = 0; k2 < 6; k2++) {
+      var p = ring[k2], q = ring[(k2 + 1) % 6], ek = [p.k, q.k].sort().join('|');
+      if (seen[ek]) continue;
+      seen[ek] = 1;
+      var A = p.t === 'A' ? p : q, B = p.t === 'A' ? q : p, vert = Math.abs(p.x - q.x) < 1;
+      edges.push({ don: vert ? B : A, acc: vert ? A : B });
+    }
+  }
+  /* every molecule keeps its own 2 H: A gives two in-page H, B one in-page H + one out of the page */
+  var mols = list.map(function (p) {
+    var hs = [];
+    if (p.t === 'A') hs = [[-Math.sqrt(3) / 2, -0.5], [Math.sqrt(3) / 2, -0.5]].map(function (u) { return [p.x + u[0] * D * CH, p.y + u[1] * D * CH]; });
+    else hs = [[p.x, p.y - D * CH]];
+    return { o: [p.x, p.y], h: hs, z: p.t === 'B' ? 'own' : 'nb' };
+  });
+  var hbs = edges.map(function (e) {
+    var u = [(e.acc.x - e.don.x) / D, (e.acc.y - e.don.y) / D];
+    return [e.don.x + u[0] * (D * CH + 4.5), e.don.y + u[1] * (D * CH + 4.5), e.acc.x - u[0] * 9, e.acc.y - u[1] * 9];
+  });
+  return { mols: mols, hbs: hbs };
+}
+function liquidModel(n, w, h) {
+  var R = rng(20261105), mols = [], tries = 0;
+  while (mols.length < n && tries < 40000) {
+    tries++;
+    var o = [R() * w, R() * h], th = R() * 360, hs = [th - 52.25, th + 52.25].map(function (a) { var d = P(a, D * CH); return [o[0] + d[0], o[1] + d[1]]; });
+    var ok = mols.every(function (m) {
+      if (Math.hypot(m.o[0] - o[0], m.o[1] - o[1]) < 31) return false;
+      return hs.every(function (q) { return Math.hypot(m.o[0] - q[0], m.o[1] - q[1]) >= 19 && m.h.every(function (r) { return Math.hypot(r[0] - q[0], r[1] - q[1]) >= 11; }); }) &&
+        m.h.every(function (q) { return Math.hypot(o[0] - q[0], o[1] - q[1]) >= 19; });
+    });
+    if (ok) mols.push({ o: o, h: hs });
+  }
+  /* some hydrogen bonds at any moment: an H pointing at a nearby O */
+  var hbs = [];
+  mols.forEach(function (m) {
+    m.h.forEach(function (q) {
+      var u = [(q[0] - m.o[0]) / (D * CH), (q[1] - m.o[1]) / (D * CH)];
+      mols.forEach(function (o2) {
+        if (o2 === m) return;
+        var vx = o2.o[0] - q[0], vy = o2.o[1] - q[1], d = Math.hypot(vx, vy);
+        if (d < 34 && (vx * u[0] + vy * u[1]) / d > 0.85) hbs.push([q[0] + u[0] * 4.5, q[1] + u[1] * 4.5, o2.o[0] - vx / d * 9, o2.o[1] - vy / d * 9]);
+      });
+    });
+  });
+  return { mols: mols, hbs: hbs };
+}
+var ICE = iceModel(), NMOL = ICE.mols.length;
+var ib = (function () { var b = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 }; ICE.mols.forEach(function (m) { [m.o].concat(m.h).forEach(function (p) { b.x0 = Math.min(b.x0, p[0]); b.y0 = Math.min(b.y0, p[1]); b.x1 = Math.max(b.x1, p[0]); b.y1 = Math.max(b.y1, p[1]); }); }); return b; })();
+/* liquid: the same molecules packed into ~70 % of the area */
+var LW = (ib.x1 - ib.x0) * 0.8, LH = (ib.y1 - ib.y0) * 0.8;
+var LIQ = liquidModel(NMOL, LW, LH);
+function drawIce() {
+  if (!visible(isvg)) return;
+  clear(isvg);
+  var W = widthOf(isvg, 520), M = istate === 'ice' ? ICE : LIQ;
+  var iw = ib.x1 - ib.x0, ih = ib.y1 - ib.y0;
+  var s = Math.min(1, (W - 40) / (iw + 24));   /* same scale for both states */
+  isvg.setAttribute('viewBox', '0 0 ' + W + ' ' + Math.round(ih * s + 80));
+  var b = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 };
+  M.mols.forEach(function (m) { [m.o].concat(m.h).forEach(function (p) { b.x0 = Math.min(b.x0, p[0]); b.y0 = Math.min(b.y0, p[1]); b.x1 = Math.max(b.x1, p[0]); b.y1 = Math.max(b.y1, p[1]); }); });
+  var ox = W / 2 - (b.x0 + b.x1) / 2 * s, oy = 48 + (ih - (b.y1 - b.y0)) / 2 * s - b.y0 * s;
+  function T(p) { return [ox + p[0] * s, oy + p[1] * s]; }
+  var g = add(isvg, 'g', { 'class': 'hb-net', 'data-state': istate }), gB = add(g, 'g', {}), gA = add(g, 'g', {});
+  M.hbs.forEach(function (h) { var p = T([h[0], h[1]]), q = T([h[2], h[3]]); add(gB, 'line', { 'class': 'hb-id', x1: p[0], y1: p[1], x2: q[0], y2: q[1] }); });
+  M.mols.forEach(function (m) {
+    var o = T(m.o), gm = add(gA, 'g', { 'class': 'hb-imol' });
+    m.h.forEach(function (hq) { var q = T(hq); add(gm, 'line', { 'class': 'hb-ic', x1: o[0], y1: o[1], x2: q[0], y2: q[1] }); });
+    add(gm, 'circle', { 'class': 'hb-iO', cx: o[0], cy: o[1], r: 8.5 * s });
+    m.h.forEach(function (hq) { var q = T(hq); add(gm, 'circle', { 'class': 'hb-iH', cx: q[0], cy: q[1], r: 4.6 * s }); });
+    if (m.z) { var zd = m.z === 'own' ? [0, 9.5] : [6.5, 6.5];   /* B: edges go up / down-left / down-right, so the gap is straight down */
+      add(gm, 'circle', { 'class': 'hb-iZ hb-iz', cx: o[0] + zd[0] * s, cy: o[1] + zd[1] * s, r: 4 * s, 'data-z': m.z }); }
+  });
+  var p0 = T([b.x0, b.y0]), p1 = T([b.x1, b.y1]), pad = 12;
+  var bx = { x: p0[0] - pad, y: p0[1] - pad, w: p1[0] - p0[0] + 2 * pad, h: p1[1] - p0[1] + 2 * pad };
+  add(isvg, 'rect', { 'class': 'hb-box', x: bx.x, y: bx.y, width: bx.w, height: bx.h, rx: 6 });
+  var avoid = K.segs([[bx.x, bx.y], [bx.x + bx.w, bx.y], [bx.x + bx.w, bx.y + bx.h], [bx.x, bx.y + bx.h], [bx.x, bx.y]]);
+  var t = lab(isvg, bx.x + bx.w / 2, bx.y, (istate === 'ice' ? 'ice：' : 'liquid：') + NMOL + ' 个 H₂O', { cands: [[0, -10, 'middle'], [0, -18, 'middle']], avoid: avoid, placed: [], cls: 'hb-boxlab' });
+  t.setAttribute('data-for', 'box');
+  var area = function (MM) { var q = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 }; MM.mols.forEach(function (m) { [m.o].concat(m.h).forEach(function (p) { q.x0 = Math.min(q.x0, p[0]); q.y0 = Math.min(q.y0, p[1]); q.x1 = Math.max(q.x1, p[0]); q.y1 = Math.max(q.y1, p[1]); }); }); return (q.x1 - q.x0 + 24) * (q.y1 - q.y0 + 24); };
+  var aI = area(ICE), aL = area(LIQ), pct = Math.round(aL / aI * 100);
+  isvg.setAttribute('data-n', M.mols.length); isvg.setAttribute('data-area-ice', aI.toFixed(0)); isvg.setAttribute('data-area-liq', aL.toFixed(0));
+  $('.hb-area').innerHTML = '<span class="hb-arow' + (istate === 'ice' ? ' on' : '') + '">ice</span><div class="hb-bar"><i style="width:100%"></i></div><span class="hb-pct hb-arow' + (istate === 'ice' ? ' on' : '') + '">100%</span>' +
+    '<span class="hb-arow' + (istate === 'liq' ? ' on' : '') + '">liquid</span><div class="hb-bar"><i style="width:' + pct + '%"></i></div><span class="hb-pct hb-arow' + (istate === 'liq' ? ' on' : '') + '">' + pct + '%</span>';
+  $('.hb-area').setAttribute('data-pct', pct);
+  $('.hb-icenote').setAttribute('data-state', istate);
+  $('.hb-icenote').innerHTML = istate === 'ice'
+    ? '<b>ice</b>：每个 O 被 4 个 H 以 tetrahedral 方式包围（2 个 covalent、2 个 hydrogen bond；纸面内画 3 个方向，第 4 个在纸面外），连成六元环的 <b>open lattice</b>，中间留着空洞。hydrogen bonds 比 covalent bonds 长，molecules 离得较远。'
+    : '<b>liquid water</b>：熔化时 lattice 部分塌缩，hydrogen bonds 不停断开又形成，molecules 靠得更近、排得无序。';
+  $('.hb-icenote').innerHTML += '<div>同样 ' + NMOL + ' 个 molecules（mass 相同）：ice 占的面积更大 → <b>density 更小</b>，所以 ice 浮在水上。<span class="faint">（2D 示意，比例夸大）</span></div>';
+}
+$$('.hb-states .hb-state').forEach(function (b) {
+  b.addEventListener('click', function () {
+    istate = b.getAttribute('data-st');
+    $$('.hb-states .hb-state').forEach(function (o) { var on = o === b; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    drawIce(); K.fit();
+  });
+});
+
+/* ================= tabs & resize ================= */
+var DRAW = { draw: drawPair, count: drawCount, water: drawIce };
+$$('.tabbar button[data-tab]').forEach(function (b) {
+  b.addEventListener('click', function () { DRAW[b.getAttribute('data-tab')](); K.fit(); });
+});
+refreshPair();
+drawCount();
+drawIce();
+var lastW = {};
+if (window.ResizeObserver) new ResizeObserver(function () {
+  Object.keys(DRAW).forEach(function (k) {
+    var svg = $('[data-pane="' + k + '"] svg'), w = svg.getBoundingClientRect().width;
+    if (!w || Math.abs(w - (lastW[k] || 0)) < 1) return;
+    lastW[k] = w; DRAW[k]();
+  });
+}).observe($root);
+K.fit();
+</script>
