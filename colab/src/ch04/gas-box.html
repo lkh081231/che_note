@@ -1,0 +1,721 @@
+<h3>gas pressure：molecules 撞壁</h3>
+<p class="mut">拖动右侧 <b>piston</b>（或调节 <i>V</i>、<i>T</i>、<i>N</i> slider），观察 ideal gas 的点状 molecules 与 container walls 之间的 elastic collisions。每次撞壁传递冲量（壁上橙红色闪光），单位时间内作用在单位面积器壁上的总力就是 <b>gas pressure</b>。</p>
+
+<div class="gb-ctl">
+  <label class="gb-sl">
+    <span class="gb-lbl">volume, <i>V</i></span>
+    <input type="range" class="gb-v" min="40" max="100" step="1" value="100">
+    <span class="gb-val gb-v-val">100%</span>
+  </label>
+  <label class="gb-sl">
+    <span class="gb-lbl">temperature, <i>T</i></span>
+    <input type="range" class="gb-t" min="100" max="600" step="10" value="300">
+    <span class="gb-val gb-t-val">300 K</span>
+  </label>
+  <label class="gb-sl">
+    <span class="gb-lbl">molecules, <i>N</i></span>
+    <input type="range" class="gb-n" min="10" max="80" step="1" value="40">
+    <span class="gb-val gb-n-val">40</span>
+  </label>
+</div>
+
+<div class="row gb-bar">
+  <button type="button" class="gb-pause">⏸ 暂停</button>
+  <button type="button" class="gb-reset">↺ 复位</button>
+  <button type="button" class="gb-snap">📌 记下当前值</button>
+  <button type="button" class="gb-unSnap" style="display:none">清除对照</button>
+  <label class="gb-bchk"><input type="checkbox" class="gb-tog-bars" checked> 每面壁 1 s 撞击数小柱</label>
+</div>
+
+<svg class="gb-fig" viewBox="0 0 740 296"></svg>
+<div class="gb-legend faint"><span><i class="gb-lg-mol"></i>molecule（短线 = 运动方向）</span><span><i class="gb-lg-flash"></i>wall flash：撞壁处闪光 0.3 s</span><span>拖动 piston 或 <i>V</i> slider 改变 volume</span></div>
+
+<div class="card gb-wallbars">
+  <div class="gb-wb-head"><span class="gb-wb-title">每面壁最近 1.0 s 撞击数</span><span class="faint">left / right (piston) 长度固定；top / bottom 长度随 <i>V</i> 伸缩</span></div>
+  <div class="gb-wb-grid">
+    <div class="gb-wb-item" data-wall="left"><span class="gb-wb-nm">left wall</span><div class="gb-wb-track"><i></i></div><span class="gb-wb-cnt">0</span></div>
+    <div class="gb-wb-item" data-wall="right"><span class="gb-wb-nm">piston (right)</span><div class="gb-wb-track"><i></i></div><span class="gb-wb-cnt">0</span></div>
+    <div class="gb-wb-item" data-wall="top"><span class="gb-wb-nm">top wall</span><div class="gb-wb-track"><i></i></div><span class="gb-wb-cnt">0</span></div>
+    <div class="gb-wb-item" data-wall="bottom"><span class="gb-wb-nm">bottom wall</span><div class="gb-wb-track"><i></i></div><span class="gb-wb-cnt">0</span></div>
+  </div>
+</div>
+
+<div class="gb-stats">
+  <div class="card gb-stat" data-stat="hits">
+    <div class="gb-st-k">撞壁频率 hits / s</div>
+    <div class="gb-st-v">0</div>
+    <div class="gb-st-cmp"></div>
+    <div class="faint">滚动 2.0 s（四壁合计）</div>
+  </div>
+  <div class="card gb-stat" data-stat="imp">
+    <div class="gb-st-k">平均 impulse</div>
+    <div class="gb-st-v">0</div>
+    <div class="gb-st-cmp"></div>
+    <div class="faint">单次撞壁 2<i>m</i>|<i>v</i><sub>⊥</sub>|</div>
+  </div>
+  <div class="card gb-stat" data-stat="pmeas">
+    <div class="gb-st-k">测得 <i>p</i></div>
+    <div class="gb-st-v">0</div>
+    <div class="gb-st-cmp"></div>
+    <div class="faint">momentum transfer ÷ 时间 ÷ 周长</div>
+  </div>
+  <div class="card gb-stat" data-stat="ptheo">
+    <div class="gb-st-k">理论 <i>p</i> ∝ <i>NT</i> / <i>V</i></div>
+    <div class="gb-st-v">100.0</div>
+    <div class="gb-st-cmp"></div>
+    <div class="faint"><i>N</i>=40, 300 K, 100% → 100</div>
+  </div>
+  <div class="card gb-stat" data-stat="pv">
+    <div class="gb-st-k">测得 <i>pV</i></div>
+    <div class="gb-st-v">0</div>
+    <div class="gb-st-cmp"></div>
+    <div class="faint"><i>p</i> × (<i>V</i> / 100%)</div>
+  </div>
+</div>
+
+<div class="card gb-snap-banner" style="display:none"></div>
+
+<div class="card gb-cap">
+  <div class="gb-cap-live"></div>
+  <ul class="gb-cap-list">
+    <li data-law="boyle"><b>Boyle's law</b>（<i>N</i>、<i>T</i> 不变）：<i>V</i> 减半 → 单位壁长每秒撞壁次数翻倍（piston 与 left wall 上撞击数翻倍，平均 impulse 不变）→ <i>p</i> 约翻倍，<i>pV</i> 基本不变。</li>
+    <li data-law="temp"><b>Temperature 效应</b>（<i>N</i>、<i>V</i> 不变）：<i>T</i> 升高 → molecules 速度 ∝ √<i>T</i>，撞壁<b>更频繁</b>（×√<i>T</i>）且每次<b>更用力</b>（平均 impulse ×√<i>T</i>）→ <i>p</i> ∝ <i>T</i>（若恒 <i>p</i> 则 <i>V</i> ∝ <i>T</i>，即 Charles's law）。</li>
+    <li data-law="amount"><b>Molecules 数目</b>（<i>V</i>、<i>T</i> 不变）：<i>N</i> 加倍 → 撞壁次数翻倍（平均 impulse 不变）→ <i>p</i> 约翻倍。</li>
+  </ul>
+</div>
+
+<p class="faint gb-foot">ideal gas 模型（呼应 LO 4.1.2）：molecules 视为点状（zero particle volume），彼此无 intermolecular forces of attraction、互不碰撞，仅与 container walls 发生 elastic collisions；速度 ∝ √<i>T</i>，固定子步 Δ<i>t</i> = 5 ms。impulse、<i>p</i>、<i>pV</i> 均为模型相对单位。</p>
+
+<style>
+.k .gb-ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px 16px;margin:8px 0 6px}
+.k .gb-sl{display:grid;grid-template-columns:1fr auto;align-items:center;gap:0 8px}
+.k .gb-lbl{font-weight:600;font-size:14px;white-space:nowrap}
+.k .gb-sl input[type=range]{grid-column:1 / -1;width:100%;min-width:0;margin:2px 0}
+.k .gb-val{text-align:right;font-weight:650;font-variant-numeric:tabular-nums;color:var(--acc)}
+.k .gb-bar{margin:6px 0 8px;gap:8px}
+.k .gb-bchk{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:13.5px;color:var(--mut)}
+.k .gb-fig{margin:6px 0;background:var(--card);border:1px solid var(--line);border-radius:8px;width:100%;user-select:none;touch-action:none}
+.k .gb-fig text{font-size:14.5px}
+.k .gb-fig text.gb-tl{font-weight:650;fill:var(--fg)}
+.k .gb-fig text.gb-pis-lab{font-weight:700;fill:var(--acc)}
+.k .gb-fig text.gb-tick-lab{fill:var(--mut)}
+.k .gb-fig .gb-chamber{fill:var(--acc-soft);fill-opacity:.32}
+.k .gb-fig .gb-wall{fill:none;stroke:var(--neu);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.k .gb-fig .gb-rail{stroke:var(--line);stroke-width:1.5;stroke-dasharray:4 4}
+.k .gb-fig .gb-tick{stroke:var(--faint);stroke-width:1.6}
+.k .gb-fig .gb-piston-g{cursor:ew-resize}
+.k .gb-fig .gb-pis-head{fill:var(--bg);stroke:var(--acc);stroke-width:2.2}
+.k .gb-fig .gb-pis-groove{stroke:var(--line);stroke-width:1.4}
+.k .gb-fig .gb-pis-rod{fill:var(--line);stroke:var(--mut);stroke-width:1.4}
+.k .gb-fig .gb-pis-grip{fill:var(--acc);stroke:var(--acc);stroke-width:1}
+.k .gb-fig .gb-mol{fill:var(--acc)}
+.k .gb-fig .gb-tail{stroke:var(--acc);stroke-width:1.6;stroke-linecap:round;opacity:.38}
+.k .gb-fig .gb-flash-bar{stroke:var(--pos);stroke-width:5;stroke-linecap:round}
+.k .gb-fig .gb-flash-ring{fill:var(--bad-soft);stroke:var(--s4);stroke-width:2.2}
+.k .gb-fig .gb-flash-dot{fill:var(--pos)}
+.k .gb-wallbars{margin:6px 0;padding:8px 12px}
+.k .gb-wb-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:5px}
+.k .gb-wb-title{font-weight:650;font-size:13.5px}
+.k .gb-wb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 14px}
+@media (max-width:860px){.k .gb-wb-grid{grid-template-columns:repeat(2,1fr)}}
+.k .gb-wb-item{display:flex;align-items:center;gap:6px;font-size:13px}
+.k .gb-wb-nm{min-width:6.2em;color:var(--mut);white-space:nowrap}
+.k .gb-wb-track{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:36px}
+.k .gb-wb-track>i{display:block;height:100%;width:0;background:var(--s4);border-radius:4px;transition:width .12s linear}
+.k .gb-wb-cnt{min-width:2.2em;text-align:right;font-weight:650;font-variant-numeric:tabular-nums}
+.k .gb-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:8px;margin:8px 0}
+.k .gb-stat{padding:8px 10px}
+.k .gb-stat .faint{font-size:12.2px;line-height:1.35}
+.k .gb-st-k{font-size:13px;color:var(--mut);font-weight:600}
+.k .gb-st-v{font-size:20px;font-weight:700;margin:2px 0;font-variant-numeric:tabular-nums;color:var(--fg)}
+.k .gb-stat[data-stat="pmeas"] .gb-st-v{color:var(--acc)}
+.k .gb-st-cmp{font-size:12px;font-weight:650;color:var(--s3);min-height:0;line-height:1.3}
+.k .gb-snap-banner{margin:6px 0;padding:7px 11px;background:var(--acc-soft);border-color:var(--acc);font-size:13.5px}
+.k .gb-cap{margin:8px 0 6px;padding:9px 12px}
+.k .gb-cap-live{font-size:14px;font-weight:600;color:var(--acc);margin-bottom:4px}
+.k .gb-cap-list{margin:4px 0;padding-left:18px;font-size:13.5px}
+.k .gb-cap-list li{margin:3px 0}
+.k .gb-cap-list li.hl-law{background:var(--hl);border-radius:4px;padding:1px 5px}
+.k .gb-foot{margin:6px 0 2px}
+.k .gb-legend{display:flex;flex-wrap:wrap;gap:4px 18px;margin:-2px 2px 4px;align-items:center}
+.k .gb-legend span{display:inline-flex;align-items:center;gap:6px}
+.k .gb-lg-mol{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.k .gb-lg-flash{display:inline-block;width:4.5px;height:14px;border-radius:2px;background:var(--pos);box-shadow:0 0 0 3px var(--bad-soft)}
+</style>
+
+<script>
+/* ---------- deterministic seeded RNG (Mulberry32) ---------- */
+var SEED0 = 20260401;
+function mulberry32(seed) {
+  var a = seed >>> 0;
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    var t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/* ---------- 2D ideal gas physics constants ----------
+   Box interior in model units: width W = V / 100 in [0.40, 1.00], fixed height BOX_H = 0.368.
+   Speed v_rms(T) = V_RMS0 * sqrt(T / 300), with V_RMS0 = 0.72 box-widths / s.
+   Fixed particle mass MASS calibrates p_theo(N=40, T=300, V=100%) = 100.0 in model units:
+   2D kinetic theory gives p = N * MASS * <v^2> / (2 * W * BOX_H). */
+var MAX_N = 80, DT = 0.005, WIN = 2.0, WALL_WIN = 1.0, FLASH_TTL = 0.30;
+var W_MAX_U = 1.0, BOX_H = 206 / 560;
+var V_RMS0 = 0.72;
+var MASS = (2 * W_MAX_U * BOX_H * 100) / (40 * V_RMS0 * V_RMS0);
+
+/* SVG geometry */
+var X0 = 42, Y0 = 42, W_MAX_PX = 560, H_PX = 206, Y1 = Y0 + H_PX, R_DOT = 3.5;
+
+var state = { V: 100, T: 300, N: 40 };
+var paused = false, inView = true, simTime = 0, snap = null;
+var mols = [], hitLog = [], hitHead = 0, flashes = [];
+var curStats = { hitsPerSec: 0, avgImp: 0, pMeas: 0, pTheo: 100, pV: 0, wall1s: [0, 0, 0, 0] };
+
+function boxW() { return W_MAX_U * (state.V / 100); }
+function boxWpx() { return W_MAX_PX * (state.V / 100); }
+function vRms(T) { return V_RMS0 * Math.sqrt(T / 300); }
+
+/* Initialize 80 particles in balanced orthogonal pairs so <vx^2> = <vy^2> = 0.5 * v_rms^2
+   while directions & speeds vary naturally across all 4 quadrants. */
+function initParticles(seed) {
+  var rng = mulberry32(seed);
+  mols = [];
+  var W = boxW(), vr = vRms(state.T);
+  for (var g = 0; g < MAX_N; g += 4) {
+    var delta = 0.12 + 0.30 * rng();
+    var spds = [Math.sqrt(1 - delta), Math.sqrt(1 + delta)];
+    for (var p = 0; p < 2; p++) {
+      var theta = (0.19 + 0.62 * rng()) * (Math.PI / 2);
+      var spd = spds[p];
+      var c = Math.cos(theta) * spd, s = Math.sin(theta) * spd;
+      var sx1 = rng() < 0.5 ? -1 : 1, sy1 = rng() < 0.5 ? -1 : 1;
+      var sx2 = rng() < 0.5 ? -1 : 1, sy2 = rng() < 0.5 ? -1 : 1;
+      mols.push({
+        x: (0.04 + 0.92 * rng()) * W, y: (0.05 + 0.90 * rng()) * BOX_H,
+        ux: sx1 * c, uy: sy1 * s, vx: sx1 * c * vr, vy: sy1 * s * vr
+      });
+      mols.push({
+        x: (0.04 + 0.92 * rng()) * W, y: (0.05 + 0.90 * rng()) * BOX_H,
+        ux: sx2 * s, uy: sy2 * c, vx: sx2 * s * vr, vy: sy2 * c * vr
+      });
+    }
+  }
+}
+
+function syncSpeeds() {
+  var vr = vRms(state.T);
+  for (var i = 0; i < MAX_N; i++) {
+    mols[i].vx = (mols[i].vx >= 0 ? 1 : -1) * Math.abs(mols[i].ux) * vr;
+    mols[i].vy = (mols[i].vy >= 0 ? 1 : -1) * Math.abs(mols[i].uy) * vr;
+  }
+}
+
+function recordHit(wall, imp, ux, uy) {
+  var rec = { t: simTime, wall: wall, imp: imp, ux: ux, uy: uy };
+  hitLog.push(rec);
+  flashes.push(rec);
+}
+
+function stepSub(dt) {
+  simTime += dt;
+  var W = boxW(), H = BOX_H;
+  for (var i = 0; i < state.N; i++) {
+    var m = mols[i];
+    m.x += m.vx * dt;
+    m.y += m.vy * dt;
+    if (m.x <= 0) {
+      m.x = -m.x;
+      if (m.x > W) m.x = 0;
+      m.vx = Math.abs(m.vx);
+      recordHit('left', 2 * MASS * m.vx, 0, Math.max(0, Math.min(1, m.y / H)));
+    } else if (m.x >= W) {
+      m.x = 2 * W - m.x;
+      if (m.x < 0) m.x = W;
+      m.vx = -Math.abs(m.vx);
+      recordHit('right', 2 * MASS * (-m.vx), 1, Math.max(0, Math.min(1, m.y / H)));
+    }
+    if (m.y <= 0) {
+      m.y = -m.y;
+      if (m.y > H) m.y = 0;
+      m.vy = Math.abs(m.vy);
+      recordHit('top', 2 * MASS * m.vy, Math.max(0, Math.min(1, m.x / W)), 0);
+    } else if (m.y >= H) {
+      m.y = 2 * H - m.y;
+      if (m.y < 0) m.y = H;
+      m.vy = -Math.abs(m.vy);
+      recordHit('bottom', 2 * MASS * (-m.vy), Math.max(0, Math.min(1, m.x / W)), 1);
+    }
+  }
+  /* prune rolling logs */
+  var cut2 = simTime - WIN;
+  while (hitHead < hitLog.length && hitLog[hitHead].t < cut2) hitHead++;
+  if (hitHead > 600) { hitLog = hitLog.slice(hitHead); hitHead = 0; }
+  var cutF = simTime - FLASH_TTL;
+  while (flashes.length && flashes[0].t < cutF) flashes.shift();
+}
+
+function computeStats() {
+  var cut2 = simTime - WIN, cut1 = simTime - WALL_WIN;
+  var n2 = 0, imp2 = 0, w1 = { left: 0, right: 0, top: 0, bottom: 0 };
+  for (var i = hitHead; i < hitLog.length; i++) {
+    var h = hitLog[i];
+    if (h.t >= cut2) { n2++; imp2 += h.imp; }
+    if (h.t >= cut1) w1[h.wall]++;
+  }
+  var winEff = Math.min(WIN, Math.max(DT, simTime));
+  var perim = 2 * (boxW() + BOX_H);
+  var pMeas = imp2 / (winEff * perim);
+  var pTheo = 100 * (state.N / 40) * (state.T / 300) / (state.V / 100);
+  curStats = {
+    hitsPerSec: n2 / winEff,
+    hitsPerUnit: (n2 / winEff) / perim,
+    avgImp: n2 > 0 ? imp2 / n2 : 0,
+    pMeas: pMeas,
+    pTheo: pTheo,
+    pV: pMeas * (state.V / 100),
+    wall1s: [w1.left, w1.right, w1.top, w1.bottom]
+  };
+}
+
+/* ---------- build static SVG layers ---------- */
+var svg = $root.querySelector('.gb-fig');
+var clipId = ($root.id || 'gb') + '-chclip';
+var defs = K.svg('defs');
+var clipPath = K.svg('clipPath', { id: clipId });
+var clipRect = K.svg('rect', { x: X0, y: Y0, width: W_MAX_PX, height: H_PX });
+clipPath.appendChild(clipRect); defs.appendChild(clipPath); svg.appendChild(defs);
+
+var gBase = K.svg('g', { 'class': 'gb-base' });
+var gMols = K.svg('g', { 'class': 'gb-mols' });
+var gFlashRing = K.svg('g', { 'class': 'gb-flashes-in', 'clip-path': 'url(#' + clipId + ')' });
+var gPiston = K.svg('g', { 'class': 'gb-piston-g' });
+var gFlashBar = K.svg('g', { 'class': 'gb-flashes-wall' });
+var gLabs = K.svg('g', { 'class': 'gb-labs' });
+svg.appendChild(gBase); svg.appendChild(gMols); svg.appendChild(gFlashRing);
+svg.appendChild(gPiston); svg.appendChild(gFlashBar); svg.appendChild(gLabs);
+
+var chamberRect = K.svg('rect', { x: X0, y: Y0, width: W_MAX_PX, height: H_PX, 'class': 'gb-chamber' });
+var railTop = K.svg('line', { x1: X0, y1: Y0, x2: X0 + W_MAX_PX + 20, y2: Y0, 'class': 'gb-rail' });
+var railBot = K.svg('line', { x1: X0, y1: Y1, x2: X0 + W_MAX_PX + 20, y2: Y1, 'class': 'gb-rail' });
+var wallPath = K.svg('path', { 'class': 'gb-wall' });
+gBase.appendChild(chamberRect); gBase.appendChild(railTop); gBase.appendChild(railBot); gBase.appendChild(wallPath);
+
+[40, 50, 75, 100].forEach(function (pct) {
+  var tx = X0 + W_MAX_PX * (pct / 100);
+  gBase.appendChild(K.svg('line', { x1: tx, y1: Y1 + 3, x2: tx, y2: Y1 + 10, 'class': 'gb-tick' }));
+});
+
+/* pre-create molecule tails + circles */
+var molEls = [];
+for (var mi = 0; mi < MAX_N; mi++) {
+  var tail = K.svg('line', { 'class': 'gb-tail' });
+  var dot = K.svg('circle', { r: R_DOT, 'class': 'gb-mol' });
+  gMols.appendChild(tail); gMols.appendChild(dot);
+  molEls.push({ tail: tail, dot: dot });
+}
+
+/* piston elements */
+var pisHead = K.svg('rect', { y: Y0, width: 18, height: H_PX, rx: 2, 'class': 'gb-pis-head' });
+var pisG1 = K.svg('line', { y1: Y0 + 4, y2: Y1 - 4, 'class': 'gb-pis-groove' });
+var pisG2 = K.svg('line', { y1: Y0 + 4, y2: Y1 - 4, 'class': 'gb-pis-groove' });
+var pisRod = K.svg('rect', { y: Y0 + H_PX / 2 - 7, width: 54, height: 14, rx: 2, 'class': 'gb-pis-rod' });
+var pisGrip = K.svg('rect', { y: Y0 + H_PX / 2 - 24, width: 12, height: 48, rx: 4, 'class': 'gb-pis-grip' });
+gPiston.appendChild(pisRod); gPiston.appendChild(pisHead); gPiston.appendChild(pisG1); gPiston.appendChild(pisG2); gPiston.appendChild(pisGrip);
+
+function layoutChamber() {
+  var Wp = boxWpx(), xR = X0 + Wp;
+  chamberRect.setAttribute('width', Wp.toFixed(1));
+  clipRect.setAttribute('width', Wp.toFixed(1));
+  /* rigid outer U-wall reaches up to max rail, aligned with chamber boundary */
+  wallPath.setAttribute('d', 'M' + (X0 + W_MAX_PX + 20) + ',' + Y0 +
+    ' L' + X0 + ',' + Y0 + ' L' + X0 + ',' + Y1 +
+    ' L' + (X0 + W_MAX_PX + 20) + ',' + Y1);
+  pisHead.setAttribute('x', xR.toFixed(1));
+  pisG1.setAttribute('x1', (xR + 6).toFixed(1)); pisG1.setAttribute('x2', (xR + 6).toFixed(1));
+  pisG2.setAttribute('x1', (xR + 12).toFixed(1)); pisG2.setAttribute('x2', (xR + 12).toFixed(1));
+  pisRod.setAttribute('x', (xR + 18).toFixed(1));
+  pisGrip.setAttribute('x', (xR + 70).toFixed(1));
+
+  /* place all SVG text strictly via K.label on the <svg> itself */
+  gLabs.innerHTML = '';
+  var avoid = [
+    [X0 - 3, Y0 - 2, X0 + W_MAX_PX + 22, Y0 - 2],
+    [X0 - 3, Y1 + 2, X0 + W_MAX_PX + 22, Y1 + 2],
+    [X0 - 2, Y0 - 3, X0 - 2, Y1 + 3],
+    [xR, Y0, xR, Y1],
+    [xR + 18, Y0, xR + 18, Y1]
+  ];
+  [40, 50, 75, 100].forEach(function (pct) {
+    var tx = X0 + W_MAX_PX * (pct / 100);
+    avoid.push([tx, Y1 + 2, tx, Y1 + 10]);
+  });
+  var placed = [
+    { x: xR, y: Y0, w: 18, h: H_PX },
+    { x: xR + 18, y: Y0 + H_PX / 2 - 8, w: 54, h: 16 },
+    { x: xR + 70, y: Y0 + H_PX / 2 - 25, w: 13, h: 50 }
+  ];
+  function lab(x, y, txt, cls, cands) {
+    var el = K.label(svg, x, y, txt, { cls: cls, cands: cands, avoid: avoid, placed: placed, pad: 2 });
+    gLabs.appendChild(el);
+    return el;
+  }
+  lab(X0, Y0 - 12, 'fixed walls', 'gb-tl', [[0, 0, 'start'], [0, -4, 'start']]);
+  var pLab = lab(xR + 9, Y0 - 12, 'piston (V = ' + state.V + '%)', 'gb-pis-lab',
+    [[0, 0, 'middle'], [-8, 0, 'end'], [8, 0, 'start']]);
+  pLab.innerHTML = pLab.textContent.replace('V =', '<tspan font-style="italic">V</tspan> =');
+
+  var vLab = lab(X0, Y1 + 30, 'piston position, V:', 'gb-tick-lab', [[0, 0, 'start']]);
+  vLab.innerHTML = vLab.textContent.replace('V:', '<tspan font-style="italic">V</tspan>:');
+  lab(X0 + W_MAX_PX * 0.40, Y1 + 30, '40%', 'gb-tick-lab', [[0, 0, 'middle']]);
+  lab(X0 + W_MAX_PX * 0.50, Y1 + 30, '50%', 'gb-tick-lab', [[0, 0, 'middle']]);
+  lab(X0 + W_MAX_PX * 0.75, Y1 + 30, '75%', 'gb-tick-lab', [[0, 0, 'middle']]);
+  lab(X0 + W_MAX_PX * 1.00, Y1 + 30, '100%', 'gb-tick-lab', [[0, 0, 'middle'], [-4, 0, 'end']]);
+}
+
+function flashCoords(f, Wp) {
+  var inW = Wp - 2 * R_DOT, inH = H_PX - 2 * R_DOT;
+  if (f.wall === 'left') return { x: X0, y: Y0 + R_DOT + f.uy * inH, horiz: false };
+  if (f.wall === 'right') return { x: X0 + Wp, y: Y0 + R_DOT + f.uy * inH, horiz: false };
+  if (f.wall === 'top') return { x: X0 + R_DOT + f.ux * inW, y: Y0, horiz: true };
+  return { x: X0 + R_DOT + f.ux * inW, y: Y1, horiz: true };
+}
+
+function renderSVG() {
+  var W = boxW(), Wp = boxWpx(), inW = Wp - 2 * R_DOT, inH = H_PX - 2 * R_DOT;
+  var scalePx = Wp / W;
+  for (var i = 0; i < MAX_N; i++) {
+    var el = molEls[i];
+    if (i >= state.N) {
+      el.dot.style.display = 'none';
+      el.tail.style.display = 'none';
+      continue;
+    }
+    var m = mols[i];
+    var cx = X0 + R_DOT + (m.x / W) * inW;
+    var cy = Y0 + R_DOT + (m.y / BOX_H) * inH;
+    /* clamp safety */
+    cx = Math.max(X0 + R_DOT, Math.min(X0 + Wp - R_DOT, cx));
+    cy = Math.max(Y0 + R_DOT, Math.min(Y1 - R_DOT, cy));
+    el.dot.style.display = '';
+    el.dot.setAttribute('cx', cx.toFixed(1));
+    el.dot.setAttribute('cy', cy.toFixed(1));
+    var tx = Math.max(X0 + 2, Math.min(X0 + Wp - 2, cx - m.vx * scalePx * 0.022));
+    var ty = Math.max(Y0 + 2, Math.min(Y1 - 2, cy - m.vy * scalePx * 0.022));
+    el.tail.style.display = '';
+    el.tail.setAttribute('x1', cx.toFixed(1));
+    el.tail.setAttribute('y1', cy.toFixed(1));
+    el.tail.setAttribute('x2', tx.toFixed(1));
+    el.tail.setAttribute('y2', ty.toFixed(1));
+  }
+
+  /* wall collision flashes (~0.3 s) */
+  gFlashRing.innerHTML = '';
+  gFlashBar.innerHTML = '';
+  for (var fi = 0; fi < flashes.length; fi++) {
+    var f = flashes[fi];
+    var age = Math.max(0, simTime - f.t);
+    if (age > FLASH_TTL) continue;
+    var u = age / FLASH_TTL;
+    var alpha = Math.pow(1 - u, 0.65);
+    var c = flashCoords(f, Wp);
+    var impScale = Math.min(1.45, Math.max(0.75, f.imp / 5.0));
+    var r = (4 + 11 * u) * impScale;
+    gFlashRing.appendChild(K.svg('circle', {
+      cx: c.x.toFixed(1), cy: c.y.toFixed(1), r: r.toFixed(1),
+      'class': 'gb-flash-ring', 'data-wall': f.wall,
+      style: 'fill-opacity:' + (0.68 * alpha).toFixed(2) + ';stroke-opacity:' + (0.92 * alpha).toFixed(2)
+    }));
+    var half = (7 + 5 * u) * impScale;
+    var x1 = c.x, y1 = c.y, x2 = c.x, y2 = c.y;
+    if (c.horiz) {
+      x1 = Math.max(X0, c.x - half); x2 = Math.min(X0 + Wp, c.x + half);
+    } else {
+      y1 = Math.max(Y0, c.y - half); y2 = Math.min(Y1, c.y + half);
+    }
+    gFlashBar.appendChild(K.svg('line', {
+      x1: x1.toFixed(1), y1: y1.toFixed(1), x2: x2.toFixed(1), y2: y2.toFixed(1),
+      'class': 'gb-flash-bar', 'data-wall': f.wall,
+      style: 'opacity:' + (0.95 * alpha).toFixed(2)
+    }));
+    gFlashBar.appendChild(K.svg('circle', {
+      cx: c.x.toFixed(1), cy: c.y.toFixed(1), r: (3.0 * (1 - 0.35 * u)).toFixed(1),
+      'class': 'gb-flash-dot', 'data-wall': f.wall,
+      style: 'opacity:' + (0.98 * alpha).toFixed(2)
+    }));
+  }
+}
+
+/* ---------- HTML readouts, wall bars & caption ---------- */
+var slV = $root.querySelector('.gb-v'), slT = $root.querySelector('.gb-t'), slN = $root.querySelector('.gb-n');
+var valV = $root.querySelector('.gb-v-val'), valT = $root.querySelector('.gb-t-val'), valN = $root.querySelector('.gb-n-val');
+var btnPause = $root.querySelector('.gb-pause'), btnReset = $root.querySelector('.gb-reset');
+var btnSnap = $root.querySelector('.gb-snap'), btnUnSnap = $root.querySelector('.gb-unSnap');
+var togBars = $root.querySelector('.gb-tog-bars'), wallBox = $root.querySelector('.gb-wallbars');
+var snapBanner = $root.querySelector('.gb-snap-banner'), capLive = $root.querySelector('.gb-cap-live');
+
+var statEls = {
+  hits: $root.querySelector('.gb-stat[data-stat="hits"]'),
+  imp: $root.querySelector('.gb-stat[data-stat="imp"]'),
+  pmeas: $root.querySelector('.gb-stat[data-stat="pmeas"]'),
+  ptheo: $root.querySelector('.gb-stat[data-stat="ptheo"]'),
+  pv: $root.querySelector('.gb-stat[data-stat="pv"]')
+};
+var wallEls = ['left', 'right', 'top', 'bottom'].map(function (w) {
+  var row = $root.querySelector('.gb-wb-item[data-wall="' + w + '"]');
+  return { bar: row.querySelector('i'), cnt: row.querySelector('.gb-wb-cnt') };
+});
+
+function fmt1(x) { return x >= 100 ? x.toFixed(1) : x >= 10 ? x.toFixed(1) : x.toFixed(2); }
+function ratioTxt(cur, base) {
+  if (!(base > 0) || !isFinite(cur)) return '';
+  return '×' + (cur / base).toFixed(2) + '（基准 ' + fmt1(base) + '）';
+}
+
+var lastUI = -1;
+function renderUI(force) {
+  var now = performance.now();
+  if (!force && lastUI >= 0 && now - lastUI < 90) return;
+  lastUI = now;
+  computeStats();
+
+  statEls.hits.querySelector('.gb-st-v').textContent = curStats.hitsPerSec.toFixed(1) + ' s⁻¹';
+  statEls.imp.querySelector('.gb-st-v').textContent = curStats.avgImp.toFixed(2);
+  statEls.pmeas.querySelector('.gb-st-v').textContent = fmt1(curStats.pMeas);
+  statEls.ptheo.querySelector('.gb-st-v').textContent = fmt1(curStats.pTheo);
+  statEls.pv.querySelector('.gb-st-v').textContent = fmt1(curStats.pV);
+
+  if (snap) {
+    if (state.V !== snap.V && snap.hitsPerUnit > 0) {
+      statEls.hits.querySelector('.gb-st-cmp').textContent =
+        '单位壁长 ×' + (curStats.hitsPerUnit / snap.hitsPerUnit).toFixed(2) +
+        '（总 ×' + (curStats.hitsPerSec / snap.hitsPerSec).toFixed(2) + '）';
+    } else {
+      statEls.hits.querySelector('.gb-st-cmp').textContent = ratioTxt(curStats.hitsPerSec, snap.hitsPerSec);
+    }
+    statEls.imp.querySelector('.gb-st-cmp').textContent = ratioTxt(curStats.avgImp, snap.avgImp);
+    statEls.pmeas.querySelector('.gb-st-cmp').textContent = ratioTxt(curStats.pMeas, snap.pMeas);
+    statEls.ptheo.querySelector('.gb-st-cmp').textContent = ratioTxt(curStats.pTheo, snap.pTheo);
+    statEls.pv.querySelector('.gb-st-cmp').textContent = ratioTxt(curStats.pV, snap.pV);
+    snapBanner.innerHTML = '📌 <b>已记下基准</b>：<i>V</i> = ' + snap.V + '%，<i>T</i> = ' + snap.T +
+      ' K，<i>N</i> = ' + snap.N + '（测得 <i>p</i> = ' + fmt1(snap.pMeas) + '） → 当前测得 <i>p</i> 为基准的 <b>×' +
+      (snap.pMeas > 0 ? (curStats.pMeas / snap.pMeas).toFixed(2) : '—') + '</b>（理论 <b>×' +
+      (curStats.pTheo / snap.pTheo).toFixed(2) + '</b>）';
+  } else {
+    Object.keys(statEls).forEach(function (k) { statEls[k].querySelector('.gb-st-cmp').textContent = ''; });
+  }
+
+  /* per-wall 1 s mini bars (scale full-width at 45 hits/s so doubling is easy to see) */
+  var scaleMax = 45;
+  for (var wi = 0; wi < 4; wi++) {
+    var c = curStats.wall1s[wi];
+    wallEls[wi].cnt.textContent = c + '/s';
+    wallEls[wi].bar.style.width = Math.min(100, (c / scaleMax) * 100).toFixed(1) + '%';
+  }
+
+  /* dynamic live caption + highlight active law */
+  var ref = snap || { V: 100, T: 300, N: 40 };
+  var dV = state.V !== ref.V, dT = state.T !== ref.T, dN = state.N !== ref.N;
+  K.$$($root, '.gb-cap-list li').forEach(function (li) {
+    var law = li.getAttribute('data-law');
+    li.classList.toggle('hl-law', (law === 'boyle' && dV && !dT && !dN) ||
+                                  (law === 'temp' && dT && !dV && !dN) ||
+                                  (law === 'amount' && dN && !dV && !dT));
+  });
+  if (!dV && !dT && !dN) {
+    capLive.innerHTML = '当前状态：<i>V</i> = ' + state.V + '%，<i>T</i> = ' + state.T + ' K，<i>N</i> = ' + state.N +
+      '。可先点「记下当前值」，再把 <i>V</i> 拖到 50%、<i>T</i> 拖到 600 K 或 <i>N</i> 拖到 80 对照倍数。';
+  } else {
+    var parts = [];
+    if (dV) parts.push('<i>V</i>：' + ref.V + '% → ' + state.V + '%（' + (state.V < ref.V ? '压缩容器，撞壁更密集' : '扩大容器，撞壁变稀疏') + '）');
+    if (dT) parts.push('<i>T</i>：' + ref.T + ' → ' + state.T + ' K（速度 ×' + Math.sqrt(state.T / ref.T).toFixed(2) + '，撞壁频率与单次 impulse 同步变化）');
+    if (dN) parts.push('<i>N</i>：' + ref.N + ' → ' + state.N + '（molecules 数目 ×' + (state.N / ref.N).toFixed(2) + '）');
+    capLive.innerHTML = '相对' + (snap ? '已记基准' : '初始状态') + '：' + parts.join('；') + '。';
+  }
+}
+
+function render(forceUI) {
+  renderSVG();
+  renderUI(forceUI);
+}
+
+/* ---------- parameter updates ---------- */
+function setV(v) {
+  v = Math.max(40, Math.min(100, Math.round(+v)));
+  if (v === state.V) return;
+  var oldW = boxW();
+  state.V = v;
+  var newW = boxW(), ratio = newW / oldW;
+  for (var i = 0; i < MAX_N; i++) {
+    mols[i].x = Math.max(0, Math.min(newW, mols[i].x * ratio));
+  }
+  slV.value = v;
+  valV.textContent = v + '%';
+  layoutChamber();
+  render(true);
+}
+
+function setT(t) {
+  t = Math.max(100, Math.min(600, Math.round(+t)));
+  state.T = t;
+  slT.value = t;
+  valT.textContent = t + ' K';
+  syncSpeeds();
+  render(true);
+}
+
+function setN(n) {
+  n = Math.max(10, Math.min(80, Math.round(+n)));
+  state.N = n;
+  slN.value = n;
+  valN.textContent = String(n);
+  render(true);
+}
+
+function setPaused(p) {
+  paused = !!p;
+  btnPause.classList.toggle('on', paused);
+  btnPause.textContent = paused ? '▶ 继续' : '⏸ 暂停';
+}
+
+function prewarm(sec) {
+  var nSteps = Math.round(sec / DT);
+  for (var i = 0; i < nSteps; i++) stepSub(DT);
+}
+
+function resetSim() {
+  state.V = 100; state.T = 300; state.N = 40;
+  slV.value = 100; valV.textContent = '100%';
+  slT.value = 300; valT.textContent = '300 K';
+  slN.value = 40; valN.textContent = '40';
+  snap = null;
+  snapBanner.style.display = 'none';
+  btnUnSnap.style.display = 'none';
+  simTime = 0; hitLog = []; hitHead = 0; flashes = [];
+  setPaused(false);
+  initParticles(SEED0);
+  layoutChamber();
+  prewarm(WIN);
+  render(true);
+  K.fit();
+}
+
+slV.addEventListener('input', function () { setV(slV.value); });
+slT.addEventListener('input', function () { setT(slT.value); });
+slN.addEventListener('input', function () { setN(slN.value); });
+
+btnPause.addEventListener('click', function () { setPaused(!paused); render(true); });
+btnReset.addEventListener('click', resetSim);
+btnSnap.addEventListener('click', function () {
+  computeStats();
+  snap = {
+    V: state.V, T: state.T, N: state.N,
+    hitsPerSec: curStats.hitsPerSec,
+    hitsPerUnit: curStats.hitsPerUnit,
+    avgImp: curStats.avgImp,
+    pMeas: curStats.pMeas,
+    pTheo: curStats.pTheo,
+    pV: curStats.pV
+  };
+  snapBanner.style.display = '';
+  btnUnSnap.style.display = '';
+  renderUI(true);
+  K.fit();
+});
+btnUnSnap.addEventListener('click', function () {
+  snap = null;
+  snapBanner.style.display = 'none';
+  btnUnSnap.style.display = 'none';
+  renderUI(true);
+  K.fit();
+});
+togBars.addEventListener('change', function () {
+  wallBox.style.display = togBars.checked ? '' : 'none';
+  K.fit();
+});
+
+/* draggable piston in SVG */
+var dragging = false;
+function svgX(ev) {
+  var r = svg.getBoundingClientRect();
+  return ((ev.clientX - r.left) / (r.width || 1)) * 740;
+}
+gPiston.addEventListener('pointerdown', function (ev) {
+  dragging = true;
+  if (gPiston.setPointerCapture) gPiston.setPointerCapture(ev.pointerId);
+  ev.preventDefault();
+});
+window.addEventListener('pointermove', function (ev) {
+  if (!dragging) return;
+  var pct = ((svgX(ev) - 9 - X0) / W_MAX_PX) * 100;
+  setV(pct);
+});
+window.addEventListener('pointerup', function () { dragging = false; });
+window.addEventListener('pointercancel', function () { dragging = false; });
+
+/* IntersectionObserver pauses simulation when scrolled out of view */
+if (window.IntersectionObserver) {
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.target === $root) inView = e.isIntersecting; });
+  }, { threshold: 0.01 }).observe($root);
+}
+
+/* rAF loop with fixed-dt accumulator */
+var lastTs = null, acc = 0;
+function loop(ts) {
+  if (lastTs == null) lastTs = ts;
+  var dt = Math.min(0.08, Math.max(0, (ts - lastTs) / 1000));
+  lastTs = ts;
+  if (!paused && inView && document.visibilityState !== 'hidden') {
+    acc += dt;
+    while (acc >= DT) {
+      stepSub(DT);
+      acc -= DT;
+    }
+    render(false);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* synchronous test & inspection hook */
+$root.__sim = {
+  step: function (sec) {
+    var nSteps = Math.max(1, Math.round(sec / DT));
+    for (var i = 0; i < nSteps; i++) stepSub(DT);
+    render(true);
+    return this.stats();
+  },
+  setParams: function (o) {
+    if (o.V != null) setV(o.V);
+    if (o.T != null) setT(o.T);
+    if (o.N != null) setN(o.N);
+  },
+  stats: function () {
+    computeStats();
+    return {
+      t: simTime, V: state.V, T: state.T, N: state.N,
+      W: boxW(), H: BOX_H, Wpx: boxWpx(), Hpx: H_PX,
+      paused: paused, inView: inView,
+      hitsPerSec: curStats.hitsPerSec,
+      avgImpulse: curStats.avgImp,
+      pMeasured: curStats.pMeas,
+      pTheory: curStats.pTheo,
+      pV: curStats.pV,
+      wallHits1s: curStats.wall1s.slice(),
+      flashCount: flashes.length
+    };
+  },
+  particles: function () {
+    return mols.slice(0, state.N).map(function (m) {
+      return { x: m.x, y: m.y, vx: m.vx, vy: m.vy };
+    });
+  },
+  reset: resetSim,
+  setPaused: function (p) { setPaused(p); render(true); }
+};
+
+resetSim();
+requestAnimationFrame(loop);
+</script>
