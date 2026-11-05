@@ -1,0 +1,682 @@
+<h3>🔬 ideal vs real gas：<i>Z</i> = <i>pV</i> / <i>nRT</i></h3>
+<div class="tabbar">
+  <button data-tab="zp">① <i>Z</i>–<i>p</i> 曲线（compression factor）</button>
+  <button data-tab="vm">② molar volume at s.t.p.（273 K，1 atm）</button>
+</div>
+
+<!-- ==================== TAB 1: Z-p curves ==================== -->
+<div data-pane="zp">
+  <p class="mut"><b>compression factor</b> <i>Z</i> = <i>pV</i> / <i>nRT</i>：ideal gas 永远 <i>Z</i> = 1（水平虚线）。
+    real gas 偏离来自 4.1.2 的两条：① molecules 之间有 <b>intermolecular forces of attraction</b>（中低压、低温下把 molecules 拉近、撞壁的力变小 → <i>Z</i> &lt; 1）；
+    ② molecules 自身有 <b>non-zero volume</b>（高压下可用空间小于容器 volume 且近距离相互 repel → <i>Z</i> &gt; 1）。</p>
+
+  <div class="row rg-ctl">
+    <span class="rg-cnm">gas（多选）：</span>
+    <div class="row rg-gases"></div>
+    <button type="button" class="rg-all">全选</button>
+  </div>
+
+  <div class="row rg-trow">
+    <label class="rg-tlbl" for="rg-tslider"><span class="rg-cnm">temperature <i>T</i>：</span></label>
+    <input id="rg-tslider" type="range" class="rg-t" min="200" max="1000" step="10" value="300" aria-label="temperature T in K">
+    <span class="rg-tval"><b>300 K</b>（27 °C）</span>
+    <div class="row rg-tpre">
+      <span class="faint">快速切换：</span>
+      <button type="button" data-t="200">200 K</button>
+      <button type="button" data-t="300" class="on">300 K</button>
+      <button type="button" data-t="400">400 K</button>
+      <button type="button" data-t="600">600 K</button>
+      <button type="button" data-t="1000">1000 K</button>
+    </div>
+  </div>
+
+  <div class="card rg-plot">
+    <svg class="rg-svg rg-zsvg" viewBox="0 0 860 500" aria-label="compression factor Z against pressure p"></svg>
+  </div>
+
+  <div class="card rg-hover" aria-live="polite"></div>
+  <div class="card rg-cap"></div>
+  <p class="faint rg-note">van der Waals 模型，示意；考试不要求用 <i>a</i>、<i>b</i> 定量计算，只需用 <b>zero particle volume</b> 与 <b>no intermolecular forces of attraction</b> 解释何时接近或偏离 ideal gas。</p>
+</div>
+
+<!-- ==================== TAB 2: molar volume at s.t.p. ==================== -->
+<div data-pane="vm">
+  <p class="mut">讲义数据：在 <b>s.t.p.（273 K，1 atm ≈ 101 kPa）</b>下，1 mol ideal gas 的 molar volume 是 <b>22.4 dm³ mol⁻¹</b>。
+    intermolecular forces 越强的 real gas，molecules 被拉得越近，molar volume 偏离 22.4 dm³ 越明显（被「拉小」）。</p>
+
+  <div class="card rg-plot">
+    <svg class="rg-svg rg-vsvg" viewBox="0 0 860 430" aria-label="molar volume of gases at s.t.p."></svg>
+  </div>
+
+  <div class="card rg-q2b">
+    <div class="rg-qh">真题链接：9701/23 May/June 2026 Q2(b) <span class="mark">[3]</span></div>
+    <p class="rg-qq">Group 18 elements（neon、argon、krypton、xenon）中，哪一个在 standard conditions 下最接近 ideal gas？解释原因。</p>
+    <ul class="rg-qms">
+      <li><span class="rg-mtag">M1</span> <b>neon / Ne</b></li>
+      <li><span class="rg-mtag">M2</span> it has the <b>smallest</b> volume（of atoms）</li>
+      <li><span class="rg-mtag">M3</span> <b>weakest</b> van der Waals' / instantaneous dipole–induced dipole（id-id）attractions / London dispersion forces</li>
+    </ul>
+    <div class="rg-qwarn">⚠ 判分关键：M2 和 M3 合起来<b>必须带比较级或最高级</b>（如 <b>smallest</b> volume、<b>weakest</b> id-id forces，或 smaller volume and weak vdw）。写 “smallest mass” 不给 M2；只写 “smallest number of electrons” 而不写 id-id forces 不给 M3。</div>
+  </div>
+</div>
+
+<style>
+.k .rg-ctl,.k .rg-trow{gap:8px;margin:6px 0}
+.k .rg-cnm{font-weight:650}
+.k .rg-gases{gap:6px;margin:0}
+.k .rg-gas{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card);cursor:pointer;user-select:none;font-size:14px}
+.k .rg-gas:hover{border-color:var(--acc)}
+.k .rg-gas.on{border-color:var(--mut);font-weight:600}
+.k .rg-gas:not(.on){opacity:.5}
+.k .rg-gas input{margin:0}
+.k .rg-sw{width:24px;height:10px;display:inline-block;vertical-align:middle}
+.k .rg-all{font-size:13px;padding:3px 9px}
+.k .rg-t{flex:1 1 180px;max-width:280px;min-width:120px}
+.k .rg-tval{min-width:7.8em}
+.k .rg-tpre{gap:4px;margin:0}
+.k .rg-tpre button{font-size:13px;padding:2px 8px}
+.k .rg-plot{padding:6px;margin:6px 0}
+.k .rg-svg{width:100%;display:block}
+.k .rg-svg text{font-size:13.5px}
+.k .rg-svg text.rg-tick{fill:var(--mut);font-size:13px}
+.k .rg-svg text.rg-axt{fill:var(--mut);font-size:13.5px;font-weight:600}
+.k .rg-svg text.rg-b{font-weight:650}
+.k .rg-svg text.rg-sm{font-size:12.5px;fill:var(--mut)}
+.k .rg-svg text.rg-reg-gt{fill:var(--acc);font-weight:650;font-size:13.5px}
+.k .rg-svg text.rg-reg-lt{fill:var(--pos);font-weight:650;font-size:13.5px}
+.k .rg-svg text.rg-ideal-lab{fill:var(--fg);font-weight:650;font-size:13px}
+.k .rg-svg text.rg-liq-lab{font-weight:650;font-size:13px}
+.k .rg-svg .rg-grid{stroke:var(--line);stroke-width:1}
+.k .rg-svg .rg-ax{stroke:var(--mut);stroke-width:1.3}
+.k .rg-svg .rg-ideal{stroke:var(--fg);stroke-width:2.2;stroke-dasharray:7 5; opacity:.82}
+.k .rg-svg .rg-legbox{fill:var(--bg);stroke:var(--line);stroke-width:1}
+.k .rg-svg .rg-xhair{stroke:var(--mut);stroke-width:1.2;stroke-dasharray:4 4;pointer-events:none}
+.k .rg-svg .rg-c1{stroke:var(--s1)} .k .rg-svg .rg-c2{stroke:var(--s2)} .k .rg-svg .rg-c3{stroke:var(--s3)}
+.k .rg-svg .rg-c4{stroke:var(--s4)} .k .rg-svg .rg-c5{stroke:var(--s5)}
+.k .rg-sw .rg-c1{stroke:var(--s1)} .k .rg-sw .rg-c2{stroke:var(--s2)} .k .rg-sw .rg-c3{stroke:var(--s3)}
+.k .rg-sw .rg-c4{stroke:var(--s4)} .k .rg-sw .rg-c5{stroke:var(--s5)}
+.k .rg-svg text.rg-tc1{fill:var(--s1)} .k .rg-svg text.rg-tc2{fill:var(--s2)} .k .rg-svg text.rg-tc3{fill:var(--s3)}
+.k .rg-svg text.rg-tc4{fill:var(--s4)} .k .rg-svg text.rg-tc5{fill:var(--s5)}
+.k .rg-svg tspan.rg-tc1{fill:var(--s1)} .k .rg-svg tspan.rg-tc2{fill:var(--s2)} .k .rg-svg tspan.rg-tc3{fill:var(--s3)}
+.k .rg-svg tspan.rg-tc4{fill:var(--s4)} .k .rg-svg tspan.rg-tc5{fill:var(--s5)}
+.k .rg-svg .rg-lead-mix{stroke:var(--mut)}
+.k .rg-hover{margin:6px 0;padding:8px 12px;font-size:14px}
+.k .rg-hover .rg-hh{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:4px}
+.k .rg-hover .rg-hdom{display:inline-block;padding:1px 8px;border-radius:5px;font-weight:600;font-size:13.5px}
+.k .rg-hover .rg-hdom.lt{background:var(--bad-soft);color:var(--bad)}
+.k .rg-hover .rg-hdom.gt{background:var(--acc-soft);color:var(--acc)}
+.k .rg-hover .rg-hdom.id{background:var(--ok-soft);color:var(--ok)}
+.k .rg-hover .rg-hpills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;font-size:13px}
+.k .rg-hover .rg-hpill{padding:1px 8px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.k .rg-hover .rg-hpill.act{border-color:var(--fg);font-weight:650}
+.k .rg-cap{margin:6px 0;padding:8px 12px;font-size:14px;border-left:3px solid var(--acc)}
+.k .rg-q2b{margin-top:8px;font-size:14px}
+.k .rg-qh{font-weight:650;font-size:15px;margin-bottom:4px}
+.k .rg-qq{margin:4px 0;color:var(--mut)}
+.k .rg-qms{list-style:none;padding-left:0;margin:6px 0}
+.k .rg-qms li{margin:4px 0}
+.k .rg-mtag{display:inline-block;width:2.4em;text-align:center;border-radius:4px;background:var(--acc-soft);color:var(--acc);font-weight:700;font-size:12.5px;margin-right:4px}
+.k .rg-qwarn{margin-top:6px;padding:5px 10px;border-left:3px solid var(--bad);background:var(--bad-soft);border-radius:0 6px 6px 0;font-size:13.5px}
+</style>
+
+<script>
+K.init($root);
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function add(par, tag, at) { var e = K.svg(tag, at); par.appendChild(e); return e; }
+function widthOf(svg, def) { return Math.max(Math.round(svg.getBoundingClientRect().width) || def, 620); }
+function visible(svg) { return svg.getBoundingClientRect().width > 0; }
+
+var R_GAS = 8.31;
+var ATM = 101325;
+
+/* van der Waals constants (SI: a / Pa m⁶ mol⁻², b / m³ mol⁻¹)
+   Distinct colour token (--s1..--s5) + stroke-dasharray so adjacent curves are always distinguishable */
+var GASES = [
+  { id: 'He',  a: 0.00346, b: 2.38e-5,  sc: 4, dash: '',          imf: 'very weak id-id（monatomic，2 e⁻）' },
+  { id: 'H₂',  a: 0.02476, b: 2.661e-5, sc: 5, dash: '8 5',       imf: 'very weak id-id（non-polar，2 e⁻）' },
+  { id: 'N₂',  a: 0.1370,  b: 3.87e-5,  sc: 1, dash: '',          imf: 'weak id-id（non-polar，14 e⁻）' },
+  { id: 'CH₄', a: 0.2283,  b: 4.278e-5, sc: 3, dash: '10 5 0.5 5',imf: 'id-id（non-polar，10 e⁻）' },
+  { id: 'CO₂', a: 0.3640,  b: 4.267e-5, sc: 2, dash: '',          imf: 'stronger id-id（linear non-polar，22 e⁻）' },
+  { id: 'NH₃', a: 0.4225,  b: 3.707e-5, sc: 5, dash: '0.5 5',   imf: 'hydrogen bonding + pd-pd + id-id' }
+];
+var GMAP = {};
+GASES.forEach(function (g) {
+  g.Tc = 8 * g.a / (27 * R_GAS * g.b);
+  GMAP[g.id] = g;
+});
+
+/* solve Z³ - (1 + B)Z² + AZ - AB = 0 and return { Z (largest real root), three (boolean) } */
+function cbrt(x) { return x < 0 ? -Math.pow(-x, 1 / 3) : Math.pow(x, 1 / 3); }
+function solveVdW(g, T, patm) {
+  if (patm <= 0) return { Z: 1, three: false };
+  var p = patm * ATM;
+  var RT = R_GAS * T;
+  var A = g.a * p / (RT * RT);
+  var B = g.b * p / RT;
+  var a2 = -(1 + B), a1 = A, a0 = -A * B;
+  var pc = a1 - a2 * a2 / 3;
+  var qc = (2 * a2 * a2 * a2) / 27 - (a2 * a1) / 3 + a0;
+  var disc = (qc / 2) * (qc / 2) + (pc / 3) * (pc / 3) * (pc / 3);
+  if (disc >= -1e-15) {
+    var ds = Math.sqrt(Math.max(0, disc));
+    var z = cbrt(-qc / 2 + ds) + cbrt(-qc / 2 - ds) - a2 / 3;
+    return { Z: z, three: false };
+  }
+  var r = Math.sqrt(-pc / 3);
+  var ca = Math.max(-1, Math.min(1, -qc / (2 * r * r * r)));
+  var phi = Math.acos(ca);
+  var z0 = 2 * r * Math.cos(phi / 3) - a2 / 3;
+  var z1 = 2 * r * Math.cos((phi + 2 * Math.PI) / 3) - a2 / 3;
+  var z2 = 2 * r * Math.cos((phi + 4 * Math.PI) / 3) - a2 / 3;
+  return { Z: Math.max(z0, z1, z2), three: true };
+}
+
+/* For T < Tc, find the exact spinodal pressure where 3 real roots begin (p_liq when p_liq > 0 near Tc)
+   or where the gas-branch root ends (p_gas when the liquid loop dips below p = 0 at lower T). */
+function liqCutoff(g, T) {
+  if (T >= g.Tc) return null;
+  var rhs = (4 / 27) * (T / g.Tc);
+  var lo = 0, hi = 1 / 3, i, mid;
+  for (i = 0; i < 48; i++) {
+    mid = (lo + hi) / 2;
+    if (mid * (1 - mid) * (1 - mid) < rhs) lo = mid; else hi = mid;
+  }
+  var uGas = (lo + hi) / 2;
+  var pGas = (g.a / (g.b * g.b)) * uGas * uGas * (1 - 2 * uGas) / ATM;
+  lo = 1 / 3; hi = 1;
+  for (i = 0; i < 48; i++) {
+    mid = (lo + hi) / 2;
+    if (mid * (1 - mid) * (1 - mid) > rhs) lo = mid; else hi = mid;
+  }
+  var uLiq = (lo + hi) / 2;
+  var pLiq = (g.a / (g.b * g.b)) * uLiq * uLiq * (1 - 2 * uLiq) / ATM;
+  /* When pLiq > 0 (e.g. CO₂ at 300 K → 68.5 atm), pLiq is the exact first 3-root pressure;
+     when T < 27/32 Tc (e.g. NH₃ at 300 K), pLiq < 0 so 3 roots exist from p = 0+ up to pGas (48.9 atm). */
+  var pCut = pLiq > 0.75 * pGas ? pLiq : pGas * 0.96;
+  var s = solveVdW(g, T, pCut);
+  return { p: pCut, Z: s.Z };
+}
+
+var zsvg = $('.rg-zsvg'), vsvg = $('.rg-vsvg');
+var hoverBox = $('.rg-hover'), capBox = $('.rg-cap'), tSlider = $('.rg-t'), tVal = $('.rg-tval');
+var S = { T: 300, on: { He: true, 'H₂': true, 'N₂': true, 'CH₄': true, 'CO₂': true, 'NH₃': true }, probeP: 100, probeGas: 'N₂' };
+
+/* build gas toggle buttons with colour + dash swatches */
+var gasBar = $('.rg-gases');
+GASES.forEach(function (g) {
+  var lbl = K.el('label', { 'class': 'rg-gas on', 'data-gas': g.id });
+  var chk = K.el('input', { type: 'checkbox', 'data-gas': g.id, checked: 'checked' });
+  var sw = K.svg('svg', { 'class': 'rg-sw', viewBox: '0 0 24 10' });
+  var ln = K.svg('line', { x1: 2, y1: 5, x2: 22, y2: 5, 'class': 'rg-c' + g.sc, 'stroke-width': 2.6, 'stroke-linecap': 'round' });
+  if (g.dash) ln.setAttribute('stroke-dasharray', g.dash);
+  sw.appendChild(ln);
+  lbl.appendChild(chk); lbl.appendChild(sw); lbl.appendChild(K.el('span', null, g.id));
+  chk.addEventListener('change', function () {
+    S.on[g.id] = chk.checked;
+    lbl.classList.toggle('on', chk.checked);
+    drawZ();
+  });
+  gasBar.appendChild(lbl);
+});
+$('.rg-all').addEventListener('click', function () {
+  GASES.forEach(function (g) {
+    S.on[g.id] = true;
+    var lbl = $('.rg-gas[data-gas="' + g.id + '"]'), chk = lbl.querySelector('input');
+    chk.checked = true; lbl.classList.add('on');
+  });
+  drawZ();
+});
+
+function syncTUI() {
+  tSlider.value = S.T;
+  var c = S.T - 273;
+  tVal.innerHTML = '<b>' + S.T + ' K</b>（' + (c < 0 ? '−' + Math.abs(c) : c) + ' °C）';
+  $$('.rg-tpre button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-t') === S.T); });
+}
+tSlider.addEventListener('input', function () { S.T = +tSlider.value; syncTUI(); drawZ(); });
+$$('.rg-tpre button').forEach(function (b) {
+  b.addEventListener('click', function () { S.T = +b.getAttribute('data-t'); syncTUI(); drawZ(); });
+});
+
+function lab(svg, x, y, txt, o) {
+  var t = K.label(svg, x, y, txt, o);
+  t.setAttribute('data-ax', x); t.setAttribute('data-ay', y);
+  return t;
+}
+
+/* ==================== Draw Tab 1: Z-p chart ==================== */
+var lastCurves = {};
+function drawZ() {
+  if (!visible(zsvg)) return;
+  clear(zsvg);
+  var W = widthOf(zsvg, 860), H = 500;
+  zsvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  zsvg.setAttribute('data-t', S.T);
+
+  var L = 56, R = W - 96, T0 = 66, B0 = H - 52;
+  var PMAX = 800, ZMIN = 0.0, ZMAX = 2.65;
+  function X(p) { return L + (p / PMAX) * (R - L); }
+  function Y(z) { return T0 + ((ZMAX - z) / (ZMAX - ZMIN)) * (B0 - T0); }
+
+  var avoid = [], placed = [];
+  var gGrid = add(zsvg, 'g', {}), gCurves = add(zsvg, 'g', {}), gMarks = add(zsvg, 'g', {}), gOver = add(zsvg, 'g', {});
+
+  /* 1. Top Legend Bar inside SVG (uses K.label, shows colour + line style + ideal gas) */
+  add(gGrid, 'rect', { x: 10, y: 6, width: W - 20, height: 28, rx: 6, 'class': 'rg-legbox' });
+  var legItems = [{ id: 'ideal', txt: 'ideal gas (Z = 1)', sc: 0, dash: '7 5', ideal: true }].concat(
+    GASES.map(function (g) { return { id: g.id, txt: g.id, sc: g.sc, dash: g.dash, on: S.on[g.id] }; })
+  );
+  var lx = 20, stepRest = Math.floor((W - 185) / 6);
+  legItems.forEach(function (it, idx) {
+    var x0 = idx === 0 ? 18 : 160 + (idx - 1) * stepRest;
+    var swLen = 22;
+    var ln = add(gGrid, 'line', { x1: x0, y1: 20, x2: x0 + swLen, y2: 20,
+      'class': it.ideal ? 'rg-ideal' : 'rg-c' + it.sc, 'stroke-width': it.ideal ? 2.2 : 2.6, 'stroke-linecap': it.ideal ? 'butt' : 'round' });
+    if (it.dash) ln.setAttribute('stroke-dasharray', it.dash);
+    if (it.on === false) ln.setAttribute('opacity', '0.35');
+    avoid.push([x0, 20, x0 + swLen, 20]);
+    var tl = lab(zsvg, x0 + swLen + 5, 20, it.txt, {
+      cands: [[0, 4, 'start']], avoid: avoid, placed: placed, pad: 1,
+      cls: 'rg-leg-lab ' + (it.ideal ? 'rg-ideal-lab' : 'rg-b rg-tc' + it.sc)
+    });
+    tl.setAttribute('data-leg', it.id);
+    if (it.ideal) tl.innerHTML = 'ideal gas (<tspan font-style="italic">Z</tspan> = 1)';
+    if (it.on === false) tl.setAttribute('opacity', '0.4');
+  });
+
+  /* 2. Grid lines & axes */
+  [0.0, 0.5, 1.0, 1.5, 2.0, 2.5].forEach(function (zv) {
+    var y = Y(zv);
+    if (zv !== 1.0) add(gGrid, 'line', { x1: L, x2: R, y1: y, y2: y, 'class': 'rg-grid' });
+    lab(zsvg, L - 7, y, zv.toFixed(1), { cands: [[0, 4, 'end']], placed: placed, pad: 1, cls: 'rg-tick' });
+  });
+  for (var pv = 0; pv <= PMAX; pv += 100) {
+    var x = X(pv);
+    add(gGrid, 'line', { x1: x, x2: x, y1: B0, y2: B0 + 5, 'class': 'rg-ax' });
+    if (pv > 0) add(gGrid, 'line', { x1: x, x2: x, y1: T0, y2: B0, 'class': 'rg-grid' });
+    lab(zsvg, x, B0 + 20, String(pv), { cands: [[0, 0, 'middle']], placed: placed, pad: 1, cls: 'rg-tick' });
+  }
+  add(gGrid, 'line', { x1: L, x2: L, y1: T0 - 4, y2: B0, 'class': 'rg-ax' });
+  add(gGrid, 'line', { x1: L, x2: R, y1: B0, y2: B0, 'class': 'rg-ax' });
+  avoid.push([L, T0 - 4, L, B0], [L, B0, R, B0]);
+
+  var yTitle = lab(zsvg, L - 42, T0 - 14, 'Z = pV / nRT（compression factor）', {
+    cands: [[0, 0, 'start']], placed: placed, pad: 1, cls: 'rg-axt'
+  });
+  yTitle.innerHTML = '<tspan font-style="italic">Z</tspan> = <tspan font-style="italic">pV</tspan> / <tspan font-style="italic">nRT</tspan>（compression factor）';
+
+  var xTitle = lab(zsvg, (L + R) / 2, B0 + 42, 'pressure p / atm', {
+    cands: [[0, 0, 'middle']], placed: placed, pad: 1, cls: 'rg-axt'
+  });
+  xTitle.innerHTML = 'pressure <tspan font-style="italic">p</tspan> / atm';
+
+  /* 3. Z = 1 ideal gas reference line + right-margin label */
+  var yIdeal = Y(1.0);
+  add(gCurves, 'line', { x1: L, x2: R + 8, y1: yIdeal, y2: yIdeal, 'class': 'rg-ideal' });
+  avoid.push([L, yIdeal, R + 8, yIdeal]);
+  var idLab = lab(zsvg, R + 12, yIdeal, 'ideal gas', {
+    cands: [[0, 4, 'start'], [0, -6, 'start'], [0, 14, 'start']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-ideal-lab'
+  });
+  idLab.setAttribute('data-role', 'ideal-line-label');
+
+  /* 4. Calculate and draw active gas curves */
+  lastCurves = {};
+  var liqList = [];
+  var active = GASES.filter(function (g) { return S.on[g.id]; });
+  active.forEach(function (g) {
+    var cut = liqCutoff(g, S.T);
+    var pEnd = cut ? cut.p : PMAX;
+    var pts = [], step = cut ? Math.max(1, pEnd / 60) : 8;
+    for (var p = 0; p < pEnd - 1e-6; p += step) {
+      var s = solveVdW(g, S.T, p);
+      pts.push([X(p), Y(s.Z), p, s.Z]);
+    }
+    var sEnd = solveVdW(g, S.T, pEnd);
+    pts.push([X(pEnd), Y(sEnd.Z), pEnd, sEnd.Z]);
+    lastCurves[g.id] = { g: g, pts: pts, cut: cut, pEnd: pEnd, zEnd: sEnd.Z };
+
+    var polyPts = pts.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ');
+    var pl = add(gCurves, 'polyline', {
+      points: polyPts, fill: 'none', 'class': 'rg-curve rg-c' + g.sc,
+      'stroke-width': 2.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round',
+      'data-gas': g.id, 'data-truncated': cut ? '1' : '0', 'data-pmax': pEnd.toFixed(1), 'data-z800': sEnd.Z.toFixed(4)
+    });
+    if (g.dash) pl.setAttribute('stroke-dasharray', g.dash);
+    avoid = avoid.concat(K.segs(pts));
+
+    if (cut) {
+      var cx = X(cut.p), cy = Y(cut.Z);
+      add(gMarks, 'circle', {
+        cx: cx, cy: cy, r: 5, fill: 'var(--card)', 'class': 'rg-liq-pt rg-c' + g.sc,
+        'stroke-width': 2.5, 'data-gas': g.id, 'data-p': cut.p.toFixed(1), 'data-z': cut.Z.toFixed(3)
+      });
+      placed.push({ x: cx - 6, y: cy - 6, w: 12, h: 12 });
+      liqList.push({ g: g, x: cx, y: cy, p: cut.p, Z: cut.Z });
+    }
+  });
+
+  /* 5. Place "liquefies" endpoint labels (higher-p gas first so right-side placement is unobstructed) */
+  liqList.sort(function (a, b) { return b.p - a.p; });
+  function segX(a, b) {   /* proper intersection of two segments */
+    function o(p, q, r) { return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]); }
+    var p1 = [a[0], a[1]], p2 = [a[2], a[3]], q1 = [b[0], b[1]], q2 = [b[2], b[3]];
+    return o(p1, p2, q1) * o(p1, p2, q2) < 0 && o(q1, q2, p1) * o(q1, q2, p2) < 0;
+  }
+  function leaderFor(item, bb) {
+    var lx = Math.max(bb.x - 2, item.x), ly = bb.y + bb.height / 2;
+    if (ly > item.y + 12) ly = bb.y - 1;
+    return Math.hypot(lx - item.x, ly - item.y) > 16 ? [item.x, item.y + 5, lx, ly] : null;
+  }
+  /* endpoints that (nearly) coincide — e.g. CO₂ and NH₃ at 200 K — share one label, otherwise there is
+     no room under them for two separate labels whose leaders don't cross */
+  var groups = [];
+  liqList.forEach(function (it) {
+    var gr = groups.filter(function (q) { return Math.hypot(q.x - it.x, q.y - it.y) < 14; })[0];
+    if (gr) { gr.ids.push(it.g.id); gr.gs.push(it.g); gr.x = Math.min(gr.x, it.x); gr.y = Math.max(gr.y, it.y); }
+    else groups.push({ g: it.g, gs: [it.g], ids: [it.g.id], x: it.x, y: it.y, p: it.p });
+  });
+  groups.forEach(function (item) {
+    item.ids.sort(function (a, b) { return GASES.indexOf(GMAP[a]) - GASES.indexOf(GMAP[b]); });
+    item.txt = item.ids.join('、') + (item.ids.length > 1 ? ' liquefy' : ' liquefies');
+  });
+  groups.forEach(function (item) {
+    /* low T: endpoints bunch up near p ≈ 20–70 atm, so try beside the dot first, then straight down
+       into the empty band under the curves; a leader must not cross another gas's curve
+       (otherwise it looks like it points at that curve) */
+    var cands = [[10, 5, 'start'], [10, 18, 'start'], [10, -8, 'start']];
+    [30, 46, 62, 78, 94, 110, 126, 142].forEach(function (dy) { [4, 8, 24, 44, 64].forEach(function (dx) { cands.push([dx, dy, 'start']); }); });
+    var others = [];
+    Object.keys(lastCurves).forEach(function (id) { if (item.ids.indexOf(id) < 0) others = others.concat(K.segs(lastCurves[id].pts)); });
+    var tl = null, leader = null;
+    for (var ci = 0; ci < cands.length && !tl; ci++) {
+      var tmp = [];
+      var t1 = lab(zsvg, item.x, item.y, item.txt, {
+        cands: [cands[ci]], avoid: avoid, placed: placed.concat(), pad: 2, cls: 'rg-liq-lab rg-tc' + item.g.sc
+      });
+      var bb1 = t1.getBBox(), ld1 = leaderFor(item, bb1);
+      var hitsBox = ld1 && placed.some(function (r) {
+        for (var k = 0.15; k <= 0.85; k += 0.1) {
+          var px = ld1[0] + (ld1[2] - ld1[0]) * k, py = ld1[1] + (ld1[3] - ld1[1]) * k;
+          if (px > r.x && px < r.x + r.w && py > r.y && py < r.y + r.h) return true;
+        }
+        return false;
+      });
+      var ok = !t1.hasAttribute('data-clash') && !hitsBox && !(ld1 && others.some(function (s) { return segX(ld1, s); }));
+      if (ok) { tl = t1; leader = ld1; placed.push({ x: bb1.x - 2, y: bb1.y - 2, w: bb1.width + 4, h: bb1.height + 4 }); }
+      else t1.remove();
+    }
+    if (!tl) {   /* fallback: best effort, test will flag data-clash */
+      tl = lab(zsvg, item.x, item.y, item.txt, {
+        cands: cands, avoid: avoid, placed: placed, pad: 2, cls: 'rg-liq-lab rg-tc' + item.g.sc
+      });
+      leader = leaderFor(item, tl.getBBox());
+    }
+    tl.setAttribute('data-gas', item.g.id);
+    if (item.ids.length > 1) {
+      tl.setAttribute('data-also', item.ids.join(' '));
+      tl.setAttribute('class', tl.getAttribute('class').replace(/rg-tc\d/, 'rg-ideal-lab'));
+      tl.innerHTML = item.ids.map(function (id) { return '<tspan class="rg-tc' + GMAP[id].sc + '">' + id + '</tspan>'; }).join('、') + ' liquefy';
+    }
+    if (leader) {
+      add(gMarks, 'line', {
+        x1: leader[0], y1: leader[1], x2: leader[2], y2: leader[3],
+        'class': item.ids.length > 1 ? 'rg-lead-mix' : 'rg-c' + item.g.sc, 'stroke-width': 1.2, 'stroke-dasharray': '2 2',
+        'data-leader': item.g.id, 'data-also': item.ids.join(' ')
+      });
+      avoid.push(leader);
+      tl.setAttribute('data-leader', '1');
+    }
+  });
+
+  /* 6. Two regime explanation labels in guaranteed curve-free zones (upper-left for Z > 1, lower-right for Z < 1) */
+  var r1 = lab(zsvg, L + 16, Y(2.42), 'Z > 1：molecular volume 占主导', {
+    cands: [[0, 0, 'start'], [0, 14, 'start']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-reg-gt'
+  });
+  r1.innerHTML = '<tspan font-style="italic">Z</tspan> &gt; 1：molecular volume 占主导';
+  var r1s = lab(zsvg, L + 16, Y(2.24), 'high p：molecules 自身 volume 不可忽略 + 近距离 repulsion', {
+    cands: [[0, 0, 'start'], [0, 14, 'start']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-sm'
+  });
+  r1s.innerHTML = 'high <tspan font-style="italic">p</tspan>：molecules 自身 volume 不可忽略 + 近距离 repulsion';
+
+  var r2 = lab(zsvg, R - 10, Y(0.28), 'Z < 1：intermolecular attraction 占主导', {
+    cands: [[0, 0, 'end'], [0, -14, 'end']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-reg-lt'
+  });
+  r2.innerHTML = '<tspan font-style="italic">Z</tspan> &lt; 1：intermolecular attraction 占主导';
+  var r2s = lab(zsvg, R - 10, Y(0.10), 'moderate p、low T：attraction 拉住 molecules → 撞壁力减小', {
+    cands: [[0, 0, 'end'], [0, -14, 'end']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-sm'
+  });
+  r2s.innerHTML = 'moderate <tspan font-style="italic">p</tspan>、low <tspan font-style="italic">T</tspan>：attraction 拉住 molecules → 撞壁力减小';
+
+  zsvg.__geom = { L: L, R: R, T0: T0, B0: B0, PMAX: PMAX, ZMIN: ZMIN, ZMAX: ZMAX, X: X, Y: Y, gOver: gOver };
+  updateProbe(S.probeP, S.probeGas);
+  updateCaption();
+  K.fit();
+}
+
+function updateProbe(patm, prefGas) {
+  patm = Math.max(0, Math.min(800, Math.round(patm)));
+  S.probeP = patm;
+  var active = GASES.filter(function (g) { return S.on[g.id]; });
+  if (!active.length) {
+    hoverBox.innerHTML = '<span class="mut">请至少勾选一种 gas。</span>';
+    return;
+  }
+  var chosen = GMAP[prefGas] && S.on[prefGas] ? GMAP[prefGas] : active[0];
+  S.probeGas = chosen.id;
+
+  var geom = zsvg.__geom;
+  if (geom && geom.gOver) {
+    clear(geom.gOver);
+    var x = geom.X(patm);
+    add(geom.gOver, 'line', { x1: x, x2: x, y1: geom.T0, y2: geom.B0, 'class': 'rg-xhair' });
+    active.forEach(function (g) {
+      var c = lastCurves[g.id];
+      if (!c || (c.cut && patm > c.cut.p)) return;
+      var s = solveVdW(g, S.T, patm);
+      add(geom.gOver, 'circle', {
+        cx: x, cy: geom.Y(s.Z), r: g.id === chosen.id ? 5.5 : 3.5,
+        fill: 'var(--s' + g.sc + ')', stroke: 'var(--card)', 'stroke-width': 1.5
+      });
+    });
+  }
+
+  var cChosen = lastCurves[chosen.id];
+  var isLiq = cChosen && cChosen.cut && patm > cChosen.cut.p;
+  var sChosen = solveVdW(chosen, S.T, isLiq ? cChosen.cut.p : patm);
+  var zVal = sChosen.Z;
+  var domHtml;
+  if (isLiq) {
+    domHtml = '<span class="rg-hdom lt">已 liquefy（<i>p</i> &gt; ' + cChosen.cut.p.toFixed(0) + ' atm，<i>T</i> &lt; <i>T</i><sub>c</sub> = ' + chosen.Tc.toFixed(0) + ' K）· attraction 占主导 → <i>Z</i> &lt; 1</span>';
+  } else if (zVal < 0.995) {
+    domHtml = '<span class="rg-hdom lt">attraction 占主导 → <i>Z</i> &lt; 1（intermolecular forces 拉住 molecules，<i>pV</i> 小于 ideal）</span>';
+  } else if (zVal > 1.005) {
+    domHtml = '<span class="rg-hdom gt">molecular volume 占主导 → <i>Z</i> &gt; 1（molecules 自身 volume + repulsion，<i>pV</i> 大于 ideal）</span>';
+  } else {
+    domHtml = '<span class="rg-hdom id">接近 ideal gas（<i>Z</i> ≈ 1：attraction 与 molecular volume 效应几乎抵消或可忽略）</span>';
+  }
+
+  var pills = active.map(function (g) {
+    var c = lastCurves[g.id];
+    var lq = c && c.cut && patm > c.cut.p;
+    var z = solveVdW(g, S.T, lq ? c.cut.p : patm).Z;
+    return '<span class="rg-hpill' + (g.id === chosen.id ? ' act' : '') + '" data-gas="' + g.id + '" data-z="' + z.toFixed(3) + '">' +
+      '<b>' + g.id + '</b>：' + (lq ? 'liquefies（>' + c.cut.p.toFixed(0) + ' atm）' : '<i>Z</i> = ' + z.toFixed(3)) + '</span>';
+  }).join('');
+
+  hoverBox.setAttribute('data-gas', chosen.id);
+  hoverBox.setAttribute('data-p', patm);
+  hoverBox.setAttribute('data-z', zVal.toFixed(4));
+  hoverBox.innerHTML =
+    '<div class="rg-hh"><span>当前探针：<b>' + chosen.id + '</b></span>' +
+    '<span><i>T</i> = <b>' + S.T + ' K</b></span>' +
+    '<span><i>p</i> = <b>' + patm + ' atm</b></span>' +
+    '<span><i>Z</i> = <b>' + zVal.toFixed(3) + '</b></span>' +
+    domHtml + '</div>' +
+    '<div class="rg-hpills">' + pills + '</div>';
+}
+
+zsvg.addEventListener('mousemove', function (ev) {
+  var geom = zsvg.__geom;
+  if (!geom) return;
+  var box = zsvg.getBoundingClientRect(), k = zsvg.viewBox.baseVal.width / box.width;
+  var mx = (ev.clientX - box.left) * k, my = (ev.clientY - box.top) * k;
+  if (mx < geom.L - 10 || mx > geom.R + 10) return;
+  var patm = Math.max(0, Math.min(800, Math.round(((mx - geom.L) / (geom.R - geom.L)) * geom.PMAX)));
+  var bestGas = S.probeGas, bestDist = 1e9;
+  GASES.forEach(function (g) {
+    if (!S.on[g.id]) return;
+    var c = lastCurves[g.id];
+    if (!c) return;
+    var pUse = c.cut && patm > c.cut.p ? c.cut.p : patm;
+    var s = solveVdW(g, S.T, pUse);
+    var d = Math.hypot(geom.X(pUse) - mx, geom.Y(s.Z) - my);
+    if (d < bestDist) { bestDist = d; bestGas = g.id; }
+  });
+  updateProbe(patm, bestGas);
+});
+
+function updateCaption() {
+  var liq = GASES.filter(function (g) { return S.on[g.id] && S.T < g.Tc; });
+  var liqTxt = liq.length
+    ? liq.map(function (g) {
+        var c = lastCurves[g.id];
+        return '<b>' + g.id + '</b>（<i>T</i><sub>c</sub> ≈ ' + g.Tc.toFixed(0) + ' K &gt; ' + S.T + ' K，在约 ' + (c && c.cut ? c.cut.p.toFixed(0) : '—') + ' atm 处 <b>liquefies</b>）';
+      }).join('、') + ' 已低于 critical temperature，加压到端点即 condense 成 liquid；'
+    : '当前 <i>T</i> = ' + S.T + ' K 高于所有已选 gas 的 <i>T</i><sub>c</sub>，没有曲线因液化而截断；';
+  var tNote = S.T <= 250
+    ? '低温（' + S.T + ' K）下 molecules 的 average kinetic energy 小，intermolecular attraction 造成的 <i>Z</i> &lt; 1 凹陷非常深，偏离 ideal gas 最大。'
+    : S.T <= 350
+    ? '室温附近（' + S.T + ' K）：N₂、CH₄、CO₂、NH₃ 在中低压段因 attraction 占主导而 <i>Z</i> &lt; 1；He、H₂ 的 id-id 极弱，全程 <i>Z</i> ≥ 1；到了高压段所有 gas 都因 molecular volume 占主导而 <i>Z</i> &gt; 1。'
+    : S.T <= 500
+    ? '温度升到 ' + S.T + ' K（高于 CO₂ 的 <i>T</i><sub>c</sub> ≈ 304 K）：CO₂ 不再液化，100 atm 时 <i>Z</i> = ' + solveVdW(GMAP['CO₂'], S.T, 100).Z.toFixed(2) + ' &lt; 1，随后在高压下回升到 <i>Z</i> &gt; 1。'
+    : '高温（' + S.T + ' K）下 molecules 运动很快，intermolecular attraction 来不及显著拉住 molecules，各条曲线的 <i>Z</i> &lt; 1 凹陷明显变浅、整体向 <i>Z</i> = 1 靠拢——<b>real gases behave most like an ideal gas at low pressure and high temperature</b>。';
+  capBox.innerHTML = '<b><i>T</i> = ' + S.T + ' K 解读：</b>' + liqTxt + tNote;
+}
+
+/* ==================== Draw Tab 2: molar volume at s.t.p. ==================== */
+var STP_DATA = [
+  { id: 'He',   vm: 22.4, sc: 1, imf: 'very weak id-id（monatomic，2 e⁻）' },
+  { id: 'N₂',   vm: 22.4, sc: 1, imf: 'weak id-id（non-polar，14 e⁻）' },
+  { id: 'O₂',   vm: 22.4, sc: 1, imf: 'weak id-id（non-polar，16 e⁻）' },
+  { id: 'CH₄',  vm: 22.3, sc: 3, imf: 'id-id（non-polar，10 e⁻）' },
+  { id: 'CO₂',  vm: 22.3, sc: 3, imf: 'stronger id-id（non-polar，22 e⁻）' },
+  { id: 'C₂H₄', vm: 22.2, sc: 4, imf: 'id-id（non-polar planar，16 e⁻）' },
+  { id: 'NH₃',  vm: 22.1, sc: 5, imf: 'hydrogen bonding + pd-pd + id-id' },
+  { id: 'SO₂',  vm: 21.9, sc: 2, imf: 'pd-pd + strong id-id（polar，32 e⁻）' }
+];
+
+function drawVm() {
+  if (!visible(vsvg)) return;
+  clear(vsvg);
+  var W = widthOf(vsvg, 860), H = 435;
+  vsvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+  var L = 66, R = Math.min(W - 305, Math.round(W * 0.52)), T0 = 56, rowH = 38, BH = 22;
+  var B0 = T0 + STP_DATA.length * rowH + 6;
+  var VMIN = 21.5, VMAX = 22.45;
+  function X(v) { return L + ((v - VMIN) / (VMAX - VMIN)) * (R - L); }
+
+  var avoid = [], placed = [];
+  var gGrid = add(vsvg, 'g', {}), gBars = add(vsvg, 'g', {});
+
+  /* Top title & truncated-axis notice inside SVG */
+  lab(vsvg, L, 22, 'molar volume at s.t.p.（273 K，1 atm）/ dm³ mol⁻¹', {
+    cands: [[0, 0, 'start']], placed: placed, pad: 1, cls: 'rg-axt'
+  });
+  var truncTop = lab(vsvg, L, 41, '⚠ 横轴从 21.5 dm³ mol⁻¹ 起（截断轴，放大 21.9–22.4 dm³ 的微小偏离）', {
+    cands: [[0, 0, 'start']], placed: placed, pad: 1, cls: 'rg-sm rg-b'
+  });
+  truncTop.setAttribute('data-role', 'trunc-note');
+
+  /* Ticks from 21.5 to 22.4 */
+  [21.5, 21.7, 21.9, 22.1, 22.3, 22.4].forEach(function (v) {
+    var x = X(v);
+    add(gGrid, 'line', { x1: x, x2: x, y1: T0, y2: B0, 'class': v === 22.4 ? 'rg-ideal' : 'rg-grid' });
+    add(gGrid, 'line', { x1: x, x2: x, y1: B0, y2: B0 + 5, 'class': 'rg-ax' });
+    if (v === 22.3 && X(22.4) - X(22.3) < 46) return;   /* too tight at narrow widths; bar values are printed beside each bar */
+    lab(vsvg, x, B0 + 20, v.toFixed(1), { cands: [[0, 0, 'middle']], placed: placed, pad: 1, cls: 'rg-tick' });
+  });
+  add(gGrid, 'line', { x1: L, x2: R + 8, y1: B0, y2: B0, 'class': 'rg-ax' });
+  add(gGrid, 'line', { x1: L, x2: L, y1: T0, y2: B0, 'class': 'rg-ax' });
+  /* Zig-zag axis-break slash symbol near 21.5 */
+  var zx = L + 9;
+  add(gGrid, 'path', { d: 'M' + (zx - 4) + ',' + (B0 + 7) + ' L' + (zx + 2) + ',' + (B0 - 7) + ' M' + (zx + 1) + ',' + (B0 + 7) + ' L' + (zx + 7) + ',' + (B0 - 7),
+    stroke: 'var(--pos)', 'stroke-width': 2, fill: 'none', 'data-role': 'axis-break' });
+  avoid.push([L, T0, L, B0], [L, B0, R + 8, B0], [X(22.4), T0, X(22.4), B0]);
+
+  /* 8 horizontal bars + aligned IMF annotations to the right of the 22.4 reference line */
+  var xRef = X(22.4);
+  STP_DATA.forEach(function (d, i) {
+    var y = T0 + 8 + i * rowH, mid = y + BH / 2;
+    var xEnd = X(d.vm), bw = Math.max(2, xEnd - L);
+    if (d.vm < 22.4) {
+      add(gBars, 'rect', {
+        x: xEnd, y: y + 3, width: xRef - xEnd, height: BH - 6,
+        fill: 'var(--bad-soft)', stroke: 'none', rx: 2
+      });
+    }
+    var bar = add(gBars, 'rect', {
+      x: L, y: y, width: bw, height: BH, rx: 4,
+      fill: 'var(--s' + d.sc + ')', 'fill-opacity': 0.85,
+      'class': 'rg-bar', 'data-gas': d.id, 'data-vm': d.vm.toFixed(1), 'data-imf': d.imf
+    });
+    bar.setAttribute('data-tip', d.id + '：' + d.vm.toFixed(1) + ' dm³ mol⁻¹ at s.t.p.<br>主要 IMF：' + d.imf);
+    placed.push({ x: L, y: y, w: bw, h: BH });
+
+    var gLab = lab(vsvg, L - 10, mid, d.id, {
+      cands: [[0, 5, 'end']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-b rg-tc' + d.sc
+    });
+    gLab.setAttribute('data-gas', d.id);
+
+    var imfLab = lab(vsvg, xRef + 12, mid, d.vm.toFixed(1) + ' dm³ · ' + d.imf, {
+      cands: [[0, 5, 'start']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-bar-imf'
+    });
+    imfLab.setAttribute('data-gas', d.id);
+    imfLab.setAttribute('data-vm', d.vm.toFixed(1));
+  });
+
+  /* 22.4 reference line label below axis */
+  var refLab = lab(vsvg, xRef, B0 + 42, '竖虚线 = ideal gas at s.t.p.：22.4 dm³ mol⁻¹（IMF 越强，偏离 22.4 越大）', {
+    cands: [[0, 0, 'middle'], [40, 0, 'middle'], [-40, 0, 'middle']], avoid: avoid, placed: placed, pad: 1, cls: 'rg-ideal-lab'
+  });
+  refLab.setAttribute('data-role', 'ref-224-label');
+  K.fit();
+}
+
+/* Tab switching and responsive redraw */
+var DRAW = { zp: drawZ, vm: drawVm };
+$$('.tabbar button[data-tab]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var k = b.getAttribute('data-tab');
+    if (DRAW[k]) DRAW[k]();
+    K.fit();
+  });
+});
+
+syncTUI();
+drawZ();
+
+var lastW = {};
+if (window.ResizeObserver) new ResizeObserver(function () {
+  Object.keys(DRAW).forEach(function (k) {
+    var svg = $('[data-pane="' + k + '"] svg');
+    if (!svg) return;
+    var w = svg.getBoundingClientRect().width;
+    if (!w || Math.abs(w - (lastW[k] || 0)) < 1) return;
+    lastW[k] = w; DRAW[k]();
+  });
+}).observe($root);
+
+$root.__rg = {
+  zAt: function (gasId, T, patm) {
+    var g = GMAP[gasId];
+    var cut = liqCutoff(g, T);
+    var s = solveVdW(g, T, patm);
+    return { Z: s.Z, three: s.three, truncated: !!(cut && patm > cut.p), pCut: cut ? cut.p : null, Tc: g.Tc };
+  },
+  setT: function (T) { S.T = +T; syncTUI(); drawZ(); },
+  probe: function (patm, gasId) { updateProbe(patm, gasId); }
+};
+</script>
