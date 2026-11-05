@@ -7,6 +7,8 @@
 |---|---|---|---|---|
 | 1 | [ch01-atomic-structure](ch01-atomic-structure.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch01-atomic-structure.ipynb) | [打开](https://colab.research.google.com/drive/1rY1FpH39jXLyIfQYKn3OaheFBJJNszFn) | 试点，待确认 |
 | 2 | [ch02-stoichiometry](ch02-stoichiometry.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch02-stoichiometry.ipynb) | [打开](https://colab.research.google.com/drive/1TjG9hzPY8LKOM5lytl7xbiFMuKMBgAWB) | 待确认 |
+| 3 | [ch03-chemical-bonding](ch03-chemical-bonding.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch03-chemical-bonding.ipynb) | [打开](https://colab.research.google.com/drive/1IB-5mkQW0RpRMH-iBwZdOALFi5fXuZ4R) | 待确认 |
+| 4 | [ch04-states-of-matter](ch04-states-of-matter.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch04-states-of-matter.ipynb) | [打开](https://colab.research.google.com/drive/1lVU8VJllwPRYi1usWZMDWe_2PfegcBj9) | 待确认 |
 
 ## 改一章的流程
 

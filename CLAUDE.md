@@ -146,6 +146,10 @@ python tools/check-roadmap-geometry.py
 
 repo 在 Windows 是 `C:\che_note`，在 Linux Mint 是同一个分区挂载的 `/media/lkh/OS/che_note`：
 
+（2026-11 起 `/media/lkh/OS` 所在的 sdb 有故障，Linux 上的工作副本迁到 `/mnt/ai-shared/che_note`，scratch 放 `/mnt/ai-shared/che_tmp/chNN`；
+session 的 cwd 仍会重置回旧路径，每条命令先 `cd`，别往旧路径写。）
+
+
 ```bash
 # Windows (Git Bash)
 CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
@@ -268,6 +272,19 @@ bug 通过了一整轮几何校验和视觉检查。
   驱动（别抢 agy 正在用的那个 playwright-mcp 浏览器）。notebook 在内部容器里滚动，元素截图只拍得到视口内的部分——
   先 `set_viewport_size` 拉到 ~2600px 高再逐 cell 截图；iframe 的 `content_frame()` 能读到 output 文档，用来量高度 / 横向溢出、点按钮。
 - **Colab 输出 iframe 默认 `maxHeight=1000`**：`google.colab.output.setIframeHeight(h, true)` 不传第 3 个参数时会在 1000px 截断并出内层滚动条；`K.fit()` 必须传 `{ maxHeight: 5000 }`，且量 `.k` 的 `getBoundingClientRect().height`（不能量 `documentElement.scrollHeight`，否则收起答案后 iframe 不会缩回）。
+
+- **agy 必须 `--mode auto`**：`--mode accept-edits` 在 headless 下拒绝所有 shell 命令。agy 沙盒里找不到 `~/.local/bin/uv`，跑不了 playwright 测试——agy 的 A / B 只写代码、审图，测试由主 agent 跑。（ch4）
+- 规格、交接、回报不要只放在 /tmp：根分区 `errors=remount-ro` 触发后 /tmp 变只读，Bash 整个失效。放 repo 或 `che_tmp/`。（ch3/ch4）
+- 找本章真题时，除了本章 README 的镜像，还要 grep 各章的 `· chN`：跨章小问只在别章文件里。（ch4）
+- 测试只断言「字不出框」时，字离框边几 px 也全绿；固定宽度的框要另外断言留白（deduce）。两行字的 bbox clash 随 device_scale_factor 变化，debug 用和测试同样的视口。
+- 输入框来回切换求解量时按 4 s.f. 回填（3 s.f. 会漂成 0.999）；输入框要设 min-width，720 px 下三列会把 `617.0` 截成 `617.C`。公式整段换行用 `inline-block`，别用 `nowrap`。（ch4 pv-calc）
+- 颜色 class 的 CSS 写在某个 svg 选择器下时，同一个 class 用到别处（按钮里的线型色块）就没 stroke，静默变空白；marker / 色块的颜色按 id 单独给。round linecap 让 `3.5 3.5` 变成实线状虚线，点线写 `0.5 5`。
+- **K.label 只查标签盒子，不查引线**：引线会穿过别的曲线、指错对象，测试要另断言；两个锚点相距 < 14 px 只能合并成一个标签。K.label 也不管 label 离哪个锚点更近，要给其他点加 keep-out halo 并断言 label 离自己的锚点最近。凡是画出来的线都要进 avoid。
+- playwright 对 SVG 节点用 `inner_text` 会抛 "Node is not an HTMLElement"，用 `text_content`。
+- **整本审图**：Chromium full_page 截图超过 ~8192px 会从头重复拼接，长页按视口分段拍；`check_colab` 的 `all.html` 只拼 HTML cell、不含正文，整本要用 `jupyter nbconvert --to html --no-input --HTMLExporter.theme=light|dark` 渲染后再截。审交互件前先切到「有内容」的状态（hbond 点全部显示、VSEPR 选 H₂O），只拍默认态审不出东西。
+- `build_colab.py`：practice 表格按 `|` 切列时要跳过 `[[a|b]]` 内部；LO 的续行和二级 bullet 按源顺序渲染。这两个 bug 只在合并页审图才抓得到（ch3，已修）。
+- 3D（kit3d）：`K3.tag` 是 `depthTest:false`，被挡住的 atom 符号会印到前面；renderOrder 只给 mesh 设（Group 的会覆盖）；Phong 材质背光面发褐，箭头用 MeshBasicMaterial；WebGL 线宽固定 1px，虚线键改一排短圆柱；单质的 covalent bond 用统一灰色；swiftshader 忙时丢 rAF 帧，「N 帧全不同」放宽成「≥ k 帧不同」。
+- **两章并行共用 `kit3d.js` / `tools/`**：只 stage 自己的 hunk（`git diff -U0 colab/kit/kit3d.js | grep '^@@'`）；别章 commit 了 kit 后，本章已 commit 的 ipynb 就过期了，合并前先 `git log -- colab/kit` 再重 build。多个 headless chromium 并发会互相卡住、check --js 超时，等前一个跑完再起。
 
 ## Commit 节奏
 
