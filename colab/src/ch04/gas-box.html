@@ -104,6 +104,8 @@
 .k .gb-fig .gb-rail{stroke:var(--line);stroke-width:1.5;stroke-dasharray:4 4}
 .k .gb-fig .gb-tick{stroke:var(--faint);stroke-width:1.6}
 .k .gb-fig .gb-piston-g{cursor:ew-resize}
+.k .gb-fig .gb-pis-hit{fill:transparent;pointer-events:all}
+.k .gb-fig .gb-flashes-wall,.k .gb-fig .gb-labs{pointer-events:none}   /* drawn above the piston: must not swallow the drag */
 .k .gb-fig .gb-pis-head{fill:var(--bg);stroke:var(--acc);stroke-width:2.2}
 .k .gb-fig .gb-pis-groove{stroke:var(--line);stroke-width:1.4}
 .k .gb-fig .gb-pis-rod{fill:var(--line);stroke:var(--mut);stroke-width:1.4}
@@ -323,7 +325,9 @@ var pisG1 = K.svg('line', { y1: Y0 + 4, y2: Y1 - 4, 'class': 'gb-pis-groove' });
 var pisG2 = K.svg('line', { y1: Y0 + 4, y2: Y1 - 4, 'class': 'gb-pis-groove' });
 var pisRod = K.svg('rect', { y: Y0 + H_PX / 2 - 7, width: 54, height: 14, rx: 2, 'class': 'gb-pis-rod' });
 var pisGrip = K.svg('rect', { y: Y0 + H_PX / 2 - 24, width: 12, height: 48, rx: 4, 'class': 'gb-pis-grip' });
-gPiston.appendChild(pisRod); gPiston.appendChild(pisHead); gPiston.appendChild(pisG1); gPiston.appendChild(pisG2); gPiston.appendChild(pisGrip);
+/* transparent hit area: head + rod + grip, full chamber height (thin rod alone is hard to grab) */
+var pisHit = K.svg('rect', { y: Y0 - 6, width: 104, height: H_PX + 12, 'class': 'gb-pis-hit' });
+gPiston.appendChild(pisRod); gPiston.appendChild(pisHead); gPiston.appendChild(pisG1); gPiston.appendChild(pisG2); gPiston.appendChild(pisGrip); gPiston.appendChild(pisHit);
 
 function layoutChamber() {
   var Wp = boxWpx(), xR = X0 + Wp;
@@ -338,6 +342,7 @@ function layoutChamber() {
   pisG2.setAttribute('x1', (xR + 12).toFixed(1)); pisG2.setAttribute('x2', (xR + 12).toFixed(1));
   pisRod.setAttribute('x', (xR + 18).toFixed(1));
   pisGrip.setAttribute('x', (xR + 70).toFixed(1));
+  pisHit.setAttribute('x', (xR - 8).toFixed(1));
 
   /* place all SVG text strictly via K.label on the <svg> itself */
   gLabs.innerHTML = '';
@@ -637,19 +642,20 @@ togBars.addEventListener('change', function () {
 });
 
 /* draggable piston in SVG */
-var dragging = false;
+var dragging = false, grabDx = 9;
 function svgX(ev) {
   var r = svg.getBoundingClientRect();
   return ((ev.clientX - r.left) / (r.width || 1)) * 740;
 }
 gPiston.addEventListener('pointerdown', function (ev) {
   dragging = true;
+  grabDx = svgX(ev) - (X0 + boxWpx());   /* keep the grabbed point under the pointer (no jump when grabbing the grip) */
   if (gPiston.setPointerCapture) gPiston.setPointerCapture(ev.pointerId);
   ev.preventDefault();
 });
 window.addEventListener('pointermove', function (ev) {
   if (!dragging) return;
-  var pct = ((svgX(ev) - 9 - X0) / W_MAX_PX) * 100;
+  var pct = ((svgX(ev) - grabDx - X0) / W_MAX_PX) * 100;
   setV(pct);
 });
 window.addEventListener('pointerup', function () { dragging = false; });

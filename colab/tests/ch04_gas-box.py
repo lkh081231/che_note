@@ -285,6 +285,28 @@ with sync_playwright() as p:
         check('dragging SVG piston updates V (> 65%) and keeps particles in bounds',
               v_after_drag > 65 and not dots_in_bounds(), f'V={v_after_drag}')
 
+        # Grab by the handle (grip at xR+70..82) and off the thin rod (above/below it): V follows without a jump
+        scale = svg_box['width'] / 740
+        for what in ('grip', 'above rod'):
+            if what == 'grip':
+                bb = page.locator('.gb-pis-grip').bounding_box()
+                gx, gy = bb['x'] + bb['width'] / 2, bb['y'] + bb['height'] / 2
+            else:
+                bb = page.locator('.gb-pis-rod').bounding_box()
+                gx, gy = bb['x'] + bb['width'] / 2, bb['y'] - 30 * scale
+            v0 = sim_stats()['V']
+            hit_cls = page.evaluate('([x, y]) => document.elementFromPoint(x, y).getAttribute("class")', [gx, gy])
+            page.mouse.move(gx, gy)
+            page.mouse.down()
+            page.mouse.move(gx + 2, gy, steps=2)
+            v_jump = sim_stats()['V']
+            page.mouse.move(gx - 112 * scale, gy, steps=8)
+            page.mouse.up()
+            v1 = sim_stats()['V']
+            check(f'piston hit area covers {what} (class={hit_cls}); grab does not jump, drag −20% follows',
+                  hit_cls == 'gb-pis-hit' and abs(v_jump - v0) <= 2 and 16 <= v0 - v1 <= 24,
+                  f'V {v0} -> {v_jump} -> {v1}')
+
         print('== wall-bars checkbox toggle')
         check('per-wall 1 s bars visible by default', page.is_visible('.gb-wallbars'))
         page.uncheck('.gb-tog-bars')
