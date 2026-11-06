@@ -44,9 +44,21 @@ jobs:
           RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
         run: |
           test -n "$RCLONE_CONF" || { echo "::error::缺少 secret RCLONE_CONF"; exit 1; }
-          mkdir -p ~/.config/rclone
-          printf '%s\n' "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
-          chmod 600 ~/.config/rclone/rclone.conf
+          conf="$RUNNER_TEMP/rclone.conf"
+          # 接受三种写法：完整配置 / 漏了 [gdrive] 行的配置 / 只有 token JSON
+          python3 - "$conf" <<'PY'
+          import os, sys
+          s = os.environ["RCLONE_CONF"].replace("\r", "").strip()
+          if s.startswith("{"):
+              s = "type = drive\nscope = drive\ntoken = " + " ".join(s.split())
+          if "[gdrive]" not in s:
+              s = "[gdrive]\n" + s
+          open(sys.argv[1], "w").write(s + "\n")
+          PY
+          chmod 600 "$conf"
+          echo "RCLONE_CONFIG=$conf" >> "$GITHUB_ENV"
+          echo "配置里的 remote："; RCLONE_CONFIG="$conf" rclone listremotes
+          grep -q '^token = {' "$conf" || echo "::warning::配置里没有 token = {...} 行"
 
       - name: Pick notebooks
         id: pick
