@@ -1,8 +1,12 @@
 """Mechanical checks for colab/chNN-*.ipynb, plus preview pages and a headless JS error scan.
 
-usage: python tools/check_colab.py ch01 [--js]
+usage: python tools/check_colab.py ch01 [--js] [--xref]
   writes $COLAB_TMP/<slug>/cell-<id>.html (one per html cell) and all.html (every html cell stacked)
-  --js  load every preview page in headless Chrome/Chromium and report uncaught errors
+  --js    load every preview page in headless Chrome/Chromium and report uncaught errors
+  --xref  links and the reaction registry (on by default for ch13–ch21): every {{xref}} target anchor
+          exists and has a Drive id, every registry home anchor of this chapter exists, LO references
+          in the registry exist, each "recall the reactions by which … can be produced" LO sits in an
+          md cell with a {{rxn-in}} table, and the built notebook has no unresolved link
 
 Chrome is found as in probe-roadmap-geometry.py: $CHROME → Windows install path → PATH.
 3D cells need WebGL, so the scan uses SwiftShader (--use-angle=swiftshader), not --disable-gpu.
@@ -17,7 +21,7 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_colab import ROOT, COLAB, load_los  # noqa: E402
+from build_colab import ROOT, COLAB, load_los, parse_blocks, drive_ids, nb_name, organic, split_home  # noqa: E402
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
@@ -33,6 +37,70 @@ def chrome():
         if shutil.which(n):
             return shutil.which(n)
     raise SystemExit('No Chrome/Chromium found. Set CHROME=/path/to/chrome.')
+
+
+XREF = re.compile(r'\{\{xref\s+(ch\d\d)?#([\w-]+)')
+
+
+def anchors_of(prefix):
+    src = sorted((COLAB / 'src').glob(f'{prefix}-*.md'))
+    return {a for _, _, a, _ in parse_blocks(src[0])} - {None} if src else set()
+
+
+def lo_exists(ref):
+    """'16.1.2(d)(i)' → LO 16.1.2 exists and (when given) its sub-part (d) is there"""
+    m = re.match(r'^(\d+)\.(\d+)\.(\d+)(?:\(([a-z])\))?', ref)
+    if not m:
+        return False
+    los, _ = load_los(int(m.group(1)))
+    lo = los.get(f'{m.group(1)}.{m.group(2)}.{m.group(3)}')
+    if not lo:
+        return False
+    if not m.group(4):
+        return True
+    t = ' '.join([lo['text']] + lo['subs'] + lo['extra'])
+    return f'({m.group(4)})' in t
+
+
+def check_xref(prefix, nb, fail):
+    print('== links / registry')
+    srcf = sorted((COLAB / 'src').glob(f'{prefix}-*.md'))[0]
+    blocks = parse_blocks(srcf)
+    texts = [t for _, _, _, t in blocks] + [f.read_text(encoding='utf-8') for f in sorted((COLAB / 'src' / prefix).glob('*.html'))]
+    ids, cache, n = drive_ids(), {}, 0
+    for t in texts:
+        for m in XREF.finditer(t):
+            ch, a = m.group(1) or prefix, m.group(2)
+            n += 1
+            if ch not in cache:
+                cache[ch] = anchors_of(ch)
+            if a not in cache[ch]:
+                fail(f'xref {ch}#{a}: no such anchor')
+            if not ids.get(nb_name(ch) or ''):
+                fail(f'xref {ch}#{a}: {ch} has no Drive id in drive-ids.json')
+    org = organic()
+    mine = anchors_of(prefix)
+    homes = [r['home'] for r in org['reactions']] + [t['home'] for t in org.get('tests', [])] + \
+            [c['home'] for c in org['classes'].values()]
+    for h in sorted(set(homes)):
+        ch, a = split_home(h)
+        if ch == prefix and a not in mine:
+            fail(f'registry home {h}: no such anchor in {srcf.name}')
+    chap = int(prefix[2:])
+    for r in org['reactions'] + org.get('tests', []):
+        for ref in r['los']:
+            if ref.startswith(f'{chap}.') and not lo_exists(ref):
+                fail(f'registry {r["id"]}: LO {ref} not in reference.md')
+    los, _ = load_los(chap)
+    for k, lo in los.items():
+        if lo['text'].startswith('recall the reaction'):
+            cell = [t for _, _, _, t in blocks if '{{lo ' + k + '}}' in t]
+            if cell and '{{rxn-in' not in cell[0]:
+                fail(f'LO {k} (how … is produced) has no {{{{rxn-in}}}} table in its md cell')
+    raw = json.dumps(nb, ensure_ascii=False)
+    if '#xref-missing-' in raw:
+        fail(f'{raw.count("#xref-missing-")} unresolved link(s) in the built notebook')
+    print(f'  {n} xrefs, {len(mine)} anchors')
 
 
 def main():
@@ -106,6 +174,9 @@ def main():
             if re.search(r'(?<!\$)\$\$(?!\$)', ln):
                 fail(f'md cell {i}: $$')
     print('  done')
+
+    if '--xref' in sys.argv or 13 <= chapter <= 21:
+        check_xref(prefix, nb, fail)
 
     # 4. preview pages
     tmp = Path(os.environ.get('COLAB_TMP', Path(tempfile.gettempdir()) / 'colab')) / slug

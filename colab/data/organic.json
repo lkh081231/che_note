@@ -1,0 +1,714 @@
+{
+ "_note": "9 本 organic notebook 共用的 reaction registry；build_colab 的 {{rxn-in/out}} / {{org-nav}} 和 ch21 roadmap 都读它。reagents 取 syllabus 措辞；home = 详写这个 reaction 的 cell 锚点。改这里 → 重 build ch13–21。",
+ "classes": {
+  "alkane": {
+   "name": "alkane",
+   "ch": 14,
+   "home": "ch14#alkanes"
+  },
+  "alkene": {
+   "name": "alkene",
+   "ch": 14,
+   "home": "ch14#alkenes"
+  },
+  "co2": {
+   "name": "CO₂ + H₂O（或 CO / C）",
+   "ch": 14,
+   "home": "ch14#rx-combustion"
+  },
+  "cleavage": {
+   "name": "CO₂ / ketone / carboxylic acid（C=C 断开）",
+   "ch": 14,
+   "home": "ch14#rx-kmno4"
+  },
+  "halogenoalkane": {
+   "name": "halogenoalkane",
+   "ch": 15,
+   "home": "ch15#halogenoalkanes"
+  },
+  "alcohol": {
+   "name": "alcohol",
+   "ch": 16,
+   "home": "ch16#alcohols"
+  },
+  "diol": {
+   "name": "diol",
+   "ch": 16,
+   "home": "ch16#alcohols"
+  },
+  "alkoxide": {
+   "name": "sodium alkoxide + H₂",
+   "ch": 16,
+   "home": "ch16#rx-sodium"
+  },
+  "aldehyde": {
+   "name": "aldehyde",
+   "ch": 17,
+   "home": "ch17#carbonyls"
+  },
+  "ketone": {
+   "name": "ketone",
+   "ch": 17,
+   "home": "ch17#carbonyls"
+  },
+  "acid": {
+   "name": "carboxylic acid",
+   "ch": 18,
+   "home": "ch18#acids"
+  },
+  "salt": {
+   "name": "carboxylate salt",
+   "ch": 18,
+   "home": "ch18#rx-acid-reactions"
+  },
+  "ester": {
+   "name": "ester",
+   "ch": 18,
+   "home": "ch18#esters"
+  },
+  "amine": {
+   "name": "amine",
+   "ch": 19,
+   "home": "ch19#amines"
+  },
+  "nitrile": {
+   "name": "nitrile",
+   "ch": 19,
+   "home": "ch19#nitriles"
+  },
+  "hydroxynitrile": {
+   "name": "hydroxynitrile",
+   "ch": 19,
+   "home": "ch19#nitriles"
+  },
+  "hydroxyacid": {
+   "name": "hydroxy carboxylic acid",
+   "ch": 19,
+   "home": "ch19#rx-nitrile-hydrolysis"
+  },
+  "polymer": {
+   "name": "addition polymer",
+   "ch": 20,
+   "home": "ch20#polymers"
+  }
+ },
+ "reactions": [
+  {
+   "id": "hydrogenation",
+   "name": "hydrogenation",
+   "from": "alkene",
+   "to": "alkane",
+   "reagents": "H₂(g) and Pt/Ni catalyst and heat",
+   "type": "addition",
+   "mech": "electrophilic addition",
+   "los": [
+    "14.1.1(a)",
+    "14.2.2(a)(i)"
+   ],
+   "home": "ch14#rx-alkene-add",
+   "home_title": "14.2 B"
+  },
+  {
+   "id": "cracking",
+   "name": "cracking",
+   "from": "alkane",
+   "to": [
+    "alkane",
+    "alkene"
+   ],
+   "reagents": "heat with Al₂O₃",
+   "type": "",
+   "mech": "",
+   "los": [
+    "14.1.1(b)",
+    "14.1.4",
+    "14.2.1(c)"
+   ],
+   "home": "ch14#rx-cracking",
+   "home_title": "14.1 D"
+  },
+  {
+   "id": "alkane-combustion",
+   "name": "complete / incomplete combustion",
+   "from": "alkane",
+   "to": "co2",
+   "reagents": "O₂（excess → CO₂ + H₂O；limited → CO / C）",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "14.1.2(a)",
+    "14.1.6"
+   ],
+   "home": "ch14#rx-combustion",
+   "home_title": "14.1 B"
+  },
+  {
+   "id": "frs",
+   "name": "free-radical substitution",
+   "from": "alkane",
+   "to": "halogenoalkane",
+   "reagents": "Cl₂ or Br₂ in the presence of ultraviolet light",
+   "type": "substitution",
+   "mech": "free-radical substitution",
+   "los": [
+    "14.1.2(b)",
+    "14.1.3",
+    "15.1.1(a)"
+   ],
+   "home": "ch14#rx-frs",
+   "home_title": "14.1 C"
+  },
+  {
+   "id": "steam",
+   "name": "addition of steam",
+   "from": "alkene",
+   "to": "alcohol",
+   "reagents": "H₂O(g) and H₃PO₄ catalyst",
+   "type": "addition",
+   "mech": "electrophilic addition",
+   "los": [
+    "14.2.2(a)(ii)",
+    "16.1.1(a)"
+   ],
+   "home": "ch14#rx-alkene-add",
+   "home_title": "14.2 B"
+  },
+  {
+   "id": "hx-add",
+   "name": "addition of hydrogen halide",
+   "from": "alkene",
+   "to": "halogenoalkane",
+   "reagents": "HX(g), at room temperature",
+   "type": "addition",
+   "mech": "electrophilic addition",
+   "los": [
+    "14.2.2(a)(iii)",
+    "14.2.4",
+    "14.2.5",
+    "15.1.1(b)"
+   ],
+   "home": "ch14#rx-alkene-add",
+   "home_title": "14.2 B"
+  },
+  {
+   "id": "x2-add",
+   "name": "addition of halogen",
+   "from": "alkene",
+   "to": "halogenoalkane",
+   "reagents": "X₂（Br₂(aq) 褪色 = C=C 的测试）",
+   "type": "addition",
+   "mech": "electrophilic addition",
+   "los": [
+    "14.2.2(a)(iv)",
+    "14.2.3",
+    "14.2.4",
+    "15.1.1(b)"
+   ],
+   "home": "ch14#rx-alkene-add",
+   "home_title": "14.2 B"
+  },
+  {
+   "id": "kmno4-cold",
+   "name": "mild oxidation → diol",
+   "from": "alkene",
+   "to": "diol",
+   "reagents": "cold dilute acidified KMnO₄",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "14.2.2(b)",
+    "16.1.1(b)"
+   ],
+   "home": "ch14#rx-kmno4",
+   "home_title": "14.2 C"
+  },
+  {
+   "id": "kmno4-hot",
+   "name": "oxidative cleavage",
+   "from": "alkene",
+   "to": "cleavage",
+   "reagents": "hot concentrated acidified KMnO₄",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "14.2.2(c)"
+   ],
+   "home": "ch14#rx-kmno4",
+   "home_title": "14.2 C"
+  },
+  {
+   "id": "polymerisation",
+   "name": "addition polymerisation",
+   "from": "alkene",
+   "to": "polymer",
+   "reagents": "（syllabus 不要求条件）",
+   "type": "addition",
+   "mech": "",
+   "los": [
+    "14.2.2(d)",
+    "20.1.1"
+   ],
+   "home": "ch20#rx-polymerisation",
+   "home_title": "20.1 A"
+  },
+  {
+   "id": "elimination",
+   "name": "elimination of HX",
+   "from": "halogenoalkane",
+   "to": "alkene",
+   "reagents": "NaOH in ethanol and heat",
+   "type": "elimination",
+   "mech": "",
+   "los": [
+    "14.2.1(a)",
+    "15.1.4"
+   ],
+   "home": "ch15#rx-elimination",
+   "home_title": "15.1 D"
+  },
+  {
+   "id": "dehydration",
+   "name": "dehydration",
+   "from": "alcohol",
+   "to": "alkene",
+   "reagents": "heated catalyst (e.g. Al₂O₃) or a concentrated acid (e.g. concentrated H₂SO₄)",
+   "type": "elimination",
+   "mech": "",
+   "los": [
+    "14.2.1(b)",
+    "16.1.2(e)"
+   ],
+   "home": "ch16#rx-dehydration",
+   "home_title": "16.1 F"
+  },
+  {
+   "id": "hydrolysis-rx",
+   "name": "hydrolysis",
+   "from": "halogenoalkane",
+   "to": "alcohol",
+   "reagents": "NaOH(aq) and heat",
+   "type": "substitution / hydrolysis",
+   "mech": "nucleophilic substitution",
+   "los": [
+    "15.1.3(a)",
+    "16.1.1(c)"
+   ],
+   "home": "ch15#rx-nucsub",
+   "home_title": "15.1 B"
+  },
+  {
+   "id": "kcn",
+   "name": "substitution by CN⁻",
+   "from": "halogenoalkane",
+   "to": "nitrile",
+   "reagents": "KCN in ethanol and heat",
+   "type": "substitution",
+   "mech": "nucleophilic substitution",
+   "los": [
+    "15.1.3(b)",
+    "19.2.1(a)"
+   ],
+   "home": "ch15#rx-nucsub",
+   "home_title": "15.1 B"
+  },
+  {
+   "id": "nh3",
+   "name": "substitution by NH₃",
+   "from": "halogenoalkane",
+   "to": "amine",
+   "reagents": "NH₃ in ethanol heated under pressure",
+   "type": "substitution",
+   "mech": "nucleophilic substitution",
+   "los": [
+    "15.1.3(c)",
+    "19.1.1(a)"
+   ],
+   "home": "ch15#rx-nucsub",
+   "home_title": "15.1 B"
+  },
+  {
+   "id": "halogenation",
+   "name": "substitution → halogenoalkane",
+   "from": "alcohol",
+   "to": "halogenoalkane",
+   "reagents": "HX(g); or KCl and concentrated H₂SO₄ or concentrated H₃PO₄; or PCl₃ and heat; or PCl₅; or SOCl₂",
+   "type": "substitution",
+   "mech": "",
+   "los": [
+    "15.1.1(c)",
+    "16.1.2(b)"
+   ],
+   "home": "ch16#rx-halogenation",
+   "home_title": "16.1 C"
+  },
+  {
+   "id": "alcohol-combustion",
+   "name": "combustion",
+   "from": "alcohol",
+   "to": "co2",
+   "reagents": "O₂",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "16.1.2(a)"
+   ],
+   "home": "ch16#rx-combustion",
+   "home_title": "16.1 B"
+  },
+  {
+   "id": "sodium",
+   "name": "reaction with sodium",
+   "from": "alcohol",
+   "to": "alkoxide",
+   "reagents": "Na(s)",
+   "type": "redox",
+   "mech": "",
+   "los": [
+    "16.1.2(c)",
+    "16.1.5"
+   ],
+   "home": "ch16#rx-sodium",
+   "home_title": "16.1 D"
+  },
+  {
+   "id": "ox-aldehyde",
+   "name": "oxidation of 1° alcohol",
+   "from": "alcohol",
+   "to": "aldehyde",
+   "reagents": "acidified K₂Cr₂O₇ or acidified KMnO₄ and distillation",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "16.1.2(d)(i)",
+    "17.1.1(a)"
+   ],
+   "home": "ch16#rx-oxidation",
+   "home_title": "16.1 E"
+  },
+  {
+   "id": "ox-ketone",
+   "name": "oxidation of 2° alcohol",
+   "from": "alcohol",
+   "to": "ketone",
+   "reagents": "acidified K₂Cr₂O₇ or acidified KMnO₄ and distillation",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "16.1.2(d)(i)",
+    "17.1.1(b)"
+   ],
+   "home": "ch16#rx-oxidation",
+   "home_title": "16.1 E"
+  },
+  {
+   "id": "ox-acid",
+   "name": "oxidation of 1° alcohol (full)",
+   "from": "alcohol",
+   "to": "acid",
+   "reagents": "acidified K₂Cr₂O₇ or acidified KMnO₄ and refluxing",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "16.1.2(d)(ii)",
+    "18.1.1(a)"
+   ],
+   "home": "ch16#rx-oxidation",
+   "home_title": "16.1 E"
+  },
+  {
+   "id": "ox-aldehyde-acid",
+   "name": "oxidation of aldehyde",
+   "from": "aldehyde",
+   "to": "acid",
+   "reagents": "acidified K₂Cr₂O₇ or acidified KMnO₄ and refluxing",
+   "type": "oxidation",
+   "mech": "",
+   "los": [
+    "17.1.5",
+    "18.1.1(a)"
+   ],
+   "home": "ch17#rx-tests",
+   "home_title": "17.1 D"
+  },
+  {
+   "id": "reduction",
+   "name": "reduction",
+   "from": [
+    "aldehyde",
+    "ketone"
+   ],
+   "to": "alcohol",
+   "reagents": "NaBH₄ or LiAlH₄",
+   "type": "reduction",
+   "mech": "",
+   "los": [
+    "16.1.1(d)",
+    "17.1.2(a)"
+   ],
+   "home": "ch17#rx-reduction",
+   "home_title": "17.1 B"
+  },
+  {
+   "id": "hcn",
+   "name": "addition of HCN",
+   "from": [
+    "aldehyde",
+    "ketone"
+   ],
+   "to": "hydroxynitrile",
+   "reagents": "HCN, KCN as catalyst, and heat",
+   "type": "addition",
+   "mech": "nucleophilic addition",
+   "los": [
+    "17.1.2(b)",
+    "17.1.3",
+    "19.2.2(a)"
+   ],
+   "home": "ch17#rx-hcn",
+   "home_title": "17.1 C"
+  },
+  {
+   "id": "acid-reduction",
+   "name": "reduction",
+   "from": "acid",
+   "to": "alcohol",
+   "reagents": "LiAlH₄",
+   "type": "reduction",
+   "mech": "",
+   "los": [
+    "16.1.1(e)",
+    "18.1.2(e)"
+   ],
+   "home": "ch18#rx-acid-reactions",
+   "home_title": "18.1 B"
+  },
+  {
+   "id": "acid-metal",
+   "name": "with reactive metals",
+   "from": "acid",
+   "to": "salt",
+   "reagents": "reactive metal → salt and H₂(g)",
+   "type": "redox",
+   "mech": "",
+   "los": [
+    "18.1.2(a)"
+   ],
+   "home": "ch18#rx-acid-reactions",
+   "home_title": "18.1 B"
+  },
+  {
+   "id": "acid-alkali",
+   "name": "neutralisation",
+   "from": "acid",
+   "to": "salt",
+   "reagents": "alkali → salt and H₂O(l)",
+   "type": "acid–base",
+   "mech": "",
+   "los": [
+    "18.1.2(b)"
+   ],
+   "home": "ch18#rx-acid-reactions",
+   "home_title": "18.1 B"
+  },
+  {
+   "id": "acid-carbonate",
+   "name": "with carbonates",
+   "from": "acid",
+   "to": "salt",
+   "reagents": "carbonate → salt and H₂O(l) and CO₂(g)",
+   "type": "acid–base",
+   "mech": "",
+   "los": [
+    "18.1.2(c)"
+   ],
+   "home": "ch18#rx-acid-reactions",
+   "home_title": "18.1 B"
+  },
+  {
+   "id": "esterification",
+   "name": "esterification",
+   "from": [
+    "acid",
+    "alcohol"
+   ],
+   "to": "ester",
+   "reagents": "concentrated H₂SO₄ as catalyst",
+   "type": "condensation",
+   "mech": "",
+   "los": [
+    "16.1.2(f)",
+    "18.1.2(d)",
+    "18.2.1(a)"
+   ],
+   "home": "ch18#rx-esterification",
+   "home_title": "18.2 A"
+  },
+  {
+   "id": "ester-hydrolysis",
+   "name": "hydrolysis of esters",
+   "from": "ester",
+   "to": [
+    "acid",
+    "alcohol"
+   ],
+   "reagents": "dilute acid or dilute alkali and heat（alkali 之后要 acidification 才得 acid）",
+   "type": "hydrolysis",
+   "mech": "",
+   "los": [
+    "16.1.1(f)",
+    "18.1.1(c)",
+    "18.2.2"
+   ],
+   "home": "ch18#rx-ester-hydrolysis",
+   "home_title": "18.2 B"
+  },
+  {
+   "id": "nitrile-hydrolysis",
+   "name": "hydrolysis of nitriles",
+   "from": "nitrile",
+   "to": "acid",
+   "reagents": "dilute acid or dilute alkali followed by acidification",
+   "type": "hydrolysis",
+   "mech": "",
+   "los": [
+    "18.1.1(b)",
+    "19.2.3"
+   ],
+   "home": "ch19#rx-nitrile-hydrolysis",
+   "home_title": "19.2 B"
+  },
+  {
+   "id": "hydroxynitrile-hydrolysis",
+   "name": "hydrolysis of hydroxynitriles",
+   "from": "hydroxynitrile",
+   "to": "hydroxyacid",
+   "reagents": "dilute acid or dilute alkali followed by acidification",
+   "type": "hydrolysis",
+   "mech": "",
+   "los": [
+    "19.2.3"
+   ],
+   "home": "ch19#rx-nitrile-hydrolysis",
+   "home_title": "19.2 B"
+  }
+ ],
+ "tests": [
+  {
+   "id": "br2-aq",
+   "name": "aqueous bromine",
+   "on": [
+    "alkene"
+   ],
+   "result": "orange → colourless",
+   "los": [
+    "14.2.3"
+   ],
+   "home": "ch14#rx-alkene-add"
+  },
+  {
+   "id": "agno3",
+   "name": "aqueous silver nitrate in ethanol",
+   "on": [
+    "halogenoalkane"
+   ],
+   "result": "white / cream / yellow precipitate；C–I 最快",
+   "los": [
+    "15.1.3(d)",
+    "15.1.7"
+   ],
+   "home": "ch15#rx-agno3"
+  },
+  {
+   "id": "dichromate",
+   "name": "acidified K₂Cr₂O₇（mild oxidation）",
+   "on": [
+    "alcohol",
+    "aldehyde"
+   ],
+   "result": "orange → green（1°、2° alcohol 与 aldehyde）",
+   "los": [
+    "16.1.3(b)",
+    "17.1.5"
+   ],
+   "home": "ch16#rx-oxidation"
+  },
+  {
+   "id": "iodoform",
+   "name": "alkaline I₂(aq)",
+   "on": [
+    "alcohol",
+    "aldehyde",
+    "ketone"
+   ],
+   "result": "yellow precipitate of tri-iodomethane（CH₃CH(OH)– / CH₃CO–）",
+   "los": [
+    "16.1.4",
+    "17.1.6"
+   ],
+   "home": "ch16#rx-iodoform"
+  },
+  {
+   "id": "dnph",
+   "name": "2,4-DNPH",
+   "on": [
+    "aldehyde",
+    "ketone"
+   ],
+   "result": "orange precipitate",
+   "los": [
+    "17.1.4"
+   ],
+   "home": "ch17#rx-tests"
+  },
+  {
+   "id": "tollens",
+   "name": "Tollens' reagent",
+   "on": [
+    "aldehyde"
+   ],
+   "result": "silver mirror（ketone 无变化）",
+   "los": [
+    "17.1.5"
+   ],
+   "home": "ch17#rx-tests"
+  },
+  {
+   "id": "fehling",
+   "name": "Fehling's reagent",
+   "on": [
+    "aldehyde"
+   ],
+   "result": "blue solution → red-brown precipitate（ketone 无变化）",
+   "los": [
+    "17.1.5"
+   ],
+   "home": "ch17#rx-tests"
+  },
+  {
+   "id": "na-fizz",
+   "name": "Na(s)",
+   "on": [
+    "alcohol",
+    "acid"
+   ],
+   "result": "effervescence（H₂）",
+   "los": [
+    "16.1.2(c)",
+    "18.1.2(a)"
+   ],
+   "home": "ch16#rx-sodium"
+  },
+  {
+   "id": "carbonate-fizz",
+   "name": "Na₂CO₃ / NaHCO₃",
+   "on": [
+    "acid"
+   ],
+   "result": "effervescence（CO₂）；alcohol 不反应",
+   "los": [
+    "18.1.2(c)"
+   ],
+   "home": "ch18#rx-acid-reactions"
+  }
+ ]
+}

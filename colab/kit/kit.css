@@ -92,3 +92,9 @@
 .k .stage .hud{position:absolute;left:0;top:0;right:0;font-size:12px;color:var(--mut);pointer-events:none;background:var(--card);padding:4px 8px;border-bottom:1px solid var(--line);z-index:1}
 .k .fallback{display:none}
 .k .fallback.show{display:block}
+/* ChemFig structures from {{chemfig}} (tools/chemfig2svg.py) */
+.k svg.cf{display:inline-block;vertical-align:middle;overflow:visible}
+.k svg.cf .cf-b line{stroke:var(--fg);stroke-width:1.4;stroke-linecap:round}
+.k svg.cf .cf-a{fill:var(--fg);font-size:13px}
+.k a.xref{color:var(--acc);text-decoration:none;border-bottom:1px dotted var(--acc)}
+.k a.xref:hover{border-bottom-style:solid}

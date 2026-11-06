@@ -218,7 +218,7 @@ covalent bond 的本质是两个 atomic orbitals **overlap**，overlap 的区域
 
 数 σ / π：**每一条线（不管单、双、三）都有且只有 1 个 σ**，多出来的才是 π。例：CH₂=C(CH₃)COOCH₃ 有 14 σ、2 π（9701/23 May/June 2025 Q5(b)(i)）。
 
-<!-- html3d: σ 与 π overlap -->
+<!-- html3d: σ 与 π overlap #sigma-pi -->
 {{cell sigma-pi}}
 
 <!-- md -->
@@ -236,7 +236,7 @@ C 的 ground state 是 2s²2p²，只有 2 个 unpaired electron，却能形成 
 - 判断方法：数 C 周围有几个 **electron-pair 区域**（σ bonds + lone pairs）：4 → sp³，3 → sp²，2 → sp。C=C 里的 C：3 个 σ（1 个 C–C + 2 个 C–H）→ **sp²**（9701/21 May/June 2024 Q5(b)(i)）。
 - 同一个分子里可以混着有：propene CH₂=CH–CH₃ 的 C1、C2 是 sp²（C1–C2–C3 在一个平面上、120°），C3 是 sp³（109.5°）。
 
-<!-- html3d: sp / sp² / sp³ hybrid orbitals -->
+<!-- html3d: sp / sp² / sp³ hybrid orbitals #hybrid -->
 {{cell hybrid}}
 
 <!-- md -->

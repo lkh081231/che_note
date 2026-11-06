@@ -14,6 +14,18 @@ Directives:
   {{cell name}}       (alone in an html / html3d slot) the cell body lives in colab/src/chNN/name.html;
                       while that file does not exist yet the notebook gets a "待合并" placeholder card,
                       so the skeleton builds before the cells are written
+  {{xref ch15#sn2 text}} / {{xref #sn2 text}}
+                      link to the cell anchored #sn2 (in ch15 / in this notebook): a Colab Drive URL
+                      with #scrollTo=<cell id>; ids from colab/drive-ids.json
+  {{rxn-in X}} / {{rxn-out X}}   (md) table of the reactions that make / use compound class X,
+                      from colab/data/organic.json, each with a link to the cell that details it
+  {{org-nav}}         (md) ch13–ch21 navigation line + this chapter's neighbours in the registry
+  {{chemfig \\chemfig{...}}}  (html / practice) inline SVG via tools/chemfig2svg.py
+  {{mol3d name}}      (html3d, inside <script>) colab/data/mol/name.sdf as a K3.molecule spec literal
+
+A marker may end in an anchor, '<!-- md #sn2 -->' or '<!-- html: title #sn2-mech -->': the cell id is
+then 'ch15-sn2' instead of the position-based 'ch15-07', so links to it survive inserting cells.
+A cell whose body uses KO. gets colab/kit/kitorg.js (organic structures / curly arrows) inlined.
 
 Cells are written, tested and reviewed one at a time, then merged (see colab/PLAN.md 每章流程):
   python tools/build_colab.py ch02 --cell beams      one cell → $COLAB_TMP/cells/ch02-beams.html
@@ -39,7 +51,7 @@ ROOT = Path(__file__).resolve().parent.parent
 COLAB = ROOT / 'colab'
 KIT = COLAB / 'kit'
 
-MARK = re.compile(r'^<!-- (md|html|html3d|practice)(?::\s*(.*?))?\s*-->\s*$')
+MARK = re.compile(r'^<!-- (md|html|html3d|practice)(?::\s*(.*?))?(?:\s+#([a-z][\w-]*))?\s*-->\s*$')
 CELL = re.compile(r'^\s*\{\{cell\s+([\w-]+)\}\}\s*$')
 PAGE = ('<!DOCTYPE html><html><head><meta charset="utf-8"><title>{t}</title></head>'
         '<body style="margin:12px;background:#eee">\n{b}\n</body></html>\n')
@@ -120,6 +132,157 @@ def data_uri(rel):
     return f'data:{mime};base64,' + base64.b64encode(p.read_bytes()).decode()
 
 
+DRIVE = 'https://colab.research.google.com/drive/'
+MISSING = []          # xref targets without a Drive id / anchor (check_colab --xref fails on them)
+
+
+def drive_ids():
+    f = COLAB / 'drive-ids.json'
+    return json.loads(f.read_text(encoding='utf-8')) if f.exists() else {}
+
+
+def nb_name(prefix):
+    """'ch15' → 'ch15-halogen-compounds.ipynb' (from colab/src)"""
+    src = sorted((COLAB / 'src').glob(f'{prefix}-*.md'))
+    return src[0].stem + '.ipynb' if src else None
+
+
+def xref_url(here, ch, anchor, html_cell=False):
+    """here: this notebook's prefix; ch: target prefix or None (= here)"""
+    ch = ch or here
+    if ch == here and not html_cell:
+        return f'#scrollTo={ch}-{anchor}'
+    nid = drive_ids().get(nb_name(ch) or '')
+    if not nid:
+        MISSING.append(f'{ch}#{anchor}')
+        return f'#xref-missing-{ch}-{anchor}'
+    return f'{DRIVE}{nid}#scrollTo={ch}-{anchor}' if anchor else f'{DRIVE}{nid}'
+
+
+_ORG = None
+
+
+def organic():
+    global _ORG
+    if _ORG is None:
+        f = COLAB / 'data' / 'organic.json'
+        _ORG = json.loads(f.read_text(encoding='utf-8')) if f.exists() else {'classes': {}, 'reactions': []}
+    return _ORG
+
+
+def split_home(h):
+    """'ch16#rx-oxidation' → ('ch16', 'rx-oxidation')"""
+    ch, _, a = h.partition('#')
+    return ch, a
+
+
+def rxn_table(here, cls, way):
+    org = organic()
+    C = org['classes']
+    if cls not in C:
+        raise ValueError(f'rxn-{way}: unknown class {cls}')
+    key = 'to' if way == 'in' else 'from'
+    rows = [r for r in org['reactions'] if cls in (r[key] if isinstance(r[key], list) else [r[key]])]
+    if not rows:
+        raise ValueError(f'rxn-{way} {cls}: no reactions in the registry')
+    other = 'from' if way == 'in' else 'to'
+    head = ('| 起点 | reaction | reagents and conditions | LO | 详见 |' if way == 'in'
+            else '| 产物 | reaction | reagents and conditions | LO | 详见 |')
+    out = [head, '|---|---|---|---|---|']
+    for r in rows:
+        ends = r[other] if isinstance(r[other], list) else [r[other]]
+        names = ', '.join(C[e]['name'] for e in ends)
+        kind = r.get('mech') or r.get('type', '')
+        kind = '' if kind == r['name'] else kind
+        ch, a = split_home(r['home'])
+        label = f'{ch} {r["home_title"]}' if r.get('home_title') else ch
+        link = f'[{label} →]({xref_url(here, ch, a)})'
+        out.append(f'| {names} | {r["name"]}' + (f'<br>{kind}' if kind else '') +
+                   f' | {r["reagents"]} | {" · ".join(r["los"])} | {link} |')
+    return '\n'.join(out)
+
+
+ORG_CH = [(13, 'Intro'), (14, 'Hydrocarbons'), (15, 'Halogen compounds'), (16, 'Hydroxy compounds'),
+          (17, 'Carbonyl compounds'), (18, 'Carboxylic acids'), (19, 'Nitrogen compounds'),
+          (20, 'Polymerisation'), (21, 'Synthesis')]
+
+
+def org_nav(here):
+    n = int(here[2:])
+    items = []
+    for c, t in ORG_CH:
+        p = f'ch{c}'
+        items.append(f'**{c} {t}**' if p == here else f'[{c} {t}]({xref_url(here, p, "")})')
+    org = organic()
+    C = org['classes']
+    mine = {k for k, v in C.items() if v.get('ch') == n}
+    def chs(rs, side):
+        s = set()
+        for r in rs:
+            for e in (r[side] if isinstance(r[side], list) else [r[side]]):
+                if e in C and C[e].get('ch') not in (None, n):
+                    s.add(C[e]['ch'])
+        return sorted(s)
+    def ends(r, k):
+        return set(r[k] if isinstance(r[k], list) else [r[k]])
+    came = chs([r for r in org['reactions'] if ends(r, 'to') & mine], 'from')
+    goes = chs([r for r in org['reactions'] if ends(r, 'from') & mine], 'to')
+    line = '🧭 Organic：' + ' · '.join(items)
+    if came or goes:
+        def lk(cs):
+            return '、'.join(f'[ch{c}]({xref_url(here, f"ch{c}", "")})' for c in cs) or '—'
+        line += f'\n\n本章的 compounds 从 {lk(came)} 来，又变成 {lk(goes)} 里的 compounds。'
+    return line
+
+
+def chemfig_spans(text):
+    """yield (start, end, chemfig source) for every {{chemfig ...}} (braces nest)"""
+    i = 0
+    while True:
+        i = text.find('{{chemfig ', i)
+        if i < 0:
+            return
+        j, depth = i + 2, 0
+        while j < len(text):
+            if text[j] == '{':
+                depth += 1
+            elif text[j] == '}':
+                if depth == 0:
+                    break
+                depth -= 1
+            j += 1
+        if not text.startswith('}}', j):
+            raise ValueError('unclosed {{chemfig')
+        yield i, j + 2, text[i + len('{{chemfig '):j].strip()
+        i = j + 2
+
+
+def expand_chemfig(text):
+    spans = list(chemfig_spans(text))
+    if not spans:
+        return text
+    sys.path.insert(0, str(ROOT / 'tools'))
+    from chemfig2svg import render
+    out, last = [], 0
+    for n, (a, b, src) in enumerate(spans):
+        out.append(text[last:a]); out.append(render(src, f'cf{n}')); last = b
+    return ''.join(out) + text[last:]
+
+
+def sdf_spec(name):
+    """V2000 molfile → {atoms:[{el,p}], bonds:[[i,j,order]]} (coordinates in Å, centred)"""
+    ls = (COLAB / 'data' / 'mol' / f'{name}.sdf').read_text(encoding='utf-8').splitlines()
+    na, nb = int(ls[3][:3]), int(ls[3][3:6])
+    atoms = []
+    for ln in ls[4:4 + na]:
+        x, y, z, el = float(ln[:10]), float(ln[10:20]), float(ln[20:30]), ln[31:34].strip()
+        atoms.append([el, x, y, z])
+    cx, cy, cz = (sum(a[k] for a in atoms) / na for k in (1, 2, 3))
+    bonds = [[int(ln[:3]) - 1, int(ln[3:6]) - 1, int(ln[6:9])] for ln in ls[4 + na:4 + na + nb]]
+    return json.dumps({'atoms': [{'el': a[0], 'p': [round(a[1] - cx, 3), round(a[2] - cy, 3), round(a[3] - cz, 3)]}
+                                 for a in atoms], 'bonds': bonds}, separators=(',', ':'))
+
+
 NUC = re.compile(r'\$\^\{([^}]*)\}_\{([^}]*)\}\\text\{([^}]*)\}\$')
 
 
@@ -185,7 +348,24 @@ def lo_parts_html(lo):
     return ''.join(out)
 
 
-def directives(text, los, notes, kind):
+def directives(text, los, notes, kind, here=None):
+    if here:
+        text = re.sub(r'\{\{xref\s+(ch\d\d)?#([\w-]+)(?:\s+([^}]*?))?\s*\}\}',
+                      lambda m: (f'[{m.group(3) or m.group(1) or "→"}]({xref_url(here, m.group(1), m.group(2))})'
+                                 if kind == 'md' else
+                                 f'<a class="xref" href="{xref_url(here, m.group(1), m.group(2), True)}" target="_blank" '
+                                 f'rel="noopener">{inline_html(m.group(3) or m.group(1) or "→")}</a>'), text)
+        if kind == 'md':
+            text = re.sub(r'\{\{rxn-(in|out)\s+([\w-]+)\}\}', lambda m: rxn_table(here, m.group(2), m.group(1)), text)
+            text = text.replace('{{org-nav}}', org_nav(here)) if '{{org-nav}}' in text else text
+        elif re.search(r'\{\{(rxn-|org-nav)', text):
+            raise ValueError('{{rxn-…}} / {{org-nav}} are for md cells only')
+        text = re.sub(r'\{\{mol3d\s+([\w-]+)\}\}', lambda m: sdf_spec(m.group(1)), text)
+    if '{{chemfig ' in text:
+        if kind == 'md':
+            raise ValueError('{{chemfig}} is for html cells only (inline SVG in Colab markdown is untested)')
+        text = expand_chemfig(text)
+
     def rep(m):
         name, arg = m.group(1), (m.group(2) or '').strip()
         if name == 'lo':
@@ -298,6 +478,8 @@ def assemble(body, cid, three):
     parts = [f'<style>{kit_css}</style>', f'<div class="k" id="{cid}">\n{body}\n</div>', f'<script>{kit_js}</script>']
     if three:
         parts.append(f'<script>{(KIT / "kit3d.js").read_text(encoding="utf-8")}</script>')
+    if re.search(r'\bKO\.', '\n'.join(scripts)) and (KIT / 'kitorg.js').exists():
+        parts.append(f'<script>{(KIT / "kitorg.js").read_text(encoding="utf-8")}</script>')
     js = '\n'.join(scripts)
     parts.append(f'<script>(function($root){{\n{js}\nK.init($root);\n}})(document.getElementById("{cid}"));</script>')
     return '\n'.join(parts)
@@ -357,6 +539,22 @@ def code_cell(title, page, cid):
                          'data': {'text/html': lines_of(page), 'text/plain': ['<IPython.core.display.HTML object>']}}]}
 
 
+def parse_blocks(src):
+    """[(kind, title, anchor, text)] of a colab/src/chNN-*.md file"""
+    blocks, kind, title, anchor, buf = [], None, None, None, []
+    for ln in Path(src).read_text(encoding='utf-8').splitlines():
+        m = MARK.match(ln)
+        if m:
+            if kind:
+                blocks.append((kind, title, anchor, '\n'.join(buf)))
+            kind, title, anchor, buf = m.group(1), m.group(2), m.group(3), []
+        elif kind:
+            buf.append(ln)
+    if kind:
+        blocks.append((kind, title, anchor, '\n'.join(buf)))
+    return blocks
+
+
 def build(slug_prefix):
     src = sorted((COLAB / 'src').glob(f'{slug_prefix}-*.md'))
     if not src:
@@ -366,31 +564,25 @@ def build(slug_prefix):
     chapter = int(re.match(r'ch(\d+)', slug).group(1))
     los, notes = load_los(chapter)
 
-    blocks, kind, title, buf = [], None, None, []
-    for ln in src.read_text(encoding='utf-8').splitlines():
-        m = MARK.match(ln)
-        if m:
-            if kind:
-                blocks.append((kind, title, '\n'.join(buf)))
-            kind, title, buf = m.group(1), m.group(2), []
-        elif kind:
-            buf.append(ln)
-    if kind:
-        blocks.append((kind, title, '\n'.join(buf)))
-
+    blocks = parse_blocks(src)
+    here = slug[:4]
+    seen = set()
     cells = []
-    for n, (kind, title, text) in enumerate(blocks, 1):
-        cid = f'{slug[:4]}-{n:02d}'
+    for n, (kind, title, anchor, text) in enumerate(blocks, 1):
+        cid = f'{here}-{anchor}' if anchor else f'{here}-{n:02d}'
+        if cid in seen:
+            raise SystemExit(f'duplicate cell id {cid}')
+        seen.add(cid)
         if kind == 'md' and text.strip() == '{{lo-checklist}}':
             page = assemble(checklist_body(los, slug[:4]), 'k-' + cid, False)
             cells.append(code_cell('✅ Learning outcomes 自查清单', page, cid))
         elif kind == 'md':
-            cells.append(md_cell(directives(text, los, notes, 'md'), cid))
+            cells.append(md_cell(directives(text, los, notes, 'md', here), cid))
         elif kind == 'practice':
-            body = practice_html(directives(text, los, notes, 'html'))
+            body = practice_html(directives(text, los, notes, 'html', here))
             cells.append(code_cell('📝 ' + title, assemble(body, 'k-' + cid, False), cid))
         else:
-            body = directives(cell_body(slug, text, title), los, notes, 'html')
+            body = directives(cell_body(slug, text, title), los, notes, 'html', here)
             cells.append(code_cell(('🧊 ' if kind == 'html3d' else '🔬 ') + title,
                                    assemble(body, 'k-' + cid, kind == 'html3d'), cid))
 
@@ -401,7 +593,9 @@ def build(slug_prefix):
           'cells': cells}
     out = COLAB / f'{slug}.ipynb'
     out.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + '\n', encoding='utf-8', newline='\n')
-    print(f'{out.relative_to(ROOT)}: {len(cells)} cells, {out.stat().st_size // 1024} KB')
+    print(f'{out.relative_to(ROOT)}: {len(cells)} cells, {out.stat().st_size // 1024} KB'
+          + (f'  ({len(MISSING)} xref without Drive id: {", ".join(sorted(set(MISSING))[:6])}…)' if MISSING else ''))
+    MISSING.clear()
 
 
 def build_cell(slug_prefix, name, three):
@@ -412,7 +606,7 @@ def build_cell(slug_prefix, name, three):
     if not f.exists():
         raise SystemExit(f'no {f.relative_to(ROOT)}')
     los, notes = load_los(int(re.match(r'ch(\d+)', slug).group(1)))
-    body = directives(f.read_text(encoding='utf-8'), los, notes, 'html')
+    body = directives(f.read_text(encoding='utf-8'), los, notes, 'html', slug[:4])
     out = Path(os.environ.get('COLAB_TMP', '/tmp/colab')) / 'cells' / f'{slug[:4]}-{name}.html'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(PAGE.format(t=name, b=assemble(body, f'k-{slug[:4]}-{name}', three)), encoding='utf-8')
