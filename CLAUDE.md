@@ -284,6 +284,11 @@ bug 通过了一整轮几何校验和视觉检查。
 - **整本审图**：Chromium full_page 截图超过 ~8192px 会从头重复拼接，长页按视口分段拍；`check_colab` 的 `all.html` 只拼 HTML cell、不含正文，整本要用 `jupyter nbconvert --to html --no-input --HTMLExporter.theme=light|dark` 渲染后再截。审交互件前先切到「有内容」的状态（hbond 点全部显示、VSEPR 选 H₂O），只拍默认态审不出东西。
 - `build_colab.py`：practice 表格按 `|` 切列时要跳过 `[[a|b]]` 内部；LO 的续行和二级 bullet 按源顺序渲染。这两个 bug 只在合并页审图才抓得到（ch3，已修）。
 - 3D（kit3d）：`K3.tag` 是 `depthTest:false`，被挡住的 atom 符号会印到前面；renderOrder 只给 mesh 设（Group 的会覆盖）；Phong 材质背光面发褐，箭头用 MeshBasicMaterial；WebGL 线宽固定 1px，虚线键改一排短圆柱；单质的 covalent bond 用统一灰色；swiftshader 忙时丢 rAF 帧，「N 帧全不同」放宽成「≥ k 帧不同」。
+- **跨 notebook 跳转（organic，2026-11-07 实测）**：Colab markdown 会剥掉内联 `<svg>`（结构式只能放 html cell）；本 notebook 内
+  `[x](#scrollTo=<cell id>)` 能滚到，`#heading` 锚点不行；跨 notebook 的 `…/drive/<id>#scrollTo=<cell id>` 打开后**只选中**目标 cell、
+  目录高亮，不一定滚过去（懒渲染，scroller 只滚了 48 px）→ 锚点放在带 `##`/`###` heading 的 md cell 上，目录里点一下就到。
+  output iframe 的 sandbox 有 `allow-popups(-to-escape-sandbox)`、没有 `allow-top-navigation`：iframe 里链接只能 `target="_blank"`。
+  build 的写法：marker 末尾 `#锚点` → cell id `chNN-锚点`；`{{xref chNN#锚点 文字}}`；ID 取 `colab/drive-ids.json`。
 - **两章并行共用 `kit3d.js` / `tools/`**：只 stage 自己的 hunk（`git diff -U0 colab/kit/kit3d.js | grep '^@@'`）；别章 commit 了 kit 后，本章已 commit 的 ipynb 就过期了，合并前先 `git log -- colab/kit` 再重 build。多个 headless chromium 并发会互相卡住、check --js 超时，等前一个跑完再起。
 
 ## Commit 节奏
