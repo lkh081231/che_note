@@ -16,7 +16,11 @@
 python tools/build_colab.py ch01                 # colab/src/ch01-*.md → colab/ch01-*.ipynb
 export COLAB_TMP=/tmp/colab                       # 预览页放这里，不进 repo
 python tools/check_colab.py ch01 --js             # 结构 / LO 逐字 / 禁用写法 / 无头 JS 报错
-rclone copyto colab/ch01-atomic-structure.ipynb "gdrive:Colab Notebooks/che_note/ch01-atomic-structure.ipynb"
+rclone copyto colab/ch01-atomic-structure.ipynb "gdrive:Colab Notebooks/che_note/ch01-atomic-structure.ipynb"   # 手动同步（push 后 Action 会自动做）
 ```
+
+push 到 `main` 后，GitHub Action [`sync-drive.yml`](../.github/workflows/sync-drive.yml) 会把改过的 `colab/chNN-*.ipynb` 推到 Drive，
+**原地替换**同名文件（file ID 不变，上表链接一直有效），再按 `drive-ids.json` 核对 ID：对不上就失败，新章会在 summary 里给出 ID。
+Actions 页的 *Run workflow* 可以手动推全部。需要 repo secret `RCLONE_CONF`，内容是 `rclone config show gdrive` 的完整输出。
 
 不要在 Colab 里直接改 notebook——改 `colab/src/` 再 build。
