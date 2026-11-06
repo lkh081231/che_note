@@ -82,6 +82,29 @@ def paper_key(stem):
         f'9701/{m.group(3)} {SESS[m.group(1)][1]} 20{m.group(2)}'
 
 
+def fences(lines):
+    """practice cells have no fenced blocks: a ```tikz drawing is dropped (the answer text describes it),
+    any other fence becomes one <pre> line"""
+    out, buf, kind = [], None, None
+    for l in lines:
+        if l.strip().startswith('```'):
+            if buf is None:
+                buf, kind = [], l.strip()[3:].strip()
+            else:
+                if kind == 'tikz':
+                    out.append('（结构图见 mark scheme）')
+                else:
+                    out.append('<pre>' + '<br>'.join(html_esc(b) for b in buf) + '</pre>')
+                buf = None
+            continue
+        (buf if buf is not None else out).append(l)
+    return out
+
+
+def html_esc(t):
+    return t.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
 def block(q, part, marks, ctx, body, shown):
     """shown: stems already printed for this question (a shared stem is printed once)"""
     lines = []
@@ -99,7 +122,7 @@ def block(q, part, marks, ctx, body, shown):
         (ans if inans else lines).append(l)
     if ans:
         lines += ['::: answer'] + [a for a in ans] + [':::']
-    return '\n'.join(latex_plain(x) for x in lines)
+    return '\n'.join(latex_plain(x) for x in fences(lines))
 
 
 def main():

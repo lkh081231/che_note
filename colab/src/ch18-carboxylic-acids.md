@@ -118,19 +118,9 @@ QP 上实际是 (c)(iii)，以 QP 为准）
 - U = ethyl 2-methylbutanoate，CH₃CH₂CH(CH₃)COOCH₂CH₃（与 (c)(i) 的 7 个碳、S 的 2-methylbutanoic
   acid 结构一致）
 
-```tikz
-\usepackage{chemfig}
-\begin{document}
-T: \chemfig{HO-CH_2-CH_3}
-\end{document}
-```
+（结构图见 mark scheme）
 
-```tikz
-\usepackage{chemfig}
-\begin{document}
-U: \chemfig{CH_3CH_2-CH(-[2]CH_3)-C(=[2]O)-O-CH_2CH_3}
-\end{document}
-```
+（结构图见 mark scheme）
 
 **判分** — T、U 各 1 分
 
