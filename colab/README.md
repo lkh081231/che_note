@@ -9,6 +9,19 @@
 | 2 | [ch02-stoichiometry](ch02-stoichiometry.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch02-stoichiometry.ipynb) | [打开](https://colab.research.google.com/drive/1TjG9hzPY8LKOM5lytl7xbiFMuKMBgAWB) | 待确认 |
 | 3 | [ch03-chemical-bonding](ch03-chemical-bonding.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch03-chemical-bonding.ipynb) | [打开](https://colab.research.google.com/drive/1IB-5mkQW0RpRMH-iBwZdOALFi5fXuZ4R) | 待确认 |
 | 4 | [ch04-states-of-matter](ch04-states-of-matter.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch04-states-of-matter.ipynb) | [打开](https://colab.research.google.com/drive/1lVU8VJllwPRYi1usWZMDWe_2PfegcBj9) | 待确认 |
+| 13 | [ch13-organic-intro](ch13-organic-intro.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch13-organic-intro.ipynb) | [打开](https://colab.research.google.com/drive/1_JofApUgXxwid6EAt2ecO9_nFcqUflZe) | 框架（交互 cell 待做） |
+| 14 | [ch14-hydrocarbons](ch14-hydrocarbons.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch14-hydrocarbons.ipynb) | [打开](https://colab.research.google.com/drive/10uq0QFZnHK9NPDSSsCmw7w3-66mo9ltw) | 框架（交互 cell 待做） |
+| 15 | [ch15-halogen-compounds](ch15-halogen-compounds.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch15-halogen-compounds.ipynb) | [打开](https://colab.research.google.com/drive/16jDQ0vRcndaJ9WwShvAMR9thtMUQgZjW) | 框架（交互 cell 待做） |
+| 16 | [ch16-hydroxy-compounds](ch16-hydroxy-compounds.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch16-hydroxy-compounds.ipynb) | [打开](https://colab.research.google.com/drive/1BbydntDQs6k-6_7fH6qmErxAyDS8GeDh) | 框架（交互 cell 待做） |
+| 17 | [ch17-carbonyl-compounds](ch17-carbonyl-compounds.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch17-carbonyl-compounds.ipynb) | [打开](https://colab.research.google.com/drive/10P0lQfoNh6lRy7HRbjJZxH7AnzI4V3vL) | 框架（交互 cell 待做） |
+| 18 | [ch18-carboxylic-acids](ch18-carboxylic-acids.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch18-carboxylic-acids.ipynb) | [打开](https://colab.research.google.com/drive/1gxHJxFjn1RQSXR5y5n5CSeW5q82c6-6E) | 框架（交互 cell 待做） |
+| 19 | [ch19-nitrogen-compounds](ch19-nitrogen-compounds.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch19-nitrogen-compounds.ipynb) | [打开](https://colab.research.google.com/drive/1jADi344pS-tjQUWCfK0JOYxOhl7KLkVk) | 框架（交互 cell 待做） |
+| 20 | [ch20-polymerisation](ch20-polymerisation.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch20-polymerisation.ipynb) | [打开](https://colab.research.google.com/drive/1CjNVd9s3Kk67lxilUXDF5TvIdrg-h8PG) | 框架（交互 cell 待做） |
+| 21 | [ch21-organic-synthesis](ch21-organic-synthesis.ipynb) | [打开](https://colab.research.google.com/github/lkh081231/che_note/blob/main/colab/ch21-organic-synthesis.ipynb) | [打开](https://colab.research.google.com/drive/1N3vXBeuMBo9YySp5orLiJjgbQP7NgI5W) | 框架（交互 cell 待做） |
+
+organic（ch13–21）的 9 本互相链接：跨章引用写成 `{{xref chNN#锚点 文字}}`，build 成带 `#scrollTo=` 的 Drive 链接；
+reaction 的 reagent / condition 统一取自 [`data/organic.json`](data/organic.json)（`{{rxn-in X}}` / `{{rxn-out X}}` 生成表格，同一个 reaction 只在 home 章详写）。
+改了 registry 要重 build 全部 9 本。
 
 ## 改一章的流程
 

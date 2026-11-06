@@ -22,6 +22,7 @@ Directives:
   {{org-nav}}         (md) ch13–ch21 navigation line + this chapter's neighbours in the registry
   {{chemfig \\chemfig{...}}}  (html / practice) inline SVG via tools/chemfig2svg.py
   {{mol3d name}}      (html3d, inside <script>) colab/data/mol/name.sdf as a K3.molecule spec literal
+  {{org-json}}        (html, inside <script>) the registry + {chNN: Drive id} as a JS object literal
 
 A marker may end in an anchor, '<!-- md #sn2 -->' or '<!-- html: title #sn2-mech -->': the cell id is
 then 'ch15-sn2' instead of the position-based 'ch15-07', so links to it survive inserting cells.
@@ -207,6 +208,18 @@ ORG_CH = [(13, 'Intro'), (14, 'Hydrocarbons'), (15, 'Halogen compounds'), (16, '
           (20, 'Polymerisation'), (21, 'Synthesis')]
 
 
+def org_json():
+    """registry + Drive ids as a JS literal, for cells that draw the reaction network themselves"""
+    ids = {}
+    for c, _ in ORG_CH:
+        nid = drive_ids().get(nb_name(f'ch{c}') or '')
+        if nid:
+            ids[f'ch{c}'] = nid
+    o = organic()
+    return json.dumps({'classes': o['classes'], 'reactions': o['reactions'], 'tests': o.get('tests', []), 'ids': ids},
+                      ensure_ascii=False, separators=(',', ':'))
+
+
 def org_nav(here):
     n = int(here[2:])
     items = []
@@ -361,6 +374,8 @@ def directives(text, los, notes, kind, here=None):
         elif re.search(r'\{\{(rxn-|org-nav)', text):
             raise ValueError('{{rxn-…}} / {{org-nav}} are for md cells only')
         text = re.sub(r'\{\{mol3d\s+([\w-]+)\}\}', lambda m: sdf_spec(m.group(1)), text)
+        if '{{org-json}}' in text:
+            text = text.replace('{{org-json}}', org_json())
     if '{{chemfig ' in text:
         if kind == 'md':
             raise ValueError('{{chemfig}} is for html cells only (inline SVG in Colab markdown is untested)')
