@@ -34,11 +34,6 @@ jobs:
           curl -fsSL https://rclone.org/install.sh | sudo bash || command -v rclone   # install.sh 在已装时返回非 0
           rclone version | head -1
 
-      - name: Check Drive access
-        run: |
-          rclone lsd "gdrive:Colab Notebooks/che_note" --max-depth 1 2> err.txt >/dev/null || {
-            echo "::error title=rclone 连不上 Drive::$(grep -v NOTICE err.txt | tail -3 | tr '\n' ' ')"; exit 1; }
-
       - name: Write rclone config
         env:
           RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
@@ -76,6 +71,11 @@ jobs:
           echo "RCLONE_CONFIG=$conf" >> "$GITHUB_ENV"
           echo "配置里的 remote："; RCLONE_CONFIG="$conf" rclone listremotes
           grep -q '^token = {' "$conf" || echo "::warning::配置里没有 token = {...} 行"
+
+      - name: Check Drive access
+        run: |
+          rclone lsd "gdrive:Colab Notebooks/che_note" --max-depth 1 2> err.txt >/dev/null || {
+            echo "::error title=rclone 连不上 Drive::$(grep -v NOTICE err.txt | tail -3 | tr '\n' ' ')"; exit 1; }
 
       - name: Pick notebooks
         id: pick
