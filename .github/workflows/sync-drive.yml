@@ -47,13 +47,30 @@ jobs:
           conf="$RUNNER_TEMP/rclone.conf"
           # 接受三种写法：完整配置 / 漏了 [gdrive] 行的配置 / 只有 token JSON
           python3 - "$conf" <<'PY'
-          import os, sys
-          s = os.environ["RCLONE_CONF"].replace("\r", "").strip()
-          if s.startswith("{"):
-              s = "type = drive\nscope = drive\ntoken = " + " ".join(s.split())
-          if "[gdrive]" not in s:
-              s = "[gdrive]\n" + s
-          open(sys.argv[1], "w").write(s + "\n")
+          import os, re, sys
+          raw = os.environ["RCLONE_CONF"].replace("\r", "")
+          s = raw.strip()
+          if s.startswith("{"):                                   # 只有 token JSON
+              s = "token = " + " ".join(s.split())
+          keep, dropped, sect = [], 0, None
+          for line in s.splitlines():
+              t = line.strip()
+              m = re.fullmatch(r"\[([^\]]+)\]", t)
+              if m:
+                  sect = m.group(1); continue
+              if sect not in (None, "gdrive"):                    # 别的 remote 段一律不要
+                  continue
+              if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*\s*=.*", t):
+                  keep.append(t)
+              elif t:
+                  dropped += 1                                    # NOTICE、提示符、cwd 提示等杂行
+          keys = [k.split("=")[0].strip() for k in keep]
+          if "type" not in keys: keep.insert(0, "type = drive")
+          if "scope" not in keys: keep.insert(1, "scope = drive")
+          open(sys.argv[1], "w").write("[gdrive]\n" + "\n".join(keep) + "\n")
+          print(f"secret 共 {len(raw.splitlines())} 行；保留 key：{', '.join(keys) or '（无）'}；丢掉 {dropped} 行杂行")
+          if "token" not in keys:
+              print("::error::secret 里找不到 token = {...}"); sys.exit(1)
           PY
           chmod 600 "$conf"
           echo "RCLONE_CONFIG=$conf" >> "$GITHUB_ENV"
