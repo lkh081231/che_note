@@ -1,0 +1,945 @@
+<h3>IUPAC 命名练习与四步拆解</h3>
+<p class="mut">按「① principal functional group → ② 最长链 → ③ 最小 locant 编号 → ④ substituent 字母序」练习系统命名，或点<b>看解析</b>在 skeletal formula 上逐步高亮对照（共 34 题，含 LO 13.3.1 骨架分类）。</p>
+
+<div class="tabbar nm-modes">
+  <button type="button" class="on" data-mode="write">① 看结构写名字</button>
+  <button type="button" data-mode="pick">② 看名字选结构</button>
+</div>
+
+<div class="row nm-nav">
+  <select class="nm-cat" aria-label="按类别筛选">
+    <option value="all">全部类别（34 题）</option>
+    <option value="alkane">alkane（5）</option>
+    <option value="alkene">alkene（3）</option>
+    <option value="halogenoalkane">halogenoalkane（3）</option>
+    <option value="alcohol_diol">alcohol / diol（4）</option>
+    <option value="carbonyl">aldehyde / ketone（5）</option>
+    <option value="acid_ester">carboxylic acid / ester（7）</option>
+    <option value="n_comp">amine / nitrile（5）</option>
+    <option value="cyclic">cyclic 骨架（2）</option>
+  </select>
+  <button type="button" class="nm-prev">← 上一题</button>
+  <select class="nm-jmp" aria-label="选择题目"></select>
+  <button type="button" class="nm-next">下一题 →</button>
+  <button type="button" class="nm-rand">随机</button>
+  <span class="nm-score">得分 <b class="nm-sc-ok">0</b> / <span class="nm-sc-n">0</span></span>
+</div>
+
+<div class="nm-wbox">
+  <div class="card nm-stage-card">
+    <div class="nm-meta">
+      <span class="nm-qtag"></span>
+      <span class="nm-fbadge"></span>
+    </div>
+    <div class="nm-stage"></div>
+    <div class="nm-leg" hidden></div>
+  </div>
+
+  <div class="nm-inwrap">
+    <div class="row nm-inrow">
+      <label class="nm-inlbl" for="nm-inp">IUPAC name</label>
+      <input type="text" id="nm-inp" class="nm-in" placeholder="例如 but-2-ene、ethyl propanoate" autocomplete="off" spellcheck="false">
+      <button type="button" class="nm-go on">判分</button>
+      <button type="button" class="nm-walk-toggle">看解析</button>
+    </div>
+    <div class="row nm-crow">
+      <span class="faint">LO 13.3.1 碳骨架自测：</span>
+      <span class="nm-cchips">
+        <button type="button" data-ch="straight">straight-chained</button>
+        <button type="button" data-ch="branched">branched</button>
+        <button type="button" data-ch="cyclic">cyclic</button>
+      </span>
+      <span class="nm-cfb faint"></span>
+    </div>
+  </div>
+
+  <div class="card nm-cybox" hidden>
+    <div class="nm-cyq"><b>LO 13.3.1 碳骨架分类</b>（cycloalkane 只要求判断骨架类型，不要求默写名称）：上方分子属于哪一类？</div>
+    <div class="row nm-cybtns">
+      <button type="button" data-cy="straight">straight-chained</button>
+      <button type="button" data-cy="branched">branched</button>
+      <button type="button" data-cy="cyclic">cyclic</button>
+      <button type="button" class="nm-walk-toggle2">看解析</button>
+    </div>
+  </div>
+</div>
+
+<div class="nm-pbox" hidden>
+  <div class="card nm-phead">
+    <div class="row nm-phead-row">
+      <div class="nm-pq"></div>
+      <button type="button" class="nm-walk-toggle3">看解析</button>
+    </div>
+  </div>
+  <div class="nm-opts"></div>
+</div>
+
+<div class="nm-fb" hidden></div>
+
+<div class="card nm-walk" hidden>
+  <div class="row nm-wbar">
+    <span class="nm-wtitle">四步拆解</span>
+    <div class="nm-stepbtns">
+      <button type="button" data-st="1">① Functional group</button>
+      <button type="button" data-st="2">② 最长链</button>
+      <button type="button" data-st="3">③ 编号 C1…Cn</button>
+      <button type="button" data-st="4">④ 拼出名字</button>
+    </div>
+    <button type="button" class="nm-stnext">下一步 →</button>
+  </div>
+  <div class="nm-walk-fig" hidden>
+    <div class="nm-walk-stage"></div>
+    <div class="nm-walk-leg"></div>
+  </div>
+  <ol class="nm-steps"></ol>
+  <div class="nm-built" hidden></div>
+</div>
+
+<div class="ko-src" hidden>
+  <div data-sid="s0">{{chemfig \chemfig{-[:30](-[:90])-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s1">{{chemfig \chemfig{-[:30]-[:-30](-[:-90])-[:30]-[:-30]}}}</div>
+  <div data-sid="s2">{{chemfig \chemfig{-[:30](-[:90])-[:-30]-[:30]}}}</div>
+  <div data-sid="s3">{{chemfig \chemfig{-[:30](-[:90])-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s4">{{chemfig \chemfig{-[:30](-[:90])-[:-30](-[:-90]-[:-30])-[:30]-[:-30]}}}</div>
+  <div data-sid="s5">{{chemfig \chemfig{-[:30](-[:90]-[:30])-[:-30](-[:-90])-[:30]-[:-30]}}}</div>
+  <div data-sid="s6">{{chemfig \chemfig{-[:30]-[:-30](-[:-120])(-[:-60]-[:-120])-[:30]-[:-30]}}}</div>
+  <div data-sid="s7">{{chemfig \chemfig{-[:30](-[:90])-[:-30](-[:-90])-[:30]-[:-30]}}}</div>
+  <div data-sid="s8">{{chemfig \chemfig{-[:30](-[:120])(-[:60])-[:-30](-[:-90])-[:30]-[:-30]}}}</div>
+  <div data-sid="s9">{{chemfig \chemfig{-[:30](-[:90])-[:-30](-[:-120])(-[:-60])-[:30]-[:-30]}}}</div>
+  <div data-sid="s10">{{chemfig \chemfig{-[:30](-[:120])(-[:60])-[:-30]-[:30](-[:90])-[:-30]}}}</div>
+  <div data-sid="s11">{{chemfig \chemfig{-[:30](-[:90])-[:-30]}}}</div>
+  <div data-sid="s12">{{chemfig \chemfig{-[:30](-[:120])(-[:60])-[:-30]-[:30]}}}</div>
+  <div data-sid="s13">{{chemfig \chemfig{-[:30]=[:-30]-[:30]}}}</div>
+  <div data-sid="s14">{{chemfig \chemfig{=[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s15">{{chemfig \chemfig{-[:30]=[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s16">{{chemfig \chemfig{=[:30](-[:90])-[:-30]}}}</div>
+  <div data-sid="s17">{{chemfig \chemfig{=[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s18">{{chemfig \chemfig{=[:30]-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s19">{{chemfig \chemfig{=[:30](-[:90])-[:-30]-[:30]}}}</div>
+  <div data-sid="s20">{{chemfig \chemfig{-[:30](-[:90]Cl)-[:-30]}}}</div>
+  <div data-sid="s21">{{chemfig \chemfig{Cl-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s22">{{chemfig \chemfig{-[:30](-[:90]Cl)-[:-30]-[:30]}}}</div>
+  <div data-sid="s23">{{chemfig \chemfig{-[:30](-[:120]Cl)(-[:60]Cl)-[:-30]}}}</div>
+  <div data-sid="s24">{{chemfig \chemfig{-[:30](-[:90]Br)-[:-30](-[:-120]Cl)(-[:-60]Cl)-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s25">{{chemfig \chemfig{-[:30](-[:120]Cl)(-[:60]Cl)-[:-30](-[:-90]Br)-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s26">{{chemfig \chemfig{-[:30](-[:90]Br)-[:-30]-[:30](-[:120]Cl)(-[:60]Cl)-[:-30]-[:30]}}}</div>
+  <div data-sid="s27">{{chemfig \chemfig{-[:30](-[:90]Br)-[:-30](-[:-90]Cl)-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s28">{{chemfig \chemfig{I-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s29">{{chemfig \chemfig{-[:30](-[:90]I)-[:-30]-[:30]}}}</div>
+  <div data-sid="s30">{{chemfig \chemfig{I-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s31">{{chemfig \chemfig{I-[:30]-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s32">{{chemfig \chemfig{-[:30](-[:90]OH)-[:-30]-[:30]}}}</div>
+  <div data-sid="s33">{{chemfig \chemfig{HO-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s34">{{chemfig \chemfig{-[:30](-[:120])(-[:60]OH)-[:-30]}}}</div>
+  <div data-sid="s35">{{chemfig \chemfig{-[:30](-[:90]OH)-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s36">{{chemfig \chemfig{HO-[:30]-[:-30](-[:-90])-[:30]}}}</div>
+  <div data-sid="s37">{{chemfig \chemfig{-[:30](-[:120])(-[:60]OH)-[:-30]-[:30]}}}</div>
+  <div data-sid="s38">{{chemfig \chemfig{HO-[:30]-[:-30]-[:30]OH}}}</div>
+  <div data-sid="s39">{{chemfig \chemfig{HO-[:30]-[:-30]-[:30]-[:-30]OH}}}</div>
+  <div data-sid="s40">{{chemfig \chemfig{-[:30]-[:-30]OH}}}</div>
+  <div data-sid="s41">{{chemfig \chemfig{-[:30](-[:90]OH)-[:-30]OH}}}</div>
+  <div data-sid="s42">{{chemfig \chemfig{HO-[:30]-[:-30](-[:-90]OH)-[:30]}}}</div>
+  <div data-sid="s43">{{chemfig \chemfig{HO-[:30]-[:-30](-[:-90]OH)-[:30]-[:-30]}}}</div>
+  <div data-sid="s44">{{chemfig \chemfig{-[:30]-[:-30]-[:30](=[:90]O)}}}</div>
+  <div data-sid="s45">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]-[:30]}}}</div>
+  <div data-sid="s46">{{chemfig \chemfig{-[:30]-[:-30](=[:-90]O)}}}</div>
+  <div data-sid="s47">{{chemfig \chemfig{-[:30]-[:-30]-[:30](=[:90]O)-[:-30]OH}}}</div>
+  <div data-sid="s48">{{chemfig \chemfig{-[:30](-[:90])-[:-30](=[:-90]O)}}}</div>
+  <div data-sid="s49">{{chemfig \chemfig{-[:30]-[:-30](-[:-90])-[:30](=[:90]O)}}}</div>
+  <div data-sid="s50">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]}}}</div>
+  <div data-sid="s51">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s52">{{chemfig \chemfig{-[:30]-[:-30](=[:-90]O)-[:30]-[:-30]}}}</div>
+  <div data-sid="s53">{{chemfig \chemfig{-[:30]-[:-30](=[:-90]O)-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s54">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30](=[:-90]O)}}}</div>
+  <div data-sid="s55">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s56">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]-[:30](=[:90]O)}}}</div>
+  <div data-sid="s57">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30](=[:-90]O)-[:30]OH}}}</div>
+  <div data-sid="s58">{{chemfig \chemfig{-[:30]-[:-30](=[:-90]O)-[:30]OH}}}</div>
+  <div data-sid="s59">{{chemfig \chemfig{-[:30](-[:90])-[:-30](=[:-90]O)-[:30]OH}}}</div>
+  <div data-sid="s60">{{chemfig \chemfig{-[:30]-[:-30](-[:-90])-[:30](=[:90]O)-[:-30]OH}}}</div>
+  <div data-sid="s61">{{chemfig \chemfig{-[:30](-[:90])-[:-30]-[:30](=[:90]O)-[:-30]OH}}}</div>
+  <div data-sid="s62">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]}}}</div>
+  <div data-sid="s63">{{chemfig \chemfig{-[:30]-[:-30](=[:-90]O)-[:30]O-[:-30]}}}</div>
+  <div data-sid="s64">{{chemfig \chemfig{-[:30]-[:-30](=[:-90]O)-[:30]O-[:-30]-[:30]}}}</div>
+  <div data-sid="s65">{{chemfig \chemfig{H-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s66">{{chemfig \chemfig{-[:30]-[:-30]-[:30](=[:90]O)-[:-30]O-[:30]}}}</div>
+  <div data-sid="s67">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s68">{{chemfig \chemfig{H-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]}}}</div>
+  <div data-sid="s69">{{chemfig \chemfig{-[:30]-[:-30]-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]}}}</div>
+  <div data-sid="s70">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s71">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30](=[:-90]O)-[:30]O-[:-30]-[:30]}}}</div>
+  <div data-sid="s72">{{chemfig \chemfig{-[:30]-[:-30](=[:-90]O)-[:30]O-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s73">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s74">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s75">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30](=[:-90]O)-[:30]O-[:-30]-[:30]-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s76">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]-[:30]-[:-30](=[:-90]O)-[:30]O-[:-30]-[:30]-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s77">{{chemfig \chemfig{H_2N-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s78">{{chemfig \chemfig{H_2N-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s79">{{chemfig \chemfig{-[:30](-[:90]NH_2)-[:-30]-[:30]}}}</div>
+  <div data-sid="s80">{{chemfig \chemfig{H_2N-[:30]-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s81">{{chemfig \chemfig{H_2N-[:30]-[:-30]}}}</div>
+  <div data-sid="s82">{{chemfig \chemfig{H_2N-[:30]}}}</div>
+  <div data-sid="s83">{{chemfig \chemfig{HO-[:30]-[:-30]}}}</div>
+  <div data-sid="s84">{{chemfig \chemfig{-[:30](-[:90]NH_2)-[:-30]}}}</div>
+  <div data-sid="s85">{{chemfig \chemfig{-[:30]-[:-30]-[:30]C~[:30]N}}}</div>
+  <div data-sid="s86">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]C~[:-30]N}}}</div>
+  <div data-sid="s87">{{chemfig \chemfig{-[:30]-[:-30]C~[:-30]N}}}</div>
+  <div data-sid="s88">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]-[:30]C~[:30]N}}}</div>
+  <div data-sid="s89">{{chemfig \chemfig{?-[:30]-[:-30]-[:-90]-[:-150]-[:150]?}}}</div>
+  <div data-sid="s90">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="s91">{{chemfig \chemfig{-[:30](-[:90])-[:-30](-[:-90])-[:30]}}}</div>
+  <div data-sid="s92">{{chemfig \chemfig{?-[:0]-[:72]-[:144](-[:90])-[:-144]?}}}</div>
+  <div data-sid="s93">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="s94">{{chemfig \chemfig{-[:30]-[:-30]-[:30]}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .nm-modes{margin-bottom:6px}
+.k .nm-nav{gap:6px;margin:4px 0 8px}
+.k .nm-nav .nm-score{margin-left:auto;font-size:14px;color:var(--mut);white-space:nowrap}
+.k .nm-nav .nm-score b{color:var(--fg)}
+.k .nm-jmp{max-width:100%}
+@media (max-width:760px){
+  .k .nm-nav{gap:5px}
+  .k .nm-nav button,.k .nm-nav select{font-size:13.5px;padding:3px 7px}
+}
+.k .nm-stage-card{padding:8px 12px;margin:6px 0}
+.k .nm-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:var(--mut)}
+.k .nm-fbadge{background:var(--acc-soft);color:var(--acc);padding:1px 8px;border-radius:99px;font-weight:600}
+.k .nm-stage,.k .nm-walk-stage{display:flex;align-items:center;justify-content:center;min-height:142px;padding:4px 0;overflow:hidden}
+.k .nm-stage svg.cf,.k .nm-walk-stage svg.cf,.k .nm-opt svg.cf{display:block;margin:0 auto}
+.k .nm-stage svg text.ko-num,.k .nm-walk-stage svg text.ko-num{font-size:12.5px}
+.k .nm-stage svg text.ko-num.nm-anum,.k .nm-walk-stage svg text.ko-num.nm-anum{fill:var(--s3)}
+.k svg.cf .cf-b line.nm-fgb{stroke:var(--s4);stroke-width:2.4}
+.k svg.cf .cf-b line.nm-fgb.nm-b2{stroke-width:2.1}
+.k svg.cf .cf-b line.nm-fgb.nm-b3{stroke-width:1.8}
+.k svg.cf .cf-b line.nm-chb{stroke:var(--acc);stroke-width:3.6}
+.k svg.cf .cf-b line.nm-chb.nm-b2{stroke-width:2.3}
+.k svg.cf .cf-b line.nm-alkb{stroke:var(--s3);stroke-width:3.5}
+.k svg.cf .cf-b line.nm-subb{stroke:var(--s4);stroke-width:2.8}
+.k svg circle.ko-hl.ko-sub{fill:var(--hl);stroke:none}
+.k .nm-leg,.k .nm-walk-leg{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:12.5px;color:var(--mut);border-top:1px dashed var(--line);padding-top:5px;margin-top:2px}
+.k .nm-dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px;margin-right:4px}
+.k .nm-dot.fg{background:var(--hl);border:1.5px solid var(--s4)}
+.k .nm-dot.sub{background:var(--hl);border:1.5px solid var(--s4)}
+.k .nm-dot.alk{background:var(--ok-soft);border:1.5px solid var(--s3)}
+.k .nm-bar-k{display:inline-block;width:16px;height:3.5px;border-radius:2px;vertical-align:3px;margin-right:4px}
+.k .nm-bar-k.ch{background:var(--acc)}
+.k .nm-bar-k.alk{background:var(--s3)}
+.k .nm-inwrap{margin:6px 0}
+.k .nm-inrow{gap:8px}
+.k .nm-inlbl{font-weight:600;font-size:14px}
+.k .nm-in{flex:1 1 200px;min-width:150px;padding:5px 9px;font-size:15px}
+.k .nm-in.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .nm-in.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .nm-crow{gap:6px;margin-top:5px}
+.k .nm-cchips{display:inline-flex;flex-wrap:wrap;gap:5px}
+.k .nm-cchips button{font-size:13px;padding:2px 8px}
+.k .nm-cchips button.good,.k .nm-cybtns button.good{background:var(--ok-soft);border-color:var(--ok);color:var(--fg)}
+.k .nm-cchips button.badv,.k .nm-cybtns button.badv{background:var(--bad-soft);border-color:var(--bad);color:var(--fg)}
+.k .nm-cfb.ok{color:var(--ok);font-weight:600}
+.k .nm-cfb.bad{color:var(--bad)}
+.k .nm-cybox{margin:6px 0}
+.k .nm-cyq{margin-bottom:6px;font-size:14.5px}
+.k .nm-cybtns button{padding:5px 12px}
+.k .nm-cybtns .nm-walk-toggle2{margin-left:auto}
+.k .nm-phead{margin:6px 0;padding:8px 12px}
+.k .nm-phead-row{justify-content:space-between;margin:0}
+.k .nm-pq{font-size:16px}
+.k .nm-pq b{font-size:18px;color:var(--acc)}
+.k .nm-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0}
+.k .nm-opts.wide{grid-template-columns:minmax(0,1fr)}
+@media (max-width:580px){.k .nm-opts{grid-template-columns:minmax(0,1fr)}}
+.k .nm-opt{display:flex;flex-direction:column;align-items:stretch;padding:8px 10px;background:var(--card);border:1.5px solid var(--line);border-radius:8px;text-align:left;min-height:132px;justify-content:space-between}
+.k .nm-opt:hover:not(:disabled){border-color:var(--acc)}
+.k .nm-opt:disabled{cursor:default;opacity:1}
+.k .nm-opt.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .nm-opt.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .nm-opt-top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut)}
+.k .nm-let{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--acc-soft);color:var(--acc);font-weight:700;align-items:center;justify-content:center;font-size:12.5px}
+.k .nm-opt.good .nm-let{background:var(--ok);color:var(--card)}
+.k .nm-opt.badv .nm-let{background:var(--bad);color:var(--card)}
+.k .nm-opt-svg{display:flex;align-items:center;justify-content:center;flex:1;padding:2px 0;overflow:hidden}
+.k .nm-opt-cap{font-size:12.5px;min-height:1.3em;text-align:center;color:var(--mut)}
+.k .nm-opt.good .nm-opt-cap{color:var(--ok);font-weight:600}
+.k .nm-opt.badv .nm-opt-cap{color:var(--bad);font-weight:600}
+.k .nm-fb{margin:8px 0;padding:8px 12px;border-radius:0 7px 7px 0;border-left:4px solid var(--line);background:var(--card);font-size:14.5px}
+.k .nm-fb.ok{border-left-color:var(--ok);background:var(--ok-soft)}
+.k .nm-fb.bad{border-left-color:var(--bad);background:var(--bad-soft)}
+.k .nm-fb .nm-v{font-weight:650}
+.k .nm-fb.ok .nm-v{color:var(--ok)}
+.k .nm-fb.bad .nm-v{color:var(--bad)}
+.k .nm-walk{margin:8px 0}
+.k .nm-wbar{gap:6px;margin:0 0 8px}
+.k .nm-wtitle{font-weight:650;font-size:14.5px;margin-right:2px}
+.k .nm-stepbtns{display:flex;flex-wrap:wrap;gap:5px}
+.k .nm-stepbtns button{font-size:13.5px;padding:3px 9px}
+.k .nm-stnext{margin-left:auto;font-size:13.5px}
+.k .nm-walk-fig{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:6px 10px;margin-bottom:8px}
+.k .nm-steps{list-style:none;padding:0;margin:0;display:grid;gap:5px}
+.k .nm-steps li{display:flex;gap:8px;align-items:flex-start;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);cursor:pointer;font-size:14px}
+.k .nm-steps li.cur{border-color:var(--acc);background:var(--acc-soft)}
+.k .nm-steps li.dim{color:var(--mut);border-style:dashed}
+.k .nm-sn{flex:none;width:21px;height:21px;border-radius:50%;background:var(--acc);color:var(--card);font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.k .nm-steps li.dim .nm-sn{background:var(--line);color:var(--mut)}
+.k .nm-st-lbl{font-weight:650;margin-right:4px}
+.k .nm-built{margin-top:8px;padding:7px 10px;border-radius:6px;background:var(--bg);border:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:15px}
+.k .nm-part{padding:1px 7px;border-radius:4px;font-weight:650}
+.k .nm-part.p-sub{background:var(--hl);color:var(--s4);border:1px solid var(--s4)}
+.k .nm-part.p-ch{background:var(--acc-soft);color:var(--acc);border:1px solid var(--acc)}
+.k .nm-part.p-alk{background:var(--ok-soft);color:var(--s3);border:1px solid var(--s3)}
+.k .nm-part.p-fg{background:var(--hl);color:var(--fg);border:1px solid var(--line)}
+.k .nm-final{font-size:17px;font-weight:700;color:var(--acc);margin-left:4px}
+</style>
+
+<script>
+var Q = [{"name":"2-methylpentane","formula":"C₆H₁₄","sid":"s0","cat":"alkane","chain":"branched","steps":["只有 C–C single bonds → alkane，suffix 为 -ane","最长连续 carbon chain 含 5 个 C → stem 为 pent-（pentane）","从左端编号使支链 locant 最小：methyl 在 C2（若从右端数为 C4，2 < 4）","C2 上有 1 个 methyl substituent → 2-methylpentane"],"cChain":[0,1,3,4,5],"fg":[],"subs":[2],"parts":[["2-methyl","sub"],["pent","ch"],["ane","fg"]],"dist":[{"sid":"s1","name":"3-methylpentane","step":"步骤 ③ 编号位置","why":"methyl 画在了中间的 C3（这是 3-methylpentane），应在 C2。"},{"sid":"s2","name":"2-methylbutane","step":"步骤 ② 主链碳数","why":"主链只有 4 个 C（这是 2-methylbutane；数折点/端点，别数线段）。"},{"sid":"s3","name":"2-methylhexane","step":"步骤 ② 主链碳数","why":"主链画成了 6 个 C（这是 2-methylhexane），pentane 主链应为 5 个 C。"}],"wrong":[{"name":"4-methylpentane","why":"错在步骤 ③（编号方向反了）：应从离支链最近的一端编号使 locant 最小（2 < 4）；IUPAC 写法是 2-methylpentane。"},{"name":"2-ethylbutane","why":"错在步骤 ②（未选最长碳链）：最长连续碳链有 5 个 C（pentane），不是 4 个 C（butane）；IUPAC 写法是 2-methylpentane。"},{"name":"2-methylhexane","why":"错在步骤 ②（主链碳数数错）：最长连续链只有 5 个 C（pentane），不是 6 个 C；IUPAC 写法是 2-methylpentane。"}]},{"name":"3-ethyl-2-methylpentane","formula":"C₈H₁₈","sid":"s4","cat":"alkane","chain":"branched","steps":["只有 C–C single bonds → alkane，suffix 为 -ane","最长连续 carbon chain 含 5 个 C → stem 为 pent-（pentane）","从左端编号得 locants (2,3)，在第一个不同点小于从右端的 (3,4)","substituents 按字母序排列：ethyl (e) 在 methyl (m) 前 → 3-ethyl-2-methylpentane"],"cChain":[0,1,3,6,7],"fg":[],"subs":[2,4,5],"parts":[["3-ethyl-2-methyl","sub"],["pent","ch"],["ane","fg"]],"dist":[{"sid":"s5","name":"3,4-dimethylhexane","step":"步骤 ②/④ 支链位置","why":"把 ethyl 接在原 C2 上会使最长链变成 6 个 C（实际成了 3,4-dimethylhexane）。"},{"sid":"s6","name":"3-ethyl-3-methylpentane","step":"步骤 ③ 支链位置","why":"methyl 和 ethyl 都接在了 C3（这是 3-ethyl-3-methylpentane），methyl 应在 C2。"},{"sid":"s7","name":"2,3-dimethylpentane","step":"步骤 ④ substituent","why":"C3 上只画了 1 个 C 的 methyl（这是 2,3-dimethylpentane），ethyl 需要 2 个 C。"}],"wrong":[{"name":"2-methyl-3-ethylpentane","why":"错在步骤 ④（substituent 字母顺序错）：ethyl (e) 按字母序必须排在 methyl (m) 前面；IUPAC 写法是 3-ethyl-2-methylpentane。"},{"name":"3-ethyl-4-methylpentane","why":"错在步骤 ③（编号方向反了）：从左端编号得 locants (2,3)，小于从右端的 (3,4)；IUPAC 写法是 3-ethyl-2-methylpentane。"},{"name":"3-isopropylpentane","why":"错在步骤 ②/④（用了俗名支链）：IUPAC 要求先找最长连续链并系统命名支链；IUPAC 写法是 3-ethyl-2-methylpentane。"}]},{"name":"2,2,3-trimethylpentane","formula":"C₈H₁₈","sid":"s8","cat":"alkane","chain":"branched","steps":["只有 C–C single bonds → alkane，suffix 为 -ane","最长连续 carbon chain 含 5 个 C → stem 为 pent-（pentane）","从左端编号得 locants (2,2,3)，小于从右端的 (3,4,4)","3 个相同的 methyl 合并加倍数词头 tri-，每个位置数字都要写出 → 2,2,3-trimethylpentane"],"cChain":[0,1,4,6,7],"fg":[],"subs":[2,3,5],"parts":[["2,2,3-trimethyl","sub"],["pent","ch"],["ane","fg"]],"dist":[{"sid":"s9","name":"2,3,3-trimethylpentane","step":"步骤 ③ 编号位置","why":"两个同碳 methyl 画在了 C3、单个 methyl 在 C2（这是 2,3,3-trimethylpentane）。"},{"sid":"s10","name":"2,2,4-trimethylpentane","step":"步骤 ③ 编号位置","why":"第三个 methyl 画在了 C4（这是 2,2,4-trimethylpentane），应在 C3。"},{"sid":"s7","name":"2,3-dimethylpentane","step":"步骤 ④ 前缀个数","why":"2,2,3-trimethyl 共有 3 个 methyl（C2 上接两个），这里 C2 只画了 1 个（2,3-dimethylpentane）。"}],"wrong":[{"name":"3,4,4-trimethylpentane","why":"错在步骤 ③（编号方向反了）：locants (2,2,3) 在第一个不同点小于 (3,4,4)；IUPAC 写法是 2,2,3-trimethylpentane。"},{"name":"2,3-dimethylhexane","why":"错在步骤 ②（主链选错）：最长连续链是 5 个 C 带 3 个 methyl，不是 6 个 C；IUPAC 写法是 2,2,3-trimethylpentane。"},{"name":"2,2,3-methylpentane","why":"错在步骤 ④（漏写倍数词头）：3 个相同的 methyl 必须加前缀 tri-；IUPAC 写法是 2,2,3-trimethylpentane。"}]},{"name":"2-methylbutane","formula":"C₅H₁₂","sid":"s2","cat":"alkane","chain":"branched","steps":["只有 C–C single bonds → alkane，suffix 为 -ane","最长连续 carbon chain 含 4 个 C → stem 为 but-（butane）","从左端编号使 methyl 在 C2（若从右端数为 C3，2 < 3）","C2 上有 1 个 methyl substituent → 2-methylbutane"],"cChain":[0,1,3,4],"fg":[],"subs":[2],"parts":[["2-methyl","sub"],["but","ch"],["ane","fg"]],"dist":[{"sid":"s0","name":"2-methylpentane","step":"步骤 ② 主链碳数","why":"主链有 5 个 C（这是 2-methylpentane），butane 主链应为 4 个 C。"},{"sid":"s11","name":"2-methylpropane","step":"步骤 ② 主链碳数","why":"主链只有 3 个 C（这是 2-methylpropane），少画了 1 个 C。"},{"sid":"s12","name":"2,2-dimethylbutane","step":"步骤 ④ substituent","why":"C2 上画了两个 methyl（这是 2,2-dimethylbutane），2-methylbutane 只有 1 个支链。"}],"wrong":[{"name":"3-methylbutane","why":"错在步骤 ③（编号方向反了）：支链应取最小 locant（C2 而非 C3）；IUPAC 写法是 2-methylbutane。"},{"name":"isopentane","why":"错在步骤 ④（写了俗名 trivial name）：系统命名须写 2-methylbutane；IUPAC 写法是 2-methylbutane。"},{"name":"2-ethylpropane","why":"错在步骤 ②（未选最长碳链）：最长连续链有 4 个 C（butane），不是 3 个 C；IUPAC 写法是 2-methylbutane。"}]},{"name":"but-2-ene","formula":"C₄H₈","sid":"s13","cat":"alkene","chain":"straight","steps":["含 C=C double bond → alkene，suffix 为 -ene","包含 C=C 的最长连续 carbon chain 有 4 个 C → stem 为 but-","结构对称，从任一端编号 C=C 都从 C2 开始（locant 紧贴 -ene 前）","无其他 substituent → but-2-ene"],"cChain":[0,1,2,3],"fg":[1,2],"subs":[],"parts":[["but","ch"],["-2-ene","fg"]],"dist":[{"sid":"s14","name":"but-1-ene","step":"步骤 ③ 双键位置","why":"C=C 在链端 C1–C2（这是 but-1-ene），but-2-ene 的 C=C 应在中间 C2–C3。"},{"sid":"s15","name":"pent-2-ene","step":"步骤 ② 主链碳数","why":"主链有 5 个 C（这是 pent-2-ene），but- 应为 4 个 C。"},{"sid":"s16","name":"2-methylpropene","step":"步骤 ② 主链选择","why":"这是带支链的 2-methylpropene（主链 3 个 C），不是直链 4 碳的 but-2-ene。"}],"wrong":[{"name":"2-butene","why":"错在步骤 ③（locant 书写位置）：位置数字必须紧贴 suffix \"-ene\" 前；IUPAC 写法是 but-2-ene。"},{"name":"but-3-ene","why":"错在步骤 ③（编号方向反了）：C=C 双键必须取最小 locant（从 C2 开始而非 C3）；IUPAC 写法是 but-2-ene。"},{"name":"butene","why":"错在步骤 ③（漏写 locant）：but-1-ene 与 but-2-ene 是位置异构体，必须标明双键位置；IUPAC 写法是 but-2-ene。"}]},{"name":"pent-1-ene","formula":"C₅H₁₀","sid":"s17","cat":"alkene","chain":"straight","steps":["含 C=C double bond → alkene，suffix 为 -ene","包含 C=C 的最长连续 carbon chain 有 5 个 C → stem 为 pent-","从靠近 C=C 的左端编号，使 principal functional group 得最小 locant：C1","无其他 substituent，locant 1 紧贴 -ene 前 → pent-1-ene"],"cChain":[0,1,2,3,4],"fg":[0,1],"subs":[],"parts":[["pent","ch"],["-1-ene","fg"]],"dist":[{"sid":"s15","name":"pent-2-ene","step":"步骤 ③ 双键位置","why":"C=C 在 C2–C3（这是 pent-2-ene），pent-1-ene 的 C=C 应在链端 C1–C2。"},{"sid":"s14","name":"but-1-ene","step":"步骤 ② 主链碳数","why":"只有 4 个端点/折点 = 4 个 C（这是 but-1-ene），少画了 1 个 C。"},{"sid":"s18","name":"hex-1-ene","step":"步骤 ② 主链碳数","why":"画了 6 个 C（这是 hex-1-ene），pent- 应为 5 个 C。"}],"wrong":[{"name":"pent-4-ene","why":"错在步骤 ③（编号方向反了）：principal functional group C=C 必须取最小 locant（1 < 4）；IUPAC 写法是 pent-1-ene。"},{"name":"1-pentene","why":"错在步骤 ③（locant 书写位置）：位置数字必须紧贴 suffix \"-ene\" 前；IUPAC 写法是 pent-1-ene。"},{"name":"pentene","why":"错在步骤 ③（漏写 locant）：pent-1-ene 与 pent-2-ene 是异构体，必须标出双键位置；IUPAC 写法是 pent-1-ene。"}]},{"name":"2-methylpropene","formula":"C₄H₈","sid":"s16","cat":"alkene","chain":"branched","steps":["含 C=C double bond → alkene，suffix 为 -ene","包含 C=C 的最长连续 carbon chain 有 3 个 C → stem 为 prop-","从双键端碳 C1 开始编号：C=C 在 C1，methyl 在 C2","C2 上有 1 个 methyl（3 碳 propene 双键位置无歧义可省 1）→ 2-methylpropene（2-methylprop-1-ene 也判对）"],"cChain":[0,1,3],"fg":[0,1],"subs":[2],"parts":[["2-methyl","sub"],["prop","ch"],["ene","fg"]],"dist":[{"sid":"s14","name":"but-1-ene","step":"步骤 ②/④ 骨架","why":"没有支链，4 个 C 连成直链成了 but-1-ene。"},{"sid":"s19","name":"2-methylbut-1-ene","step":"步骤 ② 主链碳数","why":"含 C=C 的主链有 4 个 C（这是 2-methylbut-1-ene），propene 主链只有 3 个 C。"},{"sid":"s11","name":"2-methylpropane","step":"步骤 ① functional group","why":"全是 C–C 单键（这是 2-methylpropane），漏了 alkene 的 C=C 双键。"}],"wrong":[{"name":"isobutene","why":"错在步骤 ④（写了俗名）：IUPAC 系统写法是 2-methylpropene（或 2-methylprop-1-ene）。"},{"name":"2-methylbut-2-ene","why":"错在步骤 ②（主链碳数数错）：含 C=C 的最长连续链只有 3 个 C（prop-），不是 4 个 C；IUPAC 写法是 2-methylpropene。"}],"accept":["2-methylprop-1-ene"]},{"name":"2-chloropropane","formula":"C₃H₇Cl","sid":"s20","cat":"halogenoalkane","chain":"straight","steps":["halogenoalkane：–Cl 写作 prefix（chloro-），母体为 alkane（-ane）","最长连续 carbon chain 有 3 个 C → propane","结构对称，从任一端编号 –Cl 都在中间的 C2","C2 上有 1 个 chloro substituent → 2-chloropropane"],"cChain":[0,1,3],"fg":[2],"subs":[2],"parts":[["2-chloro","sub"],["prop","ch"],["ane","fg"]],"dist":[{"sid":"s21","name":"1-chloropropane","step":"步骤 ③ 编号位置","why":"Cl 接在链端 C1（这是 1-chloropropane；连向 Cl 那端是 Cl 不是 C），应在中间 C2。"},{"sid":"s22","name":"2-chlorobutane","step":"步骤 ② 主链碳数","why":"主链有 4 个 C（这是 2-chlorobutane），propane 主链只有 3 个 C。"},{"sid":"s23","name":"2,2-dichloropropane","step":"步骤 ④ 前缀个数","why":"C2 上画了两个 Cl（这是 2,2-dichloropropane），2-chloropropane 只有 1 个 Cl。"}],"wrong":[{"name":"chloropropane","why":"错在步骤 ③（漏写 locant）：1-chloropropane 与 2-chloropropane 是位置异构体，必须写 2-；IUPAC 写法是 2-chloropropane。"},{"name":"propan-2-chlorine","why":"错在步骤 ①（halogen 误作 suffix）：halogen 只能作 prefix（chloro-），不能作 suffix；IUPAC 写法是 2-chloropropane。"},{"name":"isopropyl chloride","why":"错在步骤 ④（写了自由基俗名）：IUPAC 取代命名法写作 2-chloropropane。"}]},{"name":"2-bromo-3,3-dichlorohexane","formula":"C₆H₁₁BrCl₂","sid":"s24","cat":"halogenoalkane","chain":"straight","steps":["halogenoalkane：–Br、–Cl 均作 prefix（bromo-、chloro-），母体为 alkane（-ane）","最长连续 carbon chain 有 6 个 C → hexane","从左端编号得 locants (2,3,3)，小于从右端的 (4,4,5)","按字母序排列（忽略倍数词头 di-）：bromo (b) 在 chloro (c) 前 → 2-bromo-3,3-dichlorohexane"],"cChain":[0,1,3,6,7,8],"fg":[2,4,5],"subs":[2,4,5],"parts":[["2-bromo-3,3-dichloro","sub"],["hex","ch"],["ane","fg"]],"dist":[{"sid":"s25","name":"3-bromo-2,2-dichlorohexane","step":"步骤 ③/④ 基团位置对调","why":"把两个 Cl 放在了 C2、Br 放在了 C3（这是 3-bromo-2,2-dichlorohexane）。"},{"sid":"s26","name":"2-bromo-4,4-dichlorohexane","step":"步骤 ③ 两套编号混用","why":"Br 从左数在 C2，两个 Cl 却画在了 C4（这是 2-bromo-4,4-dichlorohexane）。"},{"sid":"s27","name":"2-bromo-3-chlorohexane","step":"步骤 ④ 前缀个数","why":"3,3-dichloro 表示 C3 上有两个 Cl，这里只画了 1 个（2-bromo-3-chlorohexane）。"}],"wrong":[{"name":"3,3-dichloro-2-bromohexane","why":"错在步骤 ④（substituent 字母顺序错）：比较首字母时忽略倍数词头 di-，bromo (b) 排在 chloro (c) 前；IUPAC 写法是 2-bromo-3,3-dichlorohexane。"},{"name":"5-bromo-4,4-dichlorohexane","why":"错在步骤 ③（编号方向反了）：locants (2,3,3) 在第一个不同点小于 (4,4,5)；IUPAC 写法是 2-bromo-3,3-dichlorohexane。"},{"name":"2-bromo-3-dichlorohexane","why":"错在步骤 ③/④（漏写重复位置号）：两个 Cl 都在 C3，位置号必须写两次（3,3-dichloro）；IUPAC 写法是 2-bromo-3,3-dichlorohexane。"}]},{"name":"1-iodobutane","formula":"C₄H₉I","sid":"s28","cat":"halogenoalkane","chain":"straight","steps":["halogenoalkane：–I 写作 prefix（iodo-），母体为 alkane（-ane）","最长连续 carbon chain 有 4 个 C（连向 I 的左端是 I 原子，不是 C）→ butane","从连有 –I 的左端碳编号使 locant 最小：C1（不是 C4）","C1 上有 1 个 iodo substituent → 1-iodobutane"],"cChain":[1,2,3,4],"fg":[0],"subs":[0],"parts":[["1-iodo","sub"],["but","ch"],["ane","fg"]],"dist":[{"sid":"s29","name":"2-iodobutane","step":"步骤 ③ 编号位置","why":"I 接在 C2（这是 2-iodobutane），1-iodobutane 的 I 在链端 C1。"},{"sid":"s30","name":"1-iodopropane","step":"步骤 ② 主链碳数","why":"把连向 I 的线段左端误当成 C，实际只有 3 个 C（这是 1-iodopropane）。"},{"sid":"s31","name":"1-iodopentane","step":"步骤 ② 主链碳数","why":"主链画了 5 个 C（这是 1-iodopentane），butane 只有 4 个 C。"}],"wrong":[{"name":"4-iodobutane","why":"错在步骤 ③（编号方向反了）：应从连有 –I 的一端编号得最小 locant（1 < 4）；IUPAC 写法是 1-iodobutane。"},{"name":"iodobutane","why":"错在步骤 ③（漏写 locant）：须标明 –I 在 C1 以区分 2-iodobutane；IUPAC 写法是 1-iodobutane。"},{"name":"butyl iodide","why":"错在步骤 ④（写了旧式俗名）：IUPAC 写法是 1-iodobutane。"}]},{"name":"butan-2-ol","formula":"C₄H₁₀O","sid":"s32","cat":"alcohol","chain":"straight","steps":["含 hydroxyl group（–OH）→ alcohol，suffix 为 -ol","包含 C–OH 的最长连续 carbon chain 有 4 个 C → butan-","从靠近 –OH 的左端编号，使 –OH 得最小 locant：C2（不是 C3）","无其他 substituent，locant 紧贴 -ol 前 → butan-2-ol"],"cChain":[0,1,3,4],"fg":[2],"subs":[],"parts":[["butan","ch"],["-2-ol","fg"]],"dist":[{"sid":"s33","name":"butan-1-ol","step":"步骤 ③ –OH 位置","why":"–OH 在链端 C1（这是 butan-1-ol），butan-2-ol 的 –OH 应在 C2。"},{"sid":"s34","name":"2-methylpropan-2-ol","step":"步骤 ② 主链选择","why":"这是支链的 2-methylpropan-2-ol（主链 3 个 C），不是直链 4 碳的 butan-2-ol。"},{"sid":"s35","name":"pentan-2-ol","step":"步骤 ② 主链碳数","why":"主链有 5 个 C（这是 pentan-2-ol），butan- 应为 4 个 C。"}],"wrong":[{"name":"2-butanol","why":"错在步骤 ③（locant 书写位置）：位置数字必须紧贴 suffix \"-ol\" 前；IUPAC 写法是 butan-2-ol。"},{"name":"butan-3-ol","why":"错在步骤 ③（编号方向反了）：principal functional group –OH 必须取最小 locant（2 < 3）；IUPAC 写法是 butan-2-ol。"},{"name":"sec-butanol","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 butan-2-ol。"}]},{"name":"2-methylpropan-2-ol","formula":"C₄H₁₀O","sid":"s34","cat":"alcohol","chain":"branched","steps":["含 hydroxyl group（–OH）→ alcohol，suffix 为 -ol","包含 C–OH 的最长连续 carbon chain 有 3 个 C → propan-","从任一端编号，–OH 与 methyl 都在中间的 C2","prefix 写 2-methyl，locant 2 紧贴 -ol 前 → 2-methylpropan-2-ol"],"cChain":[0,1,4],"fg":[3],"subs":[2],"parts":[["2-methyl","sub"],["propan","ch"],["-2-ol","fg"]],"dist":[{"sid":"s36","name":"2-methylpropan-1-ol","step":"步骤 ③ –OH 位置","why":"–OH 在链端 C1、methyl 在 C2（这是 2-methylpropan-1-ol），不是同在 C2 的 tertiary alcohol。"},{"sid":"s32","name":"butan-2-ol","step":"步骤 ②/④ 支链缺失","why":"这是 4 碳直链的 butan-2-ol，没有 C2 上的 methyl 支链。"},{"sid":"s37","name":"2-methylbutan-2-ol","step":"步骤 ② 主链碳数","why":"主链有 4 个 C（这是 2-methylbutan-2-ol），propan- 主链只有 3 个 C。"}],"wrong":[{"name":"2-methyl-2-propanol","why":"错在步骤 ③（locant 书写位置）：–OH 的位置号应紧贴 \"-ol\" 前；IUPAC 写法是 2-methylpropan-2-ol。"},{"name":"tert-butanol","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 2-methylpropan-2-ol。"},{"name":"2-methylpropanol","why":"错在步骤 ③（漏写 –OH 的 locant）：须写 -2-ol 以区分异构体 2-methylpropan-1-ol；IUPAC 写法是 2-methylpropan-2-ol。"}]},{"name":"ethane-1,2-diol","formula":"C₂H₆O₂","sid":"s38","cat":"diol","chain":"straight","steps":["含两个 hydroxyl groups（–OH）→ diol，suffix 为 -diol（辅音 d 开头，保留 ethane 末尾 e）","包含两个 C–OH 的 carbon chain 有 2 个 C → ethane-","从任一端编号，两个 –OH 分别在 C1 和 C2","无其他 substituent → ethane-1,2-diol"],"cChain":[1,2],"fg":[0,3],"subs":[],"parts":[["ethane","ch"],["-1,2-diol","fg"]],"dist":[{"sid":"s39","name":"propane-1,3-diol","step":"步骤 ② 主链碳数","why":"中间有 3 个折点 = 3 个 C（这是 propane-1,3-diol；连向 OH 那端是 O 不是 C）。"},{"sid":"s40","name":"ethanol","step":"步骤 ① functional group","why":"只有 1 个 –OH（这是 ethanol），-1,2-diol 需要两个 –OH。"},{"sid":"s41","name":"ethane-1,1-diol","step":"步骤 ③ 编号位置","why":"两个 –OH 接在同一个 C1 上（ethane-1,1-diol），应在相邻的 C1 和 C2 上。"}],"wrong":[{"name":"ethan-1,2-diol","why":"错在步骤 ①/④（漏了字母 e）：suffix \"-diol\" 以辅音 d 开头，ethane 末尾的 e 必须保留；IUPAC 写法是 ethane-1,2-diol。"},{"name":"ethylene glycol","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 ethane-1,2-diol。"},{"name":"1,2-ethanediol","why":"错在步骤 ③（locant 书写位置）：位置数字应紧贴 \"-diol\" 前；IUPAC 写法是 ethane-1,2-diol。"}]},{"name":"propane-1,2-diol","formula":"C₃H₈O₂","sid":"s42","cat":"diol","chain":"straight","steps":["含两个 hydroxyl groups（–OH）→ diol，suffix 为 -diol（保留 propane 末尾 e）","包含两个 C–OH 的最长连续链有 3 个 C → propane-","从左端编号使两个 –OH 得最小 locants (1,2)（若从右端数为 2,3）","无其他 substituent → propane-1,2-diol"],"cChain":[1,2,4],"fg":[0,3],"subs":[],"parts":[["propane","ch"],["-1,2-diol","fg"]],"dist":[{"sid":"s39","name":"propane-1,3-diol","step":"步骤 ③ –OH 位置","why":"两个 –OH 分别在两端 C1 和 C3（这是 propane-1,3-diol），不是相邻的 C1 和 C2。"},{"sid":"s43","name":"butane-1,2-diol","step":"步骤 ② 主链碳数","why":"主链有 4 个 C（这是 butane-1,2-diol），propane- 应为 3 个 C。"},{"sid":"s38","name":"ethane-1,2-diol","step":"步骤 ② 主链碳数","why":"只有 2 个 C（这是 ethane-1,2-diol），少了一个末端 CH₃。"}],"wrong":[{"name":"propane-2,3-diol","why":"错在步骤 ③（编号方向反了）：应让两个 –OH 的 locants 最小（1,2 < 2,3）；IUPAC 写法是 propane-1,2-diol。"},{"name":"propan-1,2-diol","why":"错在步骤 ①/④（漏了字母 e）：\"-diol\" 以辅音 d 开头，propane 末尾的 e 必须保留；IUPAC 写法是 propane-1,2-diol。"},{"name":"propylene glycol","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 propane-1,2-diol。"}]},{"name":"butanal","formula":"C₄H₈O","sid":"s44","cat":"aldehyde","chain":"straight","steps":["链端含 carbonyl group（–CH=O）→ aldehyde，suffix 为 -al","包含 –CH=O 碳在内的最长连续链共 4 个 C → butan-","aldehyde 的 carbonyl C 永远固定为 C1（图右端），名称中省略数字 1","无其他 substituent → butanal"],"cChain":[3,2,1,0],"fg":[3,4],"subs":[],"parts":[["butan","ch"],["al","fg"]],"dist":[{"sid":"s45","name":"butanone","step":"步骤 ① functional group","why":"C=O 在链中间 C2 是 ketone（butanone），aldehyde（-al）的 C=O 必须在链端 C1。"},{"sid":"s46","name":"propanal","step":"步骤 ② 主链碳数","why":"连同 C=O 的 C 一共只有 3 个 C（这是 propanal），butanal 共 4 个 C。"},{"sid":"s47","name":"butanoic acid","step":"步骤 ① functional group","why":"C=O 上多接了 –OH，成了 carboxylic acid（butanoic acid）。"}],"wrong":[{"name":"butan-1-al","why":"错在步骤 ③（写了冗余数字 1）：aldehyde 的 –CH=O 永远在 C1，省略数字 1；IUPAC 写法是 butanal。"},{"name":"butyraldehyde","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 butanal。"},{"name":"butanone","why":"错在步骤 ①（functional group 认错）：链端 –CH=O 是 aldehyde（suffix -al），链中间 >C=O 才是 ketone（-one）；IUPAC 写法是 butanal。"}]},{"name":"2-methylpropanal","formula":"C₄H₈O","sid":"s48","cat":"aldehyde","chain":"branched","steps":["链端含 carbonyl group（–CH=O）→ aldehyde，suffix 为 -al","包含 –CH=O 碳在内的最长连续链共 3 个 C → propan-","图右端 –CH=O 碳固定为 C1，向左编号使 methyl 在 C2","C2 上有 1 个 methyl（-al 固定在 C1 不写 1）→ 2-methylpropanal"],"cChain":[3,1,0],"fg":[3,4],"subs":[2],"parts":[["2-methyl","sub"],["propan","ch"],["al","fg"]],"dist":[{"sid":"s44","name":"butanal","step":"步骤 ②/④ 骨架","why":"这是 4 碳直链的 butanal，没有 C2 上的 methyl 支链。"},{"sid":"s49","name":"2-methylbutanal","step":"步骤 ② 主链碳数","why":"含 –CHO 的主链有 4 个 C（这是 2-methylbutanal；记住 –CHO 的 C 算 C1）。"},{"sid":"s45","name":"butanone","step":"步骤 ① functional group","why":"C=O 在链中间是 ketone（butanone），不是 aldehyde。"}],"wrong":[{"name":"2-methylpropan-1-al","why":"错在步骤 ③（写了冗余数字 1）：aldehyde 固定为 C1，不写 -1-al；IUPAC 写法是 2-methylpropanal。"},{"name":"isobutyraldehyde","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 2-methylpropanal。"},{"name":"methylpropanal","why":"错在步骤 ④（建议补齐支链 locant）：系统命名写出 methyl 所在位置 C2；IUPAC 写法是 2-methylpropanal。"}]},{"name":"butanone","formula":"C₄H₈O","sid":"s45","cat":"ketone","chain":"straight","steps":["链中间含 carbonyl group（>C=O）→ ketone，suffix 为 -one","包含 >C=O 碳在内的最长连续链共 4 个 C → butan-","从靠近 >C=O 的左端编号得 C2（4 碳 ketone 的 C=O 只能在 C2，9701 常省略 locant）","无其他 substituent → butanone（butan-2-one 也判对）"],"cChain":[0,1,3,4],"fg":[1,2],"subs":[],"parts":[["butan","ch"],["one","fg"]],"dist":[{"sid":"s44","name":"butanal","step":"步骤 ① functional group","why":"C=O 在链端 C1 是 aldehyde（butanal），ketone（-one）的 C=O 必须在链中间。"},{"sid":"s50","name":"propanone","step":"步骤 ② 主链碳数","why":"只有 3 个 C（这是 propanone），butanone 应有 4 个 C。"},{"sid":"s51","name":"pentan-2-one","step":"步骤 ② 主链碳数","why":"主链画了 5 个 C（这是 pentan-2-one），butan- 只有 4 个 C。"}],"wrong":[{"name":"2-butanone","why":"错在步骤 ③（locant 书写位置）：数字不能写在词头，应省略写作 butanone 或紧贴 suffix 前写 butan-2-one；IUPAC 写法是 butanone。"},{"name":"methyl ethyl ketone","why":"错在步骤 ④（写了旧式俗名）：IUPAC 写法是 butanone（或 butan-2-one）。"}],"accept":["butan-2-one"]},{"name":"pentan-3-one","formula":"C₅H₁₀O","sid":"s52","cat":"ketone","chain":"straight","steps":["链中间含 carbonyl group（>C=O）→ ketone，suffix 为 -one","包含 >C=O 碳在内的最长连续链共 5 个 C → pentan-","从任一端编号，>C=O 都在正中间 C3（须与异构体 pentan-2-one 区分）","无其他 substituent，locant 3 紧贴 -one 前 → pentan-3-one"],"cChain":[0,1,2,4,5],"fg":[2,3],"subs":[],"parts":[["pentan","ch"],["-3-one","fg"]],"dist":[{"sid":"s51","name":"pentan-2-one","step":"步骤 ③ 编号位置","why":"C=O 在 C2（这是 pentan-2-one），pentan-3-one 的 C=O 应在正中间 C3。"},{"sid":"s53","name":"hexan-3-one","step":"步骤 ② 主链碳数","why":"主链有 6 个 C（这是 hexan-3-one），pentan- 应为 5 个 C。"},{"sid":"s54","name":"pentanal","step":"步骤 ① functional group","why":"C=O 在链端成了 aldehyde（pentanal），不是 ketone。"}],"wrong":[{"name":"3-pentanone","why":"错在步骤 ③（locant 书写位置）：位置数字必须紧贴 suffix \"-one\" 前；IUPAC 写法是 pentan-3-one。"},{"name":"pentanone","why":"错在步骤 ③（漏写 locant）：pentan-2-one 与 pentan-3-one 是位置异构体，必须标出 -3-one；IUPAC 写法是 pentan-3-one。"},{"name":"diethyl ketone","why":"错在步骤 ④（写了旧式俗名）：IUPAC 写法是 pentan-3-one。"}]},{"name":"hexan-2-one","formula":"C₆H₁₂O","sid":"s55","cat":"ketone","chain":"straight","steps":["链中间含 carbonyl group（>C=O）→ ketone，suffix 为 -one","包含 >C=O 碳在内的最长连续链共 6 个 C → hexan-","从靠近 >C=O 的左端编号得最小 locant C2（不是 C5）","无其他 substituent，locant 2 紧贴 -one 前 → hexan-2-one"],"cChain":[0,1,3,4,5,6],"fg":[1,2],"subs":[],"parts":[["hexan","ch"],["-2-one","fg"]],"dist":[{"sid":"s53","name":"hexan-3-one","step":"步骤 ③ 编号位置","why":"C=O 在 C3（这是 hexan-3-one），hexan-2-one 的 C=O 应在 C2。"},{"sid":"s51","name":"pentan-2-one","step":"步骤 ② 主链碳数","why":"主链只有 5 个 C（这是 pentan-2-one），hexan- 应为 6 个 C。"},{"sid":"s56","name":"hexanal","step":"步骤 ① functional group","why":"C=O 在链端 C1 是 aldehyde（hexanal），不是 ketone。"}],"wrong":[{"name":"hexan-5-one","why":"错在步骤 ③（编号方向反了）：>C=O 必须取最小 locant（C2 而非 C5）；IUPAC 写法是 hexan-2-one。"},{"name":"2-hexanone","why":"错在步骤 ③（locant 书写位置）：位置数字必须紧贴 suffix \"-one\" 前；IUPAC 写法是 hexan-2-one。"},{"name":"butyl methyl ketone","why":"错在步骤 ④（写了旧式俗名）：IUPAC 写法是 hexan-2-one。"}]},{"name":"butanoic acid","formula":"C₄H₈O₂","sid":"s47","cat":"carboxylic acid","chain":"straight","steps":["链端含 carboxyl group（–COOH）→ carboxylic acid，suffix 为 -oic acid","包含 –COOH 碳在内的最长连续链共 4 个 C → butan-","carboxyl C 永远固定为 C1（图右端），名称中省略数字 1","无其他 substituent → butanoic acid"],"cChain":[3,2,1,0],"fg":[3,4,5],"subs":[],"parts":[["butan","ch"],["oic acid","fg"]],"dist":[{"sid":"s57","name":"pentanoic acid","step":"步骤 ② 主链碳数","why":"忘了 –COOH 的 C 本身算 C1，多画了 4 个烷基碳共 5 个 C（这是 pentanoic acid）！"},{"sid":"s58","name":"propanoic acid","step":"步骤 ② 主链碳数","why":"连同 –COOH 一共只有 3 个 C（这是 propanoic acid），butanoic acid 共 4 个 C。"},{"sid":"s59","name":"2-methylpropanoic acid","step":"步骤 ② 主链选择","why":"这是带支链的 2-methylpropanoic acid（主链 3 个 C），不是直链 butanoic acid。"}],"wrong":[{"name":"butan-1-oic acid","why":"错在步骤 ③（写了冗余数字 1）：carboxylic acid 的 –COOH 永远是 C1，不写数字 1；IUPAC 写法是 butanoic acid。"},{"name":"butyric acid","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 butanoic acid。"},{"name":"propanoic acid","why":"错在步骤 ②（主链碳数数错）：包含 –COOH 的 C 在内共有 4 个 C（butanoic acid），不是 3 个 C。"}]},{"name":"2-methylpropanoic acid","formula":"C₄H₈O₂","sid":"s59","cat":"carboxylic acid","chain":"branched","steps":["链端含 carboxyl group（–COOH）→ carboxylic acid，suffix 为 -oic acid","包含 –COOH 碳在内的最长连续链共 3 个 C → propan-","图右端 –COOH 碳固定为 C1，向左编号使 methyl 在 C2","C2 上有 1 个 methyl（-oic acid 不写 1）→ 2-methylpropanoic acid"],"cChain":[3,1,0],"fg":[3,4,5],"subs":[2],"parts":[["2-methyl","sub"],["propan","ch"],["oic acid","fg"]],"dist":[{"sid":"s47","name":"butanoic acid","step":"步骤 ②/④ 骨架","why":"这是 4 碳直链的 butanoic acid，没有 C2 上的 methyl 支链。"},{"sid":"s60","name":"2-methylbutanoic acid","step":"步骤 ② 主链碳数","why":"含 –COOH 的主链有 4 个 C（这是 2-methylbutanoic acid；–COOH 的 C 算 C1）。"},{"sid":"s61","name":"3-methylbutanoic acid","step":"步骤 ②/③ 编号方向","why":"–COOH 固定为 C1，这里主链有 4 个 C 且 methyl 在 C3（3-methylbutanoic acid）。"}],"wrong":[{"name":"2-methylpropan-1-oic acid","why":"错在步骤 ③（写了冗余数字 1）：–COOH 固定为 C1，省略数字 1；IUPAC 写法是 2-methylpropanoic acid。"},{"name":"isobutyric acid","why":"错在步骤 ④（写了俗名）：IUPAC 写法是 2-methylpropanoic acid。"},{"name":"methylpropanoic acid","why":"错在步骤 ④（漏写支链 locant）：系统命名标出 2-methyl；IUPAC 写法是 2-methylpropanoic acid。"}]},{"name":"ethyl ethanoate","formula":"C₄H₈O₂","sid":"s62","cat":"ester","chain":"straight","steps":["含 ester group（–COO–）→ ester，命名为 alkyl alkanoate（两词以空格分开）","分清两段链：含 C=O 的 acid 侧共 2 个 C（ethanoate，蓝）；连在 –O– 上的 alcohol 侧共 2 个 C（ethyl，绿）","acid 侧以 carbonyl C 为 C1；alcohol 侧以连 O 的 C 为 C1′","先写 alcohol 侧 alkyl（ethyl），再写 acid 侧 alkanoate（ethanoate）→ ethyl ethanoate"],"cChain":[1,0],"fg":[1,2,3],"subs":[],"parts":[["ethyl ","alk"],["eth","ch"],["anoate","fg"]],"dist":[{"sid":"s63","name":"methyl propanoate","step":"步骤 ② 两段碳数","why":"C=O 侧有 3 个 C、–O– 侧只有 1 个 C（这是 methyl propanoate），不是 2 + 2。"},{"sid":"s64","name":"ethyl propanoate","step":"步骤 ② acid 侧碳数","why":"忘了 C=O 的 C 算进 ethanoate，画成了 3 个 C（这是 ethyl propanoate）。"},{"sid":"s47","name":"butanoic acid","step":"步骤 ① functional group","why":"这是 carboxylic acid（–COOH），不是 ester（–COO–）。"}],"wrong":[{"name":"ethyl acetate","why":"错在步骤 ④（用了俗名 acetate）：2 碳酸根的系统名是 ethanoate；IUPAC 写法是 ethyl ethanoate。"},{"name":"methyl propanoate","why":"错在步骤 ②（两段碳数数错）：本题 C=O 侧 2 个 C、–O– 侧 2 个 C，应为 ethyl ethanoate（不是 3 + 1 的 methyl propanoate）。"},{"name":"ethanoic acid ethyl ester","why":"错在步骤 ④（格式不对）：ester 统一写作「alkyl alkanoate」两词；IUPAC 写法是 ethyl ethanoate。"}],"aChain":[4,5]},{"name":"methyl propanoate","formula":"C₄H₈O₂","sid":"s63","cat":"ester","chain":"straight","steps":["含 ester group（–COO–）→ ester，命名为 alkyl alkanoate（两词以空格分开）","含 C=O 的 acid 侧共 3 个 C（propanoate，蓝）；连在 –O– 上的 alcohol 侧有 1 个 C（methyl，绿）","acid 侧以 carbonyl C 为 C1 向左数至 C3；alcohol 侧连 O 的碳为 C1′","先写 alcohol 侧 methyl，再写 acid 侧 propanoate → methyl propanoate"],"cChain":[2,1,0],"fg":[2,3,4],"subs":[],"parts":[["methyl ","alk"],["prop","ch"],["anoate","fg"]],"dist":[{"sid":"s65","name":"propyl methanoate","step":"步骤 ①/④ 两部分颠倒","why":"–O– 侧 3 个 C、C=O 侧 1 个 C 是 propyl methanoate（前一个词来自 –O–R′，后一个词来自 R–CO–O–）！"},{"sid":"s62","name":"ethyl ethanoate","step":"步骤 ② 两段碳数","why":"两边各 2 个 C 是 ethyl ethanoate，methyl propanoate 应为 acid 侧 3 碳 + alcohol 侧 1 碳。"},{"sid":"s66","name":"methyl butanoate","step":"步骤 ② acid 侧碳数","why":"C=O 侧连同羰基 C 画了 4 个 C（这是 methyl butanoate），propanoate 共 3 个 C。"}],"wrong":[{"name":"propyl methanoate","why":"错在步骤 ①/④（把 acid 与 alcohol 两侧颠倒）：含 C=O 的一侧有 3 个 C（propanoate），连 –O– 的一侧 1 个 C（methyl）；IUPAC 写法是 methyl propanoate。"},{"name":"ethyl ethanoate","why":"错在步骤 ②（两段碳数数错）：acid 侧有 3 个 C、alcohol 侧 1 个 C，应为 methyl propanoate（不是 2 + 2）。"},{"name":"propanoic acid methyl ester","why":"错在步骤 ④（格式不对）：ester 统一写作「alkyl alkanoate」两词；IUPAC 写法是 methyl propanoate。"}],"aChain":[5]},{"name":"propyl methanoate","formula":"C₄H₈O₂","sid":"s65","cat":"ester","chain":"straight","steps":["含 ester group（–COO–）→ ester，命名为 alkyl alkanoate（两词以空格分开）","含 C=O 的 acid 侧连的是 H，共 1 个 C（methanoate，蓝）；连在 –O– 上的 alcohol 侧有 3 个 C（propyl，绿）","formyl C 为 methanoate 的 C1；alcohol 侧从连 O 的 C1′ 向右数至 C3′","先写 alcohol 侧 propyl，再写 acid 侧 methanoate → propyl methanoate"],"cChain":[1],"fg":[1,2,3],"subs":[],"parts":[["propyl ","alk"],["meth","ch"],["anoate","fg"]],"dist":[{"sid":"s63","name":"methyl propanoate","step":"步骤 ①/④ 两部分颠倒","why":"C=O 侧 3 个 C、–O– 侧 1 个 C 是 methyl propanoate；methanoate 的 C=O 上只能连 H（共 1 个 C）！"},{"sid":"s67","name":"propyl ethanoate","step":"步骤 ② acid 侧碳数","why":"C=O 上连了 CH₃ 成了 2 个 C 的 ethanoate（propyl ethanoate），methanoate 只有 1 个 C。"},{"sid":"s68","name":"ethyl methanoate","step":"步骤 ② alcohol 侧碳数","why":"–O– 右侧只有 2 个 C（这是 ethyl methanoate），propyl 应有 3 个 C。"}],"wrong":[{"name":"methyl propanoate","why":"错在步骤 ①/④（把 acid 与 alcohol 两侧颠倒）：连 –O– 的一侧有 3 个 C（propyl），含 C=O 的一侧只有 1 个 C（methanoate）；IUPAC 写法是 propyl methanoate。"},{"name":"propyl formate","why":"错在步骤 ④（用了俗名 formate）：1 碳酸根的系统名是 methanoate；IUPAC 写法是 propyl methanoate。"},{"name":"butyl methanoate","why":"错在步骤 ②（alcohol 侧碳数数错）：–O– 右侧只有 3 个 C（propyl），不是 4 个 C；IUPAC 写法是 propyl methanoate。"}],"aChain":[4,5,6]},{"name":"ethyl butanoate","formula":"C₆H₁₂O₂","sid":"s69","cat":"ester","chain":"straight","steps":["含 ester group（–COO–）→ ester，命名为 alkyl alkanoate（两词以空格分开）","含 C=O 的 acid 侧共 4 个 C（butanoate，蓝）；连在 –O– 上的 alcohol 侧有 2 个 C（ethyl，绿）","acid 侧以 carbonyl C 为 C1 向左数至 C4；alcohol 侧从连 O 的 C1′ 数至 C2′","先写 alcohol 侧 ethyl，再写 acid 侧 butanoate → ethyl butanoate"],"cChain":[3,2,1,0],"fg":[3,4,5],"subs":[],"parts":[["ethyl ","alk"],["but","ch"],["anoate","fg"]],"dist":[{"sid":"s70","name":"butyl ethanoate","step":"步骤 ①/④ 两部分颠倒","why":"–O– 侧 4 个 C、C=O 侧 2 个 C 是 butyl ethanoate，ethyl butanoate 应为 –O– 侧 2 碳 + C=O 侧 4 碳。"},{"sid":"s71","name":"ethyl pentanoate","step":"步骤 ② acid 侧碳数","why":"忘了 C=O 的 C 算进 butanoate，画成了 5 个 C（这是 ethyl pentanoate）。"},{"sid":"s72","name":"propyl propanoate","step":"步骤 ② 两段碳数","why":"两边各 3 个 C 是 propyl propanoate，不是 2 + 4。"}],"wrong":[{"name":"butyl ethanoate","why":"错在步骤 ①/④（acid 与 alcohol 两侧颠倒）：含 C=O 的一侧有 4 个 C（butanoate），连 –O– 的一侧有 2 个 C（ethyl）；IUPAC 写法是 ethyl butanoate。"},{"name":"ethyl butyrate","why":"错在步骤 ④（用了俗名 butyrate）：IUPAC 写法是 ethyl butanoate。"},{"name":"propyl propanoate","why":"错在步骤 ②（两段碳数数错）：本题是 4 碳酸 + 2 碳醇（ethyl butanoate），不是 3 + 3。"}],"aChain":[6,7]},{"name":"hexyl hexanoate","formula":"C₁₂H₂₄O₂","sid":"s73","cat":"ester","chain":"straight","steps":["含 ester group（–COO–）→ ester，命名为 alkyl alkanoate（9701 范围上限：6 + 6 直链）","含 C=O 的 acid 侧共 6 个 C（hexanoate，蓝）；连在 –O– 上的 alcohol 侧共 6 个 C（hexyl，绿）","acid 侧以 carbonyl C 为 C1 向左数至 C6；alcohol 侧从连 O 的 C1′ 向右数至 C6′","先写 alcohol 侧 hexyl，再写 acid 侧 hexanoate → hexyl hexanoate"],"cChain":[5,4,3,2,1,0],"fg":[5,6,7],"subs":[],"parts":[["hexyl ","alk"],["hex","ch"],["anoate","fg"]],"dist":[{"sid":"s74","name":"pentyl hexanoate","step":"步骤 ② alcohol 侧碳数","why":"–O– 右侧只有 5 个 C（这是 pentyl hexanoate；–O–C 键左端是 O 不是 C）。"},{"sid":"s75","name":"hexyl pentanoate","step":"步骤 ② acid 侧碳数","why":"C=O 侧连同羰基 C 只有 5 个 C（这是 hexyl pentanoate），hexanoate 应共 6 个 C。"},{"sid":"s76","name":"hexyl heptanoate","step":"步骤 ② acid 侧碳数","why":"忘了 C=O 的 C 算 C1，多画了 6 个烷基 C 共 7 个 C（这是 hexyl heptanoate）。"}],"wrong":[{"name":"hexyl heptanoate","why":"错在步骤 ②（acid 侧多算了 1 个 C）：包含 C=O 的 C 在内共 6 个 C（hexanoate），不是 7 个 C；IUPAC 写法是 hexyl hexanoate。"},{"name":"heptyl hexanoate","why":"错在步骤 ②（alcohol 侧多算了 1 个 C）：–O– 右侧共 6 个 C（hexyl；连向 O 的那端是 O 不是 C）；IUPAC 写法是 hexyl hexanoate。"},{"name":"dihexyl ester","why":"错在步骤 ④（格式不对）：ester 写作 alkyl alkanoate；IUPAC 写法是 hexyl hexanoate。"}],"aChain":[8,9,10,11,12,13]},{"name":"butylamine","formula":"C₄H₁₁N","sid":"s77","cat":"amine","chain":"straight","steps":["含 primary amine group（–NH₂）→ amine，suffix 为 -amine","连在 N 上的直链 carbon chain 有 4 个 C（H₂N 端是 N 原子，不是 C）→ butyl-","从连有 –NH₂ 的左端碳 C1 向右编号至 C4","9701 直链 primary amine 写作 alkylamine → butylamine（butan-1-amine 也判对）"],"cChain":[1,2,3,4],"fg":[0],"subs":[],"parts":[["butyl","ch"],["amine","fg"]],"dist":[{"sid":"s78","name":"propylamine","step":"步骤 ② 主链碳数","why":"把连向 H₂N 的线段左端误当成 C，实际只有 3 个 C（这是 propylamine）。"},{"sid":"s79","name":"butan-2-amine","step":"步骤 ③ –NH₂ 位置","why":"–NH₂ 接在 C2（这是 butan-2-amine），butylamine（butan-1-amine）的 –NH₂ 在链端 C1。"},{"sid":"s80","name":"pentylamine","step":"步骤 ② 主链碳数","why":"画了 5 个 C（这是 pentylamine），butyl- 只有 4 个 C。"}],"wrong":[{"name":"1-aminobutane","why":"错在步骤 ①（用了 prefix amino-）：没有更高优先级 functional group 时，primary amine 用 suffix -amine；IUPAC 写法是 butylamine（或 butan-1-amine）。"},{"name":"propylamine","why":"错在步骤 ②（主链碳数数错）：连在 N 上的碳链有 4 个 C（butylamine），不是 3 个 C。"}],"accept":["butan-1-amine"]},{"name":"ethylamine","formula":"C₂H₇N","sid":"s81","cat":"amine","chain":"straight","steps":["含 primary amine group（–NH₂）→ amine，suffix 为 -amine","连在 N 上的 carbon chain 有 2 个 C → ethyl-","连有 –NH₂ 的碳为 C1，右端为 C2","直链 primary amine 写作 alkylamine → ethylamine（ethan-1-amine 也判对）"],"cChain":[1,2],"fg":[0],"subs":[],"parts":[["ethyl","ch"],["amine","fg"]],"dist":[{"sid":"s82","name":"methylamine","step":"步骤 ② 主链碳数","why":"只有 1 个 C（这是 methylamine；连向 H₂N 的一端是 N 不是 C）。"},{"sid":"s78","name":"propylamine","step":"步骤 ② 主链碳数","why":"有 3 个 C（这是 propylamine），ethyl- 只有 2 个 C。"},{"sid":"s83","name":"ethanol","step":"步骤 ① functional group","why":"接的是 –OH（alcohol：ethanol），amine 应为 –NH₂。"}],"wrong":[{"name":"aminoethane","why":"错在步骤 ①（用了 prefix amino-）：简单 primary amine 用 suffix -amine；IUPAC 写法是 ethylamine（或 ethan-1-amine）。"},{"name":"methylamine","why":"错在步骤 ②（主链碳数数错）：碳链有 2 个 C（ethylamine），不是 1 个 C。"}],"accept":["ethan-1-amine"]},{"name":"propylamine","formula":"C₃H₉N","sid":"s78","cat":"amine","chain":"straight","steps":["含 primary amine group（–NH₂）→ amine，suffix 为 -amine","连在 N 上的直链 carbon chain 有 3 个 C → propyl-","从连有 –NH₂ 的左端碳 C1 向右编号至 C3","直链 primary amine 写作 alkylamine → propylamine（propan-1-amine 也判对）"],"cChain":[1,2,3],"fg":[0],"subs":[],"parts":[["propyl","ch"],["amine","fg"]],"dist":[{"sid":"s84","name":"propan-2-amine","step":"步骤 ③ –NH₂ 位置","why":"–NH₂ 在中间 C2（这是 propan-2-amine），propylamine（propan-1-amine）在链端 C1。"},{"sid":"s81","name":"ethylamine","step":"步骤 ② 主链碳数","why":"只有 2 个 C（这是 ethylamine；H₂N 那端不是 C）。"},{"sid":"s77","name":"butylamine","step":"步骤 ② 主链碳数","why":"有 4 个 C（这是 butylamine），propyl- 应为 3 个 C。"}],"wrong":[{"name":"1-aminopropane","why":"错在步骤 ①（用了 prefix amino-）：简单 primary amine 用 suffix -amine；IUPAC 写法是 propylamine（或 propan-1-amine）。"},{"name":"propan-2-amine","why":"错在步骤 ③（位置数错）：–NH₂ 连在链端 C1，不在中间 C2；IUPAC 写法是 propylamine（或 propan-1-amine）。"}],"accept":["propan-1-amine"]},{"name":"butanenitrile","formula":"C₄H₇N","sid":"s85","cat":"nitrile","chain":"straight","steps":["含 nitrile group（–C≡N）→ nitrile，suffix 为 -nitrile（辅音 n 开头，保留 butane 末尾 e）","包含 –C≡N 碳在内的连续碳链共 4 个 C（切勿漏数 –C≡N 的 C！）→ butane-","nitrile 的 –C≡N 碳永远固定为 C1（图右端），向左编号至 C4；省略数字 1","无其他 substituent → butanenitrile"],"cChain":[3,2,1,0],"fg":[3,4],"subs":[],"parts":[["butane","ch"],["nitrile","fg"]],"dist":[{"sid":"s86","name":"pentanenitrile","step":"步骤 ② 主链碳数","why":"最常见易错点：忘了 –C≡N 的 C 本身算进主链（C1），画成了 4 + 1 = 5 个 C（pentanenitrile）！"},{"sid":"s87","name":"propanenitrile","step":"步骤 ② 主链碳数","why":"连同 –C≡N 一共只有 3 个 C（这是 propanenitrile），butanenitrile 共 4 个 C。"},{"sid":"s77","name":"butylamine","step":"步骤 ① functional group","why":"这是含 –NH₂ 的 butylamine，nitrile 必须是 –C≡N 三键。"}],"wrong":[{"name":"propanenitrile","why":"错在步骤 ②（漏算了 –C≡N 的 C）：nitrile 的 –C≡N 碳必须算进主链 C1，共 4 个 C；IUPAC 写法是 butanenitrile。"},{"name":"propyl cyanide","why":"错在步骤 ④（写了旧式俗名）：IUPAC 写法是 butanenitrile。"},{"name":"butan-1-nitrile","why":"错在步骤 ③（写了冗余数字 1 + 漏了 e）：–C≡N 永远在 C1 不写 1，且保留 butane 的 e；IUPAC 写法是 butanenitrile。"}]},{"name":"pentanenitrile","formula":"C₅H₉N","sid":"s86","cat":"nitrile","chain":"straight","steps":["含 nitrile group（–C≡N）→ nitrile，suffix 为 -nitrile（保留 pentane 末尾 e）","包含 –C≡N 碳在内的连续碳链共 5 个 C（4 个 alkyl C + 1 个 nitrile C）→ pentane-","图右端 –C≡N 碳固定为 C1，向左编号至 C5；省略数字 1","无其他 substituent → pentanenitrile"],"cChain":[4,3,2,1,0],"fg":[4,5],"subs":[],"parts":[["pentane","ch"],["nitrile","fg"]],"dist":[{"sid":"s88","name":"hexanenitrile","step":"步骤 ② 主链碳数","why":"忘了 –C≡N 的 C 算进主链（C1），画成了 5 + 1 = 6 个 C（hexanenitrile）！"},{"sid":"s85","name":"butanenitrile","step":"步骤 ② 主链碳数","why":"连同 –C≡N 一共只有 4 个 C（这是 butanenitrile），pentanenitrile 共 5 个 C。"},{"sid":"s80","name":"pentylamine","step":"步骤 ① functional group","why":"这是含 –NH₂ 的 pentylamine，不是 –C≡N nitrile。"}],"wrong":[{"name":"butanenitrile","why":"错在步骤 ②（漏算了 –C≡N 的 C）：加上 –C≡N 的碳一共是 5 个 C（pentanenitrile），不是 4 个 C。"},{"name":"butyl cyanide","why":"错在步骤 ④（写了旧式俗名）：IUPAC 写法是 pentanenitrile。"},{"name":"pentan-1-nitrile","why":"错在步骤 ③（写了冗余数字 1 + 漏了 e）：–C≡N 固定为 C1 不写 1，且保留 pentane 的 e；IUPAC 写法是 pentanenitrile。"}]},{"name":"cyclohexane","formula":"C₆H₁₂","sid":"s89","cat":"cyclic","chain":"cyclic","steps":["全是 C–C single bonds，且碳链首尾闭合 → cycloalkane","闭合碳环（ring）含 6 个 C → LO 13.3.1 归类为 cyclic","无取代基时环上 6 个碳位置等价（C1–C6）","前缀 cyclo- + hexane → cyclohexane（本题仅考 LO 13.3.1 骨架分类）"],"cChain":[0,1,2,3,4,5],"fg":[],"subs":[],"parts":[["cyclo","fg"],["hex","ch"],["ane","fg"]],"dist":[{"sid":"s90","name":"hexane (straight-chained)","step":"LO 13.3.1 骨架类型","why":"这是开放直链的 straight-chained molecule（hexane），首尾没有闭合形成 ring。"},{"sid":"s0","name":"2-methylpentane (branched)","step":"LO 13.3.1 骨架类型","why":"这是带 methyl side-chain 的开放 branched molecule，没有闭合 ring。"},{"sid":"s91","name":"2,3-dimethylbutane (branched)","step":"LO 13.3.1 骨架类型","why":"这是开放支链的 branched molecule，不含闭合碳环。"}],"wrong":[{"name":"hexane","why":"错在步骤 ②（骨架类型）：hexane 是开放链 alkane（C₆H₁₄），闭合六元饱和环须加前缀 cyclo-（IUPAC 写法是 cyclohexane）。"},{"name":"benzene","why":"错在步骤 ①（不饱和度）：benzene 是含离域 π 体系的 arene（C₆H₆），本题是完全饱和的 cycloalkane（IUPAC 写法是 cyclohexane）。"},{"name":"cyclohexene","why":"错在步骤 ①（functional group）：suffix -ene 代表含 C=C 双键，本题环上全是单键（IUPAC 写法是 cyclohexane）。"}],"ring":1},{"name":"methylcyclopentane","formula":"C₆H₁₂","sid":"s92","cat":"cyclic","chain":"cyclic","steps":["含闭合五元碳环（ring）→ 虽带 methyl side-chain，LO 13.3.1 仍归类为 cyclic","闭合主环含 5 个 C（cyclopentane），环外接 1 个 methyl 支链","连有 methyl 的环碳定为 C1（单取代环烷烃省略数字 1）","methyl + cyclopentane → methylcyclopentane（本题仅考 LO 13.3.1 骨架分类）"],"cChain":[3,2,1,0,5],"fg":[],"subs":[4],"parts":[["methyl","sub"],["cyclopent","ch"],["ane","fg"]],"dist":[{"sid":"s1","name":"3-methylpentane (branched)","step":"LO 13.3.1 骨架类型","why":"这是开放支链的 branched molecule（3-methylpentane），碳原子没有首尾连成 ring。"},{"sid":"s90","name":"hexane (straight-chained)","step":"LO 13.3.1 骨架类型","why":"这是不分叉的 straight-chained molecule（hexane），不含闭合 ring。"},{"sid":"s12","name":"2,2-dimethylbutane (branched)","step":"LO 13.3.1 骨架类型","why":"这是开放支链的 branched molecule（2,2-dimethylbutane），没有 ring。"}],"wrong":[{"name":"1-methylcyclopentane","why":"错在步骤 ③（写了冗余数字 1）：单取代 cycloalkane 默认取代基所在碳为 C1，省略数字 1（IUPAC 写法是 methylcyclopentane）。"},{"name":"methylcyclopentene","why":"错在步骤 ①（functional group）：suffix -ene 代表含 C=C 双键，本题是饱和环烷烃（IUPAC 写法是 methylcyclopentane）。"},{"name":"cyclohexane","why":"错在步骤 ②（主环碳数）：本题是五元环外接 1 个 methyl 支链，不是无支链的六元环（IUPAC 写法是 methylcyclopentane）。"}],"ring":1},{"name":"pentane","formula":"C₅H₁₂","sid":"s93","cat":"alkane","chain":"straight","steps":["只有 C–C single bonds → alkane，suffix 为 -ane","不分叉的连续直链含 5 个折点/端点 = 5 个 C（straight-chained；锯齿折线代表 109.5° 键角）","对称直链，从任一端编号均为 C1–C5","无 substituent → pentane"],"cChain":[0,1,2,3,4],"fg":[],"subs":[],"parts":[["pent","ch"],["ane","fg"]],"dist":[{"sid":"s94","name":"butane","step":"步骤 ② 主链碳数","why":"只有 4 个端点/折点 = 4 个 C（这是 butane），pentane 需要 5 个 C（4 根 C–C 键）。"},{"sid":"s90","name":"hexane","step":"步骤 ② 主链碳数","why":"5 根线段对应 6 个端点/折点 = 6 个 C（这是 hexane），多画了 1 个 C！"},{"sid":"s2","name":"2-methylbutane","step":"步骤 ②/④ 支链","why":"带 methyl 支链的是 2-methylbutane（主链 4 个 C），pentane 是不分叉的 5 碳直链。"}],"wrong":[{"name":"cyclopentane","why":"错在步骤 ①/②：cyclopentane 是闭合环（C₅H₁₀），本题是开放直链的 pentane（C₅H₁₂）。"},{"name":"pent-1-ene","why":"错在步骤 ①（functional group 认错）：结构中全是 C–C 单键（alkane），没有 C=C 双键；IUPAC 写法是 pentane。"},{"name":"n-pentane","why":"错在步骤 ④（写了旧式 n- 前缀）：IUPAC 直链烷烃直接写 pentane，不加 n-。"}]}];
+
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+
+function srcSvg(sid) {
+  return $root.querySelector('.ko-src [data-sid="' + sid + '"] svg');
+}
+
+/* Normalise skeletal C=C double bonds (both ends implicit C) so single bonds join vertices seamlessly */
+$$('.ko-src svg.cf').forEach(function (svg) {
+  var atoms = JSON.parse(svg.getAttribute('data-atoms') || '[]');
+  var bonds = JSON.parse(svg.getAttribute('data-bonds') || '[]');
+  var texts = Array.prototype.slice.call(svg.querySelectorAll('text.cf-a'));
+  var hasLbl = atoms.map(function (a) {
+    return texts.some(function (t) {
+      return Math.abs(+t.getAttribute('x') - a.x) < 0.8 && Math.abs(+t.getAttribute('y') - a.y) < 0.8;
+    });
+  });
+  var nb = atoms.map(function () { return []; });
+  bonds.forEach(function (b) { nb[b[0]].push(b[1]); nb[b[1]].push(b[0]); });
+  var lines = svg.querySelectorAll('.cf-b line'), off = 0;
+  bonds.forEach(function (b) {
+    var ia = b[0], ib = b[1], ord = typeof b[2] === 'number' ? b[2] : 1;
+    if (ord === 2 && !hasLbl[ia] && !hasLbl[ib] && off + 1 < lines.length) {
+      var A = atoms[ia], B = atoms[ib], dx = B.x - A.x, dy = B.y - A.y;
+      var d = Math.sqrt(dx * dx + dy * dy) || 1, ux = dx / d, uy = dy / d, nx = -uy, ny = ux;
+      var nbA = nb[ia].filter(function (k) { return k !== ib; });
+      var nbB = nb[ib].filter(function (k) { return k !== ia; });
+      var l0 = lines[off], l1 = lines[off + 1];
+      if (nbA.length === 2 || nbB.length === 2) {
+        /* Gem-disubstituted sp² C (120° fork): extend ±2.2 lines by 2.2/√3 = 1.27 to meet both single bonds cleanly */
+        var extA = nbA.length === 2 ? 1.27 : 0, extB = nbB.length === 2 ? 1.27 : 0;
+        [2.2, -2.2].forEach(function (s, idx) {
+          var ln = idx ? l1 : l0;
+          ln.setAttribute('x1', (A.x - ux * extA + nx * s).toFixed(1));
+          ln.setAttribute('y1', (A.y - uy * extA + ny * s).toFixed(1));
+          ln.setAttribute('x2', (B.x + ux * extB + nx * s).toFixed(1));
+          ln.setAttribute('y2', (B.y + uy * extB + ny * s).toFixed(1));
+        });
+      } else {
+        /* Standard skeletal C=C: primary line on vertex axis, secondary inner π line shortened at substituted ends */
+        var sideSum = 0;
+        nbA.forEach(function (k) { sideSum += (atoms[k].x - A.x) * nx + (atoms[k].y - A.y) * ny; });
+        nbB.forEach(function (k) { sideSum += (atoms[k].x - B.x) * nx + (atoms[k].y - B.y) * ny; });
+        var side = sideSum < -0.1 ? -1 : 1, gap = 3.8;
+        var tA = nbA.length ? 3.8 : 0, tB = nbB.length ? 3.8 : 0;
+        l0.setAttribute('x1', A.x.toFixed(1)); l0.setAttribute('y1', A.y.toFixed(1));
+        l0.setAttribute('x2', B.x.toFixed(1)); l0.setAttribute('y2', B.y.toFixed(1));
+        l1.setAttribute('x1', (A.x + ux * tA + nx * side * gap).toFixed(1));
+        l1.setAttribute('y1', (A.y + uy * tA + ny * side * gap).toFixed(1));
+        l1.setAttribute('x2', (B.x - ux * tB + nx * side * gap).toFixed(1));
+        l1.setAttribute('y2', (B.y - uy * tB + ny * side * gap).toFixed(1));
+      }
+    }
+    off += ord;
+  });
+});
+
+/* Seeded PRNG so option order and random button are reproducible */
+function mulberry(seed) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+var rand = mulberry(970113);
+
+/* Deterministic per-question option permutation for Mode 2 */
+var OPTS = Q.map(function (q, qi) {
+  var r = mulberry(1301 + qi * 97);
+  var arr = [{ ok: true, sid: q.sid, name: q.name, step: '', why: '' }].concat(
+    q.dist.map(function (d) { return { ok: false, sid: d.sid, name: d.name, step: d.step, why: d.why }; })
+  );
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(r() * (i + 1)), tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+  }
+  return arr;
+});
+
+/* Tolerance normaliser: case / extra spaces / unicode dashes / spaces around '-' & ',' */
+function norm(s) {
+  return String(s || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[−–—‑]/g, '-')
+    .replace(/，/g, ',')
+    .replace(/\s*-\s*/g, '-')
+    .replace(/\s*,\s*/g, ',')
+    .replace(/(\d)\s+([a-z])/g, '$1-$2')
+    .replace(/([a-z])\s+(\d)/g, '$1-$2')
+    .replace(/\s+/g, ' ');
+}
+
+/* Also check hyphen-omitted between digit and letter (e.g. but2ene -> but-2-ene), while keeping 2butene -> 2-butene rejected */
+function normLoose(s) {
+  return norm(s).replace(/(\d)([a-z])/g, '$1-$2').replace(/([a-z])(\d)/g, '$1-$2');
+}
+
+var STEMS = [['hept', 7], ['hex', 6], ['pent', 5], ['but', 4], ['prop', 3], ['eth', 2], ['meth', 1]];
+function detectStem(s) {
+  /* strip substituent alkyl prefixes like 2-methyl, 3-ethyl, propyl before space */
+  var core = s.indexOf(' ') >= 0 ? s.split(' ').pop() : s.replace(/(?:^|-)(\d+(?:,\d+)*-)?(di|tri|tetra)?(methyl|ethyl|propyl|butyl|bromo|chloro|fluoro|iodo)-?/g, '');
+  for (var i = 0; i < STEMS.length; i++) {
+    if (core.indexOf(STEMS[i][0]) >= 0) return STEMS[i];
+  }
+  return null;
+}
+
+/* Step-specific error diagnosis for Mode 1 */
+function diagnose(q, raw) {
+  var v = norm(raw), vl = normLoose(raw), target = norm(q.name);
+  /* 1. Exact / loose match in curated wrong[] list */
+  for (var i = 0; i < q.wrong.length; i++) {
+    var wn = norm(q.wrong[i].name);
+    if (v === wn || vl === normLoose(wn)) return q.wrong[i].why;
+  }
+  /* 2. Pre-stem locant like 2-butene, 1-butanol, 3-hexanone, 1,2-propanediol */
+  if (/^\d+(?:,\d+)*-[a-z]+(?:ene|ol|diol|one|al)$/.test(vl) && /-\d+(?:,\d+)*-(?:ene|ol|diol|one)$/.test(target)) {
+    return '错在步骤 ③（locant 书写位置）：位置数字必须紧贴 functional group suffix 前，不能写在词头；<b>IUPAC 写法是 ' + q.name + '</b>。';
+  }
+  /* 3. Missing 'e' before consonant suffix (-diol, -nitrile) */
+  if (q.cat === 'diol' && /an-\d/.test(vl) && !/ane-\d/.test(vl)) {
+    return '错在步骤 ①/④（漏写连音字母 e）：suffix "-diol" 以辅音 d 开头，alkane 词尾的 e 必须保留；<b>IUPAC 写法是 ' + q.name + '</b>。';
+  }
+  if (q.cat === 'nitrile' && /(?:eth|prop|but|pent|hex)annitrile|(?:eth|prop|but|pent|hex)an-nitrile/.test(vl)) {
+    return '错在步骤 ①/④（漏写字母 e）：suffix "-nitrile" 以辅音 n 开头，alkane 词尾的 e 必须保留；<b>IUPAC 写法是 ' + q.name + '</b>。';
+  }
+  /* 4. Ester checks: missing space or reversed alkyl / alkanoate */
+  if (q.cat === 'ester') {
+    var tp = target.split(' ');
+    if (v === tp[0] + tp[1]) {
+      return '错在步骤 ④（漏写空格）：ester 的 alkyl 与 alkanoate 之间必须留一个空格；<b>IUPAC 写法是 ' + q.name + '</b>。';
+    }
+    if (!/oate$/.test(v)) {
+      return '错在步骤 ①（principal functional group）：结构含 –COO– linkage，属于 ester（命名为 alkyl alkanoate，以 -oate 结尾）；<b>IUPAC 写法是 ' + q.name + '</b>。';
+    }
+    var up = v.split(' ');
+    if (up.length === 2 && up[0].slice(0, 4) === tp[1].slice(0, 4)) {
+      return '错在步骤 ①/④（acid 与 alcohol 两侧写反）：连在单键 –O– 上的烃基作前一个词（' + tp[0] + '），含 C=O 的酸根作后一个词（' + tp[1] + '）；<b>IUPAC 写法是 ' + q.name + '</b>。';
+    }
+    return '错在步骤 ②（两段碳链碳数）：请分别数清 –O– 侧碳数（' + tp[0] + '）与含 C=O 侧总碳数（' + tp[1] + '）；<b>IUPAC 写法是 ' + q.name + '</b>。';
+  }
+  /* 5. Principal functional group / suffix mismatch (Step 1) */
+  var sufMap = {
+    alkene: [/-ene$/, 'alkene（含 C=C，suffix -ene）'],
+    alcohol: [/-ol$/, 'alcohol（含 –OH，suffix -ol）'],
+    diol: [/-diol$/, 'diol（含两个 –OH，suffix -diol）'],
+    aldehyde: [/al$/, 'aldehyde（链端 –CH=O，suffix -al）'],
+    ketone: [/one$/, 'ketone（链中间 >C=O，suffix -one）'],
+    'carboxylic acid': [/oic acid$/, 'carboxylic acid（含 –COOH，suffix -oic acid，注意中间有空格）'],
+    amine: [/amine$/, 'primary amine（含 –NH₂，suffix -amine）'],
+    nitrile: [/nitrile$/, 'nitrile（含 –C≡N，suffix -nitrile）'],
+    alkane: [/ane$/, 'alkane（只有 C–C 单键，suffix -ane）'],
+    halogenoalkane: [/ane$/, 'halogenoalkane（卤素作 prefix 如 bromo-/chloro-/iodo-，母体以 -ane 结尾）']
+  };
+  var expSuf = sufMap[q.cat];
+  if (expSuf && !expSuf[0].test(vl)) {
+    return '错在步骤 ①（principal functional group / suffix）：该分子属于 ' + expSuf[1] + '；<b>IUPAC 写法是 ' + q.name + '</b>。';
+  }
+  /* 6. Parent chain stem length mismatch (Step 2) */
+  var gotStem = detectStem(vl), wantStem = detectStem(target);
+  if (gotStem && wantStem && gotStem[1] !== wantStem[1]) {
+    var extra = q.cat === 'nitrile' ? '（注意 –C≡N 的 C 必须算进主链 C1！）' : (q.cat === 'carboxylic acid' || q.cat === 'aldehyde') ? '（注意 C=O 的 C 本身就是主链 C1！）' : '';
+    return '错在步骤 ②（最长碳链碳数）：你写成了 ' + gotStem[1] + ' 个 C（' + gotStem[0] + '-），但包含主官能团的最长连续碳链有 <b>' + wantStem[1] + ' 个 C（' + wantStem[0] + '-）</b>' + extra + '；<b>IUPAC 写法是 ' + q.name + '</b>。';
+  }
+  /* 7. Same letters ignoring digits/commas/hyphens -> locant / numbering error (Step 3) */
+  var alphaGot = vl.replace(/[\d,-]/g, ''), alphaWant = target.replace(/[\d,-]/g, '');
+  if (alphaGot === alphaWant) {
+    return '错在步骤 ③（主链编号方向或位置数字）：碳链与基团名称已对，但 locant 不对（' + q.steps[2] + '）；<b>IUPAC 写法是 ' + q.name + '</b>。';
+  }
+  /* 8. Substituent / alphabetical / multiplier error (Step 4) */
+  return '错在步骤 ④（substituent 名称、个数词头 di-/tri- 或字母顺序）：' + q.steps[3] + '；<b>IUPAC 写法是 ' + q.name + '</b>。';
+}
+
+/* Find rendered <line> elements belonging to bond ia-ib */
+function bondLines(svg, ia, ib) {
+  var D = KO.atoms(svg), A = D.atoms[ia], B = D.atoms[ib];
+  var bx = B.x - A.x, by = B.y - A.y, bl = Math.sqrt(bx * bx + by * by) || 1, bl2 = bl * bl;
+  return Array.prototype.filter.call(svg.querySelectorAll('.cf-b line'), function (l) {
+    var x1 = +l.getAttribute('x1'), y1 = +l.getAttribute('y1'), x2 = +l.getAttribute('x2'), y2 = +l.getAttribute('y2');
+    var mx = (x1 + x2) / 2 - A.x, my = (y1 + y2) / 2 - A.y, t = (mx * bx + my * by) / bl2;
+    var perp = Math.abs(mx * by - my * bx) / bl, lx = x2 - x1, ly = y2 - y1;
+    var par = Math.abs(lx * by - ly * bx) / ((Math.sqrt(lx * lx + ly * ly) || 1) * bl);
+    return t > 0.04 && t < 0.96 && perp < 4.5 && par < 0.12;
+  });
+}
+
+function styleBond(svg, ia, ib, cls) {
+  var ls = bondLines(svg, ia, ib);
+  var ordCls = ls.length === 2 ? ' nm-b2' : ls.length >= 3 ? ' nm-b3' : '';
+  ls.forEach(function (l) { l.setAttribute('class', (l.getAttribute('class') || '') + ' ' + cls + ordCls); });
+}
+
+/* Render structure SVG into box with optional walkthrough step (0 = clean, 1..4 = annotated) */
+function renderMol(box, q, step, maxW) {
+  box.innerHTML = '';
+  var svg = srcSvg(q.sid).cloneNode(true);
+  var vb = svg.getAttribute('viewBox').trim().split(/\s+/).map(Number);
+  var targetMaxW = maxW || 580;
+  var sc = Math.min(1.48, Math.max(1.22, targetMaxW / vb[2]));
+  KO.scale(svg, sc);
+  box.appendChild(svg);   /* must be in live DOM before KO.hl / KO.num call getBBox() */
+
+  if (!step) return svg;
+  var D = KO.atoms(svg);
+
+  /* Step 1: highlight principal functional group */
+  if (step >= 1 && q.fg.length) {
+    KO.hl(svg, q.fg, '');
+    for (var i = 0; i < q.fg.length; i++) {
+      for (var j = i + 1; j < q.fg.length; j++) {
+        if (D.nb[q.fg[i]].indexOf(q.fg[j]) >= 0) styleBond(svg, q.fg[i], q.fg[j], 'nm-fgb');
+      }
+    }
+  }
+
+  /* Step 2: bold parent carbon chain (and alcohol alkyl chain for esters) */
+  if (step >= 2) {
+    KO.hl(svg, q.cChain, 'acc');
+    for (var k = 0; k < q.cChain.length - 1; k++) styleBond(svg, q.cChain[k], q.cChain[k + 1], 'nm-chb');
+    if (q.ring && q.cChain.length > 2) styleBond(svg, q.cChain[q.cChain.length - 1], q.cChain[0], 'nm-chb');
+    if (q.aChain) {
+      KO.hl(svg, q.aChain, 'ok');
+      for (var a = 0; a < q.aChain.length - 1; a++) styleBond(svg, q.aChain[a], q.aChain[a + 1], 'nm-alkb');
+    }
+  }
+
+  /* Step 3: IUPAC locant numbers beside each parent-chain C (and alcohol-side C1′..Cn′ for esters, including methyl 1′) */
+  if (step >= 3) {
+    KO.num(svg, q.cChain);
+    if (q.aChain && q.aChain.length) {
+      /* Pass {prefix:'′'} so KO.num measures exact 2-glyph width ('′1' == '1′') during collision avoidance */
+      var anums = KO.num(svg, q.aChain, { prefix: '′' });
+      anums.forEach(function (t, idx) {
+        t.classList.add('nm-anum');
+        t.textContent = (idx + 1) + '′';
+      });
+    }
+  }
+
+  /* Step 4: highlight substituents / branches */
+  if (step >= 4 && q.subs.length) {
+    var discs = KO.hl(svg, q.subs, 'sub');
+    var chainSet = {};
+    q.cChain.forEach(function (u) { chainSet[u] = 1; });
+    var subSet = {};
+    q.subs.forEach(function (u) { subSet[u] = 1; });
+    q.subs.forEach(function (u) {
+      D.nb[u].forEach(function (v) {
+        if (chainSet[v] || (subSet[v] && u < v)) styleBond(svg, u, v, 'nm-subb');
+      });
+    });
+  }
+  return svg;
+}
+
+function legendHtml(q, step) {
+  if (!step) return '';
+  var items = [];
+  if (step >= 1) {
+    if (q.cat === 'halogenoalkane') items.push('<span><i class="nm-dot fg"></i>①/④ halogen prefix（按字母序）</span>');
+    else if (q.fg.length) items.push('<span><i class="nm-dot fg"></i>① principal functional group</span>');
+    else items.push('<span>① 无 suffix 官能团（C–C single bonds）</span>');
+  }
+  if (step >= 2) {
+    items.push('<span><i class="nm-bar-k ch"></i>② ' + (q.aChain ? 'acid 侧主链（alkanoate）' : q.ring ? '闭合主碳环（ring）' : '最长碳链（parent chain）') + '</span>');
+    if (q.aChain) items.push('<span><i class="' + (q.aChain.length > 1 ? 'nm-bar-k alk' : 'nm-dot alk') + '"></i>alcohol 侧' + (q.aChain.length > 1 ? '碳链' : '碳') + '（alkyl）</span>');
+  }
+  if (step >= 3) items.push('<span><b style="color:var(--acc)">1, 2…</b>' + (q.aChain ? ' / <b style="color:var(--s3)">1′…</b>' : '') + ' ③ IUPAC 碳编号</span>');
+  if (step >= 4 && q.subs.length && q.cat !== 'halogenoalkane') items.push('<span><i class="nm-dot sub"></i>④ substituent（按字母序）</span>');
+  return items.join('');
+}
+
+/* ---------- State ---------- */
+var mode = 'write';         /* 'write' | 'pick' */
+var filterCat = 'all';
+var pool = Q.map(function (_, i) { return i; });
+var pos = 0;                /* index inside pool */
+var walkOpen = false;
+var walkStep = 1;
+var score = { ok: 0, n: 0 };
+/* per-mode, per-question state */
+var stWrite = Q.map(function () { return { val: '', res: null, msg: '', chPick: null, counted: false }; });
+var stPick = Q.map(function () { return { pick: null, counted: false }; });
+
+function matchCat(q, c) {
+  if (c === 'all') return true;
+  if (c === 'alcohol_diol') return q.cat === 'alcohol' || q.cat === 'diol';
+  if (c === 'carbonyl') return q.cat === 'aldehyde' || q.cat === 'ketone';
+  if (c === 'acid_ester') return q.cat === 'carboxylic acid' || q.cat === 'ester';
+  if (c === 'n_comp') return q.cat === 'amine' || q.cat === 'nitrile';
+  return q.cat === c;
+}
+
+function rebuildPool(keepQi) {
+  pool = [];
+  Q.forEach(function (q, i) { if (matchCat(q, filterCat)) pool.push(i); });
+  if (!pool.length) pool = [0];
+  var idx = keepQi != null ? pool.indexOf(keepQi) : -1;
+  pos = idx >= 0 ? idx : 0;
+}
+
+function curQi() { return pool[pos]; }
+function curQ() { return Q[curQi()]; }
+
+var CHAIN_LABEL = { straight: 'straight-chained', branched: 'branched', cyclic: 'cyclic' };
+var CHAIN_WHY = {
+  straight: '所有 C 连成一条不分叉的连续链（skeletal 锯齿折线代表 109.5° 键角，不是支链）。',
+  branched: '主链上带有 alkyl side-chain 分叉。',
+  cyclic: '碳原子首尾闭合形成 ring（即使环上带支链，LO 13.3.1 也归类为 cyclic）。'
+};
+
+function refreshJumper() {
+  var sel = $('.nm-jmp');
+  sel.innerHTML = '';
+  pool.forEach(function (qi, p) {
+    var q = Q[qi];
+    var done = mode === 'write' ? !!stWrite[qi].res : stPick[qi].pick != null;
+    var label = '第 ' + (p + 1) + '/' + pool.length + ' 题 · ' + (mode === 'pick' || done ? q.name : q.formula);
+    var opt = K.el('option', { value: p }, label);
+    sel.appendChild(opt);
+  });
+  sel.value = String(pos);
+  $('.nm-sc-ok').textContent = score.ok;
+  $('.nm-sc-n').textContent = score.n;
+}
+
+function showFb(kind, html) {
+  var fb = $('.nm-fb');
+  if (!kind) { fb.hidden = true; fb.className = 'nm-fb'; fb.innerHTML = ''; return; }
+  fb.hidden = false;
+  fb.className = 'nm-fb ' + kind;
+  fb.innerHTML = html;
+}
+
+var STEP_TITLES = ['① Functional group', '② 最长链', '③ 编号 C1…Cn', '④ 拼出名字'];
+
+function renderWalk() {
+  var w = $('.nm-walk'), q = curQ();
+  w.hidden = !walkOpen;
+  $$('.nm-walk-toggle, .nm-walk-toggle2, .nm-walk-toggle3').forEach(function (b) {
+    b.classList.toggle('on', walkOpen);
+    b.textContent = walkOpen ? '收起解析' : '看解析';
+  });
+  if (!walkOpen) return;
+
+  $$('.nm-stepbtns button').forEach(function (b) {
+    b.classList.toggle('on', +b.getAttribute('data-st') === walkStep);
+  });
+  $('.nm-stnext').disabled = walkStep >= 4;
+
+  /* In Mode 2, render annotated SVG inside .nm-walk-fig; in Mode 1, annotate .nm-stage directly */
+  var wfig = $('.nm-walk-fig');
+  if (mode === 'pick') {
+    wfig.hidden = false;
+    renderMol($('.nm-walk-stage'), q, walkStep, 560);
+    $('.nm-walk-leg').innerHTML = legendHtml(q, walkStep);
+  } else {
+    wfig.hidden = true;
+  }
+
+  var ol = $('.nm-steps');
+  ol.innerHTML = '';
+  for (var k = 1; k <= 4; k++) {
+    var li = K.el('li', { 'class': k === walkStep ? 'cur' : (k > walkStep ? 'dim' : ''), 'data-st': k });
+    li.innerHTML = '<span class="nm-sn">' + k + '</span><div><span class="nm-st-lbl">' + STEP_TITLES[k - 1].slice(2) + '：</span>' +
+      (k <= walkStep ? q.steps[k - 1] : '<span class="mut">点击展开第 ' + k + ' 步</span>') + '</div>';
+    (function (kk) {
+      li.addEventListener('click', function () { setStep(kk); });
+    })(k);
+    ol.appendChild(li);
+  }
+
+  var built = $('.nm-built');
+  if (walkStep >= 4) {
+    built.hidden = false;
+    built.innerHTML = '<span class="mut">拼合结果：</span>' +
+      q.parts.map(function (p) { return '<span class="nm-part p-' + p[1] + '">' + p[0].trim() + '</span>'; }).join('<span class="faint">+</span>') +
+      '<span>→</span><span class="nm-final">' + q.name + '</span>' +
+      (q.accept ? '<span class="faint">（也接受：' + q.accept.join('、') + '）</span>' : '');
+  } else {
+    built.hidden = true;
+  }
+}
+
+function renderWrite() {
+  var qi = curQi(), q = curQ(), st = stWrite[qi];
+  $('.nm-wbox').hidden = false;
+  $('.nm-pbox').hidden = true;
+  var isCy = q.cat === 'cyclic';
+  var catLbl = isCy ? 'cycloalkane' : q.cat;
+  var showCat = !!st.res || walkOpen;
+  var showChain = isCy ? (!!st.res || (walkOpen && walkStep >= 2)) : !!st.chPick;
+  $('.nm-qtag').textContent = '第 ' + (pos + 1) + ' / ' + pool.length + ' 题' +
+    (showCat ? ' · ' + catLbl : '') +
+    (showChain ? ' · ' + CHAIN_LABEL[q.chain] : '');
+  $('.nm-fbadge').textContent = 'molecular formula: ' + q.formula;
+
+  renderMol($('.nm-stage'), q, walkOpen ? walkStep : 0, 580);
+  var leg = $('.nm-leg');
+  if (walkOpen) { leg.hidden = false; leg.innerHTML = legendHtml(q, walkStep); }
+  else { leg.hidden = true; leg.innerHTML = ''; }
+
+  $('.nm-inwrap').hidden = isCy;
+  $('.nm-cybox').hidden = !isCy;
+
+  if (!isCy) {
+    var inp = $('.nm-in');
+    inp.value = st.val;
+    inp.classList.remove('good', 'badv');
+    if (st.res === 'ok') inp.classList.add('good');
+    else if (st.res === 'bad') inp.classList.add('badv');
+
+    /* LO 13.3.1 quick self-check pills */
+    $$('.nm-cchips button').forEach(function (b) {
+      var ch = b.getAttribute('data-ch');
+      b.classList.remove('good', 'badv');
+      if (st.chPick) {
+        if (ch === q.chain) b.classList.add('good');
+        else if (ch === st.chPick) b.classList.add('badv');
+      }
+    });
+    var cfb = $('.nm-cfb');
+    if (!st.chPick) { cfb.className = 'nm-cfb faint'; cfb.textContent = ''; }
+    else if (st.chPick === q.chain) { cfb.className = 'nm-cfb ok'; cfb.textContent = '✓ ' + CHAIN_LABEL[q.chain]; }
+    else { cfb.className = 'nm-cfb bad'; cfb.textContent = '✗ 应为 ' + CHAIN_LABEL[q.chain] + '：' + CHAIN_WHY[q.chain]; }
+  } else {
+    $$('.nm-cybtns button[data-cy]').forEach(function (b) {
+      var ch = b.getAttribute('data-cy');
+      b.classList.remove('good', 'badv');
+      if (st.chPick) {
+        if (ch === q.chain) b.classList.add('good');
+        else if (ch === st.chPick) b.classList.add('badv');
+      }
+    });
+  }
+
+  showFb(st.res, st.msg);
+  renderWalk();
+}
+
+function renderPick() {
+  var qi = curQi(), q = curQ(), st = stPick[qi], opts = OPTS[qi];
+  $('.nm-wbox').hidden = true;
+  $('.nm-pbox').hidden = false;
+  var isCy = q.cat === 'cyclic';
+  $('.nm-pq').innerHTML = isCy
+    ? '第 ' + (pos + 1) + ' / ' + pool.length + ' 题（LO 13.3.1）· 选出碳骨架属于 <b>cyclic</b> 的 molecule' + (q.subs.length ? '（环上也可带支链）' : '')
+    : '第 ' + (pos + 1) + ' / ' + pool.length + ' 题 · 选出 <b>' + q.name + '</b> 的 skeletal formula';
+
+  var box = $('.nm-opts');
+  box.innerHTML = '';
+  /* Check max viewBox width among the 4 options so wide chains get a 1-column layout */
+  var maxVbW = Math.max.apply(null, opts.map(function (o) {
+    return +srcSvg(o.sid).getAttribute('viewBox').trim().split(/\s+/)[2];
+  }));
+  var wide = maxVbW > 248;
+  box.classList.toggle('wide', wide);
+
+  var LETS = ['A', 'B', 'C', 'D'];
+  opts.forEach(function (o, idx) {
+    var btn = K.el('button', { type: 'button', 'class': 'nm-opt', 'data-opt': idx, 'data-ok': o.ok ? '1' : '0' });
+    var top = K.el('div', { 'class': 'nm-opt-top' }, '<span class="nm-let">' + LETS[idx] + '</span><span></span>');
+    var svgWrap = K.el('div', { 'class': 'nm-opt-svg' });
+    var svg = srcSvg(o.sid).cloneNode(true);
+    var vbW = +svg.getAttribute('viewBox').trim().split(/\s+/)[2];
+    var sc = wide ? Math.min(1.36, 595 / vbW) : Math.min(1.26, 295 / vbW);
+    KO.scale(svg, Math.max(1.06, sc));
+    svgWrap.appendChild(svg);
+    var cap = K.el('div', { 'class': 'nm-opt-cap' });
+
+    if (st.pick != null) {
+      btn.disabled = true;
+      if (o.ok) {
+        btn.classList.add('good');
+        cap.textContent = '✓ 正确：' + o.name;
+      } else if (idx === st.pick) {
+        btn.classList.add('badv');
+        cap.textContent = '✗ 这是 ' + o.name;
+      } else {
+        cap.textContent = o.name;
+      }
+    }
+
+    btn.appendChild(top); btn.appendChild(svgWrap); btn.appendChild(cap);
+    btn.addEventListener('click', function () { chooseOpt(idx); });
+    box.appendChild(btn);
+  });
+
+  if (st.pick == null) {
+    showFb(null, '');
+  } else {
+    var chosen = opts[st.pick], rightIdx = opts.findIndex(function (x) { return x.ok; });
+    if (chosen.ok) {
+      showFb('ok', '<span class="nm-v">✓ 正确！</span> 选项 ' + LETS[st.pick] + ' 就是 <b>' + q.name + '</b>（' + q.formula + '）。点「看解析」可逐步查看编号与主链。');
+    } else {
+      showFb('bad', '<span class="nm-v">✗ 选错了：</span>你选的 ' + LETS[st.pick] + ' 实际上是 <b>' + chosen.name + '</b> — <b>错在' + chosen.step + '</b>：' + chosen.why + ' 正确结构是选项 <b>' + LETS[rightIdx] + '</b>。');
+    }
+  }
+  renderWalk();
+}
+
+function render() {
+  $$('.nm-modes button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-mode') === mode); });
+  refreshJumper();
+  if (mode === 'write') renderWrite();
+  else renderPick();
+  K.fit();
+}
+
+function gradeWrite() {
+  var qi = curQi(), q = curQ(), st = stWrite[qi];
+  var raw = $('.nm-in').value;
+  st.val = raw;
+  if (!raw.trim()) {
+    st.res = 'bad';
+    st.msg = '<span class="nm-v">请先输入名称</span>，例如 <code>but-2-ene</code>，再点「判分」。';
+    render(); return;
+  }
+  var v = norm(raw), vl = normLoose(raw);
+  var valids = [q.name].concat(q.accept || []);
+  var matched = null;
+  for (var i = 0; i < valids.length; i++) {
+    if (v === norm(valids[i]) || vl === normLoose(valids[i])) { matched = valids[i]; break; }
+  }
+  /* Guard: if input matches an explicit wrong entry (like 2-butene), never accept */
+  var hitWrong = q.wrong.some(function (w) { return v === norm(w.name) || vl === normLoose(w.name); });
+  if (hitWrong) matched = null;
+
+  if (!st.counted) { st.counted = true; score.n++; if (matched) score.ok++; }
+  if (matched) {
+    st.res = 'ok';
+    var note = matched.toLowerCase() !== q.name.toLowerCase()
+      ? '（9701 常用写法：<b>' + q.name + '</b>；系统写法 <b>' + matched + '</b> 同样满分）'
+      : (q.accept ? '（写 <b>' + q.accept.join(' / ') + '</b> 也判对）' : '');
+    var puncNote = v !== norm(matched) ? ' <span class="faint">注意考卷书写时数字与字母间用连字符 "-"：' + q.name + '。</span>' : '';
+    st.msg = '<span class="nm-v">✓ 正确：</span><b>' + q.name + '</b> ' + note + puncNote;
+  } else {
+    st.res = 'bad';
+    st.msg = '<span class="nm-v">✗ 再检查一下</span>（你写的是 <code>' + raw.trim().replace(/</g, '&lt;') + '</code>）— ' + diagnose(q, raw);
+  }
+  render();
+}
+
+function gradeCyclicWrite(ch) {
+  var qi = curQi(), q = curQ(), st = stWrite[qi];
+  st.chPick = ch;
+  var ok = ch === q.chain;
+  if (!st.counted) { st.counted = true; score.n++; if (ok) score.ok++; }
+  if (ok) {
+    st.res = 'ok';
+    st.msg = '<span class="nm-v">✓ 正确：</span><b>cyclic</b> — ' + CHAIN_WHY.cyclic + '（本分子为 <b>' + q.name + '</b>，' + q.formula + '）。';
+  } else {
+    st.res = 'bad';
+    var why = ch === 'branched' && q.subs.length
+      ? '虽然五元碳环上连了一个 methyl side-chain，但只要含有闭合碳环（ring），LO 13.3.1 就归类为 <b>cyclic</b>（不是链状 branched）。'
+      : '上方结构中碳原子首尾相连成闭合的 ring，属于 <b>cyclic</b>（不是开放链 ' + CHAIN_LABEL[ch] + '）。';
+    st.msg = '<span class="nm-v">✗ 不对：</span>' + why + '（本分子为 <b>' + q.name + '</b>）。';
+  }
+  render();
+}
+
+function chooseOpt(idx) {
+  var qi = curQi(), st = stPick[qi], opts = OPTS[qi];
+  if (st.pick != null) return;
+  st.pick = idx;
+  if (!st.counted) { st.counted = true; score.n++; if (opts[idx].ok) score.ok++; }
+  render();
+}
+
+function go(newPos) {
+  pos = (newPos + pool.length) % pool.length;
+  walkOpen = false; walkStep = 1;
+  render();
+}
+
+function setMode(m) {
+  mode = m;
+  walkOpen = false; walkStep = 1;
+  render();
+}
+
+function toggleWalk() {
+  walkOpen = !walkOpen;
+  if (walkOpen) walkStep = 1;
+  render();
+}
+
+function setStep(k) {
+  walkOpen = true;
+  walkStep = Math.max(1, Math.min(4, k));
+  render();
+}
+
+/* ---------- Event Listeners ---------- */
+$$('.nm-modes button').forEach(function (b) {
+  b.addEventListener('click', function () { setMode(b.getAttribute('data-mode')); });
+});
+$('.nm-cat').addEventListener('change', function () {
+  filterCat = this.value;
+  rebuildPool(null);
+  walkOpen = false; walkStep = 1;
+  render();
+});
+$('.nm-jmp').addEventListener('change', function () { go(+this.value); });
+$('.nm-prev').addEventListener('click', function () { go(pos - 1); });
+$('.nm-next').addEventListener('click', function () { go(pos + 1); });
+$('.nm-rand').addEventListener('click', function () {
+  if (pool.length <= 1) return;
+  var j = pos;
+  while (j === pos) j = Math.floor(rand() * pool.length);
+  go(j);
+});
+$('.nm-go').addEventListener('click', gradeWrite);
+$('.nm-in').addEventListener('keydown', function (e) { if (e.key === 'Enter') gradeWrite(); });
+$('.nm-in').addEventListener('input', function () { stWrite[curQi()].val = this.value; });
+$$('.nm-cchips button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    stWrite[curQi()].chPick = b.getAttribute('data-ch');
+    render();
+  });
+});
+$$('.nm-cybtns button[data-cy]').forEach(function (b) {
+  b.addEventListener('click', function () { gradeCyclicWrite(b.getAttribute('data-cy')); });
+});
+$$('.nm-walk-toggle, .nm-walk-toggle2, .nm-walk-toggle3').forEach(function (b) {
+  b.addEventListener('click', toggleWalk);
+});
+$$('.nm-stepbtns button').forEach(function (b) {
+  b.addEventListener('click', function () { setStep(+b.getAttribute('data-st')); });
+});
+$('.nm-stnext').addEventListener('click', function () { if (walkStep < 4) setStep(walkStep + 1); });
+
+render();
+
+/* Expose test API */
+$root.__naming = {
+  Q: Q, OPTS: OPTS, norm: norm, diagnose: diagnose,
+  setMode: setMode, setStep: setStep,
+  goQi: function (qi) {
+    filterCat = 'all'; $('.nm-cat').value = 'all';
+    rebuildPool(qi); walkOpen = false; walkStep = 1; render();
+  },
+  curQi: curQi
+};
+</script>
