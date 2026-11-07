@@ -37,3 +37,40 @@ push 到 `main` 后，GitHub Action [`sync-drive.yml`](../.github/workflows/sync
 Actions 页的 *Run workflow* 可以手动推全部。需要 repo secret `RCLONE_CONF`，内容是 `rclone config show gdrive` 的完整输出。
 
 不要在 Colab 里直接改 notebook——改 `colab/src/` 再 build。
+
+## 本地运行时（连本机 Jupyter）
+
+交互 cell 的 output 是预填的，**只阅读不需要任何 runtime**；只有要 Run all（或重跑某个 cell）时才需要连。
+约定一律连本机 Jupyter，不用云端 VM（不耗 compute unit）。做法照 Colab 官方 local-runtimes 页面的 Jupyter 选项，
+**不用**装 `jupyter_http_over_ws`。
+
+一次性安装（Notebook 7，装在 `~/.local/share/uv/tools/notebook`）：
+
+```bash
+uv tool install --with ipykernel notebook
+mkdir -p ~/colab-runtime/content          # 根目录放 ext4，content/ 是官方要求的
+```
+
+每次启动（Notebook 7 已把 `NotebookApp.*` 改名为 `ServerApp.*`）：
+
+```bash
+cd ~/colab-runtime && jupyter-notebook --no-browser \
+  --ServerApp.allow_origin='https://colab.research.google.com' \
+  --port=8888 --ServerApp.port_retries=0 --ServerApp.allow_credentials=True
+```
+
+连接：
+
+1. 启动日志里找 `http://127.0.0.1:8888/tree?token=…`，**去掉 `tree`**，得到 `http://127.0.0.1:8888/?token=…`。
+2. 用上表的 **Drive 链接**打开 notebook（repo 是 private，GitHub → Colab 链接会 404）。
+3. Connect ▾ → *Connect to a local runtime…* → 贴入上一步的 URL → Connect。
+
+注意：
+
+- 根目录放在 `~/colab-runtime/`（ext4），不要放在 repo 里，免得 `.ipynb_checkpoints` 之类弄脏仓库。
+- 本地内核**没有 Python 的 `google.colab` 模块**，notebook 里不写依赖它的 Python 代码；
+  html cell 里的 `google.colab.output`（iframe resize）是 Colab 前端注入的 JS，跟 runtime 无关，照常可用。
+- `--ServerApp.port_retries=0`：8888 被占时直接报错，而不是悄悄换端口导致 Colab 连不上。
+- 服务挂掉不影响阅读；别人用 Drive 链接打开时默认连 hosted runtime，同样能看。
+
+背景与取舍见 [PLAN.md「Colab 本地运行时」](PLAN.md#colab-本地运行时)。
