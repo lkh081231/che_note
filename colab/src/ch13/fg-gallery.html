@@ -1,0 +1,536 @@
+<h3>functional group 图鉴：四种 formula</h3>
+<p class="mut">用顶部按钮把 9 个 homologous series 同步切到同一种 formula 横向对比，或在单张卡片内切换对照同一 molecule 的四种写法；<b class="fg-acc">蓝色高亮</b>标出决定其 chemical properties 的 functional group。</p>
+
+<div class="fg-bar">
+  <span class="fg-lbl">全局切换：</span>
+  <div class="fg-all" role="group" aria-label="全局切换 formula 类型">
+    <button type="button" data-all="general">general</button>
+    <button type="button" data-all="structural">structural</button>
+    <button type="button" data-all="displayed" class="on">displayed</button>
+    <button type="button" data-all="skeletal">skeletal</button>
+  </div>
+  <span class="fg-key"><i class="fg-sw"></i>functional group</span>
+</div>
+
+<div class="fg-grid">
+  <div class="card fg-card" data-series="alkene">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">alkene</span><span class="fg-pill">C=C bond</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">propene</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{C(-[:120]R)(-[:240]R)=[:0]C(-[:60]R)(-[:-60]R)}}}
+        <div class="fg-cap">C<sub>n</sub>H<sub>2n</sub></div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₂<span class="fg-acc">=</span>CHCH₃</div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₆</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{C(-[:120]H)(-[:30]H)(-[:210]H)-[:-60]C(-[:240]H)=[:0]C(-[:60]H)(-[:-60]H)}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{=[:30]-[:-30]}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">syllabus 14.2</span>{{xref ch14#alkenes 去 ch14 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="halogenoalkane">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">halogenoalkane</span><span class="fg-pill">halogen</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">1-chloropropane</span> <span class="mut">(when X = Cl)</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-X}}}
+        <div class="fg-cap">C<sub>n</sub>H<sub>2n+1</sub>X <span class="fg-clbl">(R–X)</span></div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃CH₂CH₂<span class="fg-acc">Cl</span></div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₇Cl</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-X}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{X-[:30]-[:-30]-[:30]}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">1° / 2° / 3° · 15.1</span>{{xref ch15#halogenoalkanes 去 ch15 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="alcohol">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">alcohol</span><span class="fg-pill">hydroxyl</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">propan-1-ol</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-OH}}}
+        <div class="fg-cap">C<sub>n</sub>H<sub>2n+1</sub>OH <span class="fg-clbl">(R–OH)</span></div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃CH₂CH₂<span class="fg-acc">OH</span></div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₈O</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-O-H}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{HO-[:30]-[:-30]-[:30]}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">1° / 2° / 3° · 16.1</span>{{xref ch16#alcohols 去 ch16 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="aldehyde">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">aldehyde</span><span class="fg-pill">carbonyl</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">propanal</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-C(=[2]O)-H}}}
+        <div class="fg-cap">R–CHO</div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃CH₂<span class="fg-acc">CHO</span></div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₆O</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C(=[2]O)-H}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{-[:30]-[:-30](=[:30]O)}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">syllabus 17.1</span>{{xref ch17#carbonyls 去 ch17 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="ketone">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">ketone</span><span class="fg-pill">carbonyl</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">propanone</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-C(=[2]O)-R'}}}
+        <div class="fg-cap">R–CO–R′</div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃<span class="fg-acc">CO</span>CH₃</div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₆O</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(=[2]O)-C(-[2]H)(-[6]H)-H}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{-[:30](=[:90]O)-[:-30]}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">syllabus 17.1</span>{{xref ch17#carbonyls 去 ch17 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="carboxylic-acid">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">carboxylic acid</span><span class="fg-pill">carboxyl</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">propanoic acid</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-C(=[2]O)-OH}}}
+        <div class="fg-cap">R–COOH</div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃CH₂<span class="fg-acc">COOH</span></div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₆O₂</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C(=[2]O)-O-H}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{-[:-30]-[:30](=[:90]O)-[:-30]OH}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">syllabus 18.1</span>{{xref ch18#acids 去 ch18 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="ester">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">ester</span><span class="fg-pill">ester</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">methyl propanoate</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-C(=[2]O)-O-R'}}}
+        <div class="fg-cap">R–COO–R′</div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃CH₂<span class="fg-acc">COO</span>CH₃</div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₄H₈O₂</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C(=[2]O)-O-C(-[2]H)(-[6]H)-H}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{-[:-30]-[:30](=[:90]O)-[:-30]O-[:30]}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">syllabus 18.2</span>{{xref ch18#esters 去 ch18 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="amine">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">amine</span><span class="fg-pill">amine</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">propylamine</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-NH_2}}}
+        <div class="fg-cap">R–NH₂</div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃CH₂CH₂<span class="fg-acc">NH₂</span></div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₉N</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-N(-[2]H)-H}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{H_2N-[:30]-[:-30]-[:30]}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">1° only · 19.1</span>{{xref ch19#amines 去 ch19 详讲 →}}</div>
+  </div>
+
+  <div class="card fg-card" data-series="nitrile">
+    <div class="fg-hd">
+      <div class="fg-title"><span class="fg-s">nitrile</span><span class="fg-pill">nitrile</span></div>
+      <div class="fg-ex"><span class="mut">例：</span><span class="fg-name">propanenitrile</span></div>
+    </div>
+    <div class="fg-tabs" role="tablist">
+      <button type="button" data-f="general">general</button>
+      <button type="button" data-f="structural">structural</button>
+      <button type="button" data-f="displayed">displayed</button>
+      <button type="button" data-f="skeletal">skeletal</button>
+    </div>
+    <div class="fg-stage">
+      <div class="fg-pane" data-pane="general">
+        {{chemfig \chemfig{R-C~N}}}
+        <div class="fg-cap">R–C≡N</div>
+      </div>
+      <div class="fg-pane" data-pane="structural">
+        <div class="fg-stxt">CH₃CH₂<span class="fg-acc">CN</span></div>
+        <div class="fg-cap"><span class="fg-clbl">molecular formula:</span> <span class="fg-mf">C₃H₅N</span></div>
+      </div>
+      <div class="fg-pane" data-pane="displayed">
+        {{chemfig \chemfig{H-C(-[2]H)(-[6]H)-C(-[2]H)(-[6]H)-C~N}}}
+      </div>
+      <div class="fg-pane" data-pane="skeletal">
+        {{chemfig \chemfig{-[:-30]-[:30]~[:30]N}}}
+      </div>
+    </div>
+    <div class="fg-ft"><span class="fg-ref">syllabus 19.2</span>{{xref ch19#nitriles 去 ch19 详讲 →}}</div>
+  </div>
+</div>
+
+<style>
+.k .fg-acc{color:var(--acc);font-weight:700}
+.k .fg-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0 10px;padding:7px 10px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.k .fg-lbl{font-size:13.5px;font-weight:600;color:var(--mut)}
+.k .fg-all{display:inline-flex;flex-wrap:wrap;gap:5px}
+.k .fg-all button{font-size:13.5px;padding:3px 11px}
+.k .fg-key{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--acc);font-weight:600}
+.k .fg-sw{display:inline-block;width:16px;height:3px;border-radius:2px;background:var(--acc)}
+.k .fg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(276px,1fr));gap:10px;align-items:stretch}
+.k .fg-card{padding:10px 8px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.k .fg-hd{display:flex;flex-direction:column;gap:2px}
+.k .fg-title{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.k .fg-s{font-size:15px;font-weight:700;color:var(--fg)}
+.k .fg-pill{font-size:12.5px;font-weight:600;padding:1px 8px;border-radius:99px;background:var(--acc-soft);color:var(--acc);white-space:nowrap;text-transform:none}
+.k .fg-ex{font-size:13px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.k .fg-name{font-weight:600;color:var(--fg)}
+.k .fg-tabs{display:flex;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:2px}
+.k .fg-tabs button{flex:1 1 auto;border-radius:5px;padding:3px 3px;font-size:12.5px;line-height:1.3;white-space:nowrap;text-align:center}
+.k .fg-tabs button:not(.on){border-color:transparent;background:transparent;color:var(--mut)}
+.k .fg-tabs button:not(.on):hover{color:var(--fg);border-color:var(--line)}
+.k .fg-tabs button.on{font-weight:600}
+.k .fg-stage{height:158px;display:flex;align-items:center;justify-content:center;border-radius:6px;overflow:hidden}
+.k .fg-pane{display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.k .fg-pane.show{display:flex}
+.k .fg-pane svg.cf{display:block;max-width:100%;height:auto;margin:0 auto}
+.k .fg-stxt{font-size:19px;font-weight:650;letter-spacing:.3px;line-height:1.35;text-align:center;text-transform:none}
+.k .fg-cap{font-size:14.5px;font-weight:500;color:var(--fg);line-height:1.35;text-align:center;text-transform:none}
+.k .fg-clbl{font-size:13px;font-weight:400;color:var(--mut)}
+.k .fg-mf{font-size:16.5px;font-weight:600;color:var(--fg);letter-spacing:.25px}
+.k .fg-ft{margin-top:auto;padding-top:6px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:13px;white-space:nowrap}
+.k .fg-ref{font-size:12.5px;color:var(--mut);text-transform:none}
+.k svg.cf .cf-b line.fg-b{stroke:var(--acc);stroke-width:2.05}
+.k svg.cf text.cf-a.fg-a{fill:var(--acc);font-weight:700}
+</style>
+
+<script>
+K.init($root);
+
+/* functional group atoms & bonds in each ChemFig SVG: [atoms, bonds] */
+var FG = {
+  'alkene': {
+    general:   [[0, 3], [[0, 3]]],
+    displayed: [[4, 6], [[4, 6]]],
+    skeletal:  [[], [[0, 1]]]
+  },
+  'halogenoalkane': {
+    general:   [[1], [[0, 1]]],
+    displayed: [[10], [[7, 10]]],
+    skeletal:  [[0], [[0, 1]]]
+  },
+  'alcohol': {
+    general:   [[1], [[0, 1]]],
+    displayed: [[10, 11], [[7, 10], [10, 11]]],
+    skeletal:  [[0], [[0, 1]]]
+  },
+  'aldehyde': {
+    general:   [[1, 2, 3], [[1, 2], [1, 3]]],
+    displayed: [[7, 8, 9], [[7, 8], [7, 9]]],
+    skeletal:  [[3], [[2, 3]]]
+  },
+  'ketone': {
+    general:   [[1, 2], [[1, 2]]],
+    displayed: [[4, 5], [[4, 5]]],
+    skeletal:  [[2], [[1, 2]]]
+  },
+  'carboxylic-acid': {
+    general:   [[1, 2, 3], [[1, 2], [1, 3]]],
+    displayed: [[7, 8, 9, 10], [[7, 8], [7, 9], [9, 10]]],
+    skeletal:  [[3, 4], [[2, 3], [2, 4]]]
+  },
+  'ester': {
+    general:   [[1, 2, 3], [[1, 2], [1, 3]]],
+    displayed: [[7, 8, 9], [[7, 8], [7, 9]]],
+    skeletal:  [[3, 4], [[2, 3], [2, 4]]]
+  },
+  'amine': {
+    general:   [[1], [[0, 1]]],
+    displayed: [[10, 11, 12], [[7, 10], [10, 11], [10, 12]]],
+    skeletal:  [[0], [[0, 1]]]
+  },
+  'nitrile': {
+    general:   [[1, 2], [[1, 2]]],
+    displayed: [[7, 8], [[7, 8]]],
+    skeletal:  [[3], [[2, 3]]]
+  }
+};
+
+function setLn(ln, x1, y1, x2, y2) {
+  ln.setAttribute('x1', x1.toFixed(1));
+  ln.setAttribute('y1', y1.toFixed(1));
+  ln.setAttribute('x2', x2.toFixed(1));
+  ln.setAttribute('y2', y2.toFixed(1));
+}
+
+function markFG(svg, spec) {
+  if (!svg || !spec) return;
+  var D = KO.atoms(svg), atoms = spec[0] || [], bonds = spec[1] || [];
+  atoms.forEach(function (i) {
+    if (D.atoms[i] && D.atoms[i].el) D.atoms[i].el.classList.add('fg-a');
+  });
+  var lines = svg.querySelectorAll('.cf-b line'), off = 0;
+  D.bonds.forEach(function (bd) {
+    var n = typeof bd.o === 'number' ? bd.o : 1;
+    var hit = bonds.some(function (p) {
+      return (bd.a === p[0] && bd.b === p[1]) || (bd.a === p[1] && bd.b === p[0]);
+    });
+    if (hit) {
+      for (var k = 0; k < n && off + k < lines.length; k++) lines[off + k].classList.add('fg-b');
+    }
+    off += n;
+  });
+}
+
+/* Anchor multi-char terminal groups (OH, HO, NH₂, H₂N, R′) on their bonded atom
+   and refine skeletal double-bond joins so 120° vertices meet crisply without gaps. */
+function polishSVG(svg, mode) {
+  var D = KO.atoms(svg);
+  var probe = K.svg('text', { 'class': 'cf-a fg-a', x: 0, y: 0 });
+  probe.textContent = 'O';
+  svg.appendChild(probe);
+  var hw1 = ((probe.getBBox().width || 9.4) / 2);
+  svg.removeChild(probe);
+
+  D.atoms.forEach(function (a) {
+    if (!a.el || D.nb[a.i].length !== 1) return;
+    var b = a.el.getBBox();
+    if (!b.width) return;
+    if (a.l === 'OH' || a.l === 'NH_2' || a.l === 'R′') {
+      var dxR = (a.x - hw1) - b.x;
+      a.el.setAttribute('x', (+a.el.getAttribute('x') + dxR).toFixed(1));
+      a._anc = 1;
+    } else if (a.l === 'HO' || a.l === 'H_2N') {
+      var dxL = (a.x + hw1) - (b.x + b.width);
+      a.el.setAttribute('x', (+a.el.getAttribute('x') + dxL).toFixed(1));
+      a._anc = 1;
+    }
+  });
+
+  var lines = svg.querySelectorAll('.cf-b line'), off = 0;
+  D.bonds.forEach(function (bd) {
+    var n = typeof bd.o === 'number' ? bd.o : 1;
+    var a = D.atoms[bd.a], b = D.atoms[bd.b];
+    var dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1;
+    var ux = dx / L, uy = dy / L, nx = -uy, ny = ux;
+
+    if (n === 1 && (a._anc || b._anc)) {
+      var wa1 = (a.el && b.el) ? 9.35 : (a.el ? 12.2 : 0);
+      var wb1 = (a.el && b.el) ? 9.35 : (b.el ? 12.2 : 0);
+      setLn(lines[off], a.x + ux * wa1, a.y + uy * wa1, b.x - ux * wb1, b.y - uy * wb1);
+    } else if (mode === 'skeletal' && n === 2) {
+      var wa = a.el ? 12.46 : 0, wb = b.el ? 12.46 : 0;
+      var oA = D.nb[a.i].filter(function (k) { return k !== b.i; });
+      var oB = D.nb[b.i].filter(function (k) { return k !== a.i; });
+      if (oA.length + oB.length === 1) {
+        var atA = oA.length === 1, v = atA ? a : b, nb = D.atoms[atA ? oA[0] : oB[0]];
+        var side = ((nb.x - v.x) * nx + (nb.y - v.y) * ny) >= 0 ? 1 : -1;
+        var sep = 3.6, tA = atA ? 2.8 : 0, tB = atA ? 0 : 2.8;
+        setLn(lines[off], a.x + ux * wa, a.y + uy * wa, b.x - ux * wb, b.y - uy * wb);
+        setLn(lines[off + 1],
+              a.x + ux * (wa + tA) + nx * side * sep, a.y + uy * (wa + tA) + ny * side * sep,
+              b.x - ux * (wb + tB) + nx * side * sep, b.y - uy * (wb + tB) + ny * side * sep);
+        var term = b.el ? b : (a.el ? a : null);
+        if (term) {
+          term.el.setAttribute('x', (+term.el.getAttribute('x') + nx * side * sep * 0.5).toFixed(1));
+          term.el.setAttribute('y', (+term.el.getAttribute('y') + ny * side * sep * 0.5).toFixed(1));
+        }
+      } else if (oA.length === 2 || oB.length === 2) {
+        var extA = (!a.el && oA.length === 2) ? 2.2 * 0.5774 : 0;
+        var extB = (!b.el && oB.length === 2) ? 2.2 * 0.5774 : 0;
+        [2.2, -2.2].forEach(function (s, k) {
+          setLn(lines[off + k],
+                a.x + ux * (wa - extA) + nx * s, a.y + uy * (wa - extA) + ny * s,
+                b.x - ux * (wb - extB) + nx * s, b.y - uy * (wb - extB) + ny * s);
+        });
+      }
+    }
+    off += n;
+  });
+
+  var vb = svg.getAttribute('viewBox').trim().split(/\s+/).map(Number);
+  var x0 = vb[0], y0 = vb[1], x1 = vb[0] + vb[2], y1 = vb[1] + vb[3], pad = 10;
+  svg.querySelectorAll('text').forEach(function (t) {
+    var r = t.getBBox();
+    if (!r.width) return;
+    x0 = Math.min(x0, r.x - pad);
+    y0 = Math.min(y0, r.y - pad);
+    x1 = Math.max(x1, r.x + r.width + pad);
+    y1 = Math.max(y1, r.y + r.height + pad);
+  });
+  svg.setAttribute('viewBox', [x0, y0, x1 - x0, y1 - y0].map(function (v) { return v.toFixed(1); }).join(' '));
+}
+
+var cards = K.$$($root, '.fg-card');
+var gBtns = K.$$($root, '.fg-all button[data-all]');
+
+cards.forEach(function (card) {
+  var key = card.getAttribute('data-series'), map = FG[key] || {};
+  ['general', 'displayed', 'skeletal'].forEach(function (mode) {
+    var pane = K.$(card, '.fg-pane[data-pane="' + mode + '"]');
+    var svg = pane ? K.$(pane, 'svg.cf') : null;
+    if (!svg) return;
+    pane.style.display = 'flex';
+    markFG(svg, map[mode]);
+    polishSVG(svg, mode);
+    var vb = svg.getAttribute('viewBox').trim().split(/\s+/).map(Number);
+    if (mode === 'skeletal') KO.scale(svg, 1.22);
+    else if (mode === 'general' && vb[3] <= 100) KO.scale(svg, 1.15);
+    pane.style.display = '';
+  });
+  K.$$(card, '.fg-tabs button[data-f]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      setCard(card, b.getAttribute('data-f'));
+      syncGlobal();
+      K.fit();
+    });
+  });
+});
+
+function setCard(card, mode) {
+  card.setAttribute('data-mode', mode);
+  K.$$(card, '.fg-tabs button[data-f]').forEach(function (b) {
+    var on = b.getAttribute('data-f') === mode;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  K.$$(card, '.fg-pane[data-pane]').forEach(function (p) {
+    p.classList.toggle('show', p.getAttribute('data-pane') === mode);
+  });
+}
+
+function syncGlobal() {
+  var modes = cards.map(function (c) { return c.getAttribute('data-mode'); });
+  var same = modes.every(function (m) { return m === modes[0]; }) ? modes[0] : '';
+  gBtns.forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-all') === same);
+  });
+}
+
+function setAll(mode) {
+  cards.forEach(function (c) { setCard(c, mode); });
+  syncGlobal();
+  K.fit();
+}
+
+gBtns.forEach(function (b) {
+  b.addEventListener('click', function () { setAll(b.getAttribute('data-all')); });
+});
+
+setAll('displayed');
+</script>
