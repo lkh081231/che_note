@@ -218,19 +218,30 @@ def normalize_scripts(t):
     return t
 
 
-def label_svg(lbl, x, y):
-    """Atom label as an SVG <text>, honouring ^{} and _{} scripts."""
+def label_svg(lbl, x, y, idx=None):
+    """Atom label as an SVG <text>, honouring ^{} and _{} scripts. data-i ties it to its atom even
+    when a multi-letter group (OH, H₂N …) is shifted so the bonded letter sits on the atom."""
     body = esc(normalize_scripts(lbl))
     body = SUP.sub(lambda m: '<tspan baseline-shift="super" font-size="9">%s</tspan>' % m.group(1), body)
     body = SUB.sub(lambda m: '<tspan baseline-shift="sub" font-size="9">%s</tspan>' % m.group(1), body)
+    di = '' if idx is None else ' data-i="%d"' % idx
     return ('<text x="%.1f" y="%.1f" text-anchor="middle" dominant-baseline="central" '
-            'class="cf-a">%s</text>' % (x, y, body))
+            'class="cf-a"%s>%s</text>' % (x, y, di, body))
 
 
 def visible(atom):
     """Skeletal vertices (no letter written in the source) are drawn without a label; a C written
     out in a displayed formula is shown."""
     return not atom.implicit and atom.label != ''
+
+
+ELEMENTS_2 = {
+    'He', 'Li', 'Be', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'Cl', 'Ar',
+    'Ca', 'Sc', 'Ti', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn',
+    'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr', 'Rb', 'Sr', 'Zr', 'Ag',
+    'Cd', 'In', 'Sn', 'Sb', 'Te', 'Xe', 'Cs', 'Ba', 'Pt', 'Au',
+    'Hg', 'Tl', 'Pb', 'Bi'
+}
 
 
 def glyph_w(lbl):
@@ -245,13 +256,47 @@ def render(src, sid='x', pad=14):
     if not atoms:
         return ''
 
+    adj = [[] for _ in range(len(atoms))]
+    for bd in bonds:
+        adj[bd.a].append(bd.b)
+        adj[bd.b].append(bd.a)
+    deg = [len(adj[i]) for i in range(len(atoms))]
+
+    atom_text_pos = {}
+    atom_trim_w = {}
+    for a in atoms:
+        if not visible(a):
+            atom_trim_w[a.idx] = 0.0
+            continue
+
+        t = esc(normalize_scripts(a.label))
+        plain = re.sub(r'[_^]\{[^}]*\}', '', t)
+        scripts = len(re.findall(r'[_^]\{[^}]*\}', t))
+        is_multi = not (len(plain) == 1 and scripts == 0) and not (plain in ELEMENTS_2 and scripts == 0)
+
+        if deg[a.idx] == 1 and is_multi:
+            other = atoms[adj[a.idx][0]]
+            dx = a.x - other.x
+            # Degree-1 terminal group: bond coming from right -> right-bonded (HO/H2N), else left-bonded
+            bonded_end = 'right' if dx < -1e-4 else 'left'
+            # a prime (R′) is a thin glyph: counting it as a full letter pushed R off the atom
+            n_thin = plain.count('′')
+            w_total = ((len(plain) - n_thin) * 0.84 + n_thin * 0.3 + scripts * 0.44) * FONT
+            w_bond = 0.84 * FONT
+            shift_x = - (w_total - w_bond) / 2.0 if bonded_end == 'right' else (w_total - w_bond) / 2.0
+            atom_text_pos[a.idx] = (a.x + shift_x, a.y)
+            atom_trim_w[a.idx] = 0.42 * FONT + ATOM_PAD
+        else:
+            atom_text_pos[a.idx] = (a.x, a.y)
+            atom_trim_w[a.idx] = glyph_w(a.label)
+
     def trim(a, b):
         """Shorten a bond so it stops clear of any drawn atom label."""
         dx, dy = b.x - a.x, b.y - a.y
         d = math.hypot(dx, dy) or 1
         ux, uy = dx / d, dy / d
-        wa = glyph_w(a.label) if visible(a) else 0
-        wb = glyph_w(b.label) if visible(b) else 0
+        wa = atom_trim_w.get(a.idx, 0.0)
+        wb = atom_trim_w.get(b.idx, 0.0)
         # never trim away more than 55% of the bond, so short bonds stay visible
         room = d * 0.55
         if wa + wb > room:
@@ -265,12 +310,55 @@ def render(src, sid='x', pad=14):
         x1, y1, x2, y2 = trim(a, b)
         dx, dy = x2 - x1, y2 - y1
         d = math.hypot(dx, dy) or 1
+        ux, uy = dx / d, dy / d
         nx, ny = -dy / d, dx / d
         if bd.kind in ('-', '=', '~'):
-            offsets = {1: (0,), 2: (2.2, -2.2), 3: (3.2, 0, -3.2)}[bd.order]
-            for s in offsets:
-                seg.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
-                           % (x1 + nx * s, y1 + ny * s, x2 + nx * s, y2 + ny * s))
+            if bd.order == 2:
+                other_nb_a = [atoms[k] for k in adj[bd.a] if k != bd.b]
+                other_nb_b = [atoms[k] for k in adj[bd.b] if k != bd.a]
+                # a labelled terminal (=O) on an implicit chain-end vertex with ONE other neighbour
+                # (skeletal aldehyde CH=O) is drawn offset like a chain-end C=C: centred lines there
+                # leave one line poking out past the zig-zag vertex.
+                def term_ok(t, o, o_nb):
+                    return visible(t) and deg[t.idx] == 1 and (visible(o) or len(o_nb) != 1)
+                is_centered = (
+                    (visible(a) and visible(b)) or
+                    term_ok(a, b, other_nb_b) or
+                    term_ok(b, a, other_nb_a) or
+                    (len(other_nb_a) == 0 and len(other_nb_b) == 0)
+                )
+                if is_centered:
+                    seg.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+                               % (x1 + nx * 2.2, y1 + ny * 2.2, x2 + nx * 2.2, y2 + ny * 2.2))
+                    seg.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+                               % (x1 - nx * 2.2, y1 - ny * 2.2, x2 - nx * 2.2, y2 - ny * 2.2))
+                else:
+                    # Offset style: primary line on vertex axis first
+                    seg.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+                               % (x1, y1, x2, y2))
+                    side_sum = (
+                        sum((p.x - a.x) * nx + (p.y - a.y) * ny for p in other_nb_a) +
+                        sum((q.x - b.x) * nx + (q.y - b.y) * ny for q in other_nb_b)
+                    )
+                    side = -1.0 if side_sum < -0.01 else 1.0
+                    inset = d * 0.15
+                    t1 = inset if (not visible(a) and len(other_nb_a) > 0) else 0.0
+                    t2 = inset if (not visible(b) and len(other_nb_b) > 0) else 0.0
+                    if t1 + t2 >= d:
+                        scale = (d * 0.5) / max(t1 + t2, 1e-4)
+                        t1 *= scale
+                        t2 *= scale
+                    sx1 = x1 + ux * t1 + nx * side * 4.0
+                    sy1 = y1 + uy * t1 + ny * side * 4.0
+                    sx2 = x2 - ux * t2 + nx * side * 4.0
+                    sy2 = y2 - uy * t2 + ny * side * 4.0
+                    seg.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+                               % (sx1, sy1, sx2, sy2))
+            else:
+                offsets = {1: (0,), 3: (3.2, 0, -3.2)}[bd.order]
+                for s in offsets:
+                    seg.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+                               % (x1 + nx * s, y1 + ny * s, x2 + nx * s, y2 + ny * s))
         elif bd.kind in ('<', '>'):
             max_hw = 2.8
             if bd.kind == '<':
@@ -294,15 +382,25 @@ def render(src, sid='x', pad=14):
                 seg.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
                            % (cx + nx * hw, cy + ny * hw, cx - nx * hw, cy - ny * hw))
 
-    txt = [label_svg(a.label, a.x, a.y) for a in atoms if visible(a)]
+    txt = [label_svg(a.label, atom_text_pos[a.idx][0], atom_text_pos[a.idx][1], a.idx)
+           for a in atoms if visible(a)]
 
-    xs = [a.x for a in atoms]
-    ys = [a.y for a in atoms]
+    # Atom centres get the usual pad + extra margin; a shifted label (H₃C, HO …) only widens the
+    # box where its glyphs would otherwise reach past that margin. Adding the label extent on top
+    # of the margin grew every box by a label height and pushed captions out of fixed-height stages.
     extra = 18
-    vx = min(xs) - pad - extra
-    vy = min(ys) - pad - extra
-    vw = (max(xs) - min(xs)) + 2 * (pad + extra)
-    vh = (max(ys) - min(ys)) + 2 * (pad + extra)
+    m = pad + extra
+    x0 = min(a.x for a in atoms) - m
+    y0 = min(a.y for a in atoms) - m
+    x1 = max(a.x for a in atoms) + m
+    y1 = max(a.y for a in atoms) + m
+    for a in atoms:
+        if visible(a):
+            tx, ty = atom_text_pos[a.idx]
+            hw = glyph_w(a.label) - ATOM_PAD
+            x0, x1 = min(x0, tx - hw - pad), max(x1, tx + hw + pad)
+            y0, y1 = min(y0, ty - 0.6 * FONT - pad), max(y1, ty + 0.6 * FONT + pad)
+    vx, vy, vw, vh = x0, y0, x1 - x0, y1 - y0
 
     atoms_data = []
     for a in atoms:
@@ -443,6 +541,118 @@ def self_test():
         json_ok = len(parsed_atoms) == 3 and len(parsed_bonds) == 2 and parsed_atoms[0]['l'] == 'C'
     print('  json_io   data-atoms / data-bonds %s' % ('OK' if json_ok else 'FAIL'))
     ok = ok and json_ok
+
+    # 11. but-2-ene skeletal double bond: primary line meets single bonds, secondary line inset and on inner side
+    svg_b2e = render(r'\chemfig{-[:30]=[:-30]-[:30]}', 'b2e')
+    lines_b2e = [
+        (float(m[0]), float(m[1]), float(m[2]), float(m[3]))
+        for m in re.findall(r'<line x1="([^"]*)" y1="([^"]*)" x2="([^"]*)" y2="([^"]*)"/>', svg_b2e)
+    ]
+    p_start_gap = math.hypot(lines_b2e[1][0] - lines_b2e[0][2], lines_b2e[1][1] - lines_b2e[0][3])
+    p_end_gap = math.hypot(lines_b2e[1][2] - lines_b2e[3][0], lines_b2e[1][3] - lines_b2e[3][1])
+    b2e_primary_ok = p_start_gap < 0.1 and p_end_gap < 0.1
+
+    len_main = math.hypot(lines_b2e[1][2] - lines_b2e[1][0], lines_b2e[1][3] - lines_b2e[1][1])
+    len_sec = math.hypot(lines_b2e[2][2] - lines_b2e[2][0], lines_b2e[2][3] - lines_b2e[2][1])
+    b2e_inset_ok = len_sec < len_main - 8.0
+
+    dx_m = lines_b2e[1][2] - lines_b2e[1][0]
+    dy_m = lines_b2e[1][3] - lines_b2e[1][1]
+    dm = math.hypot(dx_m, dy_m) or 1
+    nx_m, ny_m = -dy_m / dm, dx_m / dm
+    sec_offset = (lines_b2e[2][0] - lines_b2e[1][0]) * nx_m + (lines_b2e[2][1] - lines_b2e[1][1]) * ny_m
+    b2e_offset_ok = abs(abs(sec_offset) - 4.0) < 0.2
+
+    b2e_all = b2e_primary_ok and b2e_inset_ok and b2e_offset_ok
+    print('  b2e_skel  endpoints=%.2f/%.2f inset=%.1f offset=%.1f %s' %
+          (p_start_gap, p_end_gap, len_main - len_sec, sec_offset, 'OK' if b2e_all else 'FAIL'))
+    ok = ok and b2e_all
+
+    # 12. C(=[:90]O) centered double bond: two symmetric lines
+    svg_co = render(r'\chemfig{C(=[:90]O)}')
+    lines_co = [
+        (float(m[0]), float(m[1]), float(m[2]), float(m[3]))
+        for m in re.findall(r'<line x1="([^"]*)" y1="([^"]*)" x2="([^"]*)" y2="([^"]*)"/>', svg_co)
+    ]
+    co_two = len(lines_co) == 2
+    co_sym = False
+    if co_two:
+        co_sym = abs((lines_co[0][0] + lines_co[1][0]) / 2.0) < 0.1 and abs(abs(lines_co[0][0]) - 2.2) < 0.1
+    co_ok = co_two and co_sym
+    print('  co_cent   two symmetric lines +-2.2 %s' % ('OK' if co_ok else 'FAIL'))
+    ok = ok and co_ok
+
+    # 13. \chemfig{-[:30]OH} terminal group anchor and bond length
+    svg_oh = render(r'\chemfig{-[:30]OH}', 'oh_test')
+    m_txt = re.search(r'<text x="([^"]*)" y="([^"]*)"[^>]*>OH</text>', svg_oh)
+    lines_oh = [
+        (float(m[0]), float(m[1]), float(m[2]), float(m[3]))
+        for m in re.findall(r'<line x1="([^"]*)" y1="([^"]*)" x2="([^"]*)" y2="([^"]*)"/>', svg_oh)
+    ]
+    oh_ok = False
+    if m_txt and lines_oh:
+        tx = float(m_txt.group(1))
+        atom1_x = BOND_LEN * math.cos(math.radians(30))
+        w_total = 2 * 0.84 * FONT
+        w_o = 0.84 * FONT
+        o_center_x = tx - w_total / 2.0 + w_o / 2.0
+        x_diff = abs(o_center_x - atom1_x)
+        bond_len = math.hypot(lines_oh[0][2] - lines_oh[0][0], lines_oh[0][3] - lines_oh[0][1])
+        oh_ok = x_diff < 1.0 and bond_len >= 16.08
+        print('  oh_anchor O_center_diff=%.2f bond_len=%.1f (>=16.08) %s' %
+              (x_diff, bond_len, 'OK' if oh_ok else 'FAIL'))
+    else:
+        print('  oh_anchor FAIL (missing text or line)')
+    ok = ok and oh_ok
+
+    # 14. displayed ethene C=C double bond: two equal-length symmetric lines
+    svg_eth = render(r'\chemfig{C(-[:120]H)(-[:240]H)=C(-[:60]H)(-[:-60]H)}', 'eth_test')
+    lines_eth = [
+        (float(m[0]), float(m[1]), float(m[2]), float(m[3]))
+        for m in re.findall(r'<line x1="([^"]*)" y1="([^"]*)" x2="([^"]*)" y2="([^"]*)"/>', svg_eth)
+    ]
+    cc_lines = [l for l in lines_eth if abs(l[1] - l[3]) < 0.1]
+    eth_two = len(cc_lines) == 2
+    eth_ok = False
+    if eth_two:
+        l0 = math.hypot(cc_lines[0][2] - cc_lines[0][0], cc_lines[0][3] - cc_lines[0][1])
+        l1 = math.hypot(cc_lines[1][2] - cc_lines[1][0], cc_lines[1][3] - cc_lines[1][1])
+        equal_len = abs(l0 - l1) < 0.1 and l0 > 5.0
+        sym_y = (abs(cc_lines[0][1] + cc_lines[1][1]) < 0.1 and
+                 abs(abs(cc_lines[0][1]) - 2.2) < 0.1 and
+                 abs(cc_lines[0][0] - cc_lines[1][0]) < 0.1 and
+                 abs(cc_lines[0][2] - cc_lines[1][2]) < 0.1)
+        eth_ok = equal_len and sym_y
+        print('  eth_disp  len=%.1f/%.1f sym_y=%s %s' %
+              (l0, l1, 'OK' if sym_y else 'FAIL', 'OK' if eth_ok else 'FAIL'))
+    else:
+        print('  eth_disp  FAIL (expected 2 C=C lines, got %d)' % len(cc_lines))
+    ok = ok and eth_ok
+
+    # 15. skeletal aldehyde: =O on a chain-end vertex is drawn offset, main line meets the single bond
+    svg_al = render(r'\chemfig{-[:30]-[:-30]=[:30]O}', 'ald')
+    ln = [tuple(map(float, m)) for m in
+          re.findall(r'<line x1="([^"]*)" y1="([^"]*)" x2="([^"]*)" y2="([^"]*)"/>', svg_al)]
+    al_ok = len(ln) == 4 and math.hypot(ln[2][0] - ln[1][2], ln[2][1] - ln[1][3]) < 0.1
+    print('  ald_skel  main line starts at vertex %s' % ('OK' if al_ok else 'FAIL'))
+    ok = ok and al_ok
+
+    # 16. R′ anchor: the R (not the R′ pair) sits on the atom, so R′ is trimmed like R
+    svg_rp = render(r"\chemfig{R-C-R'}", 'rp')
+    ln = [tuple(map(float, m)) for m in
+          re.findall(r'<line x1="([^"]*)" y1="([^"]*)" x2="([^"]*)" y2="([^"]*)"/>', svg_rp)]
+    txr = float(re.search(r'<text x="([^"]*)"[^>]*>R′</text>', svg_rp).group(1))
+    r_ctr = txr - (0.84 + 0.3) * FONT / 2 + 0.84 * FONT / 2
+    rp_ok = abs(r_ctr - 2 * BOND_LEN) < 0.6
+    print('  rprime    R centre - atom = %.2f %s' % (r_ctr - 2 * BOND_LEN, 'OK' if rp_ok else 'FAIL'))
+    ok = ok and rp_ok
+
+    # 17. viewBox = atom box + margin; labels only widen it where they would reach past the margin
+    vb = re.search(r'viewBox="([^"]*)"',
+                   render(r'\chemfig{C(-[:120]R)(-[:240]R)=[:0]C(-[:60]R)(-[:-60]R)}')).group(1).split()
+    vb_ok = abs(float(vb[3]) - (2 * BOND_LEN * math.sin(math.radians(60)) + 64)) < 0.2
+    print('  viewbox   alkene general h=%s %s' % (vb[3], 'OK' if vb_ok else 'FAIL'))
+    ok = ok and vb_ok
 
     return 0 if ok else 1
 

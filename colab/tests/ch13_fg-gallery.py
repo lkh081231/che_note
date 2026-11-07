@@ -95,6 +95,13 @@ with sync_playwright() as p:
                         sr.top < cr.top - 0.5 || sr.bottom > cr.bottom + 0.5) {
                         bad.push(key + ': svg overflows card');
                     }
+                    // .fg-stage is overflow:hidden — anything poking out of it is silently clipped
+                    const st = card.querySelector('.fg-stage').getBoundingClientRect();
+                    pane.querySelectorAll('svg.cf, .fg-cap, .fg-stxt').forEach(el => {
+                        const r = el.getBoundingClientRect();
+                        if (r.top < st.top - 0.5 || r.bottom > st.bottom + 0.5)
+                            bad.push(key + ': clipped by stage: ' + el.tagName + ' ' + el.textContent.slice(0, 20));
+                    });
                     const vb = svg.viewBox.baseVal;
                     const boxes = [...svg.querySelectorAll('text')].map(t => ({t: t.textContent, b: t.getBBox()}));
                     boxes.forEach(({t, b}) => {
@@ -244,6 +251,16 @@ with sync_playwright() as p:
         check('displayed: svg geometry & bounds clean', not svg_geometry_issues(), str(svg_geometry_issues()))
         align_1000 = row_alignment_issues()
         check('1000 px: 3-column grid aligned cleanly', align_1000['cols'] == 3 and not align_1000['bad'], str(align_1000))
+        disp_cc_ratio = page.evaluate('''() => {
+            const svg = document.querySelector('.fg-card[data-series="alkene"] .fg-pane[data-pane="displayed"] svg.cf');
+            const fgLns = [...svg.querySelectorAll('.cf-b line.fg-b')];
+            if (fgLns.length < 2) return 0;
+            const d0 = Math.hypot(fgLns[0].x2.baseVal.value - fgLns[0].x1.baseVal.value, fgLns[0].y2.baseVal.value - fgLns[0].y1.baseVal.value);
+            const d1 = Math.hypot(fgLns[1].x2.baseVal.value - fgLns[1].x1.baseVal.value, fgLns[1].y2.baseVal.value - fgLns[1].y1.baseVal.value);
+            const minD = Math.min(d0, d1), maxD = Math.max(d0, d1);
+            return maxD > 0 ? (minD / maxD) : 0;
+        }''')
+        check('displayed: alkene C=C two lines length ratio > 0.8', disp_cc_ratio > 0.8, f'ratio={disp_cc_ratio:.3f}')
         shot(page, '.k', OUT / 'card-displayed-light.png')
 
         print('== global switching across all 4 modes')
@@ -311,33 +328,58 @@ with sync_playwright() as p:
                     check('skeletal: all zig-zag / sp2 angles 120° and sp nitrile 180°', not ang_issues, str(ang_issues))
                     join_issues = page.evaluate('''() => {
                         const bad = [];
-                        ['alkene', 'aldehyde'].forEach(k => {
-                            const svg = document.querySelector(`.fg-card[data-series="${k}"] .fg-pane[data-pane="skeletal"] svg.cf`);
-                            const lns = [...svg.querySelectorAll('.cf-b line')].map(l => ({
-                                x1: l.x1.baseVal.value, y1: l.y1.baseVal.value,
-                                x2: l.x2.baseVal.value, y2: l.y2.baseVal.value
-                            }));
-                            // Verify backbone line of double bond meets adjacent single bond within 0.25 units
-                            const sg = k === 'alkene' ? lns[2] : lns[1];
-                            const db = k === 'alkene' ? lns[0] : lns[2];
-                            const vx = k === 'alkene' ? sg.x1 : sg.x2;
-                            const vy = k === 'alkene' ? sg.y1 : sg.y2;
-                            const dx = k === 'alkene' ? db.x2 : db.x1;
-                            const dy = k === 'alkene' ? db.y2 : db.y1;
-                            if (Math.hypot(vx - dx, vy - dy) > 0.25) bad.push(k + ': double-single vertex gap');
-                        });
+                        // 1. Skeletal alkene C=C: primary line meets single bond at vertex; secondary line is on inner side and inset
+                        const alkSvg = document.querySelector('.fg-card[data-series="alkene"] .fg-pane[data-pane="skeletal"] svg.cf');
+                        const alkLns = [...alkSvg.querySelectorAll('.cf-b line')].map(l => ({
+                            x1: l.x1.baseVal.value, y1: l.y1.baseVal.value,
+                            x2: l.x2.baseVal.value, y2: l.y2.baseVal.value
+                        }));
+                        const dbMain = alkLns[0], dbSec = alkLns[1], sg = alkLns[2];
+                        if (Math.hypot(sg.x1 - dbMain.x2, sg.y1 - dbMain.y2) > 0.25) {
+                            bad.push('alkene: double-single vertex gap');
+                        }
+                        const lMain = Math.hypot(dbMain.x2 - dbMain.x1, dbMain.y2 - dbMain.y1);
+                        const lSec = Math.hypot(dbSec.x2 - dbSec.x1, dbSec.y2 - dbSec.y1);
+                        if (lSec >= lMain - 2.0) {
+                            bad.push('alkene: secondary line not inset');
+                        }
+
+                        // 1b. Aldehyde CH=O on a chain-end vertex: offset like the alkene — main line starts exactly at
+                        //     the vertex where the single bond ends, second line on the inner side, nothing pokes past the vertex
+                        {
+                            const svg = document.querySelector('.fg-card[data-series="aldehyde"] .fg-pane[data-pane="skeletal"] svg.cf');
+                            const L = l => ({x1: l.x1.baseVal.value, y1: l.y1.baseVal.value, x2: l.x2.baseVal.value, y2: l.y2.baseVal.value});
+                            const fg = [...svg.querySelectorAll('.cf-b line.fg-b')].map(L);
+                            const sg = [...svg.querySelectorAll('.cf-b line:not(.fg-b)')].map(L);
+                            const ends = sg.flatMap(l => [[l.x1, l.y1], [l.x2, l.y2]]);
+                            const main = fg.find(l => ends.some(([x, y]) => Math.hypot(l.x1 - x, l.y1 - y) < 0.25));
+                            if (fg.length !== 2 || !main) bad.push('aldehyde: =O main line does not start at the vertex');
+                            else {
+                                const sec = fg.find(l => l !== main);
+                                const ux = main.x2 - main.x1, uy = main.y2 - main.y1, d = Math.hypot(ux, uy);
+                                const along = ((sec.x1 - main.x1) * ux + (sec.y1 - main.y1) * uy) / d;
+                                if (along < 2) bad.push('aldehyde: second line pokes past the vertex (' + along.toFixed(1) + ')');
+                                const nb = sg.find(l => Math.hypot(l.x2 - main.x1, l.y2 - main.y1) < 0.25);
+                                const side = (p, q) => ((q[0] - main.x1) * -uy + (q[1] - main.y1) * ux);
+                                if (nb && side(0, [sec.x1, sec.y1]) * side(0, [nb.x1, nb.y1]) <= 0)
+                                    bad.push('aldehyde: second line not on the inner side');
+                            }
+                        }
+
+                        // 2. Carbonyl =O in ketone / carboxylic-acid / ester (C has two other neighbours): centered symmetric lines (+-2.2, sep ~4.4)
                         ['ketone', 'carboxylic-acid', 'ester'].forEach(k => {
                             const svg = document.querySelector(`.fg-card[data-series="${k}"] .fg-pane[data-pane="skeletal"] svg.cf`);
-                            const atoms = JSON.parse(svg.dataset.atoms);
-                            const cIdx = k === 'ketone' ? 1 : 2;
-                            const cy = atoms[cIdx].y;
                             const fgLns = [...svg.querySelectorAll('.cf-b line.fg-b')];
-                            // First two fg-b lines are =O vertical strokes; y1 should extend down past cy by ~1.27
-                            [fgLns[0], fgLns[1]].forEach((l, idx) => {
-                                if (Math.abs(l.y1.baseVal.value - (cy + 2.2 * 0.5774)) > 0.25) {
-                                    bad.push(k + ': C=O line ' + idx + ' gap at vertex');
-                                }
-                            });
+                            const l0 = fgLns[0], l1 = fgLns[1];
+                            const d0 = Math.hypot(l0.x2.baseVal.value - l0.x1.baseVal.value, l0.y2.baseVal.value - l0.y1.baseVal.value);
+                            const d1 = Math.hypot(l1.x2.baseVal.value - l1.x1.baseVal.value, l1.y2.baseVal.value - l1.y1.baseVal.value);
+                            if (Math.abs(d0 - d1) > 0.2) {
+                                bad.push(k + ': =O lines length mismatch');
+                            }
+                            const sep = Math.hypot(l0.x1.baseVal.value - l1.x1.baseVal.value, l0.y1.baseVal.value - l1.y1.baseVal.value);
+                            if (Math.abs(sep - 4.4) > 0.3) {
+                                bad.push(k + ': =O lines separation not ~4.4: ' + sep.toFixed(2));
+                            }
                         });
                         return bad;
                     }''')

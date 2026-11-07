@@ -303,56 +303,6 @@ function srcSvg(sid) {
   return $root.querySelector('.ko-src [data-sid="' + sid + '"] svg');
 }
 
-/* Normalise skeletal C=C double bonds (both ends implicit C) so single bonds join vertices seamlessly */
-$$('.ko-src svg.cf').forEach(function (svg) {
-  var atoms = JSON.parse(svg.getAttribute('data-atoms') || '[]');
-  var bonds = JSON.parse(svg.getAttribute('data-bonds') || '[]');
-  var texts = Array.prototype.slice.call(svg.querySelectorAll('text.cf-a'));
-  var hasLbl = atoms.map(function (a) {
-    return texts.some(function (t) {
-      return Math.abs(+t.getAttribute('x') - a.x) < 0.8 && Math.abs(+t.getAttribute('y') - a.y) < 0.8;
-    });
-  });
-  var nb = atoms.map(function () { return []; });
-  bonds.forEach(function (b) { nb[b[0]].push(b[1]); nb[b[1]].push(b[0]); });
-  var lines = svg.querySelectorAll('.cf-b line'), off = 0;
-  bonds.forEach(function (b) {
-    var ia = b[0], ib = b[1], ord = typeof b[2] === 'number' ? b[2] : 1;
-    if (ord === 2 && !hasLbl[ia] && !hasLbl[ib] && off + 1 < lines.length) {
-      var A = atoms[ia], B = atoms[ib], dx = B.x - A.x, dy = B.y - A.y;
-      var d = Math.sqrt(dx * dx + dy * dy) || 1, ux = dx / d, uy = dy / d, nx = -uy, ny = ux;
-      var nbA = nb[ia].filter(function (k) { return k !== ib; });
-      var nbB = nb[ib].filter(function (k) { return k !== ia; });
-      var l0 = lines[off], l1 = lines[off + 1];
-      if (nbA.length === 2 || nbB.length === 2) {
-        /* Gem-disubstituted sp² C (120° fork): extend ±2.2 lines by 2.2/√3 = 1.27 to meet both single bonds cleanly */
-        var extA = nbA.length === 2 ? 1.27 : 0, extB = nbB.length === 2 ? 1.27 : 0;
-        [2.2, -2.2].forEach(function (s, idx) {
-          var ln = idx ? l1 : l0;
-          ln.setAttribute('x1', (A.x - ux * extA + nx * s).toFixed(1));
-          ln.setAttribute('y1', (A.y - uy * extA + ny * s).toFixed(1));
-          ln.setAttribute('x2', (B.x + ux * extB + nx * s).toFixed(1));
-          ln.setAttribute('y2', (B.y + uy * extB + ny * s).toFixed(1));
-        });
-      } else {
-        /* Standard skeletal C=C: primary line on vertex axis, secondary inner π line shortened at substituted ends */
-        var sideSum = 0;
-        nbA.forEach(function (k) { sideSum += (atoms[k].x - A.x) * nx + (atoms[k].y - A.y) * ny; });
-        nbB.forEach(function (k) { sideSum += (atoms[k].x - B.x) * nx + (atoms[k].y - B.y) * ny; });
-        var side = sideSum < -0.1 ? -1 : 1, gap = 3.8;
-        var tA = nbA.length ? 3.8 : 0, tB = nbB.length ? 3.8 : 0;
-        l0.setAttribute('x1', A.x.toFixed(1)); l0.setAttribute('y1', A.y.toFixed(1));
-        l0.setAttribute('x2', B.x.toFixed(1)); l0.setAttribute('y2', B.y.toFixed(1));
-        l1.setAttribute('x1', (A.x + ux * tA + nx * side * gap).toFixed(1));
-        l1.setAttribute('y1', (A.y + uy * tA + ny * side * gap).toFixed(1));
-        l1.setAttribute('x2', (B.x - ux * tB + nx * side * gap).toFixed(1));
-        l1.setAttribute('y2', (B.y - uy * tB + ny * side * gap).toFixed(1));
-      }
-    }
-    off += ord;
-  });
-});
-
 /* Seeded PRNG so option order and random button are reproducible */
 function mulberry(seed) {
   return function () {

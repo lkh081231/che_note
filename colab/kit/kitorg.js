@@ -71,9 +71,12 @@
       return { i: a.i == null ? k : a.i, l: a.l || '', x: +a.x, y: +a.y, n: a.n || null, el: null };
     });
     var bonds = J(svg, 'data-bonds').map(function (b) { return { a: b[0], b: b[1], o: b[2] }; });
-    /* the label <text> sits exactly on its atom (text-anchor middle, dominant-baseline central) */
+    /* chemfig2svg tags each label with data-i (its atom index); older SVGs without it fall back to
+       position, since a single-letter label sits exactly on its atom */
     var texts = svg.querySelectorAll('text.cf-a');
     for (var t = 0; t < texts.length; t++) {
+      var di = texts[t].getAttribute('data-i');
+      if (di != null && atoms[+di]) { if (!atoms[+di].el) atoms[+di].el = texts[t]; continue; }
       var tx = +texts[t].getAttribute('x'), ty = +texts[t].getAttribute('y');
       for (var k = 0; k < atoms.length; k++) {
         var a = atoms[k];
@@ -565,7 +568,13 @@
       var anc = p.at == null ? A[0] : A.filter(function (a) { return a.n === p.at || a.i === p.at; })[0];
       if (!anc) throw new Error('KO.compose: no atom "' + p.at + '"');
       var dx = (p.x || 0) - anc.x, dy = (p.y || 0) - anc.y;
-      Array.prototype.forEach.call(src.children, function (c) { var cc = c.cloneNode(true); shift(cc, dx, dy); out.appendChild(cc); });
+      Array.prototype.forEach.call(src.children, function (c) {
+        var cc = c.cloneNode(true); shift(cc, dx, dy);
+        /* atom indices are renumbered by off below, so the labels' data-i must follow */
+        (cc.matches && cc.matches('text[data-i]') ? [cc] : []).concat(Array.prototype.slice.call(cc.querySelectorAll ? cc.querySelectorAll('text[data-i]') : []))
+          .forEach(function (t) { t.setAttribute('data-i', off + (+t.getAttribute('data-i'))); });
+        out.appendChild(cc);
+      });
       A.forEach(function (a) {
         var q = { i: off + a.i, l: a.l, x: +(a.x + dx).toFixed(1), y: +(a.y + dy).toFixed(1) };
         if (a.n) q.n = (p.pre || '') + a.n;
