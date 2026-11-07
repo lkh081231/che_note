@@ -1,0 +1,365 @@
+<h3>isomer 枚举器：一个 molecular formula 有几个 isomer？</h3>
+<p class="mut">选一个 molecular formula，先写下你觉得有几个 isomer，再揭晓全部 skeletal formula。卡片按 functional group 分组，每张卡的彩色标签说明它与<b>上一张</b>是哪一种 isomer；打开 stereoisomer 开关，cis / trans 和一对 enantiomers 会拆成两张卡。</p>
+
+<div class="row ie-fs" role="group" aria-label="molecular formula">
+  <button type="button" data-f="C4H10">C₄H₁₀</button>
+  <button type="button" data-f="C5H12">C₅H₁₂</button>
+  <button type="button" data-f="C4H8">C₄H₈</button>
+  <button type="button" data-f="C3H6O">C₃H₆O</button>
+  <button type="button" data-f="C3H6O2">C₃H₆O₂</button>
+  <button type="button" data-f="C4H9Br">C₄H₉Br</button>
+  <button type="button" data-f="C4H10O">C₄H₁₀O</button>
+  <button type="button" data-f="C3H7Cl">C₃H₇Cl</button>
+</div>
+
+<div class="row ie-opts">
+  <label class="ie-opt"><input type="checkbox" class="ie-stereo"> stereoisomer 分开显示（cis / trans、enantiomers）</label>
+  <label class="ie-opt"><input type="checkbox" class="ie-gmode" checked> 先猜再看</label>
+</div>
+
+<div class="card ie-guess">
+  <div class="ie-q"></div>
+  <div class="row ie-grow">
+    <input type="text" class="ie-in" inputmode="numeric" placeholder="例如 4" aria-label="你猜的个数" autocomplete="off" spellcheck="false">
+    <button type="button" class="ie-go on">揭晓</button>
+    <button type="button" class="ie-skip">不猜，直接看</button>
+    <button type="button" class="ie-again" hidden>藏起来重猜</button>
+  </div>
+  <div class="ie-fb"></div>
+</div>
+
+<div class="ie-res" hidden>
+  <p class="ie-sum"></p>
+  <p class="ie-scope faint" hidden></p>
+  <div class="ie-leg">
+    <span class="faint">彩色标签 = 与上一张的关系：</span>
+    <span class="ie-rel r-chain" data-k="chain" data-tip="碳骨架不同：直链 / 支链 / ring 大小">chain</span>
+    <span class="ie-rel r-pos" data-k="pos" data-tip="同一个骨架上，functional group（或 C=C、O）的位置不同">positional</span>
+    <span class="ie-rel r-fg" data-k="fg" data-tip="functional group 本身不同">functional group</span>
+    <span class="ie-rel r-ct" data-k="ct" data-tip="restricted rotation about C=C：两个 group 在同侧 / 异侧">cis / trans</span>
+    <span class="ie-rel r-en" data-k="en" data-tip="互为镜像、不能重合（optical isomers）">enantiomer</span>
+    <span class="ie-key"><b class="ie-stk">*</b> chiral centre</span>
+  </div>
+  <div class="ie-groups"></div>
+  <p class="faint ie-more">chiral centre 与 cis / trans 的判断见 {{xref ch13#optical 13.4 C}}、{{xref ch13#find-isomerism 13.4 D}}。</p>
+</div>
+<p class="ie-wait faint">先在上面写下你的猜测（或点「不猜，直接看」）。</p>
+
+<div class="ko-src" hidden>
+  <div data-sid="butane">{{chemfig \chemfig{-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="mprop">{{chemfig \chemfig{-[:30](-[:90])-[:-30]}}}</div>
+  <div data-sid="pentane">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="mbut">{{chemfig \chemfig{-[:30](-[:90])-[:-30]-[:30]}}}</div>
+  <div data-sid="dmprop">{{chemfig \chemfig{-[:30](-[:90])(-[:-90])-[:-30]}}}</div>
+  <div data-sid="but1ene">{{chemfig \chemfig{=[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="but2ene">{{chemfig \chemfig{-[:30]=[:-30]-[:30]}}}</div>
+  <div data-sid="cis2ene">{{chemfig \chemfig{-[:-60]=[:0]-[:60]}}}</div>
+  <div data-sid="trans2ene">{{chemfig \chemfig{-[:60]=[:0]-[:60]}}}</div>
+  <div data-sid="mpropene">{{chemfig \chemfig{=[:30](-[:90])-[:-30]}}}</div>
+  <div data-sid="cbut">{{chemfig \chemfig{?-[:0]-[:-90]-[:180]?}}}</div>
+  <div data-sid="mcprop">{{chemfig \chemfig{?-[:60](-[:90])-[:-60]?}}}</div>
+  <div data-sid="clp1">{{chemfig \chemfig{Cl-[:30]-[:-30]-[:30]}}}</div>
+  <div data-sid="clp2">{{chemfig \chemfig{-[:30](-[:90]Cl)-[:-30]}}}</div>
+  <div data-sid="br1">{{chemfig \chemfig{Br-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="br2">{{chemfig \chemfig{-[:30]@{s}(-[:90]Br)-[:-30]-[:30]}}}</div>
+  <div data-sid="br2a">{{chemfig \chemfig{-[:30]@{s}(<[:90]Br)-[:-30]-[:30]}}}</div>
+  <div data-sid="br2b">{{chemfig \chemfig{-[:150]@{s}(<[:90]Br)-[:210]-[:150]}}}</div>
+  <div data-sid="br1m">{{chemfig \chemfig{Br-[:30]-[:-30](-[:-90])-[:30]}}}</div>
+  <div data-sid="br2m">{{chemfig \chemfig{-[:30](-[:90]Br)(-[:-90])-[:-30]}}}</div>
+  <div data-sid="ol1">{{chemfig \chemfig{HO-[:30]-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="ol2">{{chemfig \chemfig{-[:30]@{s}(-[:90]OH)-[:-30]-[:30]}}}</div>
+  <div data-sid="ol2a">{{chemfig \chemfig{-[:30]@{s}(<[:90]OH)-[:-30]-[:30]}}}</div>
+  <div data-sid="ol2b">{{chemfig \chemfig{-[:150]@{s}(<[:90]OH)-[:210]-[:150]}}}</div>
+  <div data-sid="ol1m">{{chemfig \chemfig{HO-[:30]-[:-30](-[:-90])-[:30]}}}</div>
+  <div data-sid="ol2m">{{chemfig \chemfig{-[:30](-[:90]OH)(-[:-90])-[:-30]}}}</div>
+  <div data-sid="eth22">{{chemfig \chemfig{-[:30]-[:-30]O-[:30]-[:-30]}}}</div>
+  <div data-sid="eth13">{{chemfig \chemfig{-[:30]O-[:-30]-[:30]-[:-30]}}}</div>
+  <div data-sid="eth2m">{{chemfig \chemfig{-[:30](-[:90]O-[:30])-[:-30]}}}</div>
+  <div data-sid="propanal">{{chemfig \chemfig{-[:30]-[:-30](=[:30]O)}}}</div>
+  <div data-sid="propanone">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]}}}</div>
+  <div data-sid="allyl">{{chemfig \chemfig{=[:30]-[:-30]-[:30]OH}}}</div>
+  <div data-sid="mvether">{{chemfig \chemfig{-[:30]O-[:-30]=[:30]}}}</div>
+  <div data-sid="cpol">{{chemfig \chemfig{?-[:60](-[:90]OH)-[:-60]?}}}</div>
+  <div data-sid="oxetane">{{chemfig \chemfig{O?-[:0]-[:-90]-[:180]?}}}</div>
+  <div data-sid="mox">{{chemfig \chemfig{O?-[:-60]@{s}(-[:-30])-[:180]?}}}</div>
+  <div data-sid="moxa">{{chemfig \chemfig{O?-[:-60]@{s}(<[:-30])-[:180]?}}}</div>
+  <div data-sid="moxb">{{chemfig \chemfig{O?-[:240]@{s}(<[:210])-[:0]?}}}</div>
+  <div data-sid="propacid">{{chemfig \chemfig{-[:30]-[:-30](=[:30]O)-[:-30]OH}}}</div>
+  <div data-sid="meeth">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]O-[:30]}}}</div>
+  <div data-sid="etmeth">{{chemfig \chemfig{H-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .ie-fs{gap:6px;margin:8px 0 4px}
+.k .ie-fs button{min-width:4.6em}
+.k .ie-opts{gap:6px 18px;margin:4px 0 8px;font-size:14px}
+.k .ie-opt{display:inline-flex;align-items:center;gap:6px}
+.k .ie-guess{margin:6px 0 10px}
+.k .ie-q{font-size:15px}
+.k .ie-q .ie-qs{color:var(--mut);font-size:13px}
+.k .ie-grow{gap:6px;margin:6px 0 2px}
+.k .ie-in{width:6.5em;text-align:center}
+.k .ie-in.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .ie-in.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .ie-fb{min-height:1.4em;font-size:14px;color:var(--mut)}
+.k .ie-fb.ok{color:var(--ok)} .k .ie-fb.bad{color:var(--bad)}
+.k .ie-fb .ie-hint{color:var(--fg)}
+.k .ie-sum{margin:2px 0 4px;font-size:15px}
+.k .ie-scope{margin:0 0 6px}
+.k .ie-leg{display:flex;flex-wrap:wrap;align-items:center;gap:5px 7px;font-size:12.5px;margin:4px 0 6px}
+.k .ie-key{color:var(--mut);margin-left:4px}
+.k .ie-stk{color:var(--s2);font-size:15px}
+.k .ie-rel{display:inline-block;font-size:12.5px;line-height:1.35;padding:1px 8px;border-radius:99px;font-weight:600;white-space:nowrap;
+  color:var(--rc);background:color-mix(in srgb,var(--rc) 11%,var(--card));border:1px solid color-mix(in srgb,var(--rc) 40%,var(--card))}
+.k .r-chain{--rc:var(--s1)} .k .r-pos{--rc:var(--s3)} .k .r-fg{--rc:var(--s4)} .k .r-ct{--rc:var(--s5)} .k .r-en{--rc:var(--s2)}
+.k .r-none{--rc:var(--faint);font-weight:400}
+.k .ie-groups{display:flex;flex-wrap:wrap;align-items:stretch;gap:2px 16px}
+.k .ie-grp{margin:10px 0 4px;display:flex;flex-direction:column;flex:0 1 auto;max-width:100%;min-width:0}
+.k .ie-gh{display:flex;flex-wrap:nowrap;white-space:nowrap;align-items:baseline;gap:4px 10px;border-bottom:1px solid var(--line);padding-bottom:3px;margin-bottom:8px}
+.k .ie-gh b{font-size:15px}
+.k .ie-gh .ie-gn{color:var(--mut);font-size:13px}
+.k .ie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));grid-auto-rows:1fr;gap:10px;flex:1}
+.k .ie-card{display:flex;flex-direction:column;padding:7px 10px 9px;min-width:0}
+.k .ie-hd{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.k .ie-no{font-size:12px;color:var(--faint);white-space:nowrap}
+.k .ie-stage{height:128px;display:flex;align-items:center;justify-content:center;margin:4px 0 2px;overflow:hidden}
+.k .ie-stage svg.cf{display:block;max-width:100%;height:auto}
+.k .ie-stage svg text.ie-star{font-size:16px;font-weight:700;fill:var(--s2);dominant-baseline:central}
+.k .ie-name{font-size:15px;font-weight:650;line-height:1.3;overflow-wrap:anywhere}
+.k .ie-tagl{font-size:12.5px;color:var(--mut)}
+.k .ie-why{font-size:12.5px;color:var(--mut);line-height:1.4;margin-top:3px}
+.k .ie-st{font-size:12.5px;line-height:1.4;margin-top:3px;color:var(--s5)}
+.k .ie-st.en{color:var(--s2)}
+.k .ie-off{display:inline-block;align-self:flex-start;font-size:12px;line-height:1.35;margin-top:5px;padding:0 6px;border-radius:4px;
+  border:1px dashed var(--faint);color:var(--mut)}
+.k .ie-gh .ie-off{margin-top:0}
+.k .ie-more{margin-top:10px}
+</style>
+
+<script>
+/* All isomers are written out by hand (checked list: specs/isomer-data.json) — no enumeration at run time.
+   r = relation to the PREVIOUS card: chain / pos / fg / ct (cis/trans) / en (enantiomer). st = stereo split. */
+var REL = { chain: 'chain isomer', pos: 'positional isomer', fg: 'functional group isomer', ct: 'cis / trans isomer', en: 'enantiomer' };
+var GROUP = { alkane: 'alkane', alkene: 'alkene', cycloalkane: 'cycloalkane', aldehyde: 'aldehyde', ketone: 'ketone',
+  alkenol: 'alkene + alcohol', ether: 'ether', 'cyclic alcohol': 'cyclic alcohol', 'cyclic ether': 'cyclic ether',
+  'carboxylic acid': 'carboxylic acid', ester: 'ester', halogenoalkane: 'halogenoalkane', alcohol: 'alcohol' };
+var EN = function (c) { return { k: 'en', h: 'C2 是 chiral centre（*）→ 一对 enantiomers', c: [
+  { n: c[0], s: c[1], t: 'enantiomer ①' },
+  { n: c[0], s: c[2], t: 'enantiomer ②（① 的镜像）', r: 'en', w: '与上一张互为镜像（mirror image），不能重合' }] }; };
+var D = {
+  C4H10: { f: 'C₄H₁₀', miss: '支链的 2-methylpropane', cards: [
+    { n: 'butane', s: 'butane', g: 'alkane', y: 1 },
+    { n: '2-methylpropane', s: 'mprop', g: 'alkane', y: 1, r: 'chain', w: '主链 4 个 C → 3 个 C + C2 上一个 methyl' }] },
+  C5H12: { f: 'C₅H₁₂', miss: '两个 methyl 都在 C2 上的 2,2-dimethylpropane', cards: [
+    { n: 'pentane', s: 'pentane', g: 'alkane', y: 1 },
+    { n: '2-methylbutane', s: 'mbut', g: 'alkane', y: 1, r: 'chain', w: '主链 5 个 C → 4 个 C + C2 上一个 methyl' },
+    { n: '2,2-dimethylpropane', s: 'dmprop', g: 'alkane', y: 1, r: 'chain', w: '主链再缩成 3 个 C，C2 上两个 methyl' }] },
+  C4H8: { f: 'C₄H₈', miss: 'cyclic 的 cyclobutane 和 methylcyclopropane（少 2 个 H 也可以是一个 ring）', cards: [
+    { n: 'but-1-ene', s: 'but1ene', g: 'alkene', y: 1 },
+    { n: 'but-2-ene', s: 'but2ene', g: 'alkene', y: 1, r: 'pos', w: 'C=C 从 C1 挪到 C2',
+      st: { k: 'ct', h: 'C2、C3 各连 H 和 CH₃（两个不同 group）→ 有 cis / trans', c: [
+        { n: 'cis-but-2-ene', s: 'cis2ene', t: '两个 CH₃ 在 C=C 同侧' },
+        { n: 'trans-but-2-ene', s: 'trans2ene', t: '两个 CH₃ 在 C=C 异侧', r: 'ct', w: 'C=C 不能转动：CH₃ 从同侧换到异侧就是另一个 compound' }] } },
+    { n: '2-methylpropene', s: 'mpropene', g: 'alkene', y: 1, r: 'chain', w: '主链 4 个 C → 3 个 C + C2 上一个 methyl' },
+    { n: 'cyclobutane', s: 'cbut', g: 'cycloalkane', y: 1, r: 'fg', w: 'C=C 换成一个 ring：alkene ↔ cycloalkane' },
+    { n: 'methylcyclopropane', s: 'mcprop', g: 'cycloalkane', y: 1, r: 'chain', w: '4-membered ring → 3-membered ring + methyl' }] },
+  C3H6O: { f: 'C₃H₆O', miss: '同时带 C=C 和 –OH 的 prop-2-en-1-ol，以及不在 syllabus 表里的 ether 和 cyclic 结构',
+    scope: '不列 enol（–OH 直接连在 C=C 的 C 上，不稳定，会变成 aldehyde / ketone）。', cards: [
+    { n: 'propanal', s: 'propanal', g: 'aldehyde', y: 1 },
+    { n: 'propanone', s: 'propanone', g: 'ketone', y: 1, r: 'fg', w: 'C=O 从链端（aldehyde）挪到链中间（ketone）' },
+    { n: 'prop-2-en-1-ol', s: 'allyl', g: 'alkenol', y: 1, r: 'fg', w: 'C=O 换成 C=C + –OH' },
+    { n: 'methoxyethene', s: 'mvether', g: 'ether', y: 0, r: 'fg', w: '–OH 换成 C–O–C（ether）' },
+    { n: 'cyclopropanol', s: 'cpol', g: 'cyclic alcohol', y: 0, r: 'fg', w: 'C–O–C 换回 –OH，C=C 换成 ring：ether ↔ cyclic alcohol' },
+    { n: 'oxetane', s: 'oxetane', g: 'cyclic ether', y: 0, r: 'fg', w: 'O 进到 ring 里：cyclic ether' },
+    { n: 'methyloxirane', s: 'mox', g: 'cyclic ether', y: 0, r: 'chain', w: '4-membered ring → 3-membered ring + methyl', st: EN(['methyloxirane', 'moxa', 'moxb']) }] },
+  C3H6O2: { f: 'C₃H₆O₂', miss: 'ester 有两种：methyl ethanoate 和 ethyl methanoate',
+    scope: '只列 carboxylic acid 与 ester；同时带两个 functional group 的结构（例如 hydroxy aldehyde）不列。', cards: [
+    { n: 'propanoic acid', s: 'propacid', g: 'carboxylic acid', y: 1 },
+    { n: 'methyl ethanoate', s: 'meeth', g: 'ester', y: 1, r: 'fg', w: '–COOH 换成 –COO–：acid ↔ ester' },
+    { n: 'ethyl methanoate', s: 'etmeth', g: 'ester', y: 1, r: 'pos', w: '–COO– 在链上的位置不同：CH₃COOCH₃ → HCOOCH₂CH₃' }] },
+  C4H9Br: { f: 'C₄H₉Br', miss: '支链骨架上的 1-bromo-2-methylpropane 和 2-bromo-2-methylpropane', cards: [
+    { n: '1-bromobutane', s: 'br1', g: 'halogenoalkane', y: 1 },
+    { n: '2-bromobutane', s: 'br2', g: 'halogenoalkane', y: 1, r: 'pos', w: 'Br 从 C1 挪到 C2', st: EN(['2-bromobutane', 'br2a', 'br2b']) },
+    { n: '1-bromo-2-methylpropane', s: 'br1m', g: 'halogenoalkane', y: 1, r: 'chain', w: '主链 4 个 C → 3 个 C + C2 上一个 methyl' },
+    { n: '2-bromo-2-methylpropane', s: 'br2m', g: 'halogenoalkane', y: 1, r: 'pos', w: '同一个骨架上 Br 从 C1 挪到 C2' }] },
+  C4H10O: { f: 'C₄H₁₀O', miss: 'ether（C–O–C）：一个 O、饱和，也可以不是 alcohol', cards: [
+    { n: 'butan-1-ol', s: 'ol1', g: 'alcohol', y: 1 },
+    { n: 'butan-2-ol', s: 'ol2', g: 'alcohol', y: 1, r: 'pos', w: '–OH 从 C1 挪到 C2', st: EN(['butan-2-ol', 'ol2a', 'ol2b']) },
+    { n: '2-methylpropan-1-ol', s: 'ol1m', g: 'alcohol', y: 1, r: 'chain', w: '主链 4 个 C → 3 个 C + C2 上一个 methyl' },
+    { n: '2-methylpropan-2-ol', s: 'ol2m', g: 'alcohol', y: 1, r: 'pos', w: '同一个骨架上 –OH 从 C1 挪到 C2' },
+    { n: 'ethoxyethane', s: 'eth22', g: 'ether', y: 0, r: 'fg', w: '–OH 换成 C–O–C：alcohol ↔ ether' },
+    { n: '1-methoxypropane', s: 'eth13', g: 'ether', y: 0, r: 'pos', w: 'O 在链上的位置：两边 2 + 2 个 C → 1 + 3 个 C' },
+    { n: '2-methoxypropane', s: 'eth2m', g: 'ether', y: 0, r: 'chain', w: 'O 一侧的 3 个 C 由直链变成支链（O 连在 C2）' }] },
+  C3H7Cl: { f: 'C₃H₇Cl', miss: 'Cl 在 C2 上的 2-chloropropane', cards: [
+    { n: '1-chloropropane', s: 'clp1', g: 'halogenoalkane', y: 1 },
+    { n: '2-chloropropane', s: 'clp2', g: 'halogenoalkane', y: 1, r: 'pos', w: 'Cl 从 C1 挪到 C2（没有「3-chloropropane」：那是从另一端编号的 1-chloropropane）' }] }
+};
+var ORDER = ['C4H10', 'C5H12', 'C4H8', 'C3H6O', 'C3H6O2', 'C4H9Br', 'C4H10O', 'C3H7Cl'];
+var S = 1.2;   /* every structure at the same scale, so bond lengths match from card to card */
+
+/* the cards shown for formula f: structural list, or with each stereo pair split in two */
+function list(f, stereo) {
+  var out = [];
+  D[f].cards.forEach(function (c) {
+    if (!(stereo && c.st)) { out.push({ n: c.n, s: c.s, g: c.g, y: c.y, r: c.r, w: c.w, st: c.st, chiral: !!(c.st && c.st.k === 'en') }); return; }
+    c.st.c.forEach(function (x, i) {
+      out.push({ n: x.n, s: x.s, g: c.g, y: c.y, r: i ? x.r : c.r, w: i ? x.w : c.w, t: x.t, chiral: c.st.k === 'en', split: c.st.k });
+    });
+  });
+  return out;
+}
+function count(f, stereo) { return list(f, stereo).length; }
+
+var $ = function (s) { return $root.querySelector(s); };
+var cur = 'C4H10', state = {};
+ORDER.forEach(function (f) { state[f] = { shown: false, fb: '', cls: '', guess: '' }; });
+
+function src(sid) { return $root.querySelector('.ko-src [data-sid="' + sid + '"] svg'); }
+
+/* '*' beside the chiral centre (atom @{s}); K.label keeps it off bonds, wedges and atom letters */
+function star(svg) {
+  var A = KO.atoms(svg), i = A.byName.s;
+  if (i == null) return null;
+  var a = A.atoms[i];
+  var avoid = Array.prototype.map.call(svg.querySelectorAll('.cf-b line'), function (l) {
+    return ['x1', 'y1', 'x2', 'y2'].map(function (k) { return +l.getAttribute(k); });
+  });
+  Array.prototype.forEach.call(svg.querySelectorAll('.cf-b polygon'), function (p) {
+    var q = p.getAttribute('points').trim().split(/\s+/).map(function (s) { return s.split(',').map(Number); });
+    avoid.push([q[0][0], q[0][1], (q[1][0] + q[2][0]) / 2, (q[1][1] + q[2][1]) / 2]);
+  });
+  var placed = Array.prototype.map.call(svg.querySelectorAll('text.cf-a'), function (t) {
+    var b = t.getBBox(); return { x: b.x, y: b.y, w: b.width, h: b.height };
+  });
+  var cands = [];
+  [12, 15, 19].forEach(function (d) {
+    [-90, -45, -135, 0, 180, 45, 135, 90, -60, -120, -20, -160, 20, 160].forEach(function (deg) {
+      var t = deg * Math.PI / 180;
+      cands.push([Math.cos(t) * d, Math.sin(t) * d, 'middle']);
+    });
+  });
+  var t = K.label(svg, a.x, a.y, '*', { cls: 'ie-star', cands: cands, avoid: avoid, placed: placed, pad: 1 });
+  t.setAttribute('data-atom', i);
+  return t;
+}
+/* crop chemfig2svg's generous margin to the drawn content, then scale */
+function frame(svg) {
+  var b = svg.getBBox(), p = 5;
+  svg.setAttribute('viewBox', [b.x - p, b.y - p, b.width + 2 * p, b.height + 2 * p].map(function (v) { return v.toFixed(1); }).join(' '));
+  KO.scale(svg, S);
+}
+
+function cardHTML(c, k) {
+  var h = '<div class="ie-hd"><span class="ie-no">#' + (k + 1) + (k ? ' · 与 #' + k + ' 比' : ' · 第一张') + '</span>' +
+    (k ? '<span class="ie-rel r-' + c.r + '">' + REL[c.r] + '</span>' : '<span class="ie-rel r-none">起点</span>') + '</div>' +
+    '<div class="ie-stage"></div><div class="ie-name">' + c.n + '</div>';
+  if (c.t) h += '<div class="ie-tagl">' + c.t + '</div>';
+  if (k && c.w) h += '<div class="ie-why">' + c.w + '</div>';
+  if (c.st) h += '<div class="ie-st' + (c.st.k === 'en' ? ' en' : '') + '">' + c.st.h + '（打开 stereoisomer 开关拆开）</div>';
+  if (!c.y) h += '<span class="ie-off">不在 syllabus 表里</span>';
+  return h;
+}
+
+function renderCards() {
+  var stereo = $('.ie-stereo').checked, L = list(cur, stereo), box = $('.ie-groups');
+  box.innerHTML = '';
+  var grp = null, grid = null;
+  L.forEach(function (c, k) {
+    if (!grp || grp.getAttribute('data-g') !== c.g) {
+      var n = L.filter(function (x) { return x.g === c.g; }).length;
+      /* a group is as wide as its cards, so one-card groups sit side by side instead of one per line */
+      grp = K.el('section', { 'class': 'ie-grp', 'data-g': c.g, style: 'flex-basis:' + (n * 206 - 10) + 'px' });
+      grp.innerHTML = '<div class="ie-gh"><b>' + GROUP[c.g] + '</b><span class="ie-gn">' + n + ' 个</span></div>';
+      grid = K.el('div', { 'class': 'ie-grid' });
+      grp.appendChild(grid); box.appendChild(grp);
+    }
+    var card = K.el('div', { 'class': 'card ie-card', 'data-name': c.n, 'data-rel': k ? c.r : '', 'data-syl': c.y ? '1' : '0',
+      'data-sid': c.s }, cardHTML(c, k));
+    grid.appendChild(card);
+    var svg = src(c.s).cloneNode(true);
+    svg.setAttribute('aria-label', c.n);
+    card.querySelector('.ie-stage').appendChild(svg);
+    if (c.chiral) star(svg);
+    frame(svg);
+  });
+}
+
+function prompt() {
+  var d = D[cur], st = state[cur], stereo = st.shown && st.mode != null ? st.mode : $('.ie-stereo').checked;   /* the question that was answered */
+  return '<b>' + d.f + '</b>：你觉得有几个 ' + (stereo ? 'isomer（cis / trans、enantiomers 分开算）' : 'structural isomer') + '？' +
+    (d.scope ? ' <span class="ie-qs">' + d.scope + '</span>' : '');
+}
+
+function judge(raw) {
+  var d = D[cur], stereo = $('.ie-stereo').checked, N = count(cur, stereo), Ns = count(cur, false), Nt = count(cur, true);
+  var m = String(raw).trim().match(/^(\d+)\s*个?$/);
+  if (!m) return { cls: 'bad', fb: '请输入一个整数（例如 4）。', none: true };
+  var g = +m[1], what = stereo ? '个 isomer' : '个 structural isomer';
+  if (g === N) return { cls: 'ok', fb: '✓ 正好 ' + N + ' ' + what + '。' };
+  var fb = '✗ 你猜 ' + g + ' 个，实际 ' + N + ' ' + what + '。', hint;
+  if (!stereo && g === Nt && Nt !== Ns) hint = g + ' 是把 cis / trans、enantiomers 也分开算的数目；这里只问 structural isomer（连接方式不同）。';
+  else if (stereo && g === Ns && Nt !== Ns) hint = g + ' 是 structural isomer 的数目；cis / trans 和一对 enantiomers 要各算两个。';
+  else if (g < N) hint = '少了 ' + (N - g) + ' 个。常漏的是' + d.miss + '。';
+  else hint = '多了 ' + (g - N) + ' 个：多半是把同一个结构画了两次——链怎么弯、从哪一端编号，都还是同一个 compound。';
+  return { cls: 'bad', fb: fb + ' <span class="ie-hint">' + hint + '</span>' };
+}
+
+function render() {
+  var st = state[cur], gm = $('.ie-gmode').checked, show = st.shown || !gm, stereo = $('.ie-stereo').checked;
+  $root.querySelectorAll('.ie-fs button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-f') === cur); });
+  $('.ie-guess').hidden = !gm;
+  $('.ie-q').innerHTML = prompt();
+  var inp = $('.ie-in');
+  inp.value = st.guess; inp.disabled = st.shown;
+  inp.classList.toggle('good', st.cls === 'ok'); inp.classList.toggle('badv', st.cls === 'bad' && st.shown);
+  $('.ie-go').hidden = st.shown; $('.ie-skip').hidden = st.shown; $('.ie-again').hidden = !st.shown;
+  var fb = $('.ie-fb'); fb.innerHTML = st.fb; fb.className = 'ie-fb' + (st.cls ? ' ' + st.cls : '');
+  $('.ie-res').hidden = !show; $('.ie-wait').hidden = show;
+  if (show) {
+    var d = D[cur], ns = count(cur, false), nt = count(cur, true), L = list(cur, stereo);
+    /* name only the kinds of stereoisomer this formula really has */
+    var ks = d.cards.filter(function (c) { return c.st; }).map(function (c) { return c.st.k; });
+    var kt = ['ct', 'en'].filter(function (k) { return ks.indexOf(k) >= 0; }).map(function (k) { return k === 'ct' ? 'cis / trans' : 'enantiomers'; }).join('、');
+    $('.ie-sum').innerHTML = '<b>' + d.f + '</b> 共 <b class="ie-ns">' + ns + '</b> 个 structural isomer；' +
+      (nt === ns ? '没有 stereoisomer，所以 stereoisomer 开关打开也还是 ' + nt + ' 个。'
+                 : kt + ' 分开算共 <b class="ie-nt">' + nt + '</b> 个' + (stereo ? '（下面已拆开）。' : '（打开 stereoisomer 开关拆开）。'));
+    /* legend: only the relations that appear on the cards, and * only when a chiral centre is drawn */
+    $root.querySelectorAll('.ie-leg .ie-rel[data-k]').forEach(function (e) {
+      var k = e.getAttribute('data-k');
+      e.hidden = !L.some(function (c, i) { return i && c.r === k; });
+    });
+    $('.ie-key').hidden = !L.some(function (c) { return c.chiral; });
+    var sc = $('.ie-scope'); sc.hidden = !d.scope; sc.textContent = d.scope ? '范围：' + d.scope : '';
+    renderCards();
+  }
+  K.fit();
+}
+
+function submit() {
+  var st = state[cur], r = judge($('.ie-in').value);
+  st.guess = $('.ie-in').value; st.fb = r.fb; st.cls = r.cls; st.mode = $('.ie-stereo').checked;
+  if (!r.none) st.shown = true;
+  render();
+}
+
+$root.querySelectorAll('.ie-fs button').forEach(function (b) {
+  b.addEventListener('click', function () { cur = b.getAttribute('data-f'); render(); });
+});
+$('.ie-stereo').addEventListener('change', render);
+$('.ie-gmode').addEventListener('change', render);
+$('.ie-go').addEventListener('click', submit);
+$('.ie-in').addEventListener('keydown', function (ev) { if (ev.key === 'Enter' && !ev.isComposing) submit(); });  /* no preventDefault: kit's box-to-box jump is left alone */
+$('.ie-in').addEventListener('input', function () {
+  var st = state[cur]; st.guess = this.value;
+  if (st.cls === 'bad' && !st.shown) { st.fb = ''; st.cls = ''; var fb = $('.ie-fb'); fb.innerHTML = ''; fb.className = 'ie-fb'; }
+});
+$('.ie-skip').addEventListener('click', function () { var st = state[cur]; st.shown = true; st.fb = ''; st.cls = ''; render(); });
+$('.ie-again').addEventListener('click', function () {
+  state[cur] = { shown: false, fb: '', cls: '', guess: '' }; render(); $('.ie-in').focus();
+});
+
+$root.__ie = { D: D, ORDER: ORDER, list: list, count: count, cur: function () { return cur; } };
+K.init($root);
+render();
+</script>
