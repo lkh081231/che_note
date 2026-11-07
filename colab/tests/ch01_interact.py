@@ -82,6 +82,20 @@ with sync_playwright() as p:
     check('real, min voltage: moving particles never overlap (> 18 px apart)', near > 18, str(near))
     page.fill('.bv', '10'); page.dispatch_event('.bv', 'input'); check('beams: no clash at max voltage', clashes() == 0, str(clashes()))
     page.click('text=示意（不按比例）'); check('beams: no clash schematic max voltage', clashes() == 0, str(clashes())); shot('07-schem-v10')
+    # the real-ratio electron is a parabola with ~1 px radius at its vertex, so it turns almost at once;
+    # what must not happen is the old sampled-polyline artefact (a hook / back-bend near the plate):
+    # inside the field x never goes back and |slope| only grows
+    page.click('text=按真实比例')
+    for v in ('10', '3'):
+        page.fill('.bv', v); page.dispatch_event('.bv', 'input')
+        bad = page.evaluate('''() => { const p=[...document.querySelectorAll('.bm-paths path')].find(q=>(q.getAttribute('data-tip')||'').includes('electron'));
+          const L=p.getTotalLength(), pts=[]; for(let t=0;t<=L;t+=1) pts.push(p.getPointAtLength(t));
+          const f=pts.filter(q=>q.y<199.5); let back=0, flat=0, prev=0;
+          for(let i=1;i<f.length;i++){ const dx=f[i].x-f[i-1].x, dy=f[i-1].y-f[i].y; if(dx<-0.05) back++;
+            const s=dy/Math.max(dx,1e-6); if(i>1 && s<prev*0.9-0.05) flat++; prev=s; }
+          return [back, flat, f.length]; }''')
+        check(f'real v={v}: electron path never bends back, slope only steepens (no hook)', bad[0] == 0 and bad[1] == 0 and bad[2] > 20, str(bad))
+    shot('07-real-smooth'); page.click('text=示意（不按比例）')
 
     print('== 09 radius'); go('ch01-09'); shot('09-p3')
     for tab in ['Period 2', 'Group 2', 'Group 17']:
@@ -140,6 +154,22 @@ with sync_playwright() as p:
     inp.nth(4).fill('[Ar]3d10'); inp.nth(4).dispatch_event('input')
     res = page.locator('.fquiz .res')
     check('Fe right ✓', res.nth(0).inner_text() == '✓'); check('Fe³⁺ wrong ✗', res.nth(1).inner_text() == '✗'); check('Cu⁺ right ✓', res.nth(4).inner_text() == '✓')
+    # same electrons, 4s written before 3d: the syllabus writes [Ar]3d⁶4s², so this is wrong
+    inp.nth(0).fill('[Ar]4s2 3d6'); inp.nth(0).dispatch_event('input')
+    check('Fe [Ar]4s2 3d6 → "✗ 顺序" in the cell + tip', res.nth(0).inner_text() == '✗ 顺序' and '顺序' in (res.nth(0).get_attribute('data-tip') or ''))
+    res.nth(0).hover(); page.wait_for_timeout(250); shot('16-order-tip')
+    inp.nth(0).fill('1s2 2s2 2p6 3s2 3p6 4s2 3d6'); inp.nth(0).dispatch_event('input')
+    check('Fe full, 4s before 3d → ✗ 顺序', res.nth(0).inner_text() == '✗ 顺序')
+    inp.nth(0).fill('1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁶ 4s²'); inp.nth(0).dispatch_event('input')
+    check('Fe full, superscripts ✓', res.nth(0).inner_text() == '✓')
+    # keyboard: Enter / ↓ go to the next box, ↑ back; ← at caret 0 has nowhere to go in a 1-column table
+    inp.nth(2).click(); page.keyboard.press('Enter')
+    focus = lambda: page.evaluate("() => [...document.querySelectorAll('.fquiz input')].indexOf(document.activeElement)")
+    check('Enter moves to the next box', focus() == 3, str(focus()))
+    page.keyboard.press('ArrowDown'); check('↓ moves down', focus() == 4, str(focus()))
+    page.keyboard.press('ArrowUp'); check('↑ moves up', focus() == 3, str(focus()))
+    inp.nth(3).fill('[Ar]'); inp.nth(3).focus(); page.keyboard.press('ArrowLeft'); check('← inside text stays', focus() == 3, str(focus()))
+    inp.nth(3).fill('')
 
     print('== 19 IE1'); go('ch01-19'); shot('19-across')
     btns = page.locator('.ibtn button')

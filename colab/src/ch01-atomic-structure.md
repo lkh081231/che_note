@@ -218,6 +218,7 @@ p、n、e 以**相同的 velocity** 射入两块带电 plate 之间的 electric 
   <rect x="22" y="185" width="40" height="30" rx="4" class="bm-src"/>
   <text x="42" y="235" text-anchor="middle" class="bm-small">source</text>
   <g class="bm-paths"></g>
+  <g class="bm-zoom"></g>
   <g class="bm-dots"></g>
   <text x="10" y="408" class="bm-small bm-foot"></text>
 </svg>
@@ -235,6 +236,10 @@ p、n、e 以**相同的 velocity** 射入两块带电 plate 之间的 electric 
 .k .bm-mask rect{fill:var(--card)}
 .k .bm-dots circle{stroke:var(--card);stroke-width:1.5}
 .k svg .bm-dots text{fill:var(--card);font-size:13px;font-weight:700}
+.k .bm-zbox{fill:var(--card);stroke:var(--mut);stroke-width:1}
+.k .bm-zsrc{fill:none;stroke:var(--mut);stroke-width:1.2}
+.k .bm-zlead{stroke:var(--mut);stroke-width:1;stroke-dasharray:3 3}
+.k .bm-zoom path{fill:none;stroke-width:3}
 </style>
 <script>
 var g = $root.querySelector('.bm-paths'), dots = $root.querySelector('.bm-dots'), mode = 'schem';
@@ -246,20 +251,23 @@ var Y0 = 200, X0 = 62, XA = 220, XB = 560, GAP = 140, fieldBox;
   var t = K.svg('text', { x: 256, y: 78, 'class': 'bm-small halo' }); t.textContent = 'electric field'; f.appendChild(t);
   fieldBox = function () { var b = t.getBBox(); return { x: b.x - 3, y: b.y - 3, w: b.width + 6, h: b.height + 6 }; };
 })();
+/* inside the field the path is y = Y0 + dir·k·u² (u = x − XA): drawn as the exact quadratic Bézier
+   (control point at u/2 on the entry line), so the 1836× electron curls smoothly instead of a
+   coarsely sampled polyline with a kink; pts are sampled densely only for label avoidance */
 function track(k, dir, xe) {
-  var pts = [[X0, Y0], [XA, Y0]], x, y, hit = false, XE = xe || 610;
-  for (x = XA; x <= XB; x += 4) {
-    y = Y0 + dir * k * (x - XA) * (x - XA);
-    if (Math.abs(y - Y0) >= GAP) { y = Y0 + dir * GAP; pts.push([x, y]); hit = true; break; }
-    pts.push([x, y]);
-  }
+  var XE = xe || 610, u = XB - XA, hit = false;
+  if (k > 0 && k * u * u >= GAP) { u = Math.sqrt(GAP / k); hit = true; }
+  var x1 = XA + u, y1 = Y0 + dir * k * u * u, pts = [[X0, Y0], [XA, Y0]];
+  for (var i = 1; i <= 40; i++) { var t = u * i / 40; pts.push([XA + t, Y0 + dir * k * t * t]); }
+  var f = function (v) { return v.toFixed(2); };
+  var d = 'M' + X0 + ',' + Y0 + ' L' + XA + ',' + Y0 + ' Q' + f(XA + u / 2) + ',' + Y0 + ' ' + f(x1) + ',' + f(y1);
   if (!hit) {
-    var s = dir * 2 * k * (XB - XA), xe = XE, ye = y + s * (XE - XB);
-    if (ye < 12) { xe = XB + (12 - y) / s; ye = 12; }
-    if (ye > 388) { xe = XB + (388 - y) / s; ye = 388; }
-    pts.push([xe, ye]);
+    var s = dir * 2 * k * u, xe2 = XE, ye = y1 + s * (XE - x1);
+    if (ye < 12) { xe2 = x1 + (12 - y1) / s; ye = 12; }
+    if (ye > 388) { xe2 = x1 + (388 - y1) / s; ye = 388; }
+    pts.push([xe2, ye]); d += ' L' + f(xe2) + ',' + f(ye);
   }
-  return { pts: pts, d: 'M' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L'), end: pts[pts.length - 1], hit: hit };
+  return { pts: pts, d: d, end: pts[pts.length - 1], hit: hit };
 }
 var movers = [];
 function draw() {
@@ -277,6 +285,24 @@ function draw() {
   var on = beams.filter(function (b) { return $root.querySelector('.' + b[0]).checked; });
   var avoid = [[XA, 40, XB, 40], [XA, 52, XB, 52], [XA, 348, XB, 348], [XA, 360, XB, 360]], placed = [fieldBox()];
   on.forEach(function (b) { avoid = avoid.concat(K.segs(b[4].pts)); });
+  /* real mode: at 1836× the electron's parabola has a vertex radius of ~1 px, so it reads as a right
+     angle; a ×Z inset of the entry corner (same exact quadratic, clipped to the box) shows it is a curve */
+  var zoom = $root.querySelector('.bm-zoom'); zoom.innerHTML = '';
+  if (mode === 'real' && $root.querySelector('.be').checked) {
+    var Z = 20, BX = 30, BY = 262, BW = 150, BH = 104, L0 = XA - 4, T0 = Y0 - 4.6;   /* region x XA−4…XA+3.5, y Y0−4.6…Y0+0.6 */
+    var mx = function (x) { return (BX + (x - L0) * Z).toFixed(1); }, my = function (y) { return (BY + (y - T0) * Z).toFixed(1); };
+    var ue = Math.min(Math.sqrt((Y0 - T0) / ke), L0 + BW / Z - XA), ye = Y0 - ke * ue * ue;
+    zoom.appendChild(K.svg('rect', { x: L0 - 1.5, y: T0 - 1.5, width: BW / Z + 3, height: BH / Z + 3, 'class': 'bm-zsrc' }));
+    zoom.appendChild(K.svg('line', { x1: L0 - 1.5, y1: T0 + BH / Z + 1.5, x2: BX + 70, y2: BY, 'class': 'bm-zlead' }));
+    zoom.appendChild(K.svg('rect', { x: BX, y: BY, width: BW, height: BH, rx: 4, 'class': 'bm-zbox' }));
+    zoom.appendChild(K.svg('path', { d: 'M' + mx(XA) + ',' + my(Y0) + ' L' + (BX + BW) + ',' + my(Y0), style: 'stroke:var(--neu)' }));
+    var ze = K.svg('path', { d: 'M' + BX + ',' + my(Y0) + ' L' + mx(XA) + ',' + my(Y0) + ' Q' + mx(XA + ue / 2) + ',' + my(Y0) + ' ' + mx(XA + ue) + ',' + my(ye), style: 'stroke:var(--fg)' });
+    ze.setAttribute('data-tip', '放大 ×' + Z + '：electron 进 field 的地方——也是一条 parabola，只是弯得极急');
+    zoom.appendChild(ze);
+    var zt = K.svg('text', { x: BX + 7, y: BY + 18, 'class': 'bm-small' }); zt.textContent = '放大 ×' + Z; zoom.appendChild(zt);
+    var zc = K.svg('text', { x: BX + 7, y: BY + 36, 'class': 'bm-small' }); zc.textContent = '也是 parabola'; zoom.appendChild(zc);
+    placed.push({ x: BX - 2, y: BY - 2, w: BW + 4, h: BH + 4 });
+  }
   on.forEach(function (b) {
     var t = b[4];
     var p = K.svg('path', { d: t.d, style: 'stroke:' + b[2], 'marker-end': t.hit ? '' : 'url(#' + b[3] + ')' });
@@ -303,7 +329,7 @@ function draw() {
   });
   $root.querySelector('.bm-foot').textContent = mode === 'schem'
     ? '示意：electron 只画成 proton 的约 2 倍弯曲，真实是约 1836 倍'
-    : '真实比例：proton 几乎走直线，electron 一进 field 就被拉到 positive plate 上';
+    : '真实比例：proton 几乎走直线；electron 弯曲约 1836 倍，一进 field 就急转撞上 positive plate（左下是放大图）';
   place(performance.now());
 }
 var still = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -748,6 +774,7 @@ sub-shell 的 energy 由低到高（*n* = 1–3 加上 4s、4p）：
   <div class="card fout"></div>
 </div>
 <h4>自测：写出 electronic configuration（full 或 shorthand 都行，空格随意，写 1s2 或 1s² 都可以）</h4>
+<div class="k-ptable"></div>
 <table class="fquiz"><tr><th>species</th><th>你的答案</th><th>判定</th></tr></table>
 <style>
 .k .fl rect.box{fill:var(--card);stroke:var(--mut);stroke-width:1.3}
@@ -850,9 +877,11 @@ QZ.forEach(function (r) {
     var got = C.parse(inp.value);
     if (!inp.value.trim()) { res.textContent = ''; return; }
     if (!got) { res.textContent = '看不懂'; res.style.color = 'var(--faint)'; return; }
-    var ok = C.same(got, want.occ);
-    res.textContent = ok ? '✓' : '✗'; res.style.color = ok ? 'var(--ok)' : 'var(--bad)';
-    res.setAttribute('data-tip', ok ? want.full : '再想想：electrons = ' + want.total);
+    var right = C.same(got, want.occ), ok = right && C.ordered(got);
+    res.textContent = ok ? '✓' : right ? '✗ 顺序' : '✗'; res.style.color = ok ? 'var(--ok)' : 'var(--bad)';
+    res.setAttribute('data-tip', ok ? want.full : right
+      ? 'electrons 对了，顺序不对：按 n 写，3d 写在 4s 前面（syllabus：' + want.short + '）'
+      : '再想想：electrons = ' + want.total);
   });
   tb.appendChild(tr);
 });

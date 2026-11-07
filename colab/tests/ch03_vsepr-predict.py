@@ -323,7 +323,7 @@ with sync_playwright() as p:
                ('H2O', 2, 2, 'non-linear', '102.5', 'wrong'), ('NH2', 2, 2, 'non-linear', '105.5', 'wrong'),
                ('NH3', 3, 1, 'pyramidal', '106', 'right'), ('PCl3', 3, 1, 'pyramidal', '108', 'right'),
                ('H3O', 3, 1, 'pyramidal', '108.5', 'wrong'), ('CH4', 4, 0, 'tetrahedral', '109.5', 'right'),
-               ('CH4', 4, 0, 'tetrahedral', '109', 'wrong'), ('PF5', 5, 0, 'trigonal bipyramidal', '120 and 90', 'right'),
+               ('CH4', 4, 0, 'tetrahedral', '109', 'right'), ('CH4', 4, 0, 'tetrahedral', '108', 'wrong'), ('SO2', 2, 1, 'non-linear', '117', 'right'), ('SO2', 2, 1, 'non-linear', '116', 'wrong'), ('PF5', 5, 0, 'trigonal bipyramidal', '120 and 90', 'right'),
                ('PF5', 5, 0, 'trigonal bipyramidal', '90°, 120°', 'right'), ('PF5', 5, 0, 'trigonal bipyramidal', '120', 'wrong'),
                ('SO2', 2, 1, 'non-linear', '118', 'right'), ('SO2', 2, 1, 'non-linear', '120', 'wrong'),
                ('XeF4', 4, 2, 'square planar', '90', 'right'), ('XeF4', 4, 2, 'octahedral', '90', 'wrong'),

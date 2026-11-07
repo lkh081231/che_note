@@ -98,3 +98,30 @@
 .k svg.cf .cf-a{fill:var(--fg);font-size:13px}
 .k a.xref{color:var(--acc);text-decoration:none;border-bottom:1px dotted var(--acc)}
 .k a.xref:hover{border-bottom-style:solid}
+/* Periodic Table behind a button: <div class="k-ptable"></div> (kit.js builds it on first open).
+   Fixed-size cells; a narrow output scrolls INSIDE .pt-scroll, never the page. Every text ≥ 12px. */
+.k .k-ptable{margin:2px 0 8px;max-width:100%;min-width:0}
+.k .k-ptable .pt-btn{font-size:14px;padding:3px 11px}
+.k .k-ptable.open .pt-btn{background:var(--acc-soft);border-color:var(--acc)}
+.k .k-ptable .pt-wrap{display:none;margin-top:6px}
+.k .k-ptable.open .pt-wrap{display:block}
+.k .pt-scroll{overflow-x:auto;max-width:100%;padding-bottom:2px}
+.k .pt-grid{display:grid;grid-template-columns:20px repeat(18,minmax(44px,1fr));grid-template-rows:auto repeat(7,auto) 8px auto auto;
+  gap:2px;min-width:max-content;line-height:1.15;font-size:12px}
+.k .pt-gh,.k .pt-ph{color:var(--mut);font-size:12px;display:flex;align-items:center;justify-content:center}
+.k .pt-gh{padding-bottom:1px}
+.k .pt-el{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px 1px 3px;
+  border:1px solid var(--line);border-radius:4px;background:var(--card);text-align:center;white-space:nowrap}
+.k .pt-el .pt-z,.k .pt-el .pt-a{font-size:12px;color:var(--mut)}
+.k .pt-el .pt-s{font-size:17px;font-weight:700;line-height:1.2;color:var(--fg);text-transform:none}
+.k .pt-el .pt-sr{font-size:13px;line-height:1.45}
+.k .pt-el:hover{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.k .pt-el.pt-bs{background:color-mix(in srgb,var(--s1) 9%,var(--card))}
+.k .pt-el.pt-bp{background:color-mix(in srgb,var(--s3) 9%,var(--card))}
+.k .pt-el.pt-bd{background:color-mix(in srgb,var(--s4) 10%,var(--card))}
+.k .pt-el.pt-bf{background:color-mix(in srgb,var(--s5) 10%,var(--card))}
+.k .pt-key{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:12px;line-height:1.25;padding-left:4px}
+.k .pt-keyc{display:inline-flex;flex-direction:column;align-items:center;min-width:44px;padding:2px 4px 3px;border:1px dashed var(--faint);border-radius:4px}
+.k .pt-keyc .pt-z,.k .pt-keyc .pt-a{font-size:12px} .k .pt-keyc .pt-s{font-size:17px;color:var(--fg);line-height:1.2}
+.k .pt-fl{display:flex;align-items:center;justify-content:flex-end;padding-right:6px;color:var(--mut);font-size:12px;font-style:italic}
+.k .pt-note{font-size:12px;color:var(--faint);margin:4px 0 0}

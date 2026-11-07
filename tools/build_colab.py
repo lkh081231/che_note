@@ -595,6 +595,9 @@ def build(slug_prefix):
             cells.append(md_cell(directives(text, los, notes, 'md', here), cid))
         elif kind == 'practice':
             body = practice_html(directives(text, los, notes, 'html', here))
+            # past-paper questions assume the Periodic Table on the paper: kit.js renders this as a
+            # collapsed "Periodic Table" button (proton number, group, Aᵣ)
+            body = '<div class="k-ptable"></div>\n' + body
             cells.append(code_cell('📝 ' + title, assemble(body, 'k-' + cid, False), cid))
         else:
             body = directives(cell_body(slug, text, title), los, notes, 'html', here)

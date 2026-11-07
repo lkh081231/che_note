@@ -20,6 +20,7 @@
 
 <div data-pane="quiz">
   <p class="mut">随机给一个 species：选 bonding pairs、lone pairs 和 shape，填 bond angle，再判分。判完给出完整推导和 mark scheme 句式。</p>
+  <div class="k-ptable"></div>
   <div class="card vp-q">
     <div class="vp-qhead">推 <b class="vp-qsp"></b> 的 shape 与 bond angle</div>
     <div class="vp-qgrid">
@@ -413,10 +414,11 @@ function chips(sel, key, max) {
 chips('.vp-qbp', 'bp', 6); chips('.vp-qlp', 'lp', 3);
 $('.vp-qshape').innerHTML = '<option value="">— 选 shape —</option>' + SHAPES.map(function (x) { return '<option value="' + x + '">' + x + '</option>'; }).join('');
 
+/* accepted ranges: H₂O 103–105° (mark scheme); 107 ± 1; tetrahedral written 109(.5)°; SO₂ just under 120° */
+var TOL = { 104.5: [103, 105], 107: [106, 108], 109.5: [109, 110], 118: [117, 119] };
 function inTol(a, x) {
-  if (a === 104.5) return x >= 103 - 1e-9 && x <= 105 + 1e-9;
-  if (a === 107) return x >= 106 - 1e-9 && x <= 108 + 1e-9;
-  return Math.abs(a - x) < 1e-9;
+  var r = TOL[a];
+  return r ? x >= r[0] - 1e-9 && x <= r[1] + 1e-9 : Math.abs(a - x) < 1e-9;
 }
 function angleOk(s, txt) {
   var nums = (String(txt).match(/\d+(?:\.\d+)?/g) || []).map(Number);
