@@ -57,8 +57,10 @@ var sel = $root.querySelector('.ars-pre'), svg = $root.querySelector('.ars-svg')
 PRE.forEach(function (p, i) { sel.appendChild(K.el('option', { value: i }, p.id)); });
 
 /* number → plain string without float noise */
+/* round half-up to dp decimals; toPrecision(12) first so 62.55 (stored as 62.5499…) still rounds up */
+function rdp(x, dp) { var f = Math.pow(10, dp); return Math.round(+(x * f).toPrecision(12)) / f; }
 function num(x, dp) {
-  if (dp != null) return x.toFixed(dp);
+  if (dp != null) return rdp(x, dp).toFixed(dp);
   return String(+x.toFixed(6));
 }
 function isoName(m, sym) {
@@ -247,13 +249,23 @@ function newQ() {
   if (qans.classList.contains('show')) btn.click();
   K.fit();
 }
+/* the answer must be written to exactly 1 d.p. and equal Aᵣ ROUNDED to 1 d.p. (not within ±0.05 of it:
+   62.5405 → only 62.5, never 62.59); the hint names the actual slip */
 qin.addEventListener('input', function () {
-  var v = parseFloat(qin.value.replace(/[−–]/g, '-'));
+  var t = qin.value.trim(), m = t.match(/^\d+(?:\.(\d+))?$/);
   qin.classList.remove('good', 'badv'); qres.className = 'ars-qres'; qres.textContent = '';
-  if (!qin.value.trim()) return;
-  var ok = /^\s*[\d.]+\s*$/.test(qin.value) && Math.abs(v - q.ar) <= 0.05 + 1e-9;
+  if (!t) return;
+  var v = m ? parseFloat(t) : NaN, dp = m && m[1] ? m[1].length : 0, s = arOf(q.iso), same = function (a, b) { return Math.abs(a - b) < 1e-9; };
+  var ok = dp === 1 && same(v, rdp(q.ar, 1)), why = '';
+  if (!ok) {
+    if (!m) why = '只填数字（例如 ' + num(q.ar, 1) + '）';
+    else if (same(v, rdp(q.ar, dp))) why = '数值对，但题目要 1 d.p.：写成 ' + num(q.ar, 1);
+    else if (dp === 1 && same(v, Math.floor(q.ar * 10 + 1e-9) / 10)) why = '要四舍五入，不是截断：' + num(q.ar, 2) + '… → ' + num(q.ar, 1);
+    else if (same(v, rdp(s.top / 100, dp))) why = '分母是 Σ abundance（' + num(s.bot) + '），不是 100';
+    else why = '再算一次：Σ(m/e × abundance) ÷ Σ abundance，最后取 1 d.p.';
+  }
   qin.classList.add(ok ? 'good' : 'badv'); qres.classList.add(ok ? 'good' : 'badv');
-  qres.textContent = ok ? '✓' : '✗　分母是 Σ abundance，不是 100';
+  qres.textContent = ok ? '✓' : '✗　' + why;
 });
 $root.querySelector('.ars-qnew').addEventListener('click', newQ);
 newQ();
