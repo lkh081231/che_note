@@ -1,0 +1,462 @@
+<h3>bond fission、reagent 分类与 reaction type</h3>
+<p class="mut">① 拖 slider 或按播放，看 bond 里的两个 electron（两个彩色点）各去哪里；② 把 reagent 卡片放进 nucleophile / electrophile / free radical；③ 给 6 条方程配 reaction type，并判断是不是 redox。</p>
+
+<div class="fi-wrap">
+<div class="tabbar">
+  <button type="button" data-tab="fis">① homolytic / heterolytic fission</button>
+  <button type="button" data-tab="cls">② reagent 分类</button>
+  <button type="button" data-tab="rx">③ reaction type</button>
+</div>
+
+<div data-pane="fis">
+  <div class="row fi-ex">
+    <button type="button" data-ex="cl2">Cl–Cl</button>
+    <button type="button" data-ex="ch3cl">CH₃–Cl</button>
+    <button type="button" data-ex="tbu">(CH₃)₃C–Br</button>
+    <span class="fi-kind"></span>
+  </div>
+  <div class="card fi-card">
+    <div class="fi-eq"></div>
+    <div class="fi-stage"></div>
+    <div class="fi-leg faint"><span class="fi-dot a"></span><span class="fi-dot b"></span> bond 里的两个 electron（颜色只为追踪去向，两个 electron 本身没有区别）</div>
+  </div>
+  <div class="row fi-ctl">
+    <button type="button" class="fi-play">▶ 播放</button>
+    <span class="fi-steps">
+      <button type="button" data-st="0">① bond</button>
+      <button type="button" data-st="1">② 断开</button>
+      <button type="button" data-st="2">③ products</button>
+    </span>
+    <input type="range" class="fi-t" min="0" max="100" step="1" value="0" aria-label="fission 进度">
+  </div>
+  <label class="row fi-fh faint"><input type="checkbox" class="fi-hook"> 显示 fish-hook 半箭头（一个 electron 的移动；syllabus 不要求画）</label>
+  <p class="fi-cap"></p>
+  <p class="fi-note faint"></p>
+  <p class="fi-x faint"><span data-x="homo">详讲：{{xref ch14#rx-frs free-radical substitution（initiation 就是 Cl₂ 的 homolytic fission）→}}</span><span data-x="hetero">详讲：{{xref ch15#rx-nucsub nucleophilic substitution（S<sub>N</sub>1 的第一步就是 heterolytic fission）→}}</span></p>
+</div>
+
+<div data-pane="cls">
+  <p class="faint">点一张卡片再点一栏（或直接拖进去）。放错会退回并说明理由。</p>
+  <div class="fi-pool"></div>
+  <div class="fi-bins">
+    <div class="fi-bin" data-cat="nu"><div class="fi-bh"><b>nucleophile</b><span>electron pair donor</span></div><div class="fi-bl"></div>
+      <div class="fi-bx faint">{{xref ch15#rx-nucsub nucleophilic substitution →}}<br>{{xref ch17#rx-hcn nucleophilic addition →}}</div></div>
+    <div class="fi-bin" data-cat="el"><div class="fi-bh"><b>electrophile</b><span>electron pair acceptor</span></div><div class="fi-bl"></div>
+      <div class="fi-bx faint">{{xref ch14#rx-alkene-add electrophilic addition →}}</div></div>
+    <div class="fi-bin" data-cat="fr"><div class="fi-bh"><b>free radical</b><span>有 unpaired electron</span></div><div class="fi-bl"></div>
+      <div class="fi-bx faint">{{xref ch14#rx-frs free-radical substitution →}}</div></div>
+  </div>
+  <div class="fi-fb"></div>
+  <div class="row"><span class="fi-score faint"></span><button type="button" class="fi-cshow">显示答案</button><button type="button" class="fi-creset">重来</button></div>
+</div>
+
+<div data-pane="rx">
+  <p class="faint">每条方程选一个 reaction type，再判断是不是 redox（13.2 (g) 的口径：oxidising agent 给 organic molecule 加 O（[O]）或拿走 H = oxidation；reducing agent 加 H（[H]）或拿走 O = reduction）。</p>
+  <div class="row"><span class="fi-rscore faint"></span><button type="button" class="fi-rshow">显示答案</button><button type="button" class="fi-rreset">重来</button></div>
+  <div class="fi-rxs"></div>
+</div>
+</div>
+
+<div class="fi-xsrc" hidden>
+  <span data-x="x2-add">{{xref ch14#rx-alkene-add electrophilic addition（ch14）→}}</span>
+  <span data-x="frs">{{xref ch14#rx-frs free-radical substitution（ch14）→}}</span>
+  <span data-x="hydrolysis-rx">{{xref ch15#rx-nucsub nucleophilic substitution（ch15）→}}</span>
+  <span data-x="dehydration">{{xref ch16#rx-dehydration dehydration（ch16）→}}</span>
+  <span data-x="ester-hydrolysis">{{xref ch18#rx-ester-hydrolysis hydrolysis of esters（ch18）→}}</span>
+  <span data-x="esterification">{{xref ch18#rx-esterification esterification（ch18）→}}</span>
+</div>
+
+<div class="ko-src" hidden>
+  <div data-p="cla">{{chemfig \chemfig{@{a}Cl}}}</div>
+  <div data-p="clb">{{chemfig \chemfig{@{b}Cl}}}</div>
+  <div data-p="ch3">{{chemfig \chemfig{@{c}C(-[2]H)(-[4]H)(-[6]H)}}}</div>
+  <div data-p="tbu">{{chemfig \chemfig{@{c}C(-[2]CH_3)(-[4]H_3C)(-[6]CH_3)}}}</div>
+  <div data-p="clx">{{chemfig \chemfig{@{x}Cl}}}</div>
+  <div data-p="brx">{{chemfig \chemfig{@{x}Br}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .fi-ex button{font-size:14px}
+.k .fi-kind{margin-left:auto;font-size:13.5px;font-weight:650;color:var(--acc)}
+.k .fi-card{margin:6px 0;padding:8px 10px}
+.k .fi-eq{text-align:center;font-size:18px;margin:2px 0 4px}
+.k .fi-stage{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.k .fi-stage svg.cf{display:block}
+.k .fi-leg{text-align:center;border-top:1px dashed var(--line);padding-top:4px;margin-top:4px}
+.k .fi-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:3px;vertical-align:-1px}
+.k .fi-dot.a{background:var(--s5)} .k .fi-dot.b{background:var(--s4)}
+.k svg circle.fi-e{stroke:var(--card);stroke-width:0.5}
+.k svg circle.fi-e.a{fill:var(--s5)} .k svg circle.fi-e.b{fill:var(--s4)}
+.k svg .fi-bond line.fi-brk{stroke-dasharray:3.2 2.8;stroke-linecap:butt}
+.k svg text.fi-nm{font-size:12px;fill:var(--mut)}
+.k .fi-ctl{gap:6px}
+.k .fi-steps{display:inline-flex;gap:4px}
+.k .fi-steps button{font-size:13.5px;padding:3px 8px}
+.k .fi-t{flex:1 1 160px;min-width:120px}
+.k .fi-fh{margin:2px 0;font-size:13.5px}
+.k .fi-fh.off{opacity:.45}
+.k .fi-cap{margin:6px 0 2px;min-height:3em}
+.k .fi-x span{display:none} .k .fi-x span.on{display:inline}
+.k .fi-pool{display:flex;flex-wrap:wrap;gap:7px;min-height:52px;padding:8px;border:1px dashed var(--line);border-radius:8px;background:var(--card)}
+.k .fi-pool:empty::after{content:'全部放好了';color:var(--faint);font-size:13px;align-self:center}
+.k .fi-card2{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:5px 10px;font-size:18px;line-height:1.25;cursor:grab;touch-action:none}
+.k .fi-card2 small{font-size:12px;color:var(--mut)}
+.k .fi-card2 sup,.k .fi-chip sup{line-height:0}
+.k .fi-card2.sel{outline:2px solid var(--acc);outline-offset:1px}
+.k .fi-card2.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .fi-bins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0}
+.k .fi-bin{border:1.5px solid var(--line);border-radius:8px;background:var(--card);padding:6px 8px;min-height:120px;cursor:pointer;display:flex;flex-direction:column}
+.k .fi-bin.hot{border-color:var(--acc);background:var(--acc-soft)}
+.k .fi-bh{display:flex;flex-direction:column;border-bottom:1px solid var(--line);padding-bottom:3px;margin-bottom:5px}
+.k .fi-bh span{font-size:12.5px;color:var(--mut)}
+.k .fi-bl{display:flex;flex-wrap:wrap;gap:5px;flex:1;align-content:flex-start}
+.k .fi-chip{display:inline-block;padding:1px 8px;border-radius:6px;border:1px solid var(--ok);background:var(--ok-soft);font-size:15px}
+.k .fi-chip.rev{border-style:dashed;border-color:var(--mut);background:transparent}
+.k .fi-bx{margin-top:5px;font-size:12.5px;line-height:1.5}
+.k .fi-fb,.k .fi-rfb{margin:6px 0;padding:6px 10px;border-left:4px solid var(--line);border-radius:0 6px 6px 0;font-size:14px;min-height:2.2em}
+.k .fi-fb.ok,.k .fi-rfb.ok{border-left-color:var(--ok);background:var(--ok-soft)}
+.k .fi-fb.bad,.k .fi-rfb.bad{border-left-color:var(--bad);background:var(--bad-soft)}
+.k .fi-rx{margin:8px 0;padding:8px 12px}
+.k .fi-rnm{font-size:13px;color:var(--mut)}
+.k .fi-req{font-size:17px;margin:2px 0}
+.k .fi-rg{font-size:13px;color:var(--mut)}
+.k .fi-rrow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:5px}
+.k .fi-rrow .lb{font-size:13px;color:var(--mut);margin-right:2px}
+.k .fi-rrow .sp{width:12px}
+.k .fi-rrow button{font-size:13.5px;padding:2px 9px}
+.k .fi-rrow button.good{background:var(--ok-soft);border-color:var(--ok)}
+.k .fi-rrow button.badv{background:var(--bad-soft);border-color:var(--bad)}
+.k .fi-rx .fi-rfb{font-size:13.5px;min-height:0}
+.k .fi-rx .fi-rfb:empty{display:none}
+.k .fi-rxl{font-size:12.5px;margin-top:3px}
+.k .fi-rfb .m{font-weight:700} .k .fi-rfb .ln.ok .m{color:var(--ok)} .k .fi-rfb .ln.bad .m{color:var(--bad)}
+@media (max-width:640px){.k .fi-bins{grid-template-columns:minmax(0,1fr)}.k .fi-bin{min-height:70px}}
+</style>
+
+<script>
+var ORG = {{org-json}};
+function P(n) { return $root.querySelector('.ko-src [data-p="' + n + '"] svg'); }
+function rxn(id) { return ORG.reactions.filter(function (r) { return r.id === id; })[0]; }
+function xref(id) { var e = $root.querySelector('.fi-xsrc [data-x="' + id + '"] a'); return e ? e.outerHTML : ''; }
+
+/* ================= tab 1 · fission ================= */
+var SC = 1.8, D0 = 52, SEP = 46, T1 = 0.25, T2 = 0.8, DUR = 3200;
+var EX = {
+  cl2: { L: 'cla', la: 'a', R: 'clb', ra: 'b', homo: true,
+         eq: ['Cl–Cl', 'Cl• + Cl•'], names: ['free radical', 'free radical'],
+         cap: ['两个 atom 一样，electronegativity 相同 → bond 里的两个 electron 没有偏向任何一边。',
+               'bond 断开：两个 electron 一边一个，每个 Cl 拿回一个。',
+               '得到两个 Cl•：每个都有一个 unpaired electron → free radical。'],
+         note: 'Cl₂ 在 UV 下的 homolytic fission 就是 free-radical substitution 的 initiation。' },
+  ch3cl: { L: 'ch3', la: 'c', R: 'clx', ra: 'x', homo: false,
+         eq: ['CH₃–Cl', 'CH₃⁺ + Cl⁻'], names: ['carbocation', 'chloride ion'],
+         cap: ['C–Cl 是 polar bond：Cl 的 electronegativity 更大（δ−）。curly arrow 从 bond 中点出发、指向 Cl：这一对 electrons 都去 Cl。',
+               'bond 断开：两个 electron 都跟着 Cl 走。',
+               'C 失去 bond 的两个 electron → CH₃⁺（carbocation）；Cl 多了一对 lone pair → Cl⁻。'],
+         note: 'CH₃⁺ 非常不稳定：真实的 CH₃Cl 走 S<sub>N</sub>2（C–Cl 断开与 nucleophile 进攻同时发生）。这里只演示 heterolytic fission 本身。' },
+  tbu: { L: 'tbu', la: 'c', R: 'brx', ra: 'x', homo: false,
+         eq: ['(CH₃)₃C–Br', '(CH₃)₃C⁺ + Br⁻'], names: ['tertiary carbocation', 'bromide ion'],
+         cap: ['C–Br 是 polar bond：Br 的 electronegativity 更大（δ−）。curly arrow 从 bond 中点出发、指向 Br。',
+               'bond 断开：两个 electron 都跟着 Br 走。',
+               '得到 (CH₃)₃C⁺（tertiary carbocation）和 Br⁻：Br 带走 bond 的一对 electrons，成了它的 lone pair。'],
+         note: '三个 alkyl group 稳定了 C⁺，所以 tertiary halogenoalkane 会这样先断开：S<sub>N</sub>1 的第一步。' }
+};
+var stage = $root.querySelector('.fi-stage'), slider = $root.querySelector('.fi-t'), playB = $root.querySelector('.fi-play');
+var hookBox = $root.querySelector('.fi-hook'), cur = 'cl2', T = 0, playing = false, last = 0, visible = true;
+
+function clamp(x) { return Math.max(0, Math.min(1, x)); }
+function ease(x) { return x * x * (3 - 2 * x); }
+function phase(t) { return t < T1 ? 0 : t < T2 ? 1 : 2; }
+
+/* draw the frame at progress t into the stage; returns the svg */
+function frame(t, vb, all) {
+  var ex = EX[cur], p = ease(clamp((t - T1) / (T2 - T1))), sep = SEP * p, ph = phase(t);
+  var svg = KO.compose([{ svg: P(ex.L), at: ex.la, x: 0, y: 0 }, { svg: P(ex.R), at: ex.ra, x: D0 + sep, y: 0 }], { scale: SC, vb: vb });
+  var A = JSON.parse(svg.getAttribute('data-atoms'));
+  var ia = A.filter(function (a) { return a.n === ex.la; })[0].i, ib = A.filter(function (a) { return a.n === ex.ra; })[0].i;
+  if (ph === 0) {   /* the bond still exists: KO sees it (arrow tail = bond midpoint, δ labels avoid it) */
+    var B = JSON.parse(svg.getAttribute('data-bonds')); B.push([ia, ib, 1]);
+    svg.setAttribute('data-bonds', JSON.stringify(B));
+  }
+  stage.innerHTML = ''; stage.appendChild(svg);
+  var D = KO.atoms(svg), a = D.atoms[ia], b = D.atoms[ib];
+  var wa = a.el.getBBox().width / 2, wb = b.el.getBBox().width / 2;
+  /* the breaking bond */
+  if (ph < 2) {
+    var g = K.svg('g', { 'class': 'cf-b fi-bond' });
+    var ln = K.svg('line', { x1: (a.x + wa + 5).toFixed(1), y1: a.y, x2: (b.x - wb - 5).toFixed(1), y2: b.y });
+    if (ph === 1) { ln.setAttribute('class', 'fi-brk'); ln.style.opacity = Math.max(0, 1 - p / 0.6).toFixed(2); }
+    g.appendChild(ln);
+    svg.insertBefore(g, svg.querySelector('text'));
+  }
+  /* where the electrons end up */
+  var mx = (a.x + b.x) / 2, s0 = [[mx - 4.5, a.y], [mx + 4.5, a.y]], s1;
+  if (ex.homo) s1 = [[a.x + wa + 3.6, a.y], [b.x - wb - 3.6, b.y]];
+  else {
+    var lp = KO.lp(svg, ex.ra, 1, { ang: 180 })[0];
+    lp.style.display = 'none';                  /* KO places it; the coloured dots below draw it */
+    var lx = +lp.getAttribute('data-x'), ly = +lp.getAttribute('data-y');
+    s1 = [[lx, ly - 3.2], [lx, ly + 3.2]];
+  }
+  ['a', 'b'].forEach(function (k, n) {
+    var x = s0[n][0] + (s1[n][0] - s0[n][0]) * p, y = s0[n][1] + (s1[n][1] - s0[n][1]) * p;
+    if (!ex.homo && ph === 1) y += (n ? 1 : -1) * 3 * Math.sin(Math.PI * p);   /* part slightly so they do not merge */
+    svg.appendChild(K.svg('circle', { 'class': 'fi-e ' + k, 'data-e': k, cx: x.toFixed(2), cy: y.toFixed(2), r: 2.4 }));
+  });
+  if (ph === 0) {
+    if (ex.homo) {
+      if (hookBox.checked || all) {
+        KO.arrow(svg, ex.la + '-' + ex.ra, ex.la, { half: true, bend: -1.1, cls: 's5' });   /* same colour as the electron it moves */
+        KO.arrow(svg, ex.la + '-' + ex.ra, ex.ra, { half: true, bend: 1.1, cls: 's4' });
+      }
+    } else {
+      KO.arrow(svg, ex.la + '-' + ex.ra, ex.ra, { bend: 1.1 });
+      KO.delta(svg, ex.la, '+'); KO.delta(svg, ex.ra, '-');
+    }
+  }
+  if (ph === 2) {
+    if (!ex.homo) { KO.charge(svg, ex.la, '+'); KO.charge(svg, ex.ra, '-'); }
+    var placed = [], avoid = [];
+    svg.querySelectorAll('text, circle').forEach(function (e) {
+      if (e.closest('defs') || e.closest('[style*="none"]')) return;
+      var r = e.getBBox(); placed.push({ x: r.x - 1, y: r.y - 1, w: r.width + 2, h: r.height + 2 });
+    });
+    svg.querySelectorAll('.cf-b line').forEach(function (l) { avoid.push([+l.getAttribute('x1'), +l.getAttribute('y1'), +l.getAttribute('x2'), +l.getAttribute('y2')]); });
+    [[a, ex.names[0]], [b, ex.names[1]]].forEach(function (q) {
+      var bot = Math.max.apply(null, placed.filter(function (r) { return Math.abs(r.x + r.w / 2 - q[0].x) < 30; }).map(function (r) { return r.y + r.h; }));
+      var t2 = K.label(svg, q[0].x, bot, q[1], { cls: 'fi-nm', cands: [[0, 12, 'middle'], [0, 17, 'middle'], [0, 23, 'middle']], avoid: avoid, placed: placed });
+      t2.setAttribute('data-nm', q === a ? 'l' : 'r');
+    });
+  }
+  return svg;
+}
+
+/* one viewBox per example (union of the first and last frame), so the picture never jumps */
+function vbOf(ex) {
+  if (ex.vb) return ex.vb;
+  if (!stage.offsetParent) return null;
+  var u = null;
+  [0, 1].forEach(function (t) {
+    var svg = frame(t, null, true);
+    svg.querySelectorAll('text, line, circle, path').forEach(function (e) {
+      if (e.closest('defs') || getComputedStyle(e).display === 'none' || (e.parentNode && getComputedStyle(e.parentNode).display === 'none')) return;
+      var r = e.getBBox(); if (!r.width && !r.height) return;
+      if (!u) u = { x0: r.x, y0: r.y, x1: r.x + r.width, y1: r.y + r.height };
+      else { u.x0 = Math.min(u.x0, r.x); u.y0 = Math.min(u.y0, r.y); u.x1 = Math.max(u.x1, r.x + r.width); u.y1 = Math.max(u.y1, r.y + r.height); }
+    });
+  });
+  if (!u) return null;
+  ex.vb = [u.x0 - 10, u.y0 - 8, u.x1 - u.x0 + 20, u.y1 - u.y0 + 16].map(function (v) { return +v.toFixed(1); });
+  return ex.vb;
+}
+
+var capP = $root.querySelector('.fi-cap'), noteP = $root.querySelector('.fi-note'), eqD = $root.querySelector('.fi-eq');
+function set(t) {
+  T = clamp(t);
+  var ex = EX[cur], ph = phase(T);
+  frame(T, vbOf(ex));
+  slider.value = Math.round(T * 100);
+  K.$$($root, '.fi-steps button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-st') === ph); });
+  eqD.innerHTML = ex.eq[0] + ' → ' + ex.eq[1];
+  capP.innerHTML = ex.cap[ph] + (ph === 0 && ex.homo && hookBox.checked ? ' fish-hook 半箭头 = 一个 electron 的移动。' : '');
+  noteP.innerHTML = ph === 2 ? ex.note : '';
+  stage.setAttribute('data-phase', ph);
+}
+function pause() { playing = false; playB.textContent = '▶ 播放'; }
+function tick(now) {
+  if (!playing) return;
+  if (!visible) { pause(); return; }
+  set(T + (now - last) / DUR); last = now;
+  if (T >= 1) { pause(); return; }
+  requestAnimationFrame(tick);
+}
+function play() {
+  if (T >= 1) T = 0;
+  playing = true; playB.textContent = '❚❚ 暂停'; last = performance.now();
+  requestAnimationFrame(tick);
+}
+function pick(id) {
+  pause(); cur = id;
+  K.$$($root, '.fi-ex button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-ex') === id); });
+  var ex = EX[id];
+  $root.querySelector('.fi-kind').textContent = ex.homo ? 'homolytic fission' : 'heterolytic fission';
+  hookBox.disabled = !ex.homo; $root.querySelector('.fi-fh').classList.toggle('off', !ex.homo);
+  K.$$($root, '.fi-x span').forEach(function (s) { s.classList.toggle('on', s.getAttribute('data-x') === (ex.homo ? 'homo' : 'hetero')); });
+  set(0);
+}
+K.$$($root, '.fi-ex button').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-ex')); }); });
+K.$$($root, '.fi-steps button').forEach(function (b) {
+  b.addEventListener('click', function () { pause(); set([0, 0.52, 1][+b.getAttribute('data-st')]); });
+});
+slider.addEventListener('input', function () { pause(); set(+slider.value / 100); });
+playB.addEventListener('click', function () { if (playing) pause(); else play(); });
+hookBox.addEventListener('change', function () { set(T); });
+if (window.IntersectionObserver) new IntersectionObserver(function (es) {
+  visible = es[es.length - 1].isIntersecting;
+  if (!visible) pause();
+}).observe(stage);
+$root.querySelector('.fi-wrap').addEventListener('tab', function (e) {
+  if (e.detail !== 'fis') pause(); else setTimeout(function () { set(T); }, 0);
+});
+/* test hook: jump / fast-forward without waiting for rAF */
+$root.fiHook = { set: set, t: function () { return T; }, playing: function () { return playing; }, advance: function (ms) { set(T + ms / DUR); } };
+
+/* ================= tab 2 · reagent classification ================= */
+var CAT = { nu: 'nucleophile', el: 'electrophile', fr: 'free radical' };
+var CARDS = [
+  { id: 'oh', f: 'OH⁻', c: 'nu', why: 'O 上有 lone pair，又带负电 → electron pair donor。' },
+  { id: 'h', f: 'H⁺', c: 'el', why: '一个 electron 都没有，能接受一对 electrons → electron pair acceptor。' },
+  { id: 'cl', f: 'Cl•', c: 'fr', why: '有一个 unpaired electron（•）→ free radical。• 不是电荷，Cl• 不带电。' },
+  { id: 'nh3', f: 'NH₃', c: 'nu', why: '不带电，但 N 上有一对 lone pair → electron pair donor。' },
+  { id: 'cat', f: '(CH₃)₃C⁺', s: 'carbocation', c: 'el', why: 'C⁺ 外层只有 6 个 electron，缺一对 → electron pair acceptor。' },
+  { id: 'cn', f: 'CN⁻', c: 'nu', why: 'C 上有 lone pair、带负电 → electron pair donor。' },
+  { id: 'br2', f: 'Br<sup>δ+</sup>–Br<sup>δ−</sup>', s: 'δ+ 那一端', c: 'el', why: '靠近 C=C 时 Br₂ 被极化（induced dipole），δ+ 的 Br 接受 C=C 的 π electron pair → electrophile。' },
+  { id: 'ch3', f: 'CH₃•', c: 'fr', why: 'C 上有一个 unpaired electron → free radical（不带电；和 CH₃⁺ carbocation 不同）。' },
+  { id: 'h2o', f: 'H₂O', c: 'nu', why: 'O 上有 lone pair → electron pair donor（比 OH⁻ 弱）。' },
+  { id: 'no2', f: 'NO₂⁺', c: 'el', why: '带正电、缺 electron → electron pair acceptor（这里只认它是 electrophile，不展开）。' },
+  { id: 'br', f: 'Br⁻', c: 'nu', why: '有 lone pair、带负电 → electron pair donor（electrophilic addition 第 2 步就是 Br⁻ 进攻 carbocation）。' }
+];
+var TRAP = {
+  'nh3:el': '不带电不等于 electrophile。', 'h2o:el': '不带电不等于 electrophile。', 'cl:nu': '• 是一个 unpaired electron，不是 lone pair。',
+  'cl:el': '• 是一个 unpaired electron，不是正电荷。', 'ch3:el': '• 是一个 unpaired electron，不是正电荷。', 'ch3:nu': '• 是一个 unpaired electron，不是 lone pair。',
+  'cat:fr': 'carbocation 带正电，没有 unpaired electron。', 'br2:nu': 'Br 虽然有 lone pair，但在 electrophilic addition 里 δ+ 的 Br 是接受 electron pair 的一方。'
+};
+var pool = $root.querySelector('.fi-pool'), cfb = $root.querySelector('.fi-fb'), cscore = $root.querySelector('.fi-score');
+var cstate = {}, wrong = 0, selCard = null;
+function cardEl(c) {
+  var b = K.el('button', { type: 'button', 'class': 'fi-card2', draggable: 'true', 'data-id': c.id }, '<span>' + c.f + '</span>' + (c.s ? '<small>' + c.s + '</small>' : ''));
+  b.addEventListener('click', function (ev) { ev.stopPropagation(); choose(c.id); });
+  b.addEventListener('dragstart', function (ev) { ev.dataTransfer.setData('text/plain', c.id); choose(c.id, true); });
+  return b;
+}
+function choose(id, keep) {
+  selCard = selCard === id && !keep ? null : id;
+  K.$$(pool, '.fi-card2').forEach(function (e) { e.classList.toggle('sel', e.getAttribute('data-id') === selCard); });
+  K.$$($root, '.fi-bin').forEach(function (b) { b.classList.toggle('hot', !!selCard); });
+}
+function cscoreUpd() {
+  var n = Object.keys(cstate).length, ok = Object.keys(cstate).filter(function (k) { return cstate[k] === 'ok'; }).length;
+  cscore.textContent = '已放好 ' + n + ' / ' + CARDS.length + '　放错 ' + wrong + ' 次';
+  if (n === CARDS.length) {
+    cfb.className = 'fi-fb ' + (wrong ? 'bad' : 'ok');
+    cfb.innerHTML = wrong ? '全部放好了：一次就放对 ' + ok + ' / ' + CARDS.length + ' 张，放错 ' + wrong + ' 次。看看栏里的卡片（鼠标停在上面看理由），再点「重来」试一次。'
+                          : '✓ 全对，一次都没放错！判断口诀：lone pair / 负电 → nucleophile；缺 electron / 正电 / δ+ → electrophile；unpaired electron → free radical。';
+  }
+}
+function drop(id, cat) {
+  var c = CARDS.filter(function (x) { return x.id === id; })[0];
+  if (!c || cstate[id]) return;
+  choose(null);
+  var el = pool.querySelector('[data-id="' + id + '"]');
+  if (c.c === cat) {
+    var first = !(el && el.classList.contains('badv'));
+    cstate[id] = first ? 'ok' : 'late';
+    if (el) el.parentNode.removeChild(el);
+    $root.querySelector('.fi-bin[data-cat="' + cat + '"] .fi-bl').appendChild(K.el('span', { 'class': 'fi-chip', 'data-id': id, 'data-tip': c.why }, c.f));
+    cfb.className = 'fi-fb ok'; cfb.innerHTML = '✓ ' + c.f + ' 是 ' + CAT[cat] + '：' + c.why;
+  } else {
+    wrong++;
+    if (el) el.classList.add('badv');
+    cfb.className = 'fi-fb bad';
+    cfb.innerHTML = '✗ ' + c.f + ' 不是 ' + CAT[cat] + '。' + (TRAP[id + ':' + cat] || '') + '它是 <b>' + CAT[c.c] + '</b>：' + c.why;
+  }
+  cscoreUpd(); K.fit();
+}
+K.$$($root, '.fi-bin').forEach(function (bin) {
+  var cat = bin.getAttribute('data-cat');
+  bin.addEventListener('click', function (ev) { if (ev.target.closest('a')) return; if (selCard) drop(selCard, cat); });
+  bin.addEventListener('dragover', function (ev) { ev.preventDefault(); });
+  bin.addEventListener('drop', function (ev) { ev.preventDefault(); drop(ev.dataTransfer.getData('text/plain'), cat); });
+});
+function creset() {
+  cstate = {}; wrong = 0; selCard = null; pool.innerHTML = '';
+  K.$$($root, '.fi-bl').forEach(function (l) { l.innerHTML = ''; });
+  CARDS.forEach(function (c) { pool.appendChild(cardEl(c)); });
+  cfb.className = 'fi-fb'; cfb.textContent = '先点一张卡片。';
+  K.$$($root, '.fi-bin').forEach(function (b) { b.classList.remove('hot'); });
+  cscoreUpd(); K.fit();
+}
+$root.querySelector('.fi-creset').addEventListener('click', creset);
+$root.querySelector('.fi-cshow').addEventListener('click', function () {
+  CARDS.forEach(function (c) {
+    if (cstate[c.id]) return;
+    cstate[c.id] = 'rev';
+    var el = pool.querySelector('[data-id="' + c.id + '"]'); if (el) el.parentNode.removeChild(el);
+    $root.querySelector('.fi-bin[data-cat="' + c.c + '"] .fi-bl').appendChild(K.el('span', { 'class': 'fi-chip rev', 'data-id': c.id, 'data-tip': c.why }, c.f));
+  });
+  choose(null);
+  cfb.className = 'fi-fb'; cfb.textContent = '已显示答案（虚线框 = 没自己放的）。鼠标停在卡片上看理由。';
+  cscore.textContent = ''; K.fit();
+});
+creset();
+
+/* ================= tab 3 · reaction type + redox ================= */
+var TYPES = ['addition', 'substitution', 'elimination', 'hydrolysis', 'condensation'];
+var RX = [
+  { r: 'x2-add', nm: 'ethene + Br₂ → 1,2-dibromoethane', eq: 'CH₂=CH₂ + Br₂ → CH₂BrCH₂Br', t: ['addition'],
+    tw: '两个 molecule 合成一个 product（C=C 打开）。mechanism：electrophilic addition。',
+    rd: false, rw: 'C₂H₄ → C₂H₄Br₂：只是加上两个 Br，4 个 H 都还在，也没有加 O → 按 13.2 (g) 不算 oxidation / reduction。' },
+  { r: 'frs', nm: 'ethane + Cl₂ → chloroethane + HCl', eq: 'CH₃CH₃ + Cl₂ → CH₃CH₂Cl + HCl', t: ['substitution'],
+    tw: '一个 Cl 取代了一个 H。mechanism：free-radical substitution。',
+    rd: false, rw: 'C₂H₆ → C₂H₅Cl：一个 H 被 Cl 换掉（substitution），H 和 Cl 一起以 HCl 离开；Cl₂ 不是提供 [O] 的 oxidising agent，也没有加 O → 不算 oxidation / reduction。13.2 (g) 的「去 H」指被 oxidising agent 拿走的 H（例如 alcohol → carbonyl）。' },
+  { r: 'hydrolysis-rx', nm: 'bromoethane + OH⁻ → ethanol + Br⁻', eq: 'CH₃CH₂Br + OH⁻ → CH₃CH₂OH + Br⁻', t: ['substitution', 'hydrolysis'],
+    tw: 'OH 取代了 Br。mechanism：nucleophilic substitution；用 NaOH(aq) 时也叫 hydrolysis。',
+    rd: false, rw: 'C₂H₅Br → C₂H₅OH：O 和 H 是作为同一个 OH 一起换上去的（来自 OH⁻），不是 oxidising agent 给的 [O]，也不是 reducing agent 给的 [H] → 不算 oxidation / reduction。' },
+  { r: 'dehydration', nm: 'ethanol → ethene + H₂O', eq: 'CH₃CH₂OH → CH₂=CH₂ + H₂O', t: ['elimination'],
+    tw: '从一个 molecule 上去掉一个小 molecule（H₂O），生成 C=C。dehydration 是 elimination 的一种。',
+    rd: false, rw: '去掉的是一整个 H₂O molecule（O 和 H 一起走），不是 [O] / [H] → 不是 redox。（9701/22 May/June 2026 Q4(a)(ii)：Al₂O₃ 的作用写 redox 判错。）' },
+  { r: 'ester-hydrolysis', nm: 'ethyl ethanoate + H₂O → ethanoic acid + ethanol', eq: 'CH₃COOCH₂CH₃ + H₂O ⇌ CH₃COOH + CH₃CH₂OH', t: ['hydrolysis'],
+    tw: 'water 把 ester 断开成 carboxylic acid + alcohol。',
+    rd: false, rw: '加上的是一整个 H₂O molecule（water 把 ester 断开），O 和 H 一起来，不是 [O] / [H] → 不是 redox。' },
+  { r: 'esterification', nm: 'ethanoic acid + ethanol → ethyl ethanoate + H₂O', eq: 'CH₃COOH + CH₃CH₂OH ⇌ CH₃COOCH₂CH₃ + H₂O', t: ['condensation'],
+    tw: '两个 molecule 连成一个，同时放出一个小 molecule H₂O（esterification）。',
+    rd: false, rw: '放出的是一整个 H₂O molecule，不是 [O] / [H] → 不是 redox。' }
+];
+var rxBox = $root.querySelector('.fi-rxs'), rscore = $root.querySelector('.fi-rscore'), rstate = [];
+function rscoreUpd() {
+  var a = rstate.filter(function (s) { return s.t === 1; }).length, b = rstate.filter(function (s) { return s.r === 1; }).length;
+  var done = rstate.filter(function (s) { return s.t && s.r; }).length;
+  rscore.textContent = 'reaction type 一次答对 ' + a + ' / 6　redox 一次答对 ' + b + ' / 6' + (done === 6 ? '　（6 条都做完了）' : '');
+}
+function rbuild() {
+  rxBox.innerHTML = ''; rstate = RX.map(function () { return { t: 0, r: 0 }; });
+  RX.forEach(function (q, i) {
+    var R = rxn(q.r), card = K.el('div', { 'class': 'card fi-rx', 'data-i': i });
+    card.innerHTML = '<div class="fi-rnm">' + (i + 1) + ' · ' + q.nm + '</div><div class="fi-req">' + q.eq + '</div>' +
+      '<div class="fi-rg">reagents and conditions：' + (R ? R.reagents : '') + '</div>' +
+      '<div class="fi-rrow" data-g="t"><span class="lb">type</span>' + TYPES.map(function (t) { return '<button type="button" data-v="' + t + '">' + t + '</button>'; }).join('') + '</div>' +
+      '<div class="fi-rrow" data-g="r"><span class="lb">redox？</span><button type="button" data-v="y">是</button><button type="button" data-v="n">否</button></div>' +
+      '<div class="fi-rfb"></div><div class="fi-rxl faint">' + xref(q.r) + '</div>';
+    K.$$(card, '.fi-rrow button').forEach(function (b) { b.addEventListener('click', function () { answer(i, b.parentNode.getAttribute('data-g'), b.getAttribute('data-v')); }); });
+    rxBox.appendChild(card);
+  });
+  rscoreUpd(); K.fit();
+}
+function answer(i, g, v, reveal) {
+  var q = RX[i], card = rxBox.querySelector('.fi-rx[data-i="' + i + '"]'), row = card.querySelector('[data-g="' + g + '"]'), fb = card.querySelector('.fi-rfb');
+  var ok = g === 't' ? q.t.indexOf(v) >= 0 : (v === 'y') === q.rd;
+  var S = rstate[i];
+  if (S[g] === 1 || S[g] === 3) return;                 /* already answered right */
+  K.$$(row, 'button').forEach(function (b) { if (b.getAttribute('data-v') === v) { b.classList.remove('good', 'badv'); b.classList.add(ok ? 'good' : 'badv'); } });
+  S[g] = reveal ? 4 : ok ? (S[g] === 2 ? 3 : 1) : 2;    /* 1 right first time, 2 wrong so far, 3 right later, 4 revealed */
+  var msg = '<div class="ln ' + (ok ? 'ok' : 'bad') + '" data-g="' + g + '"><b class="m">' + (ok ? '✓' : '✗') + '</b> ' + (g === 't'
+    ? (ok ? v + '：' : '不是 ' + v + '，是 <b>' + q.t[0] + '</b>' + (q.t.length > 1 ? '（或 ' + q.t[1] + '）' : '') + '：') + q.tw
+    : (q.rd ? '是 redox：' : '不是 redox：') + q.rw) + '</div>';
+  fb.setAttribute('data-' + g, msg);
+  fb.innerHTML = [fb.getAttribute('data-t'), fb.getAttribute('data-r')].filter(Boolean).join('');
+  /* the block is green only while every line shown is ✓ (each line keeps its own latest result) */
+  fb.className = 'fi-rfb ' + (fb.querySelector('.ln.bad') ? 'bad' : 'ok');
+  rscoreUpd(); K.fit();
+}
+$root.querySelector('.fi-rreset').addEventListener('click', rbuild);
+$root.querySelector('.fi-rshow').addEventListener('click', function () {
+  RX.forEach(function (q, i) {
+    if (rstate[i].t !== 1 && rstate[i].t !== 3) answer(i, 't', q.t[0], true);
+    if (rstate[i].r !== 1 && rstate[i].r !== 3) answer(i, 'r', q.rd ? 'y' : 'n', true);
+  });
+});
+rbuild();
+
+pick('cl2');
+</script>
