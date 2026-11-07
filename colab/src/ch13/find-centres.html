@@ -1,0 +1,606 @@
+<h3>🔬 找出 chiral centre 与能 cis/trans 的 C=C</h3>
+<p class="mut">点一个 C 标上 <b class="fcn-k-star">*</b>（chiral centre），再点一次取消；点 C=C 的<b>中间</b>标上 <b class="fcn-k-ct">cis/trans</b>。标完按<b>检查</b>：对的变绿、漏掉的变黄、标错的变红，下面逐条说明理由。</p>
+
+<div class="row fcn-nav">
+  <button type="button" class="fcn-prev">← 上一题</button>
+  <select class="fcn-jmp" aria-label="选择题目"></select>
+  <button type="button" class="fcn-next">下一题 →</button>
+  <span class="fcn-score">全对 <b class="fcn-sc">0</b> / <span class="fcn-scn">0</span> 题</span>
+</div>
+
+<div class="card fcn-card">
+  <div class="fcn-meta"><span class="fcn-name"></span><span class="fcn-src"></span></div>
+  <div class="fcn-stage"></div>
+  <div class="fcn-leg">
+    <span><i class="fcn-dot sel"></i>已标</span>
+    <span><i class="fcn-dot ok"></i>对</span>
+    <span><i class="fcn-dot miss"></i>漏标</span>
+    <span><i class="fcn-dot bad"></i>标错</span>
+  </div>
+  <div class="row fcn-tools">
+    <label class="fcn-nlbl" for="fcn-n">最多几个 stereoisomers（2<sup>n+m</sup>）</label>
+    <input type="text" id="fcn-n" class="fcn-n" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="例如 4">
+    <button type="button" class="fcn-go on">检查</button>
+    <button type="button" class="fcn-show">显示答案</button>
+    <button type="button" class="fcn-reset">重来</button>
+  </div>
+</div>
+
+<div class="card fcn-fb" hidden>
+  <div class="fcn-sum"></div>
+  <ul class="fcn-why"></ul>
+  <div class="fcn-count"></div>
+  <div class="fcn-nfb"></div>
+  <div class="fcn-note"></div>
+</div>
+
+<div class="ko-src" hidden>
+  <div data-q="butan2ol">{{chemfig \chemfig{@{c1}-[:30]@{c2}(-[:90]OH)-[:-30]@{c3}-[:30]@{c4}}}}</div>
+  <div data-q="lactic">{{chemfig \chemfig{@{c3}-[:30]@{c2}(-[:90]OH)-[:-30]@{c1}(=[:-90]O)-[:30]OH}}}</div>
+  <div data-q="but2ene">{{chemfig \chemfig{@{c1}-[:60]@{c2}=[:0]@{c3}-[:60]@{c4}}}}</div>
+  <div data-q="but1ene">{{chemfig \chemfig{@{c1}=[:0]@{c2}-[:-60]@{c3}-[:0]@{c4}}}}</div>
+  <div data-q="mb2ene">{{chemfig \chemfig{@{c1}-[:60]@{c2}(-[:120]@{m})=[:0]@{c3}-[:-60]@{c4}}}}</div>
+  <div data-q="mp2ene">{{chemfig \chemfig{@{c1}-[:60]@{c2}=[:0]@{c3}(-[:60]@{m})-[:-60]@{c4}-[:0]@{c5}}}}</div>
+  <div data-q="butenedioic">{{chemfig \chemfig{@{c2}(-[:240]@{c1}(=[:180]O)-[:300]OH)=[:0]@{c3}-[:60]@{c4}(=[:0]O)-[:120]OH}}}</div>
+  <div data-q="malic">{{chemfig \chemfig{HO-[:30]@{c1}(=[:90]O)-[:-30]@{c2}(-[:-90]OH)-[:30]@{c3}-[:-30]@{c4}(=[:-90]O)-[:30]OH}}}</div>
+  <div data-q="mbutanoic">{{chemfig \chemfig{@{c4}-[:30]@{c3}-[:-30]@{c2}(-[:30]@{m})-[:-90]@{c1}(=[:-150]O)-[:-30]OH}}}</div>
+  <div data-q="pentenol">{{chemfig \chemfig{@{c1}-[:0]@{c2}(-[:-60]OH)-[:60]@{c3}=[:0]@{c4}-[:-60]@{c5}}}}</div>
+  <div data-q="mecyhexol1">{{chemfig \chemfig{@{c1}?(-[:60]OH)(-[:120]@{m})-[:-30]@{c2}-[:-90]@{c3}-[:-150]@{c4}-[:150]@{c5}-[:90]@{c6}?}}}</div>
+  <div data-q="mecyhexol2">{{chemfig \chemfig{@{c1}?(-[:90]OH)-[:-30]@{c2}(-[:30]@{m})-[:-90]@{c3}-[:-150]@{c4}-[:150]@{c5}-[:90]@{c6}?}}}</div>
+  <div data-q="V">{{chemfig \chemfig{@{m}-[:30]@{c2}(-[:90]OH)(-[:-90]@{c1}-[:-150]OH)-[:-30]@{c3}(-[:-90]OH)-[:30]@{c4}-[:-30]OH}}}</div>
+  <div data-q="X">{{chemfig \chemfig{HO-[:30]@{c4}-[:-30]@{c3}-[:0]@{c2}(-[:90]@{c1}-[:30]OH)(-[:-90]@{b}-[:-30]OH)-[:0]OH}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .fcn-k-star{color:var(--acc);font-size:17px}
+.k .fcn-k-ct{color:var(--acc);font-size:14px}
+.k .fcn-nav{gap:6px;margin:4px 0 8px}
+.k .fcn-jmp{max-width:100%}
+.k .fcn-score{margin-left:auto;font-size:14px;color:var(--mut);white-space:nowrap}
+.k .fcn-score b{color:var(--fg)}
+.k .fcn-card{padding:8px 12px}
+.k .fcn-meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:2px 12px;font-size:13px;color:var(--mut)}
+.k .fcn-meta .fcn-name{font-size:15px;color:var(--fg);font-weight:600}
+.k .fcn-stage{display:flex;align-items:center;justify-content:center;min-height:210px;padding:4px 0;overflow:hidden}
+.k .fcn-stage svg.cf{display:block;margin:0 auto}
+.k .fcn-stage svg .fcn-t{fill:transparent;stroke:none;cursor:pointer;outline:none}
+.k .fcn-stage svg .fcn-t:hover,.k .fcn-stage svg .fcn-t:focus-visible{stroke:var(--acc);stroke-width:1.2;stroke-dasharray:2.5 2}
+.k .fcn-stage svg .fcn-disc{stroke-width:1.4}
+.k .fcn-stage svg .fcn-band{fill:none;stroke-linecap:round;stroke-width:15}
+.k .fcn-stage svg .fcn-disc.sel{fill:var(--acc-soft);stroke:var(--acc)}
+.k .fcn-stage svg .fcn-disc.ok{fill:var(--ok-soft);stroke:var(--ok)}
+.k .fcn-stage svg .fcn-disc.bad{fill:var(--bad-soft);stroke:var(--bad)}
+.k .fcn-stage svg .fcn-disc.miss{fill:var(--hl);stroke:var(--s4);stroke-dasharray:3 2}
+.k .fcn-stage svg .fcn-band.sel{stroke:var(--acc-soft)}
+.k .fcn-stage svg .fcn-band.ok{stroke:var(--ok-soft)}
+.k .fcn-stage svg .fcn-band.bad{stroke:var(--bad-soft)}
+.k .fcn-stage svg .fcn-band.miss{stroke:var(--hl)}
+.k .fcn-stage svg text.fcn-star{font-size:19px;font-weight:700}
+.k .fcn-stage svg text.fcn-ct{font-size:12.5px;font-weight:650}
+.k .fcn-stage svg text.fcn-loc{font-size:12px;fill:var(--mut)}
+.k .fcn-stage svg text.sel{fill:var(--acc)}
+.k .fcn-stage svg text.ok{fill:var(--ok)}
+.k .fcn-stage svg text.bad{fill:var(--bad)}
+.k .fcn-stage svg text.miss{fill:var(--s4)}
+.k .fcn-leg{display:flex;flex-wrap:wrap;gap:4px 14px;justify-content:center;font-size:13px;color:var(--mut);border-top:1px dashed var(--line);padding-top:5px;margin-top:2px}
+.k .fcn-dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px;margin-right:4px;border:1.4px solid}
+.k .fcn-dot.sel{background:var(--acc-soft);border-color:var(--acc)}
+.k .fcn-dot.ok{background:var(--ok-soft);border-color:var(--ok)}
+.k .fcn-dot.miss{background:var(--hl);border-color:var(--s4);border-style:dashed}
+.k .fcn-dot.bad{background:var(--bad-soft);border-color:var(--bad)}
+.k .fcn-tools{gap:6px 8px;margin:8px 0 2px}
+.k .fcn-nlbl{font-size:14px}
+.k .fcn-n{width:4.5em;min-width:4.5em;text-align:center}
+.k .fcn-n.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .fcn-n.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .fcn-fb{margin-top:10px;font-size:14px;line-height:1.5}
+.k .fcn-sum{font-weight:650;margin-bottom:4px}
+.k .fcn-sum.ok{color:var(--ok)} .k .fcn-sum.bad{color:var(--bad)} .k .fcn-sum.ans{color:var(--acc)}
+.k .fcn-why{list-style:none;padding:0;margin:0}
+.k .fcn-why li{display:flex;gap:7px;padding:3px 0;border-top:1px dotted var(--line)}
+.k .fcn-why li:first-child{border-top:0}
+.k .fcn-why .tag{flex:none;min-width:2.9em;text-align:center;font-size:12.5px;font-weight:700;border-radius:4px;padding:0 4px;height:1.55em;line-height:1.55em;margin-top:1px}
+.k .fcn-why li.ok .tag{background:var(--ok-soft);color:var(--ok)}
+.k .fcn-why li.bad .tag{background:var(--bad-soft);color:var(--bad)}
+.k .fcn-why li.miss .tag{background:var(--hl);color:var(--s4)}
+.k .fcn-why li.ans .tag{background:var(--acc-soft);color:var(--acc)}
+.k .fcn-why li.none{color:var(--mut)}
+.k .fcn-why li.none .tag{background:var(--bg);color:var(--mut)}
+.k .fcn-count{margin-top:6px;padding-top:5px;border-top:1px dashed var(--line)}
+.k .fcn-count b{color:var(--acc)}
+.k .fcn-nfb:empty,.k .fcn-note:empty{display:none}
+.k .fcn-nfb.ok{color:var(--ok)} .k .fcn-nfb.bad{color:var(--bad)}
+.k .fcn-note{margin-top:4px;color:var(--mut);font-size:13.5px}
+</style>
+
+<script>
+var $ = function (s) { return $root.querySelector(s); };
+
+/* every structure is analysed from its own {{chemfig}} graph: the answer is computed, not typed in.
+   Locants come from the @{cN} names (IUPAC numbering of the parent chain / ring). */
+var Q = [
+  { id: 'butan2ol', name: 'butan-2-ol' },
+  { id: 'lactic', name: '2-hydroxypropanoic acid' },
+  { id: 'but2ene', name: 'but-2-ene', src: '9701/22 Feb/Mar 2024 Q4(a) 的 P（原卷画的是 trans）' },
+  { id: 'but1ene', name: 'but-1-ene' },
+  { id: 'mb2ene', name: '2-methylbut-2-ene' },
+  { id: 'mp2ene', name: '3-methylpent-2-ene' },
+  { id: 'butenedioic', name: 'but-2-enedioic acid', src: '9701/22 May/June 2026 Q6(a) 的 P' },
+  { id: 'malic', name: '2-hydroxybutanedioic acid', src: '9701/22 May/June 2026 Q6(b) 的 Q' },
+  { id: 'mbutanoic', name: '2-methylbutanoic acid', src: '9701/22 Feb/Mar 2024 Q4(a) 的 S' },
+  { id: 'pentenol', name: 'pent-3-en-2-ol' },
+  { id: 'mecyhexol1', name: '1-methylcyclohexan-1-ol' },
+  { id: 'mecyhexol2', name: '2-methylcyclohexan-1-ol',
+    note: 'ring 上 OH 和 CH₃ 在同侧 / 异侧（cis / trans）已经包含在这 4 个里：cis 的一对 enantiomers + trans 的一对 enantiomers。不要再给 ring 另外乘 2。' },
+  { id: 'V', name: '2-methylbutane-1,2,3,4-tetraol', src: '9701/23 May/June 2026 Q4(c) Figure 4.2 的 V（原卷用 CH₂OH 缩写）',
+    note: 'C2 上一个 H 都没有，照样是 chiral centre：看的是「四个 group 是否都不同」，不是「有没有 H」。' },
+  { id: 'X', name: '2-(hydroxymethyl)butane-1,2,4-triol', src: '9701/23 May/June 2026 Q4(c) Figure 4.2 的 X（原卷用 CH₂OH 缩写）',
+    note: 'mark scheme：V 和 W 有 stereoisomerism（各有 2 个 chiral centre），X 和 Y 没有。' }
+];
+
+var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+function sub(n) { return String(n).replace(/\d/g, function (d) { return SUBD[d]; }); }
+function plainLabel(l) { return String(l).replace(/_\{([^}]*)\}|_(\w)/g, function (m, a, b) { return sub(a || b); }); }
+function labelCounts(l) {
+  var s = String(l).replace(/_\{?(\d+)\}?/g, '$1'), out = {}, re = /([A-Z][a-z]?)(\d*)/g, m;
+  while ((m = re.exec(s))) out[m[1]] = (out[m[1]] || 0) + (m[2] ? +m[2] : 1);
+  return out;
+}
+/* a terminal label as written on the right-hand side: HO → OH, H₂N → NH₂ */
+function groupText(l) {
+  var p = plainLabel(l);
+  return ({ 'HO': 'OH', 'H₂N': 'NH₂' })[p] || p;
+}
+function srcSvg(id) { return $root.querySelector('.ko-src [data-q="' + id + '"] svg'); }
+
+/* ---------- graph analysis ---------- */
+function analyse(svg) {
+  var D = KO.atoms(svg);
+  var A = D.atoms.map(function (a) {
+    var m = /^c(\d+)$/.exec(a.n || '');
+    return { i: a.i, l: a.l, x: a.x, y: a.y, el: a.el, carbon: a.l === 'C', loc: m ? +m[1] : null, nb: [] };
+  });
+  D.bonds.forEach(function (b) {
+    var o = typeof b.o === 'number' ? b.o : 1;
+    A[b.a].nb.push({ j: b.b, o: o }); A[b.b].nb.push({ j: b.a, o: o });
+  });
+  A.forEach(function (a) {
+    var used = a.nb.reduce(function (s, e) { return s + e.o; }, 0);
+    a.h = a.carbon ? Math.max(0, 4 - used) : 0;
+    var c = labelCounts(a.l);
+    a.key = a.carbon ? 'C' + a.h : Object.keys(c).sort().map(function (k) { return k + c[k]; }).join('');
+    a.maxo = a.nb.reduce(function (s, e) { return Math.max(s, e.o); }, 1);
+  });
+  var M = { A: A, bonds: [] };
+  D.bonds.forEach(function (b) {
+    var o = typeof b.o === 'number' ? b.o : 1;
+    if (o === 2 && A[b.a].carbon && A[b.b].carbon) {
+      var lo = A[b.a].loc <= A[b.b].loc ? b.a : b.b, hi = lo === b.a ? b.b : b.a;
+      M.bonds.push({ a: lo, b: hi, key: Math.min(b.a, b.b) + '-' + Math.max(b.a, b.b) });
+    }
+  });
+  A.forEach(function (a) { if (a.carbon) a.info = carbonInfo(M, a.i); });
+  M.bonds.forEach(function (b) { b.info = ccInfo(M, b); });
+  return M;
+}
+
+/* canonical string of the branch entered at atom i, walking every simple path; reaching the
+   start again (round a ring) is written '*', any other ring closure '^' */
+function canon(M, i, path) {
+  var a = M.A[i], parent = path[path.length - 1], kids = [];
+  a.nb.forEach(function (e) {
+    if (e.j === parent) return;
+    if (path.indexOf(e.j) >= 0) { kids.push(e.o + (e.j === path[0] ? '*' : '^')); return; }
+    kids.push(e.o + canon(M, e.j, path.concat(i)));
+  });
+  return a.key + '(' + kids.sort().join(',') + ')';
+}
+function size(M, i, parent) {
+  var seen = [parent, i], st = [i], n = 0;
+  while (st.length) {
+    var x = st.pop(); n++;
+    M.A[x].nb.forEach(function (e) { if (seen.indexOf(e.j) < 0) { seen.push(e.j); st.push(e.j); } });
+  }
+  return n;
+}
+/* the branch entered at i (coming from parent) as a condensed formula, or null if it runs round a ring */
+function cond(M, i, parent, seen) {
+  seen = seen || [parent];
+  var a = M.A[i], kids = a.nb.filter(function (e) { return e.j !== parent; });
+  if (kids.some(function (e) { return seen.indexOf(e.j) >= 0; })) return null;
+  var s2 = seen.concat(i), k, t;
+  if (!a.carbon) {
+    if (!kids.length) return groupText(a.l);
+    var r = kids.map(function (e) { return cond(M, e.j, i, s2); });
+    return r.indexOf(null) >= 0 ? null : plainLabel(a.l) + r.join('');
+  }
+  var dO = kids.filter(function (e) { return e.o === 2 && M.A[e.j].l === 'O' && M.A[e.j].nb.length === 1; });
+  var oh = kids.filter(function (e) { return e.o === 1 && /^(OH|HO)$/.test(M.A[e.j].l); });
+  var tN = kids.filter(function (e) { return e.o === 3 && M.A[e.j].l === 'N'; });
+  if (dO.length && oh.length && kids.length === 2) return 'COOH';
+  if (dO.length && a.h === 1 && kids.length === 1) return 'CHO';
+  if (tN.length && kids.length === 1) return 'CN';
+  var head = 'C' + (a.h ? 'H' + (a.h > 1 ? sub(a.h) : '') : ''), parts = [];
+  for (k = 0; k < kids.length; k++) {
+    t = cond(M, kids[k].j, i, s2);
+    if (t == null) return null;
+    parts.push({ t: (kids[k].o === 2 ? '=' : kids[k].o === 3 ? '≡' : '') + t, n: size(M, kids[k].j, i), c: M.A[kids[k].j].carbon ? 1 : 0 });
+  }
+  /* smallest branch in brackets first, hetero groups before carbon ones: CH(OH)CH₃, C(OH)(CH₃)CH₂OH */
+  parts.sort(function (p, q) { return p.n - q.n || p.c - q.c; });
+  if (parts.length <= 1) return head + (parts[0] ? parts[0].t : '');
+  var last = parts.pop(), br = parts.map(function (p) { return p.t; }), out = '';
+  for (k = 0; k < br.length;) {           /* (CH₃)₂ for repeated side groups */
+    var n = 1; while (br[k + n] === br[k]) n++;
+    out += '(' + br[k] + ')' + (n > 1 ? sub(n) : ''); k += n;
+  }
+  return head + out + last.t;
+}
+/* the groups on atom c, leaving out atom skip (the other end of a C=C); H first */
+function groups(M, c, skip) {
+  var a = M.A[c], out = [], k;
+  for (k = 0; k < a.h; k++) out.push({ key: 'H', txt: 'H', ring: false });
+  a.nb.forEach(function (e) {
+    if (e.j === skip) return;
+    var t = cond(M, e.j, c), b = M.A[e.j];
+    out.push({ key: e.o + canon(M, e.j, skip == null ? [c] : [skip, c]), ring: t == null, j: e.j,
+               txt: t == null ? 'ring 经 ' + (b.loc != null ? 'C' + b.loc : '这个 C') + ' 的一边' : (e.o === 2 ? '=' : '') + t });
+  });
+  /* H first, then the plain groups shortest first, the two ways round a ring last */
+  return out.map(function (g, k) { g.k = k; return g; }).sort(function (p, q) {
+    return (p.key === 'H' ? 0 : p.ring ? 2 : 1) - (q.key === 'H' ? 0 : q.ring ? 2 : 1) || (p.ring ? 0 : p.txt.length - q.txt.length) || p.k - q.k;
+  });
+}
+function who(M, i) {
+  var a = M.A[i];
+  if (a.loc != null) return 'C' + a.loc;
+  var p = a.nb.map(function (e) { return M.A[e.j]; }).filter(function (b) { return b.loc != null; })[0];
+  var g = p ? cond(M, i, p.i) : null;
+  return p && g ? 'C' + p.loc + ' 上 –' + g + ' 的 C' : '这个 C';
+}
+function carbonInfo(M, i) {
+  var a = M.A[i], W = who(M, i), dbl = a.nb.filter(function (e) { return e.o === 2; })[0];
+  if (a.maxo === 3) return { chiral: false, kind: 'sp', why: W + '：C≡N 的 C（sp），只连 2 个 group，不可能是 chiral centre。' };
+  if (dbl) {
+    var other = M.A[dbl.j], bond = 'C=' + (other.carbon ? 'C' : plainLabel(other.l));
+    return { chiral: false, kind: 'sp2', why: W + '：在 ' + bond + ' 上（sp²），只连 3 个 group，不可能是 chiral centre。' };
+  }
+  if (a.h >= 2) return { chiral: false, kind: 'h', why: W + '：连着 ' + a.h + ' 个 H（CH' + sub(a.h) + '），已经有两个 group 相同。' };
+  var G = groups(M, i), seen = {}, dup = null;
+  G.forEach(function (g) { if (seen[g.key] && !dup) dup = [seen[g.key], g]; seen[g.key] = g; });
+  if (dup) {
+    if (dup[0].ring && dup[1].ring)
+      return { chiral: false, kind: 'ring', why: W + '：沿 ring 顺时针、逆时针各走一圈，两边完全一样 → 有两个 group 相同，不是 chiral centre。' };
+    return { chiral: false, kind: 'same', why: W + '：有两个相同的 group（–' + dup[0].txt + ' 和 –' + dup[1].txt + '），不是 chiral centre。' };
+  }
+  var ring = G.filter(function (g) { return g.ring; }).length === 2;
+  return { chiral: true, kind: 'chiral',
+           why: W + '：连着 4 个不同的 group：' + G.map(function (g) { return g.ring ? g.txt : '–' + g.txt; }).join('、') +
+                (ring ? '（沿 ring 两个方向走，碰到取代基的位置不一样）' : '') + ' → chiral centre。' };
+}
+function ccInfo(M, b) {
+  var ends = [b.a, b.b].map(function (c) {
+    var G = groups(M, c, c === b.a ? b.b : b.a);
+    return { c: c, G: G, diff: G.length === 2 && G[0].key !== G[1].key };
+  });
+  var nm = 'C' + M.A[b.a].loc + '=C' + M.A[b.b].loc;
+  var desc = function (e) {
+    return 'C' + M.A[e.c].loc + (e.diff ? ' 上 –' + e.G[0].txt + ' 与 –' + e.G[1].txt + ' 不同' : ' 上两个都是 –' + e.G[0].txt);
+  };
+  if (ends[0].diff && ends[1].diff)
+    return { ct: true, name: nm, why: nm + '：' + desc(ends[0]) + '，' + desc(ends[1]) + ' → 两个 C 都连着两个不同的 group，加上 C=C 不能转动（restricted rotation）→ 有 cis / trans。' };
+  return { ct: false, name: nm, why: nm + '：' + ends.filter(function (e) { return !e.diff; }).map(desc).join('，') + ' → 两个 group 对调还是同一个 compound，没有 cis / trans。' };
+}
+
+/* ---------- drawing ---------- */
+var cur = 0, svg = null, M = null, picks = {}, checked = null, solved = {}, ovUnder = null, ovTop = null, hitG = null;
+
+function fillJump() {
+  var j = $('.fcn-jmp');
+  j.innerHTML = '';
+  Q.forEach(function (q, k) {
+    var o = document.createElement('option'); o.value = k;
+    o.textContent = (solved[k] ? '✓ ' : '') + (k + 1) + ' · ' + q.name + (q.src ? '（真题）' : '');
+    j.appendChild(o);
+  });
+  j.value = cur;
+  $('.fcn-sc').textContent = Object.keys(solved).length;
+  $('.fcn-scn').textContent = Q.length;
+}
+function segs() {
+  return Array.prototype.map.call(svg.querySelectorAll('.cf-b line'), function (l) {
+    return [+l.getAttribute('x1'), +l.getAttribute('y1'), +l.getAttribute('x2'), +l.getAttribute('y2')];
+  });
+}
+function textBox(a) { var b = a.el.getBBox(); return { x: b.x, y: b.y, w: b.width, h: b.height }; }
+
+function render() {
+  var q = Q[cur], st = $('.fcn-stage');
+  st.innerHTML = '';
+  svg = srcSvg(q.id).cloneNode(true);
+  st.appendChild(svg);                       /* live DOM before any getBBox */
+  M = analyse(svg);
+  picks = {}; checked = null;
+
+  var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  M.A.forEach(function (a) {
+    var r = a.el ? textBox(a) : { x: a.x, y: a.y, w: 0, h: 0 };
+    x0 = Math.min(x0, r.x); y0 = Math.min(y0, r.y); x1 = Math.max(x1, r.x + r.w); y1 = Math.max(y1, r.y + r.h);
+  });
+  var P = 26;                               /* room for a locant / * hugging an outer atom (ink-placed) */
+  x0 -= P; y0 -= P; x1 += P; y1 += P;
+  svg.setAttribute('viewBox', [x0, y0, x1 - x0, y1 - y0].map(function (v) { return v.toFixed(1); }).join(' '));
+  var sc = Math.max(1.3, Math.min(1.8, 420 / (x1 - x0), 300 / (y1 - y0)));
+  svg.setAttribute('width', Math.round((x1 - x0) * sc)); svg.setAttribute('height', Math.round((y1 - y0) * sc));
+
+  ovUnder = K.svg('g', { 'class': 'fcn-under' }); svg.insertBefore(ovUnder, svg.firstChild);
+  ovTop = K.svg('g', { 'class': 'fcn-top' }); svg.appendChild(ovTop);
+  hitG = K.svg('g', { 'class': 'fcn-hit' }); svg.appendChild(hitG);
+  M.A.forEach(function (a) {
+    if (!a.carbon) return;
+    hitG.appendChild(K.svg('circle', { 'class': 'fcn-t', cx: a.x, cy: a.y, r: 11, 'data-kind': 'c', 'data-i': a.i, tabindex: 0, role: 'button',
+                                       'aria-label': (a.loc != null ? 'C' + a.loc : 'C') + '：标 / 取消 chiral centre' }));
+  });
+  M.bonds.forEach(function (b) {
+    var A = M.A[b.a], B = M.A[b.b], mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2, ang = Math.atan2(B.y - A.y, B.x - A.x) * 180 / Math.PI;
+    hitG.appendChild(K.svg('ellipse', { 'class': 'fcn-t', cx: mx, cy: my, rx: 8, ry: 12, 'data-kind': 'b', 'data-key': b.key,
+                                        transform: 'rotate(' + ang.toFixed(1) + ' ' + mx + ' ' + my + ')',
+                                        tabindex: 0, role: 'button', 'aria-label': b.info.name + '：标 / 取消 cis/trans' }));
+  });
+  K.$$(hitG, '.fcn-t').forEach(function (t) {
+    var key = t.getAttribute('data-kind') === 'c' ? 'c' + t.getAttribute('data-i') : 'b' + t.getAttribute('data-key');
+    t.addEventListener('click', function () { toggle(key); });
+    t.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { toggle(key); ev.preventDefault(); } });
+  });
+
+  $('.fcn-name').textContent = q.name;
+  $('.fcn-src').textContent = q.src ? '📝 ' + q.src : '第 ' + (cur + 1) + ' / ' + Q.length + ' 题';
+  $('.fcn-jmp').value = cur;
+  $('.fcn-prev').disabled = cur === 0; $('.fcn-next').disabled = cur === Q.length - 1;
+  var n = $('.fcn-n'); n.value = ''; n.classList.remove('good', 'badv');
+  $('.fcn-fb').hidden = true;
+  redraw();
+}
+
+function toggle(key) {
+  if (picks[key]) delete picks[key]; else picks[key] = true;
+  if (checked) { checked = null; $('.fcn-fb').hidden = true; $('.fcn-n').classList.remove('good', 'badv'); }
+  redraw();
+}
+
+/* the ink box of a label, from canvas metrics in the same font. getBBox spans the font's whole
+   ascent–descent: for '*' that is ~4× the glyph's height, all of it below the glyph, so a star
+   placed by its bbox ends up far from its C, nearer the next atom's locant. Offsets are from the
+   text's (x, y) with text-anchor middle. */
+var CV = null;
+function ink(text, cls) {
+  var t = K.svg('text', { 'class': 'halo ' + cls, x: 0, y: 0, 'text-anchor': 'middle' });
+  t.textContent = text; svg.appendChild(t);
+  var cs = getComputedStyle(t), b = t.getBBox();
+  var font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;   /* read before removing: a detached element's computed style is empty */
+  svg.removeChild(t);
+  var g = (CV || (CV = document.createElement('canvas'))).getContext('2d');
+  g.font = font;
+  g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  var m = g.measureText(text);
+  if (!m.width || m.actualBoundingBoxAscent == null) return { l: b.x, r: b.x + b.width, t: b.y, b: b.y + b.height };
+  return { l: -m.actualBoundingBoxLeft, r: m.actualBoundingBoxRight, t: -m.actualBoundingBoxAscent, b: m.actualBoundingBoxDescent };
+}
+function segHit(s, r) {
+  function inside(x, y) { return x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h; }
+  if (inside(s[0], s[1]) || inside(s[2], s[3])) return true;
+  return [[r.x, r.y, r.x + r.w, r.y], [r.x, r.y + r.h, r.x + r.w, r.y + r.h], [r.x, r.y, r.x, r.y + r.h], [r.x + r.w, r.y, r.x + r.w, r.y + r.h]].some(function (e) {
+    var d = (s[2] - s[0]) * (e[3] - e[1]) - (s[3] - s[1]) * (e[2] - e[0]);
+    if (!d) return false;
+    var t = ((e[0] - s[0]) * (e[3] - e[1]) - (e[1] - s[1]) * (e[2] - e[0])) / d;
+    var u = ((e[0] - s[0]) * (s[3] - s[1]) - (e[1] - s[1]) * (s[2] - s[0])) / d;
+    return t >= 0 && t <= 1 && u >= 0 && u <= 1;
+  });
+}
+function rectsHit(a, b) { return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h; }
+function rectDist(r, x, y) { return Math.hypot(Math.max(r.x - x, 0, x - r.x - r.w), Math.max(r.y - y, 0, y - r.y - r.h)); }
+
+/* a label hugging anchor (ax, ay): its ink box + the kit halo (2 each side) sits g outside the
+   anchor's keep-out circle R, nearest ring first, freest direction (away from the bonds) first.
+   Rejected: touching a bond / band edge, another label or atom letters (placed), any other atom's
+   keep-out circle (keep), the viewBox edge, or (own = true) sitting nearer another atom than its own. */
+var HALO = 2;
+function placeInk(ax, ay, R, text, cls, occ, ctx, own) {
+  var I = ink(text, cls), iw = (I.r - I.l) / 2 + HALO, ih = (I.b - I.t) / 2 + HALO, ox = (I.l + I.r) / 2, oy = (I.t + I.b) / 2;
+  var sx = 0, sy = 0;
+  occ.forEach(function (t) { sx += Math.cos(t); sy += Math.sin(t); });
+  var pref = Math.hypot(sx, sy) > 0.3 ? Math.atan2(-sy, -sx) : -Math.PI / 2;
+  var dirs = [];
+  for (var k = 0; k < 24; k++) {
+    var t = -Math.PI + k * Math.PI / 12, mo = Math.PI;
+    occ.forEach(function (o) { var d = Math.abs(o - t) % (2 * Math.PI); mo = Math.min(mo, d > Math.PI ? 2 * Math.PI - d : d); });
+    var dp = Math.abs(pref - t) % (2 * Math.PI); dp = dp > Math.PI ? 2 * Math.PI - dp : dp;
+    dirs.push({ t: t, s: Math.min(mo, 55 * Math.PI / 180), p: dp });
+  }
+  dirs.sort(function (A, B) { return (B.s - A.s) || (A.p - B.p); });
+  var vb = svg.viewBox.baseVal, best = null, bestBad = 1e9;
+  [0.5, 2, 4, 7, 11, 16].some(function (g) {
+    return dirs.some(function (dd) {
+      var ux = Math.cos(dd.t), uy = Math.sin(dd.t), d = 0, cx, cy, r;
+      do {                                 /* slide out until the box clears the circle R + g */
+        d += 0.25; cx = ax + ux * d; cy = ay + uy * d;
+        r = { x: cx - iw, y: cy - ih, w: 2 * iw, h: 2 * ih };
+      } while (rectDist(r, ax, ay) < R + g && d < 200);
+      var dOwn = Math.hypot(cx - ax, cy - ay);
+      var bad = ctx.avoid.filter(function (s) { return segHit(s, r); }).length * 2 +
+                ctx.placed.filter(function (q) { return rectsHit(q, r); }).length * 2 +
+                ctx.keep.filter(function (c) { return (c.x !== ax || c.y !== ay) && (rectDist(r, c.x, c.y) < c.r ||
+                                                       (own && Math.hypot(cx - c.x, cy - c.y) < dOwn + 2)); }).length * 2 +
+                (r.x < vb.x || r.y < vb.y || r.x + r.w > vb.x + vb.width || r.y + r.h > vb.y + vb.height ? 1 : 0);
+      if (bad < bestBad) { bestBad = bad; best = { cx: cx, cy: cy, r: r }; }
+      return !bad;
+    });
+  });
+  var lab = K.svg('text', { 'class': 'halo ' + cls, x: (best.cx - ox).toFixed(2), y: (best.cy - oy).toFixed(2), 'text-anchor': 'middle' });
+  lab.textContent = text;
+  if (bestBad) lab.setAttribute('data-clash', bestBad);   /* tests assert there is none */
+  ovTop.appendChild(lab);
+  ctx.placed.push(best.r);
+  return lab;
+}
+
+function status(key, truth) {
+  if (!checked) return picks[key] ? 'sel' : null;
+  if (checked.reveal) return truth ? 'ok' : null;
+  if (picks[key]) return truth ? 'ok' : 'bad';
+  return truth ? 'miss' : null;
+}
+
+var DISC = 7.5;
+function redraw() {
+  ovUnder.innerHTML = ''; ovTop.innerHTML = '';
+  /* every opaque or drawn thing is an obstacle: bonds, band edges, atom letters, the labels as they
+     are placed, and a keep-out circle on every vertex (the disc + its stroke where there is one) */
+  var ctx = { avoid: segs(), placed: [], keep: [] }, items = [], R = {};
+  M.A.forEach(function (a) {
+    if (a.el) { var b = textBox(a); ctx.placed.push({ x: b.x + 0.5, y: b.y + 2, w: b.w - 1, h: b.h - 4 }); }
+    R[a.i] = a.el ? 0 : 4;
+  });
+  M.bonds.forEach(function (b) {
+    var s = status('b' + b.key, b.info.ct);
+    if (!s) return;
+    var A = M.A[b.a], B = M.A[b.b];
+    ovUnder.appendChild(K.svg('line', { 'class': 'fcn-band ' + s, x1: A.x, y1: A.y, x2: B.x, y2: B.y, 'data-key': b.key }));
+    /* the band's edges count as lines too; its round caps are the end atoms' keep-out */
+    var L = Math.hypot(B.x - A.x, B.y - A.y), nx = -(B.y - A.y) / L * DISC, ny = (B.x - A.x) / L * DISC;
+    ctx.avoid.push([A.x + nx, A.y + ny, B.x + nx, B.y + ny], [A.x - nx, A.y - ny, B.x - nx, B.y - ny]);
+    R[A.i] = Math.max(R[A.i], DISC); R[B.i] = Math.max(R[B.i], DISC);
+    items.push({ b: b, s: s });
+  });
+  M.A.forEach(function (a) {
+    if (!a.carbon) return;
+    var s = status('c' + a.i, a.info.chiral);
+    if (!s) return;
+    ovUnder.appendChild(K.svg('circle', { 'class': 'fcn-disc ' + s, cx: a.x, cy: a.y, r: DISC, 'data-i': a.i }));
+    R[a.i] = DISC + 0.7;
+    items.push({ a: a, s: s });
+  });
+  /* every atom: vertices keep out by their circle; lettered atoms (r 0, their letters are in placed)
+     still count for "the label sits nearer its own C than any other atom" */
+  M.A.forEach(function (a) { ctx.keep.push({ x: a.x, y: a.y, r: a.el ? 0 : R[a.i] }); });
+  function nearAtom(a, text, cls) {
+    var occ = a.nb.map(function (e) { return Math.atan2(M.A[e.j].y - a.y, M.A[e.j].x - a.x); });
+    var t = placeInk(a.x, a.y, R[a.i], text, cls, occ, ctx, true);
+    t.setAttribute('data-atom', a.i);
+    return t;
+  }
+  items.forEach(function (it) {
+    if (!it.b) return;
+    var A = M.A[it.b.a], B = M.A[it.b.b];
+    var occ = [Math.atan2(B.y - A.y, B.x - A.x), Math.atan2(A.y - B.y, A.x - B.x)];
+    placeInk((A.x + B.x) / 2, (A.y + B.y) / 2, DISC, 'cis/trans', 'fcn-ct ' + it.s, occ, ctx, false).setAttribute('data-key', it.b.key);
+  });
+  items.forEach(function (it) { if (it.a) nearAtom(it.a, '*', 'fcn-star ' + it.s); });
+  /* after checking: IUPAC locants on the atoms the reasons talk about */
+  if (checked) {
+    var locs = {};
+    checked.lines.forEach(function (l) { l.atoms.forEach(function (i) { if (M.A[i].loc != null) locs[i] = 1; }); });
+    Object.keys(locs).forEach(function (i) { nearAtom(M.A[+i], 'C' + M.A[+i].loc, 'fcn-loc'); });
+  }
+  K.fit();
+}
+
+/* ---------- checking ---------- */
+function truth() {
+  var c = M.A.filter(function (a) { return a.carbon && a.info.chiral; }).map(function (a) { return a.i; });
+  var b = M.bonds.filter(function (x) { return x.info.ct; }).map(function (x) { return x.key; });
+  return { chiral: c, ct: b, n: c.length, m: b.length, max: Math.pow(2, c.length + b.length) };
+}
+var ORD = { bad: 0, miss: 1, ok: 2, ans: 2, none: 3 };
+function check(reveal) {
+  var T = truth(), lines = [];
+  if (reveal) {
+    picks = {};
+    T.chiral.forEach(function (i) { picks['c' + i] = true; });
+    T.ct.forEach(function (k) { picks['b' + k] = true; });
+  }
+  M.A.forEach(function (a) {
+    if (!a.carbon) return;
+    var p = !!picks['c' + a.i], t = a.info.chiral, decoy = a.info.kind === 'ring' || a.info.kind === 'same';
+    if (!p && !t && !decoy) return;
+    /* a decoy (sp³, at most one H, but two groups the same) is explained even when left unmarked */
+    lines.push({ s: reveal ? (t ? 'ans' : 'none') : p && t ? 'ok' : p ? 'bad' : t ? 'miss' : 'none', txt: a.info.why, atoms: [a.i] });
+  });
+  /* every C=C is a candidate: one that cannot show cis/trans is explained even when left unmarked */
+  M.bonds.forEach(function (b) {
+    var p = !!picks['b' + b.key], t = b.info.ct;
+    var s = reveal ? (t ? 'ans' : 'none') : p && t ? 'ok' : p ? 'bad' : t ? 'miss' : 'none';
+    lines.push({ s: s, txt: b.info.why, atoms: [b.a, b.b] });
+  });
+  lines.forEach(function (l, k) { l.k = k; });
+  lines.sort(function (p, q) { return ORD[p.s] - ORD[q.s] || p.k - q.k; });
+  var nb = lines.filter(function (l) { return l.s === 'bad'; }).length, nm = lines.filter(function (l) { return l.s === 'miss'; }).length;
+  var no = lines.filter(function (l) { return l.s === 'ok'; }).length;
+  checked = { reveal: !!reveal, lines: lines };
+
+  var sum = $('.fcn-sum');
+  if (reveal) { sum.className = 'fcn-sum ans'; sum.textContent = '答案已标在图上（这一题不计入全对）。'; }
+  else if (!nb && !nm) {
+    sum.className = 'fcn-sum ok';
+    sum.textContent = T.n + T.m ? '✓ 全对：' + (T.n ? T.n + ' 个 chiral centre' : '') + (T.n && T.m ? '、' : '') + (T.m ? T.m + ' 根能 cis/trans 的 C=C' : '') + '。'
+                                : '✓ 全对：这个 molecule 没有 chiral centre，也没有能 cis/trans 的 C=C。';
+    solved[cur] = true;
+  } else {
+    sum.className = 'fcn-sum bad';
+    sum.textContent = '对 ' + no + ' 个，漏标 ' + nm + ' 个，标错 ' + nb + ' 个。';
+  }
+  var TAG = { ok: '✓', bad: '✗', miss: '漏', ans: '答案', none: '不标' };
+  var ul = $('.fcn-why'); ul.innerHTML = '';
+  lines.forEach(function (l) {
+    var li = K.el('li', { 'class': l.s }, '<span class="tag">' + TAG[l.s] + '</span><span class="txt"></span>');
+    li.querySelector('.txt').textContent = l.txt;
+    ul.appendChild(li);
+  });
+  if (!lines.length) ul.appendChild(K.el('li', { 'class': 'none' }, '<span class="tag">不标</span><span class="txt">没有要标的：每个 sp³ 的 C 都连着至少两个 H。</span>'));
+
+  $('.fcn-count').innerHTML = 'chiral centre <b>n = ' + T.n + '</b>，能 cis/trans 的 C=C <b>m = ' + T.m + '</b> → 最多 2' + K.sup(T.n + '+' + T.m) +
+    ' = <b class="fcn-max">' + T.max + '</b>' + (T.n + T.m ? ' 个 stereoisomers。' : '：只有这一种结构，没有 stereoisomerism。');
+  judgeN(T);
+  $('.fcn-note').textContent = Q[cur].note || '';
+  $('.fcn-fb').hidden = false;
+  fillJump();
+  redraw();
+}
+function judgeN(T) {
+  var inp = $('.fcn-n'), fb = $('.fcn-nfb'), v = inp.value.trim();
+  inp.classList.remove('good', 'badv'); fb.className = 'fcn-nfb'; fb.textContent = '';
+  if (!v || checked.reveal) return;
+  var isInt = /^\d+$/.test(v), ok = isInt && +v === T.max;
+  inp.classList.add(ok ? 'good' : 'badv');
+  fb.className = 'fcn-nfb ' + (ok ? 'ok' : 'bad');
+  fb.textContent = ok ? '✓ 最多 ' + T.max + ' 个 stereoisomers。'
+    : !isInt ? '✗ 填一个整数。'
+    : '✗ 你填的是 ' + v + '。每个 chiral centre、每根能 cis/trans 的 C=C 各有两种排法：2' + K.sup(T.n + '+' + T.m) + ' = ' + T.max + '。';
+}
+
+function go(k) { cur = Math.max(0, Math.min(Q.length - 1, k)); render(); K.fit(); }
+fillJump();
+$('.fcn-prev').addEventListener('click', function () { go(cur - 1); });
+$('.fcn-next').addEventListener('click', function () { go(cur + 1); });
+$('.fcn-jmp').addEventListener('change', function () { go(+this.value); });
+$('.fcn-go').addEventListener('click', function () { check(false); });
+$('.fcn-show').addEventListener('click', function () { check(true); });
+$('.fcn-reset').addEventListener('click', function () { render(); });
+/* Enter in the count box checks; no preventDefault, so kit's box-to-box jump still works */
+$('.fcn-n').addEventListener('keydown', function (ev) { if (ev.key === 'Enter') check(false); });
+render();
+
+$root.__fcn = {
+  Q: Q, go: go, cur: function () { return cur; },
+  picks: function () { return Object.keys(picks); },
+  truth: function () {
+    var T = truth();
+    return { chiral: T.chiral.map(function (i) { return M.A[i].loc != null ? 'c' + M.A[i].loc : 'i' + i; }),
+             ct: T.ct.map(function (k) { var b = M.bonds.filter(function (x) { return x.key === k; })[0]; return 'c' + M.A[b.a].loc + '=c' + M.A[b.b].loc; }),
+             n: T.n, m: T.m, max: T.max };
+  },
+  atoms: function () { return M.A.map(function (a) { return { i: a.i, l: a.l, x: a.x, y: a.y, carbon: a.carbon, loc: a.loc, h: a.h }; }); },
+  bonds: function () { return M.bonds.map(function (b) { return { key: b.key, a: b.a, b: b.b, name: b.info.name }; }); }
+};
+</script>
