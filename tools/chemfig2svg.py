@@ -171,6 +171,9 @@ def parse(src):
         if kind == 'ring':
             lbl = val[1:] or '?'
             resolve_pending()
+            if cur is None:                      # '?' before any atom: it marks an implicit first vertex
+                cur = place('C', None, 0, 1.0, pending_name, True)
+                pending_name = None
             if lbl in rings:
                 bonds.append(Bond(rings[lbl], cur, 1, '-'))
             else:
@@ -415,6 +418,12 @@ def self_test():
     chg_ok = 'δ+' in svg_chg and '<tspan baseline-shift="super" font-size="9">δ+</tspan>' in svg_chg
     print('  charge    ^{\\delta+} delta=%s %s' % ('δ+' in svg_chg, 'OK' if chg_ok else 'FAIL'))
     ok = ok and chg_ok
+
+    # ring closure starting with '?' (cyclohexane skeletal): 6 vertices, 6 bonds
+    ra, rb = parse(r'\chemfig{?-[:30]-[:-30]-[:-90]-[:-150]-[:150]?}')
+    ring_ok = len(ra) == 6 and len(rb) == 6
+    print('  ring      ?…? atoms=%d bonds=%d %s' % (len(ra), len(rb), 'OK' if ring_ok else 'FAIL'))
+    ok = ok and ring_ok
 
     # 9. skeletal formula implicit carbons
     a_skel, b_skel = parse(r'\chemfig{=[:30]-[:-30]}')
