@@ -1,0 +1,546 @@
+<h3>🔬 数 skeletal formula：molecular → empirical formula</h3>
+<p class="mut">点结构里的每个折点 / 端点（一个 C）和每个写出来的 atom（O、N、Cl …）。C 上没画出来的 H 会显示在它旁边，右边累计 C / H / O / N / X。全部点完得到 molecular formula，再一键约成 empirical formula；也可以先在下面直接写答案。</p>
+
+<div class="row fc-nav">
+  <button type="button" class="fc-prev">← 上一题</button>
+  <select class="fc-jmp" aria-label="选择题目"></select>
+  <button type="button" class="fc-next">下一题 →</button>
+</div>
+
+<div class="fc-body">
+  <div class="card fc-left">
+    <div class="fc-meta"><span class="fc-src"></span><span class="fc-prog"></span></div>
+    <div class="fc-stage"></div>
+    <div class="fc-why"></div>
+    <div class="row fc-tools">
+      <button type="button" class="fc-all">全部显示</button>
+      <button type="button" class="fc-reset">重来</button>
+      <span class="faint fc-legend"><i class="fc-dot pend"></i>还没数 <i class="fc-dot done"></i>已数 <b class="fc-hkey">H₂</b> 隐藏的 H</span>
+    </div>
+  </div>
+
+  <div class="fc-side">
+    <div class="card fc-count">
+      <div class="fc-cnt">
+        <div class="fc-c" data-el="C"><b>0</b><span>C</span></div>
+        <div class="fc-c" data-el="H"><b>0</b><span>H</span></div>
+        <div class="fc-c" data-el="O"><b>0</b><span>O</span></div>
+        <div class="fc-c" data-el="N"><b>0</b><span>N</span></div>
+        <div class="fc-c" data-el="X"><b>0</b><span>X</span></div>
+      </div>
+      <div class="fc-hsplit faint"></div>
+    </div>
+    <div class="card fc-res">
+      <div class="fc-rl">molecular formula</div>
+      <div class="fc-mol">—</div>
+      <button type="button" class="fc-emp-btn" disabled>÷ 公约数 → empirical formula</button>
+      <div class="fc-emp" hidden></div>
+    </div>
+    <div class="card fc-hchk">
+      <div class="fc-rl">H 检查（和饱和的 C<sub>n</sub>H<sub>2n+2</sub> 比）</div>
+      <div class="fc-hbody faint">数完才能比。</div>
+    </div>
+  </div>
+</div>
+
+<div class="card fc-type">
+  <div class="row">
+    <b>直接写答案</b>
+    <span class="faint">C₂H₄O₂ 或 C2H4O2 都可以；必须 C 第一、H 第二，其余习惯按字母序</span>
+  </div>
+  <div class="row fc-inrow">
+    <label for="fc-in-mol">molecular</label>
+    <input type="text" id="fc-in-mol" class="fc-in-mol" autocomplete="off" spellcheck="false" placeholder="例如 C₄H₁₀O">
+    <label for="fc-in-emp">empirical</label>
+    <input type="text" id="fc-in-emp" class="fc-in-emp" autocomplete="off" spellcheck="false" placeholder="例如 CH₂O">
+    <button type="button" class="fc-go on">判分</button>
+  </div>
+  <div class="fc-fb fc-fb-mol"></div>
+  <div class="fc-fb fc-fb-emp"></div>
+</div>
+
+<div class="ko-src" hidden>
+  <div data-q="butan2ol">{{chemfig \chemfig{-[:30](-[:90]OH)-[:-30]-[:30]}}}</div>
+  <div data-q="but1ene">{{chemfig \chemfig{=[:30]-[:-30]-[:30]}}}</div>
+  <div data-q="ethanoic">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]OH}}}</div>
+  <div data-q="diol">{{chemfig \chemfig{HO-[:30]-[:-30]-[:30]OH}}}</div>
+  <div data-q="butanal">{{chemfig \chemfig{-[:30]-[:-30]-[:30](=[:90]O)}}}</div>
+  <div data-q="butanone">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]-[:30]}}}</div>
+  <div data-q="ester">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]}}}</div>
+  <div data-q="amine">{{chemfig \chemfig{H_2N-[:30]-[:-30]-[:30]}}}</div>
+  <div data-q="nitrile">{{chemfig \chemfig{-[:30]-[:-30]-[:30]-[:-30]~[:-30]N}}}</div>
+  <div data-q="tbucl">{{chemfig \chemfig{-[:0](-[:90]Cl)(-[:-90])-[:0]}}}</div>
+  <div data-q="cyhex">{{chemfig \chemfig{?(-[:90]OH)-[:-30]-[:-90]-[:-150]-[:150]-[:90]?}}}</div>
+  <div data-q="E">{{chemfig \chemfig{=[:-30](-[:-90]~[:-90]N)-[:30](=[:90]O)-[:-30]O-[:30]-[:-30]}}}</div>
+  <div data-q="X">{{chemfig \chemfig{HO-[:30]-[:-30]-[:0](-[:90]-[:30]OH)(-[:-90]-[:-30]OH)-[:0]OH}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .fc-nav{gap:6px;margin:4px 0 8px}
+.k .fc-jmp{max-width:100%}
+.k .fc-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,250px);gap:10px;align-items:start}
+@media (max-width:600px){.k .fc-body{grid-template-columns:minmax(0,1fr)}}
+.k .fc-left{padding:8px 12px}
+.k .fc-meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 10px;font-size:13px;color:var(--mut)}
+.k .fc-meta .fc-prog b{color:var(--fg)}
+.k .fc-stage{display:flex;align-items:center;justify-content:center;min-height:250px;padding:4px 0;overflow:hidden}
+.k .fc-stage svg.cf{display:block;margin:0 auto}
+.k .fc-stage svg text.fc-h{font-size:12px;fill:var(--acc);font-weight:650;pointer-events:none}
+.k .fc-stage svg .fc-ring{fill:none;stroke:var(--acc);stroke-width:1;stroke-dasharray:2.2 2.2;opacity:.75}
+.k .fc-stage svg .fc-disc{fill:var(--acc-soft);stroke:none}
+.k .fc-stage svg .fc-t{fill:transparent;stroke:none;cursor:pointer;outline:none}
+.k .fc-stage svg .fc-t:hover,.k .fc-stage svg .fc-t:focus-visible{stroke:var(--acc);stroke-width:1.3}
+.k .fc-stage svg .fc-t.done{cursor:default}
+.k .fc-why{min-height:2.9em;font-size:14px;color:var(--mut);border-top:1px dashed var(--line);padding-top:5px;margin-top:2px}
+.k .fc-why b{color:var(--fg)}
+.k .fc-tools{margin:6px 0 0}
+.k .fc-legend{margin-left:auto;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+.k .fc-dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px}
+.k .fc-dot.pend{border:1.3px dashed var(--acc)}
+.k .fc-dot.done{background:var(--acc-soft);border:1px solid var(--acc-soft);margin-left:6px}
+.k .fc-hkey{color:var(--acc);font-weight:650;margin-left:6px}
+.k .fc-side{display:flex;flex-direction:column;gap:10px}
+.k .fc-cnt{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;text-align:center}
+.k .fc-c{border:1px solid var(--line);border-radius:6px;padding:2px 0 3px;background:var(--bg)}
+.k .fc-c b{display:block;font-size:24px;line-height:1.2;font-weight:650;color:var(--fg);font-variant-numeric:tabular-nums}
+.k .fc-c span{display:block;font-size:13px;color:var(--mut);white-space:nowrap}
+.k .fc-c.zero b{color:var(--faint);font-weight:400}
+.k .fc-c.bump{border-color:var(--acc)}
+.k .fc-hsplit{margin-top:5px;min-height:1.3em}
+.k .fc-rl{font-size:13px;color:var(--mut);margin-bottom:2px}
+.k .fc-mol{font-size:22px;font-weight:650;line-height:1.3;color:var(--faint)}
+.k .fc-mol.ok{color:var(--fg)}
+.k .fc-mol small{display:block;font-size:13px;font-weight:400;color:var(--mut)}
+.k .fc-emp-btn{margin-top:6px;font-size:14px}
+.k .fc-emp-btn:disabled{opacity:.45;cursor:default}
+.k .fc-emp{margin-top:6px;font-size:14px;line-height:1.5}
+.k .fc-emp .big{font-size:20px;font-weight:650;color:var(--fg)}
+.k .fc-hbody{font-size:14px;line-height:1.5}
+.k .fc-hbody.on{color:var(--fg)}
+.k .fc-hbody .k-n{font-weight:650;color:var(--acc)}
+.k .fc-hbody .k-ok{color:var(--ok);font-weight:600}
+.k .fc-hbody .fc-nw{white-space:nowrap}
+.k .fc-hbody .fc-hnote{font-size:13px}
+.k .fc-type{margin-top:10px}
+.k .fc-inrow{gap:6px 8px}
+.k .fc-inrow input{width:8.5em;min-width:7em}
+.k .fc-fb{font-size:14px;min-height:0}
+.k .fc-fb:empty{display:none}
+.k .fc-fb.ok{color:var(--ok)} .k .fc-fb.bad{color:var(--bad)}
+.k .fc-in-mol.good,.k .fc-in-emp.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .fc-in-mol.badv,.k .fc-in-emp.badv{border-color:var(--bad);background:var(--bad-soft)}
+</style>
+
+<script>
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+
+/* name / series are shown only after counting is finished (the name would give the formula away) */
+var Q = [
+  { id: 'butan2ol', name: 'butan-2-ol', series: 'alcohol' },
+  { id: 'but1ene', name: 'but-1-ene', series: 'alkene' },
+  { id: 'ethanoic', name: 'ethanoic acid', series: 'carboxylic acid' },
+  { id: 'diol', name: 'ethane-1,2-diol', series: 'alcohol（diol）' },
+  { id: 'butanal', name: 'butanal', series: 'aldehyde' },
+  { id: 'butanone', name: 'butanone', series: 'ketone' },
+  { id: 'ester', name: 'ethyl ethanoate', series: 'ester' },
+  { id: 'amine', name: 'propylamine', series: 'amine' },
+  { id: 'nitrile', name: 'pentanenitrile', series: 'nitrile' },
+  { id: 'tbucl', name: '2-chloro-2-methylpropane', series: 'halogenoalkane' },
+  { id: 'cyhex', name: 'cyclohexanol', series: 'alcohol（cyclic）' },
+  { id: 'E', name: 'compound E', series: 'nitrile + ester + alkene',
+    src: '9701/22 Feb/Mar 2026 Q4(d)(iii)：Deduce the molecular formula of E.' },
+  { id: 'X', name: 'compound X', series: 'alcohol（4 个 OH）',
+    src: '9701/22 May/June 2026 Q4(b) Figure 4.2 的 X（原卷用 CH₂OH 缩写，这里画成 skeletal）' }
+];
+var HAL = { F: 1, Cl: 1, Br: 1, I: 1 };
+var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+function sub(n) { return String(n).replace(/\d/g, function (d) { return SUBD[d]; }); }
+function plainLabel(l) { return String(l).replace(/_\{([^}]*)\}|_(\w)/g, function (m, a, b) { return sub(a || b); }); }
+/* 'H_2N' → {H: 2, N: 1} */
+function labelCounts(l) {
+  var s = String(l).replace(/_\{?(\d+)\}?/g, '$1'), out = {}, re = /([A-Z][a-z]?)(\d*)/g, m;
+  while ((m = re.exec(s))) out[m[1]] = (out[m[1]] || 0) + (m[2] ? +m[2] : 1);
+  return out;
+}
+/* {C:4, H:10, O:1} → 'C₄H₁₀O' in Hill order: C, H, then alphabetical */
+function hillKeys(c) {
+  var ks = Object.keys(c).filter(function (k) { return c[k] > 0; });
+  var rest = ks.filter(function (k) { return k !== 'C' && k !== 'H'; }).sort();
+  return (c.C ? ['C'] : []).concat(c.H ? ['H'] : []).concat(rest);
+}
+function fstr(c) { return hillKeys(c).map(function (k) { return k + (c[k] > 1 ? sub(c[k]) : ''); }).join(''); }
+function gcd(a, b) { while (b) { var t = b; b = a % b; a = t; } return a; }
+function gcdAll(c) { return Object.keys(c).reduce(function (g, k) { return c[k] ? gcd(g, c[k]) : g; }, 0) || 1; }
+function divided(c, g) { var o = {}; Object.keys(c).forEach(function (k) { if (c[k]) o[k] = c[k] / g; }); return o; }
+function same(a, b) {
+  var ks = {}; Object.keys(a).concat(Object.keys(b)).forEach(function (k) { ks[k] = 1; });
+  return Object.keys(ks).every(function (k) { return (a[k] || 0) === (b[k] || 0); });
+}
+function srcSvg(id) { return $root.querySelector('.ko-src [data-q="' + id + '"] svg'); }
+
+/* per-structure analysis straight from the {{chemfig}} data: every atom, its bonds, its counts */
+function analyse(svg) {
+  var atoms = JSON.parse(svg.getAttribute('data-atoms') || '[]');
+  var bonds = JSON.parse(svg.getAttribute('data-bonds') || '[]');
+  var A = atoms.map(function (a, k) {
+    var i = a.i == null ? k : a.i;
+    /* the drawn label: chemfig2svg tags it with data-i (multi-letter groups are shifted so the bonded letter sits on the atom) */
+    return { i: i, l: a.l, x: a.x, y: a.y, nb: [], ord: [], text: svg.querySelector('text.cf-a[data-i="' + i + '"]') };
+  });
+  bonds.forEach(function (b) {
+    var ord = typeof b[2] === 'number' ? b[2] : 1;
+    A[b[0]].nb.push(b[1]); A[b[0]].ord.push(ord);
+    A[b[1]].nb.push(b[0]); A[b[1]].ord.push(ord);
+  });
+  A.forEach(function (a) {
+    a.carbon = a.l === 'C';
+    if (a.carbon) {
+      a.used = a.ord.reduce(function (s, v) { return s + v; }, 0);
+      a.h = Math.max(0, 4 - a.used);
+      a.counts = { C: 1, H: a.h };
+    } else {
+      a.counts = labelCounts(a.l);
+    }
+  });
+  var pi = 0, piList = {};
+  bonds.forEach(function (b) {
+    var ord = typeof b[2] === 'number' ? b[2] : 1;
+    if (ord > 1) {
+      pi += ord - 1;
+      var nm = (A[b[0]].carbon ? 'C' : plainLabel(A[b[0]].l).replace(/H\d*|[₀-₉]/g, '')) + (ord === 2 ? '=' : '≡') +
+               (A[b[1]].carbon ? 'C' : plainLabel(A[b[1]].l).replace(/H\d*|[₀-₉]/g, ''));
+      if (nm === 'O=C') nm = 'C=O';
+      if (nm === 'N≡C') nm = 'C≡N';
+      piList[nm] = (piList[nm] || 0) + (ord - 1);
+    }
+  });
+  var rings = bonds.length - atoms.length + 1;   /* one connected molecule */
+  return { A: A, bonds: bonds, pi: pi, piList: piList, rings: rings };
+}
+
+var cur = 0, svg = null, M = null, done = [], els = [], hplaced = [];
+
+function fillJump() {
+  var j = $('.fc-jmp'); j.innerHTML = '';
+  Q.forEach(function (q, k) {
+    var o = document.createElement('option'); o.value = k;
+    o.textContent = (k + 1) + ' / ' + Q.length + (q.src ? ' · 真题 ' + q.src.split('：')[0].replace(/ Figure.*$/, '') : '');
+    j.appendChild(o);
+  });
+}
+
+function segs(s) {
+  return Array.prototype.map.call(s.querySelectorAll('.cf-b line'), function (l) {
+    return [+l.getAttribute('x1'), +l.getAttribute('y1'), +l.getAttribute('x2'), +l.getAttribute('y2')];
+  });
+}
+
+function render() {
+  var q = Q[cur], st = $('.fc-stage');
+  st.innerHTML = '';
+  svg = srcSvg(q.id).cloneNode(true);
+  st.appendChild(svg);                       /* live DOM before any getBBox */
+  M = analyse(svg);
+  done = M.A.map(function () { return false; });
+  hplaced = [];
+
+  /* tight viewBox around the drawing + room for the H labels */
+  var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  M.A.forEach(function (a) {
+    var r = a.text ? a.text.getBBox() : { x: a.x, y: a.y, width: 0, height: 0 };
+    x0 = Math.min(x0, r.x); y0 = Math.min(y0, r.y); x1 = Math.max(x1, r.x + r.width); y1 = Math.max(y1, r.y + r.height);
+  });
+  var P = 24;
+  x0 -= P; y0 -= P; x1 += P; y1 += P;
+  svg.setAttribute('viewBox', [x0, y0, x1 - x0, y1 - y0].map(function (v) { return v.toFixed(1); }).join(' '));
+  var sc = Math.max(1.25, Math.min(1.75, 380 / (x1 - x0), 300 / (y1 - y0)));
+  svg.setAttribute('width', Math.round((x1 - x0) * sc)); svg.setAttribute('height', Math.round((y1 - y0) * sc));
+
+  /* rings (pending) / discs (done) go behind the bonds; transparent hit targets on top */
+  var under = K.svg('g', { 'class': 'fc-under' }), over = K.svg('g', { 'class': 'fc-over' });
+  svg.insertBefore(under, svg.firstChild);
+  svg.appendChild(over);
+  els = M.A.map(function (a) {
+    var cx = a.x, cy = a.y, r = 6;
+    if (a.text) {
+      var b = a.text.getBBox();
+      cx = b.x + b.width / 2; cy = b.y + b.height / 2; r = Math.max(b.width, b.height * 0.85) / 2 + 2.5;
+    }
+    var ring = K.svg('circle', { 'class': 'fc-ring', cx: cx, cy: cy, r: r, 'data-i': a.i });
+    var disc = K.svg('circle', { 'class': 'fc-disc', cx: cx, cy: cy, r: r, 'data-i': a.i, display: 'none' });
+    under.appendChild(disc); under.appendChild(ring);
+    var t = K.svg('circle', { 'class': 'fc-t', cx: cx, cy: cy, r: Math.max(11, r + 3), 'data-i': a.i, tabindex: 0, role: 'button',
+                              'aria-label': a.carbon ? 'C' : plainLabel(a.l) });
+    t.addEventListener('click', function () { count(a.i, true); });
+    t.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { count(a.i, true); ev.preventDefault(); } });
+    over.appendChild(t);
+    return { ring: ring, disc: disc, t: t, h: null, cx: cx, cy: cy };
+  });
+
+  $('.fc-src').innerHTML = q.src ? '📝 ' + q.src : '第 ' + (cur + 1) + ' 题';
+  $('.fc-jmp').value = cur;
+  $('.fc-prev').disabled = cur === 0; $('.fc-next').disabled = cur === Q.length - 1;
+  $('.fc-why').innerHTML = '从任意一个折点 / 端点开始点。<b>每个 C 一共 4 根 bond</b>，没画出来的都是 C–H。';
+  ['mol', 'emp'].forEach(function (k) {
+    var inp = $('.fc-in-' + k); inp.value = ''; inp.classList.remove('good', 'badv');
+    var fb = $('.fc-fb-' + k); fb.textContent = ''; fb.className = 'fc-fb fc-fb-' + k;
+  });
+  update();
+  K.fit();
+}
+
+/* where the hidden-H label for carbon i goes: the freest direction, hugging the vertex */
+function placeH(i) {
+  var a = M.A[i], text = 'H' + (a.h > 1 ? sub(a.h) : '');
+  var occ = a.nb.map(function (j) { return Math.atan2(M.A[j].y - a.y, M.A[j].x - a.x); });
+  var sx = 0, sy = 0;
+  occ.forEach(function (t) { sx += Math.cos(t); sy += Math.sin(t); });
+  var pref = Math.hypot(sx, sy) > 0.3 ? Math.atan2(-sy, -sx) : -Math.PI / 2;
+  var m = K.svg('text', { 'class': 'halo fc-h', x: 0, y: 0, 'text-anchor': 'middle' });
+  m.textContent = text; svg.appendChild(m);
+  var mb = m.getBBox(); svg.removeChild(m);
+  var hw = mb.width / 2, hh = mb.height / 2, cxo = mb.x + hw, cyo = mb.y + hh;
+  var dirs = [];
+  for (var k = 0; k < 24; k++) {
+    var t = -Math.PI + k * Math.PI / 12, mo = Math.PI;
+    occ.forEach(function (o) { var d = Math.abs(o - t) % (2 * Math.PI); mo = Math.min(mo, d > Math.PI ? 2 * Math.PI - d : d); });
+    var dp = Math.abs(pref - t) % (2 * Math.PI); dp = dp > Math.PI ? 2 * Math.PI - dp : dp;
+    dirs.push({ t: t, s: Math.min(mo, 60 * Math.PI / 180), p: dp });
+  }
+  dirs.sort(function (A, B) { return (B.s - A.s) || (A.p - B.p); });
+  /* best direction first, stepping out from the vertex, before falling back to a worse direction
+     (gap-first let a tight spot inside a ring beat the open side of the vertex) */
+  var cands = [];
+  dirs.forEach(function (d) {
+    [2, 4.5, 8].forEach(function (g) {
+      var ex = hw + 3.5 + g, ey = hh + 3.5 + g;
+      var ux = Math.cos(d.t), uy = Math.sin(d.t), tt = 1e9;
+      if (Math.abs(ux) > 1e-9) tt = Math.min(tt, ex / Math.abs(ux));
+      if (Math.abs(uy) > 1e-9) tt = Math.min(tt, ey / Math.abs(uy));
+      cands.push([ux * tt - cxo, uy * tt - cyo, 'middle']);
+    });
+  });
+  /* keep-outs: drawn atom letters, other vertices (so a label never sits nearer another C), labels already placed */
+  var placed = [];
+  M.A.forEach(function (b) {
+    if (b.text) { var r = b.text.getBBox(); placed.push({ x: r.x, y: r.y, w: r.width, h: r.height }); }
+    else if (b.i !== i) placed.push({ x: b.x - 6, y: b.y - 6, w: 12, h: 12 });
+  });
+  placed = placed.concat(hplaced);
+  var lab = K.label(svg, a.x, a.y, text, { cls: 'fc-h', cands: cands, avoid: segs(svg), placed: placed, pad: 1 });
+  lab.setAttribute('data-atom', i);
+  hplaced.push(placed[placed.length - 1]);
+  els[i].h = lab;
+}
+
+function bondWords(a) {
+  var n = { 1: 0, 2: 0, 3: 0 };
+  a.ord.forEach(function (o) { n[o] = (n[o] || 0) + 1; });
+  var w = [];
+  if (n[1]) w.push('single ×' + n[1]);
+  if (n[2]) w.push('double ×' + n[2] + '（算 ' + 2 * n[2] + '）');
+  if (n[3]) w.push('triple ×' + n[3] + '（算 ' + 3 * n[3] + '）');
+  return w.join('、');
+}
+
+function count(i, say) {
+  var a = M.A[i], e = els[i];
+  if (!done[i]) {
+    done[i] = true;
+    e.ring.setAttribute('display', 'none'); e.disc.removeAttribute('display'); e.t.classList.add('done');
+    if (a.carbon && a.h > 0) placeH(i);
+  }
+  if (say) {
+    var w;
+    if (a.carbon) {
+      w = '这个 <b>C</b> 画出了 ' + bondWords(a) + ' → 已用 ' + a.used + ' 根 → H = 4 − ' + a.used + ' = <b>' + a.h + '</b>' +
+          (a.h ? '（图上标成 <b style="color:var(--acc)">H' + (a.h > 1 ? sub(a.h) : '') + '</b>）' : '：4 根 bond 已经画满，没有 H');
+    } else {
+      var c = a.counts, parts = [];
+      hillKeys(c).forEach(function (k) {
+        parts.push((HAL[k] ? 'X（' + k + '）' : k) + ' +' + c[k]);
+      });
+      w = '<b>' + plainLabel(a.l) + '</b>：' + parts.join('，') +
+          (c.H ? '。O、N 上的 H 写出来了，照数。' : HAL[Object.keys(c)[0]] ? '。halogen 在 H 检查里当一个 H 算。' : '。');
+    }
+    $('.fc-why').innerHTML = w;
+  }
+  update(say ? i : null);
+}
+
+function totals() {
+  var c = { C: 0, H: 0, O: 0, N: 0 }, hid = 0, wr = 0, xs = {};
+  M.A.forEach(function (a, i) {
+    if (!done[i]) return;
+    Object.keys(a.counts).forEach(function (k) {
+      if (HAL[k]) xs[k] = (xs[k] || 0) + a.counts[k];
+      c[k] = (c[k] || 0) + a.counts[k];
+    });
+    if (a.carbon) hid += a.h; else wr += a.counts.H || 0;
+  });
+  var X = Object.keys(xs).reduce(function (s, k) { return s + xs[k]; }, 0);
+  return { c: c, hid: hid, wr: wr, xs: xs, X: X };
+}
+function fullCounts() {
+  var c = {};
+  M.A.forEach(function (a) { Object.keys(a.counts).forEach(function (k) { c[k] = (c[k] || 0) + a.counts[k]; }); });
+  Object.keys(c).forEach(function (k) { if (!c[k]) delete c[k]; });
+  return c;
+}
+
+function update(bumped) {
+  var T = totals(), n = done.filter(Boolean).length, all = n === M.A.length;
+  var vals = { C: T.c.C, H: T.c.H, O: T.c.O, N: T.c.N, X: T.X };
+  var bumpEls = bumped == null ? {} : (function () {
+    var o = {}, a = M.A[bumped];
+    Object.keys(a.counts).forEach(function (k) { if (a.counts[k]) o[HAL[k] ? 'X' : k] = 1; });
+    return o;
+  })();
+  $$('.fc-c').forEach(function (cell) {
+    var k = cell.getAttribute('data-el');
+    cell.querySelector('b').textContent = vals[k] || 0;
+    cell.classList.toggle('zero', !vals[k]);
+    cell.classList.toggle('bump', !!bumpEls[k]);
+    if (k === 'X') cell.querySelector('span').textContent = Object.keys(T.xs).length ? 'X(' + Object.keys(T.xs).join(',') + ')' : 'X';
+  });
+  $('.fc-hsplit').textContent = T.c.H ? 'H = C 上隐藏的 ' + T.hid + (T.wr ? ' + 写出来的 ' + T.wr : '') : '';
+  $('.fc-prog').innerHTML = '已数 <b>' + n + '</b> / ' + M.A.length + ' 个 atom';
+  var mol = $('.fc-mol'), btn = $('.fc-emp-btn'), emp = $('.fc-emp'), hb = $('.fc-hbody');
+  if (!all) {
+    mol.className = 'fc-mol'; mol.textContent = '—';
+    btn.disabled = true; emp.hidden = true; emp.innerHTML = '';
+    hb.className = 'fc-hbody faint'; hb.textContent = '数完才能比。';
+    return;
+  }
+  var q = Q[cur], c = fullCounts();
+  mol.className = 'fc-mol ok';
+  mol.innerHTML = fstr(c) + '<small>= ' + q.name + '（' + q.series + '）</small>';
+  btn.disabled = false;
+  hb.className = 'fc-hbody on';
+  hb.innerHTML = hcheck(c);
+  K.fit();
+}
+
+function showEmp() {
+  var c = fullCounts(), g = gcdAll(c), e = divided(c, g), emp = $('.fc-emp');
+  var nums = hillKeys(c).map(function (k) { return c[k]; });
+  emp.hidden = false;
+  if (g > 1) {
+    emp.innerHTML = nums.join('、') + ' 的最大公约数是 <b>' + g + '</b>：<br>' + fstr(c) + ' ÷ ' + g + ' → <span class="big fc-emp-f">' + fstr(e) + '</span>';
+  } else {
+    emp.innerHTML = nums.join('、') + ' 没有大于 1 的公约数：<br>empirical formula 就是 <span class="big fc-emp-f">' + fstr(e) + '</span>';
+  }
+  emp.setAttribute('data-g', g);
+  K.fit();
+}
+
+function hcheck(c) {
+  var n = c.C || 0, N = c.N || 0, X = 0;
+  Object.keys(c).forEach(function (k) { if (HAL[k]) X += c[k]; });
+  var sat = 2 * n + 2 + N - X, H = c.H || 0, miss = sat - H, k = miss / 2;
+  /* every "=" in the chain must be true: the N / halogen correction goes into the symbolic side too */
+  var adj = (N ? ' + ' + N : '') + (X ? ' − ' + X : ''), why = [];
+  if (N) why.push('+ ' + N + '：每个 N 多连 1 个 H');
+  if (X) why.push('− ' + X + '：每个 halogen 顶替 1 个 H');
+  var s = '<span class="fc-sat"><span class="fc-nw">饱和：H = 2n + 2' + adj + '</span> <span class="fc-nw">= 2 × ' + n + ' + 2' + adj +
+          '</span> <span class="fc-nw">= <b>' + sat + '</b></span></span>';
+  if (why.length) s += '<br><span class="faint fc-hnote">（' + why.join('；') + '）</span>';
+  s += '<br>实际 H = <b>' + H + '</b>';
+  if (!miss) {
+    s += ' → 一样多：<span class="k-ok">没有 ring，也没有 π bond</span>';
+  } else {
+    s += ' → 少了 ' + miss + ' 个 H = <span class="k-n" data-k="' + k + '">' + k + ' 个 ring / π bond</span>';
+    var parts = [];
+    Object.keys(M.piList).forEach(function (nm) { parts.push(nm + (nm.indexOf('≡') >= 0 ? '（2 根 π）' : '') + (M.piList[nm] > 1 && nm.indexOf('≡') < 0 ? ' ×' + M.piList[nm] : '')); });
+    if (M.rings) parts.push(M.rings + ' 个 ring');
+    parts[parts.length - 1] += ' <span class="k-ok">✓</span>';   /* the tick never wraps onto a line of its own */
+    s += '<br>图上：' + parts.map(function (t) { return '<span class="fc-nw">' + t + '</span>'; }).join(' + ');
+  }
+  s += '<br><span class="faint">「少 2 个 H」也用来由 molecular formula 推 isomer：{{xref ch13#deduce-isomers 13.4 E}}</span>';
+  return s;
+}
+
+/* ---- typed answers ---- */
+function parseF(txt) {
+  var s = String(txt).replace(/\s+/g, '').replace(/[₀-₉]/g, function (d) { return SUBD.indexOf(d); });
+  if (!s) return null;
+  var re = /([A-Z][a-z]?)(\d*)/g, m, eaten = 0, out = {}, order = [];
+  while ((m = re.exec(s))) {
+    if (m.index !== eaten) return false;
+    if (['C', 'H', 'O', 'N', 'F', 'Cl', 'Br', 'I'].indexOf(m[1]) < 0) return false;
+    var v = m[2] ? +m[2] : 1;
+    if (!v) return false;
+    out[m[1]] = (out[m[1]] || 0) + v; order.push(m[1]);
+    eaten = m.index + m[0].length;
+  }
+  if (eaten !== s.length) return false;
+  return { c: out, order: order };
+}
+function hillOrder(p) { return p.order.join(',') === hillKeys(p.c).join(','); }
+/* organic formula: C must come first and H second, or it is marked wrong (the rest in alphabetical order is only a habit) */
+function chFirst(p) { return p.order[0] === 'C' && (!p.c.H || p.order[1] === 'H'); }
+var CH_MSG = '有机 formula 先写 C、再写 H';
+function proportional(a, b) {
+  var ks = {}; Object.keys(a).concat(Object.keys(b)).forEach(function (k) { ks[k] = 1; });
+  ks = Object.keys(ks);
+  if (ks.some(function (k) { return !a[k] !== !b[k]; })) return false;
+  var r = a[ks[0]] / b[ks[0]];
+  return ks.every(function (k) { return Math.abs(a[k] / b[k] - r) < 1e-9; });
+}
+function diffWords(p, c) {
+  var ks = {}; Object.keys(p).concat(Object.keys(c)).forEach(function (k) { ks[k] = 1; });
+  var wrong = Object.keys(ks).filter(function (k) { return (p[k] || 0) !== (c[k] || 0); });
+  var ok = hillKeys(c).filter(function (k) { return wrong.indexOf(k) < 0; });
+  var w = (ok.length ? ok.join('、') + ' 对，' : '') + wrong.join('、') + ' 的数目不对';
+  if (wrong.indexOf('H') >= 0) w += '。H：每个 C 上 H = 4 − 画出的 bond 数（double bond 算 2），再加 OH / NH₂ 里写出来的 H';
+  else if (wrong.indexOf('C') >= 0) w += '。C：每个折点、端点各一个，C=O、C≡N 的 C 也要算';
+  return w;
+}
+function judge() {
+  var c = fullCounts(), g = gcdAll(c), e = divided(c, g);
+  [['mol', c], ['emp', e]].forEach(function (pr) {
+    var k = pr[0], want = pr[1], inp = $('.fc-in-' + k), fb = $('.fc-fb-' + k), p = parseF(inp.value);
+    inp.classList.remove('good', 'badv');
+    var lab = k === 'mol' ? 'molecular' : 'empirical';
+    if (p === null) { fb.textContent = ''; fb.className = 'fc-fb fc-fb-' + k; return; }
+    var ok = false, msg;
+    if (p === false) msg = lab + '：读不懂。按 C₂H₄O₂ 或 C2H4O2 的格式写（元素符号大小写要对，如 Cl）。';
+    else if (same(p.c, want) && !chFirst(p)) msg = '✗ ' + lab + '：atom 数对，但' + CH_MSG + '，应写成 ' + fstr(want) + '。';
+    else if (same(p.c, want)) {
+      ok = true;
+      msg = '✓ ' + lab + ' formula ' + fstr(want) + (hillOrder(p) ? '' : '（习惯写法：C、H 之后其余按字母序）');
+    } else if (k === 'mol' && g > 1 && same(p.c, e)) msg = '✗ molecular：这是约过的 empirical formula。molecular formula 写 molecule 里实际的 atom 数。';
+    else if (k === 'mol' && proportional(p.c, c)) msg = '✗ molecular：比例对，但不是这个 molecule 里实际的 atom 数。';
+    else if (k === 'emp' && same(p.c, c)) msg = '✗ empirical：这是 molecular formula，还能约——各数都能被 ' + g + ' 整除。';
+    else if (k === 'emp' && proportional(p.c, e)) msg = '✗ empirical：比例对，但还没约到最简整数比。';
+    else if (k === 'emp') msg = '✗ empirical：比例不对。先把 molecular formula 数对，再除以公约数。';
+    else msg = '✗ molecular：' + diffWords(p.c, c) + '。';
+    if (!ok && p && !same(p.c, want) && !chFirst(p)) msg = msg.replace(/。$/, '') + '；另外，' + CH_MSG + '。';
+    inp.classList.add(ok ? 'good' : 'badv');
+    fb.textContent = msg; fb.className = 'fc-fb fc-fb-' + k + (ok ? ' ok' : ' bad');
+  });
+  K.fit();
+}
+
+function go(k) { cur = Math.max(0, Math.min(Q.length - 1, k)); render(); }
+fillJump();
+$('.fc-prev').addEventListener('click', function () { go(cur - 1); });
+$('.fc-next').addEventListener('click', function () { go(cur + 1); });
+$('.fc-jmp').addEventListener('change', function () { go(+this.value); });
+$('.fc-all').addEventListener('click', function () {
+  M.A.forEach(function (a, i) { if (!done[i]) count(i, false); });
+  $('.fc-why').innerHTML = '全部显示：每个 C 旁边的 <b style="color:var(--acc)">H / H₂ / H₃</b> 就是 skeletal formula 省略的 H。';
+});
+$('.fc-reset').addEventListener('click', function () { render(); });
+$('.fc-emp-btn').addEventListener('click', showEmp);
+$('.fc-go').addEventListener('click', judge);
+['.fc-in-mol', '.fc-in-emp'].forEach(function (s) {
+  $(s).addEventListener('keydown', function (ev) { if (ev.key === 'Enter') judge(); });
+});
+render();
+
+$root.__fc = { Q: Q, go: go, cur: function () { return cur; }, done: function () { return done.slice(); },
+               atoms: function () { return M.A.map(function (a) { return { i: a.i, l: a.l, x: a.x, y: a.y, carbon: a.carbon, h: a.h }; }); } };
+</script>
