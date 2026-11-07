@@ -1,0 +1,684 @@
+<h3>为什么 C=C 不能转：σ bond 能转，π bond 不能 <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
+<div class="tabbar ct-modes">
+  <button data-tab="rot">① 转一转：butane vs but-2-ene</button>
+  <button data-tab="ct">② cis vs trans</button>
+  <button data-tab="no">③ 没有 cis/trans 的反例</button>
+</div>
+<div class="row ct-3donly">
+  <button data-3d="reset">复位视角</button>
+  <button data-3d="spin">自动旋转视角</button>
+</div>
+<div class="stage ct-stage">
+  <div class="hud ct-hud"></div>
+  <div class="ct-ov ct-t ct-l"></div><div class="ct-ov ct-t ct-r"></div>
+  <div class="ct-ov ct-p ct-l"></div><div class="ct-ov ct-p ct-r"></div>
+</div>
+<div class="fallback card">
+  <p><b>3D 没有加载</b>（<span class="why"></span>）。下面的 slider、overlap 读数、「沿 C2=C3 轴看」的图和结构式照常可用。</p>
+</div>
+
+<div data-pane="rot">
+  <div class="ct-grid">
+    <div class="card ct-c ct-cs">
+      <div class="ct-h">butane：绕 C2–C3 single bond 转</div>
+      <label class="ct-sl">θ <input type="range" min="0" max="360" step="1" value="0" class="ct-r" data-w="s" aria-label="butane rotation angle"><b class="ct-deg" data-w="s">0°</b></label>
+      <div class="ct-bl">σ overlap：<b class="ct-ovs">100%</b>（不随 θ 变）</div>
+      <div class="ct-bar ct-bs"><i style="width:100%"></i></div>
+      <p class="ct-st ct-sts"></p>
+    </div>
+    <div class="card ct-c ct-cp">
+      <div class="ct-h">but-2-ene：绕 C2=C3 double bond 转</div>
+      <label class="ct-sl">θ <input type="range" min="0" max="360" step="1" value="0" class="ct-r" data-w="p" aria-label="but-2-ene rotation angle"><b class="ct-deg" data-w="p">0°</b></label>
+      <div class="ct-bl">π overlap ∝ |cos θ|：<b class="ct-ovp">100%</b></div>
+      <div class="ct-bar ct-bp"><i style="width:100%"></i></div>
+      <div class="ct-eo">
+        <svg class="ct-eosvg" viewBox="0 0 260 196" width="260" height="196" aria-label="end-on view of the two p orbitals"></svg>
+        <div class="ct-eol">
+          <div class="ct-eoh">沿 C2=C3 轴看过去</div>
+          <div><span class="ct-k1">●</span> C2 的 p orbital（前）</div>
+          <div><span class="ct-k4">●</span> C3 的 p orbital（后，虚线）</div>
+          <div class="faint">两个 p 轴平行 → overlap 最大；互相垂直 → 0</div>
+        </div>
+      </div>
+      <p class="ct-st ct-stp"></p>
+    </div>
+  </div>
+  <div class="row"><button class="ct-play">▶ 两边一起转</button><button class="ct-zero">θ 归零</button></div>
+  <p class="ct-key">butane 转 180° 只是换了一个 conformation，还是同一个 compound；but-2-ene 转到 180° 却变成了<b>另一个 compound</b>（cis → trans），而中途 90° 时 π overlap = 0，等于先把 π bond 断开。室温下 molecule 的能量不够断 π bond，所以 cis 和 trans 不会互变：<b>restricted rotation about the C=C</b>。</p>
+</div>
+
+<div data-pane="ct">
+  <div class="ct-grid">
+    <div class="card ct-c ct-f" data-f="cis">
+      <div class="ct-h">cis-but-2-ene</div>
+      <div class="ct-cf">{{chemfig \chemfig{@{c2}C(-[:120]@{c1}H_3C)(-[:240]@{h2}H)=[:0]@{c3}C(-[:60]@{c4}CH_3)(-[:-60]@{h3}H)}}}</div>
+      <p class="ct-fc">两个 CH₃ 在 C=C 的<b>同一侧</b></p>
+    </div>
+    <div class="card ct-c ct-f" data-f="trans">
+      <div class="ct-h">trans-but-2-ene</div>
+      <div class="ct-cf">{{chemfig \chemfig{@{c2}C(-[:120]@{c1}H_3C)(-[:240]@{h2}H)=[:0]@{c3}C(-[:60]@{h3}H)(-[:-60]@{c4}CH_3)}}}</div>
+      <p class="ct-fc">两个 CH₃ 在 C=C 的<b>两侧</b>（对角）</p>
+    </div>
+  </div>
+  <p class="ct-key">C2 和 C3 上都各连着 <b>H 和 CH₃ 两个不同的 group</b>，所以「CH₃ 在同侧还是两侧」是两种不同的排列；π bond 又把它们锁住 → 两个 stereoisomers。它们是不同的 compounds，mp、bp 都不同。</p>
+</div>
+
+<div data-pane="no">
+  <div class="ct-grid">
+    <div class="card ct-c ct-f" data-f="but1">
+      <div class="ct-h">but-1-ene</div>
+      <div class="ct-cf">{{chemfig \chemfig{@{c1}C(-[:120]@{ha}H)(-[:240]@{hb}H)=[:0]@{c2}C(-[:60]@{h2}H)(-[:-60]@{c3}CH_2CH_3)}}}</div>
+      <p class="ct-fc"><span class="ct-same">C1 上两个 group 都是 H</span>：把它们对调，得到的还是同一个 molecule</p>
+    </div>
+    <div class="card ct-c ct-f" data-f="mprop">
+      <div class="ct-h">2-methylpropene</div>
+      <div class="ct-cf">{{chemfig \chemfig{@{c1}C(-[:120]@{ha}H)(-[:240]@{hb}H)=[:0]@{c2}C(-[:60]@{m1}CH_3)(-[:-60]@{m2}CH_3)}}}</div>
+      <p class="ct-fc"><span class="ct-same">C1 上两个 H、C2 上两个 CH₃</span>：每个 C 都有一对相同的 group</p>
+    </div>
+  </div>
+  <p class="ct-key">C=C 照样不能转，但只要<b>其中一个 C</b> 连着两个相同的 group，「同侧 / 两侧」就分不出来 → 没有 cis/trans。判断时要检查 C=C 的<b>每一个</b> C 是否都连着两个不同的 group。</p>
+</div>
+
+<style>
+.k .ct-modes button{padding:4px 10px}
+.k .ct-stage{height:400px;margin-top:2px}
+.k .ct-hud{font-size:12.5px;line-height:1.45}
+.k .ct-hud b{font-weight:650}
+.k .ct-ov{position:absolute;z-index:2;pointer-events:none;max-width:calc(50% - 16px);font-size:13px;line-height:1.35;background:var(--card);border-radius:6px;padding:2px 8px}
+.k .ct-ov.ct-l{left:8px}
+.k .ct-ov.ct-r{left:calc(50% + 8px)}
+.k .ct-t{font-weight:650;color:var(--fg)}
+.k .ct-p{bottom:8px;border:1px solid var(--line);color:var(--fg)}
+.k .ct-p b{font-weight:700}
+.k .ct-p.ct-good{border-color:var(--ok)}
+.k .ct-p.ct-broke{border-color:var(--bad)}
+.k .ct-p.ct-broke b{color:var(--bad)}
+.k .ct-p.ct-mid b{color:var(--s4)}
+.k .ct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:10px}
+.k .ct-c{min-width:0}
+.k .ct-h{font-weight:650;margin-bottom:4px}
+.k .ct-sl{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mut)}
+.k .ct-sl input{flex:1 1 auto;min-width:0}
+.k .ct-deg{min-width:3.2em;text-align:right;color:var(--fg)}
+.k .ct-bl{font-size:13.5px;color:var(--mut);margin-top:6px}
+.k .ct-bl b{color:var(--fg);font-size:15px}
+.k .ct-bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin:3px 0 4px}
+.k .ct-bar i{display:block;height:100%}
+.k .ct-bs i{background:var(--s3)}
+.k .ct-bp i{background:var(--s5)}
+.k .ct-st{font-size:13.5px;margin:6px 0 0;border-left:3px solid var(--line);padding:2px 0 2px 9px}
+.k .ct-st.ct-good{border-left-color:var(--ok)}
+.k .ct-st.ct-broke{border-left-color:var(--bad)}
+.k .ct-st.ct-mid{border-left-color:var(--s4)}
+.k .ct-eo{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;margin-top:6px}
+.k .ct-eo svg{width:260px;max-width:100%;flex:none}
+.k .ct-eo svg text{font-size:13px}
+.k .ct-eol{font-size:13px;line-height:1.5;min-width:0;flex:1 1 150px}
+.k .ct-eoh{font-weight:650}
+.k .ct-k1{color:var(--s1)} .k .ct-k4{color:var(--s4)}
+.k .ct-key{font-size:14px;border-left:3px solid var(--acc);padding:3px 0 3px 10px;margin:10px 0 2px}
+.k .ct-cf{display:flex;justify-content:center;padding:4px 0}
+.k .ct-fc{font-size:13.5px;margin:2px 0 0;text-align:center}
+.k .ct-same{color:var(--bad);font-weight:650}
+.k[data-3d=fallback] .ct-3donly{display:none}
+</style>
+<script>
+/* ---------- tiny vector helpers ---------- */
+function ctAdd(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+function ctSub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+function ctMul(a, k) { return [a[0] * k, a[1] * k, a[2] * k]; }
+function ctDot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+function ctCross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+function ctNorm(a) { var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; }
+
+/* ---------- idealised geometry (Å) ----------
+   The central bond lies on the x axis through the origin: left C (fixed, side 0) at −x, right C (the rotor,
+   side 1) at +x. The sp² plane is x–z, so the p orbitals stand along y. Rotating the rotor about x by θ is
+   exactly "turning about the C2–C3 / C2=C3 bond". Ideal angles (120° / 109.5°) rather than PubChem SDFs:
+   the rotation needs one half to turn rigidly, and but-1-ene / 2-methylpropene have no SDF in colab/data. */
+var CT_CH = 1.09, CT_CSP2 = 1.50, CT_CSP3 = 1.54, CT_TET = Math.sqrt(8) / 3;
+function ctBuilder() {
+  var M = { atoms: [], bonds: [], same: [], groups: {} };
+  M.at = function (el, p, side, num) { M.atoms.push({ el: el, p: p, side: side, num: num || null }); return M.atoms.length - 1; };
+  M.bond = function (i, j, o) { M.bonds.push([i, j, o || 1]); };
+  /* the three other tetrahedral directions round a C whose bond back points along −d; the first lies in
+     the plane of d and ref, on ref's side */
+  M.tet = function (d, ref) {
+    var u = ctNorm(ctSub(ref, ctMul(d, ctDot(ref, d)))), w = ctCross(d, u);
+    return [0, 120, 240].map(function (g) {
+      var a = g * Math.PI / 180;
+      return ctNorm(ctAdd(ctMul(d, 1 / 3), ctMul(ctAdd(ctMul(u, Math.cos(a)), ctMul(w, Math.sin(a))), CT_TET)));
+    });
+  };
+  M.methyl = function (c0, d, side, num, len, ref) {
+    var p = ctAdd(M.atoms[c0].p, ctMul(d, len)), c = M.at('C', p, side, num);
+    M.bond(c0, c);
+    M.tet(d, ref).forEach(function (h) { M.bond(c, M.at('H', ctAdd(p, ctMul(h, CT_CH)), side)); });
+    return c;
+  };
+  /* substituent on an sp² C: 'H' | 'Me' | 'Et' → index of the atom bonded to the C */
+  M.sub = function (c0, kind, d, side, num) {
+    if (kind === 'H') { var h = M.at('H', ctAdd(M.atoms[c0].p, ctMul(d, CT_CH)), side); M.bond(c0, h); return h; }
+    var out = [d[0] < 0 ? -1 : 1, 0, 0];   /* first methyl H in the plane, pointing away from the C=C */
+    if (kind === 'Me') return M.methyl(c0, d, side, num, CT_CSP2, out);
+    /* ethyl: CH₂ zig-zags on in the plane, its two H above / below it */
+    var p = ctAdd(M.atoms[c0].p, ctMul(d, CT_CSP2)), c = M.at('C', p, side, num);
+    M.bond(c0, c);
+    var t = M.tet(d, [d[0] > 0 ? 1 : -1, 0, 0]);
+    M.methyl(c, t[0], side, num + 1, CT_CSP3, [0, 0, d[2] > 0 ? 1 : -1]);
+    M.bond(c, M.at('H', ctAdd(p, ctMul(t[1], CT_CH)), side));
+    M.bond(c, M.at('H', ctAdd(p, ctMul(t[2], CT_CH)), side));
+    return c;
+  };
+  return M;
+}
+/* alkene: L / R = [group at +z, group at −z]; nums = IUPAC numbers of [left C, right C, …groups] */
+function ctAlkene(L, R, nL, nR, gnum) {
+  var M = ctBuilder(), cL = M.at('C', [-0.67, 0, 0], 0, nL), cR = M.at('C', [0.67, 0, 0], 1, nR), z = Math.sqrt(3) / 2;
+  M.bond(cL, cR, 2);
+  M.cL = cL; M.cR = cR; M.sp2 = true;
+  M.groups.L = [M.sub(cL, L[0], [-0.5, 0, z], 0, gnum[0]), M.sub(cL, L[1], [-0.5, 0, -z], 0, gnum[1])];
+  M.groups.R = [M.sub(cR, R[0], [0.5, 0, z], 1, gnum[2]), M.sub(cR, R[1], [0.5, 0, -z], 1, gnum[3])];
+  return M;
+}
+function ctButane() {
+  var M = ctBuilder(), c2 = M.at('C', [-0.77, 0, 0], 0, 2), c3 = M.at('C', [0.77, 0, 0], 1, 3);
+  M.bond(c2, c3, 1);
+  M.cL = c2; M.cR = c3; M.sp2 = false;
+  var tl = M.tet([-1, 0, 0], [0, 0, 1]), tr = M.tet([1, 0, 0], [0, 0, 1]);
+  /* θ = 0: both CH₃ on the +z side (eclipsed), the same start as cis-but-2-ene */
+  var m1 = M.methyl(c2, tl[0], 0, 1, CT_CSP3, [-1, 0, 0]), m4 = M.methyl(c3, tr[0], 1, 4, CT_CSP3, [1, 0, 0]);
+  [1, 2].forEach(function (k) { M.bond(c2, M.at('H', ctAdd(M.atoms[c2].p, ctMul(tl[k], CT_CH)), 0)); });
+  [1, 2].forEach(function (k) { M.bond(c3, M.at('H', ctAdd(M.atoms[c3].p, ctMul(tr[k], CT_CH)), 1)); });
+  M.groups.L = [m1]; M.groups.R = [m4];
+  return M;
+}
+var CT_MOLS = {
+  butane: function () { var M = ctButane(); M.name = 'butane'; return M; },
+  cis: function () { var M = ctAlkene(['Me', 'H'], ['Me', 'H'], 2, 3, [1, null, 4, null]); M.name = 'cis-but-2-ene'; M.me = [M.groups.L[0], M.groups.R[0]]; return M; },
+  trans: function () { var M = ctAlkene(['Me', 'H'], ['H', 'Me'], 2, 3, [1, null, null, 4]); M.name = 'trans-but-2-ene'; M.me = [M.groups.L[0], M.groups.R[1]]; return M; },
+  but1: function () {
+    var M = ctAlkene(['H', 'H'], ['H', 'Et'], 1, 2, [null, null, null, 3]); M.name = 'but-1-ene';
+    M.same = [{ c: M.cL, g: M.groups.L, what: '2 H' }]; return M;
+  },
+  mprop: function () {
+    var M = ctAlkene(['H', 'H'], ['Me', 'Me'], 1, 2, [null, null, 3, null]); M.name = '2-methylpropene';
+    M.same = [{ c: M.cL, g: M.groups.L, what: '2 H' }, { c: M.cR, g: M.groups.R, what: '2 CH₃' }]; return M;
+  }
+};
+var CT_MODES = {
+  rot: { mols: ['butane', 'cis'], view: [0.44, -0.6],
+         titles: ['butane：绕 C2–C3（σ）转', 'but-2-ene：绕 C2=C3（σ + π）转'] },
+  ct: { mols: ['cis', 'trans'], view: [1.12, 0],
+        titles: ['cis-but-2-ene', 'trans-but-2-ene'],
+        pills: ['<b>cis</b>：两个 CH₃ 在 C=C 同侧', '<b>trans</b>：两个 CH₃ 在 C=C 两侧'] },
+  no: { mols: ['but1', 'mprop'], view: [1.12, 0],
+        titles: ['but-1-ene', '2-methylpropene'],
+        pills: ['C1 上 <b>2 个 H 相同</b> → 没有 cis/trans', 'C1 <b>2 个 H</b>、C2 <b>2 个 CH₃</b> → 没有 cis/trans'] }
+};
+var CT_HUD = {
+  rot: '<b class="ct-k1">●</b> C2 的 p orbital · <b class="ct-k4">●</b> C3 的 p orbital · <b style="color:var(--s5)">●</b> π overlap · <b style="color:var(--s3)">●</b> σ bond · ┄ 转动轴',
+  ct: '<b style="color:var(--s5)">●</b> CH₃ group · ┄ C=C 轴（把 molecule 分成两侧）',
+  no: '<b style="color:var(--bad)">●</b> 同一个 C 上的两个相同 group'
+};
+
+var ct = { mode: 'rot', th: { s: 0, p: 0 }, play: false, vis: true, hl: {} };
+var ctApi = null, ctT = null, ctSlots = [], ctTags = [], ctTimer = null;
+
+/* ---------- readouts (work with or without 3D) ---------- */
+function ctNormDeg(d) { d = d % 360; return d < 0 ? d + 360 : d; }
+function ctOverlap(deg) { return Math.abs(Math.cos(deg * Math.PI / 180)); }
+function ctPState(deg) {
+  var d = ctNormDeg(Math.round(deg)), ov = Math.round(ctOverlap(d) * 100);
+  if (d <= 2 || d >= 358) return { k: 'good', name: 'cis-but-2-ene', pill: 'θ = ' + d + '° · <b>cis</b>-but-2-ene',
+    txt: '<b>cis-but-2-ene</b>：两个 p orbital 平行，π overlap 最大，π bond 完整。' };
+  if (Math.abs(d - 180) <= 2) return { k: 'good', name: 'trans-but-2-ene', pill: 'θ = ' + d + '° · <b>trans</b>-but-2-ene',
+    txt: '<b>trans-but-2-ene</b>：p orbital 又平行了，π bond 重新形成——但这已经是<b>另一个 compound</b>。' };
+  if (ov === 0) return { k: 'broke', name: 'broken', pill: 'θ = ' + d + '° · <b>π bond 断开</b>',
+    txt: '两个 p orbital <b>互相垂直</b>：π overlap = 0，<b>π bond 已经断开</b>。要转过这里就必须先断 π bond。' };
+  return { k: 'mid', name: 'twisted', pill: 'θ = ' + d + '° · π overlap <b>' + ov + '%</b>',
+    txt: 'p orbital 不再平行，π overlap 只剩 <b>' + ov + '%</b>：π bond 被扭弱，这不是稳定的 molecule。' };
+}
+function ctReadouts() {
+  var s = ctNormDeg(Math.round(ct.th.s)), p = ctNormDeg(Math.round(ct.th.p)), st = ctPState(p), ov = Math.round(ctOverlap(p) * 100);
+  $root.querySelectorAll('input.ct-r').forEach(function (r) {
+    var w = r.getAttribute('data-w'), v = w === 's' ? s : p;
+    if (+r.value !== v) r.value = v;
+  });
+  $root.querySelector('.ct-deg[data-w=s]').textContent = s + '°';
+  $root.querySelector('.ct-deg[data-w=p]').textContent = p + '°';
+  $root.querySelector('.ct-ovp').textContent = ov + '%';
+  $root.querySelector('.ct-bp i').style.width = ov + '%';
+  var sts = $root.querySelector('.ct-sts');
+  sts.className = 'ct-st ct-sts ct-good';
+  sts.innerHTML = s === 0 ? '两个 CH₃ 在同侧。拖动 slider：C2–C3 的 σ overlap 绕 bond 轴对称，转多少度都不变。'
+    : 'conformation 变了，但<b>没有 bond 断开</b>：还是同一个 butane（free rotation about C–C）。';
+  var stp = $root.querySelector('.ct-stp');
+  stp.className = 'ct-st ct-stp ct-' + st.k;
+  stp.innerHTML = st.txt;
+  $root.setAttribute('data-overlap', String(ov));
+  $root.setAttribute('data-pstate', st.name);
+  $root.setAttribute('data-th', s + ',' + p);
+  ctEndOn(p);
+  ctPills();
+}
+function ctPills() {
+  var m = CT_MODES[ct.mode], L = $root.querySelector('.ct-p.ct-l'), R = $root.querySelector('.ct-p.ct-r');
+  $root.querySelector('.ct-t.ct-l').innerHTML = m.titles[0];
+  $root.querySelector('.ct-t.ct-r').innerHTML = m.titles[1];
+  if (ct.mode === 'rot') {
+    var s = ctNormDeg(Math.round(ct.th.s)), st = ctPState(ct.th.p);
+    L.innerHTML = 'θ = ' + s + '° · 还是 <b>butane</b>'; L.className = 'ct-ov ct-p ct-l ct-good';
+    R.innerHTML = st.pill; R.className = 'ct-ov ct-p ct-r ct-' + st.k;
+  } else {
+    L.innerHTML = m.pills[0]; R.innerHTML = m.pills[1];
+    L.className = 'ct-ov ct-p ct-l'; R.className = 'ct-ov ct-p ct-r';
+  }
+  $root.querySelector('.ct-hud').innerHTML = CT_HUD[ct.mode];
+  var hud = $root.querySelector('.ct-hud'), top = (hud ? hud.offsetHeight : 26) + 6;
+  $root.querySelectorAll('.ct-t').forEach(function (t) { t.style.top = top + 'px'; });
+}
+
+/* end-on view down C2=C3: front p (C2) upright, back p (C3) turned by θ */
+var CT_EO = { cx: 130, cy: 98, d: 30, rx: 12.5, ry: 25, R: 67 };
+function ctEndOn(deg) {
+  var svg = $root.querySelector('.ct-eosvg'), E = CT_EO;
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  var avoid = [], placed = [];
+  function ell(rot, col, back) {
+    var g = K.svg('g', { transform: 'rotate(' + (-rot) + ' ' + E.cx + ' ' + E.cy + ')' });
+    [-1, 1].forEach(function (s) {
+      g.appendChild(K.svg('ellipse', { cx: E.cx, cy: E.cy + s * E.d, rx: E.rx, ry: E.ry, fill: col, 'fill-opacity': back ? 0.14 : 0.24,
+        stroke: col, 'stroke-width': back ? 1.5 : 1.6, 'stroke-dasharray': back ? '4 3' : 'none' }));
+    });
+    g.appendChild(K.svg('line', { x1: E.cx, y1: E.cy - E.d - E.ry - 6, x2: E.cx, y2: E.cy + E.d + E.ry + 6, stroke: col, 'stroke-width': 1.2,
+      'stroke-dasharray': back ? '4 3' : 'none' }));
+    svg.appendChild(g);
+    var a = -rot * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
+    function P(x, y) { var dx = x - E.cx, dy = y - E.cy; return [E.cx + dx * ca - dy * sa, E.cy + dx * sa + dy * ca]; }
+    [-1, 1].forEach(function (s) {
+      var pts = [];
+      for (var i = 0; i <= 24; i++) { var t = i / 24 * 2 * Math.PI; pts.push(P(E.cx + E.rx * Math.cos(t), E.cy + s * E.d + E.ry * Math.sin(t))); }
+      avoid = avoid.concat(K.segs(pts));
+    });
+    var q0 = P(E.cx, E.cy - E.d - E.ry - 6), q1 = P(E.cx, E.cy + E.d + E.ry + 6);
+    avoid.push([q0[0], q0[1], q1[0], q1[1]]);
+  }
+  ell(deg, 'var(--s4)', true);
+  ell(0, 'var(--s1)', false);
+  svg.appendChild(K.svg('circle', { cx: E.cx, cy: E.cy, r: 4.5, fill: 'var(--fg)' }));
+  /* angle arc from the front axis (up) to the back p's "up" lobe, the short way round */
+  var d = ctNormDeg(deg), sweep = d > 180 ? d - 360 : d;
+  if (Math.abs(sweep) >= 1) {
+    var a0 = -Math.PI / 2, a1 = a0 - sweep * Math.PI / 180, pts = [];
+    for (var i = 0; i <= 30; i++) { var t = a0 + (a1 - a0) * i / 30; pts.push([E.cx + E.R * Math.cos(t), E.cy + E.R * Math.sin(t)]); }
+    svg.appendChild(K.svg('polyline', { points: pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '),
+      fill: 'none', stroke: 'var(--fg)', 'stroke-width': 1.3 }));
+    avoid = avoid.concat(K.segs(pts));
+    var am = a0 + (a1 - a0) / 2, lx = E.cx + (E.R + 4) * Math.cos(am), ly = E.cy + (E.R + 4) * Math.sin(am);
+    var ux = Math.cos(am), uy = Math.sin(am), cand = [];
+    [3, 8, 14].forEach(function (g) {
+      var anc = ux < -0.38 ? 'end' : ux > 0.38 ? 'start' : 'middle';
+      var dy = uy < -0.38 ? uy * g - 3 : uy > 0.38 ? uy * g + 11 : 4 + uy * g;
+      cand.push([ux * g, dy, anc]);
+    });
+    /* fallbacks: the free corners */
+    cand.push([10 - lx, 16 - ly, 'start'], [250 - lx, 16 - ly, 'end'], [10 - lx, 190 - ly, 'start'], [250 - lx, 190 - ly, 'end']);
+    var lb = K.label(svg, lx, ly, 'θ = ' + Math.round(d) + '°', { avoid: avoid, placed: placed, cands: cand });
+    lb.classList.add('ct-eot');
+  } else {
+    var lb0 = K.label(svg, E.cx, 14, 'θ = 0°（平行）', { avoid: avoid, placed: placed, cands: [[0, 4, 'middle'], [0, 178, 'middle']] });
+    lb0.classList.add('ct-eot');
+  }
+  return svg;
+}
+
+/* ---------- 3D ---------- */
+function ctIsDark() { var c = ctApi.color('--card'); return c.r * 0.299 + c.g * 0.587 + c.b * 0.114 < 0.45; }
+function ctDispose(g) {
+  g.traverse(function (o) {
+    if (o.geometry) o.geometry.dispose();
+    if (o.material) { if (o.material.map) o.material.map.dispose(); o.material.dispose(); }
+  });
+  while (g.children.length) g.remove(g.children[0]);
+}
+function ctSrgb(sp) { var m = sp.material.map; if (m) { m.colorSpace = ctT.SRGBColorSpace; m.needsUpdate = true; } return sp; }
+var CT_R = { C: 0.3, H: 0.19 }, CT_BR = 0.075, CT_TAGPX = 19, CT_PL = 1.05;
+function ctColors() {
+  var dark = ctIsDark();
+  return { C: dark ? '#6e7887' : '#4b5059', H: dark ? '#dde3ec' : '#d3d9e2', dark: dark };
+}
+/* one molecule in slot k: fixed half + rotor (side 1) that turns about x */
+function ctBuildSlot(k, id) {
+  var T = ctT, api = ctApi, S = ctSlots[k], M = CT_MOLS[id](), col = ctColors();
+  ctDispose(S.hold);
+  S.M = M; S.id = id; S.fixed = new T.Group(); S.rotor = new T.Group(); S.dyn = new T.Group();
+  S.hold.add(S.fixed); S.hold.add(S.rotor); S.hold.add(S.dyn);
+  S.meshes = []; S.bounds = []; S.pL = null; S.pR = null;
+  var mats = {};
+  function mat(c) { return mats[c] || (mats[c] = new T.MeshPhongMaterial({ color: c, shininess: 60 })); }
+  var hlC = {};
+  (M.same || []).forEach(function (s) { hlC[s.c] = 1; });
+  M.atoms.forEach(function (a, i) {
+    var c = hlC[i] ? '#' + api.color('--bad').getHexString() : a.el === 'C' ? col.C : col.H;
+    var m = new T.Mesh(new T.SphereGeometry(CT_R[a.el], 32, 22), mat(c));
+    m.position.fromArray(a.p); m.userData.i = i;
+    (a.side ? S.rotor : S.fixed).add(m); S.meshes.push(m);
+    if (a.el === 'C' && a.num) {
+      var tg = ctSrgb(K3.tag(T, 'C' + a.num, { color: '#ffffff', bg: c, size: 0.3 }));
+      tg.position.fromArray(a.p); tg.userData.i = i;
+      (a.side ? S.rotor : S.fixed).add(tg); ctTags.push({ sp: tg, slot: k, i: i });
+    }
+  });
+  M.bonds.forEach(function (b) {
+    var A = M.atoms[b[0]], B = M.atoms[b[1]], mid = ctMul(ctAdd(A.p, B.p), 0.5);
+    var into = A.side && B.side ? S.rotor : S.fixed;
+    var cA = hlC[b[0]] ? '#' + api.color('--bad').getHexString() : A.el === 'C' ? col.C : col.H;
+    var cB = hlC[b[1]] ? '#' + api.color('--bad').getHexString() : B.el === 'C' ? col.C : col.H;
+    var dbl = b[2] === 2 && ct.mode !== 'rot';
+    (dbl ? [-1, 1] : [0]).forEach(function (sh) {
+      var off = [0, 0, sh * 0.105], r = dbl ? CT_BR * 0.7 : CT_BR;
+      into.add(K3.rod(T, ctAdd(A.p, off), ctAdd(mid, off), r, mat(cA)));
+      into.add(K3.rod(T, ctAdd(mid, off), ctAdd(B.p, off), r, mat(cB)));
+    });
+  });
+  /* dashed axis through the central bond: the rotation axis (rot) / the line that splits the two sides (ct) */
+  if (ct.mode !== 'no') {
+    var dm = new T.MeshBasicMaterial({ color: api.color('--mut') });
+    for (var x = -2.5; x < 2.5; x += 0.3) {
+      if (Math.abs(x + 0.1) < 1.0) continue;
+      S.fixed.add(K3.rod(T, [x, 0, 0], [x + 0.18, 0, 0], 0.022, dm));
+    }
+  }
+  if (ct.mode === 'rot') {
+    /* σ: a sleeve round the bond axis — the same whatever θ is */
+    var sg = api.color('--s3'), sm = new T.MeshPhongMaterial({ color: sg, transparent: true, opacity: col.dark ? 0.4 : 0.32, depthWrite: false });
+    sm.emissive.copy(sg).multiplyScalar(0.3);
+    var cL = M.atoms[M.cL].p, cR = M.atoms[M.cR].p;
+    var sl = K3.rod(T, ctAdd(cL, [0.24, 0, 0]), ctSub(cR, [0.24, 0, 0]), 0.17, sm); sl.renderOrder = 2; S.fixed.add(sl);
+    if (M.sp2) {
+      var c1 = api.color('--s1'), c4 = api.color('--s4'), op = col.dark ? 0.42 : 0.36;
+      S.pL = K3.porb(T, cL, [0, 1, 0], CT_PL, c1, c1, op);
+      S.pR = K3.porb(T, cR, [0, 1, 0], CT_PL, c4, c4, op);
+      [S.pL, S.pR].forEach(function (g, j) {
+        g.traverse(function (o) { if (o.isMesh) { o.renderOrder = 3; o.material.emissive.copy(j ? c4 : c1).multiplyScalar(0.3); } });
+        var o = j ? cR : cL;
+        g.add(K3.rod(T, ctAdd(o, [0, -CT_PL * 1.12, 0]), ctAdd(o, [0, CT_PL * 1.12, 0]), 0.02, new T.MeshBasicMaterial({ color: j ? c4 : c1 })));
+      });
+      S.fixed.add(S.pL); S.rotor.add(S.pR);
+    }
+  }
+  /* highlight halos */
+  function halo(i, color, r) {
+    var h = new T.Mesh(new T.SphereGeometry(r, 28, 20), new T.MeshPhongMaterial({ color: color, transparent: true, opacity: col.dark ? 0.3 : 0.24, depthWrite: false }));
+    h.position.fromArray(M.atoms[i].p); h.renderOrder = 4; h.userData.halo = i;
+    (M.atoms[i].side ? S.rotor : S.fixed).add(h);
+    S.bounds.push({ i: i, r: r });
+  }
+  S.halos = [];
+  if (ct.mode === 'ct') M.me.forEach(function (i) { halo(i, api.color('--s5'), 0.98); S.halos.push(i); });
+  if (ct.mode === 'no') (M.same || []).forEach(function (s) {
+    s.g.forEach(function (i) { halo(i, api.color('--bad'), M.atoms[i].el === 'H' ? 0.42 : 0.98); S.halos.push(i); });
+  });
+}
+/* π overlap bridges between the matching lobes, opacity ∝ |cos θ| */
+function ctBridge(S) {
+  ctDispose(S.dyn);
+  if (ct.mode !== 'rot' || !S.M || !S.M.sp2) return;
+  var T = ctT, th = ct.th.p * Math.PI / 180, c = Math.cos(th), ov = Math.abs(c);
+  if (ov < 0.02) return;
+  var col = ctApi.color('--s5'), m = new T.MeshPhongMaterial({ color: col, transparent: true, opacity: 0.55 * ov, depthWrite: false });
+  m.emissive.copy(col).multiplyScalar(0.35);
+  var pL = S.M.atoms[S.M.cL].p, pR = S.M.atoms[S.M.cR].p, ax = [0, Math.cos(th), Math.sin(th)], sg = c >= 0 ? 1 : -1;
+  [1, -1].forEach(function (s) {
+    var a = ctAdd(pL, [0, s * CT_PL * 0.6, 0]), b = ctAdd(pR, ctMul(ax, s * sg * CT_PL * 0.6));
+    var r = K3.rod(T, a, b, 0.11 + 0.1 * ov, m); r.renderOrder = 5; S.dyn.add(r);
+  });
+}
+function ctApplyTheta() {
+  ctSlots.forEach(function (S, k) {
+    if (!S.rotor) return;
+    var deg = ct.mode !== 'rot' ? 0 : k === 0 ? ct.th.s : ct.th.p;
+    S.rotor.rotation.x = deg * Math.PI / 180;
+    ctBridge(S);
+  });
+}
+
+/* projection helpers */
+function ctWpp(depth) { return 2 * Math.tan(20 * Math.PI / 180) * depth / (ctApi.renderer.domElement.clientHeight || 400); }
+function ctProj(obj, local) {
+  var v = new ctT.Vector3().fromArray(local || [0, 0, 0]);
+  obj.localToWorld(v);
+  var cam = ctApi.camera, el = ctApi.renderer.domElement, depth = v.distanceTo(cam.position), q = v.clone().project(cam);
+  return { x: (q.x + 1) / 2 * el.clientWidth, y: (1 - q.y) / 2 * el.clientHeight, depth: depth, ppu: 1 / ctWpp(depth) };
+}
+/* every opaque / big thing in a slot as a screen circle: atoms, halos, p lobes */
+function ctCircles(S) {
+  var out = [];
+  S.M.atoms.forEach(function (a, i) {
+    var q = ctProj(a.side ? S.rotor : S.fixed, a.p);
+    out.push({ x: q.x, y: q.y, r: CT_R[a.el] * q.ppu, depth: q.depth, kind: 'atom', el: a.el, i: i });
+  });
+  S.bounds.forEach(function (b) {
+    var a = S.M.atoms[b.i], q = ctProj(a.side ? S.rotor : S.fixed, a.p);
+    out.push({ x: q.x, y: q.y, r: b.r * q.ppu, depth: q.depth, kind: 'halo', i: b.i });
+  });
+  if (S.pL) [[S.fixed, S.M.atoms[S.M.cL].p], [S.rotor, S.M.atoms[S.M.cR].p]].forEach(function (z) {
+    [1, -1].forEach(function (s) {
+      [0.45, 0.8].forEach(function (f) {
+        var q = ctProj(z[0], ctAdd(z[1], [0, s * CT_PL * f, 0]));
+        out.push({ x: q.x, y: q.y, r: CT_PL * 0.42 * (f > 0.6 ? 0.85 : 1) * q.ppu, depth: q.depth, kind: 'lobe' });
+      });
+      var qt = ctProj(z[0], ctAdd(z[1], [0, s * CT_PL * 1.12, 0]));
+      out.push({ x: qt.x, y: qt.y, r: 2, depth: qt.depth, kind: 'lobe' });
+    });
+  });
+  return out;
+}
+function ctBand() {
+  var el = ctApi.renderer.domElement, W = el.clientWidth, H = el.clientHeight, y0 = 0, y1 = H;
+  $root.querySelectorAll('.ct-t').forEach(function (t) { y0 = Math.max(y0, t.offsetTop + t.offsetHeight + 8); });
+  $root.querySelectorAll('.ct-p').forEach(function (t) { y1 = Math.min(y1, t.offsetTop - 8); });
+  return { x0: 8, x1: W - 8, y0: y0, y1: y1, W: W, H: H };
+}
+/* screen box of everything; in the rotation mode the union over a full turn of both rotors, so no θ
+   ever pushes a CH₃ under a title or a pill */
+function ctBBox() {
+  var bb = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 }, angs = ct.mode === 'rot' ? [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330] : [null];
+  angs.forEach(function (g) {
+    if (g != null) { ctSlots.forEach(function (S) { S.rotor.rotation.x = g * Math.PI / 180; }); ctApi.scene.updateMatrixWorld(true); }
+    ctSlots.forEach(function (S) {
+      ctCircles(S).forEach(function (c) {
+        bb.x0 = Math.min(bb.x0, c.x - c.r); bb.x1 = Math.max(bb.x1, c.x + c.r);
+        bb.y0 = Math.min(bb.y0, c.y - c.r); bb.y1 = Math.max(bb.y1, c.y + c.r);
+      });
+    });
+  });
+  if (angs[0] != null) { ctSlots.forEach(function (S, k) { S.rotor.rotation.x = (k ? ct.th.p : ct.th.s) * Math.PI / 180; }); ctApi.scene.updateMatrixWorld(true); }
+  return bb;
+}
+function ctViewRaw() {
+  var api = ctApi;
+  ctSlots.forEach(function (S) { S.hold.rotation.set(api.rx, api.ry, 0); });
+  api.camera.position.set(0, 0, api.dist);
+  api.camera.lookAt(0, 0, 0);
+  api.scene.updateMatrixWorld(true);
+}
+/* zoom + shift so both molecules fill the band between the slot titles and the pills */
+function ctFit() {
+  var api = ctApi;
+  api.scene.position.set(0, 0, 0);
+  for (var it = 0; it < 5; it++) {
+    ctViewRaw();
+    var band = ctBand(), bb = ctBBox();
+    var k = Math.max((bb.x1 - bb.x0) / (band.x1 - band.x0), (bb.y1 - bb.y0) / (band.y1 - band.y0));
+    api.dist = Math.max(4, Math.min(60, api.dist * k * 1.0));
+    ctViewRaw();
+    bb = ctBBox();
+    var w = ctWpp(api.dist);
+    api.scene.position.x -= ((bb.x0 + bb.x1) / 2 - (band.x0 + band.x1) / 2) * w;
+    api.scene.position.y += ((bb.y0 + bb.y1) / 2 - (band.y0 + band.y1) / 2) * w;
+  }
+  ctViewRaw();
+  api.dist0 = api.dist;
+}
+/* constant-pixel tags, hidden when a nearer atom covers them */
+function ctTagsUpdate() {
+  var v = new ctT.Vector3(), cam = ctApi.camera;
+  ctTags.forEach(function (t) {
+    t.sp.getWorldPosition(v);
+    K3.tagSize(t.sp, CT_TAGPX * ctWpp(v.distanceTo(cam.position)));
+  });
+  ctSlots.forEach(function (S, k) {
+    if (!S.M) return;
+    var cs = ctCircles(S).filter(function (c) { return c.kind === 'atom'; });
+    ctTags.forEach(function (t) {
+      if (t.slot !== k) return;
+      var me = cs[t.i];
+      t.sp.visible = !cs.some(function (o) {
+        return o.i !== t.i && o.depth < me.depth - 0.05 && Math.hypot(o.x - me.x, o.y - me.y) < o.r + 4;
+      });
+    });
+  });
+}
+function ctRender() {
+  if (!ctApi) return;
+  ctViewRaw();
+  ctTagsUpdate();
+  ctApi.render();
+}
+function ctBuildAll(fit) {
+  if (!ctApi) return;
+  ctTags = [];
+  var m = CT_MODES[ct.mode];
+  m.mols.forEach(function (id, k) { ctBuildSlot(k, id); });
+  ctApplyTheta();
+  if (fit) {
+    ctApi.rx = m.view[0]; ctApi.ry = m.view[1]; ctApi.dist = 14;
+    ctApi.rx0 = ctApi.rx; ctApi.ry0 = ctApi.ry;
+    ctFit();
+  }
+  ctRender();
+  $root.setAttribute('data-mode3d', ct.mode);
+}
+
+/* ---------- mode switching (kit tabbar) ---------- */
+var ctHlDone = {};
+function ctLazyHl() {
+  $root.querySelectorAll('[data-pane].show .ct-f').forEach(function (card) {
+    var f = card.getAttribute('data-f'), svg = card.querySelector('svg.cf');
+    if (!svg || ctHlDone[f]) return;
+    ctHlDone[f] = 1;
+    KO.scale(svg, 1.25);
+    if (f === 'cis' || f === 'trans') KO.hl(svg, ['c1', 'c4'], 'acc');
+    if (f === 'but1') KO.hl(svg, ['ha', 'hb'], 'bad');
+    if (f === 'mprop') KO.hl(svg, ['ha', 'hb', 'm1', 'm2'], 'bad');
+    KO.num(svg, f === 'cis' || f === 'trans' ? ['c1', 'c2', 'c3', 'c4'] : f === 'but1' ? ['c1', 'c2', 'c3'] : ['c1', 'c2'], { prefix: 'C' });
+  });
+}
+$root.addEventListener('tab', function (e) {
+  ct.mode = e.detail;
+  if (ct.mode !== 'rot') ctSetPlay(false);
+  ctLazyHl();
+  ctPills();
+  ctBuildAll(true);
+});
+K.init($root);
+
+/* ---------- sliders, play ---------- */
+$root.querySelectorAll('input.ct-r').forEach(function (r) {
+  r.addEventListener('input', function () {
+    ctSetPlay(false);
+    ct.th[r.getAttribute('data-w')] = +r.value;
+    ctThetaChanged();
+  });
+});
+function ctThetaChanged() { ctReadouts(); if (ctApi) { ctApplyTheta(); ctRender(); } }
+function ctSetPlay(on) {
+  ct.play = on;
+  var b = $root.querySelector('.ct-play');
+  b.classList.toggle('on', on);
+  b.textContent = on ? '❚❚ 暂停' : '▶ 两边一起转';
+  $root.setAttribute('data-play', on ? '1' : '0');
+}
+$root.querySelector('.ct-play').addEventListener('click', function () { ctSetPlay(!ct.play); });
+$root.querySelector('.ct-zero').addEventListener('click', function () {
+  ctSetPlay(false); ct.th.s = 0; ct.th.p = 0; ctThetaChanged();
+});
+var CT_SPEED = 40;   /* degrees per second */
+function ctStep(ms) {
+  ct.th.s = ctNormDeg(ct.th.s + CT_SPEED * ms / 1000);
+  ct.th.p = ctNormDeg(ct.th.p + CT_SPEED * ms / 1000);
+  ctThetaChanged();
+}
+(function () {
+  var last = null;
+  function loop(t) {
+    if (ct.play && ct.vis && ct.mode === 'rot' && document.visibilityState !== 'hidden') {
+      if (last != null) ctStep(Math.min(50, t - last));
+      last = t;
+    } else last = null;
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+if (window.IntersectionObserver) new IntersectionObserver(function (es) {
+  es.forEach(function (e) { ct.vis = e.isIntersecting; });
+}).observe($root);
+
+ctReadouts();
+ctPills();
+
+K3.start($root, function (T, api) {
+  ctT = T; ctApi = api;
+  [-1, 1].forEach(function (s) {
+    var hold = new T.Group(); hold.position.x = s * 3.15;
+    api.group.add(hold); ctSlots.push({ hold: hold });
+  });
+  api.view = function () {
+    ctRender();
+  };
+  ctBuildAll(true);
+  if (window.ResizeObserver) {
+    var lastW = 0;
+    new ResizeObserver(function () {
+      var w = api.renderer.domElement.clientWidth;
+      if (lastW && Math.abs(w - lastW) > 20) setTimeout(function () { ctPills(); ctBuildAll(true); }, 40);
+      lastW = w;
+    }).observe($root.querySelector('.ct-stage'));
+  }
+});
+
+/* ---------- test hooks ---------- */
+$root.__ct = {
+  state: ct,
+  setTheta: function (w, d) { ct.th[w] = d; ctThetaChanged(); },
+  step: ctStep,
+  geom: function (id) { var M = CT_MOLS[id](); return { atoms: M.atoms, bonds: M.bonds, me: M.me || null, same: M.same || null, cL: M.cL, cR: M.cR }; },
+  layout: function () {
+    if (!ctApi) return null;
+    ctViewRaw();
+    var el = ctApi.renderer.domElement, cr = el.getBoundingClientRect();
+    function rel(n) { var r = n.getBoundingClientRect(); return { x: r.left - cr.left, y: r.top - cr.top, w: r.width, h: r.height, text: n.textContent }; }
+    var slots = ctSlots.map(function (S) {
+      return { id: S.id, circles: ctCircles(S), halos: S.halos.slice(),
+               rotor: S.rotor.rotation.x, pR: S.pR ? true : false, bridges: S.dyn.children.length,
+               bridgeOpacity: S.dyn.children.length ? S.dyn.children[0].material.opacity : 0 };
+    });
+    var tags = ctTags.map(function (t) {
+      var q = ctProj(t.sp.parent, t.sp.position.toArray()), h = t.sp.scale.y * q.ppu, w = t.sp.scale.x * q.ppu;
+      return { slot: t.slot, i: t.i, visible: t.sp.visible, x: q.x - w / 2, y: q.y - h / 2, w: w, h: h };
+    });
+    /* p axis directions in world space (for the "parallel" check) */
+    var axes = null, S1 = ctSlots[1];
+    if (S1 && S1.pL) {
+      var a = new ctT.Vector3(0, 1, 0).applyQuaternion(S1.fixed.getWorldQuaternion(new ctT.Quaternion()));
+      var b = new ctT.Vector3(0, 1, 0).applyQuaternion(S1.rotor.getWorldQuaternion(new ctT.Quaternion()));
+      axes = { a: a.toArray(), b: b.toArray(), cos: a.dot(b) };
+    }
+    return { W: el.clientWidth, H: el.clientHeight, slots: slots, tags: tags, axes: axes,
+             overlays: Array.prototype.map.call($root.querySelectorAll('.ct-ov'), rel),
+             hud: rel($root.querySelector('.ct-hud')) };
+  }
+};
+</script>
