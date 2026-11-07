@@ -1,0 +1,116 @@
+<h3>KO 样张：structure、curly arrow、mechanism 播放器</h3>
+<p class="mut">kitorg.js（<code>window.KO</code>）的样张页，不进 notebook。每个 mechanism 用「上一步 / 下一步」或键盘 ← → 翻步；右边是当前步对应的 mark scheme 得分点。</p>
+
+<h4 class="d-h">1 · electrophilic addition：Br₂ + ethene，第 1 步</h4>
+<div class="d-ea"></div>
+
+<h4 class="d-h">2 · electrophilic addition：HBr + propene，第 2 步</h4>
+<div class="d-hbr"></div>
+
+<h4 class="d-h">3 · nucleophilic substitution S<sub>N</sub>2：CN⁻ + chloroethane</h4>
+<div class="d-sn2"></div>
+
+<h4 class="d-h">4 · nucleophilic addition：HCN + ethanal</h4>
+<div class="d-na"></div>
+
+<h4 class="d-h">5 · IUPAC 编号：3-ethyl-2-methylpentane</h4>
+<div class="card d-num"><p class="faint">主链 5 个 C，从离 branch 最近的一端编号：methyl 在 C2、ethyl 在 C3。</p>
+{{chemfig \chemfig{@{c1}-[:30]@{c2}(-[2]@{m})-[:-30]@{c3}(-[6]@{e1}-[:-30]@{e2})-[:30]@{c4}-[:-30]@{c5}}}}
+</div>
+
+<h4 class="d-h">6 · 考卷模式：HCN + ethanal</h4>
+<p class="mut">箭头先藏起来。每支 curly arrow 先点起点（bond 的中间、lone pair 的两个点），再点终点（atom）。</p>
+<div class="d-exam"></div>
+
+<div class="ko-src" hidden>
+  <div data-p="ethene">{{chemfig \chemfig{@{c1}C(-[:120]H)(-[:240]H)=[:0]@{c2}C(-[:60]H)(-[:-60]H)}}}</div>
+  <div data-p="br2">{{chemfig \chemfig{@{b1}Br-[6]@{b2}Br}}}</div>
+  <div data-p="cation">{{chemfig \chemfig{@{c2}C(-[2]H)(-[:210]@{c1}H_3C)-[:-30]@{c3}CH_3}}}</div>
+  <div data-p="br">{{chemfig \chemfig{@{br}Br}}}</div>
+  <div data-p="clet">{{chemfig \chemfig{@{c1}C(-[2]CH_3)(<[:240]H)(<:[:300]H)-[,1.3]@{cl}Cl}}}</div>
+  <div data-p="cn">{{chemfig \chemfig{@{n}N~@{cn}C}}}</div>
+  <div data-p="ts">{{chemfig \chemfig{@{n}N~@{cn}C-[,1.3]@{c1}C(-[2]CH_3)(-[:240]H)(-[:300]H)-[,1.3]@{cl}Cl}}}</div>
+  <div data-p="prop">{{chemfig \chemfig{@{n}N~@{cn}C-@{c1}C(-[2]CH_3)(-[6]H)-H}}}</div>
+  <div data-p="cl">{{chemfig \chemfig{@{cl}Cl}}}</div>
+  <div data-p="ethanal">{{chemfig \chemfig{@{c1}C(=[2]@{o}O)(-[:210]H_3C)-[:-30]H}}}</div>
+  <div data-p="cnv">{{chemfig \chemfig{@{cn}C~[6]@{n}N}}}</div>
+  <div data-p="alkox">{{chemfig \chemfig{@{o}O-[6]@{c1}C(-[4]H_3C)(-[0]H)-[6]@{cn}C~[6]N}}}</div>
+  <div data-p="hplus">{{chemfig \chemfig{@{h}H}}}</div>
+  <div data-p="hnitrile">{{chemfig \chemfig{@{o}O(-[0]H)-[6]@{c1}C(-[4]H_3C)(-[0]H)-[6]C~[6]N}}}</div>
+</div>
+
+<style>
+.k .d-h{margin-top:18px}
+.k .d-num svg.cf{margin:4px auto}
+</style>
+<script>
+function P(n) { return $root.querySelector('.ko-src [data-p="' + n + '"] svg'); }
+
+/* 1 · Br₂ + ethene, step 1 */
+KO.mech($root.querySelector('.d-ea'), [{
+  svg: KO.compose([{ svg: P('ethene'), at: 'c1', x: 0, y: 0 }, { svg: P('br2'), at: 'b2', x: 17, y: -50 }]),
+  arrows: [['c1-c2', 'b2', { bend: 0.3, tag: 'pt2', m: 'pt2' }], ['b1-b2', 'b1', { bend: -1.3, tag: 'pt3', m: 'pt3' }]],
+  deltas: [['b2', '+'], ['b1', '-']],
+  marks: ['pt1 dipole on Br₂', 'pt2 curly arrow from C=C bond to a Brδ+', 'pt3 curly arrow from Br–Br bond to the other Br'],
+  caption: 'C=C 的 π electrons 靠近 Br₂ 时 induce 出 dipole：近端 Br 变 δ+。一支箭头从 C=C 出发指向 Brδ+，另一支从 Br–Br bond 指向远端 Brδ−（heterolytic fission）。'
+}]);
+
+/* 2 · HBr + propene, step 2 */
+KO.mech($root.querySelector('.d-hbr'), [{
+  svg: KO.compose([{ svg: P('cation'), at: 'c2', x: 0, y: 0 }, { svg: P('br'), at: 'br', x: 0, y: 74 }]),
+  lps: [['br', 1, { toward: 'c2' }]],
+  arrows: [['lp:br', 'c2', { bend: 0.3, tag: 'M4', m: 'M4' }]],
+  charges: [['c2', '+'], ['br', '-']],
+  marks: ['M3 correct intermediate (secondary carbocation)', 'M4 curly arrow from lone pair of Br⁻ to C⁺ of intermediate'],
+  caption: 'C2 带正电、连着两个 alkyl group：secondary carbocation（比 primary 稳定，所以主产物是 2-bromopropane）。Br⁻ 的 lone pair 指向 C⁺。'
+}]);
+
+/* 3 · S_N2: CN⁻ + chloroethane — reactants, transition state, products */
+KO.mech($root.querySelector('.d-sn2'), [{
+  svg: KO.compose([{ svg: P('clet'), at: 'c1', x: 0, y: 0 }, { svg: P('cn'), at: 'cn', x: -80, y: 0 }]),
+  lps: [['cn', 1, { toward: 'c1' }]],
+  arrows: [['lp:cn', 'c1', { bend: 0.5, tag: 'M1', m: 'M1' }], ['c1-cl', 'cl', { bend: 1.3, tag: 'M2', m: 'M2' }]],
+  deltas: [['c1', '+'], ['cl', '-']],
+  charges: [['cn', '-']],
+  marks: ['M1 curly arrow from lone pair on C of CN⁻ to (δ+)C of C–Cl', 'M2 correct dipole of δ+C–Clδ− AND curly arrow from bond to Cl'],
+  caption: '一步完成：CN⁻ 从 Cl 的背面进攻 δ+C，C–Cl bond 同时断开。'
+}, {
+  svg: P('ts'),
+  partials: [['cn', 'c1'], ['c1', 'cl']],
+  bracket: { charge: '−' },
+  caption: 'transition state：C–CN 正在形成、C–Cl 正在断开（虚线 = partial bond），整体带 1 个负电荷。它不是 intermediate，不能分离出来。'
+}, {
+  svg: KO.compose([{ svg: P('prop'), at: 'c1', x: 0, y: 0 }, { text: '+', x: 62, y: 0 }, { svg: P('cl'), at: 'cl', x: 90, y: 0 }]),
+  charges: [['cl', '-']],
+  caption: 'products：propanenitrile + Cl⁻。carbon chain 多了 1 个 C。'
+}]);
+
+/* 4 · HCN + ethanal — the same steps run as a demo and as an exam */
+var NA = [{
+  svg: KO.compose([{ svg: P('ethanal'), at: 'c1', x: 0, y: 0 }, { svg: P('cnv'), at: 'cn', x: 0, y: 58 }]),
+  lps: ['cn'],
+  arrows: [['lp:cn', 'c1', { bend: -0.15, tag: 'M1', m: 'M1' }], ['c1-o', 'o', { bend: -1.3, tag: 'M2', m: 'M2' }]],
+  deltas: [['c1', '+'], ['o', '-']],
+  charges: [['cn', '-']],
+  marks: ['M1 curly arrow from lone pair on C of CN⁻ to carbonyl C', 'M2 correct dipole on C=O AND curly arrow from C=O bond to O'],
+  caption: '第 1 步：nucleophile 是 CN⁻（来自 HCN / KCN），不是 HCN molecule。C=O 的 π electrons 移到 O 上。'
+}, {
+  svg: KO.compose([{ svg: P('alkox'), at: 'o', x: 0, y: 0 }, { svg: P('hplus'), at: 'h', x: 52, y: -26 }]),
+  lps: [['o', 1, { toward: 'h' }]],
+  arrows: [['lp:o', 'h', { bend: 0.35, tag: 'M3', m: 'M3' }]],
+  charges: [['o', '-'], ['h', '+']],
+  marks: ['M3 correct intermediate AND curly arrow from lone pair on the alkoxide O⁻ to (source of) H⁺'],
+  caption: '第 2 步：alkoxide intermediate 的 O⁻ 用 lone pair 接一个 H⁺（来自 HCN 或 H₂O）。'
+}, {
+  svg: P('hnitrile'),
+  caption: 'product：2-hydroxypropanenitrile（carbon chain 由 2 个 C 变 3 个 C）。'
+}];
+KO.mech($root.querySelector('.d-na'), NA);
+KO.mech($root.querySelector('.d-exam'), NA, { exam: true });
+
+/* 5 · locants on a skeletal formula */
+var sk = $root.querySelector('.d-num svg.cf');
+KO.scale(sk, 1.4);
+KO.hl(sk, ['c1', 'c2', 'c3', 'c4', 'c5'], 'acc');
+KO.num(sk, ['c1', 'c2', 'c3', 'c4', 'c5']);
+</script>
