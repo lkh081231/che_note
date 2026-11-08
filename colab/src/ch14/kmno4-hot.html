@@ -1,0 +1,1383 @@
+<h3>🔬 hot KMnO₄：正推 product、反推 C=C 的位置</h3>
+<p class="mut">① <b>正推</b>：选择 alkene，观察在 hot concentrated acidified KMnO₄ 下 C=C 双键完全断裂（rupture）的过程，两端碳按取代基类型（=CH₂ / =CHR / =CR₂）转化为对应产物（CO₂ / carboxylic acid / ketone），并可切换 cold dilute（温和氧化为 1,2-diol）对比；② <b>反推</b>：根据裂解产物把羰基（C=O）对拼还原回原始 alkene 结构。</p>
+
+<div class="km-wrap">
+  <div class="tabbar">
+    <button type="button" data-tab="fwd">① 正推：hot vs cold KMnO₄</button>
+    <button type="button" data-tab="rev">② 反推：由 product 推 C=C 位置</button>
+  </div>
+
+  <!-- ================= Tab 1: 正推 ================= -->
+  <div data-pane="fwd">
+    <!-- Alkene Selector -->
+    <div class="card km-sec-card">
+      <div class="km-subh">1. 选择 Alkene</div>
+      <div class="row km-alk-bar" role="group" aria-label="选择 alkene">
+        <button type="button" class="km-alk-btn on" data-alk="but1ene">but-1-ene</button>
+        <button type="button" class="km-alk-btn" data-alk="but2ene">but-2-ene</button>
+        <button type="button" class="km-alk-btn" data-alk="pent2ene">pent-2-ene</button>
+        <button type="button" class="km-alk-btn" data-alk="mb2ene">2-methylbut-2-ene</button>
+        <button type="button" class="km-alk-btn" data-alk="mpropene">2-methylpropene</button>
+        <button type="button" class="km-alk-btn" data-alk="cyclopentene">cyclopentene</button>
+        <button type="button" class="km-alk-btn" data-alk="hex3ene">hex-3-ene</button>
+        <button type="button" class="km-alk-btn" data-alk="diene">5-methylhexa-1,4-diene</button>
+      </div>
+
+      <div class="km-subh" style="margin-top:10px">2. 反应试剂与条件（Reagent &amp; Conditions）</div>
+      <div class="row km-cond-bar" role="group" aria-label="选择反应条件">
+        <button type="button" class="km-cond-btn on" data-cond="hot">🔥 hot concentrated acidified KMnO₄（氧化裂解 rupture）</button>
+        <button type="button" class="km-cond-btn" data-cond="cold">❄️ cold dilute acidified KMnO₄（温和氧化成 diol）</button>
+      </div>
+    </div>
+
+    <!-- C=C Carbon Legend Card -->
+    <div class="card km-leg-card" role="region" aria-label="C=C 碳分类图例">
+      <div class="km-leg-title"><b>C=C 碳分类与 hot KMnO₄ 氧化规律（syllabus 14.2.2(c)）：</b></div>
+      <div class="km-leg-pills">
+        <span class="km-leg-pill type-a"><i class="km-dot type-a"></i><b>=CH₂ 端</b>（连 2 个 H）→ 氧化为 <b>CO₂</b> (+ H₂O)（气泡冒出）</span>
+        <span class="km-leg-pill type-b"><i class="km-dot type-b"></i><b>=CHR 端</b>（连 1 个 H + 1 个 alkyl）→ 氧化为 <b>carboxylic acid</b>（–COOH）</span>
+        <span class="km-leg-pill type-c"><i class="km-dot type-c"></i><b>=CR₂ 端</b>（连 2 个 alkyl）→ 氧化为 <b>ketone</b>（>C=O）</span>
+      </div>
+    </div>
+
+    <!-- Stage Card -->
+    <div class="card km-stage-card">
+      <div class="km-stage-meta">
+        <span class="km-mol-name">but-1-ene</span>
+        <span class="km-mol-formula">CH₂=CHCH₂CH₃</span>
+        <span class="km-cond-badge">hot conc. acidified KMnO₄</span>
+      </div>
+
+      <div class="row km-ctrl-bar">
+        <button type="button" class="km-play-btn">▶ 播放</button>
+        <span class="km-step-btns">
+          <button type="button" class="km-step-btn on" data-st="0">① alkene (双键)</button>
+          <button type="button" class="km-step-btn" data-st="1">② 断开 (cleavage)</button>
+          <button type="button" class="km-step-btn" data-st="2">③ products (产物)</button>
+        </span>
+        <input type="range" class="km-slider" min="0" max="100" step="1" value="0" aria-label="反应进度">
+      </div>
+
+      <div class="km-stage">
+        <svg class="km-svg" viewBox="0 0 660 230" role="img" aria-label="氧化反应过程图"></svg>
+      </div>
+    </div>
+
+    <!-- Observations and Equation Card -->
+    <div class="card km-obs-card">
+      <div class="km-eq-row">
+        <span class="km-obs-label">配平 Chemical equation：</span>
+        <span class="km-eq-content"></span>
+      </div>
+      <div class="km-obs-row">
+        <span class="km-obs-label">实验观察 Observations：</span>
+        <span class="km-obs-content"></span>
+      </div>
+      <div class="km-note-row faint">
+        <span>💡 <b>Cambridge 9701 考点</b>：</span>
+        <span class="km-note-content"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Tab 2: 反推 ================= -->
+  <div data-pane="rev">
+    <div class="card km-sec-card">
+      <div class="row km-q-nav-bar">
+        <span class="km-q-btns">
+          <button type="button" class="km-q-btn on" data-q="0">第 1 题</button>
+          <button type="button" class="km-q-btn" data-q="1">第 2 题</button>
+          <button type="button" class="km-q-btn" data-q="2">第 3 题</button>
+          <button type="button" class="km-q-btn" data-q="3">第 4 题</button>
+          <button type="button" class="km-q-btn" data-q="4">第 5 题</button>
+        </span>
+        <span class="km-score-badge">全对 <b class="km-sc-val">0</b> / 5 题</span>
+      </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="card km-q-card">
+      <div class="km-q-title"></div>
+      <p class="km-q-stem faint">已知某 alkene 与 <b>hot concentrated acidified KMnO₄</b> 反应后，仅得到以下产物：</p>
+
+      <div class="km-q-prods" role="region" aria-label="裂解产物展示"></div>
+
+      <p class="km-q-prompt"><b>请根据产物反推原始 alkene 的结构与名称：</b></p>
+      <div class="km-q-opts" role="group" aria-label="选项"></div>
+
+      <div class="row km-q-acts">
+        <button type="button" class="km-show-btn">显示答案与拼装分析</button>
+        <button type="button" class="km-reset-btn">重置本题</button>
+      </div>
+
+      <!-- Feedback & Reassembly Puzzle -->
+      <div class="km-fb-box" hidden>
+        <div class="km-fb-banner"></div>
+        <div class="km-puzzle-card">
+          <div class="km-puzzle-title">🧩 C=O 羰基对拼还原过程：</div>
+          <div class="km-puzzle-flow"></div>
+          <div class="km-puzzle-expl"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ko-src" hidden>
+  <div data-cf="but1ene">{{chemfig \chemfig{@{c1}=[:0]@{c2}-[:-60]@{c3}-[:0]@{c4}}}}</div>
+  <div data-cf="but2ene">{{chemfig \chemfig{@{c1}-[:60]@{c2}=[:0]@{c3}-[:-60]@{c4}}}}</div>
+  <div data-cf="pent2ene">{{chemfig \chemfig{@{c1}-[:60]@{c2}=[:0]@{c3}-[:-60]@{c4}-[:0]@{c5}}}}</div>
+  <div data-cf="mb2ene">{{chemfig \chemfig{@{c1}-[:60]@{c2}(-[:120]@{m})=[:0]@{c3}-[:-60]@{c4}}}}</div>
+  <div data-cf="mpropene">{{chemfig \chemfig{@{c1}(-[:120]@{m1})(-[:-120]@{m2})=[:0]@{c2}}}}</div>
+  <div data-cf="cyclopentene">{{chemfig \chemfig{?=[:0]-[:72]-[:144]-[:216]?}}}</div>
+  <div data-cf="hex3ene">{{chemfig \chemfig{@{c1}-[:0]@{c2}-[:60]@{c3}=[:0]@{c4}-[:-60]@{c5}-[:0]@{c6}}}}</div>
+  <div data-cf="diene">{{chemfig \chemfig{@{c1}=[:0]@{c2}-[:-60]@{c3}-[:0]@{c4}=[:60]@{c5}(-[:120]@{m1})-[:0]@{c6}}}}</div>
+  <div data-cf="co2">{{chemfig \chemfig{O=C=O}}}</div>
+  <div data-cf="ethanoic">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]OH}}}</div>
+  <div data-cf="propanoic">{{chemfig \chemfig{-[:30]-[:-30](=[:90]O)-[:30]OH}}}</div>
+  <div data-cf="butanoic">{{chemfig \chemfig{-[:30]-[:-30]-[:30](=[:90]O)-[:-30]OH}}}</div>
+  <div data-cf="propanone">{{chemfig \chemfig{-[:30](=[:90]O)-[:-30]}}}</div>
+  <div data-cf="pentanedioic">{{chemfig \chemfig{HO-[:30](=[:90]O)-[:-30]-[:30]-[:-30](=[:-90]O)-[:30]OH}}}</div>
+  <div data-cf="propanedioic">{{chemfig \chemfig{HO-[:30](=[:90]O)-[:-30](=[:-90]O)-[:30]OH}}}</div>
+  <div data-cf="diol_but1">{{chemfig \chemfig{HO-[:30]-[:-30](-[:-90]OH)-[:30]-[:-30]}}}</div>
+  <div data-cf="diol_but2">{{chemfig \chemfig{-[:30]-[:-30](-[:-90]OH)-[:30](-[:90]OH)-[:-30]}}}</div>
+  <div data-cf="diol_pent2">{{chemfig \chemfig{-[:30]-[:-30](-[:-90]OH)-[:30](-[:90]OH)-[:-30]-[:30]}}}</div>
+  <div data-cf="diol_mb2">{{chemfig \chemfig{-[:30](-[:90])(-[:-90]OH)-[:-30]-[:30](-[:90]OH)-[:-30]}}}</div>
+  <div data-cf="diol_mprop">{{chemfig \chemfig{HO-[:30]-[:-30](-[:-90])(-[:30])-[:90]OH}}}</div>
+  <div data-cf="diol_cyp">{{chemfig \chemfig{?(-[:90]OH)-[:0](-[:90]OH)-[:-72]-[:-144]-[:-216]?}}}</div>
+  <div data-cf="diol_hex3">{{chemfig \chemfig{-[:30]-[:-30]-[:30](-[:90]OH)-[:-30](-[:-90]OH)-[:30]-[:-30]}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .km-wrap{max-width:100%;overflow-x:hidden}
+.k .km-sec-card{padding:10px 12px;margin-bottom:8px}
+.k .km-subh{font-size:13.5px;font-weight:650;color:var(--mut);margin-bottom:6px}
+.k .km-alk-bar{gap:6px;margin:2px 0 4px}
+.k .km-alk-btn{font-size:13.5px;padding:4px 9px}
+.k .km-cond-bar{gap:6px;margin:2px 0 4px}
+.k .km-cond-btn{font-size:13.5px;padding:4px 10px}
+
+/* Legend */
+.k .km-leg-card{padding:8px 12px;margin-bottom:8px;background:var(--card)}
+.k .km-leg-title{font-size:13px;color:var(--mut);margin-bottom:6px}
+.k .km-leg-pills{display:flex;flex-wrap:wrap;gap:8px}
+.k .km-leg-pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:3px 9px;border-radius:6px;border:1px solid var(--line)}
+.k .km-leg-pill.type-a{background:var(--bad-soft);border-color:var(--s2);color:var(--fg)}
+.k .km-leg-pill.type-b{background:var(--acc-soft);border-color:var(--s1);color:var(--fg)}
+.k .km-leg-pill.type-c{background:var(--hl);border-color:var(--s4);color:var(--fg)}
+.k .km-dot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none}
+.k .km-dot.type-a{background:var(--s2)}
+.k .km-dot.type-b{background:var(--s1)}
+.k .km-dot.type-c{background:var(--s4)}
+
+/* Stage Card */
+.k .km-stage-card{padding:10px 12px;margin-bottom:8px}
+.k .km-stage-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:6px}
+.k .km-mol-name{font-size:16px;font-weight:700;color:var(--fg)}
+.k .km-mol-formula{font-size:14px;color:var(--mut);font-family:monospace}
+.k .km-cond-badge{margin-left:auto;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--acc-soft);color:var(--acc)}
+.k .km-ctrl-bar{gap:8px;margin:6px 0 10px;align-items:center}
+.k .km-step-btns{display:inline-flex;gap:4px}
+.k .km-step-btn{font-size:13px;padding:3px 8px}
+.k .km-slider{flex:1 1 140px;min-width:110px}
+.k .km-stage{background:var(--bg);border:1px solid var(--line);border-radius:8px;overflow:hidden;position:relative}
+.k .km-svg{width:100%;height:auto;display:block}
+
+/* SVG typography & elements */
+.k .km-svg text{font-family:"KitCharge","Segoe UI","Noto Sans",sans-serif;user-select:none}
+.k .km-svg text.km-atom{font-size:14.5px;font-weight:600;fill:var(--fg);dominant-baseline:central;text-anchor:middle}
+.k .km-svg text.km-tag{font-size:13.5px;font-weight:650;dominant-baseline:central;text-anchor:middle}
+.k .km-svg text.km-tag.type-a{fill:var(--s2)}
+.k .km-svg text.km-tag.type-b{fill:var(--s1)}
+.k .km-svg text.km-tag.type-c{fill:var(--s4)}
+.k .km-svg text.km-pname{font-size:15px;font-weight:650;fill:var(--fg);dominant-baseline:central;text-anchor:middle}
+.k .km-svg text.km-pformula{font-size:14px;fill:var(--mut);dominant-baseline:central;text-anchor:middle}
+.k .km-svg text.km-pclass{font-size:13.5px;font-weight:600;dominant-baseline:central;text-anchor:middle}
+.k .km-svg text.km-status{font-size:13.5px;fill:var(--mut);dominant-baseline:central;text-anchor:middle}
+.k .km-svg line.km-b{stroke:var(--fg);stroke-width:2.2;stroke-linecap:round}
+.k .km-svg line.km-b-cut{stroke:var(--bad);stroke-dasharray:3.5 2.5;stroke-width:2}
+.k .km-svg line.km-scis{stroke:var(--bad);stroke-width:1.8}
+.k .km-svg circle.km-disc{stroke-width:2}
+.k .km-svg circle.km-disc.type-a{stroke:var(--s2);fill:var(--s2);fill-opacity:0.25}
+.k .km-svg circle.km-disc.type-b{stroke:var(--s1);fill:var(--s1);fill-opacity:0.25}
+.k .km-svg circle.km-disc.type-c{stroke:var(--s4);fill:var(--s4);fill-opacity:0.25}
+.k .km-svg rect.km-pcard{fill:var(--card);stroke:var(--line);stroke-width:1;rx:6}
+
+/* Obs & Eq Card */
+.k .km-obs-card{padding:10px 12px;font-size:14px;line-height:1.55}
+.k .km-eq-row,.k .km-obs-row,.k .km-note-row{padding:3px 0;display:flex;flex-wrap:wrap;gap:4px 8px}
+.k .km-obs-label{font-weight:650;color:var(--fg);flex:none}
+.k .km-eq-content{font-weight:600;color:var(--acc);font-family:monospace}
+.k .km-obs-content{color:var(--fg)}
+
+/* Tab 2: 反推 */
+.k .km-q-nav-bar{gap:8px;align-items:center}
+.k .km-q-btns{display:inline-flex;gap:5px;flex-wrap:wrap}
+.k .km-q-btn{font-size:13px;padding:3px 10px}
+.k .km-score-badge{margin-left:auto;font-size:13.5px;color:var(--mut)}
+.k .km-score-badge b{color:var(--fg)}
+.k .km-q-card{padding:12px;margin-top:8px}
+.k .km-q-title{font-size:15.5px;font-weight:650;color:var(--fg);margin-bottom:4px}
+.k .km-q-stem{margin:4px 0 8px;font-size:13.5px}
+.k .km-q-prods{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.k .km-q-prod-card{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 12px;flex:1 1 180px}
+.k .km-q-prod-name{font-size:14px;font-weight:650;color:var(--fg)}
+.k .km-q-prod-formula{font-size:13px;color:var(--acc);font-family:monospace;margin:2px 0}
+.k .km-q-prod-badge{display:inline-block;font-size:11.5px;padding:1px 6px;border-radius:4px;background:var(--acc-soft);color:var(--acc);font-weight:600}
+.k .km-q-prompt{font-size:14px;margin:10px 0 6px}
+.k .km-q-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;margin:8px 0}
+.k .km-opt-btn{display:flex;flex-direction:column;align-items:flex-start;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);text-align:left;cursor:pointer;transition:border-color .15s}
+.k .km-opt-btn:hover{border-color:var(--acc)}
+.k .km-opt-head{display:flex;align-items:center;width:100%;gap:6px;font-size:13px;color:var(--mut)}
+.k .km-opt-lbl{font-weight:700;color:var(--acc)}
+.k .km-opt-name{font-size:14.5px;font-weight:650;color:var(--fg);margin-top:2px}
+.k .km-opt-formula{font-size:12.5px;color:var(--mut);font-family:monospace}
+.k .km-opt-btn.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .km-opt-btn.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .km-opt-btn.sel{border-color:var(--acc);background:var(--acc-soft)}
+.k .km-q-acts{gap:8px;margin:10px 0 4px}
+.k .km-fb-box{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+.k .km-fb-banner{font-size:14.5px;font-weight:650;padding:6px 10px;border-radius:6px;margin-bottom:8px}
+.k .km-fb-banner.ok{background:var(--ok-soft);color:var(--ok)}
+.k .km-fb-banner.bad{background:var(--bad-soft);color:var(--bad)}
+.k .km-puzzle-card{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.k .km-puzzle-title{font-size:13.5px;font-weight:650;color:var(--fg);margin-bottom:6px}
+.k .km-puzzle-flow{font-size:14px;color:var(--acc);font-family:monospace;padding:6px 8px;background:var(--card);border-radius:4px;border:1px solid var(--line);margin:6px 0}
+.k .km-puzzle-expl{font-size:13.5px;line-height:1.5;color:var(--fg);margin-top:6px}
+</style>
+
+<script>
+var $ = function (s) { return $root.querySelector(s); };
+var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+
+/* ================= 1. Data Model: Alkenes & Products ================= */
+var ALKENES = [
+  {
+    id: 'but1ene',
+    name: 'but-1-ene',
+    formula: 'CH₂=CHCH₂CH₃',
+    types: ['a', 'b'],
+    hot: {
+      left: { name: 'carbon dioxide', formula: 'CO₂ (+ H₂O)', type: 'a', kind: 'gas', cls: 'gas: CO₂' },
+      right: { name: 'propanoic acid', formula: 'CH₃CH₂COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      eq: 'CH₂=CHCH₂CH₃ + 5[O] → CO₂ + H₂O + CH₃CH₂COOH',
+      gas: true,
+      obs: 'purple KMnO₄ 褪色为无色（purple → colourless）；有气泡冒出（effervescence of CO₂，气体使澄清石灰水变浑浊）。',
+      note: '末端 =CH₂ 氧化为不稳定 carbonic acid（H₂CO₃），随即分解为 CO₂ + H₂O；=CHCH₂CH₃ 氧化为 3 碳羧酸 propanoic acid。'
+    },
+    cold: {
+      name: 'butane-1,2-diol',
+      formula: 'CH₂(OH)CH(OH)CH₂CH₃',
+      eq: 'CH₂=CHCH₂CH₃ + [O] + H₂O → CH₂(OH)CH(OH)CH₂CH₃',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色（purple → colourless）；无气泡冒出（没有完全断裂，不产生 CO₂）。',
+      note: '温和氧化：C=C 的 π 键断裂，两端碳各加成一个 –OH，形成邻二醇（1,2-diol）。'
+    }
+  },
+  {
+    id: 'but2ene',
+    name: 'but-2-ene',
+    formula: 'CH₃CH=CHCH₃',
+    types: ['b', 'b'],
+    hot: {
+      left: { name: 'ethanoic acid', formula: 'CH₃COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      right: { name: 'ethanoic acid', formula: 'CH₃COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      singleProduct: '2 分子 ethanoic acid（CH₃COOH）',
+      eq: 'CH₃CH=CHCH₃ + 4[O] → 2 CH₃COOH',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；只生成一种产物：ethanoic acid；无气泡冒出（无 =CH₂ 端）。',
+      note: '对称 alkene（symmetrical）：C=C 两端都是 =CHCH₃，均氧化为 ethanoic acid，产物纯度高。'
+    },
+    cold: {
+      name: 'butane-2,3-diol',
+      formula: 'CH₃CH(OH)CH(OH)CH₃',
+      eq: 'CH₃CH=CHCH₃ + [O] + H₂O → CH₃CH(OH)CH(OH)CH₃',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；无气泡冒出。',
+      note: '在 C2 与 C3 各引入一个 –OH，生成 butane-2,3-diol。'
+    }
+  },
+  {
+    id: 'pent2ene',
+    name: 'pent-2-ene',
+    formula: 'CH₃CH=CHCH₂CH₃',
+    types: ['b', 'b'],
+    hot: {
+      left: { name: 'ethanoic acid', formula: 'CH₃COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      right: { name: 'propanoic acid', formula: 'CH₃CH₂COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      eq: 'CH₃CH=CHCH₂CH₃ + 4[O] → CH₃COOH + CH₃CH₂COOH',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；生成两种不同的羧酸（ethanoic acid + propanoic acid）；无气泡冒出。',
+      note: '不对称 alkene：左边 2 碳片段得 ethanoic acid，右边 3 碳片段得 propanoic acid。'
+    },
+    cold: {
+      name: 'pentane-2,3-diol',
+      formula: 'CH₃CH(OH)CH(OH)CH₂CH₃',
+      eq: 'CH₃CH=CHCH₂CH₃ + [O] + H₂O → CH₃CH(OH)CH(OH)CH₂CH₃',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；无气泡冒出。',
+      note: 'C2 与 C3 加成 –OH 生成 pentane-2,3-diol。'
+    }
+  },
+  {
+    id: 'mb2ene',
+    name: '2-methylbut-2-ene',
+    formula: '(CH₃)₂C=CHCH₃',
+    types: ['c', 'b'],
+    hot: {
+      left: { name: 'propanone', formula: 'CH₃COCH₃', type: 'c', kind: 'ketone', cls: 'ketone' },
+      right: { name: 'ethanoic acid', formula: 'CH₃COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      eq: '(CH₃)₂C=CHCH₃ + 3[O] → CH₃COCH₃ + CH₃COOH',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；产物为一个 ketone（propanone）和一个 carboxylic acid（ethanoic acid）；无气泡冒出。',
+      note: '=CR₂ 端（无 H）氧化只引入一个氧形成羰基（ketone）；=CHR 端氧化形成羧基（–COOH）。'
+    },
+    cold: {
+      name: '2-methylbutane-2,3-diol',
+      formula: '(CH₃)₂C(OH)CH(OH)CH₃',
+      eq: '(CH₃)₂C=CHCH₃ + [O] + H₂O → (CH₃)₂C(OH)CH(OH)CH₃',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；无气泡冒出。',
+      note: '双键两端加成 –OH，C2 上形成 tertiary alcohol 结构，C3 上形成 secondary alcohol 结构。'
+    }
+  },
+  {
+    id: 'mpropene',
+    name: '2-methylpropene',
+    formula: '(CH₃)₂C=CH₂',
+    types: ['c', 'a'],
+    hot: {
+      left: { name: 'propanone', formula: 'CH₃COCH₃', type: 'c', kind: 'ketone', cls: 'ketone' },
+      right: { name: 'carbon dioxide', formula: 'CO₂ (+ H₂O)', type: 'a', kind: 'gas', cls: 'gas: CO₂' },
+      eq: '(CH₃)₂C=CH₂ + 4[O] → CH₃COCH₃ + CO₂ + H₂O',
+      gas: true,
+      obs: 'purple KMnO₄ 褪色为无色；有气泡冒出（effervescence of CO₂，使澄清石灰水变浑浊）。',
+      note: '=CR₂ 产生 propanone（ketone），末端 =CH₂ 产生 CO₂ 气体。'
+    },
+    cold: {
+      name: '2-methylpropane-1,2-diol',
+      formula: '(CH₃)₂C(OH)CH₂OH',
+      eq: '(CH₃)₂C=CH₂ + [O] + H₂O → (CH₃)₂C(OH)CH₂OH',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；无气泡冒出。',
+      note: '生成含一个 1° alcohol 和一个 3° alcohol 的邻二醇。'
+    }
+  },
+  {
+    id: 'cyclopentene',
+    name: 'cyclopentene',
+    formula: 'cyclo-C₅H₈',
+    types: ['b', 'b'],
+    isRing: true,
+    hot: {
+      single: { name: 'pentanedioic acid', formula: 'HOOC(CH₂)₃COOH', type: 'b', kind: 'dicarboxylic acid', cls: 'dicarboxylic acid' },
+      eq: 'C₅H₈ + 4[O] → HOOC(CH₂)₃COOH',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；环完全断开，只生成单一二元羧酸（pentanedioic acid）；无气泡冒出。',
+      note: '<b>9701/21 Oct/Nov 2025 真题考点</b>：环烯烃 C=C 断裂后分子不会分成两段，而是展开成开链的二元羧酸（dicarboxylic acid）。'
+    },
+    cold: {
+      name: 'cyclopentane-1,2-diol',
+      formula: 'cyclo-C₅H₈(OH)₂',
+      eq: 'C₅H₈ + [O] + H₂O → cyclo-C₅H₈(OH)₂',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；无气泡冒出。',
+      note: '环上两个相邻碳加成 –OH，形成环状二醇 cyclopentane-1,2-diol。'
+    }
+  },
+  {
+    id: 'hex3ene',
+    name: 'hex-3-ene',
+    formula: 'CH₃CH₂CH=CHCH₂CH₃',
+    types: ['b', 'b'],
+    hot: {
+      left: { name: 'propanoic acid', formula: 'CH₃CH₂COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      right: { name: 'propanoic acid', formula: 'CH₃CH₂COOH', type: 'b', kind: 'acid', cls: 'carboxylic acid' },
+      singleProduct: '2 分子 propanoic acid（CH₃CH₂COOH）',
+      eq: 'CH₃CH₂CH=CHCH₂CH₃ + 4[O] → 2 CH₃CH₂COOH',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；对称分子，只有单一产物 propanoic acid；无气泡冒出。',
+      note: '两端都是 =CHCH₂CH₃，裂解后两段均成为 3 碳单羧酸 propanoic acid。'
+    },
+    cold: {
+      name: 'hexane-3,4-diol',
+      formula: 'CH₃CH₂CH(OH)CH(OH)CH₂CH₃',
+      eq: 'CH₃CH₂CH=CHCH₂CH₃ + [O] + H₂O → CH₃CH₂CH(OH)CH(OH)CH₂CH₃',
+      gas: false,
+      obs: 'purple KMnO₄ 褪色为无色；无气泡冒出。',
+      note: 'C3 与 C4 加成 –OH 生成 hexane-3,4-diol。'
+    }
+  },
+  {
+    id: 'diene',
+    name: '5-methylhexa-1,4-diene',
+    formula: 'CH₂=CHCH₂CH=C(CH₃)₂',
+    types: ['a', 'b', 'b', 'c'],
+    isDiene: true,
+    hot: {
+      frag1: { name: 'carbon dioxide', formula: 'CO₂ (+ H₂O)', type: 'a', kind: 'gas', cls: 'gas: CO₂' },
+      frag2: { name: 'propanedioic acid', formula: 'HOOCCH₂COOH', type: 'b', kind: 'acid', cls: 'dicarboxylic acid' },
+      frag3: { name: 'propanone', formula: 'CH₃COCH₃', type: 'c', kind: 'ketone', cls: 'ketone' },
+      eq: 'C₇H₁₂ + 8[O] → CO₂ + H₂O + HOOCCH₂COOH + CH₃COCH₃',
+      gas: true,
+      obs: 'purple KMnO₄ 褪色为无色；含 2 个 C=C，生成 3 种产物：CO₂（有气泡）、二元酸（propanedioic acid）与 ketone（propanone）。',
+      note: '<b>9701/s25/22 真题考点</b>：含两个双键的二烯烃，末端 =CH₂ 产生 CO₂，中间 =CH–CH₂–CH= 产生二元羧酸，末端 =CR₂ 产生 ketone。'
+    },
+    cold: {
+      name: '5-methylhexane-1,2,4,5-tetraol',
+      formula: 'C₇H₁₂(OH)₄',
+      eq: 'C₇H₁₂ + 2[O] + 2H₂O → C₇H₁₆O₄',
+      obs: 'purple KMnO₄ 褪色为无色；两个双键均加成 OH 形成四醇（tetraol）；无气泡冒出。',
+      note: '每个 C=C 均发生温和氧化加成，总共引入 4 个 –OH。'
+    }
+  }
+];
+
+/* ================= 2. Data Model: Reverse Deduction (反推) ================= */
+var QUESTIONS = [
+  {
+    id: 'q1',
+    title: '题目 1：两种不同产物（ketone + carboxylic acid）',
+    products: [
+      { name: 'propanone', formula: 'CH₃COCH₃', kind: 'ketone' },
+      { name: 'ethanoic acid', formula: 'CH₃COOH', kind: 'carboxylic acid' }
+    ],
+    hint: '产物为一个 3 碳 ketone 和一个 2 碳 carboxylic acid，说明 C=C 一端是 =C(CH₃)₂，另一端是 =CHCH₃。',
+    options: [
+      { id: 'mb2ene', name: '2-methylbut-2-ene', formula: '(CH₃)₂C=CHCH₃', correct: true },
+      { id: 'pent2ene', name: 'pent-2-ene', formula: 'CH₃CH=CHCH₂CH₃', correct: false, why: 'pent-2-ene 两端都是 =CHR，产物为 ethanoic acid + propanoic acid（两种酸，无 ketone）。' },
+      { id: 'mb1ene', name: '2-methylbut-1-ene', formula: 'CH₂=C(CH₃)CH₂CH₃', correct: false, why: '2-methylbut-1-ene 含有末端 =CH₂，产物会有 CO₂ 和 butanone。' },
+      { id: 'pent1ene', name: 'pent-1-ene', formula: 'CH₂=CHCH₂CH₂CH₃', correct: false, why: 'pent-1-ene 含有 =CH₂，产物为 CO₂ + butanoic acid。' }
+    ],
+    puzzle: {
+      leftFrag: '(CH₃)₂C=O',
+      rightFrag: 'O=CH–CH₃（来自 CH₃COOH）',
+      reassembly: '(CH₃)₂C=CH–CH₃',
+      productName: '2-methylbut-2-ene',
+      explanation: '把 propanone 的 C=O 与来自 ethanoic acid 的 C=O 对齐，脱去氧原子，拼成 C=C 双键，得到 (CH₃)₂C=CHCH₃（2-methylbut-2-ene）。'
+    }
+  },
+  {
+    id: 'q2',
+    title: '题目 2：产物含 CO₂（末端双键）',
+    products: [
+      { name: 'carbon dioxide', formula: 'CO₂ (+ H₂O)', kind: 'gas' },
+      { name: 'butanoic acid', formula: 'CH₃CH₂CH₂COOH', kind: 'carboxylic acid' }
+    ],
+    hint: '生成 CO₂ 气体证明原 alkene 必含有末端 =CH₂（未取代碳）；另一个产物为 4 碳单羧酸。',
+    options: [
+      { id: 'pent1ene', name: 'pent-1-ene', formula: 'CH₂=CHCH₂CH₂CH₃', correct: true },
+      { id: 'pent2ene', name: 'pent-2-ene', formula: 'CH₃CH=CHCH₂CH₃', correct: false, why: 'pent-2-ene 的双键不在末端，产物为 ethanoic acid + propanoic acid，不产生 CO₂。' },
+      { id: 'mb1ene', name: '2-methylbut-1-ene', formula: 'CH₂=C(CH₃)CH₂CH₃', correct: false, why: '2-methylbut-1-ene 产物为 CO₂ + butanone（ketone），不是 butanoic acid。' },
+      { id: 'hex2ene', name: 'hex-2-ene', formula: 'CH₃CH=CH(CH₂)₂CH₃', correct: false, why: 'hex-2-ene 产物为 ethanoic acid + butanoic acid，无 CO₂。' }
+    ],
+    puzzle: {
+      leftFrag: 'O=C=O（来自 =CH₂ 端）',
+      rightFrag: 'O=CH–CH₂CH₂CH₃（来自 butanoic acid）',
+      reassembly: 'CH₂=CH–CH₂CH₂CH₃',
+      productName: 'pent-1-ene',
+      explanation: '生成 CO₂ 表明一端是末端 =CH₂，另一端是 4 碳的 =CHCH₂CH₂CH₃，对拼即得 5 碳的 pent-1-ene。'
+    }
+  },
+  {
+    id: 'q3',
+    title: '题目 3：单一二元羧酸产物（环烯烃断裂 · 9701/21 Oct/Nov 2025）',
+    products: [
+      { name: 'pentanedioic acid', formula: 'HOOC(CH₂)₃COOH', kind: 'dicarboxylic acid' }
+    ],
+    hint: '只有单一产物且为二元羧酸（两端都是 –COOH），说明原分子是环烯烃，C=C 在 5 元环内！',
+    options: [
+      { id: 'cyclopentene', name: 'cyclopentene', formula: 'cyclo-C₅H₈', correct: true },
+      { id: 'pent1ene', name: 'pent-1-ene', formula: 'CH₂=CH(CH₂)₂CH₃', correct: false, why: '开链 alkene 会断成两个分子（CO₂ + butanoic acid），不可能只得到一个二元酸。' },
+      { id: 'pent2ene', name: 'pent-2-ene', formula: 'CH₃CH=CHCH₂CH₃', correct: false, why: '开链 alkene 会断裂成两个独立的酸分子（ethanoic + propanoic acid）。' },
+      { id: 'cyclohexene', name: 'cyclohexene', formula: 'cyclo-C₆H₁₀', correct: false, why: 'cyclohexene 氧化断裂得到的是 6 碳的 hexanedioic acid，不是 5 碳的 pentanedioic acid。' }
+    ],
+    puzzle: {
+      leftFrag: 'HOOC–（C1 端）',
+      rightFrag: '–COOH（C5 端）',
+      reassembly: 'cyclo-C₅H₈（cyclopentene 5 元环）',
+      productName: 'cyclopentene',
+      explanation: 'pentanedioic acid 含有 5 个碳，两端都是 –COOH。把两端的羧酸碳连回去形成 C=C 双键，即闭合成 5 元环 cyclopentene（9701/21 Oct/Nov 2025 真题考点）。'
+    }
+  },
+  {
+    id: 'q4',
+    title: '题目 4：单一产物 ethanoic acid（对称双键）',
+    products: [
+      { name: 'ethanoic acid', formula: '2 CH₃COOH', kind: 'carboxylic acid' }
+    ],
+    hint: '只产生一种产物 ethanoic acid（2 碳），说明原 alkene 对称，左右两半完全相同。',
+    options: [
+      { id: 'but2ene', name: 'but-2-ene', formula: 'CH₃CH=CHCH₃', correct: true },
+      { id: 'but1ene', name: 'but-1-ene', formula: 'CH₂=CHCH₂CH₃', correct: false, why: 'but-1-ene 会氧化产生 CO₂ + propanoic acid。' },
+      { id: 'mpropene', name: '2-methylpropene', formula: '(CH₃)₂C=CH₂', correct: false, why: '2-methylpropene 会氧化产生 propanone + CO₂。' },
+      { id: 'cyclobutene', name: 'cyclobutene', formula: 'cyclo-C₄H₆', correct: false, why: 'cyclobutene 环断开会形成 butanedioic acid（二元酸），而不是 2 分子单羧酸。' }
+    ],
+    puzzle: {
+      leftFrag: 'CH₃–CH=O',
+      rightFrag: 'O=CH–CH₃',
+      reassembly: 'CH₃–CH=CH–CH₃',
+      productName: 'but-2-ene',
+      explanation: '两个相同的 2 碳片段 CH₃CH= 对拼，生成对称的 4 碳二烯烃 but-2-ene。'
+    }
+  },
+  {
+    id: 'q5',
+    title: '题目 5：三种产物（含两个 C=C 的二烯烃 · 9701/s25/22）',
+    products: [
+      { name: 'propanone', formula: 'CH₃COCH₃', kind: 'ketone' },
+      { name: 'propanedioic acid', formula: 'HOOCCH₂COOH', kind: 'dicarboxylic acid' },
+      { name: 'carbon dioxide', formula: 'CO₂ (+ H₂O)', kind: 'gas' }
+    ],
+    hint: '生成 3 种产物（含一个二元酸），说明分子有两个 C=C 双键（diene）：末端 =CH₂、中间 =CH–CH₂–CH=、另一端 =C(CH₃)₂。',
+    options: [
+      { id: 'diene', name: '5-methylhexa-1,4-diene', formula: 'CH₂=CHCH₂CH=C(CH₃)₂', correct: true },
+      { id: 'mhex15', name: '2-methylhexa-1,5-diene', formula: 'CH₂=C(CH₃)(CH₂)₂CH=CH₂', correct: false, why: '两端都是 =CH₂ 会产生 2 个 CO₂，中间部分氧化为 4-oxopentanoic acid。' },
+      { id: 'hex14', name: 'hexa-1,4-diene', formula: 'CH₂=CHCH₂CH=CHCH₃', correct: false, why: '另一端是 =CHCH₃ 会氧化成 ethanoic acid，不产生 propanone。' },
+      { id: 'dmhex24', name: '2,5-dimethylhexa-2,4-diene', formula: '(CH₃)₂C=CHCH=C(CH₃)₂', correct: false, why: '产物会是 2 个 propanone 和 1 个 ethanedioic acid，不产生 CO₂。' }
+    ],
+    puzzle: {
+      leftFrag: 'O=C=O（来自 C1 =CH₂）',
+      midFrag: 'O=CH–CH₂–CH=O（来自 C2–C4）',
+      rightFrag: 'O=C(CH₃)₂（来自 C5）',
+      reassembly: 'CH₂=CH–CH₂–CH=C(CH₃)₂',
+      productName: '5-methylhexa-1,4-diene',
+      explanation: '三个产物片段按顺序拼接：末端 =CH₂ + 中间 =CH–CH₂–CH= + 另一端 =C(CH₃)₂，得到 5-methylhexa-1,4-diene（9701/s25/22 真题考点）。'
+    }
+  }
+];
+
+/* ================= 3. State & Animation Engine ================= */
+var curTab = 'fwd';
+var curAlk = 'but1ene';
+var curMode = 'hot';   // 'hot' | 'cold'
+var T = 0.0;           // 0.0 -> 1.0
+var DUR = 2400;        // ms for full animation
+var playing = false;
+var lastTime = 0;
+var visible = true;
+
+var curQ = 0;
+var qStates = [null, null, null, null, null]; // { selected: optId, correct: bool, shown: bool }
+var correctCount = 0;
+
+function ease(t) {
+  var u = Math.max(0, Math.min(1, t));
+  return u * u * (3 - 2 * u);
+}
+
+function clamp(x) { return Math.max(0, Math.min(1, x)); }
+
+/* ================= 4. Tab 1 SVG Stage Renderer ================= */
+var svgEl = $('.km-svg');
+
+function drawStage(t) {
+  var alk = ALKENES.find(function (a) { return a.id === curAlk; });
+  if (!alk) return;
+
+  var isHot = (curMode === 'hot');
+  var isCold = !isHot;
+  var u = ease(t);
+
+  var html = '';
+  // Background
+  html += '<rect x="0" y="0" width="680" height="230" fill="transparent"/>';
+
+  if (isCold) {
+    // Cold dilute mode: mild oxidation into diol
+    html += drawColdDiol(alk, u);
+  } else if (alk.isRing) {
+    // Cyclopentene ring rupture into pentanedioic acid
+    html += drawRingCleavage(alk, u);
+  } else if (alk.isDiene) {
+    // Diene rupture into 3 pieces
+    html += drawDieneCleavage(alk, u);
+  } else {
+    // Normal acyclic alkene rupture into 2 pieces
+    html += drawAcyclicCleavage(alk, u);
+  }
+
+  svgEl.innerHTML = html;
+}
+
+/* 4.1 Acyclic Alkene Cleavage */
+function drawAcyclicCleavage(alk, u) {
+  var dX = 135 * u;
+  var bondOp = Math.max(0, 1 - u * 2.2);
+  var prodOp = Math.max(0, (u - 0.28) / 0.72);
+  var cutOp = (u > 0.05 && u < 0.65) ? Math.sin((u - 0.05) / 0.6 * Math.PI) : 0;
+
+  var out = '';
+
+  // Left fragment container
+  out += '<g class="km-prod-box km-frag-l" transform="translate(' + (-dX).toFixed(1) + ', 0)">';
+  out += drawLeftFragment(alk, u, prodOp);
+  out += '</g>';
+
+  // Right fragment container
+  out += '<g class="km-prod-box km-frag-r" transform="translate(' + dX.toFixed(1) + ', 0)">';
+  out += drawRightFragment(alk, u, prodOp);
+  out += '</g>';
+
+  // Connecting double bond lines at t=0
+  if (bondOp > 0.01) {
+    out += '<g style="opacity:' + bondOp.toFixed(3) + '">';
+    out += '<line class="km-b" x1="322" y1="92" x2="358" y2="92"/>';
+    out += '<line class="km-b" x1="322" y1="98" x2="358" y2="98"/>';
+    out += '</g>';
+  }
+
+  // Scissor / cut line in intermediate phase
+  if (cutOp > 0.02) {
+    out += '<g style="opacity:' + cutOp.toFixed(3) + '">';
+    out += '<line class="km-b-cut" x1="340" y1="65" x2="340" y2="125"/>';
+    out += '<text x="340" y="58" class="km-atom" style="fill:var(--bad)">✂ hot KMnO₄ 切断</text>';
+    out += '</g>';
+  }
+
+  // Status banner at top
+  var statusTxt = (u === 0) ? 'alkene：C=C 双键完整' : (u < 0.65 ? '氧化裂解中：hot conc. KMnO₄ 切断 C=C 双键…' : '裂解完成：生成独立产物');
+  out += '<text x="340" y="24" class="km-status">' + statusTxt + '</text>';
+
+  return out;
+}
+
+function drawLeftFragment(alk, u, prodOp) {
+  var out = '';
+  var cType = alk.types[0];
+  var x0 = 322, y0 = 95;
+
+  if (alk.id === 'but1ene') {
+    // C1 is =CH2 -> CO2
+    out += '<circle class="km-disc type-a" cx="' + x0 + '" cy="' + y0 + '" r="7.5"/>';
+    if (prodOp < 0.4) {
+      out += '<text x="' + (x0 - 18) + '" y="' + (y0 - 16) + '" class="km-tag type-a">=CH₂</text>';
+    }
+    if (prodOp > 0.05) {
+      out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+      out += '<text x="' + x0 + '" y="' + y0 + '" class="km-atom">O=C=O</text>';
+      out += '</g>';
+    }
+  } else if (alk.id === 'but2ene' || alk.id === 'pent2ene') {
+    // CH3-CH= -> CH3COOH
+    out += '<line class="km-b" x1="' + (x0 - 28) + '" y1="' + (y0 - 24) + '" x2="' + x0 + '" y2="' + y0 + '"/>';
+    out += '<text x="' + (x0 - 38) + '" y="' + (y0 - 28) + '" class="km-atom">H₃C</text>';
+    out += '<circle class="km-disc type-b" cx="' + x0 + '" cy="' + y0 + '" r="7.5"/>';
+    if (prodOp < 0.4) {
+      out += '<text x="' + x0 + '" y="' + (y0 - 18) + '" class="km-tag type-b">=CHR</text>';
+    }
+    if (prodOp > 0.05) {
+      out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + (y0 - 2) + '" x2="' + (x0 + 20) + '" y2="' + (y0 - 24) + '"/>';
+      out += '<line class="km-b" x1="' + (x0 + 4) + '" y1="' + (y0 + 2) + '" x2="' + (x0 + 24) + '" y2="' + (y0 - 20) + '"/>';
+      out += '<text x="' + (x0 + 30) + '" y="' + (y0 - 28) + '" class="km-atom">O</text>';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + y0 + '" x2="' + (x0 + 18) + '" y2="' + (y0 + 20) + '"/>';
+      out += '<text x="' + (x0 + 32) + '" y="' + (y0 + 22) + '" class="km-atom">OH</text>';
+      out += '</g>';
+    }
+  } else if (alk.id === 'mb2ene' || alk.id === 'mpropene') {
+    // (CH3)2C= -> (CH3)2C=O
+    out += '<line class="km-b" x1="' + (x0 - 28) + '" y1="' + (y0 - 24) + '" x2="' + x0 + '" y2="' + y0 + '"/>';
+    out += '<text x="' + (x0 - 38) + '" y="' + (y0 - 28) + '" class="km-atom">H₃C</text>';
+    out += '<line class="km-b" x1="' + (x0 - 28) + '" y1="' + (y0 + 24) + '" x2="' + x0 + '" y2="' + y0 + '"/>';
+    out += '<text x="' + (x0 - 38) + '" y="' + (y0 + 28) + '" class="km-atom">H₃C</text>';
+    out += '<circle class="km-disc type-c" cx="' + x0 + '" cy="' + y0 + '" r="7.5"/>';
+    if (prodOp < 0.4) {
+      out += '<text x="' + (x0 - 18) + '" y="' + (y0 - 18) + '" class="km-tag type-c">=CR₂</text>';
+    }
+    if (prodOp > 0.05) {
+      out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + (y0 - 3) + '" x2="' + (x0 + 24) + '" y2="' + (y0 - 3) + '"/>';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + (y0 + 3) + '" x2="' + (x0 + 24) + '" y2="' + (y0 + 3) + '"/>';
+      out += '<text x="' + (x0 + 35) + '" y="' + y0 + '" class="km-atom">O</text>';
+      out += '</g>';
+    }
+  } else if (alk.id === 'hex3ene') {
+    // CH3CH2CH= -> CH3CH2COOH
+    out += '<line class="km-b" x1="' + (x0 - 54) + '" y1="' + y0 + '" x2="' + (x0 - 28) + '" y2="' + (y0 - 22) + '"/>';
+    out += '<text x="' + (x0 - 64) + '" y="' + y0 + '" class="km-atom">H₃C</text>';
+    out += '<line class="km-b" x1="' + (x0 - 28) + '" y1="' + (y0 - 22) + '" x2="' + x0 + '" y2="' + y0 + '"/>';
+    out += '<circle class="km-disc type-b" cx="' + x0 + '" cy="' + y0 + '" r="7.5"/>';
+    if (prodOp < 0.4) {
+      out += '<text x="' + x0 + '" y="' + (y0 - 18) + '" class="km-tag type-b">=CHR</text>';
+    }
+    if (prodOp > 0.05) {
+      out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + (y0 - 2) + '" x2="' + (x0 + 20) + '" y2="' + (y0 - 24) + '"/>';
+      out += '<line class="km-b" x1="' + (x0 + 4) + '" y1="' + (y0 + 2) + '" x2="' + (x0 + 24) + '" y2="' + (y0 - 20) + '"/>';
+      out += '<text x="' + (x0 + 30) + '" y="' + (y0 - 28) + '" class="km-atom">O</text>';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + y0 + '" x2="' + (x0 + 18) + '" y2="' + (y0 + 20) + '"/>';
+      out += '<text x="' + (x0 + 32) + '" y="' + (y0 + 22) + '" class="km-atom">OH</text>';
+      out += '</g>';
+    }
+  }
+
+  // Product 1 Card underneath left fragment
+  if (prodOp > 0.05) {
+    out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+    out += '<rect class="km-pcard" x="' + (x0 - 110) + '" y="150" width="220" height="66"/>';
+    out += '<text x="' + x0 + '" y="168" class="km-pname">' + alk.hot.left.name + '</text>';
+    out += '<text x="' + x0 + '" y="188" class="km-pformula">' + alk.hot.left.formula + '</text>';
+    out += '<text x="' + x0 + '" y="204" class="km-pclass" style="fill:var(--acc)">' + alk.hot.left.cls + '</text>';
+    out += '</g>';
+  }
+
+  return out;
+}
+
+function drawRightFragment(alk, u, prodOp) {
+  var out = '';
+  var cType = alk.types[1];
+  var x0 = 358, y0 = 95;
+
+  if (alk.id === 'mpropene') {
+    // C1 is =CH2 -> CO2
+    out += '<circle class="km-disc type-a" cx="' + x0 + '" cy="' + y0 + '" r="7.5"/>';
+    if (prodOp < 0.4) {
+      out += '<text x="' + (x0 + 18) + '" y="' + (y0 - 16) + '" class="km-tag type-a">=CH₂</text>';
+    }
+    if (prodOp > 0.05) {
+      out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+      out += '<text x="' + x0 + '" y="' + y0 + '" class="km-atom">O=C=O</text>';
+      out += '</g>';
+    }
+  } else if (alk.id === 'but1ene' || alk.id === 'pent2ene' || alk.id === 'hex3ene') {
+    // =CH-CH2-CH3 -> CH3CH2COOH
+    out += '<line class="km-b" x1="' + x0 + '" y1="' + y0 + '" x2="' + (x0 + 28) + '" y2="' + (y0 + 24) + '"/>';
+    out += '<line class="km-b" x1="' + (x0 + 28) + '" y1="' + (y0 + 24) + '" x2="' + (x0 + 54) + '" y2="' + y0 + '"/>';
+    out += '<text x="' + (x0 + 68) + '" y="' + y0 + '" class="km-atom">CH₃</text>';
+    out += '<circle class="km-disc type-b" cx="' + x0 + '" cy="' + y0 + '" r="7.5"/>';
+    if (prodOp < 0.4) {
+      out += '<text x="' + x0 + '" y="' + (y0 - 18) + '" class="km-tag type-b">=CHR</text>';
+    }
+    if (prodOp > 0.05) {
+      out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + (y0 - 2) + '" x2="' + (x0 - 20) + '" y2="' + (y0 - 24) + '"/>';
+      out += '<line class="km-b" x1="' + (x0 - 4) + '" y1="' + (y0 + 2) + '" x2="' + (x0 - 24) + '" y2="' + (y0 - 20) + '"/>';
+      out += '<text x="' + (x0 - 30) + '" y="' + (y0 - 28) + '" class="km-atom">O</text>';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + y0 + '" x2="' + (x0 - 18) + '" y2="' + (y0 + 20) + '"/>';
+      out += '<text x="' + (x0 - 32) + '" y="' + (y0 + 22) + '" class="km-atom">HO</text>';
+      out += '</g>';
+    }
+  } else if (alk.id === 'but2ene' || alk.id === 'mb2ene') {
+    // =CH-CH3 -> CH3COOH
+    out += '<line class="km-b" x1="' + x0 + '" y1="' + y0 + '" x2="' + (x0 + 28) + '" y2="' + (y0 + 24) + '"/>';
+    out += '<text x="' + (x0 + 40) + '" y="' + (y0 + 28) + '" class="km-atom">CH₃</text>';
+    out += '<circle class="km-disc type-b" cx="' + x0 + '" cy="' + y0 + '" r="7.5"/>';
+    if (prodOp < 0.4) {
+      out += '<text x="' + x0 + '" y="' + (y0 - 18) + '" class="km-tag type-b">=CHR</text>';
+    }
+    if (prodOp > 0.05) {
+      out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + (y0 - 2) + '" x2="' + (x0 - 20) + '" y2="' + (y0 - 24) + '"/>';
+      out += '<line class="km-b" x1="' + (x0 - 4) + '" y1="' + (y0 + 2) + '" x2="' + (x0 - 24) + '" y2="' + (y0 - 20) + '"/>';
+      out += '<text x="' + (x0 - 30) + '" y="' + (y0 - 28) + '" class="km-atom">O</text>';
+      out += '<line class="km-b" x1="' + x0 + '" y1="' + y0 + '" x2="' + (x0 - 18) + '" y2="' + (y0 + 20) + '"/>';
+      out += '<text x="' + (x0 - 32) + '" y="' + (y0 + 22) + '" class="km-atom">HO</text>';
+      out += '</g>';
+    }
+  }
+
+  // Product 2 Card underneath right fragment
+  if (prodOp > 0.05) {
+    out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+    out += '<rect class="km-pcard" x="' + (x0 - 110) + '" y="150" width="220" height="66"/>';
+    out += '<text x="' + x0 + '" y="168" class="km-pname">' + alk.hot.right.name + '</text>';
+    out += '<text x="' + x0 + '" y="188" class="km-pformula">' + alk.hot.right.formula + '</text>';
+    out += '<text x="' + x0 + '" y="204" class="km-pclass" style="fill:var(--acc)">' + alk.hot.right.cls + '</text>';
+    out += '</g>';
+  }
+
+  return out;
+}
+
+/* 4.2 Cyclopentene Ring Cleavage */
+function drawRingCleavage(alk, u) {
+  var bondOp = Math.max(0, 1 - u * 2.2);
+  var prodOp = Math.max(0, (u - 0.28) / 0.72);
+  var out = '';
+
+  // Ring vertices (t=0)
+  var rA = [322, 116], rB = [358, 116], rC = [370, 82], rD = [340, 60], rE = [310, 82];
+
+  // Open chain vertices (t=1): pentanedioic acid HOOC-CH2-CH2-CH2-COOH
+  var cA = [260, 95], cE = [300, 115], cD = [340, 85], cC = [380, 115], cB = [420, 95];
+
+  // Linear interpolation
+  function mix(p1, p2, w) { return [p1[0] + (p2[0] - p1[0]) * w, p1[1] + (p2[1] - p1[1]) * w]; }
+  var pA = mix(rA, cA, u), pB = mix(rB, cB, u), pC = mix(rC, cC, u), pD = mix(rD, cD, u), pE = mix(rE, cE, u);
+
+  // Skeletal chain bonds
+  out += '<g class="km-prod-box km-frag-ring">';
+  out += '<line class="km-b" x1="' + pA[0] + '" y1="' + pA[1] + '" x2="' + pE[0] + '" y2="' + pE[1] + '"/>';
+  out += '<line class="km-b" x1="' + pE[0] + '" y1="' + pE[1] + '" x2="' + pD[0] + '" y2="' + pD[1] + '"/>';
+  out += '<line class="km-b" x1="' + pD[0] + '" y1="' + pD[1] + '" x2="' + pC[0] + '" y2="' + pC[1] + '"/>';
+  out += '<line class="km-b" x1="' + pC[0] + '" y1="' + pC[1] + '" x2="' + pB[0] + '" y2="' + pB[1] + '"/>';
+
+  // Connecting double bond at t=0
+  if (bondOp > 0.01) {
+    out += '<g style="opacity:' + bondOp.toFixed(3) + '">';
+    out += '<line class="km-b" x1="322" y1="113" x2="358" y2="113"/>';
+    out += '<line class="km-b" x1="322" y1="119" x2="358" y2="119"/>';
+    out += '</g>';
+  }
+
+  // Discs on C1 and C2
+  out += '<circle class="km-disc type-b" cx="' + pA[0] + '" cy="' + pA[1] + '" r="7.5"/>';
+  out += '<circle class="km-disc type-b" cx="' + pB[0] + '" cy="' + pB[1] + '" r="7.5"/>';
+
+  if (prodOp < 0.4) {
+    out += '<text x="' + (pA[0] - 16) + '" y="' + (pA[1] + 16) + '" class="km-tag type-b">=CHR</text>';
+    out += '<text x="' + (pB[0] + 16) + '" y="' + (pB[1] + 16) + '" class="km-tag type-b">=CHR</text>';
+  }
+
+  // -COOH groups appearing at pA and pB
+  if (prodOp > 0.05) {
+    out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+    // Left -COOH
+    out += '<line class="km-b" x1="' + pA[0] + '" y1="' + pA[1] + '" x2="' + (pA[0] - 22) + '" y2="' + (pA[1] - 22) + '"/>';
+    out += '<text x="' + (pA[0] - 32) + '" y="' + (pA[1] - 26) + '" class="km-atom">O</text>';
+    out += '<line class="km-b" x1="' + pA[0] + '" y1="' + pA[1] + '" x2="' + (pA[0] - 22) + '" y2="' + (pA[1] + 20) + '"/>';
+    out += '<text x="' + (pA[0] - 34) + '" y="' + (pA[1] + 22) + '" class="km-atom">HO</text>';
+
+    // Right -COOH
+    out += '<line class="km-b" x1="' + pB[0] + '" y1="' + pB[1] + '" x2="' + (pB[0] + 22) + '" y2="' + (pB[1] - 22) + '"/>';
+    out += '<text x="' + (pB[0] + 32) + '" y="' + (pB[1] - 26) + '" class="km-atom">O</text>';
+    out += '<line class="km-b" x1="' + pB[0] + '" y1="' + pB[1] + '" x2="' + (pB[0] + 22) + '" y2="' + (pB[1] + 20) + '"/>';
+    out += '<text x="' + (pB[0] + 34) + '" y="' + (pB[1] + 22) + '" class="km-atom">OH</text>';
+    out += '</g>';
+  }
+
+  // Product Card underneath (centered at 340)
+  if (prodOp > 0.05) {
+    out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+    out += '<rect class="km-pcard" x="190" y="150" width="300" height="66"/>';
+    out += '<text x="340" y="168" class="km-pname">' + alk.hot.single.name + '</text>';
+    out += '<text x="340" y="188" class="km-pformula">' + alk.hot.single.formula + '</text>';
+    out += '<text x="340" y="204" class="km-pclass" style="fill:var(--acc)">dicarboxylic acid（单一产物，环断开）</text>';
+    out += '</g>';
+  }
+  out += '</g>';
+
+  // Status text
+  var statusTxt = (u === 0) ? 'cyclopentene：5 元环，C=C 双键位于环内' : (u < 0.65 ? '环完全断开：hot conc. KMnO₄ 劈开环上双键…' : '形成单一产物：开链二元羧酸 pentanedioic acid');
+  out += '<text x="340" y="24" class="km-status">' + statusTxt + '</text>';
+
+  return out;
+}
+
+/* 4.3 Diene Cleavage (5-methylhexa-1,4-diene into 3 pieces) */
+function drawDieneCleavage(alk, u) {
+  var dX = 115 * u;
+  var bondOp = Math.max(0, 1 - u * 2.2);
+  var prodOp = Math.max(0, (u - 0.28) / 0.72);
+  var out = '';
+
+  // Piece 1 (Left =CH2 -> CO2)
+  var x1 = 230 - dX, y1 = 95;
+  out += '<g class="km-prod-box km-frag-1" transform="translate(' + (-dX).toFixed(1) + ', 0)">';
+  out += '<circle class="km-disc type-a" cx="230" cy="95" r="7.5"/>';
+  if (prodOp < 0.4) out += '<text x="210" y="78" class="km-tag type-a">=CH₂</text>';
+  if (prodOp > 0.05) {
+    out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+    out += '<text x="230" y="95" class="km-atom">O=C=O</text>';
+    out += '<rect class="km-pcard" x="145" y="150" width="170" height="66"/>';
+    out += '<text x="230" y="168" class="km-pname">carbon dioxide</text>';
+    out += '<text x="230" y="188" class="km-pformula">CO₂ (+ H₂O)</text>';
+    out += '<text x="230" y="204" class="km-pclass" style="fill:var(--s2)">gas: CO₂</text>';
+    out += '</g>';
+  }
+  out += '</g>';
+
+  // Piece 2 (Middle =CH-CH2-CH= -> HOOC-CH2-COOH propanedioic acid)
+  out += '<g class="km-prod-box km-frag-2">';
+  out += '<line class="km-b" x1="264" y1="95" x2="294" y2="114"/>';
+  out += '<line class="km-b" x1="294" y1="114" x2="324" y2="95"/>';
+  out += '<circle class="km-disc type-b" cx="264" cy="95" r="7.5"/>';
+  out += '<circle class="km-disc type-b" cx="324" cy="95" r="7.5"/>';
+  if (prodOp < 0.4) {
+    out += '<text x="264" y="78" class="km-tag type-b">=CHR</text>';
+    out += '<text x="324" y="78" class="km-tag type-b">=CHR</text>';
+  }
+  if (prodOp > 0.05) {
+    out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+    // Left -COOH
+    out += '<line class="km-b" x1="264" y1="95" x2="246" y2="76"/>';
+    out += '<text x="238" y="72" class="km-atom">O</text>';
+    out += '<line class="km-b" x1="264" y1="95" x2="246" y2="114"/>';
+    out += '<text x="234" y="118" class="km-atom">HO</text>';
+    // Right -COOH
+    out += '<line class="km-b" x1="324" y1="95" x2="342" y2="76"/>';
+    out += '<text x="350" y="72" class="km-atom">O</text>';
+    out += '<line class="km-b" x1="324" y1="95" x2="342" y2="114"/>';
+    out += '<text x="354" y="118" class="km-atom">OH</text>';
+
+    out += '<rect class="km-pcard" x="250" y="150" width="180" height="66"/>';
+    out += '<text x="340" y="168" class="km-pname">propanedioic acid</text>';
+    out += '<text x="340" y="188" class="km-pformula">HOOCCH₂COOH</text>';
+    out += '<text x="340" y="204" class="km-pclass" style="fill:var(--s1)">dicarboxylic acid</text>';
+    out += '</g>';
+  }
+  out += '</g>';
+
+  // Piece 3 (Right =C(CH3)2 -> (CH3)2C=O propanone)
+  out += '<g class="km-prod-box km-frag-3" transform="translate(' + dX.toFixed(1) + ', 0)">';
+  out += '<line class="km-b" x1="358" y1="95" x2="384" y2="72"/>';
+  out += '<text x="394" y="68" class="km-atom">CH₃</text>';
+  out += '<line class="km-b" x1="358" y1="95" x2="384" y2="118"/>';
+  out += '<text x="394" y="122" class="km-atom">CH₃</text>';
+  out += '<circle class="km-disc type-c" cx="358" cy="95" r="7.5"/>';
+  if (prodOp < 0.4) out += '<text x="358" y="78" class="km-tag type-c">=CR₂</text>';
+  if (prodOp > 0.05) {
+    out += '<g style="opacity:' + prodOp.toFixed(3) + '">';
+    out += '<line class="km-b" x1="358" y1="93" x2="338" y2="93"/>';
+    out += '<line class="km-b" x1="358" y1="97" x2="338" y2="97"/>';
+    out += '<text x="326" y="95" class="km-atom">O</text>';
+
+    out += '<rect class="km-pcard" x="355" y="150" width="170" height="66"/>';
+    out += '<text x="440" y="168" class="km-pname">propanone</text>';
+    out += '<text x="440" y="188" class="km-pformula">CH₃COCH₃</text>';
+    out += '<text x="440" y="204" class="km-pclass" style="fill:var(--s4)">ketone</text>';
+    out += '</g>';
+  }
+  out += '</g>';
+
+  // Connecting double bonds at t=0
+  if (bondOp > 0.01) {
+    out += '<g style="opacity:' + bondOp.toFixed(3) + '">';
+    // C1=C2
+    out += '<line class="km-b" x1="230" y1="92" x2="264" y2="92"/>';
+    out += '<line class="km-b" x1="230" y1="98" x2="264" y2="98"/>';
+    // C4=C5
+    out += '<line class="km-b" x1="324" y1="92" x2="358" y2="92"/>';
+    out += '<line class="km-b" x1="324" y1="98" x2="358" y2="98"/>';
+    out += '</g>';
+  }
+
+  var statusTxt = (u === 0) ? '5-methylhexa-1,4-diene：含两个 C=C 双键' : (u < 0.65 ? '两个双键同时断裂：两处 C=C 均发生氧化裂解…' : '裂解完成：生成 3 种产物（CO₂ + 二元酸 + ketone）');
+  out += '<text x="340" y="24" class="km-status">' + statusTxt + '</text>';
+
+  return out;
+}
+
+/* 4.4 Cold Dilute Mode: Oxidation into 1,2-diol */
+function drawColdDiol(alk, u) {
+  var out = '';
+  var prodOp = u;
+
+  out += '<g class="km-prod-box km-diol-box">';
+
+  if (alk.isRing) {
+    // Cyclopentane-1,2-diol
+    out += '<line class="km-b" x1="322" y1="116" x2="310" y2="82"/>';
+    out += '<line class="km-b" x1="310" y1="82" x2="340" y2="60"/>';
+    out += '<line class="km-b" x1="340" y1="60" x2="370" y2="82"/>';
+    out += '<line class="km-b" x1="370" y1="82" x2="358" y2="116"/>';
+    out += '<line class="km-b" x1="322" y1="116" x2="358" y2="116"/>';
+    // Double bond fading or C=C line
+    if (1 - u > 0.05) {
+      out += '<line class="km-b" style="opacity:' + (1 - u).toFixed(3) + '" x1="325" y1="110" x2="355" y2="110"/>';
+    }
+    // Two OH groups
+    if (u > 0.05) {
+      out += '<g style="opacity:' + u.toFixed(3) + '">';
+      out += '<line class="km-b" x1="322" y1="116" x2="310" y2="138"/>';
+      out += '<text x="306" y="148" class="km-atom" style="fill:var(--acc)">OH</text>';
+      out += '<line class="km-b" x1="358" y1="116" x2="370" y2="138"/>';
+      out += '<text x="374" y="148" class="km-atom" style="fill:var(--acc)">OH</text>';
+      out += '</g>';
+    }
+  } else {
+    // Acyclic diol
+    var xA = 322, xB = 358, yC = 95;
+    out += '<line class="km-b" x1="' + (xA - 28) + '" y1="' + (yC - 24) + '" x2="' + xA + '" y2="' + yC + '"/>';
+    out += '<text x="' + (xA - 38) + '" y="' + (yC - 28) + '" class="km-atom">R₁</text>';
+    out += '<line class="km-b" x1="' + xA + '" y1="' + yC + '" x2="' + xB + '" y2="' + yC + '"/>';
+    out += '<line class="km-b" x1="' + xB + '" y1="' + yC + '" x2="' + (xB + 28) + '" y2="' + (yC + 24) + '"/>';
+    out += '<text x="' + (xB + 40) + '" y="' + (yC + 28) + '" class="km-atom">R₂</text>';
+
+    // π bond disappearing
+    if (1 - u > 0.05) {
+      out += '<line class="km-b" style="opacity:' + (1 - u).toFixed(3) + '" x1="' + xA + '" y1="' + (yC - 6) + '" x2="' + xB + '" y2="' + (yC - 6) + '"/>';
+    }
+
+    // Two -OH groups forming
+    if (u > 0.05) {
+      out += '<g style="opacity:' + u.toFixed(3) + '">';
+      out += '<line class="km-b" x1="' + xA + '" y1="' + yC + '" x2="' + xA + '" y2="' + (yC + 28) + '"/>';
+      out += '<text x="' + xA + '" y="' + (yC + 38) + '" class="km-atom" style="fill:var(--acc)">OH</text>';
+      out += '<line class="km-b" x1="' + xB + '" y1="' + yC + '" x2="' + xB + '" y2="' + (yC - 28) + '"/>';
+      out += '<text x="' + xB + '" y="' + (yC - 38) + '" class="km-atom" style="fill:var(--acc)">OH</text>';
+      out += '</g>';
+    }
+  }
+
+  // Product Card underneath (centered)
+  if (u > 0.05) {
+    out += '<g style="opacity:' + u.toFixed(3) + '">';
+    out += '<rect class="km-pcard" x="190" y="150" width="300" height="66"/>';
+    out += '<text x="340" y="168" class="km-pname">' + alk.cold.name + '</text>';
+    out += '<text x="340" y="188" class="km-pformula">' + alk.cold.formula + '</text>';
+    out += '<text x="340" y="204" class="km-pclass" style="fill:var(--ok)">1,2-diol（温和氧化加成，双键碳各加一个 –OH）</text>';
+    out += '</g>';
+  }
+
+  out += '</g>';
+
+  var statusTxt = (u === 0) ? 'alkene：C=C 双键完整' : (u < 0.65 ? '温和氧化进行中：[O] + H₂O 加成到双键两端…' : '加成完成：生成 1,2-diol（紫色褪为无色，无气体）');
+  out += '<text x="340" y="24" class="km-status">' + statusTxt + '</text>';
+
+  return out;
+}
+
+/* ================= 5. Controller & State Sync ================= */
+var nameSpan = $('.km-mol-name');
+var formSpan = $('.km-mol-formula');
+var condBadge = $('.km-cond-badge');
+var slider = $('.km-slider');
+var playBtn = $('.km-play-btn');
+var eqContent = $('.km-eq-content');
+var obsContent = $('.km-obs-content');
+var noteContent = $('.km-note-content');
+
+function updateUI() {
+  var alk = ALKENES.find(function (a) { return a.id === curAlk; });
+  if (!alk) return;
+
+  nameSpan.textContent = alk.name;
+  formSpan.textContent = alk.formula;
+
+  var isHot = (curMode === 'hot');
+  condBadge.textContent = isHot ? 'hot conc. acidified KMnO₄' : 'cold dilute acidified KMnO₄';
+  condBadge.style.color = isHot ? 'var(--pos)' : 'var(--acc)';
+  condBadge.style.background = isHot ? 'var(--bad-soft)' : 'var(--acc-soft)';
+
+  // Sync mode buttons
+  $$('.km-cond-btn').forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-cond') === curMode);
+  });
+
+  // Sync alkene buttons
+  $$('.km-alk-btn').forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-alk') === curAlk);
+  });
+
+  // Sync step buttons label
+  var stBtns = $$('.km-step-btn');
+  if (isHot) {
+    stBtns[0].textContent = '① alkene (双键)';
+    stBtns[1].textContent = '② 断开 (cleavage)';
+    stBtns[2].textContent = '③ products (产物)';
+  } else {
+    stBtns[0].textContent = '① alkene (双键)';
+    stBtns[1].textContent = '② 加成 [O] + H₂O';
+    stBtns[2].textContent = '③ diol (二醇)';
+  }
+
+  var ph = T < 0.35 ? 0 : (T < 0.75 ? 1 : 2);
+  stBtns.forEach(function (b) {
+    b.classList.toggle('on', +b.getAttribute('data-st') === ph);
+  });
+
+  slider.value = Math.round(T * 100);
+
+  // Sync equation & observations
+  var info = isHot ? alk.hot : alk.cold;
+  eqContent.textContent = info.eq;
+  obsContent.textContent = info.obs;
+  noteContent.innerHTML = info.note;
+
+  // Draw stage
+  drawStage(T);
+}
+
+function setT(t) {
+  T = clamp(t);
+  updateUI();
+}
+
+function pause() {
+  playing = false;
+  playBtn.textContent = '▶ 播放';
+}
+
+function play() {
+  if (T >= 0.99) T = 0;
+  playing = true;
+  playBtn.textContent = '❚❚ 暂停';
+  lastTime = performance.now();
+  requestAnimationFrame(tick);
+}
+
+function tick(now) {
+  if (!playing) return;
+  if (!visible) { pause(); return; }
+  var dt = now - lastTime;
+  lastTime = now;
+  var nextT = T + dt / DUR;
+  if (nextT >= 1) {
+    setT(1);
+    pause();
+    return;
+  }
+  setT(nextT);
+  requestAnimationFrame(tick);
+}
+
+function selectAlk(id) {
+  pause();
+  curAlk = id;
+  setT(0);
+}
+
+function selectMode(m) {
+  pause();
+  curMode = m;
+  setT(0);
+}
+
+// Event Listeners for Tab 1
+$$('.km-alk-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    selectAlk(btn.getAttribute('data-alk'));
+  });
+});
+
+$$('.km-cond-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    selectMode(btn.getAttribute('data-cond'));
+  });
+});
+
+playBtn.addEventListener('click', function () {
+  if (playing) pause(); else play();
+});
+
+slider.addEventListener('input', function () {
+  pause();
+  setT(+slider.value / 100);
+});
+
+$$('.km-step-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    pause();
+    var targets = [0, 0.52, 1.0];
+    setT(targets[+btn.getAttribute('data-st')]);
+  });
+});
+
+/* ================= 6. Tab 2: Reverse Deduction Controller ================= */
+var qTitle = $('.km-q-title');
+var qProds = $('.km-q-prods');
+var qOpts = $('.km-q-opts');
+var qFbBox = $('.km-fb-box');
+var qFbBanner = $('.km-fb-banner');
+var qPuzzleFlow = $('.km-puzzle-flow');
+var qPuzzleExpl = $('.km-puzzle-expl');
+var scVal = $('.km-sc-val');
+
+function loadQ(idx) {
+  curQ = idx;
+  $$('.km-q-btn').forEach(function (b) {
+    b.classList.toggle('on', +b.getAttribute('data-q') === idx);
+  });
+
+  var q = QUESTIONS[idx];
+  qTitle.textContent = q.title;
+
+  // Render given products
+  var phtml = '';
+  q.products.forEach(function (p) {
+    phtml += '<div class="km-q-prod-card">';
+    phtml += '<div class="km-q-prod-name">' + p.name + '</div>';
+    phtml += '<div class="km-q-prod-formula">' + p.formula + '</div>';
+    phtml += '<span class="km-q-prod-badge">' + p.kind + '</span>';
+    phtml += '</div>';
+  });
+  qProds.innerHTML = phtml;
+
+  // Render options
+  var ohtml = '';
+  var labels = ['A', 'B', 'C', 'D'];
+  q.options.forEach(function (opt, i) {
+    ohtml += '<button type="button" class="km-opt-btn" data-opt="' + opt.id + '">';
+    ohtml += '<div class="km-opt-head"><span class="km-opt-lbl">Option ' + labels[i] + '</span></div>';
+    ohtml += '<div class="km-opt-name">' + opt.name + '</div>';
+    ohtml += '<div class="km-opt-formula">' + opt.formula + '</div>';
+    ohtml += '</button>';
+  });
+  qOpts.innerHTML = ohtml;
+
+  // Bind option clicks
+  $$('.km-opt-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      answerOption(btn.getAttribute('data-opt'));
+    });
+  });
+
+  // Restore state if answered previously
+  var st = qStates[idx];
+  if (st) {
+    applyQState(st);
+  } else {
+    qFbBox.hidden = true;
+  }
+}
+
+function answerOption(optId) {
+  var q = QUESTIONS[curQ];
+  var opt = q.options.find(function (o) { return o.id === optId; });
+  if (!opt) return;
+
+  var isCorrect = !!opt.correct;
+  qStates[curQ] = { selected: optId, correct: isCorrect, shown: false };
+
+  // Update correct count
+  correctCount = qStates.filter(function (s) { return s && s.correct; }).length;
+  scVal.textContent = correctCount;
+
+  applyQState(qStates[curQ]);
+}
+
+function applyQState(st) {
+  var q = QUESTIONS[curQ];
+  var btns = $$('.km-opt-btn');
+
+  btns.forEach(function (b) {
+    var oid = b.getAttribute('data-opt');
+    var o = q.options.find(function (x) { return x.id === oid; });
+    b.classList.remove('good', 'badv', 'sel');
+    if (oid === st.selected) {
+      b.classList.add(st.correct ? 'good' : 'badv');
+    }
+    if (st.shown && o.correct) {
+      b.classList.add('good');
+    }
+  });
+
+  qFbBox.hidden = false;
+  if (st.correct) {
+    qFbBanner.className = 'km-fb-banner ok';
+    qFbBanner.textContent = '✓ 回答正确！正是 ' + q.puzzle.productName + '。';
+  } else if (st.shown) {
+    qFbBanner.className = 'km-fb-banner ok';
+    qFbBanner.textContent = '💡 答案解析：正确答案是 ' + q.puzzle.productName + '。';
+  } else {
+    var wrongOpt = q.options.find(function (x) { return x.id === st.selected; });
+    qFbBanner.className = 'km-fb-banner bad';
+    qFbBanner.textContent = '✗ 选项不正确：' + (wrongOpt ? wrongOpt.why : '');
+  }
+
+  // Puzzle flow & explanation
+  qPuzzleFlow.textContent = q.puzzle.leftFrag + '  +  ' + (q.puzzle.midFrag ? q.puzzle.midFrag + '  +  ' : '') + q.puzzle.rightFrag + '  ──(对拼 C=C)──>  ' + q.puzzle.reassembly;
+  qPuzzleExpl.textContent = q.puzzle.explanation;
+}
+
+function showAnswerQ() {
+  var q = QUESTIONS[curQ];
+  var correctOpt = q.options.find(function (o) { return o.correct; });
+  qStates[curQ] = { selected: correctOpt.id, correct: true, shown: true };
+  correctCount = qStates.filter(function (s) { return s && s.correct; }).length;
+  scVal.textContent = correctCount;
+  applyQState(qStates[curQ]);
+}
+
+function resetCurrentQ() {
+  qStates[curQ] = null;
+  correctCount = qStates.filter(function (s) { return s && s.correct; }).length;
+  scVal.textContent = correctCount;
+  loadQ(curQ);
+}
+
+$('.km-show-btn').addEventListener('click', showAnswerQ);
+$('.km-reset-btn').addEventListener('click', resetCurrentQ);
+
+$$('.km-q-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    loadQ(+btn.getAttribute('data-q'));
+  });
+});
+
+/* ================= 7. Tab Switching & Observer ================= */
+function switchTab(tabId) {
+  curTab = tabId;
+  $$('.tabbar button').forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-tab') === tabId);
+  });
+  $$('[data-pane]').forEach(function (p) {
+    p.classList.toggle('show', p.getAttribute('data-pane') === tabId);
+    p.hidden = (p.getAttribute('data-pane') !== tabId);
+  });
+
+  if (tabId === 'fwd') {
+    setTimeout(function () { updateUI(); }, 0);
+  } else {
+    pause();
+    setTimeout(function () { loadQ(curQ); }, 0);
+  }
+  if (window.K && window.K.fit) window.K.fit();
+}
+
+$$('.tabbar button').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    switchTab(btn.getAttribute('data-tab'));
+  });
+});
+
+if (window.IntersectionObserver) {
+  new IntersectionObserver(function (entries) {
+    visible = entries[entries.length - 1].isIntersecting;
+    if (!visible) pause();
+  }).observe($('.km-stage'));
+}
+
+/* ================= 8. Test Hook for Headless Validation ================= */
+$root.kmHook = {
+  getTab: function () { return curTab; },
+  setTab: function (tab) { switchTab(tab); },
+  getAlkene: function () { return curAlk; },
+  setAlkene: function (id) { selectAlk(id); },
+  getMode: function () { return curMode; },
+  setMode: function (mode) { selectMode(mode); },
+  getT: function () { return T; },
+  setT: function (t) { setT(t); },
+  advance: function (ms) { setT(T + ms / DUR); },
+  isPlaying: function () { return playing; },
+  play: function () { play(); },
+  pause: function () { pause(); },
+  getInfo: function () {
+    var alk = ALKENES.find(function (a) { return a.id === curAlk; });
+    return curMode === 'hot' ? alk.hot : alk.cold;
+  },
+  getQIndex: function () { return curQ; },
+  setQIndex: function (idx) { loadQ(idx); },
+  answerQ: function (optId) { answerOption(optId); },
+  showAnswer: function () { showAnswerQ(); },
+  resetQ: function () { resetCurrentQ(); },
+  getScore: function () { return correctCount; },
+  getProductBoxes: function () {
+    var els = $$('.km-stage .km-prod-box');
+    return els.map(function (el) {
+      var r = el.getBoundingClientRect();
+      return { x: r.x, y: r.y, w: r.width, h: r.height };
+    });
+  },
+  getMinFontSize: function () {
+    var svg = $('.km-svg');
+    if (!svg) return 14;
+    var k = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+    var texts = Array.prototype.slice.call(svg.querySelectorAll('text')).filter(function (t) {
+      return getComputedStyle(t).display !== 'none' && t.textContent.trim().length > 0;
+    });
+    if (!texts.length) return 14;
+    return Math.min.apply(null, texts.map(function (t) {
+      return parseFloat(getComputedStyle(t).fontSize) * k;
+    }));
+  }
+};
+
+// Initial boot
+switchTab('fwd');
+loadQ(0);
+</script>

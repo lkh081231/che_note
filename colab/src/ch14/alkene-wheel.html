@@ -1,0 +1,1265 @@
+<h3>🔬 alkene 反应轮：ethene / propene × reagent</h3>
+<p class="mut">点击中间选择 alkene（底物）或开启「对比 alkane」；点击外圈 7 种 reagent 查看加成产物、Markovnikov 规律、反应机理与现象观察。</p>
+
+<div class="aw-wrap">
+  <!-- Top Bar: Substrate Selection + Alkane Comparison Toggle -->
+  <div class="row aw-top-bar">
+    <div class="aw-sub-group">
+      <span class="faint">底物 alkene：</span>
+      <button type="button" class="aw-sub-btn" data-sub="ethene">ethene (CH₂=CH₂)</button>
+      <button type="button" class="aw-sub-btn on" data-sub="propene">propene (CH₃CH=CH₂)</button>
+      <button type="button" class="aw-sub-btn" data-sub="but2ene">but-2-ene (CH₃CH=CHCH₃)</button>
+      <button type="button" class="aw-sub-btn" data-sub="mb2ene">2-methylpropene ((CH₃)₂C=CH₂)</button>
+      <button type="button" class="aw-sub-btn" data-sub="cyclohexene">cyclohexene (C₆H₁₀)</button>
+    </div>
+    <label class="aw-toggle-alkane">
+      <input type="checkbox" class="aw-chk-alkane"> 对比 alkane (ethane C₂H₆)
+    </label>
+  </div>
+
+  <!-- Main Grid: Left = SVG Wheel & Quick Reagents; Right = Reaction Details -->
+  <div class="aw-grid">
+    <!-- Left Column: Wheel SVG & Reagent Quick-select -->
+    <div class="card aw-wheel-card">
+      <div class="aw-wheel-hdr">
+        <b>双键反应轮</b>
+        <span class="faint aw-wheel-hint">点击任意试剂节点或下方按钮</span>
+      </div>
+      <div class="aw-svg-container">
+        <svg class="aw-wheel-svg" viewBox="0 0 420 420" width="100%" role="img" aria-label="Alkene reaction wheel">
+          <!-- Orbit Guide Ring -->
+          <circle cx="210" cy="210" r="145" class="aw-orbit" />
+          
+          <!-- Connecting Spokes (center to nodes) -->
+          <g class="aw-spokes-group"></g>
+
+          <!-- Center Substrate Hub -->
+          <g class="aw-hub" tabindex="0" role="button" aria-label="Selected substrate">
+            <circle cx="210" cy="210" r="48" class="aw-hub-circle" />
+            <text x="210" y="202" class="aw-hub-name" text-anchor="middle">propene</text>
+            <text x="210" y="220" class="aw-hub-formula" text-anchor="middle">CH₃CH=CH₂</text>
+            <text x="210" y="236" class="aw-hub-badge" text-anchor="middle">unsymmetrical</text>
+          </g>
+
+          <!-- Outer Reagent Nodes (7 alkene reagents + 1 alkane FRS node) -->
+          <g class="aw-nodes-group"></g>
+        </svg>
+      </div>
+
+      <!-- Quick Reagent Buttons (accessible and responsive) -->
+      <div class="aw-reagent-btns">
+        <button type="button" class="aw-btn-rg on" data-rg="hx-add">HBr(g)</button>
+        <button type="button" class="aw-btn-rg" data-rg="steam">H₂O(g) / H₃PO₄</button>
+        <button type="button" class="aw-btn-rg" data-rg="x2-add">Br₂(aq)</button>
+        <button type="button" class="aw-btn-rg" data-rg="hydrogenation">H₂ / Ni, heat</button>
+        <button type="button" class="aw-btn-rg" data-rg="kmno4-cold">cold dil. KMnO₄</button>
+        <button type="button" class="aw-btn-rg" data-rg="kmno4-hot">hot conc. KMnO₄</button>
+        <button type="button" class="aw-btn-rg" data-rg="polymerisation">polymerisation</button>
+        <button type="button" class="aw-btn-rg aw-btn-frs" data-rg="frs" style="display:none">Cl₂ / UV (FRS)</button>
+      </div>
+    </div>
+
+    <!-- Right Column: Reaction Details & Products Showcase -->
+    <div class="card aw-detail-card">
+      <!-- Reaction Header -->
+      <div class="aw-rx-hdr">
+        <div class="aw-rx-title-wrap">
+          <h4 class="aw-rx-title">propene + HBr(g)</h4>
+          <span class="aw-rx-tag">electrophilic addition</span>
+        </div>
+        <div class="aw-rx-mkv-pill">Markovnikov addition</div>
+      </div>
+
+      <!-- Syllabus Conditions Box -->
+      <div class="aw-cond-box">
+        <span class="faint aw-cond-lbl">Reagents & conditions (syllabus):</span>
+        <span class="aw-cond-text">HX(g), at room temperature</span>
+      </div>
+
+      <!-- Observations Box (if any) -->
+      <div class="aw-obs-box" style="display:none">
+        <span class="aw-obs-icon">🧪</span>
+        <span class="aw-obs-text"></span>
+      </div>
+
+      <!-- Products Display Area -->
+      <div class="aw-products-area"></div>
+
+      <!-- Explanation & Mechanism Notes -->
+      <div class="aw-mech-notes"></div>
+
+      <!-- Balanced Chemical Equation -->
+      <div class="aw-eq-box">
+        <span class="faint">Reaction equation:</span>
+        <code class="aw-eq-text">CH₃CH=CH₂ + HBr → CH₃CHBrCH₃</code>
+      </div>
+
+      <!-- Cross Reference Link -->
+      <div class="aw-xref-box"></div>
+    </div>
+  </div>
+
+  <!-- Mini Self-Check Practice Card -->
+  <div class="card aw-practice-card">
+    <div class="aw-prac-hdr">
+      <b>🔬 考点自测：预测产物与机理判断</b>
+      <span class="faint">输入主要产物的 IUPAC 名称或结构简式</span>
+    </div>
+    <div class="aw-prac-body">
+      <div class="aw-prac-q">
+        <span class="aw-q-text">预测 propene 与 HBr(g) 反应的 <b>major product</b>：</span>
+      </div>
+      <div class="row aw-prac-row">
+        <input type="text" class="aw-prac-input" placeholder="例如 2-bromopropane" autocomplete="off" spellcheck="false" />
+        <button type="button" class="aw-prac-btn-check on">检查</button>
+        <button type="button" class="aw-prac-btn-rev">显示答案</button>
+        <button type="button" class="aw-prac-btn-next">换一题</button>
+      </div>
+      <div class="aw-prac-fb" style="display:none"></div>
+    </div>
+    <!-- Periodic Table Expander -->
+    <div class="k-ptable"></div>
+  </div>
+</div>
+
+<!-- Pre-rendered ChemFig SVGs (hidden container for fast, reliable SVG cloning) -->
+<div class="aw-chem-src" hidden>
+  <!-- Substrates -->
+  <div data-cf="sub_ethene">{{chemfig \chemfig{H_2C=CH_2}}}</div>
+  <div data-cf="sub_propene">{{chemfig \chemfig{H_3C-[:30]CH=[:-30]CH_2}}}</div>
+  <div data-cf="sub_but2ene">{{chemfig \chemfig{H_3C-[:30]CH=[:-30]CH-[:30]CH_3}}}</div>
+  <div data-cf="sub_mb2ene">{{chemfig \chemfig{C(-[:120]H_3C)(-[:240]H_3C)=[:0]CH_2}}}</div>
+  <div data-cf="sub_cyclohexene">{{chemfig \chemfig{?(-[:30]=[:-30]-[:-90]-[:-150]-[:150]-[:90]?)}}}</div>
+  <div data-cf="sub_ethane">{{chemfig \chemfig{H_3C-CH_3}}}</div>
+
+  <!-- Products: ethene -->
+  <div data-cf="eth_h2">{{chemfig \chemfig{H_3C-CH_3}}}</div>
+  <div data-cf="eth_steam">{{chemfig \chemfig{H_3C-[:30]CH_2-[:-30]OH}}}</div>
+  <div data-cf="eth_hbr">{{chemfig \chemfig{H_3C-[:30]CH_2-[:-30]Br}}}</div>
+  <div data-cf="eth_br2">{{chemfig \chemfig{Br-[:30]CH_2-[:-30]CH_2-[:30]Br}}}</div>
+  <div data-cf="eth_cold">{{chemfig \chemfig{HO-[:30]CH_2-[:-30]CH_2-[:30]OH}}}</div>
+  <div data-cf="eth_poly">{{chemfig \chemfig{-[@{l,0.5}]CH_2-CH_2-[@{r,0.5}]}}}</div>
+
+  <!-- Products: propene -->
+  <div data-cf="pro_h2">{{chemfig \chemfig{H_3C-[:30]CH_2-[:-30]CH_3}}}</div>
+  <div data-cf="pro_steam_maj">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]OH)-[:-30]CH_3}}}</div>
+  <div data-cf="pro_steam_min">{{chemfig \chemfig{H_3C-[:30]CH_2-[:-30]CH_2-[:30]OH}}}</div>
+  <div data-cf="pro_hbr_maj">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]Br)-[:-30]CH_3}}}</div>
+  <div data-cf="pro_hbr_min">{{chemfig \chemfig{H_3C-[:30]CH_2-[:-30]CH_2-[:30]Br}}}</div>
+  <div data-cf="pro_br2">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]Br)-[:-30]CH_2-[:30]Br}}}</div>
+  <div data-cf="pro_cold">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]OH)-[:-30]CH_2-[:30]OH}}}</div>
+  <div data-cf="pro_hot">{{chemfig \chemfig{H_3C-[:30]C(=[:90]O)-[:-30]OH}}}</div>
+  <div data-cf="pro_poly">{{chemfig \chemfig{-[@{l,0.5}]CH(-[:90]CH_3)-CH_2-[@{r,0.5}]}}}</div>
+
+  <!-- Products: but-2-ene -->
+  <div data-cf="b2e_h2">{{chemfig \chemfig{H_3C-[:30]CH_2-[:-30]CH_2-[:30]CH_3}}}</div>
+  <div data-cf="b2e_steam">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]OH)-[:-30]CH_2-[:30]CH_3}}}</div>
+  <div data-cf="b2e_hbr">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]Br)-[:-30]CH_2-[:30]CH_3}}}</div>
+  <div data-cf="b2e_br2">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]Br)-[:-30]CH(-[:-90]Br)-[:30]CH_3}}}</div>
+  <div data-cf="b2e_cold">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]OH)-[:-30]CH(-[:-90]OH)-[:30]CH_3}}}</div>
+  <div data-cf="b2e_poly">{{chemfig \chemfig{-[@{l,0.5}]CH(-[:90]CH_3)-CH(-[:-90]CH_3)-[@{r,0.5}]}}}</div>
+
+  <!-- Products: 2-methylpropene -->
+  <div data-cf="mb_h2">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]CH_3)-[:-30]CH_3}}}</div>
+  <div data-cf="mb_steam_maj">{{chemfig \chemfig{H_3C-[:30]C(-[:90]CH_3)(-[:-90]OH)-[:-30]CH_3}}}</div>
+  <div data-cf="mb_steam_min">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]CH_3)-[:-30]CH_2-[:30]OH}}}</div>
+  <div data-cf="mb_hbr_maj">{{chemfig \chemfig{H_3C-[:30]C(-[:90]CH_3)(-[:-90]Br)-[:-30]CH_3}}}</div>
+  <div data-cf="mb_hbr_min">{{chemfig \chemfig{H_3C-[:30]CH(-[:90]CH_3)-[:-30]CH_2-[:30]Br}}}</div>
+  <div data-cf="mb_br2">{{chemfig \chemfig{H_3C-[:30]C(-[:90]CH_3)(-[:-90]Br)-[:-30]CH_2-[:30]Br}}}</div>
+  <div data-cf="mb_cold">{{chemfig \chemfig{H_3C-[:30]C(-[:90]CH_3)(-[:-90]OH)-[:-30]CH_2-[:30]OH}}}</div>
+  <div data-cf="mb_hot">{{chemfig \chemfig{H_3C-[:30]C(=[:90]O)-[:-30]CH_3}}}</div>
+  <div data-cf="mb_poly">{{chemfig \chemfig{-[@{l,0.5}]C(-[:90]CH_3)(-[:-90]CH_3)-CH_2-[@{r,0.5}]}}}</div>
+
+  <!-- Products: cyclohexene -->
+  <div data-cf="cyc_h2">{{chemfig \chemfig{?(-[:30]-[:-30]-[:-90]-[:-150]-[:150]-[:90]?)}}}</div>
+  <div data-cf="cyc_steam">{{chemfig \chemfig{?(-[:30]-[:-30]-[:-90]-[:-150]-[:150]-[:90]?(-[:90]OH))}}}</div>
+  <div data-cf="cyc_hbr">{{chemfig \chemfig{?(-[:30]-[:-30]-[:-90]-[:-150]-[:150]-[:90]?(-[:90]Br))}}}</div>
+  <div data-cf="cyc_br2">{{chemfig \chemfig{?(-[:30](-[:90]Br)-[:-30](-[:-90]Br)-[:-90]-[:-150]-[:150]-[:90]?)}}}</div>
+  <div data-cf="cyc_cold">{{chemfig \chemfig{?(-[:30](-[:90]OH)-[:-30](-[:-90]OH)-[:-90]-[:-150]-[:150]-[:90]?)}}}</div>
+  <div data-cf="cyc_hot">{{chemfig \chemfig{HO-[:150](=[:90]O)-[:-30]-[:30]-[:-30]-[:30]-[:-30](=[:-90]O)-[:30]OH}}}</div>
+  <div data-cf="cyc_poly">{{chemfig \chemfig{-[@{l,0.5}]?(-[:30]-[:-30]-[:-90]-[:-150]-[:150]-[:90]?)-[@{r,0.5}]}}}</div>
+
+  <!-- Product: ethane FRS -->
+  <div data-cf="eth_frs">{{chemfig \chemfig{H_3C-[:30]CH_2-[:-30]Cl}}}</div>
+</div>
+
+<style>
+.k .aw-wrap { display: flex; flex-direction: column; gap: 10px; margin: 4px 0; }
+.k .aw-top-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 12px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+.k .aw-sub-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.k .aw-sub-btn { font-size: 13.5px; padding: 4px 9px; }
+.k .aw-toggle-alkane { font-size: 13.5px; font-weight: 600; color: var(--fg); display: inline-flex; align-items: center; gap: 6px; user-select: none; }
+.k .aw-toggle-alkane input { margin: 0; }
+
+.k .aw-grid { display: grid; grid-template-columns: minmax(350px, 420px) minmax(0, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 760px) {
+  .k .aw-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Left Column: Wheel */
+.k .aw-wheel-card { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; }
+.k .aw-wheel-hdr { display: flex; justify-content: space-between; align-items: baseline; font-size: 13.5px; }
+.k .aw-svg-container { position: relative; width: 100%; max-width: 420px; margin: 0 auto; }
+.k .aw-wheel-svg { display: block; overflow: visible; user-select: none; }
+
+/* SVG Wheel Styling */
+.k .aw-orbit { fill: none; stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.k .aw-spoke { stroke: var(--line); stroke-width: 1.8; transition: stroke .2s, stroke-width .2s; }
+.k .aw-spoke.on { stroke: var(--acc); stroke-width: 3.2; }
+.k .aw-spoke.dim { stroke: var(--line); opacity: .35; stroke-dasharray: 2 3; }
+
+.k .aw-hub { cursor: pointer; outline: none; }
+.k .aw-hub-circle { fill: var(--card); stroke: var(--acc); stroke-width: 2.4; transition: transform .15s; }
+.k .aw-hub:hover .aw-hub-circle, .k .aw-hub:focus-visible .aw-hub-circle { stroke-width: 3.2; filter: drop-shadow(0 0 3px var(--acc)); }
+.k .aw-hub-name { font-size: 15px; font-weight: 700; fill: var(--fg); }
+.k .aw-hub-formula { font-size: 13.5px; fill: var(--mut); }
+.k .aw-hub-badge { font-size: 13px; font-weight: 600; fill: var(--acc); }
+
+.k .aw-node { cursor: pointer; outline: none; transition: transform .15s; }
+.k .aw-node-rect { fill: var(--card); stroke: var(--line); stroke-width: 1.6; rx: 10; ry: 10; transition: fill .15s, stroke .15s; }
+.k .aw-node:hover .aw-node-rect, .k .aw-node:focus-visible .aw-node-rect { stroke: var(--acc); }
+.k .aw-node.on .aw-node-rect { fill: var(--acc-soft); stroke: var(--acc); stroke-width: 2.2; }
+.k .aw-node.dim { opacity: .45; }
+.k .aw-node.dim .aw-node-rect { stroke-dasharray: 3 2; }
+.k .aw-node-t1 { font-size: 14px; font-weight: 650; fill: var(--fg); text-anchor: middle; dominant-baseline: central; }
+.k .aw-node-t2 { font-size: 13px; fill: var(--mut); text-anchor: middle; dominant-baseline: central; }
+.k .aw-node.on .aw-node-t1 { fill: var(--acc); }
+.k .aw-node-cross { font-size: 13px; font-weight: 700; fill: var(--bad); text-anchor: middle; dominant-baseline: central; display: none; }
+.k .aw-node.dim .aw-node-cross { display: block; }
+.k .aw-node.dim .aw-node-t2 { display: none; }
+
+.k .aw-reagent-btns { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.k .aw-btn-rg { font-size: 12.5px; padding: 3px 8px; border-radius: 5px; }
+
+/* Right Column: Reaction Details */
+.k .aw-detail-card { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; min-width: 0; }
+.k .aw-rx-hdr { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 6px 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.k .aw-rx-title-wrap { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 10px; }
+.k .aw-rx-title { margin: 0; font-size: 16px; font-weight: 700; color: var(--fg); }
+.k .aw-rx-tag { font-size: 12px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: var(--acc-soft); color: var(--acc); text-transform: uppercase; letter-spacing: .3px; }
+.k .aw-rx-mkv-pill { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 12px; background: var(--hl); color: var(--s4); }
+.k .aw-rx-mkv-pill.sym { background: var(--bg); color: var(--mut); border: 1px solid var(--line); }
+
+.k .aw-cond-box { font-size: 13.5px; line-height: 1.45; background: var(--bg); padding: 6px 9px; border-radius: 6px; border-left: 3px solid var(--acc); }
+.k .aw-cond-lbl { font-size: 12px; margin-right: 4px; }
+.k .aw-cond-text { font-weight: 600; color: var(--fg); }
+
+.k .aw-obs-box { display: flex; align-items: center; gap: 8px; font-size: 13.5px; padding: 7px 10px; border-radius: 6px; background: var(--ok-soft); color: var(--ok); border: 1px solid var(--ok); }
+.k .aw-obs-icon { font-size: 16px; flex: none; }
+.k .aw-obs-text b { font-weight: 700; }
+
+/* Products Layout */
+.k .aw-products-area { display: flex; flex-direction: column; gap: 8px; }
+.k .aw-prod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+.k .aw-prod-card { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+.k .aw-prod-card.maj { border-color: var(--acc); background: color-mix(in srgb, var(--acc-soft) 30%, var(--card)); }
+.k .aw-prod-badge { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--mut); }
+.k .aw-prod-card.maj .aw-prod-badge { color: var(--acc); }
+.k .aw-prod-name { font-size: 14.5px; margin: 0; color: var(--fg); }
+.k .aw-prod-card.maj .aw-prod-name { font-weight: 700; color: var(--fg); }
+.k .aw-prod-formula { font-size: 13px; color: var(--mut); font-family: monospace; }
+.k .aw-prod-stage { display: flex; align-items: center; justify-content: center; min-height: 75px; padding: 4px 0; overflow-x: auto; }
+.k .aw-prod-stage svg.cf { max-height: 90px; }
+
+.k .aw-mech-notes { font-size: 13.5px; line-height: 1.5; color: var(--fg); background: var(--card); border: 1px dashed var(--line); border-radius: 6px; padding: 8px 10px; }
+.k .aw-mech-notes p { margin: 4px 0; }
+.k .aw-mech-notes b { color: var(--fg); }
+
+.k .aw-eq-box { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 10px; font-size: 13.5px; padding: 5px 8px; background: var(--bg); border-radius: 6px; }
+.k .aw-eq-text { font-size: 13.5px; font-weight: 600; color: var(--fg); background: transparent; padding: 0; }
+
+.k .aw-xref-box { font-size: 13px; text-align: right; }
+
+/* Practice Card */
+.k .aw-practice-card { margin-top: 4px; padding: 10px 12px; }
+.k .aw-prac-hdr { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 8px; }
+.k .aw-prac-body { display: flex; flex-direction: column; gap: 6px; }
+.k .aw-prac-q { font-size: 14px; }
+.k .aw-prac-row { gap: 6px 8px; }
+.k .aw-prac-input { width: 16em; max-width: 100%; text-align: left; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
+.k .aw-prac-input.good { border-color: var(--ok); background: var(--ok-soft); }
+.k .aw-prac-input.badv { border-color: var(--bad); background: var(--bad-soft); }
+.k .aw-prac-fb { font-size: 13.5px; line-height: 1.45; padding: 6px 9px; border-radius: 6px; }
+.k .aw-prac-fb.ok { background: var(--ok-soft); color: var(--ok); border-left: 3px solid var(--ok); }
+.k .aw-prac-fb.bad { background: var(--bad-soft); color: var(--bad); border-left: 3px solid var(--bad); }
+.k .aw-prac-fb.rev { background: var(--acc-soft); color: var(--acc); border-left: 3px solid var(--acc); }
+</style>
+
+<script>
+(function () {
+  var $ = function (s) { return $root.querySelector(s); };
+  var $$ = function (s) { return Array.from($root.querySelectorAll(s)); };
+
+  K.init($root);
+
+  /* =========================================================================
+     1. SUBSTRATES REGISTRY (5 alkenes + 1 alkane)
+     ========================================================================= */
+  var SUBSTRATES = {
+    ethene: {
+      id: 'ethene', name: 'ethene', formula: 'CH₂=CH₂',
+      sublabel: 'symmetrical', isAlkane: false,
+      cf: 'sub_ethene', atoms: { C: 2, H: 4 }
+    },
+    propene: {
+      id: 'propene', name: 'propene', formula: 'CH₃CH=CH₂',
+      sublabel: 'unsymmetrical', isAlkane: false,
+      cf: 'sub_propene', atoms: { C: 3, H: 6 }
+    },
+    but2ene: {
+      id: 'but2ene', name: 'but-2-ene', formula: 'CH₃CH=CHCH₃',
+      sublabel: 'symmetrical', isAlkane: false,
+      cf: 'sub_but2ene', atoms: { C: 4, H: 8 }
+    },
+    mb2ene: {
+      id: 'mb2ene', name: '2-methylpropene', formula: '(CH₃)₂C=CH₂',
+      sublabel: 'unsymmetrical', isAlkane: false,
+      cf: 'sub_mb2ene', atoms: { C: 4, H: 8 }
+    },
+    cyclohexene: {
+      id: 'cyclohexene', name: 'cyclohexene', formula: 'C₆H₁₀',
+      sublabel: 'cyclic', isAlkane: false,
+      cf: 'sub_cyclohexene', atoms: { C: 6, H: 10 }
+    },
+    ethane: {
+      id: 'ethane', name: 'ethane', formula: 'CH₃CH₃',
+      sublabel: 'saturated alkane', isAlkane: true,
+      cf: 'sub_ethane', atoms: { C: 2, H: 6 }
+    }
+  };
+
+  /* =========================================================================
+     2. REAGENTS REGISTRY (verbatim from organic.json)
+     ========================================================================= */
+  var REAGENTS = {
+    'hx-add': {
+      id: 'hx-add', name: 'addition of hydrogen halide',
+      reagents: 'HX(g), at room temperature',
+      btnLabel: 'HBr(g)', spokeT1: 'HBr(g)', spokeT2: 'r.t.',
+      type: 'electrophilic addition',
+      xref: '{{xref ch14#markovnikov carbocation 稳定性与 Markovnikov addition →}}',
+      linkClass: '{{xref ch15#halogenoalkanes halogen compounds (15.1) →}}'
+    },
+    'steam': {
+      id: 'steam', name: 'addition of steam',
+      reagents: 'H₂O(g) and H₃PO₄ catalyst',
+      btnLabel: 'H₂O(g) / H₃PO₄', spokeT1: 'H₂O(g)', spokeT2: 'H₃PO₄',
+      type: 'electrophilic addition',
+      xref: '{{xref ch14#markovnikov carbocation 稳定性与 Markovnikov addition →}}',
+      linkClass: '{{xref ch16#alcohols hydroxy compounds (alcohols 16.1) →}}'
+    },
+    'x2-add': {
+      id: 'x2-add', name: 'addition of halogen',
+      reagents: 'X₂（Br₂(aq) 褪色 = C=C 的测试）',
+      btnLabel: 'Br₂(aq)', spokeT1: 'Br₂(aq)', spokeT2: 'orange→clr',
+      type: 'electrophilic addition',
+      obs: '<b>orange bromine water is decolourised</b> (orange → colourless). Key test to distinguish alkenes (unsaturated) from alkanes (saturated).',
+      xref: '{{xref ch14#rx-alkene-add electrophilic addition 14.2 B →}}',
+      linkClass: '{{xref ch15#halogenoalkanes halogen compounds (15.1) →}}'
+    },
+    'hydrogenation': {
+      id: 'hydrogenation', name: 'hydrogenation',
+      reagents: 'H₂(g) and Pt/Ni catalyst and heat',
+      btnLabel: 'H₂ / Ni, heat', spokeT1: 'H₂(g)', spokeT2: 'Ni / heat',
+      type: 'electrophilic addition',
+      xref: '{{xref ch14#rx-alkene-add electrophilic addition 14.2 B →}}',
+      linkClass: '{{xref ch14#alkanes alkanes (14.1) →}}'
+    },
+    'kmno4-cold': {
+      id: 'kmno4-cold', name: 'mild oxidation → diol',
+      reagents: 'cold dilute acidified KMnO₄',
+      btnLabel: 'cold dil. KMnO₄', spokeT1: 'cold KMnO₄', spokeT2: 'dil., H⁺',
+      type: 'oxidation',
+      obs: '<b>purple acidified potassium manganate(VII) is decolourised</b> (purple → colourless). Forms a diol across C=C.',
+      xref: '{{xref ch14#rx-kmno4 用 KMnO₄ oxidise alkene →}}',
+      linkClass: '{{xref ch16#alcohols hydroxy compounds (diols) →}}'
+    },
+    'kmno4-hot': {
+      id: 'kmno4-hot', name: 'oxidative cleavage',
+      reagents: 'hot concentrated acidified KMnO₄',
+      btnLabel: 'hot conc. KMnO₄', spokeT1: 'hot KMnO₄', spokeT2: 'conc., H⁺',
+      type: 'oxidation',
+      obs: '<b>purple acidified KMnO₄ is decolourised</b> (purple → colourless). C=C bond is ruptured completely.',
+      xref: '{{xref ch14#rx-kmno4 用 KMnO₄ oxidise alkene →}}',
+      linkClass: '{{xref ch14#rx-kmno4 oxidative cleavage rules →}}'
+    },
+    'polymerisation': {
+      id: 'polymerisation', name: 'addition polymerisation',
+      reagents: '（syllabus 不要求条件）',
+      btnLabel: 'polymerisation', spokeT1: 'polymerise', spokeT2: 'high P/T',
+      type: 'addition polymerisation',
+      xref: '{{xref ch20#rx-polymerisation addition polymerisation 20.1 A →}}',
+      linkClass: '{{xref ch20#repeat-unit polymer repeat units →}}'
+    },
+    'frs': {
+      id: 'frs', name: 'free-radical substitution',
+      reagents: 'Cl₂ or Br₂ in the presence of ultraviolet light',
+      btnLabel: 'Cl₂ / UV (FRS)', spokeT1: 'Cl₂ / UV', spokeT2: 'free radical',
+      type: 'free-radical substitution',
+      xref: '{{xref ch14#rx-frs free-radical substitution 14.1 C →}}',
+      linkClass: '{{xref ch15#halogenoalkanes halogenoalkanes (15.1) →}}'
+    }
+  };
+
+  /* The 7 alkene spoke order (arranged clockwise around wheel) */
+  var SPOKE_ORDER = ['hydrogenation', 'steam', 'hx-add', 'x2-add', 'kmno4-cold', 'kmno4-hot', 'polymerisation'];
+
+  /* =========================================================================
+     3. REACTION MATRIX: 35 Alkene Combinations + Ethane Alkane Mode
+     ========================================================================= */
+  var RX_DATA = {
+    /* ---------------- ETHENE ---------------- */
+    'ethene:hydrogenation': {
+      productName: 'ethane',
+      products: [{ kind: 'single', name: 'ethane', formula: 'CH₃CH₃', cf: 'eth_h2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical (single product)', cls: 'sym' },
+      notes: 'Electrophilic addition of H₂ across C=C in the presence of Pt or heated Ni catalyst forms saturated ethane.',
+      eq: 'CH₂=CH₂ + H₂ → CH₃CH₃',
+      atoms: { left: { C: 2, H: 6 }, right: { C: 2, H: 6 } }
+    },
+    'ethene:steam': {
+      productName: 'ethanol',
+      products: [{ kind: 'single', name: 'ethanol', formula: 'CH₃CH₂OH', cf: 'eth_steam' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical (single product)', cls: 'sym' },
+      notes: 'Industrial preparation of ethanol. H adds to one carbon and OH to the other across C=C. Conditions: H₂O(g) (steam) and phosphoric(V) acid catalyst (H₃PO₄).',
+      eq: 'CH₂=CH₂ + H₂O → CH₃CH₂OH',
+      atoms: { left: { C: 2, H: 6, O: 1 }, right: { C: 2, H: 6, O: 1 } }
+    },
+    'ethene:hx-add': {
+      productName: 'bromoethane',
+      products: [{ kind: 'single', name: 'bromoethane', formula: 'CH₃CH₂Br', cf: 'eth_hbr' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical (single product)', cls: 'sym' },
+      notes: 'Electrophilic addition of HBr(g) at room temperature. Ethene is symmetrical, yielding only bromoethane.',
+      eq: 'CH₂=CH₂ + HBr → CH₃CH₂Br',
+      atoms: { left: { C: 2, H: 5, Br: 1 }, right: { C: 2, H: 5, Br: 1 } }
+    },
+    'ethene:x2-add': {
+      productName: '1,2-dibromoethane',
+      products: [{ kind: 'single', name: '1,2-dibromoethane', formula: 'CH₂BrCH₂Br', cf: 'eth_br2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Halogen addition', cls: 'sym' },
+      notes: 'Addition of Br₂(aq) across C=C gives 1,2-dibromoethane. The orange bromine water is decolourised, confirming the presence of C=C.',
+      eq: 'CH₂=CH₂ + Br₂ → CH₂BrCH₂Br',
+      atoms: { left: { C: 2, H: 4, Br: 2 }, right: { C: 2, H: 4, Br: 2 } }
+    },
+    'ethene:kmno4-cold': {
+      productName: 'ethane-1,2-diol',
+      products: [{ kind: 'single', name: 'ethane-1,2-diol', formula: 'HOCH₂CH₂OH', cf: 'eth_cold' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Mild oxidation (diol)', cls: 'sym' },
+      notes: 'Cold dilute acidified KMnO₄ adds two –OH groups across the C=C double bond without breaking the C–C σ bond, forming ethane-1,2-diol. Purple KMnO₄ turns colourless.',
+      eq: 'CH₂=CH₂ + [O] + H₂O → HOCH₂CH₂OH',
+      atoms: { left: { C: 2, H: 6, O: 2 }, right: { C: 2, H: 6, O: 2 } }
+    },
+    'ethene:kmno4-hot': {
+      productName: 'carbon dioxide and water',
+      products: [{ kind: 'single', name: 'carbon dioxide and water', formula: 'CO₂ + H₂O', cf: null }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Oxidative cleavage', cls: 'sym' },
+      notes: 'Hot concentrated acidified KMnO₄ completely ruptures C=C. Both carbons are terminal =CH₂ groups, oxidising completely to CO₂ and H₂O with vigorous effervescence.',
+      obsExtra: '<b>Effervescence of CO₂(g)</b>: terminal =CH₂ groups are fully oxidised to carbon dioxide gas.',
+      eq: 'CH₂=CH₂ + 6[O] → 2CO₂ + 2H₂O',
+      atoms: { left: { C: 2, H: 4, O: 6 }, right: { C: 2, H: 4, O: 6 } }
+    },
+    'ethene:polymerisation': {
+      productName: 'poly(ethene)',
+      products: [{ kind: 'single', name: 'poly(ethene)', formula: '–[CH₂–CH₂]ₙ–', cf: 'eth_poly' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Addition polymerisation', cls: 'sym' },
+      notes: 'Ethene monomers undergo addition polymerisation under high temperature and pressure with a catalyst. The π bonds break and form long saturated poly(ethene) chains.',
+      eq: 'n CH₂=CH₂ → –[CH₂–CH₂]ₙ–',
+      atoms: { left: { C: 2, H: 4 }, right: { C: 2, H: 4 } }
+    },
+
+    /* ---------------- PROPENE ---------------- */
+    'propene:hydrogenation': {
+      productName: 'propane',
+      products: [{ kind: 'single', name: 'propane', formula: 'CH₃CH₂CH₃', cf: 'pro_h2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Addition (hydrogenation)', cls: 'sym' },
+      notes: 'Propene adds H₂ over Pt or heated Ni catalyst to form propane.',
+      eq: 'CH₃CH=CH₂ + H₂ → CH₃CH₂CH₃',
+      atoms: { left: { C: 3, H: 8 }, right: { C: 3, H: 8 } }
+    },
+    'propene:steam': {
+      productName: 'propan-2-ol',
+      products: [
+        { kind: 'major', name: 'propan-2-ol', formula: 'CH₃CH(OH)CH₃', cf: 'pro_steam_maj', desc: 'Formed via more stable secondary carbocation CH₃C⁺HCH₃.' },
+        { kind: 'minor', name: 'propan-1-ol', formula: 'CH₃CH₂CH₂OH', cf: 'pro_steam_min', desc: 'Formed via less stable primary carbocation ⁺CH₂CH₂CH₃.' }
+      ],
+      isMarkovnikov: true,
+      mkvPill: { text: 'Markovnikov addition', cls: '' },
+      notes: '<b>Markovnikov addition</b>: H⁺ adds to C1 (=CH₂) to form the secondary carbocation CH₃C⁺HCH₃. Two alkyl groups exert a positive inductive effect that disperses the positive charge, making it more stable than the primary carbocation. Major product: <b>propan-2-ol</b>.',
+      eq: 'CH₃CH=CH₂ + H₂O → CH₃CH(OH)CH₃',
+      atoms: { left: { C: 3, H: 8, O: 1 }, right: { C: 3, H: 8, O: 1 } }
+    },
+    'propene:hx-add': {
+      productName: '2-bromopropane',
+      products: [
+        { kind: 'major', name: '2-bromopropane', formula: 'CH₃CHBrCH₃', cf: 'pro_hbr_maj', desc: 'Formed via secondary carbocation CH₃C⁺HCH₃ (2 methyl groups with positive inductive effect).' },
+        { kind: 'minor', name: '1-bromopropane', formula: 'CH₃CH₂CH₂Br', cf: 'pro_hbr_min', desc: 'Formed via primary carbocation ⁺CH₂CH₂CH₃ (only 1 ethyl group).' }
+      ],
+      isMarkovnikov: true,
+      mkvPill: { text: 'Markovnikov addition', cls: '' },
+      notes: '<b>Markovnikov explanation (Cambridge 9701 MS)</b>: 2-bromopropane is formed from the more stable secondary carbocation intermediate (CH₃C⁺HCH₃). The greater positive inductive effect of two methyl groups disperses the positive charge on C2, so the secondary carbocation forms faster and predominates over the primary carbocation.',
+      eq: 'CH₃CH=CH₂ + HBr → CH₃CHBrCH₃',
+      atoms: { left: { C: 3, H: 7, Br: 1 }, right: { C: 3, H: 7, Br: 1 } }
+    },
+    'propene:x2-add': {
+      productName: '1,2-dibromopropane',
+      products: [{ kind: 'single', name: '1,2-dibromopropane', formula: 'CH₃CHBrCH₂Br', cf: 'pro_br2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Halogen addition', cls: 'sym' },
+      notes: 'Bromine adds across the C=C bond to form 1,2-dibromopropane. Orange bromine water decolourises immediately at room temperature.',
+      eq: 'CH₃CH=CH₂ + Br₂ → CH₃CHBrCH₂Br',
+      atoms: { left: { C: 3, H: 6, Br: 2 }, right: { C: 3, H: 6, Br: 2 } }
+    },
+    'propene:kmno4-cold': {
+      productName: 'propane-1,2-diol',
+      products: [{ kind: 'single', name: 'propane-1,2-diol', formula: 'CH₃CH(OH)CH₂OH', cf: 'pro_cold' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Mild oxidation (diol)', cls: 'sym' },
+      notes: 'Cold dilute acidified KMnO₄ adds two –OH groups across C1 and C2, forming propane-1,2-diol. Purple manganate(VII) solution is decolourised.',
+      eq: 'CH₃CH=CH₂ + [O] + H₂O → CH₃CH(OH)CH₂OH',
+      atoms: { left: { C: 3, H: 8, O: 2 }, right: { C: 3, H: 8, O: 2 } }
+    },
+    'propene:kmno4-hot': {
+      productName: 'ethanoic acid and carbon dioxide',
+      products: [
+        { kind: 'single', name: 'ethanoic acid', formula: 'CH₃COOH', cf: 'pro_hot' },
+        { kind: 'single', name: 'carbon dioxide + water', formula: 'CO₂ + H₂O', cf: null }
+      ],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Oxidative cleavage', cls: 'sym' },
+      notes: 'Hot concentrated acidified KMnO₄ cleaves the C=C bond:<br>• The CH₃CH= fragment has 1 alkyl group and 1 H → oxidised to <b>ethanoic acid (CH₃COOH)</b>.<br>• The terminal =CH₂ fragment has 2 H atoms → oxidised to <b>CO₂ and H₂O</b> (effervescence).',
+      obsExtra: '<b>Effervescence of CO₂(g)</b> observed due to the oxidation of the terminal =CH₂ fragment.',
+      eq: 'CH₃CH=CH₂ + 5[O] → CH₃COOH + CO₂ + H₂O',
+      atoms: { left: { C: 3, H: 6, O: 5 }, right: { C: 3, H: 6, O: 5 } }
+    },
+    'propene:polymerisation': {
+      productName: 'poly(propene)',
+      products: [{ kind: 'single', name: 'poly(propene)', formula: '–[CH(CH₃)–CH₂]ₙ–', cf: 'pro_poly' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Addition polymerisation', cls: 'sym' },
+      notes: 'Propene monomers join by opening the C=C π bonds, forming poly(propene) with –CH₃ methyl branches along the saturated backbone.',
+      eq: 'n CH₃CH=CH₂ → –[CH(CH₃)–CH₂]ₙ–',
+      atoms: { left: { C: 3, H: 6 }, right: { C: 3, H: 6 } }
+    },
+
+    /* ---------------- BUT-2-ENE ---------------- */
+    'but2ene:hydrogenation': {
+      productName: 'butane',
+      products: [{ kind: 'single', name: 'butane', formula: 'CH₃CH₂CH₂CH₃', cf: 'b2e_h2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical (single product)', cls: 'sym' },
+      notes: 'Hydrogenation of but-2-ene over Ni catalyst produces butane.',
+      eq: 'CH₃CH=CHCH₃ + H₂ → CH₃CH₂CH₂CH₃',
+      atoms: { left: { C: 4, H: 10 }, right: { C: 4, H: 10 } }
+    },
+    'but2ene:steam': {
+      productName: 'butan-2-ol',
+      products: [{ kind: 'single', name: 'butan-2-ol', formula: 'CH₃CH(OH)CH₂CH₃', cf: 'b2e_steam' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical (single product)', cls: 'sym' },
+      notes: 'But-2-ene is symmetrical: adding H to C2 and OH to C3 gives butan-2-ol, identical to adding H to C3 and OH to C2. Only one product forms.',
+      eq: 'CH₃CH=CHCH₃ + H₂O → CH₃CH(OH)CH₂CH₃',
+      atoms: { left: { C: 4, H: 10, O: 1 }, right: { C: 4, H: 10, O: 1 } }
+    },
+    'but2ene:hx-add': {
+      productName: '2-bromobutane',
+      products: [{ kind: 'single', name: '2-bromobutane', formula: 'CH₃CHBrCH₂CH₃', cf: 'b2e_hbr' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical (single product)', cls: 'sym' },
+      notes: 'Because but-2-ene is symmetrical, electrophilic addition of HBr gives only 2-bromobutane (no Markovnikov major/minor isomerism).',
+      eq: 'CH₃CH=CHCH₃ + HBr → CH₃CHBrCH₂CH₃',
+      atoms: { left: { C: 4, H: 9, Br: 1 }, right: { C: 4, H: 9, Br: 1 } }
+    },
+    'but2ene:x2-add': {
+      productName: '2,3-dibromobutane',
+      products: [{ kind: 'single', name: '2,3-dibromobutane', formula: 'CH₃CHBrCHBrCH₃', cf: 'b2e_br2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Halogen addition', cls: 'sym' },
+      notes: 'Bromine adds across the internal C=C bond to yield 2,3-dibromobutane. Orange bromine water is decolourised.',
+      eq: 'CH₃CH=CHCH₃ + Br₂ → CH₃CHBrCHBrCH₃',
+      atoms: { left: { C: 4, H: 8, Br: 2 }, right: { C: 4, H: 8, Br: 2 } }
+    },
+    'but2ene:kmno4-cold': {
+      productName: 'butane-2,3-diol',
+      products: [{ kind: 'single', name: 'butane-2,3-diol', formula: 'CH₃CH(OH)CH(OH)CH₃', cf: 'b2e_cold' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Mild oxidation (diol)', cls: 'sym' },
+      notes: 'Cold dilute acidified KMnO₄ oxidises but-2-ene to butane-2,3-diol without cleavage of the C–C chain.',
+      eq: 'CH₃CH=CHCH₃ + [O] + H₂O → CH₃CH(OH)CH(OH)CH₃',
+      atoms: { left: { C: 4, H: 10, O: 2 }, right: { C: 4, H: 10, O: 2 } }
+    },
+    'but2ene:kmno4-hot': {
+      productName: 'ethanoic acid',
+      products: [{ kind: 'single', name: 'ethanoic acid (2 molecules)', formula: '2 CH₃COOH', cf: 'pro_hot' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Oxidative cleavage', cls: 'sym' },
+      notes: 'Hot concentrated acidified KMnO₄ splits but-2-ene at the double bond. Both fragments are CH₃CH= (1 alkyl + 1 H), oxidising to <b>2 molecules of ethanoic acid (CH₃COOH)</b>. No gas bubbles form.',
+      eq: 'CH₃CH=CHCH₃ + 4[O] → 2CH₃COOH',
+      atoms: { left: { C: 4, H: 8, O: 4 }, right: { C: 4, H: 8, O: 4 } }
+    },
+    'but2ene:polymerisation': {
+      productName: 'poly(but-2-ene)',
+      products: [{ kind: 'single', name: 'poly(but-2-ene)', formula: '–[CH(CH₃)–CH(CH₃)]ₙ–', cf: 'b2e_poly' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Addition polymerisation', cls: 'sym' },
+      notes: 'Addition polymerisation of but-2-ene forms poly(but-2-ene) repeat units with methyl groups on adjacent carbons.',
+      eq: 'n CH₃CH=CHCH₃ → –[CH(CH₃)–CH(CH₃)]ₙ–',
+      atoms: { left: { C: 4, H: 8 }, right: { C: 4, H: 8 } }
+    },
+
+    /* ---------------- 2-METHYLPROPENE ---------------- */
+    'mb2ene:hydrogenation': {
+      productName: '2-methylpropane',
+      products: [{ kind: 'single', name: '2-methylpropane', formula: '(CH₃)₂CHCH₃', cf: 'mb_h2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Addition (hydrogenation)', cls: 'sym' },
+      notes: 'Hydrogenation over heated Ni catalyst yields branched 2-methylpropane (methylpropane).',
+      eq: '(CH₃)₂C=CH₂ + H₂ → (CH₃)₂CHCH₃',
+      atoms: { left: { C: 4, H: 10 }, right: { C: 4, H: 10 } }
+    },
+    'mb2ene:steam': {
+      productName: '2-methylpropan-2-ol',
+      products: [
+        { kind: 'major', name: '2-methylpropan-2-ol', formula: '(CH₃)₃COH', cf: 'mb_steam_maj', desc: 'Tertiary alcohol via very stable tertiary carbocation (CH₃)₃C⁺.' },
+        { kind: 'minor', name: '2-methylpropan-1-ol', formula: '(CH₃)₂CHCH₂OH', cf: 'mb_steam_min', desc: 'Primary alcohol via primary carbocation ⁺CH₂CH(CH₃)₂.' }
+      ],
+      isMarkovnikov: true,
+      mkvPill: { text: 'Markovnikov addition', cls: '' },
+      notes: '<b>Markovnikov addition</b>: Electrophilic attack by H⁺ on C1 (=CH₂) forms the <b>tertiary carbocation (CH₃)₃C⁺</b>. Three electron-donating methyl groups exert positive inductive effects, strongly dispersing the positive charge. The tertiary carbocation is much more stable than the primary carbocation, giving <b>2-methylpropan-2-ol</b> as major product.',
+      eq: '(CH₃)₂C=CH₂ + H₂O → (CH₃)₃COH',
+      atoms: { left: { C: 4, H: 10, O: 1 }, right: { C: 4, H: 10, O: 1 } }
+    },
+    'mb2ene:hx-add': {
+      productName: '2-bromo-2-methylpropane',
+      products: [
+        { kind: 'major', name: '2-bromo-2-methylpropane', formula: '(CH₃)₃CBr', cf: 'mb_hbr_maj', desc: 'Tertiary halogenoalkane formed via tertiary carbocation (CH₃)₃C⁺.' },
+        { kind: 'minor', name: '1-bromo-2-methylpropane', formula: '(CH₃)₂CHCH₂Br', cf: 'mb_hbr_min', desc: 'Primary halogenoalkane formed via primary carbocation.' }
+      ],
+      isMarkovnikov: true,
+      mkvPill: { text: 'Markovnikov addition', cls: '' },
+      notes: '<b>Cambridge 9701 Key Point (s24/21)</b>: Intermediate is the <b>tertiary carbocation (CH₃)₃C⁺</b>. The positive charge on C2 is stabilised by the positive inductive effect of three electron-releasing methyl groups. Attack by Br⁻ gives <b>2-bromo-2-methylpropane</b> as major product.',
+      eq: '(CH₃)₂C=CH₂ + HBr → (CH₃)₃CBr',
+      atoms: { left: { C: 4, H: 9, Br: 1 }, right: { C: 4, H: 9, Br: 1 } }
+    },
+    'mb2ene:x2-add': {
+      productName: '1,2-dibromo-2-methylpropane',
+      products: [{ kind: 'single', name: '1,2-dibromo-2-methylpropane', formula: '(CH₃)₂CBrCH₂Br', cf: 'mb_br2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Halogen addition', cls: 'sym' },
+      notes: 'Bromine adds across the C=C double bond, yielding 1,2-dibromo-2-methylpropane. Orange bromine water is decolourised.',
+      eq: '(CH₃)₂C=CH₂ + Br₂ → (CH₃)₂CBrCH₂Br',
+      atoms: { left: { C: 4, H: 8, Br: 2 }, right: { C: 4, H: 8, Br: 2 } }
+    },
+    'mb2ene:kmno4-cold': {
+      productName: '2-methylpropane-1,2-diol',
+      products: [{ kind: 'single', name: '2-methylpropane-1,2-diol', formula: '(CH₃)₂C(OH)CH₂OH', cf: 'mb_cold' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Mild oxidation (diol)', cls: 'sym' },
+      notes: 'Cold dilute acidified KMnO₄ oxidises 2-methylpropene to 2-methylpropane-1,2-diol (a diol containing one tertiary and one primary alcohol group).',
+      eq: '(CH₃)₂C=CH₂ + [O] + H₂O → (CH₃)₂C(OH)CH₂OH',
+      atoms: { left: { C: 4, H: 10, O: 2 }, right: { C: 4, H: 10, O: 2 } }
+    },
+    'mb2ene:kmno4-hot': {
+      productName: 'propanone and carbon dioxide',
+      products: [
+        { kind: 'single', name: 'propanone', formula: 'CH₃COCH₃', cf: 'mb_hot' },
+        { kind: 'single', name: 'carbon dioxide + water', formula: 'CO₂ + H₂O', cf: null }
+      ],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Oxidative cleavage', cls: 'sym' },
+      notes: 'Hot concentrated acidified KMnO₄ splits 2-methylpropene:<br>• The (CH₃)₂C= fragment has 2 alkyl groups → oxidised to <b>propanone (ketone)</b>.<br>• The terminal =CH₂ fragment has 2 H atoms → oxidised to <b>CO₂ and H₂O</b> (effervescence).',
+      obsExtra: '<b>Effervescence of CO₂(g)</b>: terminal =CH₂ group oxidises to CO₂ gas.',
+      eq: '(CH₃)₂C=CH₂ + 4[O] → CH₃COCH₃ + CO₂ + H₂O',
+      atoms: { left: { C: 4, H: 8, O: 4 }, right: { C: 4, H: 8, O: 4 } }
+    },
+    'mb2ene:polymerisation': {
+      productName: 'poly(2-methylpropene)',
+      products: [{ kind: 'single', name: 'poly(2-methylpropene)', formula: '–[C(CH₃)₂–CH₂]ₙ–', cf: 'mb_poly' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Addition polymerisation', cls: 'sym' },
+      notes: 'Polymerisation produces poly(2-methylpropene) (polyisobutylene), widely used in synthetic rubbers due to low gas permeability.',
+      eq: 'n (CH₃)₂C=CH₂ → –[C(CH₃)₂–CH₂]ₙ–',
+      atoms: { left: { C: 4, H: 8 }, right: { C: 4, H: 8 } }
+    },
+
+    /* ---------------- CYCLOHEXENE ---------------- */
+    'cyclohexene:hydrogenation': {
+      productName: 'cyclohexane',
+      products: [{ kind: 'single', name: 'cyclohexane', formula: 'C₆H₁₂', cf: 'cyc_h2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Hydrogenation', cls: 'sym' },
+      notes: 'Hydrogenation of cyclohexene over heated Ni catalyst yields cyclohexane.',
+      eq: 'C₆H₁₀ + H₂ → C₆H₁₂',
+      atoms: { left: { C: 6, H: 12 }, right: { C: 6, H: 12 } }
+    },
+    'cyclohexene:steam': {
+      productName: 'cyclohexanol',
+      products: [{ kind: 'single', name: 'cyclohexanol', formula: 'C₆H₁₁OH', cf: 'cyc_steam' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical ring', cls: 'sym' },
+      notes: 'Addition of steam with H₃PO₄ catalyst yields cyclohexanol (a secondary cyclic alcohol).',
+      eq: 'C₆H₁₀ + H₂O → C₆H₁₁OH',
+      atoms: { left: { C: 6, H: 12, O: 1 }, right: { C: 6, H: 12, O: 1 } }
+    },
+    'cyclohexene:hx-add': {
+      productName: 'bromocyclohexane',
+      products: [{ kind: 'single', name: 'bromocyclohexane', formula: 'C₆H₁₁Br', cf: 'cyc_hbr' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Symmetrical ring', cls: 'sym' },
+      notes: 'Electrophilic addition of HBr(g) across the symmetrical ring double bond yields bromocyclohexane.',
+      eq: 'C₆H₁₀ + HBr → C₆H₁₁Br',
+      atoms: { left: { C: 6, H: 11, Br: 1 }, right: { C: 6, H: 11, Br: 1 } }
+    },
+    'cyclohexene:x2-add': {
+      productName: '1,2-dibromocyclohexane',
+      products: [{ kind: 'single', name: '1,2-dibromocyclohexane', formula: 'C₆H₁₀Br₂', cf: 'cyc_br2' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Halogen addition', cls: 'sym' },
+      notes: 'Addition of Br₂(aq) gives 1,2-dibromocyclohexane with rapid decolourisation of orange bromine water.',
+      eq: 'C₆H₁₀ + Br₂ → C₆H₁₀Br₂',
+      atoms: { left: { C: 6, H: 10, Br: 2 }, right: { C: 6, H: 10, Br: 2 } }
+    },
+    'cyclohexene:kmno4-cold': {
+      productName: 'cyclohexane-1,2-diol',
+      products: [{ kind: 'single', name: 'cyclohexane-1,2-diol', formula: 'C₆H₁₀(OH)₂', cf: 'cyc_cold' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Mild oxidation (diol)', cls: 'sym' },
+      notes: 'Cold dilute acidified KMnO₄ adds two –OH groups across adjacent ring carbons, forming cyclohexane-1,2-diol without opening the ring.',
+      eq: 'C₆H₁₀ + [O] + H₂O → C₆H₁₀(OH)₂',
+      atoms: { left: { C: 6, H: 12, O: 2 }, right: { C: 6, H: 12, O: 2 } }
+    },
+    'cyclohexene:kmno4-hot': {
+      productName: 'hexanedioic acid',
+      products: [{ kind: 'single', name: 'hexanedioic acid', formula: 'HOOC(CH₂)₄COOH', cf: 'cyc_hot' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Ring-opening cleavage', cls: 'sym' },
+      notes: 'Hot concentrated acidified KMnO₄ <b>ruptures the cyclic C=C bond</b>. Both ends are –CH= (1 alkyl ring chain + 1 H), so both oxidise to carboxylic acid groups (–COOH). The ring opens into a single dicarboxylic acid chain: <b>hexanedioic acid</b> (adipic acid). No gas is produced.',
+      eq: 'C₆H₁₀ + 4[O] → HOOC(CH₂)₄COOH',
+      atoms: { left: { C: 6, H: 10, O: 4 }, right: { C: 6, H: 10, O: 4 } }
+    },
+    'cyclohexene:polymerisation': {
+      productName: 'poly(cyclohexene)',
+      products: [{ kind: 'single', name: 'poly(cyclohexene)', formula: '–[–CH–CH–(CH₂)₄–]ₙ–', cf: 'cyc_poly' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Addition polymerisation', cls: 'sym' },
+      notes: 'Polymerisation opens the ring double bond to link cyclohexyl repeat units into poly(cyclohexene).',
+      eq: 'n C₆H₁₀ → –[C₆H₁₀]ₙ–',
+      atoms: { left: { C: 6, H: 10 }, right: { C: 6, H: 10 } }
+    },
+
+    /* ---------------- ETHANE (Alkane mode) ---------------- */
+    'ethane:frs': {
+      productName: 'chloroethane',
+      products: [{ kind: 'single', name: 'chloroethane', formula: 'CH₃CH₂Cl', cf: 'eth_frs' }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Free-radical substitution', cls: '' },
+      notes: 'Alkanes react with halogens via <b>free-radical substitution</b> in the presence of ultraviolet (UV) light:<br>1. <b>Initiation</b>: homolytic fission Cl₂ → 2Cl•<br>2. <b>Propagation</b>: Cl• + CH₃CH₃ → •CH₂CH₃ + HCl; •CH₂CH₃ + Cl₂ → CH₃CH₂Cl + Cl•<br>3. <b>Termination</b>: combinations of radicals.<br>Contrast: Alkanes do NOT react with halogens in the dark (no π bond).',
+      eq: 'CH₃CH₃ + Cl₂ → CH₃CH₂Cl + HCl',
+      atoms: { left: { C: 2, H: 6, Cl: 2 }, right: { C: 2, H: 6, Cl: 2 } }
+    }
+  };
+
+  /* Default "No Reaction" data for alkane with polar reagents */
+  function getAlkaneNoRxData(rgId) {
+    var rg = REAGENTS[rgId] || {};
+    return {
+      productName: 'no reaction',
+      products: [{ kind: 'single', name: 'no reaction', formula: '—', cf: null }],
+      isMarkovnikov: false,
+      mkvPill: { text: 'Unreactive alkane', cls: 'sym' },
+      notes: '<b>No reaction!</b><br>Alkanes are saturated hydrocarbons containing only strong non-polar C–C (347 kJ mol⁻¹) and C–H (410 kJ mol⁻¹) σ bonds. Unlike alkenes, alkanes <b>lack an electron-rich π bond (high electron density)</b> to attract electrophiles. Therefore, ethane does NOT react with ' + rg.btnLabel + ' (no electrophilic addition or mild oxidation).',
+      eq: 'CH₃CH₃ + ' + rg.btnLabel + ' → no reaction',
+      atoms: { left: {}, right: {} }
+    };
+  }
+
+  /* =========================================================================
+     4. ATOM CONSERVATION ASSERTION ON STARTUP
+     ========================================================================= */
+  (function assertConservation() {
+    for (var key in RX_DATA) {
+      var item = RX_DATA[key];
+      if (!item.atoms || !item.atoms.left || !item.atoms.right) continue;
+      var left = item.atoms.left, right = item.atoms.right;
+      for (var elem in left) {
+        if (left[elem] !== right[elem]) {
+          console.error('Atom conservation failed for ' + key + ': ' + elem, left, right);
+        }
+      }
+      for (var elem2 in right) {
+        if (left[elem2] !== right[elem2]) {
+          console.error('Atom conservation failed for ' + key + ': ' + elem2, left, right);
+        }
+      }
+    }
+  })();
+
+  /* =========================================================================
+     5. STATE & RENDERING ENGINE
+     ========================================================================= */
+  var state = {
+    subId: 'propene',
+    rgId: 'hx-add',
+    isAlkane: false
+  };
+
+  var wheelCenter = { x: 210, y: 210, r: 145 };
+
+  /* Calculate spoke node positions */
+  function getNodePos(index, total) {
+    var angle = -Math.PI / 2 + index * (2 * Math.PI / total);
+    return {
+      x: wheelCenter.x + wheelCenter.r * Math.cos(angle),
+      y: wheelCenter.y + wheelCenter.r * Math.sin(angle),
+      angle: angle
+    };
+  }
+
+  /* Initialize SVG Wheel Geometry */
+  function renderWheelStructure() {
+    var gSpokes = $('.aw-spokes-group');
+    var gNodes = $('.aw-nodes-group');
+    gSpokes.innerHTML = '';
+    gNodes.innerHTML = '';
+
+    SPOKE_ORDER.forEach(function (rgId, idx) {
+      var pos = getNodePos(idx, SPOKE_ORDER.length);
+      var rg = REAGENTS[rgId];
+
+      /* Connecting spoke line */
+      var spoke = K.svg('line', {
+        x1: wheelCenter.x, y1: wheelCenter.y,
+        x2: pos.x, y2: pos.y,
+        'class': 'aw-spoke aw-spoke-' + rgId,
+        'data-rg': rgId
+      });
+      gSpokes.appendChild(spoke);
+
+      /* Reagent Node group */
+      var gNode = K.svg('g', {
+        'class': 'aw-node aw-node-' + rgId,
+        'data-rg': rgId,
+        tabindex: '0',
+        role: 'button',
+        'aria-label': rg.name
+      });
+
+      var rect = K.svg('rect', {
+        x: pos.x - 44, y: pos.y - 19,
+        width: 88, height: 38,
+        'class': 'aw-node-rect'
+      });
+      var t1 = K.svg('text', {
+        x: pos.x, y: pos.y - 4,
+        'class': 'aw-node-t1'
+      });
+      t1.textContent = rg.spokeT1;
+
+      var t2 = K.svg('text', {
+        x: pos.x, y: pos.y + 11,
+        'class': 'aw-node-t2'
+      });
+      t2.textContent = rg.spokeT2;
+
+      var cross = K.svg('text', {
+        x: pos.x, y: pos.y + 11,
+        'class': 'aw-node-cross'
+      });
+      cross.textContent = '✗ no rxn';
+
+      gNode.appendChild(rect);
+      gNode.appendChild(t1);
+      gNode.appendChild(t2);
+      gNode.appendChild(cross);
+
+      gNode.addEventListener('click', function () { selectReagent(rgId); });
+      gNode.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectReagent(rgId); }
+      });
+
+      gNodes.appendChild(gNode);
+    });
+
+    /* 8th Special Node for FRS (in Alkane mode) at bottom */
+    var frsPos = { x: 210, y: 385 };
+    var frsSpoke = K.svg('line', {
+      x1: wheelCenter.x, y1: wheelCenter.y,
+      x2: frsPos.x, y2: frsPos.y,
+      'class': 'aw-spoke aw-spoke-frs',
+      'data-rg': 'frs',
+      style: 'display:none'
+    });
+    gSpokes.appendChild(frsSpoke);
+
+    var gFrsNode = K.svg('g', {
+      'class': 'aw-node aw-node-frs',
+      'data-rg': 'frs',
+      tabindex: '0',
+      role: 'button',
+      'aria-label': 'free-radical substitution',
+      style: 'display:none'
+    });
+    var frsRect = K.svg('rect', {
+      x: frsPos.x - 44, y: frsPos.y - 19,
+      width: 88, height: 38,
+      'class': 'aw-node-rect'
+    });
+    var frsT1 = K.svg('text', {
+      x: frsPos.x, y: frsPos.y - 4,
+      'class': 'aw-node-t1'
+    });
+    frsT1.textContent = 'Cl₂ / UV';
+    var frsT2 = K.svg('text', {
+      x: frsPos.x, y: frsPos.y + 11,
+      'class': 'aw-node-t2'
+    });
+    frsT2.textContent = 'free radical';
+
+    gFrsNode.appendChild(frsRect);
+    gFrsNode.appendChild(frsT1);
+    gFrsNode.appendChild(frsT2);
+    gFrsNode.addEventListener('click', function () { selectReagent('frs'); });
+    gFrsNode.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectReagent('frs'); }
+    });
+    gNodes.appendChild(gFrsNode);
+  }
+
+  /* Update all visual states */
+  function updateUI() {
+    var sub = state.isAlkane ? SUBSTRATES.ethane : SUBSTRATES[state.subId];
+    var rg = REAGENTS[state.rgId];
+
+    /* Update Substrate Buttons */
+    $$('.aw-sub-btn').forEach(function (btn) {
+      btn.classList.toggle('on', !state.isAlkane && btn.dataset.sub === state.subId);
+      btn.disabled = state.isAlkane;
+    });
+    $('.aw-chk-alkane').checked = state.isAlkane;
+
+    /* Update Center Hub in SVG */
+    $('.aw-hub-name').textContent = sub.name;
+    $('.aw-hub-formula').textContent = sub.formula;
+    $('.aw-hub-badge').textContent = sub.sublabel;
+
+    /* Update Nodes & Spokes in SVG */
+    $$('.aw-node').forEach(function (node) {
+      var rId = node.dataset.rg;
+      node.classList.toggle('on', rId === state.rgId);
+      if (state.isAlkane) {
+        if (rId === 'frs') {
+          node.style.display = 'block';
+          node.classList.remove('dim');
+        } else {
+          node.classList.add('dim');
+        }
+      } else {
+        if (rId === 'frs') {
+          node.style.display = 'none';
+        } else {
+          node.classList.remove('dim');
+        }
+      }
+    });
+
+    $$('.aw-spoke').forEach(function (spoke) {
+      var rId = spoke.dataset.rg;
+      spoke.classList.toggle('on', rId === state.rgId);
+      if (state.isAlkane) {
+        if (rId === 'frs') {
+          spoke.style.display = 'block';
+          spoke.classList.remove('dim');
+        } else {
+          spoke.classList.add('dim');
+        }
+      } else {
+        if (rId === 'frs') {
+          spoke.style.display = 'none';
+        } else {
+          spoke.classList.remove('dim');
+        }
+      }
+    });
+
+    /* Quick Reagent buttons */
+    $$('.aw-btn-rg').forEach(function (btn) {
+      var rId = btn.dataset.rg;
+      btn.classList.toggle('on', rId === state.rgId);
+      if (rId === 'frs') {
+        btn.style.display = state.isAlkane ? 'inline-block' : 'none';
+      } else {
+        btn.disabled = false;
+      }
+    });
+
+    /* Lookup Reaction Data */
+    var rxKey = (state.isAlkane ? 'ethane' : state.subId) + ':' + state.rgId;
+    var data = RX_DATA[rxKey] || (state.isAlkane ? getAlkaneNoRxData(state.rgId) : null);
+
+    if (!data) return;
+
+    /* Update Details Card */
+    $('.aw-rx-title').textContent = sub.name + ' + ' + rg.btnLabel;
+    $('.aw-rx-tag').textContent = rg.type;
+
+    var pill = $('.aw-rx-mkv-pill');
+    pill.textContent = data.mkvPill.text;
+    pill.className = 'aw-rx-mkv-pill ' + (data.mkvPill.cls || '');
+
+    $('.aw-cond-text').textContent = rg.reagents;
+
+    /* Observations */
+    var obsBox = $('.aw-obs-box');
+    var obsText = $('.aw-obs-text');
+    var obsContent = rg.obs || '';
+    if (data.obsExtra) {
+      obsContent = (obsContent ? obsContent + '<br>' : '') + data.obsExtra;
+    }
+    if (obsContent && (!state.isAlkane || state.rgId === 'frs')) {
+      obsText.innerHTML = obsContent;
+      obsBox.style.display = 'flex';
+    } else {
+      obsBox.style.display = 'none';
+    }
+
+    /* Products Display */
+    var prodArea = $('.aw-products-area');
+    prodArea.innerHTML = '';
+
+    var grid = document.createElement('div');
+    grid.className = 'aw-prod-grid';
+
+    data.products.forEach(function (p) {
+      var pCard = document.createElement('div');
+      pCard.className = 'aw-prod-card' + (p.kind === 'major' ? ' maj' : '');
+
+      var badge = document.createElement('span');
+      badge.className = 'aw-prod-badge';
+      badge.textContent = (p.kind === 'major' ? '★ Major product (Markovnikov)' : (p.kind === 'minor' ? 'Minor product' : 'Product'));
+      pCard.appendChild(badge);
+
+      var nameH = document.createElement('h5');
+      nameH.className = 'aw-prod-name';
+      nameH.textContent = p.name;
+      pCard.appendChild(nameH);
+
+      var formulaDiv = document.createElement('div');
+      formulaDiv.className = 'aw-prod-formula';
+      formulaDiv.textContent = p.formula;
+      pCard.appendChild(formulaDiv);
+
+      var stage = document.createElement('div');
+      stage.className = 'aw-prod-stage';
+      if (p.cf) {
+        var srcSvg = $('.aw-chem-src [data-cf="' + p.cf + '"] svg');
+        if (srcSvg) {
+          stage.appendChild(srcSvg.cloneNode(true));
+        }
+      } else {
+        var ph = document.createElement('span');
+        ph.className = 'faint';
+        ph.textContent = (p.name === 'no reaction' ? '（无加成产物）' : p.formula);
+        stage.appendChild(ph);
+      }
+      pCard.appendChild(stage);
+
+      if (p.desc) {
+        var descP = document.createElement('div');
+        descP.className = 'faint';
+        descP.style.fontSize = '12px';
+        descP.textContent = p.desc;
+        pCard.appendChild(descP);
+      }
+
+      grid.appendChild(pCard);
+    });
+    prodArea.appendChild(grid);
+
+    /* Notes & Explanations */
+    $('.aw-mech-notes').innerHTML = data.notes;
+
+    /* Equation */
+    $('.aw-eq-text').textContent = data.eq;
+
+    /* Cross-Reference Links */
+    var xrefBox = $('.aw-xref-box');
+    var links = [];
+    if (rg.xref) links.push(rg.xref);
+    if (rg.linkClass) links.push(rg.linkClass);
+    xrefBox.innerHTML = links.join(' ｜ ');
+  }
+
+  function selectSubstrate(subId) {
+    state.subId = subId;
+    state.isAlkane = false;
+    if (state.rgId === 'frs') state.rgId = 'hx-add';
+    updateUI();
+  }
+
+  function selectReagent(rgId) {
+    state.rgId = rgId;
+    updateUI();
+  }
+
+  function toggleAlkane(isAlk) {
+    state.isAlkane = isAlk;
+    if (isAlk) {
+      state.rgId = 'frs';
+    } else {
+      if (state.rgId === 'frs') state.rgId = 'hx-add';
+    }
+    updateUI();
+  }
+
+  /* =========================================================================
+     6. MINI SELF-CHECK PRACTICE QUESTIONS
+     ========================================================================= */
+  var QUIZ_QUESTIONS = [
+    {
+      q: '预测 propene 与 HBr(g) 反应的 <b>major product</b> 的 IUPAC 名称或结构简式：',
+      answers: ['2-bromopropane', 'CH3CHBrCH3', 'CH3CH(Br)CH3', 'CH3-CHBr-CH3'],
+      hint: 'H 加到含 H 较多的 C1（=CH₂），生成更稳定的仲碳正离子中间体，Br 加到 C2。'
+    },
+    {
+      q: '预测 propene 与 steam (H₂O(g) / H₃PO₄) 反应的 <b>major product</b>：',
+      answers: ['propan-2-ol', 'CH3CH(OH)CH3', 'CH3CHOHCH3', 'CH3-CH(OH)-CH3'],
+      hint: 'Markovnikov 加成：OH 加到含烷基较多的 C2，生成 propan-2-ol。'
+    },
+    {
+      q: '预测 2-methylpropene 与 HBr(g) 反应的 <b>major product</b>：',
+      answers: ['2-bromo-2-methylpropane', '(CH3)3CBr', 'CH3C(CH3)2Br', 'C(CH3)3Br'],
+      hint: '质子加在 =CH₂ 上生成极稳定的叔碳正离子 (CH₃)₃C⁺，Br⁻ 进攻得 2-bromo-2-methylpropane。'
+    },
+    {
+      q: '预测 but-2-ene 与 cold dilute acidified KMnO₄ 反应的产物：',
+      answers: ['butane-2,3-diol', 'CH3CH(OH)CH(OH)CH3', 'CH3CHOHCHOHCH3'],
+      hint: '冷稀高锰酸钾在双键两端各加一个 –OH，生成邻二醇（butane-2,3-diol）。'
+    },
+    {
+      q: '预测 cyclohexene 与 hot concentrated acidified KMnO₄ 反应的有机产物：',
+      answers: ['hexanedioic acid', 'HOOC(CH2)4COOH', 'HOOC-(CH2)4-COOH'],
+      hint: '双键完全断裂开环，两端 =CH– 各被氧化为 –COOH，生成二元羧酸（hexanedioic acid，己二酸）。'
+    }
+  ];
+
+  var curQuiz = 0;
+
+  function loadQuiz(idx) {
+    curQuiz = (idx + QUIZ_QUESTIONS.length) % QUIZ_QUESTIONS.length;
+    var qObj = QUIZ_QUESTIONS[curQuiz];
+    $('.aw-q-text').innerHTML = qObj.q;
+    $('.aw-prac-input').value = '';
+    $('.aw-prac-fb').style.display = 'none';
+  }
+
+  function checkQuizAnswer() {
+    var inp = $('.aw-prac-input');
+    var inVal = inp.value.trim();
+    var fb = $('.aw-prac-fb');
+    inp.classList.remove('good', 'badv');
+    if (!inVal) {
+      fb.className = 'aw-prac-fb bad';
+      fb.textContent = '请输入答案后再检查。';
+      fb.style.display = 'block';
+      return;
+    }
+
+    var qObj = QUIZ_QUESTIONS[curQuiz];
+    var normIn = inVal.toLowerCase().replace(/\s+/g, '');
+
+    /* Check formula ordering: Cambridge 9701 rule — C must precede H in organic formulas */
+    if (/^[a-z0-9\(\)\-]+$/i.test(normIn)) {
+      if (/^h[0-9]*c/i.test(normIn) || /^br[0-9]*c/i.test(normIn) || /^cl[0-9]*c/i.test(normIn)) {
+        inp.classList.add('badv');
+        fb.className = 'aw-prac-fb bad';
+        fb.textContent = '✗ 顺序错误：按 Cambridge 9701 书写惯例，有机分子式必须碳原子（C）在前、氢原子（H）在后。';
+        fb.style.display = 'block';
+        return;
+      }
+    }
+
+    var isCorrect = qObj.answers.some(function (ans) {
+      return ans.toLowerCase().replace(/\s+/g, '') === normIn;
+    });
+
+    if (isCorrect) {
+      inp.classList.add('good');
+      fb.className = 'aw-prac-fb ok';
+      fb.innerHTML = '✓ 回答正确！' + qObj.hint;
+    } else {
+      inp.classList.add('badv');
+      fb.className = 'aw-prac-fb bad';
+      fb.innerHTML = '✗ 答案不符。提示：' + qObj.hint;
+    }
+    fb.style.display = 'block';
+  }
+
+  function revealQuizAnswer() {
+    var qObj = QUIZ_QUESTIONS[curQuiz];
+    var fb = $('.aw-prac-fb');
+    fb.className = 'aw-prac-fb rev';
+    fb.innerHTML = '<b>参考答案</b>：' + qObj.answers[0] + '（或 ' + qObj.answers[1] + '）<br>' + qObj.hint;
+    fb.style.display = 'block';
+  }
+
+  /* =========================================================================
+     7. EVENT LISTENERS
+     ========================================================================= */
+  $$('.aw-sub-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      selectSubstrate(btn.dataset.sub);
+    });
+  });
+
+  $('.aw-chk-alkane').addEventListener('change', function (e) {
+    toggleAlkane(e.target.checked);
+  });
+
+  $('.aw-hub').addEventListener('click', function () {
+    /* Cycle through substrates on hub click */
+    var subKeys = ['ethene', 'propene', 'but2ene', 'mb2ene', 'cyclohexene'];
+    var curIdx = subKeys.indexOf(state.subId);
+    selectSubstrate(subKeys[(curIdx + 1) % subKeys.length]);
+  });
+
+  $$('.aw-btn-rg').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      selectReagent(btn.dataset.rg);
+    });
+  });
+
+  $('.aw-prac-btn-check').addEventListener('click', checkQuizAnswer);
+  $('.aw-prac-btn-rev').addEventListener('click', revealQuizAnswer);
+  $('.aw-prac-btn-next').addEventListener('click', function () { loadQuiz(curQuiz + 1); });
+
+  $('.aw-prac-input').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      checkQuizAnswer();
+    }
+  });
+
+  /* Expose test API */
+  window.__alkeneWheel = {
+    state: function () { return state; },
+    selectSub: selectSubstrate,
+    selectRg: selectReagent,
+    toggleAlk: toggleAlkane,
+    quiz: function () { return QUIZ_QUESTIONS[curQuiz]; },
+    subData: SUBSTRATES,
+    rgData: REAGENTS,
+    rxData: RX_DATA
+  };
+
+  /* Initialize */
+  renderWheelStructure();
+  updateUI();
+  loadQuiz(0);
+})();
+</script>
