@@ -1,7 +1,6 @@
 <div class="crk-wrap">
-  <h3>🔬 催化裂化（cracking）：选一个断点并配平</h3>
-  <p class="mut">在高温与催化剂（<b>heat with Al₂O₃</b>）作用下，长链 alkane 断裂为工业需求量更大的短链 alkane 与富有反应活性的 alkene。<br>
-  ① 选择长链 alkane 底物并点击碳链上的 C–C 键断开（最多 3 刀），观察碎片如何重组为稳定分子、计算 <i>M</i>ᵣ 守恒与各产物用途；② 进入真题练习，配平缺项方程式并掌握判分要点。</p>
+  <h3>🔬 cracking：选一个断点并配平</h3>
+  <p class="mut">① 选一条长链 alkane，点碳链上的 C–C bond 断开（最多 3 刀）：一个碎片补 H 成 alkane，其余成 alkene，看配平的 equation、<i>M</i>ᵣ 守恒和各 product 的用途；② 补全 equation 练习。</p>
 
   <div class="tabbar">
     <button type="button" data-tab="sim">① 🔬 模拟断键与产物配平</button>
@@ -20,7 +19,7 @@
 
     <div class="card crk-stage-card">
       <div class="crk-stage-hdr">
-        <span class="crk-stage-prompt">👇 点击碳链上的虚线切口断开 C–C 键（可切 1～3 刀；点击已切的键可撤销）：</span>
+        <span class="crk-stage-prompt">👇 点虚线处断开 C–C bond（1～3 刀；再点一次撤销）：</span>
         <span class="crk-cuts-status">已断键：<b class="crk-cut-num">0</b> / 3 刀</span> <span class="crk-cap-msg" role="status" style="color:var(--bad);font-size:.92em"></span>
         <button type="button" class="crk-reset-btn" disabled>清除切口</button>
       </div>
@@ -30,9 +29,9 @@
       </div>
 
       <div class="crk-legend">
-        <span><i class="crk-dot alkane"></i>Alkane 产物碎片（饱和，+2H，燃料用途）</span>
-        <span><i class="crk-dot alkene"></i>Alkene 产物碎片（不饱和，含 C=C 双键，聚合物/化工原料）</span>
-        <span><i class="crk-dot cut"></i>断键切口（✂）</span>
+        <span><i class="crk-dot alkane"></i>alkane 碎片 C<sub>n</sub>H<sub>2n+2</sub></span>
+        <span><i class="crk-dot alkene"></i>alkene 碎片 C<sub>n</sub>H<sub>2n</sub>（C=C 画在断口一端，别的位置也可以）</span>
+        <span><i class="crk-dot cut"></i>断开的 C–C bond（✂）</span>
       </div>
     </div>
 
@@ -42,8 +41,8 @@
       <div class="card crk-empty-card">
         <div class="crk-empty-icon">✂️</div>
         <div class="crk-empty-txt">
-          <b>尚未断键</b>：请在上方碳链中点击任意一处 C–C 键（例如点击 C8 与 C9 之间的键切一刀）。<br>
-          <span class="faint">系统将自动把碎片分配为 1 个 alkane 与若干 alkene，并显示配平方程式、<i>M</i>ᵣ 守恒与工业用途。</span>
+          <b>还没断</b>：点上方碳链任意一根 C–C bond（例如 C8–C9 之间）。<br>
+          <span class="faint">碎片会分成 1 个 alkane + 其余 alkene，下面显示配平的 equation、<i>M</i>ᵣ 守恒和用途。</span>
         </div>
       </div>
 
@@ -56,8 +55,8 @@
       <!-- Equation card -->
       <div class="card crk-eq-card" hidden>
         <div class="crk-eq-hdr">
-          <span class="crk-eq-title">配平化学方程式（Balanced Equation）</span>
-          <span class="crk-mass-badge">✓ 原子与质量完全守恒</span>
+          <span class="crk-eq-title">配平的 equation</span>
+          <span class="crk-mass-badge">✓ C、H 原子数和 <i>M</i>ᵣ 守恒</span>
         </div>
         <div class="crk-eq-box">
           <span class="crk-eq-lhs"></span>
@@ -75,7 +74,7 @@
       </div>
 
       <!-- Fragment cards -->
-      <div class="crk-frags-title" hidden>产物性质与工业用途（Products & Uses）：</div>
+      <div class="crk-frags-title" hidden>各 product 与用途：</div>
       <div class="grid2 crk-frags-grid" hidden></div>
     </div>
   </div>
@@ -107,11 +106,11 @@
     <div class="k-ptable"></div>
 
     <div class="card crk-ref-card">
-      <h4>📌 Cambridge 9701 考纲要点自查（Learning Outcomes）</h4>
+      <h4>📌 本 cell 对应的 learning outcomes</h4>
       <ul>
         <li><b>14.1.1(b)</b>：recall the reactions by which alkanes can be produced: cracking of a longer chain alkane, <b>heat with Al₂O₃</b>。</li>
         <li><b>14.1.4</b>：suggest how cracking can be used to obtain more useful alkanes and alkenes of lower <i>M</i>ᵣ from heavier crude oil fractions（短链 alkane 用作 petrol / fuel；alkene 用作 polymer / chemicals feedstock）。</li>
-        <li><b>14.2.1(c)</b>：recall the production of alkenes by cracking of a longer chain alkane。</li>
+        <li><b>14.2.1(c)</b>：recall the reactions (including reagents and conditions) by which alkenes can be produced: cracking of a longer chain alkane。</li>
       </ul>
     </div>
   </div>
@@ -124,9 +123,6 @@
 .k .crk-lbl{font-weight:600;font-size:14px;color:var(--fg)}
 .k .crk-sub-btn{font-size:13.5px;padding:3px 10px}
 .k .crk-cond-badge{margin-left:auto;font-size:13px;padding:3px 9px;border-radius:6px;background:var(--acc-soft);border:1px solid var(--acc);color:var(--acc);white-space:nowrap}
-@media (prefers-color-scheme:dark){
-  .k .crk-cond-badge{background:var(--acc-soft);color:var(--acc)}
-}
 .k .crk-stage-card{padding:10px 14px;margin-bottom:12px}
 .k .crk-stage-hdr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:6px;font-size:13.5px}
 .k .crk-stage-prompt{color:var(--fg);font-weight:600}
@@ -141,10 +137,15 @@
 .k .crk-svg circle.crk-atom{fill:var(--card);stroke:var(--fg);stroke-width:2.2;transition:all .15s}
 .k .crk-svg circle.crk-atom.alkane{fill:var(--acc);stroke:var(--acc)}
 .k .crk-svg circle.crk-atom.alkene{fill:var(--s4);stroke:var(--s4)}
-.k .crk-svg text.crk-loc{font-size:13px;font-weight:600;fill:var(--mut)}
-.k .crk-svg .crk-hit{fill:transparent;cursor:pointer;outline:none}
-.k .crk-svg .crk-guide{stroke:transparent;stroke-width:1.8;stroke-dasharray:3 2.5;transition:stroke .15s}
-.k .crk-svg .crk-hit:hover .crk-guide,.k .crk-svg .crk-hit:focus-visible .crk-guide{stroke:var(--acc)}
+.k .crk-svg .crk-g-bonds,.k .crk-svg .crk-g-atoms,.k .crk-svg text.crk-loc,.k .crk-svg .crk-g-top{pointer-events:none}
+.k .crk-svg line.crk-db{stroke-width:3;stroke-linecap:round;stroke:var(--s4)}
+.k .crk-svg text.crk-loc{font-size:15px;font-weight:600;fill:var(--mut)}
+.k .crk-svg .crk-hit{fill:transparent;cursor:pointer}
+.k .crk-svg .crk-hit-wrap{outline:none}
+.k .crk-svg .crk-guide{stroke:var(--line);stroke-width:1.6;stroke-dasharray:3 3;transition:stroke .15s;pointer-events:none}
+.k .crk-svg .crk-hit-wrap:hover .crk-hit,.k .crk-svg .crk-hit-wrap:focus-visible .crk-hit{fill:var(--acc-soft)}
+.k .crk-svg .crk-hit-wrap:hover .crk-guide,.k .crk-svg .crk-hit-wrap:focus-visible .crk-guide{stroke:var(--acc);stroke-width:2}
+.k .crk-svg line.crk-b.cut{stroke:var(--line);stroke-width:3;opacity:.45}
 .k .crk-svg .crk-cut-line{stroke:var(--bad);stroke-width:2;stroke-dasharray:3 2}
 .k .crk-svg .crk-sc-bg{fill:var(--card);stroke:var(--bad);stroke-width:1.2}
 .k .crk-svg .crk-sc-txt{font-size:13.5px;fill:var(--bad);dominant-baseline:central}
@@ -182,7 +183,7 @@
 .k .crk-frag-card.alkene{border-color:var(--s4)}
 .k .crk-frag-head{display:flex;justify-content:space-between;align-items:center;font-size:13px}
 .k .crk-frag-num{color:var(--mut);font-weight:500}
-.k .crk-frag-tag{font-size:11.5px;font-weight:700;padding:1px 6px;border-radius:4px}
+.k .crk-frag-tag{font-size:12.5px;font-weight:700;padding:1px 6px;border-radius:4px}
 .k .crk-frag-tag.alkane{background:var(--acc-soft);color:var(--acc)}
 .k .crk-frag-tag.alkene{background:var(--hl);color:var(--s4)}
 .k .crk-frag-formula{font-size:23px;font-weight:700;line-height:1.2}
@@ -242,18 +243,22 @@
     1: ['methane', ''],
     2: ['ethane', 'ethene'],
     3: ['propane', 'propene'],
-    4: ['butane', 'butene'],
-    5: ['pentane', 'pentene'],
-    6: ['hexane', 'hexene'],
-    7: ['heptane', 'heptene'],
-    8: ['octane', 'octene'],
-    9: ['nonane', 'nonene'],
-    10: ['decane', 'decene'],
-    11: ['undecane', 'undecene'],
-    12: ['dodecane', 'dodecene'],
-    13: ['tridecane', 'tridecene'],
-    14: ['tetradecane', 'tetradecene']
+    /* the C=C is drawn at the fragment's end, so the alkene shown is the 1-ene */
+    4: ['butane', 'but-1-ene'],
+    5: ['pentane', 'pent-1-ene'],
+    6: ['hexane', 'hex-1-ene'],
+    7: ['heptane', 'hept-1-ene'],
+    8: ['octane', 'oct-1-ene'],
+    9: ['nonane', 'non-1-ene'],
+    10: ['decane', 'dec-1-ene'],
+    11: ['undecane', 'undec-1-ene'],
+    12: ['dodecane', 'dodec-1-ene'],
+    13: ['tridecane', 'tridec-1-ene'],
+    14: ['tetradecane', 'tetradec-1-ene']
   };
+  function c1Overflow(frags) {
+    return frags.filter(function (f) { return f.len === 1; }).length >= 2;
+  }
 
   /* Reactants available in simulation */
   var REACTANTS = {
@@ -315,7 +320,8 @@
       var isCut = cuts.indexOf(b) >= 0;
       var fragIdx = fragForCarbon(b);
       var cls = 'crk-b';
-      if (cuts.length > 0 && !isCut) {
+      if (isCut) cls += ' cut';
+      else if (cuts.length > 0) {
         cls += (fragIdx === alkaneIdx) ? ' alkane' : ' alkene';
       }
       var line = K.svg('line', {
@@ -325,6 +331,27 @@
       });
       gBonds.appendChild(line);
       bondSegs.push([c1.x, c1.y, c2.x, c2.y]);
+    }
+
+    /* C=C of each alkene fragment: on the bond at the broken end
+       (fragment that starts after a cut → its first bond; the C1 fragment → its last bond) */
+    if (cuts.length > 0 && !c1Overflow(frags)) {
+      frags.forEach(function (f, fi) {
+        if (fi === alkaneIdx || f.len < 2) return;
+        var a = (f.start > 1) ? f.start : f.end - 1;   /* C=C between C(a) and C(a+1) */
+        var p = coords[a - 1], q = coords[a];
+        var vx = q.x - p.x, vy = q.y - p.y, L = Math.sqrt(vx * vx + vy * vy);
+        var nx = -vy / L, ny = vx / L;
+        if (ny < 0) { nx = -nx; ny = -ny; }             /* second line on the lower side */
+        var off = 7, sh = 0.18;
+        var db = K.svg('line', {
+          x1: p.x + vx * sh + nx * off, y1: p.y + vy * sh + ny * off,
+          x2: q.x - vx * sh + nx * off, y2: q.y - vy * sh + ny * off,
+          'class': 'crk-db', 'data-db': a
+        });
+        gBonds.appendChild(db);
+        bondSegs.push([+db.getAttribute('x1'), +db.getAttribute('y1'), +db.getAttribute('x2'), +db.getAttribute('y2')]);
+      });
     }
 
     /* Draw carbon nodes */
@@ -345,15 +372,18 @@
       gAtoms.appendChild(dot);
     });
 
-    /* Place carbon labels with K.label to ensure NO clash and standard 12.5px font */
-    var placedLabels = [];
-    var gLabels = K.svg('g', { 'class': 'crk-g-labels' });
-    svg.appendChild(gLabels);
+    /* the dashed cut guides are drawn too, so labels must avoid them */
+    for (var gb = 1; gb < N; gb++) {
+      var gx = (coords[gb - 1].x + coords[gb].x) / 2;
+      bondSegs.push([gx, 34, gx, 106]);
+    }
 
+    /* carbon labels: K.label gets the <svg> itself so viewBox overflow is reported */
+    var placedLabels = [];
     coords.forEach(function (pt) {
       var isPeak = (pt.y < yCenter);
       var cands = isPeak ? [[0, -16, 'middle'], [0, -19, 'middle']] : [[0, 24, 'middle'], [0, 27, 'middle']];
-      K.label(gLabels, pt.x, pt.y, 'C' + pt.i, {
+      K.label(svg, pt.x, pt.y, 'C' + pt.i, {
         cands: cands,
         cls: 'crk-loc',
         placed: placedLabels,
@@ -361,9 +391,12 @@
       });
     });
 
-    /* Draw cut targets (interactive buttons with generous click area) */
+    /* cut targets: hit areas go UNDER the drawing (hover tint never covers labels);
+       the scissors badge goes on top and lets clicks fall through */
     var gTargets = K.svg('g', { 'class': 'crk-g-targets' });
-    svg.appendChild(gTargets);
+    svg.insertBefore(gTargets, svg.firstChild);
+    var gTop = K.svg('g', { 'class': 'crk-g-top' });
+    svg.appendChild(gTop);
 
     for (var k = 1; k < N; k++) {
       var p1 = coords[k - 1], p2 = coords[k];
@@ -387,7 +420,7 @@
 
       /* guide line */
       var guide = K.svg('line', {
-        x1: mx, y1: 24, x2: mx, y2: 114,
+        x1: mx, y1: 34, x2: mx, y2: 106,
         'class': isCutNow ? 'crk-cut-line' : 'crk-guide'
       });
       gHit.appendChild(guide);
@@ -403,8 +436,8 @@
           'class': 'crk-sc-txt'
         });
         scTxt.textContent = '✂';
-        gHit.appendChild(scBg);
-        gHit.appendChild(scTxt);
+        gTop.appendChild(scBg);
+        gTop.appendChild(scTxt);
       }
 
       (function (bondIndex) {
@@ -480,7 +513,7 @@
     var c1Count = frags.filter(function (f) { return f.len === 1; }).length;
     if (c1Count >= 2) {
       warnCard.hidden = false;
-      $('.crk-warn-msg').textContent = '⚠️ alkene（烯烃）至少需要 2 个碳原子（最简单的 alkene 是 ethene C₂H₄）。当前切口产生了 ' + c1Count + ' 个单碳碎片（C₁），无法全部配为合法的 alkene。请点击调整切口使多余碎片碳数 ≥ 2。';
+      $('.crk-warn-msg').textContent = 'alkene 至少要 2 个 C（最小的是 ethene C₂H₄）。现在切出了 ' + c1Count + ' 个单 C 碎片，只有一个能补 H 成 methane，其余没法成 alkene——撤销一刀，让其余碎片都有 ≥ 2 个 C。';
       eqCard.hidden = true;
       fragsTitle.hidden = true;
       fragsGrid.hidden = true;
@@ -575,9 +608,10 @@
 
       var head = document.createElement('div');
       head.className = 'crk-frag-head';
-      head.innerHTML = '<span class="crk-frag-num">碎片 ' + (idx + 1) + '（' + m.c + ' 碳原子）</span>' +
+      var fr = frags[idx];
+      head.innerHTML = '<span class="crk-frag-num">碎片 ' + (idx + 1) + '：' + (fr.len > 1 ? 'C' + fr.start + '–C' + fr.end : 'C' + fr.start) + '</span>' +
         '<span class="crk-frag-tag ' + (m.isAlkane ? 'alkane' : 'alkene') + '">' +
-        (m.isAlkane ? 'alkane（饱和）' : 'alkene（不饱和，含 C=C）') + '</span>';
+        (m.isAlkane ? 'alkane' : 'alkene（C=C）') + '</span>';
       card.appendChild(head);
 
       var formulaEl = document.createElement('div');
@@ -593,20 +627,21 @@
       var useBox = document.createElement('div');
       useBox.className = 'crk-use-box';
       if (m.isAlkane) {
-        useBox.innerHTML = '<div class="crk-use-tag alkane">🚗 用途：fuel（汽车汽油 petrol 组分）</div>' +
-          '<p class="crk-use-desc">短链 alkane 挥发度高、易在汽缸中完全燃烧，是优质汽车燃料（petrol / motor fuel）。长链重油组分需求低，经裂化转为高价值轻质汽油。</p>';
+        useBox.innerHTML = '<div class="crk-use-tag alkane">🚗 用途：fuel（petrol）</div>' +
+          '<p class="crk-use-desc">lower <i>M</i>ᵣ 的 alkane 需求大，用作 fuel（如 petrol）；heavier crude oil fractions 产量多、需求少，cracking 把它们变成更有用的短链。</p>';
       } else {
-        useBox.innerHTML = '<div class="crk-use-tag alkene">🧪 用途：polymer / chemicals feedstock（化工合成原料）</div>' +
-          '<p class="crk-use-desc">含有高电子云密度的活泼 C=C 双键，是聚合物制造的核心原料（如加聚制备 poly(ethene)、poly(propene) 塑料），亦用于生产乙醇等精细化学品。</p>';
+        useBox.innerHTML = '<div class="crk-use-tag alkene">🧪 用途：polymer / chemicals feedstock</div>' +
+          '<p class="crk-use-desc">C=C 能发生 addition，用来做 polymer（如 poly(ethene)、poly(propene)）和其他 chemicals（如 ethanol）的原料。</p>';
       }
       card.appendChild(useBox);
 
       /* Switch alkane button if multiple fragments */
-      if (!m.isAlkane && m.c >= 1 && c1Count <= 1) {
+      /* a single-C fragment can only be methane, so then the alkane choice is fixed */
+      if (!m.isAlkane && c1Count === 0) {
         var btnSet = document.createElement('button');
         btnSet.type = 'button';
         btnSet.className = 'crk-btn-set-alkane';
-        btnSet.textContent = '设为 alkane (+2H)';
+        btnSet.textContent = '改让这段做 alkane';
         btnSet.addEventListener('click', function () {
           customAlkaneFrag = idx;
           renderChain();
@@ -624,84 +659,97 @@
   var QUIZ = [
     {
       id: 'q1',
-      title: '第 1 题 · 补充缺项 Alkene 分子式',
-      src: 'Cambridge 9701 经典补全题',
+      title: '第 1 题 · 补全 alkene',
+      src: '练习（非真题）',
       type: 'fill',
-      prompt: 'Dodecane（C₁₂H₂₆）在催化裂化中分解为 1 摩尔 octane（C₈H₁₈）与 1 摩尔未知 alkene，请写出该 alkene 的分子式：',
+      prompt: 'dodecane 经 cracking 得到 octane 和一种 alkene（各 1 mol）。写出这个 alkene 的 molecular formula：',
       eqL: 'C₁₂H₂₆ ⟶ C₈H₁₈ + ',
       eqR: '',
-      ans: ['C4H8', 'C₄H₈'],
-      explain: 'C 原子守恒：12 − 8 = 4；H 原子守恒：26 − 18 = 8。所得分子式为 C₄H₈（butene，alkene）。请注意按 9701 惯例 C 必须写在第一位、H 在第二位。'
+      ans: ['C4H8'],
+      explain: 'C：12 − 8 = 4；H：26 − 18 = 8 → C₄H₈（butene，符合 C<sub>n</sub>H<sub>2n</sub>）。'
     },
     {
       id: 'q2',
-      title: '第 2 题 · 补充裂化气体产物',
-      src: '9701 题库',
+      title: '第 2 题 · 补全 alkene',
+      src: '练习（非真题）',
       type: 'fill',
-      prompt: 'Decane（C₁₀H₂₂）在加热与 Al₂O₃ 催化下裂化，生成 heptane（C₇H₁₆）与一种常温下为气体的 alkene：',
+      prompt: 'decane 经 cracking 得到 heptane 和一种 alkene：',
       eqL: 'C₁₀H₂₂ ⟶ C₇H₁₆ + ',
       eqR: '',
-      ans: ['C3H6', 'C₃H₆'],
-      explain: 'C 原子守恒：10 − 7 = 3；H 原子守恒：22 − 16 = 6。缺项产物为 C₃H₆（propene）。'
+      ans: ['C3H6'],
+      explain: 'C：10 − 7 = 3；H：22 − 16 = 6 → C₃H₆（propene）。'
     },
     {
       id: 'q3',
-      title: '第 3 题 · 制备汽油组分与乙烯',
-      src: '9701/22 样题',
+      title: '第 3 题 · 补全 alkene',
+      src: '练习（非真题）',
       type: 'fill',
-      prompt: 'Decane（C₁₀H₂₂）裂化生成汽油关键组分 octane（C₈H₁₈）及一种用于制造塑料的单体：',
+      prompt: 'decane 经 cracking 得到 octane（petrol 的成分）和一种可做 poly(ethene) 的 monomer：',
       eqL: 'C₁₀H₂₂ ⟶ C₈H₁₈ + ',
       eqR: '',
-      ans: ['C2H4', 'C₂H₄'],
-      explain: 'C 原子守恒：10 − 8 = 2；H 原子守恒：22 − 18 = 4。产物为 C₂H₄（ethene，用于生产 poly(ethene)）。'
+      ans: ['C2H4'],
+      explain: 'C：10 − 8 = 2；H：22 − 18 = 4 → C₂H₄（ethene）。'
     },
     {
       id: 'q4',
-      title: '第 4 题 · 多个等量 Alkene 分子配平',
-      src: '9701 衍生配平',
+      title: '第 4 题 · 带系数的 alkene',
+      src: '练习（非真题）',
       type: 'fill',
-      prompt: 'Tetradecane（C₁₄H₃₀）裂化生成 1 摩尔 octane 与 3 摩尔相同的 alkene：',
-      eqL: 'C₁₄H₃₀ ⟶ C₈H₁₈ + 3 ',
+      prompt: 'tetradecane 经 cracking 得到 1 mol octane 和 3 mol 同一种 alkene：',
+      eqL: 'C₁₄H₃₀ ⟶ C₈H₁₈ + 3',
       eqR: '',
-      ans: ['C2H4', 'C₂H₄'],
-      explain: 'C：(14 − 8) ÷ 3 = 2；H：(30 − 18) ÷ 3 = 4。每摩尔产物含 2 个 C 和 4 个 H，即 C₂H₄（ethene）。'
+      ans: ['C2H4'],
+      explain: 'C：(14 − 8) ÷ 3 = 2；H：(30 − 18) ÷ 3 = 4 → C₂H₄（ethene）。'
     },
     {
       id: 'q5',
-      title: '第 5 题 · 逆向反求 Alkane 碎片',
-      src: '9701 练习卷',
+      title: '第 5 题 · 反求 alkane',
+      src: '练习（非真题）',
       type: 'fill',
-      prompt: 'Hexadecane（C₁₆H₃₄）裂化生成一种饱和 alkane、2 摩尔 propene 和 1 摩尔 ethene：',
+      prompt: 'hexadecane 经 cracking 得到一种 alkane、2 mol propene 和 1 mol ethene：',
       eqL: 'C₁₆H₃₄ ⟶ ',
       eqR: ' + 2C₃H₆ + C₂H₄',
-      ans: ['C8H18', 'C₈H₁₈'],
-      explain: '右边已有 C：2×3 + 2 = 8，剩余 16 − 8 = 8；已有 H：2×6 + 4 = 16，剩余 34 − 16 = 18。生成物为 C₈H₁₈（octane）。'
+      ans: ['C8H18'],
+      explain: '右边已有 C：2 × 3 + 2 = 8，H：2 × 6 + 4 = 16；剩下 C 16 − 8 = 8、H 34 − 16 = 18 → C₈H₁₈（octane）。'
     },
     {
       id: 'q6',
-      title: '第 6 题 · 催化剂与反应条件（Syllabus 必背）',
-      src: '9701/22 Oct/Nov 2025 Q3(a) & 考纲 14.1.1(b)',
+      title: '第 6 题 · cracking 用什么',
+      src: '9701/23 May/June 2025 Q3(a)(i)',
       type: 'fill',
-      prompt: '根据 Cambridge 9701 考纲，工业催化裂化（catalytic cracking）所用的催化剂与反应条件是：',
-      eqL: '催化剂与条件：',
+      prompt: 'State the compound that is heated with long-chain hydrocarbons to produce more useful smaller alkanes and alkenes.',
+      eqL: '',
       eqR: '',
-      ans: ['heat with Al2O3', 'heat with Al₂O₃', 'Al2O3', 'aluminium oxide'],
-      explain: '考纲 14.1.1(b) 与 organic.json 明确标准措辞为：heat with Al₂O₃（催化剂为 aluminium oxide，需高温反应；隔绝 O₂ 避免燃烧）。'
+      ans: ['Al2O3'],
+      ansWords: ['aluminium oxide', 'aluminum oxide'],
+      explain: 'mark scheme：Al₂O₃ / aluminium oxide。syllabus 的条件是 heat with Al₂O₃。'
     },
     {
       id: 'q7',
-      title: '第 7 题 · 裂化产物的工业价值与用途',
-      src: '考纲 14.1.4 核心理解',
+      title: '第 7 题 · 过程名称',
+      src: '9701/22 Oct/Nov 2025 Q3(c)',
+      type: 'fill',
+      prompt: 'Alkanes with low relative molecular mass, <i>M</i>ᵣ, are more useful than those found in heavier crude oil fractions. Name the process that is used to obtain alkanes with low <i>M</i>ᵣ from heavier crude oil fractions.',
+      eqL: '',
+      eqR: '',
+      ans: [],
+      ansWords: ['cracking', 'catalytic cracking'],
+      explain: 'mark scheme：cracking。'
+    },
+    {
+      id: 'q8',
+      title: '第 8 题 · product 的用途',
+      src: '练习（LO 14.1.4）',
       type: 'mcq',
-      prompt: '原油重质馏分（heavier crude oil fractions）供大于求，通过催化裂化转化所得产物的工业用途，下列说法完全正确的是：',
+      prompt: 'heavier crude oil fractions 产量多、需求少。cracking 得到的 product 用途，哪一项正确？',
       opts: [
-        { v: 'a', text: '短链 alkane 用作 fuel（汽车汽油 petrol）；alkene 用作 polymer / chemicals feedstock（塑料及化工原料）' },
-        { v: 'b', text: '短链 alkane 用于聚合制造塑料；alkene 用作 fuel 燃烧' },
-        { v: 'c', text: '裂化生成的 alkane 和 alkene 都只能作为汽车 fuel，没有化学工业用途' },
-        { v: 'd', text: '短链 alkane 在 Al₂O₃ 催化下与水反应制醇；alkene 属于惰性物质' }
+        { v: 'a', text: 'lower Mᵣ 的 alkane 用作 fuel（petrol）；alkene 用作 polymer / chemicals 的原料' },
+        { v: 'b', text: 'alkane 用来做 polymer；alkene 用作 fuel' },
+        { v: 'c', text: 'alkane 和 alkene 都只能用作 fuel' },
+        { v: 'd', text: 'alkane 和 Al₂O₃ 反应得到 alcohol；alkene 不反应' }
       ],
       ans: 'a',
-      explain: '9701 LO 14.1.4 得分点：重质组分需求小；较短链 alkane（C₅–C₁₀）适合作汽车汽油（fuel / petrol）；alkene 含有反应活性的 C=C 双键，是塑料加聚（如 poly(ethene)）及有机合成的核心 feedstock。'
+      explain: 'LO 14.1.4：cracking 从 heavier crude oil fractions 得到 more useful alkanes and alkenes of lower <i>M</i>ᵣ——短链 alkane 做 fuel，alkene 的 C=C 能 addition，做 polymer 和其他 chemicals。'
     }
   ];
 
@@ -712,7 +760,7 @@
     var q = QUIZ[curQIdx];
     $('.crk-qtitle').textContent = q.title;
     $('.crk-qsrc').textContent = q.src;
-    $('.crk-qprompt').textContent = q.prompt;
+    $('.crk-qprompt').innerHTML = q.prompt;
     var area = $('.crk-qarea');
     area.innerHTML = '';
     var fb = $('.crk-qfeedback');
@@ -733,7 +781,8 @@
       inp.className = 'crk-qinp';
       inp.autocomplete = 'off';
       inp.spellcheck = false;
-      inp.placeholder = '填写化学式/条件';
+      inp.placeholder = q.ansWords ? '填写答案' : 'molecular formula';
+      if (q.ansWords) inp.style.width = '15em';
       inp.setAttribute('aria-label', '化学方程式缺项填空');
       box.appendChild(inp);
       if (q.eqR) {
@@ -786,20 +835,28 @@
       }
 
       var normVal = normDigits(val);
-      /* Order check: if student wrote H before C (e.g. H18C8, H4C2) */
-      if (/^(\d*\s*)H\d+C\d+$/i.test(normVal)) {
+      var cleanVal = normVal.replace(/\s+/g, '');
+      /* order: organic formulae are written C first, H second (H8C4 is ✗) */
+      if (/^\d*[Hh]\d*[Cc]\d*$/.test(cleanVal)) {
         inp.classList.add('badv');
         fb.className = 'crk-qfeedback bad';
-        fb.textContent = '✗ 顺序错误：按 Cambridge 9701 惯例，有机分子式中 C 必须在第一位、H 在第二位（例如应写 C₈H₁₈，不可写 H₁₈C₈）。';
+        fb.textContent = '✗ 顺序：有机 molecular formula 按惯例 C 在前、H 在后（写 C₈H₁₈，不写 H₁₈C₈）。';
+        return;
+      }
+      /* formula answers are case-sensitive (element symbols); word answers are not */
+      var bare = cleanVal.replace(/^heatwith/i, '');
+      var ok = q.ans.some(function (a) { return normDigits(a) === bare; });
+      var words = normVal.trim().toLowerCase().replace(/\s+/g, ' ');
+      if (!ok && q.ansWords) ok = q.ansWords.indexOf(words) >= 0;
+      var caseOnly = !ok && q.ans.some(function (a) { return normDigits(a).toUpperCase() === bare.toUpperCase(); });
+      if (caseOnly) {
+        inp.classList.add('badv');
+        fb.className = 'crk-qfeedback bad';
+        fb.textContent = '✗ 大小写：element symbol 要写对大小写（C、H、Al、O），c4h8 这类写法不给分。';
         return;
       }
 
-      var cleanVal = normVal.replace(/\s+/g, '').toUpperCase();
-      var cleanAns = q.ans.map(function (a) {
-        return normDigits(a).replace(/\s+/g, '').toUpperCase();
-      });
-
-      if (cleanAns.indexOf(cleanVal) >= 0) {
+      if (ok) {
         inp.classList.add('good');
         fb.className = 'crk-qfeedback ok';
         fb.innerHTML = '<b>✓ 正确！</b> ' + q.explain;
@@ -807,7 +864,7 @@
       } else {
         inp.classList.add('badv');
         fb.className = 'crk-qfeedback bad';
-        fb.innerHTML = '<b>✗ 不正确。</b> 请检查碳/氢原子守恒。提示：左右两边 C 与 H 必须各自相等。';
+        fb.innerHTML = '<b>✗ 不正确。</b> ' + (q.ans.length && !q.ansWords ? '左右两边 C、H 原子数要各自相等。' : '再想想 syllabus 的原话。') + '';
       }
     } else if (q.type === 'mcq') {
       var selBtn = $('.crk-qopt.sel');
@@ -842,9 +899,9 @@
 
     if (q.type === 'fill') {
       var inp = $('.crk-qinp');
-      inp.value = q.ans[0];
+      inp.value = (q.ans[0] || q.ansWords[0]);
       inp.classList.remove('good', 'badv');
-      fb.innerHTML = '<b>参考答案：</b> <code>' + q.ans[0] + '</code><br>' + q.explain;
+      fb.innerHTML = '<b>参考答案：</b> <code>' + (q.ans[0] || q.ansWords[0]) + '</code><br>' + q.explain;
     } else if (q.type === 'mcq') {
       $$('.crk-qopt').forEach(function (b) {
         b.classList.remove('good', 'badv', 'sel');
