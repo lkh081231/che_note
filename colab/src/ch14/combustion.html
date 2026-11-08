@@ -9,7 +9,7 @@
 
   <div data-pane="bal">
     <div class="card cb-card">
-      <div class="cb-subh">1. 选择 Alkane（链长 n = 1 ~ 8）</div>
+      <div class="cb-subh">1. 选 alkane（C 数 n = 1 ~ 8）</div>
       <div class="row cb-alks" role="group" aria-label="选择 alkane"></div>
 
       <div class="cb-subh" style="margin-top:14px">2. 调节 O₂ 供氧量（充足程度）</div>
@@ -77,8 +77,8 @@
       </div>
 
       <!-- Exhaust Flow Diagram -->
-      <svg class="cb-flow-svg" viewBox="0 0 860 260" aria-label="汽车尾气与 catalytic converter 流程图">
-        <rect x="0" y="0" width="860" height="260" rx="8" class="cb-svg-bg"/>
+      <svg class="cb-flow-svg" viewBox="0 0 860 286" aria-label="汽车尾气与 catalytic converter 流程图">
+        <rect x="0" y="0" width="860" height="286" rx="8" class="cb-svg-bg"/>
 
         <!-- Flow arrows in background -->
         <defs>
@@ -90,8 +90,8 @@
         <!-- Engine block -->
         <g class="cb-engine-zone">
           <rect x="25" y="65" width="120" height="130" rx="6" class="cb-node-box"/>
-          <line x1="85" y1="46" x2="85" y2="65" stroke="var(--mut)" stroke-width="2" marker-end="url(#cb-arr)"/>
-          <text x="85" y="40" text-anchor="middle" class="cb-txt-sm halo">Fuel + Air</text>
+          <line x1="85" y1="41" x2="85" y2="62" stroke="var(--mut)" stroke-width="2" marker-end="url(#cb-arr)"/>
+          <text x="85" y="30" text-anchor="middle" class="cb-txt-sm halo">Fuel + Air</text>
           <line x1="38" y1="90" x2="132" y2="90" stroke="var(--line)" stroke-width="1.2"/>
           <line x1="38" y1="110" x2="132" y2="110" stroke="var(--line)" stroke-width="1.2"/>
           <text x="85" y="132" text-anchor="middle" class="cb-txt-main halo">Engine</text>
@@ -103,7 +103,8 @@
         <g class="cb-pre-pipe-zone">
           <rect x="145" y="100" width="185" height="60" class="cb-pipe-rect"/>
           <text x="237" y="80" text-anchor="middle" class="cb-txt-head halo">Exhaust pipe</text>
-          <text x="237" y="184" text-anchor="middle" class="cb-txt-sub halo">原始尾气 (CO, NOₓ, HC)</text>
+          <text x="240" y="184" text-anchor="middle" class="cb-txt-sub halo">原始尾气</text>
+          <text x="240" y="206" text-anchor="middle" class="cb-txt-sub halo">CO, NOₓ, HC</text>
         </g>
 
         <!-- Catalytic Converter -->
@@ -129,7 +130,8 @@
         <g class="cb-post-pipe-zone">
           <rect x="545" y="100" width="175" height="60" class="cb-pipe-rect"/>
           <text x="632" y="80" text-anchor="middle" class="cb-txt-head halo">Tailpipe</text>
-          <text x="632" y="184" text-anchor="middle" class="cb-txt-sub cb-c-ok halo">净化尾气 (N₂, H₂O, CO₂)</text>
+          <text x="632" y="184" text-anchor="middle" class="cb-txt-sub cb-c-ok halo">净化尾气</text>
+          <text x="632" y="206" text-anchor="middle" class="cb-txt-sub cb-c-ok halo">N₂, H₂O, CO₂</text>
         </g>
 
         <!-- Tailpipe outlet and atmosphere -->
@@ -138,8 +140,9 @@
           <text x="805" y="125" text-anchor="middle" class="cb-txt-head halo">To air ➔</text>
           <text x="805" y="148" text-anchor="middle" class="cb-txt-sub halo">大气排放</text>
           <!-- Greenhouse gas alert label on SVG -->
-          <rect x="585" y="206" width="265" height="38" rx="5" class="cb-svg-ghg-box"/>
-          <text x="717" y="230" text-anchor="middle" class="cb-txt-ghg">⚠️ CO₂ 未除去 (greenhouse gas)</text>
+          <rect x="600" y="220" width="240" height="56" rx="5" class="cb-svg-ghg-box"/>
+          <text x="720" y="243" text-anchor="middle" class="cb-txt-ghg">CO₂ 没有被除去</text>
+          <text x="720" y="266" text-anchor="middle" class="cb-txt-ghg">(greenhouse gas)</text>
         </g>
 
         <!-- Animated Particle stream group -->
@@ -149,21 +152,20 @@
       <!-- Stats row: Pre vs Post Converter comparison -->
       <div class="cb-stats-row">
         <div class="cb-stat-col pre">
-          <div class="cb-st-head">进 Converter 前（原始尾气）</div>
+          <div class="cb-st-head">converter 前（exhaust pipe 里的点数）</div>
           <div class="cb-st-pills">
-            <span class="cb-pill co">CO: 100% ⚠️</span>
-            <span class="cb-pill nox">NOₓ: 100% ⚠️</span>
-            <span class="cb-pill hc">Unburnt HC: 100% ⚠️</span>
+            <span class="cb-pill co" data-cnt="pre-co">CO × 0</span>
+            <span class="cb-pill nox" data-cnt="pre-nox">NOₓ × 0</span>
+            <span class="cb-pill hc" data-cnt="pre-hc">HC × 0</span>
           </div>
         </div>
-        <div class="cb-stat-arrow">➔ 催化转化 ➔</div>
+        <div class="cb-stat-arrow">→ converter →</div>
         <div class="cb-stat-col post">
-          <div class="cb-st-head">出 Converter 后（净化尾气）</div>
+          <div class="cb-st-head">converter 后（tailpipe 里的点数）</div>
           <div class="cb-st-pills">
-            <span class="cb-pill ok">CO: 0% ✓ (→ CO₂)</span>
-            <span class="cb-pill ok">NOₓ: 0% ✓ (→ N₂)</span>
-            <span class="cb-pill ok">Unburnt HC: 0% ✓ (→ CO₂ + H₂O)</span>
-            <span class="cb-pill warn">CO₂: 100% ⚠️ 未除</span>
+            <span class="cb-pill zero" data-cnt="post-pol">CO / NOₓ / HC × 0</span>
+            <span class="cb-pill ok" data-cnt="post-clean">CO₂ / N₂ / H₂O × 0</span>
+            <span class="cb-pill warn">CO₂ 仍然排出</span>
           </div>
         </div>
       </div>
@@ -176,8 +178,8 @@
 
       <!-- Greenhouse gas note -->
       <div class="cb-ghg-alert">
-        <b>⚠️ 关键考点：Catalytic converter 无法除去 CO₂</b>
-        <p>虽然 catalytic converter 能够高效除去剧毒的 CO、导致酸雨及光化学烟雾的 NOₓ 以及未燃烧烃，但所有含碳物质（CO 与 unburnt hydrocarbons）最终全部被 oxidise 为 <b>CO₂</b>（作为主要的 greenhouse gas，会随尾气直接排入大气并加剧 global warming 与 climate change）。因此要减少 CO₂ 排放，必须提高发动机燃油效率或采用新能源替代燃料。</p>
+        <b class="cb-ghg-h">⚠️ 易错点：catalytic converter 无法除去 CO₂</b>
+        <p>converter 除去了 toxic 的 CO、造成 acid rain / photochemical smog 的 NOₓ 和 unburnt hydrocarbons，但含 C 的 pollutant 最后都被 oxidise 成 <b>CO₂</b>，而 CO₂ 是 greenhouse gas，converter 对它无能为力——要少排 CO₂ 只能少烧 fuel。</p>
       </div>
     </div>
   </div>
@@ -206,7 +208,7 @@
 .k .cb-eq-title{font-size:14.5px;color:var(--fg)}
 .k .cb-btn-double{font-size:13px;padding:2px 8px}
 .k .cb-eq-text{font-size:20px;letter-spacing:.3px;font-weight:650;color:var(--fg);margin:4px 0}
-.k .cb-eq-text .co{color:var(--acc);font-weight:700}
+.k .cb-eq-text .co{color:var(--fg);font-weight:800}
 .k .cb-eq-text .alk{color:var(--s1)}
 .k .cb-eq-text .o2{color:var(--s4)}
 .k .cb-eq-text .prod{color:var(--s2)}
@@ -259,11 +261,11 @@
 .k .cb-st-head{font-size:13px;font-weight:650;color:var(--fg);margin-bottom:4px}
 .k .cb-st-pills{display:flex;flex-wrap:wrap;gap:5px}
 .k .cb-stat-arrow{font-size:13px;font-weight:700;color:var(--acc);white-space:nowrap}
-.k .cb-pill{font-size:12px;padding:2px 7px;border-radius:4px;font-weight:600}
+.k .cb-pill{font-size:13px;padding:2px 8px;border-radius:4px;font-weight:600;font-variant-numeric:tabular-nums}
 .k .cb-pill.co{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
-.k .cb-pill.nox{background:var(--s5);color:#fff}
-@media (prefers-color-scheme:dark){.k .cb-pill.nox{color:#1b1e24}}
-.k .cb-pill.hc{background:var(--hl);color:var(--s4);border:1px solid var(--s4)}
+.k .cb-pill.nox{background:color-mix(in srgb,var(--s5) 14%,var(--card));color:var(--s5);border:1px solid var(--s5)}
+.k .cb-pill.hc{background:color-mix(in srgb,var(--s4) 14%,var(--card));color:var(--s4);border:1px solid var(--s4)}
+.k .cb-pill.zero{background:var(--card);color:var(--mut);border:1px dashed var(--mut)}
 .k .cb-pill.ok{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
 .k .cb-pill.warn{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
 
@@ -274,7 +276,8 @@
 .k .cb-eq-tag{display:inline-block;padding:2px 8px;background:var(--acc-soft);color:var(--acc);border-radius:4px;font-weight:650;margin:2px 0}
 
 .k .cb-ghg-alert{margin-top:10px;padding:10px 12px;background:var(--bad-soft);border:1px solid var(--bad);border-radius:6px;font-size:13.5px;color:var(--fg)}
-.k .cb-ghg-alert b{color:var(--bad);display:block;margin-bottom:3px}
+.k .cb-ghg-alert .cb-ghg-h{color:var(--bad);display:block;margin-bottom:3px}
+.k .cb-eqn{display:inline-block;padding:1px 8px;border-radius:4px;background:var(--bg);border:1px solid var(--line);font-size:15px;font-weight:600;color:var(--fg)}
 .k .cb-ghg-alert p{margin:0}
 </style>
 
@@ -298,8 +301,8 @@ var $$ = function (sel) { return K.$$($root, sel); };
 
   var TIERS = [
     { id: 0, name: '充足 complete', prod: 'CO₂', prodO: 2, note: 'C 完全 oxidise 为 CO₂，放出最多热量。' },
-    { id: 1, name: '不足 incomplete (CO)', prod: 'CO', prodO: 1, note: 'O₂ 不足时生成有毒的 CO（无色无味，与 haemoglobin 结合）。' },
-    { id: 2, name: '极不足 soot (C)', prod: 'C', prodO: 0, note: 'O₂ 极度缺乏时生成碳黑 (soot/particulates)，呈黑烟或颗粒物。' }
+    { id: 1, name: '不足 incomplete (CO)', prod: 'CO', prodO: 1, note: 'O₂ 不足时生成 toxic 的 CO（无色无味，和 haemoglobin 结合）。' },
+    { id: 2, name: '极不足 soot (C)', prod: 'C', prodO: 0, note: 'O₂ 更少时生成 C（soot），就是黑烟里的 particulates。' }
   ];
 
   var curAlk = 0;      /* index in ALKANES (default 0: methane) */
@@ -568,36 +571,36 @@ var $$ = function (sel) { return K.$$($root, sel); };
       id: 'co',
       name: 'Carbon monoxide (CO)',
       color: 'var(--bad)',
-      source: 'Alkanes 在氧气供应不足（limited supply of O₂）时发生 incomplete combustion。例如发动机急加速、冷启动或气缸进气不充分时产生。',
-      harm: '极度 toxic（有毒）。CO 无色无味，与血液中红细胞的 haemoglobin 结合形成极稳定的 carboxyhaemoglobin，其亲和力比 O₂ 强数百倍且不可逆，阻止血液运载 O₂，导致组织缺氧、脑水肿甚至窒息死亡。',
+      source: 'engine 里 O₂ 不足（limited supply of O₂），alkane 发生 incomplete combustion。',
+      harm: 'toxic：CO 无色无味，和 haemoglobin 结合（比 O₂ 结合得牢固得多），血液不能再运 O₂。',
       eqs: [
-        { label: 'Oxidation', eq: '2CO + O₂ → 2CO₂' },
-        { label: 'Redox with NO', eq: '2CO + 2NO → 2CO₂ + N₂' }
+        { label: 'oxidation', eq: '2CO + O₂ → 2CO₂' },
+        { label: '和 NO 反应', eq: '2CO + 2NO → 2CO₂ + N₂' }
       ],
-      role: 'CO 在转化器中被 Pt / Pd 催化剂 oxidise 转化为 CO₂；在与 NO 的反应中作为 reducing agent 将有毒的 NO 还原为无害的 N₂。'
+      role: 'CO 被 oxidise 成 CO₂；在第二个反应里 CO 是 reducing agent，把 NO reduce 成 N₂。'
     },
     nox: {
       id: 'nox',
       name: 'Oxides of nitrogen (NOₓ: NO, NO₂)',
       color: 'var(--s5)',
-      source: '空气中含有 ~78% N₂ 与 ~21% O₂。常温下 N≡N 三键键能极大（945 kJ mol⁻¹）不反应；但在内燃机气缸内极高温度与高压（high temperature and pressure）下克服高 activation energy，直接化合生成 NO：N₂ + O₂ → 2NO；排出后与空气接触进一步生成 NO₂：2NO + O₂ → 2NO₂。',
-      harm: '① 形成 acid rain（酸雨）：与水和氧反应生成 HNO₃ / HNO₂，酸化水体土壤，腐蚀建筑物；② 在大气中催化 SO₂ 氧化为 SO₃（见 chapter 12）；③ 形成 photochemical smog（光化学烟雾）：在日光作用下与未燃烧烃反应生成强烈刺激眼部与呼吸系统的 PAN 和地面臭氧。',
+      source: '空气里的 N₂ 很稳定（N≡N 的 bond energy 很大），但 engine 里 high temperature and pressure 下 N₂ 与 O₂ 反应：N₂ + O₂ → 2NO；排出后 NO 再被 O₂ oxidise：2NO + O₂ → 2NO₂。',
+      harm: '① acid rain（NO₂ 与 H₂O、O₂ 生成 HNO₃）；② photochemical smog（与 unburnt hydrocarbons 在 sunlight 下反应）；③ NO₂ 催化 atmospheric SO₂ 的 oxidation——详见 chapter 12。',
       eqs: [
-        { label: 'Reduction', eq: '2CO + 2NO → 2CO₂ + N₂' }
+        { label: 'reduction', eq: '2CO + 2NO → 2CO₂ + N₂' }
       ],
-      role: 'NO 在 Rh / Pt 催化剂表面被 reduce（还原）为大气天然无害组分 N₂，同时将 CO 氧化为 CO₂。'
+      role: 'NO 被 reduce 成 N₂，同时 CO 被 oxidise 成 CO₂。'
     },
     hc: {
       id: 'hc',
-      name: 'Unburnt hydrocarbons (未燃烧烃, CₓHᵧ)',
+      name: 'Unburnt hydrocarbons (C<sub><i>x</i></sub>H<sub><i>y</i></sub>)',
       color: 'var(--s4)',
-      source: '燃油液滴未完全蒸发汽化、局部空燃比过浓，或接近相对低温的气缸壁边缘出现火焰猝灭（flame quenching），导致部分燃料烃未参与燃烧直接随尾气排出。',
-      harm: '① 在日光照射下与 NOₓ 发生复杂光化学反应，产生 photochemical smog（光化学烟雾）及过氧乙酰硝酸酯（PAN）与对流层臭氧；② 部分挥发性有机物（如 benzene 等芳香族组分）具有 carcinogenic（致癌性）；③ 低级烷烃（如 CH₄）属于强效温室气体。',
+      source: 'fuel 没有烧完（局部 O₂ 不足，或在较冷的 cylinder wall 附近火焰熄灭），直接随尾气排出。',
+      harm: '① 与 NOₓ 在 sunlight 下生成 photochemical smog；② 部分 hydrocarbons（如 benzene）是 carcinogenic。',
       eqs: [
-        { label: 'Catalytic oxidation', eq: 'CₓHᵧ + (x + y/4)O₂ → x CO₂ + (y/2) H₂O' },
-        { label: 'Example (octane)', eq: '2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O' }
+        { label: 'oxidation', eq: 'C<sub><i>x</i></sub>H<sub><i>y</i></sub> + (<i>x</i> + <i>y</i>/4)O₂ → <i>x</i>CO₂ + (<i>y</i>/2)H₂O' },
+        { label: '例：octane', eq: 'C₈H₁₈ + 12½O₂ → 8CO₂ + 9H₂O' }
       ],
-      role: '未燃烧的 hydrocarbons 在 Pt / Pd 催化剂表面与过量空气中的 O₂ 发生完全催化氧化，彻底转化为无害的水蒸气 H₂O 以及 CO₂。'
+      role: 'unburnt hydrocarbons 被 oxidise 成 CO₂ 和 H₂O。'
     }
   };
 
@@ -638,14 +641,14 @@ var $$ = function (sel) { return K.$$($root, sel); };
 
     var b = $('.cb-det-body');
     var eqHtml = pol.eqs.map(function (item) {
-      return '<div style="margin:4px 0"><span class="cb-eq-tag">' + item.label + '</span> <code>' + item.eq + '</code></div>';
+      return '<div style="margin:4px 0"><span class="cb-eq-tag">' + item.label + '</span> <span class="cb-eqn">' + item.eq + '</span></div>';
     }).join('');
 
     b.innerHTML =
-      '<p><b>产生来源：</b>' + pol.source + '</p>' +
-      '<p><b>环境与健康危害：</b>' + pol.harm + '</p>' +
-      '<p><b>Catalytic converter 反应：</b></p>' + eqHtml +
-      '<p><b>氧化还原转化：</b>' + pol.role + '</p>';
+      '<p><b>怎样产生：</b>' + pol.source + '</p>' +
+      '<p><b>危害：</b>' + pol.harm + '</p>' +
+      '<p><b>catalytic converter 里的反应：</b></p>' + eqHtml +
+      '<p><b>结果：</b>' + pol.role + '</p>';
     K.fit();
   }
 
@@ -680,8 +683,8 @@ var $$ = function (sel) { return K.$$($root, sel); };
 
     for (var i = 0; i < NUM_PARTICLES; i++) {
       var p = particles[i];
-      /* wrap-around span: from x=145 to x=765 (span 620) */
-      var currX = ((p.x0 - 145 + p.speed * simTime) % 620) + 145;
+      /* wrap-around span: from x=145 to x=753 (span 608) — dots vanish at the outlet, before the "To air" label */
+      var currX = ((p.x0 - 145 + p.speed * simTime) % 608) + 145;
       p.x = currX;
 
       var el = pEls[i];
@@ -723,6 +726,17 @@ var $$ = function (sel) { return K.$$($root, sel); };
         el.setAttribute('data-state', 'clean');
       }
     }
+    lastCounts = { pre: preCounts, post: postCounts };
+    setCnt('pre-co', 'CO × ' + preCounts.co);
+    setCnt('pre-nox', 'NOₓ × ' + preCounts.nox);
+    setCnt('pre-hc', 'HC × ' + preCounts.hc);
+    setCnt('post-pol', 'CO / NOₓ / HC × ' + (postCounts.co + postCounts.nox + postCounts.hc));
+    setCnt('post-clean', 'CO₂ / N₂ / H₂O × ' + postCounts.clean);
+  }
+  var lastCounts = null;
+  function setCnt(key, txt) {
+    var el = $('[data-cnt="' + key + '"]');
+    if (el && el.textContent !== txt) el.textContent = txt;
   }
 
   function animLoop(timestamp) {
@@ -754,14 +768,19 @@ var $$ = function (sel) { return K.$$($root, sel); };
     $('.cb-anim-btn').textContent = '▶ 播放动画';
   }
 
+  var autoPaused = false;   /* paused by IntersectionObserver, not by the user */
   $('.cb-anim-btn').addEventListener('click', function () {
+    autoPaused = false;
     if (isPlaying) stopAnim();
     else startAnim();
   });
 
   /* Pause on tab switch if leaving flow tab, start if entering flow tab */
   var wrap = $('.cb-wrap');
+  var curTab = 'bal';
   wrap.addEventListener('tab', function (ev) {
+    curTab = ev.detail;
+    autoPaused = false;
     if (ev.detail === 'flow') {
       startAnim();
     } else {
@@ -776,6 +795,10 @@ var $$ = function (sel) { return K.$$($root, sel); };
       entries.forEach(function (entry) {
         if (!entry.isIntersecting && isPlaying) {
           stopAnim();
+          autoPaused = true;
+        } else if (entry.isIntersecting && autoPaused && curTab === 'flow') {
+          autoPaused = false;
+          startAnim();
         }
       });
     }, { threshold: 0.1 });
@@ -815,6 +838,7 @@ var $$ = function (sel) { return K.$$($root, sel); };
     t: function () { return simTime; },
     setT: function (val) { simTime = val; updateParticles(); },
     advance: function (ms) { simTime += (ms / 1000); updateParticles(); },
+    counts: function () { return lastCounts; },
     particles: function () {
       return particles.map(function (p, idx) {
         var el = pEls[idx];
