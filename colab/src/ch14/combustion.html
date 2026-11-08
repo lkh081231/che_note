@@ -1,0 +1,834 @@
+<h3>🔬 配平 combustion、跟踪尾气里的 pollutant</h3>
+<p class="mut">① 选 alkane 与 O₂ 充足程度，观察 complete / incomplete combustion 的配平 equation，可切换整数或自己填系数练习；② 观察从引擎到 catalytic converter 的尾气点流，点击 pollutant 查看其来源、危害与催化转化 equation。</p>
+
+<div class="cb-wrap">
+  <div class="tabbar">
+    <button type="button" data-tab="bal">① combustion 配平器</button>
+    <button type="button" data-tab="flow">② 尾气流程与 catalytic converter</button>
+  </div>
+
+  <div data-pane="bal">
+    <div class="card cb-card">
+      <div class="cb-subh">1. 选择 Alkane（链长 n = 1 ~ 8）</div>
+      <div class="row cb-alks" role="group" aria-label="选择 alkane"></div>
+
+      <div class="cb-subh" style="margin-top:14px">2. 调节 O₂ 供氧量（充足程度）</div>
+      <div class="cb-slider-box">
+        <div class="row cb-srow">
+          <label for="cb-slider" class="cb-sl-lbl">供氧量：</label>
+          <input type="range" id="cb-slider" class="cb-slider" min="0" max="2" step="1" value="0">
+          <span class="cb-tier-badge">充足 complete</span>
+        </div>
+        <div class="cb-tier-steps">
+          <span class="cb-tstep on" data-tier="0">① 充足 (complete → CO₂)</span>
+          <span class="cb-tstep" data-tier="1">② 不足 (incomplete → CO)</span>
+          <span class="cb-tstep" data-tier="2">③ 极不足 (severely limited → C)</span>
+        </div>
+      </div>
+
+      <div class="card cb-eq-box">
+        <div class="row cb-eq-head">
+          <b class="cb-eq-title">配平 chemical equation：</b>
+          <button type="button" class="cb-btn-double">×2 去掉 ½</button>
+        </div>
+        <div class="cb-eq-text" aria-live="polite"></div>
+        <div class="cb-eq-note faint"></div>
+      </div>
+
+      <div class="card cb-prac-box">
+        <div class="cb-prac-head">
+          <b>✍️ 自己填系数练习</b>
+          <span class="faint">填入正数（支持 ½ 如 12.5、12½、25/2，或全式 ×2 的整数）</span>
+        </div>
+        <div class="row cb-in-row">
+          <input type="text" class="cb-in cb-in-alk" autocomplete="off" spellcheck="false" placeholder="系数" aria-label="alkane 系数">
+          <span class="cb-lbl-alk"></span>
+          <span class="cb-op">+</span>
+          <input type="text" class="cb-in cb-in-o2" autocomplete="off" spellcheck="false" placeholder="系数" aria-label="O2 系数">
+          <span class="cb-lbl-o2">O₂</span>
+          <span class="cb-op">→</span>
+          <input type="text" class="cb-in cb-in-prod" autocomplete="off" spellcheck="false" placeholder="系数" aria-label="主要产物系数">
+          <span class="cb-lbl-prod"></span>
+          <span class="cb-op">+</span>
+          <input type="text" class="cb-in cb-in-h2o" autocomplete="off" spellcheck="false" placeholder="系数" aria-label="H2O 系数">
+          <span class="cb-lbl-h2o">H₂O</span>
+        </div>
+        <div class="row cb-act-row">
+          <button type="button" class="cb-check-btn on">检查</button>
+          <button type="button" class="cb-show-btn">显示答案</button>
+          <button type="button" class="cb-reset-btn">重置</button>
+        </div>
+        <div class="cb-fb" hidden></div>
+      </div>
+
+      <div class="k-ptable" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div data-pane="flow">
+    <div class="card cb-card">
+      <div class="row cb-flow-ctrl">
+        <div class="cb-pollutants-btns" role="group" aria-label="选择 pollutant 查看详情">
+          <button type="button" class="cb-pol-btn on" data-pol="co"><span class="cb-dot co"></span> CO (carbon monoxide)</button>
+          <button type="button" class="cb-pol-btn" data-pol="nox"><span class="cb-dot nox"></span> NOₓ (oxides of nitrogen)</button>
+          <button type="button" class="cb-pol-btn" data-pol="hc"><span class="cb-dot hc"></span> unburnt hydrocarbons</button>
+        </div>
+        <button type="button" class="cb-anim-btn">⏸ 暂停动画</button>
+      </div>
+
+      <!-- Exhaust Flow Diagram -->
+      <svg class="cb-flow-svg" viewBox="0 0 860 260" aria-label="汽车尾气与 catalytic converter 流程图">
+        <rect x="0" y="0" width="860" height="260" rx="8" class="cb-svg-bg"/>
+
+        <!-- Flow arrows in background -->
+        <defs>
+          <marker id="cb-arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--line)"/>
+          </marker>
+        </defs>
+
+        <!-- Engine block -->
+        <g class="cb-engine-zone">
+          <rect x="25" y="65" width="120" height="130" rx="6" class="cb-node-box"/>
+          <line x1="85" y1="46" x2="85" y2="65" stroke="var(--mut)" stroke-width="2" marker-end="url(#cb-arr)"/>
+          <text x="85" y="40" text-anchor="middle" class="cb-txt-sm halo">Fuel + Air</text>
+          <line x1="38" y1="90" x2="132" y2="90" stroke="var(--line)" stroke-width="1.2"/>
+          <line x1="38" y1="110" x2="132" y2="110" stroke="var(--line)" stroke-width="1.2"/>
+          <text x="85" y="132" text-anchor="middle" class="cb-txt-main halo">Engine</text>
+          <text x="85" y="154" text-anchor="middle" class="cb-txt-sm halo">High T &amp; P</text>
+          <text x="85" y="174" text-anchor="middle" class="cb-txt-sub halo">气缸内燃烧</text>
+        </g>
+
+        <!-- Pre-converter exhaust manifold & pipe -->
+        <g class="cb-pre-pipe-zone">
+          <rect x="145" y="100" width="185" height="60" class="cb-pipe-rect"/>
+          <text x="237" y="80" text-anchor="middle" class="cb-txt-head halo">Exhaust pipe</text>
+          <text x="237" y="184" text-anchor="middle" class="cb-txt-sub halo">原始尾气 (CO, NOₓ, HC)</text>
+        </g>
+
+        <!-- Catalytic Converter -->
+        <g class="cb-conv-zone">
+          <!-- Inlet expansion cone -->
+          <polygon points="330,100 375,65 375,195 330,160" class="cb-pipe-rect"/>
+          <!-- Honeycomb catalytic chamber -->
+          <rect x="375" y="65" width="125" height="130" rx="4" class="cb-cat-box"/>
+          <!-- Honeycomb grid lines -->
+          <line x1="395" y1="65" x2="395" y2="195" class="cb-grid-line"/>
+          <line x1="415" y1="65" x2="415" y2="195" class="cb-grid-line"/>
+          <line x1="437" y1="65" x2="437" y2="195" class="cb-grid-line"/>
+          <line x1="460" y1="65" x2="460" y2="195" class="cb-grid-line"/>
+          <line x1="480" y1="65" x2="480" y2="195" class="cb-grid-line"/>
+          <!-- Outlet contraction cone -->
+          <polygon points="500,65 545,100 545,160 500,195" class="cb-pipe-rect"/>
+          <text x="437" y="44" text-anchor="middle" class="cb-txt-acc halo">Catalytic converter</text>
+          <text x="437" y="215" text-anchor="middle" class="cb-txt-sub halo">Pt / Pd / Rh catalyst</text>
+          <text x="437" y="235" text-anchor="middle" class="cb-txt-sub halo">ceramic honeycomb</text>
+        </g>
+
+        <!-- Post-converter tailpipe -->
+        <g class="cb-post-pipe-zone">
+          <rect x="545" y="100" width="175" height="60" class="cb-pipe-rect"/>
+          <text x="632" y="80" text-anchor="middle" class="cb-txt-head halo">Tailpipe</text>
+          <text x="632" y="184" text-anchor="middle" class="cb-txt-sub cb-c-ok halo">净化尾气 (N₂, H₂O, CO₂)</text>
+        </g>
+
+        <!-- Tailpipe outlet and atmosphere -->
+        <g class="cb-outlet-zone">
+          <polygon points="720,100 760,90 760,170 720,160" class="cb-pipe-rect"/>
+          <text x="805" y="125" text-anchor="middle" class="cb-txt-head halo">To air ➔</text>
+          <text x="805" y="148" text-anchor="middle" class="cb-txt-sub halo">大气排放</text>
+          <!-- Greenhouse gas alert label on SVG -->
+          <rect x="585" y="206" width="265" height="38" rx="5" class="cb-svg-ghg-box"/>
+          <text x="717" y="230" text-anchor="middle" class="cb-txt-ghg">⚠️ CO₂ 未除去 (greenhouse gas)</text>
+        </g>
+
+        <!-- Animated Particle stream group -->
+        <g class="cb-particles"></g>
+      </svg>
+
+      <!-- Stats row: Pre vs Post Converter comparison -->
+      <div class="cb-stats-row">
+        <div class="cb-stat-col pre">
+          <div class="cb-st-head">进 Converter 前（原始尾气）</div>
+          <div class="cb-st-pills">
+            <span class="cb-pill co">CO: 100% ⚠️</span>
+            <span class="cb-pill nox">NOₓ: 100% ⚠️</span>
+            <span class="cb-pill hc">Unburnt HC: 100% ⚠️</span>
+          </div>
+        </div>
+        <div class="cb-stat-arrow">➔ 催化转化 ➔</div>
+        <div class="cb-stat-col post">
+          <div class="cb-st-head">出 Converter 后（净化尾气）</div>
+          <div class="cb-st-pills">
+            <span class="cb-pill ok">CO: 0% ✓ (→ CO₂)</span>
+            <span class="cb-pill ok">NOₓ: 0% ✓ (→ N₂)</span>
+            <span class="cb-pill ok">Unburnt HC: 0% ✓ (→ CO₂ + H₂O)</span>
+            <span class="cb-pill warn">CO₂: 100% ⚠️ 未除</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Card for Selected Pollutant -->
+      <div class="card cb-detail-card" aria-live="polite">
+        <div class="cb-det-head"></div>
+        <div class="cb-det-body"></div>
+      </div>
+
+      <!-- Greenhouse gas note -->
+      <div class="cb-ghg-alert">
+        <b>⚠️ 关键考点：Catalytic converter 无法除去 CO₂</b>
+        <p>虽然 catalytic converter 能够高效除去剧毒的 CO、导致酸雨及光化学烟雾的 NOₓ 以及未燃烧烃，但所有含碳物质（CO 与 unburnt hydrocarbons）最终全部被 oxidise 为 <b>CO₂</b>（作为主要的 greenhouse gas，会随尾气直接排入大气并加剧 global warming 与 climate change）。因此要减少 CO₂ 排放，必须提高发动机燃油效率或采用新能源替代燃料。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .cb-card{padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.k .cb-subh{font-size:14.5px;font-weight:650;color:var(--fg);margin-bottom:6px}
+.k .cb-alks{gap:6px;margin-bottom:8px}
+.k .cb-alk-btn{font-size:13.5px;padding:4px 9px}
+.k .cb-alk-btn.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+@media (prefers-color-scheme:dark){.k .cb-alk-btn.on{color:#0d1220}}
+
+.k .cb-slider-box{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 12px;margin:6px 0 10px}
+.k .cb-srow{gap:12px;align-items:center}
+.k .cb-sl-lbl{font-weight:600;font-size:14px}
+.k .cb-slider{flex:1;min-width:140px;cursor:pointer}
+.k .cb-tier-badge{font-weight:700;font-size:14px;padding:2px 8px;border-radius:4px;background:var(--acc-soft);color:var(--acc)}
+.k .cb-tier-steps{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 12px;margin-top:6px;font-size:13px;color:var(--mut)}
+.k .cb-tstep{cursor:pointer;padding:2px 6px;border-radius:4px}
+.k .cb-tstep.on{color:var(--acc);font-weight:650;background:var(--acc-soft)}
+
+.k .cb-eq-box{margin:10px 0;background:var(--bg);border:1px solid var(--line);padding:10px 14px}
+.k .cb-eq-head{justify-content:space-between;align-items:center;margin-bottom:6px}
+.k .cb-eq-title{font-size:14.5px;color:var(--fg)}
+.k .cb-btn-double{font-size:13px;padding:2px 8px}
+.k .cb-eq-text{font-size:20px;letter-spacing:.3px;font-weight:650;color:var(--fg);margin:4px 0}
+.k .cb-eq-text .co{color:var(--acc);font-weight:700}
+.k .cb-eq-text .alk{color:var(--s1)}
+.k .cb-eq-text .o2{color:var(--s4)}
+.k .cb-eq-text .prod{color:var(--s2)}
+.k .cb-eq-text .h2o{color:var(--s3)}
+.k .cb-eq-note{font-size:13px;color:var(--mut);margin-top:4px}
+
+.k .cb-prac-box{margin:10px 0 6px;background:var(--card);border:1px dashed var(--line);padding:10px 14px}
+.k .cb-prac-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 10px;font-size:14px;margin-bottom:8px}
+.k .cb-in-row{gap:6px 10px;align-items:center;font-size:17px;font-weight:650;flex-wrap:wrap;margin:8px 0}
+.k .cb-in{width:4.8em;text-align:center;font-size:15px;padding:3px 6px}
+.k .cb-in.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .cb-in.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .cb-op{color:var(--mut)}
+.k .cb-act-row{gap:8px;margin-top:10px}
+.k .cb-fb{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:13.5px}
+.k .cb-fb.ok{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
+.k .cb-fb.bad{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+
+/* Tab 2 Flowchart */
+.k .cb-flow-ctrl{justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.k .cb-pollutants-btns{display:flex;flex-wrap:wrap;gap:6px}
+.k .cb-pol-btn{font-size:13.5px;padding:4px 10px;display:inline-flex;align-items:center;gap:6px}
+.k .cb-pol-btn.on{background:var(--acc-soft);border-color:var(--acc);color:var(--acc);font-weight:650}
+.k .cb-dot{display:inline-block;width:10px;height:10px;border-radius:50%}
+.k .cb-dot.co{background:var(--bad)}
+.k .cb-dot.nox{background:var(--s5)}
+.k .cb-dot.hc{background:var(--s4)}
+.k .cb-dot.clean{background:var(--ok)}
+.k .cb-anim-btn{font-size:13px}
+
+.k .cb-flow-svg{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:6px 0;width:100%;height:auto}
+.k .cb-flow-svg text{font-size:18px}
+.k .cb-svg-bg{fill:var(--card);stroke:none}
+.k .cb-node-box{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.k .cb-node-top{fill:var(--line);stroke:none}
+.k .cb-pipe-rect{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.k .cb-cat-box{fill:var(--bg);stroke:var(--acc);stroke-width:1.6}
+.k .cb-grid-line{stroke:var(--line);stroke-dasharray:3 3;stroke-width:1.2}
+.k .cb-svg-ghg-box{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1}
+.k .cb-txt-main{font-size:19px;font-weight:700;fill:var(--fg)}
+.k .cb-txt-head{font-size:18.5px;font-weight:650;fill:var(--fg)}
+.k .cb-txt-sm{font-size:18px;fill:var(--mut)}
+.k .cb-txt-sub{font-size:18px;fill:var(--mut)}
+.k .cb-txt-acc{font-size:19px;font-weight:700;fill:var(--acc)}
+.k .cb-txt-ghg{font-size:18px;font-weight:700;fill:var(--bad)}
+.k .cb-c-ok{fill:var(--ok)!important}
+
+.k .cb-stats-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 12px;flex-wrap:wrap}
+.k .cb-stat-col{flex:1;min-width:200px}
+.k .cb-st-head{font-size:13px;font-weight:650;color:var(--fg);margin-bottom:4px}
+.k .cb-st-pills{display:flex;flex-wrap:wrap;gap:5px}
+.k .cb-stat-arrow{font-size:13px;font-weight:700;color:var(--acc);white-space:nowrap}
+.k .cb-pill{font-size:12px;padding:2px 7px;border-radius:4px;font-weight:600}
+.k .cb-pill.co{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+.k .cb-pill.nox{background:var(--s5);color:#fff}
+@media (prefers-color-scheme:dark){.k .cb-pill.nox{color:#1b1e24}}
+.k .cb-pill.hc{background:var(--hl);color:var(--s4);border:1px solid var(--s4)}
+.k .cb-pill.ok{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
+.k .cb-pill.warn{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+
+.k .cb-detail-card{margin:10px 0 6px;padding:12px 14px;background:var(--card);border-left:4px solid var(--acc)}
+.k .cb-det-head{font-size:16px;font-weight:700;margin-bottom:6px;color:var(--fg)}
+.k .cb-det-body p{margin:4px 0;font-size:14px;line-height:1.5}
+.k .cb-det-body b{color:var(--fg)}
+.k .cb-eq-tag{display:inline-block;padding:2px 8px;background:var(--acc-soft);color:var(--acc);border-radius:4px;font-weight:650;margin:2px 0}
+
+.k .cb-ghg-alert{margin-top:10px;padding:10px 12px;background:var(--bad-soft);border:1px solid var(--bad);border-radius:6px;font-size:13.5px;color:var(--fg)}
+.k .cb-ghg-alert b{color:var(--bad);display:block;margin-bottom:3px}
+.k .cb-ghg-alert p{margin:0}
+</style>
+
+<script>
+var $ = function (sel) { return $root.querySelector(sel); };
+var $$ = function (sel) { return K.$$($root, sel); };
+
+/* ==========================================
+   TAB 1: Combustion Balancer & Practice
+   ========================================== */
+  var ALKANES = [
+    { n: 1, name: 'methane', f: 'CH₄' },
+    { n: 2, name: 'ethane', f: 'C₂H₆' },
+    { n: 3, name: 'propane', f: 'C₃H₈' },
+    { n: 4, name: 'butane', f: 'C₄H₁₀' },
+    { n: 5, name: 'pentane', f: 'C₅H₁₂' },
+    { n: 6, name: 'hexane', f: 'C₆H₁₄' },
+    { n: 7, name: 'heptane', f: 'C₇H₁₆' },
+    { n: 8, name: 'octane', f: 'C₈H₁₈' }
+  ];
+
+  var TIERS = [
+    { id: 0, name: '充足 complete', prod: 'CO₂', prodO: 2, note: 'C 完全 oxidise 为 CO₂，放出最多热量。' },
+    { id: 1, name: '不足 incomplete (CO)', prod: 'CO', prodO: 1, note: 'O₂ 不足时生成有毒的 CO（无色无味，与 haemoglobin 结合）。' },
+    { id: 2, name: '极不足 soot (C)', prod: 'C', prodO: 0, note: 'O₂ 极度缺乏时生成碳黑 (soot/particulates)，呈黑烟或颗粒物。' }
+  ];
+
+  var curAlk = 0;      /* index in ALKANES (default 0: methane) */
+  var curTier = 0;     /* 0: complete, 1: CO, 2: C */
+  var isDoubled = false;
+
+  function calcEquation(alkIdx, tierIdx, doubled) {
+    var alk = ALKANES[alkIdx];
+    var n = alk.n;
+    var t = TIERS[tierIdx];
+
+    var alkCoeff = doubled ? 2 : 1;
+    var prodCoeff = doubled ? (2 * n) : n;
+    var h2oCoeff = doubled ? (2 * (n + 1)) : (n + 1);
+
+    var totalProdO = (prodCoeff * t.prodO) + (h2oCoeff * 1);
+    var o2CoeffVal = totalProdO / 2;
+
+    var o2CoeffStr = '';
+    if (Math.abs(o2CoeffVal - Math.round(o2CoeffVal)) < 1e-9) {
+      var v = Math.round(o2CoeffVal);
+      o2CoeffStr = (v === 1) ? '' : String(v);
+    } else {
+      var intPart = Math.floor(o2CoeffVal);
+      o2CoeffStr = (intPart > 0 ? String(intPart) : '') + '½';
+    }
+
+    var alkCoeffStr = (alkCoeff === 1) ? '' : String(alkCoeff);
+    var prodCoeffStr = (prodCoeff === 1) ? '' : String(prodCoeff);
+    var h2oCoeffStr = (h2oCoeff === 1) ? '' : String(h2oCoeff);
+
+    /* elemental conservation check */
+    var leftC = alkCoeff * n;
+    var rightC = prodCoeff * 1;
+    var leftH = alkCoeff * (2 * n + 2);
+    var rightH = h2oCoeff * 2;
+    var leftO = o2CoeffVal * 2;
+    var rightO = totalProdO;
+    var conserved = (leftC === rightC) && (leftH === rightH) && (Math.abs(leftO - rightO) < 1e-9);
+
+    return {
+      alkane: alk,
+      tier: t,
+      doubled: doubled,
+      alkCoeffVal: alkCoeff,
+      o2CoeffVal: o2CoeffVal,
+      prodCoeffVal: prodCoeff,
+      h2oCoeffVal: h2oCoeff,
+      alkCoeffStr: alkCoeffStr,
+      o2CoeffStr: o2CoeffStr,
+      prodCoeffStr: prodCoeffStr,
+      h2oCoeffStr: h2oCoeffStr,
+      conserved: conserved,
+      leftC: leftC, rightC: rightC,
+      leftH: leftH, rightH: rightH,
+      leftO: leftO, rightO: rightO
+    };
+  }
+
+  /* Self-test: assert all 8 alkanes x 3 tiers x 2 formats are conserved */
+  var allEquationsBalanced = true;
+  for (var ai = 0; ai < ALKANES.length; ai++) {
+    for (var ti = 0; ti < TIERS.length; ti++) {
+      var eqF = calcEquation(ai, ti, false);
+      var eqD = calcEquation(ai, ti, true);
+      if (!eqF.conserved || !eqD.conserved) allEquationsBalanced = false;
+    }
+  }
+
+  function renderAlkButtons() {
+    var bar = $('.cb-alks');
+    bar.innerHTML = '';
+    ALKANES.forEach(function (alk, i) {
+      var btn = K.el('button', {
+        type: 'button',
+        'class': 'cb-alk-btn' + (i === curAlk ? ' on' : ''),
+        'data-idx': String(i)
+      }, alk.f + ' ' + alk.name);
+      btn.addEventListener('click', function () { pickAlk(i); });
+      bar.appendChild(btn);
+    });
+  }
+
+  function renderTierDisplay() {
+    var sl = $('.cb-slider');
+    sl.value = String(curTier);
+    $('.cb-tier-badge').textContent = TIERS[curTier].name;
+    $$('.cb-tstep').forEach(function (sp) {
+      sp.classList.toggle('on', +sp.dataset.tier === curTier);
+    });
+  }
+
+  function renderEquationDisplay() {
+    var eq = calcEquation(curAlk, curTier, isDoubled);
+    var dBtn = $('.cb-btn-double');
+    var eqHalf = (calcEquation(curAlk, curTier, false).o2CoeffVal % 1 !== 0);
+
+    if (eqHalf) {
+      dBtn.disabled = false;
+      dBtn.style.opacity = '1';
+      dBtn.textContent = isDoubled ? '÷2 还原 ½' : '×2 去掉 ½';
+    } else {
+      dBtn.disabled = true;
+      dBtn.style.opacity = '0.5';
+      dBtn.textContent = '已经是整数';
+    }
+
+    var alkStr = (eq.alkCoeffStr ? '<span class="co">' + eq.alkCoeffStr + '</span>' : '') + '<span class="alk">' + eq.alkane.f + '</span>';
+    var o2Str = (eq.o2CoeffStr ? '<span class="co">' + eq.o2CoeffStr + '</span>' : '') + '<span class="o2">O₂</span>';
+    var prodStr = (eq.prodCoeffStr ? '<span class="co">' + eq.prodCoeffStr + '</span>' : '') + '<span class="prod">' + eq.tier.prod + '</span>';
+    var h2oStr = (eq.h2oCoeffStr ? '<span class="co">' + eq.h2oCoeffStr + '</span>' : '') + '<span class="h2o">H₂O</span>';
+
+    $('.cb-eq-text').innerHTML = alkStr + ' + ' + o2Str + ' → ' + prodStr + ' + ' + h2oStr;
+    $('.cb-eq-note').textContent = eq.tier.note + ' 配平法则：先定 1 个 alkane，由 C 确定 ' + eq.tier.prod + ' 系数，由 H 确定 H₂O 系数，最后数产物总 O 原子数除以 2 得到 O₂ 系数。';
+
+    /* Practice placeholders */
+    $('.cb-lbl-alk').textContent = eq.alkane.f;
+    $('.cb-lbl-prod').textContent = eq.tier.prod;
+  }
+
+  function pickAlk(idx) {
+    curAlk = Math.max(0, Math.min(ALKANES.length - 1, idx));
+    renderAlkButtons();
+    renderEquationDisplay();
+    clearPractice();
+    K.fit();
+  }
+
+  function pickTier(tIdx) {
+    curTier = Math.max(0, Math.min(2, tIdx));
+    renderTierDisplay();
+    renderEquationDisplay();
+    clearPractice();
+    K.fit();
+  }
+
+  function toggleDouble() {
+    var eqHalf = (calcEquation(curAlk, curTier, false).o2CoeffVal % 1 !== 0);
+    if (!eqHalf) return;
+    isDoubled = !isDoubled;
+    renderEquationDisplay();
+    K.fit();
+  }
+
+  /* Practice checking */
+  function parseVal(s) {
+    if (!s) return null;
+    var str = String(s).trim();
+    if (/^\d+$/.test(str)) return +str;
+    if (/^\d+\.\d+$/.test(str)) return +str;
+    var m = str.match(/^(\d+)\s*\/\s*(\d+)$/);
+    if (m && +m[2] !== 0) return +m[1] / +m[2];
+    var m2 = str.match(/^(\d+)\s*(?:1\/2|½)$/);
+    if (m2) return +m2[1] + 0.5;
+    if (str === '1/2' || str === '½') return 0.5;
+    return null;
+  }
+
+  function doCheck() {
+    var eq = calcEquation(curAlk, curTier, false);
+    var inAlk = $('.cb-in-alk');
+    var inO2 = $('.cb-in-o2');
+    var inProd = $('.cb-in-prod');
+    var inH2o = $('.cb-in-h2o');
+    var fb = $('.cb-fb');
+
+    var vAlk = parseVal(inAlk.value);
+    var vO2 = parseVal(inO2.value);
+    var vProd = parseVal(inProd.value);
+    var vH2o = parseVal(inH2o.value);
+
+    inAlk.classList.remove('good', 'badv');
+    inO2.classList.remove('good', 'badv');
+    inProd.classList.remove('good', 'badv');
+    inH2o.classList.remove('good', 'badv');
+    fb.hidden = false;
+
+    if (vAlk == null || vO2 == null || vProd == null || vH2o == null ||
+        vAlk <= 0 || vO2 <= 0 || vProd <= 0 || vH2o <= 0) {
+      fb.className = 'cb-fb bad';
+      fb.textContent = '✗ 请在 4 个输入框中全部填入有效的正数（支持整数、小数如 12.5 或分数如 12½、25/2）。';
+      return false;
+    }
+
+    var n = eq.alkane.n;
+    var cLeft = vAlk * n;
+    var cRight = vProd * 1;
+    var hLeft = vAlk * (2 * n + 2);
+    var hRight = vH2o * 2;
+    var oLeft = vO2 * 2;
+    var oRight = (vProd * eq.tier.prodO) + (vH2o * 1);
+
+    var cOk = (Math.abs(cLeft - cRight) < 1e-6);
+    var hOk = (Math.abs(hLeft - hRight) < 1e-6);
+    var oOk = (Math.abs(oLeft - oRight) < 1e-6);
+
+    if (cOk && hOk && oOk) {
+      inAlk.classList.add('good');
+      inO2.classList.add('good');
+      inProd.classList.add('good');
+      inH2o.classList.add('good');
+      fb.className = 'cb-fb ok';
+      fb.textContent = '✓ 配平完全正确！C、H、O 各原子严格守恒（左边 C=' + cLeft + ', H=' + hLeft + ', O=' + oLeft + '）。';
+      K.fit();
+      return true;
+    } else {
+      if (!cOk) { inAlk.classList.add('badv'); inProd.classList.add('badv'); }
+      if (!hOk) { inAlk.classList.add('badv'); inH2o.classList.add('badv'); }
+      if (!oOk) { inO2.classList.add('badv'); }
+
+      var errs = [];
+      if (!cOk) errs.push('C 原子不守恒（左 ' + cLeft + '，右 ' + cRight + '）');
+      if (!hOk) errs.push('H 原子不守恒（左 ' + hLeft + '，右 ' + hRight + '）');
+      if (!oOk) errs.push('O 原子不守恒（左 ' + oLeft + '，右 ' + oRight + '）');
+
+      fb.className = 'cb-fb bad';
+      fb.textContent = '✗ ' + errs.join('；') + '。请检查系数。';
+      K.fit();
+      return false;
+    }
+  }
+
+  function doShowAnswer() {
+    var eq = calcEquation(curAlk, curTier, isDoubled);
+    $('.cb-in-alk').value = String(eq.alkCoeffVal);
+    $('.cb-in-o2').value = eq.o2CoeffStr || (eq.o2CoeffVal === 1 ? '1' : '');
+    $('.cb-in-prod').value = String(eq.prodCoeffVal);
+    $('.cb-in-h2o').value = String(eq.h2oCoeffVal);
+    doCheck();
+  }
+
+  function clearPractice() {
+    $('.cb-in-alk').value = '';
+    $('.cb-in-o2').value = '';
+    $('.cb-in-prod').value = '';
+    $('.cb-in-h2o').value = '';
+    $('.cb-in-alk').classList.remove('good', 'badv');
+    $('.cb-in-o2').classList.remove('good', 'badv');
+    $('.cb-in-prod').classList.remove('good', 'badv');
+    $('.cb-in-h2o').classList.remove('good', 'badv');
+    $('.cb-fb').hidden = true;
+  }
+
+  /* Listeners for Tab 1 */
+  $('.cb-slider').addEventListener('input', function () { pickTier(+this.value); });
+  $$('.cb-tstep').forEach(function (sp) {
+    sp.addEventListener('click', function () { pickTier(+this.dataset.tier); });
+  });
+  $('.cb-btn-double').addEventListener('click', toggleDouble);
+  $('.cb-check-btn').addEventListener('click', doCheck);
+  $('.cb-show-btn').addEventListener('click', doShowAnswer);
+  $('.cb-reset-btn').addEventListener('click', clearPractice);
+
+  /* Enter key triggers check without preventDefault so kit navigation is unharmed */
+  $$('.cb-in').forEach(function (inp) {
+    inp.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter') doCheck();
+    });
+  });
+
+  /* ==========================================
+     TAB 2: Exhaust Flow & Catalytic Converter
+     ========================================== */
+  var POLLUTANTS = {
+    co: {
+      id: 'co',
+      name: 'Carbon monoxide (CO)',
+      color: 'var(--bad)',
+      source: 'Alkanes 在氧气供应不足（limited supply of O₂）时发生 incomplete combustion。例如发动机急加速、冷启动或气缸进气不充分时产生。',
+      harm: '极度 toxic（有毒）。CO 无色无味，与血液中红细胞的 haemoglobin 结合形成极稳定的 carboxyhaemoglobin，其亲和力比 O₂ 强数百倍且不可逆，阻止血液运载 O₂，导致组织缺氧、脑水肿甚至窒息死亡。',
+      eqs: [
+        { label: 'Oxidation', eq: '2CO + O₂ → 2CO₂' },
+        { label: 'Redox with NO', eq: '2CO + 2NO → 2CO₂ + N₂' }
+      ],
+      role: 'CO 在转化器中被 Pt / Pd 催化剂 oxidise 转化为 CO₂；在与 NO 的反应中作为 reducing agent 将有毒的 NO 还原为无害的 N₂。'
+    },
+    nox: {
+      id: 'nox',
+      name: 'Oxides of nitrogen (NOₓ: NO, NO₂)',
+      color: 'var(--s5)',
+      source: '空气中含有 ~78% N₂ 与 ~21% O₂。常温下 N≡N 三键键能极大（945 kJ mol⁻¹）不反应；但在内燃机气缸内极高温度与高压（high temperature and pressure）下克服高 activation energy，直接化合生成 NO：N₂ + O₂ → 2NO；排出后与空气接触进一步生成 NO₂：2NO + O₂ → 2NO₂。',
+      harm: '① 形成 acid rain（酸雨）：与水和氧反应生成 HNO₃ / HNO₂，酸化水体土壤，腐蚀建筑物；② 在大气中催化 SO₂ 氧化为 SO₃（见 chapter 12）；③ 形成 photochemical smog（光化学烟雾）：在日光作用下与未燃烧烃反应生成强烈刺激眼部与呼吸系统的 PAN 和地面臭氧。',
+      eqs: [
+        { label: 'Reduction', eq: '2CO + 2NO → 2CO₂ + N₂' }
+      ],
+      role: 'NO 在 Rh / Pt 催化剂表面被 reduce（还原）为大气天然无害组分 N₂，同时将 CO 氧化为 CO₂。'
+    },
+    hc: {
+      id: 'hc',
+      name: 'Unburnt hydrocarbons (未燃烧烃, CₓHᵧ)',
+      color: 'var(--s4)',
+      source: '燃油液滴未完全蒸发汽化、局部空燃比过浓，或接近相对低温的气缸壁边缘出现火焰猝灭（flame quenching），导致部分燃料烃未参与燃烧直接随尾气排出。',
+      harm: '① 在日光照射下与 NOₓ 发生复杂光化学反应，产生 photochemical smog（光化学烟雾）及过氧乙酰硝酸酯（PAN）与对流层臭氧；② 部分挥发性有机物（如 benzene 等芳香族组分）具有 carcinogenic（致癌性）；③ 低级烷烃（如 CH₄）属于强效温室气体。',
+      eqs: [
+        { label: 'Catalytic oxidation', eq: 'CₓHᵧ + (x + y/4)O₂ → x CO₂ + (y/2) H₂O' },
+        { label: 'Example (octane)', eq: '2C₈H₁₈ + 25O₂ → 16CO₂ + 18H₂O' }
+      ],
+      role: '未燃烧的 hydrocarbons 在 Pt / Pd 催化剂表面与过量空气中的 O₂ 发生完全催化氧化，彻底转化为无害的水蒸气 H₂O 以及 CO₂。'
+    }
+  };
+
+  var curPol = 'co';
+  var isPlaying = false;
+  var animFrameId = null;
+  var simTime = 0;       /* simulation time in seconds */
+  var lastTimestamp = null;
+
+  /* Particles setup (deterministic positions) */
+  var NUM_PARTICLES = 36;
+  var particles = [];
+  var TYPES = ['co', 'nox', 'hc'];
+
+  for (var pi = 0; pi < NUM_PARTICLES; pi++) {
+    var ptype = TYPES[pi % 3];
+    var speed = 75 + (pi * 13) % 25;       /* 75 ~ 100 px/s */
+    var initX = 145 + (pi * 21) % 600;     /* deterministic initial distribution */
+    var initY = 112 + (pi * 17) % 36;      /* y between 112 and 148 inside 100..160 pipe */
+    particles.push({
+      id: pi,
+      type: ptype,
+      speed: speed,
+      x0: initX,
+      y: initY,
+      x: initX
+    });
+  }
+
+  function renderPollutantDetail() {
+    var pol = POLLUTANTS[curPol];
+    $$('.cb-pol-btn').forEach(function (btn) {
+      btn.classList.toggle('on', btn.dataset.pol === curPol);
+    });
+
+    var head = $('.cb-det-head');
+    head.innerHTML = '<span class="cb-dot ' + pol.id + '"></span> ' + pol.name;
+
+    var b = $('.cb-det-body');
+    var eqHtml = pol.eqs.map(function (item) {
+      return '<div style="margin:4px 0"><span class="cb-eq-tag">' + item.label + '</span> <code>' + item.eq + '</code></div>';
+    }).join('');
+
+    b.innerHTML =
+      '<p><b>产生来源：</b>' + pol.source + '</p>' +
+      '<p><b>环境与健康危害：</b>' + pol.harm + '</p>' +
+      '<p><b>Catalytic converter 反应：</b></p>' + eqHtml +
+      '<p><b>氧化还原转化：</b>' + pol.role + '</p>';
+    K.fit();
+  }
+
+  function pickPollutant(id) {
+    if (!POLLUTANTS[id]) return;
+    curPol = id;
+    renderPollutantDetail();
+  }
+
+  $$('.cb-pol-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { pickPollutant(this.dataset.pol); });
+  });
+
+  /* Particle stream rendering */
+  var particleGroup = $('.cb-particles');
+  var pEls = [];
+
+  for (var i = 0; i < NUM_PARTICLES; i++) {
+    var c = K.svg('circle', {
+      r: '5',
+      'class': 'cb-p-dot',
+      'data-id': String(i),
+      'data-type': particles[i].type
+    });
+    particleGroup.appendChild(c);
+    pEls.push(c);
+  }
+
+  function updateParticles() {
+    var preCounts = { co: 0, nox: 0, hc: 0 };
+    var postCounts = { co: 0, nox: 0, hc: 0, clean: 0 };
+
+    for (var i = 0; i < NUM_PARTICLES; i++) {
+      var p = particles[i];
+      /* wrap-around span: from x=145 to x=765 (span 620) */
+      var currX = ((p.x0 - 145 + p.speed * simTime) % 620) + 145;
+      p.x = currX;
+
+      var el = pEls[i];
+      el.setAttribute('cx', currX.toFixed(1));
+      el.setAttribute('cy', p.y.toFixed(1));
+
+      /* State transitions across regions */
+      if (currX < 375) {
+        /* Pre-converter: raw pollutant */
+        preCounts[p.type]++;
+        el.setAttribute('fill', POLLUTANTS[p.type].color);
+        el.setAttribute('r', (p.type === curPol ? '6' : '4.5'));
+        el.setAttribute('opacity', (p.type === curPol ? '1' : '0.85'));
+        el.setAttribute('stroke', (p.type === curPol ? 'var(--fg)' : 'none'));
+        el.setAttribute('stroke-width', '1.2');
+        el.setAttribute('data-state', 'raw');
+      } else if (currX >= 375 && currX < 500) {
+        /* Inside catalytic converter: reacting */
+        var progress = (currX - 375) / 125;
+        if (progress < 0.5) {
+          el.setAttribute('fill', POLLUTANTS[p.type].color);
+          el.setAttribute('r', '4.5');
+          el.setAttribute('opacity', String(0.85 * (1 - progress * 1.5)));
+          el.setAttribute('data-state', 'reacting');
+        } else {
+          el.setAttribute('fill', 'var(--ok)');
+          el.setAttribute('r', '4');
+          el.setAttribute('opacity', String(0.3 + progress * 0.7));
+          el.setAttribute('data-state', 'converted');
+        }
+        el.setAttribute('stroke', 'none');
+      } else {
+        /* Post-converter: 100% clean products (N2, H2O, CO2) */
+        postCounts.clean++;
+        el.setAttribute('fill', 'var(--ok)');
+        el.setAttribute('r', '4.2');
+        el.setAttribute('opacity', '0.85');
+        el.setAttribute('stroke', 'none');
+        el.setAttribute('data-state', 'clean');
+      }
+    }
+  }
+
+  function animLoop(timestamp) {
+    if (!isPlaying) return;
+    if (lastTimestamp != null) {
+      var dt = (timestamp - lastTimestamp) / 1000;
+      if (dt > 0 && dt < 0.2) {
+        simTime += dt;
+      }
+    }
+    lastTimestamp = timestamp;
+    updateParticles();
+    animFrameId = requestAnimationFrame(animLoop);
+  }
+
+  function startAnim() {
+    if (isPlaying) return;
+    isPlaying = true;
+    lastTimestamp = performance.now();
+    $('.cb-anim-btn').textContent = '⏸ 暂停动画';
+    animFrameId = requestAnimationFrame(animLoop);
+  }
+
+  function stopAnim() {
+    if (!isPlaying) return;
+    isPlaying = false;
+    lastTimestamp = null;
+    if (animFrameId) cancelAnimationFrame(animFrameId);
+    $('.cb-anim-btn').textContent = '▶ 播放动画';
+  }
+
+  $('.cb-anim-btn').addEventListener('click', function () {
+    if (isPlaying) stopAnim();
+    else startAnim();
+  });
+
+  /* Pause on tab switch if leaving flow tab, start if entering flow tab */
+  var wrap = $('.cb-wrap');
+  wrap.addEventListener('tab', function (ev) {
+    if (ev.detail === 'flow') {
+      startAnim();
+    } else {
+      stopAnim();
+    }
+    K.fit();
+  });
+
+  /* Pause when scrolled out of view */
+  if (window.IntersectionObserver) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting && isPlaying) {
+          stopAnim();
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe($root);
+  }
+
+  /* Initialization */
+  renderAlkButtons();
+  renderTierDisplay();
+  renderEquationDisplay();
+  renderPollutantDetail();
+  updateParticles();
+  $('.cb-anim-btn').textContent = '▶ 播放动画';
+
+  /* Public hook for playwright tests */
+  $root.__cb = {
+    alkanes: ALKANES,
+    tiers: TIERS,
+    curAlkane: function () { return curAlk; },
+    setAlkane: function (idx) { pickAlk(idx); },
+    curTier: function () { return curTier; },
+    setTier: function (tier) { pickTier(tier); },
+    isDoubled: function () { return isDoubled; },
+    toggleDouble: function () { toggleDouble(); },
+    getEquation: function (aIdx, tIdx, dbl) { return calcEquation(aIdx, tIdx, dbl); },
+    allBalanced: allEquationsBalanced,
+    checkPractice: function () { return doCheck(); },
+    showPracticeAnswer: function () { doShowAnswer(); },
+    clearPractice: function () { clearPractice(); },
+
+    pollutants: POLLUTANTS,
+    curPollutant: function () { return curPol; },
+    setPollutant: function (id) { pickPollutant(id); },
+    playing: function () { return isPlaying; },
+    play: function () { startAnim(); },
+    pause: function () { stopAnim(); },
+    t: function () { return simTime; },
+    setT: function (val) { simTime = val; updateParticles(); },
+    advance: function (ms) { simTime += (ms / 1000); updateParticles(); },
+    particles: function () {
+      return particles.map(function (p, idx) {
+        var el = pEls[idx];
+        return {
+          id: p.id,
+          type: p.type,
+          x: p.x,
+          y: p.y,
+          cx: +el.getAttribute('cx'),
+          cy: +el.getAttribute('cy'),
+          state: el.getAttribute('data-state'),
+          fill: el.getAttribute('fill')
+        };
+      });
+    }
+  };
+</script>

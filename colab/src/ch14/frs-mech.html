@@ -1,0 +1,744 @@
+<h3>free-radical substitution 分步机理与产物分布</h3>
+<p class="mut">① <b>KO.mech 分步播放器</b>：切换底物与卤素，分步观察 initiation → propagation 1 → propagation 2（循环回到第 1 步）→ termination（三种结合任选），右侧对照 Cambridge 9701 评分要点；② <b>further substitution</b>：拖动 Cl₂ 投料比，观察连续多取代的产物分布柱状图，理解为什么该反应不适合制备单一 halogenoalkane。</p>
+
+<div class="frs-wrap">
+<div class="tabbar">
+  <button type="button" data-tab="mech">① 分步机理（KO.mech 播放器）</button>
+  <button type="button" data-tab="dist">② further substitution 与产物分布</button>
+</div>
+
+<div data-pane="mech">
+  <div class="card frs-ctrl-bar">
+    <div class="frs-ctrl-row">
+      <div class="frs-grp">
+        <span class="frs-lbl faint">底物 alkane：</span>
+        <div class="frs-sub-btns">
+          <button type="button" class="frs-sub on" data-sub="ethane">ethane (C₂H₆)</button>
+          <button type="button" class="frs-sub" data-sub="propane">propane (C₃H₈)</button>
+          <button type="button" class="frs-sub" data-sub="cyclopentane">cyclopentane (C₅H₁₀)</button>
+        </div>
+      </div>
+      <div class="frs-grp">
+        <span class="frs-lbl faint">卤素：</span>
+        <div class="frs-hal-btns">
+          <button type="button" class="frs-hal on" data-hal="cl2">Cl₂</button>
+          <button type="button" class="frs-hal" data-hal="br2">Br₂</button>
+        </div>
+      </div>
+    </div>
+    <div class="frs-ctrl-subrow">
+      <label class="frs-fh faint">
+        <input type="checkbox" class="frs-hook"> 显示 fish-hook 半箭头（单电子移动；syllabus 不要求画）
+      </label>
+    </div>
+  </div>
+
+  <div class="frs-mech-host"></div>
+</div>
+
+<div data-pane="dist">
+  <p class="faint">free-radical substitution 中，生成的 halogenoalkane 分子上的其余 C–H 键仍可被 radical 继续进攻（further substitution），生成多取代混合物。拖动下方滑块改变卤素配比，观察产物分布变化。</p>
+  
+  <div class="card frs-dist-card">
+    <div class="frs-slider-box">
+      <div class="row frs-slider-hdr">
+        <label for="frs-ratio-in"><b>卤素投料比</b>（Cl₂ : C₂H₆ 摩尔比）：<span class="frs-ratio-val">1.0 : 1</span> <span class="frs-ratio-desc mut">（等摩尔）</span></label>
+        <span class="frs-schem-badge faint">「示意比例」</span>
+      </div>
+      <input type="range" id="frs-ratio-in" class="frs-ratio-range" min="0.1" max="6.0" step="0.1" value="1.0" aria-label="卤素配比">
+      <div class="row frs-preset-row">
+        <button type="button" data-val="0.2">大量过量 ethane (0.2 : 1)</button>
+        <button type="button" data-val="1.0">等摩尔投料 (1.0 : 1)</button>
+        <button type="button" data-val="3.0">中度过量 Cl₂ (3.0 : 1)</button>
+        <button type="button" data-val="6.0">大量过量 Cl₂ (6.0 : 1)</button>
+      </div>
+    </div>
+
+    <div class="frs-chart-title"><span class="mut">有机产物摩尔百分比分布（示意比例）</span></div>
+    <div class="frs-bars-wrap">
+      <div class="frs-bars-chart"></div>
+    </div>
+  </div>
+
+  <div class="card frs-exam-summary">
+    <h4>💡 Mark scheme 核心考点：为什么不适合制单一产物？</h4>
+    <ul>
+      <li><b>多取代混合物</b>：反应一旦生成 chloroethane，其分子上剩余的 5 个 H 同样可被 Cl• 取代，生成 1,1-dichloroethane、1,2-dichloroethane 直至 hexachloroethane。混合物沸点接近，分离提纯极难，单一产物 yield 极低。</li>
+      <li><b>如何尽量提高 mono-halogenoalkane 产率</b>：使用<b>大量过量的 alkane</b>（如 ethane : Cl₂ = 10 : 1）。此时 Cl• 绝大多数碰撞到的是未反应的 ethane 分子，二次取代几率极低；过量的 ethane 沸点低，极易蒸馏回收并循环使用。</li>
+      <li><b>完全氯化</b>：若加入<b>过量 Cl₂</b> 并长时间紫外光照，所有 H 最终都被氯原子取代，最终产物为 <b>hexachloroethane (C₂Cl₆)</b>。</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<div class="frs-xref card faint">
+  👉 产物属于 halogenoalkanes，其在 NaOH(aq) 下的水解与亲核取代反应详见 {{xref ch15#halogenoalkanes chapter 15 Halogenoalkanes →}}
+</div>
+
+<div class="ko-src" hidden>
+  <div data-p="cl2">{{chemfig \chemfig{@{cl1}Cl-[,1.2]@{cl2}Cl}}}</div>
+  <div data-p="br2">{{chemfig \chemfig{@{br1}Br-[,1.2]@{br2}Br}}}</div>
+  <div data-p="cl_atom">{{chemfig \chemfig{@{cl}Cl}}}</div>
+  <div data-p="br_atom">{{chemfig \chemfig{@{br}Br}}}</div>
+  <div data-p="hcl">{{chemfig \chemfig{@{h}H-[,1.1]@{cl}Cl}}}</div>
+  <div data-p="hbr">{{chemfig \chemfig{@{h}H-[,1.1]@{br}Br}}}</div>
+  <div data-p="ethane">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]H)(-[0]@{h}H)(-[6]H)}}}</div>
+  <div data-p="ethyl_rad">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]H)(-[6]H)}}}</div>
+  <div data-p="chloroethane">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]H)(-[0]@{cl}Cl)(-[6]H)}}}</div>
+  <div data-p="bromoethane">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]H)(-[0]@{br}Br)(-[6]H)}}}</div>
+  <div data-p="butane">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]H)(-[6]H)-@{c3}C(-[2]H)(-[6]H)-@{c4}C(-[2]H)(-[0]H)(-[6]H)}}}</div>
+  <div data-p="propane">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]@{h}H)(-[6]H)-@{c3}C(-[2]H)(-[0]H)(-[6]H)}}}</div>
+  <div data-p="propyl_rad">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[6]H)-@{c3}C(-[2]H)(-[0]H)(-[6]H)}}}</div>
+  <div data-p="chloropropane">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]@{cl}Cl)(-[6]H)-@{c3}C(-[2]H)(-[0]H)(-[6]H)}}}</div>
+  <div data-p="bromopropane">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]@{br}Br)(-[6]H)-@{c3}C(-[2]H)(-[0]H)(-[6]H)}}}</div>
+  <div data-p="diisopropyl">{{chemfig \chemfig{@{c1}C(-[2]H)(-[4]H)(-[6]H)-@{c2}C(-[2]CH_3)(-[6]H)-@{c3}C(-[2]CH_3)(-[6]H)-@{c4}C(-[2]H)(-[0]H)(-[6]H)}}}</div>
+  <div data-p="cyclopentane">{{chemfig \chemfig{@{c1}?(-[2]@{h}H)-[:-72]@{c2}-[:-144]@{c3}-[:144]@{c4}-[:72]@{c5}?}}}</div>
+  <div data-p="cyclopentyl_rad">{{chemfig \chemfig{@{c1}?-[:-72]@{c2}-[:-144]@{c3}-[:144]@{c4}-[:72]@{c5}?}}}</div>
+  <div data-p="chlorocyclopentane">{{chemfig \chemfig{@{c1}?(-[2]@{cl}Cl)-[:-72]@{c2}-[:-144]@{c3}-[:144]@{c4}-[:72]@{c5}?}}}</div>
+  <div data-p="bromocyclopentane">{{chemfig \chemfig{@{c1}?(-[2]@{br}Br)-[:-72]@{c2}-[:-144]@{c3}-[:144]@{c4}-[:72]@{c5}?}}}</div>
+  <div data-p="bicyclopentyl">{{chemfig \chemfig{?[a]-[:-72]-[:-144]-[:144]-[:72]?[a]-[,1.2]?[b]-[:-72]-[:-144]-[:144]-[:72]?[b]}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .frs-ctrl-bar{margin:6px 0 10px;padding:8px 12px}
+.k .frs-ctrl-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.k .frs-grp{display:flex;align-items:center;gap:6px}
+.k .frs-sub-btns,.k .frs-hal-btns{display:inline-flex;gap:4px}
+.k .frs-sub-btns button,.k .frs-hal-btns button{font-size:13.5px;padding:3px 8px}
+.k .frs-ctrl-subrow{margin-top:6px;border-top:1px dashed var(--line);padding-top:6px}
+.k .frs-fh{display:inline-flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+.k .frs-fh input{cursor:pointer}
+
+/* Side Equation Card inside .ko-side */
+.k .frs-side-eq-card{margin-bottom:8px;padding:8px 10px;background:var(--card);border:1px solid var(--line);border-radius:6px}
+.k .frs-side-eq-hdr{font-size:12px;margin-bottom:3px}
+.k .frs-side-eq{font-size:15px;font-weight:650;color:var(--fg);line-height:1.4;word-break:break-word}
+.k .frs-side-eq .frs-dot{color:var(--acc);font-weight:900;font-size:17px;margin:0 1px}
+.k .frs-side-eq .frs-cond{font-size:12px;color:var(--mut);font-weight:normal;padding:0 2px}
+
+/* Stage elements */
+.k .ko-stage{position:relative}
+.k svg text.frs-rad{font-size:16px;font-weight:900;fill:var(--acc);dominant-baseline:central;text-anchor:middle}
+.k svg text.frs-rad.halo{paint-order:stroke;stroke:var(--card);stroke-width:3.5px;stroke-linejoin:round}
+.k svg circle.frs-edot{stroke:var(--card);stroke-width:0.6}
+.k svg circle.frs-edot.a{fill:var(--s4)}
+.k svg circle.frs-edot.b{fill:var(--s5)}
+.k svg .frs-loop-arrow{fill:none;stroke:var(--acc);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:5 3}
+.k svg text.frs-loop-tag{font-size:12.5px;fill:var(--fg);font-weight:600}
+.k svg text.frs-loop-tag.halo{paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round}
+.k svg text.frs-stage-tag{font-size:12.5px;fill:var(--mut)}
+.k svg text.frs-stage-tag.halo{paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
+
+/* Termination picker in step 4 */
+.k .frs-term-wrap{margin-top:8px;padding:6px 8px;border-top:1px dashed var(--line)}
+.k .frs-term-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.k .frs-term-btns{display:flex;flex-wrap:wrap;gap:5px}
+.k .frs-term-btns button{font-size:13px;padding:3px 8px}
+.k .frs-term-btns button.on{background:var(--acc-soft);border-color:var(--acc);font-weight:650}
+
+/* Tab 2: Distribution */
+.k .frs-dist-card{margin:8px 0;padding:12px 14px}
+.k .frs-slider-box{margin-bottom:14px}
+.k .frs-slider-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.k .frs-ratio-val{font-size:16px;font-weight:700;color:var(--acc)}
+.k .frs-schem-badge{font-size:12.5px}
+.k .frs-ratio-range{width:100%;margin:6px 0 10px}
+.k .frs-preset-row{display:flex;flex-wrap:wrap;gap:6px}
+.k .frs-preset-row button{font-size:13px;padding:3px 8px}
+.k .frs-chart-title{font-size:13px;font-weight:600;margin-bottom:8px}
+.k .frs-bars-wrap{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 8px}
+.k .frs-bars-chart{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end;height:180px}
+.k .frs-bar-col{display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
+.k .frs-bar-pct{font-size:12px;font-weight:650;color:var(--fg);margin-bottom:3px}
+.k .frs-bar-fill{width:70%;max-width:38px;min-height:2px;border-radius:4px 4px 0 0;background:var(--acc);transition:height .15s ease}
+.k .frs-bar-col:nth-child(1) .frs-bar-fill{background:var(--mut)}
+.k .frs-bar-col:nth-child(2) .frs-bar-fill{background:var(--ok)}
+.k .frs-bar-col:nth-child(3) .frs-bar-fill{background:var(--s1)}
+.k .frs-bar-col:nth-child(4) .frs-bar-fill{background:var(--s2)}
+.k .frs-bar-col:nth-child(5) .frs-bar-fill{background:var(--s3)}
+.k .frs-bar-col:nth-child(6) .frs-bar-fill{background:var(--s4)}
+.k .frs-bar-col:nth-child(7) .frs-bar-fill{background:var(--s5)}
+.k .frs-bar-lbl{font-size:12px;font-weight:600;margin-top:5px;text-align:center;word-break:break-all}
+.k .frs-bar-sub{font-size:11px;color:var(--mut);text-align:center}
+
+.k .frs-exam-summary{margin:10px 0;padding:10px 14px}
+.k .frs-exam-summary h4{margin:0 0 6px;font-size:14px}
+.k .frs-exam-summary ul{margin:0;padding-left:20px;font-size:13.5px;line-height:1.55}
+.k .frs-exam-summary li{margin-bottom:4px}
+.k .frs-xref{margin-top:12px;padding:8px 12px;font-size:13.5px}
+
+@media(max-width:600px){
+  .k .frs-bars-chart{gap:3px;height:150px}
+  .k .frs-bar-fill{width:85%}
+  .k .frs-bar-lbl{font-size:11px}
+  .k .frs-bar-sub{display:none}
+}
+</style>
+
+<script>
+var ORG = {{org-json}};
+function P(n) { return $root.querySelector('.ko-src [data-p="' + n + '"] svg'); }
+
+/* ================= Chemistry & Conservation Assertions ================= */
+function normSubscripts(s) {
+  return s.replace(/[₀-₉]/g, function (ch) {
+    return String.fromCharCode(ch.charCodeAt(0) - 0x2080 + 48);
+  });
+}
+
+function countAtoms(s) {
+  var counts = { C: 0, H: 0, Cl: 0, Br: 0 };
+  s = normSubscripts(s);
+  var m = s.match(/([A-Z][a-z]?)(\d*)/g) || [];
+  m.forEach(function (t) {
+    var p = t.match(/([A-Z][a-z]?)(\d*)/);
+    if (!p) return;
+    var sym = p[1], n = p[2] ? parseInt(p[2], 10) : 1;
+    if (counts[sym] != null) counts[sym] += n;
+  });
+  return counts;
+}
+
+function assertConservation(title, leftStr, rightStr) {
+  var leftParts = leftStr.split('+').map(function (x) { return x.trim().replace(/•/g, ''); });
+  var rightParts = rightStr.split('+').map(function (x) { return x.trim().replace(/•/g, ''); });
+  var L = { C: 0, H: 0, Cl: 0, Br: 0 }, R = { C: 0, H: 0, Cl: 0, Br: 0 };
+  leftParts.forEach(function (p) {
+    var coef = 1;
+    var cm = p.match(/^(\d+)\s*(.*)/);
+    if (cm) { coef = parseInt(cm[1], 10); p = cm[2]; }
+    var c = countAtoms(p);
+    Object.keys(c).forEach(function (k) { L[k] += c[k] * coef; });
+  });
+  rightParts.forEach(function (p) {
+    var coef = 1;
+    var cm = p.match(/^(\d+)\s*(.*)/);
+    if (cm) { coef = parseInt(cm[1], 10); p = cm[2]; }
+    var c = countAtoms(p);
+    Object.keys(c).forEach(function (k) { R[k] += c[k] * coef; });
+  });
+  var eq = true;
+  Object.keys(L).forEach(function (k) { if (L[k] !== R[k]) eq = false; });
+  if (!eq) {
+    console.error('Equation conservation FAIL: ' + title, L, R);
+    throw new Error('Conservation failure in ' + title);
+  }
+  return true;
+}
+
+/* ================= Radical Dot Placement ================= */
+/* Places a radical dot tightly hugging an atom glyph or vertex */
+function placeRadical(svg, atomRef, optAngle) {
+  var D = KO.atoms(svg);
+  var i = typeof atomRef === 'number' ? atomRef : D.byName[atomRef];
+  if (i == null) {
+    D.atoms.forEach(function (a) { if (a.n === atomRef) i = a.i; });
+  }
+  if (i == null) return null;
+  var a = D.atoms[i];
+  var ang = optAngle;
+  if (ang == null) {
+    var nb = D.nb[i] || [];
+    if (!nb.length) {
+      ang = -Math.PI / 4;   /* free atom: upper right corner */
+    } else {
+      var sx = 0, sy = 0;
+      nb.forEach(function (j) {
+        var dx = D.atoms[j].x - a.x, dy = D.atoms[j].y - a.y;
+        var len = Math.hypot(dx, dy) || 1;
+        sx += dx / len; sy += dy / len;
+      });
+      ang = Math.hypot(sx, sy) > 0.2 ? Math.atan2(-sy, -sx) : -Math.PI / 2;
+    }
+  }
+  var ux = Math.cos(ang), uy = Math.sin(ang);
+  var r = { x: a.x - 2.5, y: a.y - 2.5, width: 5, height: 5 };
+  if (a.el) {
+    try {
+      var bb = a.el.getBBox();
+      if (bb && bb.width > 0 && bb.height > 0) r = bb;
+    } catch (e) {}
+  }
+  /* exit from tight glyph box */
+  var hw = r.width / 2, hh = r.height / 2;
+  var dist = Math.min(
+    Math.abs(ux) > 1e-4 ? Math.abs((hw + 2.5) / ux) : 999,
+    Math.abs(uy) > 1e-4 ? Math.abs((hh + 2.5) / uy) : 999
+  );
+  var px = (a.x + ux * dist).toFixed(1);
+  var py = (a.y + uy * dist).toFixed(1);
+
+  var t = K.svg('text', {
+    'class': 'halo frs-rad',
+    'x': px,
+    'y': py,
+    'data-atom': String(i),
+    'text-anchor': 'middle',
+    'dominant-baseline': 'central'
+  });
+  t.textContent = '•';
+  svg.appendChild(t);
+  return t;
+}
+
+/* ================= Mechanism Steps Builder ================= */
+var curSub = 'ethane', curHal = 'cl2', showFishHook = false, curTerm = 1;
+
+function buildSteps(sub, hal, termOpt, hook) {
+  var isCl = hal === 'cl2';
+  var X = isCl ? 'Cl' : 'Br';
+  var X2 = isCl ? 'Cl₂' : 'Br₂';
+  var HX = isCl ? 'HCl' : 'HBr';
+  var halKey = isCl ? 'cl' : 'br';
+  var halMoleculeKey = isCl ? 'cl2' : 'br2';
+  var hxKey = isCl ? 'hcl' : 'hbr';
+
+  var subFormula = sub === 'ethane' ? 'CH₃CH₃' : sub === 'propane' ? 'CH₃CH₂CH₃' : 'C₅H₁₀';
+  var radFormula = sub === 'ethane' ? 'CH₃CH₂•' : sub === 'propane' ? 'CH₃•CHCH₃' : 'C₅H₉•';
+  var haloFormula = sub === 'ethane' ? ('CH₃CH₂' + X) : sub === 'propane' ? ('CH₃CH' + X + 'CH₃') : ('C₅H₉' + X);
+  var dimerFormula = sub === 'ethane' ? 'C₄H₁₀' : sub === 'propane' ? 'C₆H₁₄' : 'C₁₀H₁₈';
+  var dimerName = sub === 'ethane' ? 'butane' : sub === 'propane' ? '2,3-dimethylbutane' : 'bicyclopentyl';
+
+  var subKey = sub;
+  var radKey = sub === 'ethane' ? 'ethyl_rad' : sub === 'propane' ? 'propyl_rad' : 'cyclopentyl_rad';
+  var haloKey = (isCl ? 'chloro' : 'bromo') + (sub === 'ethane' ? 'ethane' : sub === 'propane' ? 'propane' : 'cyclopentane');
+  var dimerKey = sub === 'ethane' ? 'butane' : sub === 'propane' ? 'diisopropyl' : 'bicyclopentyl';
+
+  /* Verify atom conservation for all steps */
+  assertConservation('Initiation', X2, '2 ' + X + '•');
+  assertConservation('Propagation 1', X + '• + ' + subFormula, radFormula + ' + ' + HX);
+  assertConservation('Propagation 2', radFormula + ' + ' + X2, haloFormula + ' + ' + X + '•');
+  assertConservation('Termination 1', '2 ' + X + '•', X2);
+  assertConservation('Termination 2', radFormula + ' + ' + X + '•', haloFormula);
+  assertConservation('Termination 3', '2 ' + radFormula, dimerFormula);
+
+  /* Step 1: Initiation */
+  var s1Svg = KO.compose([
+    { svg: P(halMoleculeKey), at: halKey + '1', x: -80, y: 0 },
+    { text: '⟶', x: -5, y: 0 },
+    { svg: P(halKey + '_atom'), at: halKey, x: 50, y: 0 },
+    { text: '+', x: 80, y: 0 },
+    { svg: P(halKey + '_atom'), at: halKey, x: 110, y: 0 }
+  ], { vb: [-130, -55, 290, 110], scale: 1.35 });
+
+  var step1 = {
+    title: 'initiation',
+    eq: X2 + ' <span class="frs-cond">UV light</span> ⟶ 2' + X + '<span class="frs-dot">•</span>',
+    svg: s1Svg,
+    marks: [
+      'M1 homolytic fission（均裂）：共价键断开，成键电子一边一个',
+      'M2 ultraviolet light（UV）提供断键能量（' + X + '–' + X + ' 键弱于 C–H 键）',
+      'M3 产物为 free radicals（' + X + '•），带有 unpaired electron'
+    ],
+    caption: '<b>Initiation（引发）</b>：' + X2 + ' 在紫外光（UV）照射下发生 <b>homolytic fission（均裂）</b>，单键中的一对成键电子各自回到一个 ' + X + ' 原子，生成两个带有未成对电子的 free radical（' + X + '•）。<br><span class="faint">注：Cl–Cl 键能（242 kJ/mol）远小于 C–H 键能（410 kJ/mol），故紫外光下 Cl–Cl 优先断裂。Syllabus 仅要求写出化学方程式，不要求画 fish-hook 半箭头。</span>',
+    draw: function (svg) {
+      /* UV badge above arrow */
+      var uvText = K.svg('text', {
+        'class': 'halo frs-stage-tag',
+        'x': -5,
+        'y': -16,
+        'text-anchor': 'middle'
+      });
+      uvText.textContent = 'UV light (hν)';
+      svg.appendChild(uvText);
+
+      /* Radical dots on the two produced Cl• atoms */
+      placeRadical(svg, 2, -Math.PI / 4);
+      placeRadical(svg, 3, -Math.PI / 4);
+
+      /* Two electron dots in the breaking bond */
+      var edot1 = K.svg('circle', { 'class': 'frs-edot a', cx: -71, cy: 0, r: 2.2 });
+      var edot2 = K.svg('circle', { 'class': 'frs-edot b', cx: -65, cy: 0, r: 2.2 });
+      svg.appendChild(edot1);
+      svg.appendChild(edot2);
+
+      if (hook) {
+        KO.arrow(svg, [-68, 0], 0, { half: true, bend: 0.8, cls: 'acc' });
+        KO.arrow(svg, [-68, 0], 1, { half: true, bend: -0.8, cls: 'acc' });
+      }
+    }
+  };
+
+  /* Step 2: Propagation 1 */
+  var s2Svg = KO.compose([
+    { svg: P(halKey + '_atom'), at: halKey, x: -140, y: 0 },
+    { text: '+', x: -105, y: 0 },
+    { svg: P(subKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: -45, y: 0 },
+    { text: '⟶', x: 30, y: 0 },
+    { svg: P(radKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: 100, y: 0 },
+    { text: '+', x: 168, y: 0 },
+    { svg: P(hxKey), at: 'h', x: 198, y: 0 }
+  ], { vb: [-175, -60, 420, 120], scale: 1.25 });
+
+  var step2 = {
+    title: 'propagation 1',
+    eq: X + '<span class="frs-dot">•</span> + ' + subFormula + ' ⟶ ' + radFormula.replace('•', '<span class="frs-dot">•</span>') + ' + ' + HX,
+    svg: s2Svg,
+    marks: [
+      'M1 第一步产物一定有 ' + HX + '（' + X + '• 夺取 H 原子）',
+      'M2 生成 alkyl radical，radical 的 • 必须在 C 上',
+      'M3 扣分警示：第一步绝不产生 halogenoalkane（如 ' + haloFormula + '）'
+    ],
+    caption: '<b>Propagation 1（增长 1）</b>：高活性 ' + X + '• 进攻 alkane 分子夺走一个氢原子（H），生成极稳定的 <b>' + HX + '</b> 分子，同时原 alkane 变成带单个未成对电子的 <b>alkyl radical</b>。<br><span class="faint">评分标准强调：第一步的无机副产物一定是 ' + HX + '，决不能写成 ' + haloFormula + '。自由基点 • 必须清楚标在碳原子上。</span>',
+    draw: function (svg) {
+      /* Radical dot on incoming halogen atom */
+      placeRadical(svg, 0, -Math.PI / 4);
+
+      /* Radical dot on produced alkyl radical carbon */
+      var alkylAtoms = JSON.parse(svg.getAttribute('data-atoms') || '[]');
+      /* Locate the radical carbon in the produced radical */
+      var targetIdx = null;
+      alkylAtoms.forEach(function (at) {
+        if (at.x > 80 && at.x < 150) {
+          if (sub === 'ethane' && at.n === 'c2') targetIdx = at.i;
+          else if (sub === 'propane' && at.n === 'c2') targetIdx = at.i;
+          else if (sub === 'cyclopentane' && at.n === 'c1') targetIdx = at.i;
+        }
+      });
+      if (targetIdx != null) {
+        placeRadical(svg, targetIdx, sub === 'ethane' ? 0 : -Math.PI / 2);
+      }
+
+      if (hook) {
+        var hTarget = null;
+        alkylAtoms.forEach(function (at) {
+          if (at.x < 20 && at.l === 'H' && (at.n === 'h' || (at.x > -20 && at.y < -20))) hTarget = at.i;
+        });
+        if (hTarget != null) {
+          KO.arrow(svg, 0, hTarget, { half: true, bend: 0.35, cls: 'acc' });
+        }
+      }
+    }
+  };
+
+  /* Step 3: Propagation 2 (with loop arrow!) */
+  var s3Svg = KO.compose([
+    { svg: P(radKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: -115, y: 0 },
+    { text: '+', x: -50, y: 0 },
+    { svg: P(halMoleculeKey), at: halKey + '1', x: -10, y: 0 },
+    { text: '⟶', x: 50, y: 0 },
+    { svg: P(haloKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: 120, y: 0 },
+    { text: '+', x: 185, y: 0 },
+    { svg: P(halKey + '_atom'), at: halKey, x: 215, y: 0 }
+  ], { vb: [-170, -88, 430, 155], scale: 1.25 });
+
+  var step3 = {
+    title: 'propagation 2',
+    eq: radFormula.replace('•', '<span class="frs-dot">•</span>') + ' + ' + X2 + ' ⟶ ' + haloFormula + ' + ' + X + '<span class="frs-dot">•</span>',
+    svg: s3Svg,
+    marks: [
+      'M1 第二步生成主要产物 halogenoalkane（' + haloFormula + '）',
+      'M2 必须再生 ' + X + '• free radical，驱动 chain reaction',
+      'M3 少量光子引发成千上万次循环，直至 termination'
+    ],
+    caption: '<b>Propagation 2（增长 2）</b>：上一步生成的 alkyl radical 进攻 ' + X2 + ' 分子，夺取一个 ' + X + ' 生成主产物 <b>' + haloFormula + '</b>，同时<b>重新生成 ' + X + '•</b>。<br><span class="faint">再生出来的 ' + X + '• 立即回到 Propagation 1 进攻新的 alkane 分子，形成连绵不绝的 <b>chain reaction（链反应）</b>！这也是少量 UV 光即可引发大量反应的原因。</span>',
+    draw: function (svg) {
+      var allAtoms = JSON.parse(svg.getAttribute('data-atoms') || '[]');
+      /* Radical dot on reactant alkyl radical */
+      var radIdx = null, regenIdx = null;
+      allAtoms.forEach(function (at) {
+        if (at.x < 0) {
+          if (sub === 'ethane' && at.n === 'c2') radIdx = at.i;
+          else if (sub === 'propane' && at.n === 'c2') radIdx = at.i;
+          else if (sub === 'cyclopentane' && at.n === 'c1') radIdx = at.i;
+        } else if (at.x > 200) {
+          regenIdx = at.i;
+        }
+      });
+      if (radIdx != null) placeRadical(svg, radIdx, sub === 'ethane' ? 0 : -Math.PI / 2);
+      if (regenIdx != null) placeRadical(svg, regenIdx, -Math.PI / 4);
+
+      /* ================= Circular Chain Loop Arrow ================= */
+      /* Marker for the loop arrow */
+      var defs = svg.querySelector('defs');
+      if (!defs) { defs = K.svg('defs', { 'class': 'ko-defs' }); svg.insertBefore(defs, svg.firstChild); }
+      var mkId = 'frs-loop-head';
+      if (!svg.querySelector('#' + mkId)) {
+        var mk = K.svg('marker', {
+          id: mkId,
+          markerUnits: 'userSpaceOnUse',
+          viewBox: '0 0 10 8',
+          markerWidth: 10,
+          markerHeight: 8,
+          refX: 6,
+          refY: 4,
+          orient: 'auto'
+        });
+        mk.appendChild(K.svg('path', { d: 'M0,0 L10,4 L0,8 L2.6,4 Z', style: 'fill:var(--acc);stroke:none' }));
+        defs.appendChild(mk);
+      }
+
+      /* Path looping from regenerated Cl• (x=215, y=-16) over the top back to the left (x=-145, y=-20) */
+      var loopD = 'M 215,-16 C 215,-66 90,-66 35,-66 C -20,-66 -145,-66 -145,-22';
+      var loopPath = K.svg('path', {
+        'd': loopD,
+        'class': 'frs-loop-arrow',
+        'marker-end': 'url(#' + mkId + ')',
+        'data-chain': 'loop'
+      });
+      svg.appendChild(loopPath);
+
+      /* Badge / text above the loop arc (y=-74, completely clear of bonds and molecules) */
+      var loopText = K.svg('text', {
+        'class': 'halo frs-loop-tag',
+        'x': 35,
+        'y': -74,
+        'text-anchor': 'middle'
+      });
+      loopText.innerHTML = '<tspan fill="var(--acc)" font-weight="700">⟲ chain reaction：</tspan>' + X + '• 再生并回到第 1 步循环';
+      svg.appendChild(loopText);
+    }
+  };
+
+  /* Step 4: Termination (with 3 options) */
+  var termSvg = null, termEq = '', termCap = '';
+  if (termOpt === 1) {
+    /* 2X• → X2 */
+    termEq = '2' + X + '<span class="frs-dot">•</span> ⟶ ' + X2;
+    termCap = '<b>Termination 结合方式 1</b>：两个卤素自由基碰撞结合成 ' + X2 + ' 分子。<br><span class="faint">两个具有未成对电子的 radical 碰撞，电子配对生成单键，体系中的 radical 消失。</span>';
+    termSvg = KO.compose([
+      { svg: P(halKey + '_atom'), at: halKey, x: -70, y: 0 },
+      { text: '+', x: -35, y: 0 },
+      { svg: P(halKey + '_atom'), at: halKey, x: 0, y: 0 },
+      { text: '⟶', x: 40, y: 0 },
+      { svg: P(halMoleculeKey), at: halKey + '1', x: 95, y: 0 }
+    ], { vb: [-110, -50, 260, 100], scale: 1.35 });
+  } else if (termOpt === 2) {
+    /* Alkyl• + X• → Haloalkane */
+    termEq = radFormula.replace('•', '<span class="frs-dot">•</span>') + ' + ' + X + '<span class="frs-dot">•</span> ⟶ ' + haloFormula;
+    termCap = '<b>Termination 结合方式 2</b>：alkyl radical 与 ' + X + '• 碰撞结合，直接生成最终产物 ' + haloFormula + '。<br><span class="faint">也是主要的终止反应之一。注意 termination 生成产物的量极微少，因为体系中自由基浓度极低（约为 10⁻⁸ mol/dm³）。</span>';
+    termSvg = KO.compose([
+      { svg: P(radKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: -80, y: 0 },
+      { text: '+', x: -10, y: 0 },
+      { svg: P(halKey + '_atom'), at: halKey, x: 25, y: 0 },
+      { text: '⟶', x: 65, y: 0 },
+      { svg: P(haloKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: 135, y: 0 }
+    ], { vb: [-140, -55, 330, 110], scale: 1.25 });
+  } else {
+    /* 2 Alkyl• → Dimer (Chain lengthening!) */
+    termEq = '2' + radFormula.replace('•', '<span class="frs-dot">•</span>') + ' ⟶ ' + dimerFormula + ' <span class="frs-cond">(' + dimerName + ')</span>';
+    termCap = '<b>Termination 结合方式 3（链延长重要证据）</b>：两个 alkyl radical 相互碰撞偶联，生成碳链长度加倍的 alkane（<b>' + dimerName + '</b>）。<br><span class="faint">9701 常见真题要点：微量 dimer（如 ethane 反应产生 butane C₄H₁₀；cyclopentane 产生 bicyclopentyl C₁₀H₁₈）的存在，强有力地证明了该反应经历了 alkyl free radical 中间体！</span>';
+    termSvg = KO.compose([
+      { svg: P(radKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: -115, y: 0 },
+      { text: '+', x: -45, y: 0 },
+      { svg: P(radKey), at: sub === 'cyclopentane' ? 'c1' : 'c2', x: 15, y: 0 },
+      { text: '⟶', x: 80, y: 0 },
+      { svg: P(dimerKey), at: 0, x: 150, y: 0 }
+    ], { vb: [-170, -60, 390, 120], scale: 1.2 });
+  }
+
+  var step4 = {
+    title: 'termination',
+    eq: termEq,
+    svg: termSvg,
+    marks: [
+      'M1 两个 free radical 碰撞结合，unpaired electrons 配对成键',
+      'M2 radical 从体系中消失，chain reaction 终止',
+      'M3 考试写任意一个两 radical 结合的 equation 均可得分'
+    ],
+    caption: termCap,
+    draw: function (svg) {
+      /* Place radical dots on the two reactant radicals */
+      var allAtoms = JSON.parse(svg.getAttribute('data-atoms') || '[]');
+      if (termOpt === 1) {
+        placeRadical(svg, 0, -Math.PI / 4);
+        placeRadical(svg, 1, -Math.PI / 4);
+      } else if (termOpt === 2) {
+        var rIdx = null, hIdx = null;
+        allAtoms.forEach(function (at) {
+          if (at.x < 0 && (at.n === 'c2' || at.n === 'c1')) rIdx = at.i;
+          if (at.x > 10 && at.x < 50) hIdx = at.i;
+        });
+        if (rIdx != null) placeRadical(svg, rIdx, sub === 'ethane' ? 0 : -Math.PI / 2);
+        if (hIdx != null) placeRadical(svg, hIdx, -Math.PI / 4);
+      } else {
+        var rads = [];
+        allAtoms.forEach(function (at) {
+          if (at.x < 60 && (at.n === 'c2' || at.n === 'c1')) rads.push(at.i);
+        });
+        rads.forEach(function (ri) {
+          placeRadical(svg, ri, sub === 'ethane' ? 0 : -Math.PI / 2);
+        });
+      }
+
+      /* Termination Option switcher attached under caption or stage */
+      var host = $root.querySelector('.frs-mech-host');
+      var oldPicker = host.querySelector('.frs-term-wrap');
+      if (oldPicker) oldPicker.parentNode.removeChild(oldPicker);
+
+      var picker = K.el('div', { 'class': 'frs-term-wrap' });
+      picker.innerHTML = '<div class="frs-term-title faint">选择 Termination 结合方式（考试写任意一种均可）：</div>' +
+        '<div class="frs-term-btns">' +
+        '<button type="button" class="' + (curTerm === 1 ? 'on' : '') + '" data-term="1">① 结合成 ' + X2 + ' (2' + X + '• ⟶ ' + X2 + ')</button>' +
+        '<button type="button" class="' + (curTerm === 2 ? 'on' : '') + '" data-term="2">② 结合成 ' + haloFormula + '</button>' +
+        '<button type="button" class="' + (curTerm === 3 ? 'on' : '') + '" data-term="3">③ 偶联成 ' + dimerName + ' (' + dimerFormula + ')</button>' +
+        '</div>';
+
+      picker.querySelectorAll('button[data-term]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          curTerm = parseInt(btn.getAttribute('data-term'), 10);
+          initMech(3);
+        });
+      });
+      var cap = host.querySelector('.ko-cap');
+      if (cap) cap.parentNode.insertBefore(picker, cap.nextSibling);
+    }
+  };
+
+  return [step1, step2, step3, step4];
+}
+
+/* ================= Mechanism Player Init ================= */
+var mechHost = $root.querySelector('.frs-mech-host');
+var mechPlayer = null;
+
+function initMech(stepIdx) {
+  mechHost.innerHTML = '';
+  var steps = buildSteps(curSub, curHal, curTerm, showFishHook);
+  mechPlayer = KO.mech(mechHost, steps, { scale: 1.25 });
+
+  /* Attach Side Equation Card */
+  var side = mechHost.querySelector('.ko-side');
+  if (side) {
+    var eqCard = K.el('div', { 'class': 'frs-side-eq-card card' });
+    eqCard.innerHTML = '<div class="frs-side-eq-hdr faint">本步化学方程式</div><div class="frs-side-eq"></div>';
+    side.insertBefore(eqCard, side.firstChild);
+  }
+
+  function updateEq() {
+    var cur = mechPlayer.step();
+    var curSt = steps[cur];
+    var eqEl = mechHost.querySelector('.frs-side-eq');
+    if (eqEl) eqEl.innerHTML = curSt.eq;
+    /* Clean up termination picker if leaving step 4 */
+    if (cur !== 3) {
+      var p = mechHost.querySelector('.frs-term-wrap');
+      if (p) p.parentNode.removeChild(p);
+    }
+  }
+
+  /* Listen to step buttons in mechPlayer */
+  K.$$(mechHost, '.ko-bar button, .ko-dots button').forEach(function (b) {
+    b.addEventListener('click', function () { setTimeout(updateEq, 0); });
+  });
+  mechHost.addEventListener('keydown', function () { setTimeout(updateEq, 0); });
+
+  if (stepIdx != null && stepIdx > 0) {
+    mechPlayer.go(stepIdx);
+  }
+  updateEq();
+  K.fit();
+}
+
+/* Substrate, Halogen & Hook Listeners */
+$root.querySelectorAll('.frs-sub').forEach(function (b) {
+  b.addEventListener('click', function () {
+    $root.querySelectorAll('.frs-sub').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    curSub = b.getAttribute('data-sub');
+    initMech(mechPlayer ? mechPlayer.step() : 0);
+  });
+});
+
+$root.querySelectorAll('.frs-hal').forEach(function (b) {
+  b.addEventListener('click', function () {
+    $root.querySelectorAll('.frs-hal').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    curHal = b.getAttribute('data-hal');
+    initMech(mechPlayer ? mechPlayer.step() : 0);
+  });
+});
+
+var hookCb = $root.querySelector('.frs-hook');
+if (hookCb) {
+  hookCb.addEventListener('change', function () {
+    showFishHook = !!hookCb.checked;
+    initMech(mechPlayer ? mechPlayer.step() : 0);
+  });
+}
+
+/* ================= Tab 2: Further Substitution & Distribution ================= */
+/* Binomial distribution for consecutive substitutions of 6 equivalent C-H bonds */
+var PRODUCTS = [
+  { k: 0, form: 'C₂H₆', name: 'ethane', sub: '未反应' },
+  { k: 1, form: 'C₂H₅Cl', name: 'chloroethane', sub: '一氯乙烷' },
+  { k: 2, form: 'C₂H₄Cl₂', name: 'dichloroethanes', sub: '1,1- / 1,2-二氯' },
+  { k: 3, form: 'C₂H₃Cl₃', name: 'trichloroethanes', sub: '1,1,1- / 1,1,2-三氯' },
+  { k: 4, form: 'C₂H₂Cl₄', name: 'tetrachloroethanes', sub: '四氯乙烷' },
+  { k: 5, form: 'C₂HCl₅', name: 'pentachloroethane', sub: '五氯乙烷' },
+  { k: 6, form: 'C₂Cl₆', name: 'hexachloroethane', sub: '六氯乙烷' }
+];
+
+var COMB_6 = [1, 6, 15, 20, 15, 6, 1];
+
+function calcDistribution(ratio) {
+  /* substitution probability per H: p = min(1, ratio / 6) */
+  var p = Math.max(0.01, Math.min(1.0, ratio / 6.0));
+  var q = 1 - p;
+  var pcts = [];
+  for (var k = 0; k <= 6; k++) {
+    var prob = COMB_6[k] * Math.pow(p, k) * Math.pow(q, 6 - k);
+    pcts.push(prob);
+  }
+  var sum = pcts.reduce(function (a, b) { return a + b; }, 0) || 1;
+  return pcts.map(function (v) { return Math.round((v / sum) * 100); });
+}
+
+var chartEl = $root.querySelector('.frs-bars-chart');
+var ratioIn = $root.querySelector('.frs-ratio-range');
+var ratioVal = $root.querySelector('.frs-ratio-val');
+var ratioDesc = $root.querySelector('.frs-ratio-desc');
+
+function renderChart() {
+  if (!chartEl) return;
+  chartEl.innerHTML = '';
+  PRODUCTS.forEach(function (p) {
+    var col = K.el('div', { 'class': 'frs-bar-col', 'data-k': p.k });
+    col.innerHTML = '<span class="frs-bar-pct">0%</span>' +
+      '<div class="frs-bar-fill" style="height:0%"></div>' +
+      '<div class="frs-bar-lbl">' + p.form + '</div>' +
+      '<div class="frs-bar-sub">' + p.sub + '</div>';
+    chartEl.appendChild(col);
+  });
+}
+
+function updateDistribution() {
+  var r = parseFloat(ratioIn.value);
+  ratioVal.textContent = r.toFixed(1) + ' : 1';
+  var desc = r <= 0.3 ? '（大量过量 ethane）'
+    : r <= 0.8 ? '（过量 ethane）'
+    : r <= 1.2 ? '（等摩尔投料）'
+    : r <= 3.5 ? '（中度过量 Cl₂）'
+    : '（极大过量 Cl₂）';
+  ratioDesc.textContent = desc;
+
+  var pcts = calcDistribution(r);
+  var cols = chartEl.querySelectorAll('.frs-bar-col');
+  cols.forEach(function (col, idx) {
+    var pct = pcts[idx];
+    var pctEl = col.querySelector('.frs-bar-pct');
+    var fillEl = col.querySelector('.frs-bar-fill');
+    pctEl.textContent = pct + '%';
+    fillEl.style.height = Math.max(3, pct * 0.9) + '%';
+    fillEl.setAttribute('data-pct', pct);
+  });
+}
+
+if (ratioIn) {
+  ratioIn.addEventListener('input', updateDistribution);
+}
+
+$root.querySelectorAll('.frs-preset-row button').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var v = btn.getAttribute('data-val');
+    ratioIn.value = v;
+    updateDistribution();
+  });
+});
+
+/* Init */
+renderChart();
+updateDistribution();
+initMech(0);
+</script>

@@ -1,0 +1,972 @@
+<div class="crk-wrap">
+  <h3>🔬 催化裂化（cracking）：选一个断点并配平</h3>
+  <p class="mut">在高温与催化剂（<b>heat with Al₂O₃</b>）作用下，长链 alkane 断裂为工业需求量更大的短链 alkane 与富有反应活性的 alkene。<br>
+  ① 选择长链 alkane 底物并点击碳链上的 C–C 键断开（最多 3 刀），观察碎片如何重组为稳定分子、计算 <i>M</i>ᵣ 守恒与各产物用途；② 进入真题练习，配平缺项方程式并掌握判分要点。</p>
+
+  <div class="tabbar">
+    <button type="button" data-tab="sim">① 🔬 模拟断键与产物配平</button>
+    <button type="button" data-tab="quiz">② 📝 缺项配平演练</button>
+  </div>
+
+  <!-- Pane 1: Simulation -->
+  <div data-pane="sim">
+    <div class="row crk-sub-bar">
+      <span class="crk-lbl">底物 Alkane：</span>
+      <button type="button" class="crk-sub-btn on" data-k="C12">C₁₂H₂₆ (dodecane · 12C)</button>
+      <button type="button" class="crk-sub-btn" data-k="C10">C₁₀H₂₂ (decane · 10C)</button>
+      <button type="button" class="crk-sub-btn" data-k="C14">C₁₄H₃₀ (tetradecane · 14C)</button>
+      <span class="crk-cond-badge">条件：<b>heat with Al₂O₃</b></span>
+    </div>
+
+    <div class="card crk-stage-card">
+      <div class="crk-stage-hdr">
+        <span class="crk-stage-prompt">👇 点击碳链上的虚线切口断开 C–C 键（可切 1～3 刀；点击已切的键可撤销）：</span>
+        <span class="crk-cuts-status">已断键：<b class="crk-cut-num">0</b> / 3 刀</span> <span class="crk-cap-msg" role="status" style="color:var(--bad);font-size:.92em"></span>
+        <button type="button" class="crk-reset-btn" disabled>清除切口</button>
+      </div>
+
+      <div class="crk-svg-wrap">
+        <svg class="crk-svg" viewBox="0 0 680 140" role="img" aria-label="长链 alkane 碳链断键模拟"></svg>
+      </div>
+
+      <div class="crk-legend">
+        <span><i class="crk-dot alkane"></i>Alkane 产物碎片（饱和，+2H，燃料用途）</span>
+        <span><i class="crk-dot alkene"></i>Alkene 产物碎片（不饱和，含 C=C 双键，聚合物/化工原料）</span>
+        <span><i class="crk-dot cut"></i>断键切口（✂）</span>
+      </div>
+    </div>
+
+    <!-- Results Panel: Balanced Equation & Product Fragments -->
+    <div class="crk-results">
+      <!-- When no cuts made -->
+      <div class="card crk-empty-card">
+        <div class="crk-empty-icon">✂️</div>
+        <div class="crk-empty-txt">
+          <b>尚未断键</b>：请在上方碳链中点击任意一处 C–C 键（例如点击 C8 与 C9 之间的键切一刀）。<br>
+          <span class="faint">系统将自动把碎片分配为 1 个 alkane 与若干 alkene，并显示配平方程式、<i>M</i>ᵣ 守恒与工业用途。</span>
+        </div>
+      </div>
+
+      <!-- Warning card if invalid cut pattern (e.g. multiple C1 pieces) -->
+      <div class="card crk-warn-card" hidden>
+        <span class="crk-warn-icon">⚠️</span>
+        <span class="crk-warn-msg"></span>
+      </div>
+
+      <!-- Equation card -->
+      <div class="card crk-eq-card" hidden>
+        <div class="crk-eq-hdr">
+          <span class="crk-eq-title">配平化学方程式（Balanced Equation）</span>
+          <span class="crk-mass-badge">✓ 原子与质量完全守恒</span>
+        </div>
+        <div class="crk-eq-box">
+          <span class="crk-eq-lhs"></span>
+          <span class="crk-eq-arrow-wrap">
+            <span class="crk-eq-cond">heat with Al₂O₃</span>
+            <span class="crk-eq-arrow">⟶</span>
+          </span>
+          <span class="crk-eq-rhs"></span>
+        </div>
+        <div class="crk-mass-row">
+          <span class="crk-mass-item crk-mass-lhs"></span>
+          <span class="crk-mass-sym">=</span>
+          <span class="crk-mass-item crk-mass-rhs"></span>
+        </div>
+      </div>
+
+      <!-- Fragment cards -->
+      <div class="crk-frags-title" hidden>产物性质与工业用途（Products & Uses）：</div>
+      <div class="grid2 crk-frags-grid" hidden></div>
+    </div>
+  </div>
+
+  <!-- Pane 2: Quiz -->
+  <div data-pane="quiz">
+    <div class="row crk-qnav">
+      <button type="button" class="crk-qprev">← 上一题</button>
+      <select class="crk-qjmp" aria-label="选择题目"></select>
+      <button type="button" class="crk-qnext">下一题 →</button>
+      <span class="crk-qscore">正确 <b class="crk-qsc">0</b> / <span class="crk-qtot">0</span> 题</span>
+    </div>
+
+    <div class="card crk-qcard">
+      <div class="crk-qhdr">
+        <span class="crk-qtitle"></span>
+        <span class="crk-qsrc faint"></span>
+      </div>
+      <div class="crk-qprompt"></div>
+      <div class="crk-qarea"></div>
+      <div class="row crk-qactions">
+        <button type="button" class="crk-qcheck on">检查</button>
+        <button type="button" class="crk-qshow">显示答案</button>
+        <button type="button" class="crk-qretry">重试</button>
+      </div>
+      <div class="crk-qfeedback" hidden></div>
+    </div>
+
+    <div class="k-ptable"></div>
+
+    <div class="card crk-ref-card">
+      <h4>📌 Cambridge 9701 考纲要点自查（Learning Outcomes）</h4>
+      <ul>
+        <li><b>14.1.1(b)</b>：recall the reactions by which alkanes can be produced: cracking of a longer chain alkane, <b>heat with Al₂O₃</b>。</li>
+        <li><b>14.1.4</b>：suggest how cracking can be used to obtain more useful alkanes and alkenes of lower <i>M</i>ᵣ from heavier crude oil fractions（短链 alkane 用作 petrol / fuel；alkene 用作 polymer / chemicals feedstock）。</li>
+        <li><b>14.2.1(c)</b>：recall the production of alkenes by cracking of a longer chain alkane。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .crk-wrap{max-width:880px;margin:0 auto}
+.k .crk-sub-bar{gap:8px;margin:8px 0 10px;align-items:center}
+.k .crk-lbl{font-weight:600;font-size:14px;color:var(--fg)}
+.k .crk-sub-btn{font-size:13.5px;padding:3px 10px}
+.k .crk-cond-badge{margin-left:auto;font-size:13px;padding:3px 9px;border-radius:6px;background:var(--acc-soft);border:1px solid var(--acc);color:var(--acc);white-space:nowrap}
+@media (prefers-color-scheme:dark){
+  .k .crk-cond-badge{background:var(--acc-soft);color:var(--acc)}
+}
+.k .crk-stage-card{padding:10px 14px;margin-bottom:12px}
+.k .crk-stage-hdr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:6px;font-size:13.5px}
+.k .crk-stage-prompt{color:var(--fg);font-weight:600}
+.k .crk-cuts-status{margin-left:auto;color:var(--mut)}
+.k .crk-cuts-status b{color:var(--fg);font-size:14.5px}
+.k .crk-reset-btn{font-size:12.5px;padding:2px 8px}
+.k .crk-svg-wrap{display:flex;justify-content:center;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 0}
+.k .crk-svg{display:block;max-width:100%;height:auto}
+.k .crk-svg line.crk-b{stroke:var(--line);stroke-width:4;stroke-linecap:round;transition:stroke .15s}
+.k .crk-svg line.crk-b.alkane{stroke:var(--acc);stroke-width:4.5}
+.k .crk-svg line.crk-b.alkene{stroke:var(--s4);stroke-width:4.5}
+.k .crk-svg circle.crk-atom{fill:var(--card);stroke:var(--fg);stroke-width:2.2;transition:all .15s}
+.k .crk-svg circle.crk-atom.alkane{fill:var(--acc);stroke:var(--acc)}
+.k .crk-svg circle.crk-atom.alkene{fill:var(--s4);stroke:var(--s4)}
+.k .crk-svg text.crk-loc{font-size:13px;font-weight:600;fill:var(--mut)}
+.k .crk-svg .crk-hit{fill:transparent;cursor:pointer;outline:none}
+.k .crk-svg .crk-guide{stroke:transparent;stroke-width:1.8;stroke-dasharray:3 2.5;transition:stroke .15s}
+.k .crk-svg .crk-hit:hover .crk-guide,.k .crk-svg .crk-hit:focus-visible .crk-guide{stroke:var(--acc)}
+.k .crk-svg .crk-cut-line{stroke:var(--bad);stroke-width:2;stroke-dasharray:3 2}
+.k .crk-svg .crk-sc-bg{fill:var(--card);stroke:var(--bad);stroke-width:1.2}
+.k .crk-svg .crk-sc-txt{font-size:13.5px;fill:var(--bad);dominant-baseline:central}
+.k .crk-legend{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;font-size:13px;color:var(--mut);border-top:1px dashed var(--line);padding-top:7px;margin-top:4px}
+.k .crk-dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px;margin-right:4px;border:1.4px solid}
+.k .crk-dot.alkane{background:var(--acc-soft);border-color:var(--acc)}
+.k .crk-dot.alkene{background:var(--hl);border-color:var(--s4)}
+.k .crk-dot.cut{background:var(--bad-soft);border-color:var(--bad)}
+
+.k .crk-results{margin-top:8px}
+.k .crk-empty-card{display:flex;gap:12px;align-items:center;padding:12px 16px;color:var(--mut);font-size:14px}
+.k .crk-empty-icon{font-size:26px}
+.k .crk-empty-txt b{color:var(--fg)}
+.k .crk-warn-card{display:flex;gap:10px;align-items:center;padding:10px 14px;border-color:var(--bad);background:var(--bad-soft);color:var(--bad);font-size:13.5px}
+.k .crk-warn-icon{font-size:20px}
+
+.k .crk-eq-card{padding:12px 16px;margin-bottom:12px}
+.k .crk-eq-hdr{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.k .crk-eq-title{font-size:15px;font-weight:650;color:var(--fg)}
+.k .crk-mass-badge{font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--ok-soft);color:var(--ok)}
+.k .crk-eq-box{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 14px;font-size:20px;font-weight:600;padding:10px 0}
+.k .crk-eq-lhs{color:var(--fg)}
+.k .crk-eq-arrow-wrap{display:inline-flex;flex-direction:column;align-items:center;padding:0 4px}
+.k .crk-eq-cond{font-size:12px;color:var(--mut);font-weight:600;letter-spacing:0.2px}
+.k .crk-eq-arrow{font-size:22px;line-height:1;color:var(--fg)}
+.k .crk-eq-rhs{color:var(--fg)}
+.k .crk-mass-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 10px;font-size:13.5px;color:var(--mut);border-top:1px dashed var(--line);padding-top:6px;margin-top:2px}
+.k .crk-mass-sym{font-weight:700}
+.k .crk-mass-item b{color:var(--fg)}
+
+.k .crk-frags-title{font-size:15px;font-weight:650;margin:12px 0 8px;color:var(--fg)}
+.k .crk-frags-grid{gap:12px;margin-top:4px}
+.k .crk-frag-card{padding:10px 12px;display:flex;flex-direction:column;gap:5px;border-width:1.5px}
+.k .crk-frag-card.alkane{border-color:var(--acc)}
+.k .crk-frag-card.alkene{border-color:var(--s4)}
+.k .crk-frag-head{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.k .crk-frag-num{color:var(--mut);font-weight:500}
+.k .crk-frag-tag{font-size:11.5px;font-weight:700;padding:1px 6px;border-radius:4px}
+.k .crk-frag-tag.alkane{background:var(--acc-soft);color:var(--acc)}
+.k .crk-frag-tag.alkene{background:var(--hl);color:var(--s4)}
+.k .crk-frag-formula{font-size:23px;font-weight:700;line-height:1.2}
+.k .crk-frag-formula.alkane{color:var(--acc)}
+.k .crk-frag-formula.alkene{color:var(--s4)}
+.k .crk-frag-name{font-size:13px;color:var(--mut)}
+.k .crk-use-box{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px;margin-top:4px}
+.k .crk-use-tag{font-size:12.5px;font-weight:650;margin-bottom:3px}
+.k .crk-use-tag.alkane{color:var(--acc)}
+.k .crk-use-tag.alkene{color:var(--s4)}
+.k .crk-use-desc{font-size:13px;line-height:1.45;color:var(--fg);margin:0}
+.k .crk-btn-set-alkane{font-size:12px;padding:2px 7px;align-self:flex-start;margin-top:4px}
+
+/* Quiz Pane */
+.k .crk-qnav{gap:6px;margin:4px 0 8px}
+.k .crk-qscore{margin-left:auto;font-size:14px;color:var(--mut);white-space:nowrap}
+.k .crk-qscore b{color:var(--fg)}
+.k .crk-qcard{padding:12px 14px;margin-bottom:12px}
+.k .crk-qhdr{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 10px;font-size:13px;margin-bottom:6px}
+.k .crk-qtitle{font-size:15px;font-weight:650;color:var(--fg)}
+.k .crk-qprompt{font-size:14.5px;margin-bottom:10px;line-height:1.5}
+.k .crk-qarea{margin-bottom:12px}
+.k .crk-qeq-box{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;font-size:18px;font-weight:600;padding:8px 10px;background:var(--bg);border:1px solid var(--line);border-radius:6px}
+.k .crk-qinp{font-size:16px;text-align:center;width:6.5em;padding:4px 6px}
+.k .crk-qinp.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .crk-qinp.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .crk-qopts{display:flex;flex-direction:column;gap:6px}
+.k .crk-qopt{text-align:left;font-size:14px;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);cursor:pointer}
+.k .crk-qopt:hover{border-color:var(--acc)}
+.k .crk-qopt.sel{border-color:var(--acc);background:var(--acc-soft)}
+.k .crk-qopt.good{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.k .crk-qopt.badv{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.k .crk-qactions{gap:6px 8px;margin-top:8px}
+.k .crk-qfeedback{margin-top:10px;padding:8px 12px;border-radius:6px;font-size:13.5px;line-height:1.5}
+.k .crk-qfeedback.ok{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
+.k .crk-qfeedback.bad{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+.k .crk-qfeedback.ans{background:var(--acc-soft);color:var(--acc);border:1px solid var(--acc)}
+.k .crk-ref-card{margin-top:12px;padding:10px 14px}
+.k .crk-ref-card h4{margin:0 0 6px;font-size:14.5px}
+.k .crk-ref-card ul{margin:0;padding-left:20px;font-size:13.5px;line-height:1.5}
+.k .crk-ref-card li{margin-bottom:4px}
+</style>
+
+<script>
+(function () {
+  var $ = function (s) { return $root.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call($root.querySelectorAll(s)); };
+
+  var SUBD = '₀₁₂₃₄₅₆₇₈₉';
+  function sub(n) { return String(n).replace(/\d/g, function (d) { return SUBD[d]; }); }
+  function normDigits(s) {
+    return String(s || '').replace(/[₀-₉]/g, function (d) { return SUBD.indexOf(d); });
+  }
+
+  /* Nomenclature & Ar lookup */
+  var NAMES = {
+    1: ['methane', ''],
+    2: ['ethane', 'ethene'],
+    3: ['propane', 'propene'],
+    4: ['butane', 'butene'],
+    5: ['pentane', 'pentene'],
+    6: ['hexane', 'hexene'],
+    7: ['heptane', 'heptene'],
+    8: ['octane', 'octene'],
+    9: ['nonane', 'nonene'],
+    10: ['decane', 'decene'],
+    11: ['undecane', 'undecene'],
+    12: ['dodecane', 'dodecene'],
+    13: ['tridecane', 'tridecene'],
+    14: ['tetradecane', 'tetradecene']
+  };
+
+  /* Reactants available in simulation */
+  var REACTANTS = {
+    C10: { key: 'C10', name: 'decane', c: 10, h: 22, mr: 142.0 },
+    C12: { key: 'C12', name: 'dodecane', c: 12, h: 26, mr: 170.0 },
+    C14: { key: 'C14', name: 'tetradecane', c: 14, h: 30, mr: 198.0 }
+  };
+
+  var curReactant = REACTANTS.C12;
+  var cuts = [];                  /* bond cut indices (1 <= b < N) */
+  var customAlkaneFrag = null;    /* user-selected alkane fragment index, or null */
+
+  /* ---------------- SVG Render & Interaction ---------------- */
+  function renderChain() {
+    var svg = $('.crk-svg');
+    svg.innerHTML = '';
+    var N = curReactant.c;
+    var W = 680, H = 140;
+    var dx = N === 14 ? 44 : 46;
+    var totalSpan = (N - 1) * dx;
+    var x0 = Math.round((W - totalSpan) / 2);
+    var yCenter = 70, dy = 18;
+
+    /* compute carbon coords */
+    var coords = [];
+    for (var i = 0; i < N; i++) {
+      var x = x0 + i * dx;
+      var y = (i % 2 === 0) ? (yCenter - dy) : (yCenter + dy);
+      coords.push({ x: x, y: y, i: i + 1 });
+    }
+
+    /* determine fragment partition from cuts */
+    var sortedCuts = cuts.slice().sort(function (a, b) { return a - b; });
+    var frags = [];
+    var startIdx = 1;
+    sortedCuts.forEach(function (cutBond) {
+      frags.push({ start: startIdx, end: cutBond, len: cutBond - startIdx + 1 });
+      startIdx = cutBond + 1;
+    });
+    frags.push({ start: startIdx, end: N, len: N - startIdx + 1 });
+
+    /* classify which fragment is alkane */
+    var alkaneIdx = pickAlkaneIndex(frags, customAlkaneFrag);
+
+    function fragForCarbon(atomIdx) {
+      for (var f = 0; f < frags.length; f++) {
+        if (atomIdx >= frags[f].start && atomIdx <= frags[f].end) return f;
+      }
+      return 0;
+    }
+
+    var bondSegs = [];
+    /* Draw bonds */
+    var gBonds = K.svg('g', { 'class': 'crk-g-bonds' });
+    svg.appendChild(gBonds);
+
+    for (var b = 1; b < N; b++) {
+      var c1 = coords[b - 1], c2 = coords[b];
+      var isCut = cuts.indexOf(b) >= 0;
+      var fragIdx = fragForCarbon(b);
+      var cls = 'crk-b';
+      if (cuts.length > 0 && !isCut) {
+        cls += (fragIdx === alkaneIdx) ? ' alkane' : ' alkene';
+      }
+      var line = K.svg('line', {
+        x1: c1.x, y1: c1.y, x2: c2.x, y2: c2.y,
+        'class': cls,
+        'data-bond': b
+      });
+      gBonds.appendChild(line);
+      bondSegs.push([c1.x, c1.y, c2.x, c2.y]);
+    }
+
+    /* Draw carbon nodes */
+    var gAtoms = K.svg('g', { 'class': 'crk-g-atoms' });
+    svg.appendChild(gAtoms);
+
+    coords.forEach(function (pt) {
+      var fragIdx = fragForCarbon(pt.i);
+      var cls = 'crk-atom';
+      if (cuts.length > 0) {
+        cls += (fragIdx === alkaneIdx) ? ' alkane' : ' alkene';
+      }
+      var dot = K.svg('circle', {
+        cx: pt.x, cy: pt.y, r: 4.8,
+        'class': cls,
+        'data-atom': pt.i
+      });
+      gAtoms.appendChild(dot);
+    });
+
+    /* Place carbon labels with K.label to ensure NO clash and standard 12.5px font */
+    var placedLabels = [];
+    var gLabels = K.svg('g', { 'class': 'crk-g-labels' });
+    svg.appendChild(gLabels);
+
+    coords.forEach(function (pt) {
+      var isPeak = (pt.y < yCenter);
+      var cands = isPeak ? [[0, -16, 'middle'], [0, -19, 'middle']] : [[0, 24, 'middle'], [0, 27, 'middle']];
+      K.label(gLabels, pt.x, pt.y, 'C' + pt.i, {
+        cands: cands,
+        cls: 'crk-loc',
+        placed: placedLabels,
+        avoid: bondSegs
+      });
+    });
+
+    /* Draw cut targets (interactive buttons with generous click area) */
+    var gTargets = K.svg('g', { 'class': 'crk-g-targets' });
+    svg.appendChild(gTargets);
+
+    for (var k = 1; k < N; k++) {
+      var p1 = coords[k - 1], p2 = coords[k];
+      var mx = (p1.x + p2.x) / 2;
+      var isCutNow = cuts.indexOf(k) >= 0;
+
+      var gHit = K.svg('g', {
+        'class': 'crk-hit-wrap',
+        'data-bond': k,
+        role: 'button',
+        tabindex: '0',
+        'aria-label': '断开 C' + k + '–C' + (k + 1) + ' 键'
+      });
+
+      /* large hit rectangle: 36px wide x 98px high */
+      var rect = K.svg('rect', {
+        x: mx - 18, y: 20, width: 36, height: 98, rx: 6,
+        'class': 'crk-hit'
+      });
+      gHit.appendChild(rect);
+
+      /* guide line */
+      var guide = K.svg('line', {
+        x1: mx, y1: 24, x2: mx, y2: 114,
+        'class': isCutNow ? 'crk-cut-line' : 'crk-guide'
+      });
+      gHit.appendChild(guide);
+
+      /* Scissor badge if cut */
+      if (isCutNow) {
+        var scBg = K.svg('rect', {
+          x: mx - 11, y: yCenter - 11, width: 22, height: 22, rx: 4,
+          'class': 'crk-sc-bg'
+        });
+        var scTxt = K.svg('text', {
+          x: mx, y: yCenter, 'text-anchor': 'middle',
+          'class': 'crk-sc-txt'
+        });
+        scTxt.textContent = '✂';
+        gHit.appendChild(scBg);
+        gHit.appendChild(scTxt);
+      }
+
+      (function (bondIndex) {
+        function toggle() { toggleCut(bondIndex); }
+        gHit.addEventListener('click', toggle);
+        gHit.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
+      })(k);
+
+      gTargets.appendChild(gHit);
+    }
+
+    updateResults(frags, alkaneIdx);
+  }
+
+  function pickAlkaneIndex(frags, userPick) {
+    if (frags.length === 1) return 0;
+    /* Check if any fragment has length 1: if so, it must be alkane! */
+    var c1Indices = [];
+    frags.forEach(function (f, idx) { if (f.len === 1) c1Indices.push(idx); });
+    if (c1Indices.length === 1) return c1Indices[0];
+
+    if (userPick !== null && userPick >= 0 && userPick < frags.length) {
+      if (frags[userPick].len >= 1) return userPick;
+    }
+    /* default: pick the longest fragment (fuel / petrol range) */
+    var bestIdx = 0, bestLen = -1;
+    frags.forEach(function (f, idx) {
+      if (f.len > bestLen) { bestLen = f.len; bestIdx = idx; }
+    });
+    return bestIdx;
+  }
+
+  function toggleCut(bondIndex) {
+    var pos = cuts.indexOf(bondIndex);
+    if (pos >= 0) {
+      cuts.splice(pos, 1);
+    } else {
+      if (cuts.length >= 3) {
+        $('.crk-cap-msg').textContent = '最多只能切 3 刀：先点一个已切的位置撤销，再切新的。';
+        return;
+      }
+      cuts.push(bondIndex);
+    }
+    customAlkaneFrag = null;
+    $('.crk-cap-msg').textContent = '';
+    $('.crk-cut-num').textContent = cuts.length;
+    $('.crk-reset-btn').disabled = (cuts.length === 0);
+    renderChain();
+  }
+
+  /* ---------------- Results & Chemistry Calculations ---------------- */
+  function updateResults(frags, alkaneIdx) {
+    var emptyCard = $('.crk-empty-card');
+    var warnCard = $('.crk-warn-card');
+    var eqCard = $('.crk-eq-card');
+    var fragsTitle = $('.crk-frags-title');
+    var fragsGrid = $('.crk-frags-grid');
+
+    if (cuts.length === 0) {
+      emptyCard.hidden = false;
+      warnCard.hidden = true;
+      eqCard.hidden = true;
+      fragsTitle.hidden = true;
+      fragsGrid.hidden = true;
+      return;
+    }
+
+    emptyCard.hidden = true;
+
+    /* Check validation: count fragments with length 1 */
+    var c1Count = frags.filter(function (f) { return f.len === 1; }).length;
+    if (c1Count >= 2) {
+      warnCard.hidden = false;
+      $('.crk-warn-msg').textContent = '⚠️ alkene（烯烃）至少需要 2 个碳原子（最简单的 alkene 是 ethene C₂H₄）。当前切口产生了 ' + c1Count + ' 个单碳碎片（C₁），无法全部配为合法的 alkene。请点击调整切口使多余碎片碳数 ≥ 2。';
+      eqCard.hidden = true;
+      fragsTitle.hidden = true;
+      fragsGrid.hidden = true;
+      return;
+    }
+    warnCard.hidden = true;
+    eqCard.hidden = false;
+    fragsTitle.hidden = false;
+    fragsGrid.hidden = false;
+
+    /* Construct molecules for each fragment */
+    var molecules = frags.map(function (f, idx) {
+      var isAlkane = (idx === alkaneIdx);
+      var c = f.len;
+      var h = isAlkane ? (2 * c + 2) : (2 * c);
+      var mr = +(12.0 * c + 1.0 * h).toFixed(1);
+      var namePair = NAMES[c] || ['alkane', 'alkene'];
+      var name = isAlkane ? namePair[0] : namePair[1];
+      var formulaStr = 'C' + (c > 1 ? sub(c) : '') + 'H' + sub(h);
+      return {
+        fragIdx: idx,
+        isAlkane: isAlkane,
+        c: c,
+        h: h,
+        mr: mr,
+        name: name,
+        formula: formulaStr
+      };
+    });
+
+    /* Strict atomic conservation assertion */
+    var sumC = 0, sumH = 0, sumMr = 0;
+    molecules.forEach(function (m) { sumC += m.c; sumH += m.h; sumMr += m.mr; });
+    sumMr = +sumMr.toFixed(1);
+
+    console.assert(sumC === curReactant.c, 'C conservation failed: ' + sumC + ' vs ' + curReactant.c);
+    console.assert(sumH === curReactant.h, 'H conservation failed: ' + sumH + ' vs ' + curReactant.h);
+    console.assert(Math.abs(sumMr - curReactant.mr) < 1e-4, 'Mr conservation failed: ' + sumMr + ' vs ' + curReactant.mr);
+    console.assert(molecules.some(function (m) { return !m.isAlkane; }), 'Cracking must produce at least one alkene!');
+
+    /* Format balanced equation */
+    /* Group identical products */
+    var grouped = [];
+    molecules.forEach(function (m) {
+      var found = null;
+      for (var i = 0; i < grouped.length; i++) {
+        if (grouped[i].formula === m.formula && grouped[i].isAlkane === m.isAlkane) {
+          found = grouped[i]; break;
+        }
+      }
+      if (found) {
+        found.mol++;
+      } else {
+        grouped.push({
+          formula: m.formula,
+          isAlkane: m.isAlkane,
+          mol: 1,
+          c: m.c,
+          h: m.h,
+          mr: m.mr,
+          name: m.name
+        });
+      }
+    });
+
+    /* sort products: alkane first, then alkenes */
+    grouped.sort(function (a, b) {
+      if (a.isAlkane && !b.isAlkane) return -1;
+      if (!a.isAlkane && b.isAlkane) return 1;
+      return b.c - a.c;
+    });
+
+    var rhsTerms = grouped.map(function (g) {
+      return (g.mol > 1 ? g.mol : '') + g.formula;
+    });
+
+    $('.crk-eq-lhs').textContent = 'C' + sub(curReactant.c) + 'H' + sub(curReactant.h);
+    $('.crk-eq-rhs').textContent = rhsTerms.join(' + ');
+
+    /* Mass row breakdown */
+    $('.crk-mass-lhs').innerHTML = 'Reactant <i>M</i>ᵣ = <b>' + curReactant.mr.toFixed(1) + '</b>';
+    var massParts = grouped.map(function (g) {
+      return (g.mol > 1 ? (g.mol + ' × ') : '') + g.mr.toFixed(1);
+    });
+    $('.crk-mass-rhs').innerHTML = 'Products <i>M</i>ᵣ = ' + massParts.join(' + ') + ' = <b>' + sumMr.toFixed(1) + '</b>';
+
+    /* Render product cards */
+    fragsGrid.innerHTML = '';
+    molecules.forEach(function (m, idx) {
+      var card = document.createElement('div');
+      card.className = 'card crk-frag-card ' + (m.isAlkane ? 'alkane' : 'alkene');
+
+      var head = document.createElement('div');
+      head.className = 'crk-frag-head';
+      head.innerHTML = '<span class="crk-frag-num">碎片 ' + (idx + 1) + '（' + m.c + ' 碳原子）</span>' +
+        '<span class="crk-frag-tag ' + (m.isAlkane ? 'alkane' : 'alkene') + '">' +
+        (m.isAlkane ? 'alkane（饱和）' : 'alkene（不饱和，含 C=C）') + '</span>';
+      card.appendChild(head);
+
+      var formulaEl = document.createElement('div');
+      formulaEl.className = 'crk-frag-formula ' + (m.isAlkane ? 'alkane' : 'alkene');
+      formulaEl.textContent = m.formula;
+      card.appendChild(formulaEl);
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'crk-frag-name';
+      nameEl.innerHTML = '<b>' + m.name + '</b> · <i>M</i>ᵣ = ' + m.mr.toFixed(1);
+      card.appendChild(nameEl);
+
+      var useBox = document.createElement('div');
+      useBox.className = 'crk-use-box';
+      if (m.isAlkane) {
+        useBox.innerHTML = '<div class="crk-use-tag alkane">🚗 用途：fuel（汽车汽油 petrol 组分）</div>' +
+          '<p class="crk-use-desc">短链 alkane 挥发度高、易在汽缸中完全燃烧，是优质汽车燃料（petrol / motor fuel）。长链重油组分需求低，经裂化转为高价值轻质汽油。</p>';
+      } else {
+        useBox.innerHTML = '<div class="crk-use-tag alkene">🧪 用途：polymer / chemicals feedstock（化工合成原料）</div>' +
+          '<p class="crk-use-desc">含有高电子云密度的活泼 C=C 双键，是聚合物制造的核心原料（如加聚制备 poly(ethene)、poly(propene) 塑料），亦用于生产乙醇等精细化学品。</p>';
+      }
+      card.appendChild(useBox);
+
+      /* Switch alkane button if multiple fragments */
+      if (!m.isAlkane && m.c >= 1 && c1Count <= 1) {
+        var btnSet = document.createElement('button');
+        btnSet.type = 'button';
+        btnSet.className = 'crk-btn-set-alkane';
+        btnSet.textContent = '设为 alkane (+2H)';
+        btnSet.addEventListener('click', function () {
+          customAlkaneFrag = idx;
+          renderChain();
+        });
+        card.appendChild(btnSet);
+      }
+
+      fragsGrid.appendChild(card);
+    });
+
+    K.fit();
+  }
+
+  /* ---------------- Quiz Mode ---------------- */
+  var QUIZ = [
+    {
+      id: 'q1',
+      title: '第 1 题 · 补充缺项 Alkene 分子式',
+      src: 'Cambridge 9701 经典补全题',
+      type: 'fill',
+      prompt: 'Dodecane（C₁₂H₂₆）在催化裂化中分解为 1 摩尔 octane（C₈H₁₈）与 1 摩尔未知 alkene，请写出该 alkene 的分子式：',
+      eqL: 'C₁₂H₂₆ ⟶ C₈H₁₈ + ',
+      eqR: '',
+      ans: ['C4H8', 'C₄H₈'],
+      explain: 'C 原子守恒：12 − 8 = 4；H 原子守恒：26 − 18 = 8。所得分子式为 C₄H₈（butene，alkene）。请注意按 9701 惯例 C 必须写在第一位、H 在第二位。'
+    },
+    {
+      id: 'q2',
+      title: '第 2 题 · 补充裂化气体产物',
+      src: '9701 题库',
+      type: 'fill',
+      prompt: 'Decane（C₁₀H₂₂）在加热与 Al₂O₃ 催化下裂化，生成 heptane（C₇H₁₆）与一种常温下为气体的 alkene：',
+      eqL: 'C₁₀H₂₂ ⟶ C₇H₁₆ + ',
+      eqR: '',
+      ans: ['C3H6', 'C₃H₆'],
+      explain: 'C 原子守恒：10 − 7 = 3；H 原子守恒：22 − 16 = 6。缺项产物为 C₃H₆（propene）。'
+    },
+    {
+      id: 'q3',
+      title: '第 3 题 · 制备汽油组分与乙烯',
+      src: '9701/22 样题',
+      type: 'fill',
+      prompt: 'Decane（C₁₀H₂₂）裂化生成汽油关键组分 octane（C₈H₁₈）及一种用于制造塑料的单体：',
+      eqL: 'C₁₀H₂₂ ⟶ C₈H₁₈ + ',
+      eqR: '',
+      ans: ['C2H4', 'C₂H₄'],
+      explain: 'C 原子守恒：10 − 8 = 2；H 原子守恒：22 − 18 = 4。产物为 C₂H₄（ethene，用于生产 poly(ethene)）。'
+    },
+    {
+      id: 'q4',
+      title: '第 4 题 · 多个等量 Alkene 分子配平',
+      src: '9701 衍生配平',
+      type: 'fill',
+      prompt: 'Tetradecane（C₁₄H₃₀）裂化生成 1 摩尔 octane 与 3 摩尔相同的 alkene：',
+      eqL: 'C₁₄H₃₀ ⟶ C₈H₁₈ + 3 ',
+      eqR: '',
+      ans: ['C2H4', 'C₂H₄'],
+      explain: 'C：(14 − 8) ÷ 3 = 2；H：(30 − 18) ÷ 3 = 4。每摩尔产物含 2 个 C 和 4 个 H，即 C₂H₄（ethene）。'
+    },
+    {
+      id: 'q5',
+      title: '第 5 题 · 逆向反求 Alkane 碎片',
+      src: '9701 练习卷',
+      type: 'fill',
+      prompt: 'Hexadecane（C₁₆H₃₄）裂化生成一种饱和 alkane、2 摩尔 propene 和 1 摩尔 ethene：',
+      eqL: 'C₁₆H₃₄ ⟶ ',
+      eqR: ' + 2C₃H₆ + C₂H₄',
+      ans: ['C8H18', 'C₈H₁₈'],
+      explain: '右边已有 C：2×3 + 2 = 8，剩余 16 − 8 = 8；已有 H：2×6 + 4 = 16，剩余 34 − 16 = 18。生成物为 C₈H₁₈（octane）。'
+    },
+    {
+      id: 'q6',
+      title: '第 6 题 · 催化剂与反应条件（Syllabus 必背）',
+      src: '9701/22 Oct/Nov 2025 Q3(a) & 考纲 14.1.1(b)',
+      type: 'fill',
+      prompt: '根据 Cambridge 9701 考纲，工业催化裂化（catalytic cracking）所用的催化剂与反应条件是：',
+      eqL: '催化剂与条件：',
+      eqR: '',
+      ans: ['heat with Al2O3', 'heat with Al₂O₃', 'Al2O3', 'aluminium oxide'],
+      explain: '考纲 14.1.1(b) 与 organic.json 明确标准措辞为：heat with Al₂O₃（催化剂为 aluminium oxide，需高温反应；隔绝 O₂ 避免燃烧）。'
+    },
+    {
+      id: 'q7',
+      title: '第 7 题 · 裂化产物的工业价值与用途',
+      src: '考纲 14.1.4 核心理解',
+      type: 'mcq',
+      prompt: '原油重质馏分（heavier crude oil fractions）供大于求，通过催化裂化转化所得产物的工业用途，下列说法完全正确的是：',
+      opts: [
+        { v: 'a', text: '短链 alkane 用作 fuel（汽车汽油 petrol）；alkene 用作 polymer / chemicals feedstock（塑料及化工原料）' },
+        { v: 'b', text: '短链 alkane 用于聚合制造塑料；alkene 用作 fuel 燃烧' },
+        { v: 'c', text: '裂化生成的 alkane 和 alkene 都只能作为汽车 fuel，没有化学工业用途' },
+        { v: 'd', text: '短链 alkane 在 Al₂O₃ 催化下与水反应制醇；alkene 属于惰性物质' }
+      ],
+      ans: 'a',
+      explain: '9701 LO 14.1.4 得分点：重质组分需求小；较短链 alkane（C₅–C₁₀）适合作汽车汽油（fuel / petrol）；alkene 含有反应活性的 C=C 双键，是塑料加聚（如 poly(ethene)）及有机合成的核心 feedstock。'
+    }
+  ];
+
+  var curQIdx = 0;
+  var userScores = {};
+
+  function renderQuiz() {
+    var q = QUIZ[curQIdx];
+    $('.crk-qtitle').textContent = q.title;
+    $('.crk-qsrc').textContent = q.src;
+    $('.crk-qprompt').textContent = q.prompt;
+    var area = $('.crk-qarea');
+    area.innerHTML = '';
+    var fb = $('.crk-qfeedback');
+    fb.hidden = true;
+    fb.className = 'crk-qfeedback';
+    fb.innerHTML = '';
+
+    if (q.type === 'fill') {
+      var box = document.createElement('div');
+      box.className = 'crk-qeq-box';
+      if (q.eqL) {
+        var spanL = document.createElement('span');
+        spanL.textContent = q.eqL;
+        box.appendChild(spanL);
+      }
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'crk-qinp';
+      inp.autocomplete = 'off';
+      inp.spellcheck = false;
+      inp.placeholder = '填写化学式/条件';
+      inp.setAttribute('aria-label', '化学方程式缺项填空');
+      box.appendChild(inp);
+      if (q.eqR) {
+        var spanR = document.createElement('span');
+        spanR.textContent = q.eqR;
+        box.appendChild(spanR);
+      }
+      area.appendChild(box);
+
+      inp.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') checkCurrentQ();
+      });
+    } else if (q.type === 'mcq') {
+      var optsBox = document.createElement('div');
+      optsBox.className = 'crk-qopts';
+      q.opts.forEach(function (opt) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'crk-qopt';
+        btn.setAttribute('data-v', opt.v);
+        btn.textContent = opt.v.toUpperCase() + '. ' + opt.text;
+        btn.addEventListener('click', function () {
+          $$('.crk-qopt').forEach(function (b) { b.classList.remove('sel'); });
+          btn.classList.add('sel');
+        });
+        optsBox.appendChild(btn);
+      });
+      area.appendChild(optsBox);
+    }
+
+    updateQuizScore();
+    K.fit();
+  }
+
+  function checkCurrentQ() {
+    var q = QUIZ[curQIdx];
+    var fb = $('.crk-qfeedback');
+    fb.hidden = false;
+
+    if (q.type === 'fill') {
+      var inp = $('.crk-qinp');
+      var val = (inp.value || '').trim();
+      inp.classList.remove('good', 'badv');
+
+      if (!val) {
+        fb.className = 'crk-qfeedback bad';
+        fb.textContent = '请先输入你的答案。';
+        inp.classList.add('badv');
+        return;
+      }
+
+      var normVal = normDigits(val);
+      /* Order check: if student wrote H before C (e.g. H18C8, H4C2) */
+      if (/^(\d*\s*)H\d+C\d+$/i.test(normVal)) {
+        inp.classList.add('badv');
+        fb.className = 'crk-qfeedback bad';
+        fb.textContent = '✗ 顺序错误：按 Cambridge 9701 惯例，有机分子式中 C 必须在第一位、H 在第二位（例如应写 C₈H₁₈，不可写 H₁₈C₈）。';
+        return;
+      }
+
+      var cleanVal = normVal.replace(/\s+/g, '').toUpperCase();
+      var cleanAns = q.ans.map(function (a) {
+        return normDigits(a).replace(/\s+/g, '').toUpperCase();
+      });
+
+      if (cleanAns.indexOf(cleanVal) >= 0) {
+        inp.classList.add('good');
+        fb.className = 'crk-qfeedback ok';
+        fb.innerHTML = '<b>✓ 正确！</b> ' + q.explain;
+        userScores[q.id] = true;
+      } else {
+        inp.classList.add('badv');
+        fb.className = 'crk-qfeedback bad';
+        fb.innerHTML = '<b>✗ 不正确。</b> 请检查碳/氢原子守恒。提示：左右两边 C 与 H 必须各自相等。';
+      }
+    } else if (q.type === 'mcq') {
+      var selBtn = $('.crk-qopt.sel');
+      if (!selBtn) {
+        fb.className = 'crk-qfeedback bad';
+        fb.textContent = '请先点击选择一个选项。';
+        return;
+      }
+      var selVal = selBtn.getAttribute('data-v');
+      $$('.crk-qopt').forEach(function (b) { b.classList.remove('good', 'badv'); });
+      if (selVal === q.ans) {
+        selBtn.classList.add('good');
+        fb.className = 'crk-qfeedback ok';
+        fb.innerHTML = '<b>✓ 正确！</b> ' + q.explain;
+        userScores[q.id] = true;
+      } else {
+        selBtn.classList.add('badv');
+        fb.className = 'crk-qfeedback bad';
+        fb.innerHTML = '<b>✗ 选择错误。</b> 提示：短链 alkane 易燃用作 fuel，alkene 含 C=C 用作 feedstock。';
+      }
+    }
+
+    updateQuizScore();
+    K.fit();
+  }
+
+  function showAnswerCurrentQ() {
+    var q = QUIZ[curQIdx];
+    var fb = $('.crk-qfeedback');
+    fb.hidden = false;
+    fb.className = 'crk-qfeedback ans';
+
+    if (q.type === 'fill') {
+      var inp = $('.crk-qinp');
+      inp.value = q.ans[0];
+      inp.classList.remove('good', 'badv');
+      fb.innerHTML = '<b>参考答案：</b> <code>' + q.ans[0] + '</code><br>' + q.explain;
+    } else if (q.type === 'mcq') {
+      $$('.crk-qopt').forEach(function (b) {
+        b.classList.remove('good', 'badv', 'sel');
+        if (b.getAttribute('data-v') === q.ans) b.classList.add('good');
+      });
+      fb.innerHTML = '<b>正确答案：' + q.ans.toUpperCase() + '</b><br>' + q.explain;
+    }
+    K.fit();
+  }
+
+  function updateQuizScore() {
+    var sc = 0;
+    QUIZ.forEach(function (q) { if (userScores[q.id]) sc++; });
+    $('.crk-qsc').textContent = sc;
+    $('.crk-qtot').textContent = QUIZ.length;
+  }
+
+  /* ---------------- Initialization ---------------- */
+  function init() {
+    /* Initialize kit components */
+    K.init($root);
+
+    /* Reactant button listeners */
+    $$('.crk-sub-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        $$('.crk-sub-btn').forEach(function (b) { b.classList.remove('on'); });
+        btn.classList.add('on');
+        var k = btn.getAttribute('data-k');
+        curReactant = REACTANTS[k];
+        cuts = [];
+        customAlkaneFrag = null;
+        $('.crk-cut-num').textContent = '0';
+        $('.crk-reset-btn').disabled = true;
+        renderChain();
+      });
+    });
+
+    /* Reset cuts button */
+    $('.crk-reset-btn').addEventListener('click', function () {
+      cuts = [];
+      customAlkaneFrag = null;
+      $('.crk-cut-num').textContent = '0';
+      $('.crk-reset-btn').disabled = true;
+      renderChain();
+    });
+
+    /* Populate Quiz select dropdown */
+    var jmp = $('.crk-qjmp');
+    jmp.innerHTML = '';
+    QUIZ.forEach(function (q, idx) {
+      var opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = (idx + 1) + '. ' + q.title.split('·')[1].trim();
+      jmp.appendChild(opt);
+    });
+
+    jmp.addEventListener('change', function () {
+      curQIdx = +jmp.value;
+      renderQuiz();
+    });
+
+    $('.crk-qprev').addEventListener('click', function () {
+      curQIdx = (curQIdx - 1 + QUIZ.length) % QUIZ.length;
+      jmp.value = curQIdx;
+      renderQuiz();
+    });
+
+    $('.crk-qnext').addEventListener('click', function () {
+      curQIdx = (curQIdx + 1) % QUIZ.length;
+      jmp.value = curQIdx;
+      renderQuiz();
+    });
+
+    $('.crk-qcheck').addEventListener('click', checkCurrentQ);
+    $('.crk-qshow').addEventListener('click', showAnswerCurrentQ);
+    $('.crk-qretry').addEventListener('click', function () {
+      renderQuiz();
+    });
+
+    /* Render initial views */
+    renderChain();
+    renderQuiz();
+
+    /* Expose test API for Playwright assertions */
+    $root.__crk = {
+      setReactant: function (key) {
+        var btn = $('.crk-sub-btn[data-k="' + key + '"]');
+        if (btn) btn.click();
+      },
+      cutBond: function (b) {
+        toggleCut(b);
+      },
+      resetCuts: function () {
+        $('.crk-reset-btn').click();
+      },
+      getCuts: function () {
+        return cuts.slice();
+      },
+      getEquation: function () {
+        return {
+          lhs: $('.crk-eq-lhs').textContent,
+          rhs: $('.crk-eq-rhs').textContent
+        };
+      },
+      setQuiz: function (idx) {
+        curQIdx = idx;
+        $('.crk-qjmp').value = idx;
+        renderQuiz();
+      },
+      submitQuiz: function (val) {
+        var q = QUIZ[curQIdx];
+        if (q.type === 'fill') {
+          $('.crk-qinp').value = val;
+        } else if (q.type === 'mcq') {
+          var b = $('.crk-qopt[data-v="' + val + '"]');
+          if (b) b.click();
+        }
+        checkCurrentQ();
+      }
+    };
+  }
+
+  init();
+})();
+</script>
