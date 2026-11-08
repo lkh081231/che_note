@@ -324,6 +324,27 @@ with sync_playwright() as p:
         vis = ev(page, "() => document.querySelector('.k').__ct.layout().tags.filter(t => t.visible).length")
         check(f'{scheme}: rot mode — C tags visible (≥ 6 of 8)', vis >= 6, str(vis))
 
+        # default view: both p axes must read clearly as parallel / not parallel on screen (B round 1: the right
+        # slot was seen ~18° from the side, so at 90° C3's p stood end-on as a blob), and every C is labelled
+        bad = []
+        for d in (0, 45, 90, 180):
+            set_slider(page, 's', d)
+            set_slider(page, 'p', d)
+            L = ev(page, "() => document.querySelector('.k').__ct.layout()")
+            pa, pb = L['axes']['sa'], L['axes']['sb']   # screen px, as drawn
+            la, lb_ = math.hypot(*pa), math.hypot(*pb)
+            ang = math.degrees(math.acos(min(1, abs(pa[0] * pb[0] + pa[1] * pb[1]) / (la * lb_ + 1e-9))))
+            if la < 20 or lb_ < 0.6 * la:
+                bad.append(f'{d}°: projected p axes {la:.2f} / {lb_:.2f}')
+            if d in (0, 180) and ang > 6:   # parallel in 3D; perspective alone tilts them ~4°
+                bad.append(f'{d}°: p axes should look parallel, {ang:.0f}°')
+            if d == 90 and ang < 45:
+                bad.append(f'90°: p axes only {ang:.0f}° apart on screen')
+            hid = [f"s{t['slot']}#{t['i']}" for t in L['tags'] if not t['visible']]
+            if hid:
+                bad.append(f'{d}°: hidden C tags {hid}')
+        check(f'{scheme}: rot default view — p axes look parallel (≤ 6°) at 0° / 180°, ≥ 45° apart at 90°, all 8 C tags shown', not bad, '; '.join(bad[:4]))
+
         # end-on SVG sweep
         eo = ev(page, EO_SWEEP_JS)
         check(f'{scheme}: end-on SVG — θ label present, no clash, inside viewBox for θ = 0…355°', not eo, '; '.join(eo[:4]))
@@ -418,6 +439,10 @@ with sync_playwright() as p:
         check(f'{scheme}: no — labels do not cover any atom or halo', not lb, '; '.join(lb[:4]))
         hl = ev(page, "() => ['but1','mprop'].map(f => document.querySelectorAll('.ct-f[data-f=' + f + '] .ko-hl.ko-bad').length)")
         check(f'{scheme}: no — displayed formulae highlight the identical groups (2, 4)', hl == [2, 4], str(hl))
+        nums = ev(page, "() => [...document.querySelectorAll('.ct-f[data-f=but1] text.ko-num')].map(t => t.textContent)")
+        check(f'{scheme}: no — but-1-ene formula numbers C1–C4 with CH₂ and CH₃ drawn apart (C3 is the CH₂)', nums == ['C1', 'C2', 'C3', 'C4'], str(nums))
+        hid = [f"s{t['slot']}#{t['i']}" for t in L['tags'] if not t['visible']]
+        check(f'{scheme}: no — every numbered C tag visible (but-1-ene C1–C4, 2-methylpropene C1–C3)', not hid and len(L['tags']) == 7, f'{hid} {len(L["tags"])}')
         check(f'{scheme}: no — no [data-clash]', not ev(page, CLASH_JS), str(ev(page, CLASH_JS)))
         page.wait_for_timeout(150)
         shot(page, '.k', OUT / f'20-no{sfx}.png')

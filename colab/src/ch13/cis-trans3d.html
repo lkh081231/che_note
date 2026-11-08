@@ -67,7 +67,7 @@
   <div class="ct-grid">
     <div class="card ct-c ct-f" data-f="but1">
       <div class="ct-h">but-1-ene</div>
-      <div class="ct-cf">{{chemfig \chemfig{@{c1}C(-[:120]@{ha}H)(-[:240]@{hb}H)=[:0]@{c2}C(-[:60]@{h2}H)(-[:-60]@{c3}CH_2CH_3)}}}</div>
+      <div class="ct-cf">{{chemfig \chemfig{@{c1}C(-[:120]@{ha}H)(-[:240]@{hb}H)=[:0]@{c2}C(-[:60]@{h2}H)(-[:-60]@{c3}CH_2-[:0]@{c4}CH_3)}}}</div>
       <p class="ct-fc"><span class="ct-same">C1 上两个 group 都是 H</span>：把它们对调，得到的还是同一个 molecule</p>
     </div>
     <div class="card ct-c ct-f" data-f="mprop">
@@ -94,7 +94,7 @@
 .k .ct-p.ct-broke{border-color:var(--bad)}
 .k .ct-p.ct-broke b{color:var(--bad)}
 .k .ct-p.ct-mid b{color:var(--s4)}
-.k .ct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:10px}
+.k .ct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:10px;align-items:start}
 .k .ct-c{min-width:0}
 .k .ct-h{font-weight:650;margin-bottom:4px}
 .k .ct-sl{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mut)}
@@ -165,7 +165,7 @@ function ctBuilder() {
     var p = ctAdd(M.atoms[c0].p, ctMul(d, CT_CSP2)), c = M.at('C', p, side, num);
     M.bond(c0, c);
     var t = M.tet(d, [d[0] > 0 ? 1 : -1, 0, 0]);
-    M.methyl(c, t[0], side, num + 1, CT_CSP3, [0, 0, d[2] > 0 ? 1 : -1]);
+    M.methyl(c, t[0], side, num + 1, CT_CSP3, [0, -1, 0]);   /* one H straight down: none sits over C4 seen from above */
     M.bond(c, M.at('H', ctAdd(p, ctMul(t[1], CT_CH)), side));
     M.bond(c, M.at('H', ctAdd(p, ctMul(t[2], CT_CH)), side));
     return c;
@@ -207,7 +207,7 @@ var CT_MOLS = {
   }
 };
 var CT_MODES = {
-  rot: { mols: ['butane', 'cis'], view: [0.44, -0.6],
+  rot: { mols: ['butane', 'cis'], view: [0.5, -0.75],
          titles: ['butane：绕 C2–C3（σ）转', 'but-2-ene：绕 C2=C3（σ + π）转'] },
   ct: { mols: ['cis', 'trans'], view: [1.12, 0],
         titles: ['cis-but-2-ene', 'trans-but-2-ene'],
@@ -223,7 +223,7 @@ var CT_HUD = {
 };
 
 var ct = { mode: 'rot', th: { s: 0, p: 0 }, play: false, vis: true, hl: {} };
-var ctApi = null, ctT = null, ctSlots = [], ctTags = [], ctTimer = null;
+var ctApi = null, ctT = null, ctSlots = [], ctTags = [], ctTimer = null, ctLastW = 0;
 
 /* ---------- readouts (work with or without 3D) ---------- */
 function ctNormDeg(d) { d = d % 360; return d < 0 ? d + 360 : d; }
@@ -475,8 +475,25 @@ function ctCircles(S) {
   });
   return out;
 }
+function ctSyncSize() {
+  if (!ctApi) return;
+  var stage = $root.querySelector('.ct-stage');
+  if (!stage) return;
+  var w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  var el = ctApi.renderer.domElement;
+  if (el.clientWidth !== w || el.clientHeight !== h || Math.abs(ctApi.camera.aspect - w / h) > 0.001) {
+    ctApi.renderer.setSize(w, h);
+    ctApi.camera.aspect = w / h;
+    ctApi.camera.updateProjectionMatrix();
+  }
+}
 function ctBand() {
-  var el = ctApi.renderer.domElement, W = el.clientWidth, H = el.clientHeight, y0 = 0, y1 = H;
+  ctSyncSize();
+  var stage = $root.querySelector('.ct-stage'), el = ctApi.renderer.domElement;
+  var W = (stage && stage.clientWidth) || el.clientWidth || 600;
+  var H = (stage && stage.clientHeight) || el.clientHeight || 400;
+  var y0 = 0, y1 = H;
   $root.querySelectorAll('.ct-t').forEach(function (t) { y0 = Math.max(y0, t.offsetTop + t.offsetHeight + 8); });
   $root.querySelectorAll('.ct-p').forEach(function (t) { y1 = Math.min(y1, t.offsetTop - 8); });
   return { x0: 8, x1: W - 8, y0: y0, y1: y1, W: W, H: H };
@@ -484,43 +501,73 @@ function ctBand() {
 /* screen box of everything; in the rotation mode the union over a full turn of both rotors, so no θ
    ever pushes a CH₃ under a title or a pill */
 function ctBBox() {
-  var bb = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 }, angs = ct.mode === 'rot' ? [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330] : [null];
+  var bb = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 };
+  var bbs = ctSlots.map(function () { return { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 }; });
+  var angs = ct.mode === 'rot' ? [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345] : [null];
   angs.forEach(function (g) {
     if (g != null) { ctSlots.forEach(function (S) { S.rotor.rotation.x = g * Math.PI / 180; }); ctApi.scene.updateMatrixWorld(true); }
-    ctSlots.forEach(function (S) {
+    ctSlots.forEach(function (S, k) {
       ctCircles(S).forEach(function (c) {
         bb.x0 = Math.min(bb.x0, c.x - c.r); bb.x1 = Math.max(bb.x1, c.x + c.r);
         bb.y0 = Math.min(bb.y0, c.y - c.r); bb.y1 = Math.max(bb.y1, c.y + c.r);
+        if (bbs[k]) {
+          bbs[k].x0 = Math.min(bbs[k].x0, c.x - c.r); bbs[k].x1 = Math.max(bbs[k].x1, c.x + c.r);
+          bbs[k].y0 = Math.min(bbs[k].y0, c.y - c.r); bbs[k].y1 = Math.max(bbs[k].y1, c.y + c.r);
+        }
       });
     });
   });
   if (angs[0] != null) { ctSlots.forEach(function (S, k) { S.rotor.rotation.x = (k ? ct.th.p : ct.th.s) * Math.PI / 180; }); ctApi.scene.updateMatrixWorld(true); }
-  return bb;
+  return { total: bb, slots: bbs };
 }
 function ctViewRaw() {
-  var api = ctApi;
+  var api = ctApi, T = ctT, v = new T.Vector3();
   ctSlots.forEach(function (S) { S.hold.rotation.set(api.rx, api.ry, 0); });
   api.camera.position.set(0, 0, api.dist);
   api.camera.lookAt(0, 0, 0);
+  api.scene.updateMatrixWorld(true);
+  /* parallax: a slot off to the side is seen obliquely (the right one ~18° from its left), which turned
+     C3's p orbital end-on at θ = 90°. Turn each slot by its own line-of-sight angle so both molecules
+     face the camera exactly as a centred one would. */
+  ctSlots.forEach(function (S) {
+    S.hold.getWorldPosition(v);
+    var d = api.dist - v.z;
+    S.hold.quaternion.premultiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0, 1, 0), -Math.atan2(v.x, d)))
+      .premultiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(1, 0, 0), Math.atan2(v.y, d)));
+  });
   api.scene.updateMatrixWorld(true);
 }
 /* zoom + shift so both molecules fill the band between the slot titles and the pills */
 function ctFit() {
   var api = ctApi;
+  ctSyncSize();
   api.scene.position.set(0, 0, 0);
   for (var it = 0; it < 5; it++) {
     ctViewRaw();
-    var band = ctBand(), bb = ctBBox();
+    var band = ctBand(), box = ctBBox(), bb = box.total;
     var k = Math.max((bb.x1 - bb.x0) / (band.x1 - band.x0), (bb.y1 - bb.y0) / (band.y1 - band.y0));
+    var cx = (band.x0 + band.x1) / 2, halfW = (band.x1 - band.x0) / 2;
+    if (box.slots.length >= 2 && halfW > 20) {
+      var s0 = box.slots[0], s1 = box.slots[1];
+      if (s0.x1 > s0.x0) {
+        k = Math.max(k, (s0.x1 - s0.x0) / halfW, (cx - s0.x0) / halfW);
+      }
+      if (s1.x1 > s1.x0) {
+        k = Math.max(k, (s1.x1 - s1.x0) / halfW, (s1.x1 - cx) / halfW);
+      }
+    }
     api.dist = Math.max(4, Math.min(60, api.dist * k * 1.0));
     ctViewRaw();
-    bb = ctBBox();
+    box = ctBBox();
+    bb = box.total;
     var w = ctWpp(api.dist);
     api.scene.position.x -= ((bb.x0 + bb.x1) / 2 - (band.x0 + band.x1) / 2) * w;
     api.scene.position.y += ((bb.y0 + bb.y1) / 2 - (band.y0 + band.y1) / 2) * w;
   }
   ctViewRaw();
   api.dist0 = api.dist;
+  var stage = $root.querySelector('.ct-stage');
+  if (stage) ctLastW = stage.clientWidth;
 }
 /* constant-pixel tags, hidden when a nearer atom covers them */
 function ctTagsUpdate() {
@@ -573,7 +620,7 @@ function ctLazyHl() {
     if (f === 'cis' || f === 'trans') KO.hl(svg, ['c1', 'c4'], 'acc');
     if (f === 'but1') KO.hl(svg, ['ha', 'hb'], 'bad');
     if (f === 'mprop') KO.hl(svg, ['ha', 'hb', 'm1', 'm2'], 'bad');
-    KO.num(svg, f === 'cis' || f === 'trans' ? ['c1', 'c2', 'c3', 'c4'] : f === 'but1' ? ['c1', 'c2', 'c3'] : ['c1', 'c2'], { prefix: 'C' });
+    KO.num(svg, f === 'cis' || f === 'trans' ? ['c1', 'c2', 'c3', 'c4'] : f === 'but1' ? ['c1', 'c2', 'c3', 'c4'] : ['c1', 'c2'], { prefix: 'C' });
   });
 }
 $root.addEventListener('tab', function (e) {
@@ -640,12 +687,23 @@ K3.start($root, function (T, api) {
   };
   ctBuildAll(true);
   if (window.ResizeObserver) {
-    var lastW = 0;
-    new ResizeObserver(function () {
-      var w = api.renderer.domElement.clientWidth;
-      if (lastW && Math.abs(w - lastW) > 20) setTimeout(function () { ctPills(); ctBuildAll(true); }, 40);
-      lastW = w;
-    }).observe($root.querySelector('.ct-stage'));
+    var stage = $root.querySelector('.ct-stage');
+    ctLastW = stage ? stage.clientWidth : 0;
+    var rAF = null;
+    new ResizeObserver(function (entries) {
+      var st = entries && entries[0] ? entries[0].target : stage;
+      var w = st ? st.clientWidth : 0;
+      if (!w || Math.abs(w - ctLastW) < 2) return;
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(function () {
+        rAF = null;
+        var curW = stage ? stage.clientWidth : 0;
+        if (!curW || Math.abs(curW - ctLastW) < 2) return;
+        ctSyncSize();
+        ctPills();
+        ctBuildAll(true);
+      });
+    }).observe(stage);
   }
 });
 
@@ -657,7 +715,16 @@ $root.__ct = {
   geom: function (id) { var M = CT_MOLS[id](); return { atoms: M.atoms, bonds: M.bonds, me: M.me || null, same: M.same || null, cL: M.cL, cR: M.cR }; },
   layout: function () {
     if (!ctApi) return null;
-    ctViewRaw();
+    var stage = $root.querySelector('.ct-stage');
+    var w = stage ? stage.clientWidth : 0;
+    if (w && Math.abs(w - ctLastW) >= 2) {
+      ctSyncSize();
+      ctPills();
+      ctBuildAll(true);
+    } else {
+      ctSyncSize();
+      ctViewRaw();
+    }
     var el = ctApi.renderer.domElement, cr = el.getBoundingClientRect();
     function rel(n) { var r = n.getBoundingClientRect(); return { x: r.left - cr.left, y: r.top - cr.top, w: r.width, h: r.height, text: n.textContent }; }
     var slots = ctSlots.map(function (S) {
@@ -674,7 +741,12 @@ $root.__ct = {
     if (S1 && S1.pL) {
       var a = new ctT.Vector3(0, 1, 0).applyQuaternion(S1.fixed.getWorldQuaternion(new ctT.Quaternion()));
       var b = new ctT.Vector3(0, 1, 0).applyQuaternion(S1.rotor.getWorldQuaternion(new ctT.Quaternion()));
-      axes = { a: a.toArray(), b: b.toArray(), cos: a.dot(b) };
+      /* the same axes as drawn on screen (perspective, parallax and all), 1 Å from each sp² C, in px */
+      var scr = function (obj, i) {
+        var p = S1.M.atoms[i].p, q0 = ctProj(obj, p), q1 = ctProj(obj, [p[0], p[1] + 1, p[2]]);
+        return [q1.x - q0.x, q0.y - q1.y];
+      };
+      axes = { a: a.toArray(), b: b.toArray(), cos: a.dot(b), sa: scr(S1.fixed, S1.M.cL), sb: scr(S1.rotor, S1.M.cR) };
     }
     return { W: el.clientWidth, H: el.clientHeight, slots: slots, tags: tags, axes: axes,
              overlays: Array.prototype.map.call($root.querySelectorAll('.ct-ov'), rel),
