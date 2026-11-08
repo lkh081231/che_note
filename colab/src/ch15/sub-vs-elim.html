@@ -1,0 +1,981 @@
+<h3>🔬 substitution 还是 elimination：选 nucleophile 和 solvent</h3>
+<p class="mut">同一个卤代烃（halogenoalkane）与 <b>NaOH</b> 反应，只要改变<b>溶剂（solvent）</b>，反应途径就会彻底改变：在<b>水溶液（aqueous）</b>中 OH⁻ 作为 <b>nucleophile</b> 发生亲核取代（hydrolysis）生成 <b>alcohol</b>；在<b>乙醇（ethanol）</b>中 OH⁻ 作为 <b>base</b> 夺取相邻 β-碳上的质子发生消除（elimination）生成 <b>alkene</b>！选择底物与试剂，观察产物、机理对比与异构体分布。</p>
+
+<div class="sve-wrap">
+  <!-- Substrate selection bar -->
+  <div class="sve-sec-hdr">
+    <b>1 · 选择底物 halogenoalkane</b>
+    <span class="faint">（观察 1° / 2° / 3° 结构与相邻 β-碳的分布）</span>
+  </div>
+  <div class="row sve-sub-row" role="group" aria-label="底物选择">
+    <button type="button" class="sve-sub-btn" data-sub="bromoethane">bromoethane (1°)</button>
+    <button type="button" class="sve-sub-btn" data-sub="1-bromopropane">1-bromopropane (1°)</button>
+    <button type="button" class="sve-sub-btn" data-sub="2-bromopropane">2-bromopropane (2°)</button>
+    <button type="button" class="sve-sub-btn on" data-sub="2-bromobutane">2-bromobutane (2° 不对称)</button>
+    <button type="button" class="sve-sub-btn" data-sub="2-bromo-2-methylpropane">2-bromo-2-methylpropane (3°)</button>
+  </div>
+
+  <!-- Substrate Display Card -->
+  <div class="card sve-sub-card">
+    <div class="sve-sub-meta">
+      <div>
+        <span class="sve-sub-title"></span>
+        <code class="sve-sub-formula"></code>
+        <span class="sve-badge sve-sub-badge"></span>
+      </div>
+      <div class="faint sve-sub-ccount"></div>
+    </div>
+    <div class="sve-sub-stage" aria-label="底物结构图"></div>
+    <div class="sve-sub-notes faint"></div>
+  </div>
+
+  <!-- Reagent Selection Bar & Contrast Toggle -->
+  <div class="sve-sec-hdr">
+    <b>2 · 选择试剂与条件（reagent &amp; conditions）</b>
+    <span class="faint">或直接开启并排对照模式</span>
+  </div>
+  <div class="row sve-rg-row" role="group" aria-label="试剂选择">
+    <button type="button" class="sve-rg-btn" data-rg="naoh-aq">NaOH(aq) and heat</button>
+    <button type="button" class="sve-rg-btn on" data-rg="naoh-etoh">NaOH in ethanol and heat</button>
+    <button type="button" class="sve-rg-btn" data-rg="kcn">KCN in ethanol and heat</button>
+    <button type="button" class="sve-rg-btn" data-rg="nh3">NH₃ in ethanol heated under pressure</button>
+    <button type="button" class="sve-rg-btn" data-rg="agno3">aqueous silver nitrate in ethanol</button>
+    <button type="button" class="sve-btn-contrast">⚡ 溶剂对照：NaOH(aq) vs NaOH in ethanol</button>
+  </div>
+
+  <!-- Contrast Mode Banner / Quick Comparison Callout -->
+  <div class="card sve-contrast-callout" hidden>
+    <div class="sve-callout-hdr">
+      <b>💡 核心对比：同一个 NaOH，换个溶剂（aq vs ethanol）</b>
+    </div>
+    <div class="sve-callout-body">
+      <span><b>NaOH(aq)</b>：水做溶剂，OH⁻ 充分水合、体积大，主要当 <b>nucleophile</b> 进攻 δ+ 碳 → <b>substitution</b> 产物为 alcohol。</span><br>
+      <span><b>NaOH in ethanol</b>：乙醇做溶剂（极性较低），OH⁻ 主要当 <b>base</b> 从相邻 β-碳夺取 H⁺，Br⁻ 离去 → <b>elimination</b> 产物为 alkene。</span>
+    </div>
+  </div>
+
+  <!-- Single Reagent View -->
+  <div class="sve-single-view">
+    <div class="card sve-rg-info-card">
+      <div class="sve-rg-meta">
+        <div>
+          <span class="sve-rg-name"></span>
+          <span class="sve-badge sve-type-badge"></span>
+          <span class="sve-badge sve-cplus-badge" hidden>C+1 碳链延长</span>
+        </div>
+        <div class="sve-solvent-tag faint"></div>
+      </div>
+      <div class="sve-role-desc"></div>
+      <div class="sve-eq-box">
+        <span class="faint">Reaction equation:</span>
+        <code class="sve-eq-text"></code>
+      </div>
+      <div class="sve-obs-box faint" hidden></div>
+    </div>
+
+    <div class="sve-prods-hdr">
+      <b>产物结构与异构体（Products）</b>
+      <span class="sve-prods-count faint"></span>
+    </div>
+    <div class="sve-prods-grid"></div>
+  </div>
+
+  <!-- Contrast Side-by-Side View -->
+  <div class="sve-contrast-view" hidden>
+    <div class="sve-grid2">
+      <!-- Left Column: NaOH(aq) Substitution -->
+      <div class="card sve-ccol sve-ccol-sub">
+        <div class="sve-ccol-hdr">
+          <span class="sve-badge sve-badge-aq">Solvent: water (aq)</span>
+          <h4>NaOH(aq) and heat</h4>
+          <span class="sve-badge sve-badge-type">nucleophilic substitution</span>
+        </div>
+        <p class="sve-ccol-role"><b>OH⁻ 角色：nucleophile</b>（进攻 δ+ 碳原子，发生水解）</p>
+        <div class="sve-ccol-eq">
+          <code class="sve-csub-eq"></code>
+        </div>
+        <div class="sve-csub-prod"></div>
+      </div>
+
+      <!-- Right Column: NaOH in ethanol Elimination -->
+      <div class="card sve-ccol sve-ccol-elim">
+        <div class="sve-ccol-hdr">
+          <span class="sve-badge sve-badge-etoh">Solvent: ethanol</span>
+          <h4>NaOH in ethanol and heat</h4>
+          <span class="sve-badge sve-badge-type">elimination</span>
+        </div>
+        <p class="sve-ccol-role"><b>OH⁻ 角色：base</b>（夺取相邻 β-碳上的 H⁺，脱去 HBr）</p>
+        <div class="sve-ccol-eq">
+          <code class="sve-celim-eq"></code>
+        </div>
+        <div class="sve-celim-prods"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Practice / 随堂自测 -->
+  <div class="card sve-prac-card">
+    <div class="sve-prac-hdr">
+      <b>随堂自测 · Cambridge 9701 核心考点</b>
+      <span class="faint sve-prac-hint">输入英文名称或结构简式，按 Enter 或点击检查</span>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="sve-q sve-q1">
+      <p class="sve-q-text"><b>Q1</b> · 2-bromopropane 与 <b>NaOH in ethanol</b> 共热，发生 elimination 反应，生成的主产物是什么？（写出英文名称，例如 propene）</p>
+      <div class="row sve-q-row">
+        <input type="text" class="sve-q-input" data-qid="q1" autocomplete="off" spellcheck="false" placeholder="例如 propene">
+        <button type="button" class="sve-btn-check" data-qid="q1">检查</button>
+        <button type="button" class="sve-btn-rev" data-qid="q1">答案</button>
+      </div>
+      <div class="sve-q-fb" data-qid="q1" hidden></div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="sve-q sve-q2">
+      <p class="sve-q-text"><b>Q2</b> · 2-bromobutane 在 <b>NaOH in ethanol</b> 下共热消除，一共可以形成几种不同的 alkene 分子（含顺反立体异构体）？（填写阿拉伯数字）</p>
+      <div class="row sve-q-row">
+        <input type="text" class="sve-q-input" data-qid="q2" autocomplete="off" spellcheck="false" placeholder="例如 3">
+        <button type="button" class="sve-btn-check" data-qid="q2">检查</button>
+        <button type="button" class="sve-btn-rev" data-qid="q2">答案</button>
+      </div>
+      <div class="sve-q-fb" data-qid="q2" hidden></div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="sve-q sve-q3">
+      <p class="sve-q-text"><b>Q3</b> · bromoethane 与 <b>KCN in ethanol</b> 共热，发生亲核取代生成的新有机产物 IUPAC 英文名称是什么？（注意主链碳数变化）</p>
+      <div class="row sve-q-row">
+        <input type="text" class="sve-q-input" data-qid="q3" autocomplete="off" spellcheck="false" placeholder="例如 propanenitrile">
+        <button type="button" class="sve-btn-check" data-qid="q3">检查</button>
+        <button type="button" class="sve-btn-rev" data-qid="q3">答案</button>
+      </div>
+      <div class="sve-q-fb" data-qid="q3" hidden></div>
+    </div>
+
+    <div class="k-ptable"></div>
+  </div>
+</div>
+
+<!-- ChemFig Pre-rendered Vector Structures Pool -->
+<div class="sve-pool" hidden>
+  <!-- Substrates -->
+  <div data-cf="sub_bromoethane">{{chemfig \chemfig{@{c2}CH_3-[:30]@{c1}CH_2-[:-30]@{br}Br}}}</div>
+  <div data-cf="sub_1bromopropane">{{chemfig \chemfig{@{c3}CH_3-[:30]@{c2}CH_2-[:-30]@{c1}CH_2-[:30]@{br}Br}}}</div>
+  <div data-cf="sub_2bromopropane">{{chemfig \chemfig{@{c1}CH_3-[:30]@{c2}CH(-[:90]@{br}Br)-[:-30]@{c3}CH_3}}}</div>
+  <div data-cf="sub_2bromobutane">{{chemfig \chemfig{@{c1}CH_3-[:30]@{c2}CH(-[:90]@{br}Br)-[:-30]@{c3}CH_2-[:30]@{c4}CH_3}}}</div>
+  <div data-cf="sub_2bromo2methylpropane">{{chemfig \chemfig{@{c1}CH_3-[:30]@{c2}C(-[:90]@{m}CH_3)(-[:-90]@{c3}CH_3)-[:-30]@{br}Br}}}</div>
+
+  <!-- Products: Alcohols -->
+  <div data-cf="prod_ethanol">{{chemfig \chemfig{CH_3-[:30]CH_2-[:-30]OH}}}</div>
+  <div data-cf="prod_propan1ol">{{chemfig \chemfig{CH_3-[:30]CH_2-[:-30]CH_2-[:30]OH}}}</div>
+  <div data-cf="prod_propan2ol">{{chemfig \chemfig{CH_3-[:30]CH(-[:90]OH)-[:-30]CH_3}}}</div>
+  <div data-cf="prod_butan2ol">{{chemfig \chemfig{CH_3-[:30]CH(-[:90]OH)-[:-30]CH_2-[:30]CH_3}}}</div>
+  <div data-cf="prod_2mpropan2ol">{{chemfig \chemfig{CH_3-[:30]C(-[:90]CH_3)(-[:-90]CH_3)-[:-30]OH}}}</div>
+
+  <!-- Products: Alkenes -->
+  <div data-cf="prod_ethene">{{chemfig \chemfig{CH_2=[:0]CH_2}}}</div>
+  <div data-cf="prod_propene">{{chemfig \chemfig{CH_3-[:30]CH=[:-30]CH_2}}}</div>
+  <div data-cf="prod_but1ene">{{chemfig \chemfig{CH_2=[:0]CH-[:-60]CH_2-[:0]CH_3}}}</div>
+  <div data-cf="prod_cisbut2ene">{{chemfig \chemfig{H_3C-[:60]CH=[:0]CH-[:-60]CH_3}}}</div>
+  <div data-cf="prod_transbut2ene">{{chemfig \chemfig{H_3C-[:60]CH=[:0]CH-[:60]CH_3}}}</div>
+  <div data-cf="prod_2mpropene">{{chemfig \chemfig{H_3C-[:60]C(-[:-60]CH_3)=[:0]CH_2}}}</div>
+
+  <!-- Products: Nitriles -->
+  <div data-cf="prod_propanenitrile">{{chemfig \chemfig{CH_3-[:30]CH_2-[:-30]C~[:0]N}}}</div>
+  <div data-cf="prod_butanenitrile">{{chemfig \chemfig{CH_3-[:30]CH_2-[:-30]CH_2-[:30]C~[:0]N}}}</div>
+  <div data-cf="prod_2mpropanenitrile">{{chemfig \chemfig{CH_3-[:30]CH(-[:90]C~[:90]N)-[:-30]CH_3}}}</div>
+  <div data-cf="prod_2mbutanenitrile">{{chemfig \chemfig{CH_3-[:30]CH(-[:90]C~[:90]N)-[:-30]CH_2-[:30]CH_3}}}</div>
+  <div data-cf="prod_22dmpropanenitrile">{{chemfig \chemfig{CH_3-[:30]C(-[:90]CH_3)(-[:-90]CH_3)-[:-30]C~[:0]N}}}</div>
+
+  <!-- Products: Amines -->
+  <div data-cf="prod_ethylamine">{{chemfig \chemfig{CH_3-[:30]CH_2-[:-30]NH_2}}}</div>
+  <div data-cf="prod_propylamine">{{chemfig \chemfig{CH_3-[:30]CH_2-[:-30]CH_2-[:30]NH_2}}}</div>
+  <div data-cf="prod_propan2amine">{{chemfig \chemfig{CH_3-[:30]CH(-[:90]NH_2)-[:-30]CH_3}}}</div>
+  <div data-cf="prod_butan2amine">{{chemfig \chemfig{CH_3-[:30]CH(-[:90]NH_2)-[:-30]CH_2-[:30]CH_3}}}</div>
+  <div data-cf="prod_2mpropan2amine">{{chemfig \chemfig{CH_3-[:30]C(-[:90]CH_3)(-[:-90]CH_3)-[:-30]NH_2}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .sve-wrap{margin-top:6px}
+.k .sve-sec-hdr{font-size:14px;color:var(--fg);margin:12px 0 6px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.k .sve-sec-hdr b{color:var(--fg)}
+.k .sve-sub-row,.k .sve-rg-row{gap:6px;margin-bottom:8px}
+.k .sve-sub-btn,.k .sve-rg-btn,.k .sve-btn-contrast{font-size:13.5px;padding:4px 9px;border-radius:6px;cursor:pointer;background:var(--card);border:1px solid var(--line);color:var(--fg)}
+.k .sve-sub-btn.on,.k .sve-rg-btn.on{background:var(--acc);border-color:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.k .sve-sub-btn.on,.k .sve-rg-btn.on{color:#0d1220}}
+.k .sve-btn-contrast{border-color:var(--s4);background:var(--hl);color:var(--fg);font-weight:600}
+.k .sve-btn-contrast.on{background:var(--s4);border-color:var(--s4);color:#fff}
+@media (prefers-color-scheme:dark){.k .sve-btn-contrast.on{color:#0d1220}}
+
+/* Substrate Card */
+.k .sve-sub-card{padding:10px 14px;margin-bottom:12px}
+.k .sve-sub-meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.k .sve-sub-title{font-size:16px;font-weight:700;color:var(--fg);margin-right:8px}
+.k .sve-sub-formula{font-size:14px;background:var(--acc-soft);padding:1px 6px;border-radius:4px;margin-right:8px}
+.k .sve-badge{display:inline-block;font-size:12px;padding:2px 7px;border-radius:4px;font-weight:600;vertical-align:1px}
+.k .sve-sub-badge{background:var(--acc-soft);color:var(--acc)}
+.k .sve-badge-cplus,.k .sve-cplus-badge{background:var(--pos);color:#fff}
+@media (prefers-color-scheme:dark){.k .sve-badge-cplus,.k .sve-cplus-badge{color:#0d1220}}
+.k .sve-badge-type{background:var(--acc-soft);color:var(--acc)}
+.k .sve-badge-elim{background:var(--ok-soft);color:var(--ok)}
+.k .sve-badge-aq{background:var(--acc-soft);color:var(--acc)}
+.k .sve-badge-etoh{background:var(--ok-soft);color:var(--ok)}
+.k .sve-sub-stage{min-height:90px;display:flex;align-items:center;justify-content:center;padding:6px 0}
+.k .sve-sub-stage svg.cf{margin:0 auto;display:block}
+.k .sve-sub-notes{margin-top:6px;font-size:13px;line-height:1.45;border-top:1px dashed var(--line);padding-top:6px}
+
+/* Contrast Callout */
+.k .sve-contrast-callout{padding:9px 12px;margin:8px 0 12px;background:var(--hl);border-color:var(--s4)}
+.k .sve-callout-hdr{font-size:14px;font-weight:650;color:var(--fg);margin-bottom:4px}
+.k .sve-callout-body{font-size:13.5px;line-height:1.5}
+
+/* Single Reagent View */
+.k .sve-rg-info-card{padding:10px 14px;margin-bottom:12px}
+.k .sve-rg-meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.k .sve-rg-name{font-size:15px;font-weight:700;color:var(--fg);margin-right:6px}
+.k .sve-role-desc{font-size:14px;line-height:1.5;margin-bottom:6px}
+.k .sve-eq-box{margin-top:6px;font-size:13.5px}
+.k .sve-eq-text{background:var(--acc-soft);padding:2px 6px;border-radius:4px;font-size:13px;word-break:break-all}
+.k .sve-obs-box{margin-top:6px;font-size:13px;color:var(--s4)}
+
+/* Product Cards Grid */
+.k .sve-prods-hdr{font-size:14px;margin:12px 0 6px;display:flex;justify-content:space-between;align-items:baseline}
+.k .sve-prods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.k .sve-prod-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column}
+.k .sve-prod-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.k .sve-prod-name{font-size:15px;font-weight:700;color:var(--fg)}
+.k .sve-prod-formula{font-size:13px;color:var(--mut);margin-bottom:6px}
+.k .sve-prod-stage{min-height:95px;display:flex;align-items:center;justify-content:center;padding:4px 0;margin:auto 0}
+.k .sve-prod-stage svg.cf{margin:0 auto;display:block}
+.k .sve-prod-elim-site{font-size:12.5px;color:var(--ok);font-weight:600;margin:6px 0 4px}
+.k .sve-prod-ft{margin-top:8px;border-top:1px dashed var(--line);padding-top:6px;font-size:12.5px}
+.k .sve-prod-ft a{color:var(--acc);text-decoration:none}
+.k .sve-prod-ft a:hover{text-decoration:underline}
+
+/* Contrast View Columns */
+.k .sve-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:12px}
+.k .sve-ccol{padding:12px}
+.k .sve-ccol-hdr{display:flex;flex-direction:column;gap:4px;margin-bottom:6px}
+.k .sve-ccol-hdr h4{margin:0;font-size:15px;color:var(--fg)}
+.k .sve-ccol-role{font-size:13.5px;line-height:1.45;margin:4px 0 8px}
+.k .sve-ccol-eq{margin-bottom:8px}
+.k .sve-ccol-eq code{font-size:12.5px;padding:2px 5px}
+
+/* Practice Quiz */
+.k .sve-prac-card{padding:12px 14px;margin-top:14px}
+.k .sve-prac-hdr{font-size:14.5px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px}
+.k .sve-q{border-top:1px dashed var(--line);padding:8px 0;margin-top:6px}
+.k .sve-q:first-of-type{border-top:none;padding-top:2px;margin-top:0}
+.k .sve-q-text{font-size:14px;margin:4px 0 6px}
+.k .sve-q-row{gap:8px}
+.k .sve-q-input{width:14em;min-width:10em;padding:4px 8px;font-size:14px}
+.k .sve-q-input.good{border-color:var(--ok);background:var(--ok-soft)}
+.k .sve-q-input.badv{border-color:var(--bad);background:var(--bad-soft)}
+.k .sve-btn-check,.k .sve-btn-rev{font-size:13px;padding:3px 9px}
+.k .sve-q-fb{font-size:13.5px;line-height:1.45;margin-top:4px}
+.k .sve-q-fb.ok{color:var(--ok)}
+.k .sve-q-fb.bad{color:var(--bad)}
+.k .sve-q-fb.ans{color:var(--acc)}
+</style>
+
+<script>
+(function () {
+  /* =========================================================================
+     1. Data Definitions
+     ========================================================================= */
+  var SUBSTRATES = [
+    {
+      id: 'bromoethane',
+      name: 'bromoethane',
+      formula: 'CH₃CH₂Br',
+      type: 'primary (1°)',
+      carbons: 2,
+      alpha: 'c1',
+      betas: ['c2'],
+      cf: 'sub_bromoethane',
+      note: 'Primary halogenoalkane (1°)。只有 1 个相邻碳（C2），elimination 只能脱去 C2 上的 H 生成 ethene。'
+    },
+    {
+      id: '1-bromopropane',
+      name: '1-bromopropane',
+      formula: 'CH₃CH₂CH₂Br',
+      type: 'primary (1°)',
+      carbons: 3,
+      alpha: 'c1',
+      betas: ['c2'],
+      cf: 'sub_1bromopropane',
+      note: 'Primary halogenoalkane (1°)。只有 1 个相邻碳（C2），elimination 只能脱去 C2 上的 H 生成 propene。'
+    },
+    {
+      id: '2-bromopropane',
+      name: '2-bromopropane',
+      formula: 'CH₃CH(Br)CH₃',
+      type: 'secondary (2°)',
+      carbons: 3,
+      alpha: 'c2',
+      betas: ['c1', 'c3'],
+      cf: 'sub_2bromopropane',
+      note: 'Secondary halogenoalkane (2°)。对称结构：C1 与 C3 两个相邻碳均为 methyl，elimination 脱去任一侧 H 均得到同一种 alkene (propene)。'
+    },
+    {
+      id: '2-bromobutane',
+      name: '2-bromobutane',
+      formula: 'CH₃CH(Br)CH₂CH₃',
+      type: 'secondary (2° 不对称)',
+      carbons: 4,
+      alpha: 'c2',
+      betas: ['c1', 'c3'],
+      cf: 'sub_2bromobutane',
+      note: 'Secondary halogenoalkane (2° 不对称)。相邻碳有 C1（methyl，脱 H 得 but-1-ene）与 C3（methylene，脱 H 得 but-2-ene）；且 but-2-ene 具顺反异构，共生成 3 种 alkene！'
+    },
+    {
+      id: '2-bromo-2-methylpropane',
+      name: '2-bromo-2-methylpropane',
+      formula: '(CH₃)₃CBr',
+      type: 'tertiary (3°)',
+      carbons: 4,
+      alpha: 'c2',
+      betas: ['c1', 'm', 'c3'],
+      cf: 'sub_2bromo2methylpropane',
+      note: 'Tertiary halogenoalkane (3°)。三个相邻 methyl 基团均等，elimination 得到 2-methylpropene（无顺反异构体）。'
+    }
+  ];
+
+  var REAGENTS = [
+    {
+      id: 'naoh-aq',
+      name: 'NaOH(aq) and heat',
+      short: 'NaOH(aq)',
+      solvent: 'water (aq)',
+      role: 'OH⁻ 作为 nucleophile（亲核试剂）',
+      type: 'nucleophilic substitution / hydrolysis',
+      desc: '水溶液中 OH⁻ 充分水合、极性大，作为 nucleophile 亲核进攻带 δ+ 的碳原子，Br⁻ 离去，发生亲核取代生成 alcohol。',
+      homeXref: '{{xref ch16#alcohols hydroxy compounds (alcohols 16.1) →}}'
+    },
+    {
+      id: 'naoh-etoh',
+      name: 'NaOH in ethanol and heat',
+      short: 'NaOH in ethanol',
+      solvent: 'ethanol',
+      role: 'OH⁻ 作为 base（碱）',
+      type: 'elimination',
+      desc: '乙醇溶剂中 OH⁻ 作为 base，夺取与 C–Br 相邻 β-碳上的质子 H⁺，同时 C–Br 键异裂放出 Br⁻，形成 C=C 双键，消除产物为 alkene。',
+      homeXref: '{{xref ch14#alkenes hydrocarbons (alkenes 14.2) →}}'
+    },
+    {
+      id: 'kcn',
+      name: 'KCN in ethanol and heat',
+      short: 'KCN in ethanol',
+      solvent: 'ethanol',
+      role: 'CN⁻ 作为 nucleophile（碳链延长）',
+      type: 'nucleophilic substitution',
+      desc: 'CN⁻ 进攻带 δ+ 的碳原子，Br⁻ 离去生成 nitrile。注意：主碳链长度增加 1 个碳原子（C+1 徽章），是合成中延长碳链的重要反应。',
+      cPlus: true,
+      homeXref: '{{xref ch19#nitriles nitrogen compounds (nitriles 19.2) →}}'
+    },
+    {
+      id: 'nh3',
+      name: 'NH₃ in ethanol heated under pressure',
+      short: 'NH₃ in ethanol',
+      solvent: 'ethanol',
+      role: 'NH₃ 作为 nucleophile',
+      type: 'nucleophilic substitution',
+      desc: 'NH₃ 的孤电子对进攻带 δ+ 的碳原子，放出 HBr 生成 primary amine。试剂须用 excess NH₃ 以避免 amine 再次亲核进攻生成 2°/3° amine。',
+      homeXref: '{{xref ch19#amines nitrogen compounds (amines 19.1) →}}'
+    },
+    {
+      id: 'agno3',
+      name: 'aqueous silver nitrate in ethanol',
+      short: 'AgNO₃(aq) in ethanol',
+      solvent: 'water / ethanol',
+      role: 'H₂O 慢速水解 + Ag⁺ 瞬时沉淀',
+      type: 'nucleophilic substitution / hydrolysis',
+      desc: '试剂中的水分子慢速水解卤代烃放出 Br⁻，游离的 Br⁻ 立即与 Ag⁺ 反应生成淡黄色 AgBr 沉淀（cream precipitate）。速率取决于 C–X 键能（C–I > C–Br > C–Cl）及碳正离子稳定性（3° 最快）。',
+      obs: 'cream precipitate of AgBr(s)',
+      homeXref: '{{xref ch16#alcohols hydroxy compounds (alcohols 16.1) →}}'
+    }
+  ];
+
+  /* 25 combinations of reactions */
+  var REACTIONS = {
+    'bromoethane': {
+      'naoh-aq': {
+        equation: 'CH₃CH₂Br + NaOH → CH₃CH₂OH + NaBr',
+        atomsL: { C: 2, H: 6, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 2, H: 6, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'ethanol', formula: 'CH₃CH₂OH', cf: 'prod_ethanol', cCount: 2, class: 'alcohol' }
+        ]
+      },
+      'naoh-etoh': {
+        equation: 'CH₃CH₂Br + NaOH → CH₂=CH₂ + NaBr + H₂O',
+        atomsL: { C: 2, H: 6, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 2, H: 6, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'ethene', formula: 'CH₂=CH₂', cf: 'prod_ethene', cCount: 2, class: 'alkene', elimSite: '← 脱去相邻 C2 (methyl) 上的 H⁺' }
+        ]
+      },
+      'kcn': {
+        equation: 'CH₃CH₂Br + KCN → CH₃CH₂CN + KBr',
+        atomsL: { C: 3, H: 5, Br: 1, K: 1, N: 1 },
+        atomsR: { C: 3, H: 5, Br: 1, K: 1, N: 1 },
+        products: [
+          { name: 'propanenitrile', formula: 'CH₃CH₂CN', cf: 'prod_propanenitrile', cCount: 3, cPlus: true, class: 'nitrile' }
+        ]
+      },
+      'nh3': {
+        equation: 'CH₃CH₂Br + 2NH₃ → CH₃CH₂NH₂ + NH₄Br',
+        atomsL: { C: 2, H: 11, Br: 1, N: 2 },
+        atomsR: { C: 2, H: 11, Br: 1, N: 2 },
+        products: [
+          { name: 'ethylamine', formula: 'CH₃CH₂NH₂', cf: 'prod_ethylamine', cCount: 2, class: 'amine' }
+        ]
+      },
+      'agno3': {
+        equation: 'CH₃CH₂Br + H₂O + AgNO₃ → CH₃CH₂OH + AgBr(s) + HNO₃',
+        atomsL: { C: 2, H: 7, Br: 1, O: 4, Ag: 1, N: 1 },
+        atomsR: { C: 2, H: 7, Br: 1, O: 4, Ag: 1, N: 1 },
+        obs: 'cream precipitate of AgBr(s)（较慢出现，因 1° 碳水解速率慢）',
+        products: [
+          { name: 'ethanol', formula: 'CH₃CH₂OH', cf: 'prod_ethanol', cCount: 2, class: 'alcohol' }
+        ]
+      }
+    },
+
+    '1-bromopropane': {
+      'naoh-aq': {
+        equation: 'CH₃CH₂CH₂Br + NaOH → CH₃CH₂CH₂OH + NaBr',
+        atomsL: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'propan-1-ol', formula: 'CH₃CH₂CH₂OH', cf: 'prod_propan1ol', cCount: 3, class: 'alcohol' }
+        ]
+      },
+      'naoh-etoh': {
+        equation: 'CH₃CH₂CH₂Br + NaOH → CH₃CH=CH₂ + NaBr + H₂O',
+        atomsL: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'propene', formula: 'CH₃CH=CH₂', cf: 'prod_propene', cCount: 3, class: 'alkene', elimSite: '← 脱去相邻 C2 (methylene) 上的 H⁺' }
+        ]
+      },
+      'kcn': {
+        equation: 'CH₃CH₂CH₂Br + KCN → CH₃CH₂CH₂CN + KBr',
+        atomsL: { C: 4, H: 7, Br: 1, K: 1, N: 1 },
+        atomsR: { C: 4, H: 7, Br: 1, K: 1, N: 1 },
+        products: [
+          { name: 'butanenitrile', formula: 'CH₃CH₂CH₂CN', cf: 'prod_butanenitrile', cCount: 4, cPlus: true, class: 'nitrile' }
+        ]
+      },
+      'nh3': {
+        equation: 'CH₃CH₂CH₂Br + 2NH₃ → CH₃CH₂CH₂NH₂ + NH₄Br',
+        atomsL: { C: 3, H: 13, Br: 1, N: 2 },
+        atomsR: { C: 3, H: 13, Br: 1, N: 2 },
+        products: [
+          { name: 'propylamine', formula: 'CH₃CH₂CH₂NH₂', cf: 'prod_propylamine', cCount: 3, class: 'amine' }
+        ]
+      },
+      'agno3': {
+        equation: 'CH₃CH₂CH₂Br + H₂O + AgNO₃ → CH₃CH₂CH₂OH + AgBr(s) + HNO₃',
+        atomsL: { C: 3, H: 9, Br: 1, O: 4, Ag: 1, N: 1 },
+        atomsR: { C: 3, H: 9, Br: 1, O: 4, Ag: 1, N: 1 },
+        obs: 'cream precipitate of AgBr(s)（较慢出现）',
+        products: [
+          { name: 'propan-1-ol', formula: 'CH₃CH₂CH₂OH', cf: 'prod_propan1ol', cCount: 3, class: 'alcohol' }
+        ]
+      }
+    },
+
+    '2-bromopropane': {
+      'naoh-aq': {
+        equation: 'CH₃CH(Br)CH₃ + NaOH → CH₃CH(OH)CH₃ + NaBr',
+        atomsL: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'propan-2-ol', formula: 'CH₃CH(OH)CH₃', cf: 'prod_propan2ol', cCount: 3, class: 'alcohol' }
+        ]
+      },
+      'naoh-etoh': {
+        equation: 'CH₃CH(Br)CH₃ + NaOH → CH₃CH=CH₂ + NaBr + H₂O',
+        atomsL: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 3, H: 8, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'propene', formula: 'CH₃CH=CH₂', cf: 'prod_propene', cCount: 3, class: 'alkene', elimSite: '← 脱去相邻 C1 或 C3 上的 H⁺（两侧对称，得同一种 alkene）' }
+        ]
+      },
+      'kcn': {
+        equation: 'CH₃CH(Br)CH₃ + KCN → CH₃CH(CN)CH₃ + KBr',
+        atomsL: { C: 4, H: 7, Br: 1, K: 1, N: 1 },
+        atomsR: { C: 4, H: 7, Br: 1, K: 1, N: 1 },
+        products: [
+          { name: '2-methylpropanenitrile', formula: 'CH₃CH(CN)CH₃', cf: 'prod_2mpropanenitrile', cCount: 4, cPlus: true, class: 'nitrile' }
+        ]
+      },
+      'nh3': {
+        equation: 'CH₃CH(Br)CH₃ + 2NH₃ → CH₃CH(NH₂)CH₃ + NH₄Br',
+        atomsL: { C: 3, H: 13, Br: 1, N: 2 },
+        atomsR: { C: 3, H: 13, Br: 1, N: 2 },
+        products: [
+          { name: 'propan-2-amine', formula: 'CH₃CH(NH₂)CH₃', cf: 'prod_propan2amine', cCount: 3, class: 'amine' }
+        ]
+      },
+      'agno3': {
+        equation: 'CH₃CH(Br)CH₃ + H₂O + AgNO₃ → CH₃CH(OH)CH₃ + AgBr(s) + HNO₃',
+        atomsL: { C: 3, H: 9, Br: 1, O: 4, Ag: 1, N: 1 },
+        atomsR: { C: 3, H: 9, Br: 1, O: 4, Ag: 1, N: 1 },
+        obs: 'cream precipitate of AgBr(s)（中等速率出现，快于 1°）',
+        products: [
+          { name: 'propan-2-ol', formula: 'CH₃CH(OH)CH₃', cf: 'prod_propan2ol', cCount: 3, class: 'alcohol' }
+        ]
+      }
+    },
+
+    '2-bromobutane': {
+      'naoh-aq': {
+        equation: 'CH₃CH(Br)CH₂CH₃ + NaOH → CH₃CH(OH)CH₂CH₃ + NaBr',
+        atomsL: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'butan-2-ol', formula: 'CH₃CH(OH)CH₂CH₃', cf: 'prod_butan2ol', cCount: 4, class: 'alcohol' }
+        ]
+      },
+      'naoh-etoh': {
+        equation: 'CH₃CH(Br)CH₂CH₃ + NaOH → but-1-ene + cis/trans but-2-ene + NaBr + H₂O',
+        atomsL: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: 'but-1-ene', formula: 'CH₂=CHCH₂CH₃', cf: 'prod_but1ene', cCount: 4, class: 'alkene', elimSite: '← 脱去 C1 (methyl) 上的 H⁺（形成端位双键）' },
+          { name: 'cis-but-2-ene', formula: 'cis-CH₃CH=CHCH₃', cf: 'prod_cisbut2ene', cCount: 4, class: 'alkene', elimSite: '← 脱去 C3 (methylene) 上的 H⁺（两个 -CH₃ 在双键同侧，(Z)）' },
+          { name: 'trans-but-2-ene', formula: 'trans-CH₃CH=CHCH₃', cf: 'prod_transbut2ene', cCount: 4, class: 'alkene', elimSite: '← 脱去 C3 (methylene) 上的 H⁺（两个 -CH₃ 在双键异侧，(E)）' }
+        ]
+      },
+      'kcn': {
+        equation: 'CH₃CH(Br)CH₂CH₃ + KCN → CH₃CH(CN)CH₂CH₃ + KBr',
+        atomsL: { C: 5, H: 9, Br: 1, K: 1, N: 1 },
+        atomsR: { C: 5, H: 9, Br: 1, K: 1, N: 1 },
+        products: [
+          { name: '2-methylbutanenitrile', formula: 'CH₃CH(CN)CH₂CH₃', cf: 'prod_2mbutanenitrile', cCount: 5, cPlus: true, class: 'nitrile' }
+        ]
+      },
+      'nh3': {
+        equation: 'CH₃CH(Br)CH₂CH₃ + 2NH₃ → CH₃CH(NH₂)CH₂CH₃ + NH₄Br',
+        atomsL: { C: 4, H: 15, Br: 1, N: 2 },
+        atomsR: { C: 4, H: 15, Br: 1, N: 2 },
+        products: [
+          { name: 'butan-2-amine', formula: 'CH₃CH(NH₂)CH₂CH₃', cf: 'prod_butan2amine', cCount: 4, class: 'amine' }
+        ]
+      },
+      'agno3': {
+        equation: 'CH₃CH(Br)CH₂CH₃ + H₂O + AgNO₃ → CH₃CH(OH)CH₂CH₃ + AgBr(s) + HNO₃',
+        atomsL: { C: 4, H: 11, Br: 1, O: 4, Ag: 1, N: 1 },
+        atomsR: { C: 4, H: 11, Br: 1, O: 4, Ag: 1, N: 1 },
+        obs: 'cream precipitate of AgBr(s)（中等速率出现）',
+        products: [
+          { name: 'butan-2-ol', formula: 'CH₃CH(OH)CH₂CH₃', cf: 'prod_butan2ol', cCount: 4, class: 'alcohol' }
+        ]
+      }
+    },
+
+    '2-bromo-2-methylpropane': {
+      'naoh-aq': {
+        equation: '(CH₃)₃CBr + NaOH → (CH₃)₃COH + NaBr',
+        atomsL: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: '2-methylpropan-2-ol', formula: '(CH₃)₃COH', cf: 'prod_2mpropan2ol', cCount: 4, class: 'alcohol' }
+        ]
+      },
+      'naoh-etoh': {
+        equation: '(CH₃)₃CBr + NaOH → (CH₃)₂C=CH₂ + NaBr + H₂O',
+        atomsL: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        atomsR: { C: 4, H: 10, Br: 1, Na: 1, O: 1 },
+        products: [
+          { name: '2-methylpropene', formula: '(CH₃)₂C=CH₂', cf: 'prod_2mpropene', cCount: 4, class: 'alkene', elimSite: '← 从 3 个均等 methyl 之一脱去 H⁺（无顺反立体异构体）' }
+        ]
+      },
+      'kcn': {
+        equation: '(CH₃)₃CBr + KCN → (CH₃)₃CCN + KBr',
+        atomsL: { C: 5, H: 9, Br: 1, K: 1, N: 1 },
+        atomsR: { C: 5, H: 9, Br: 1, K: 1, N: 1 },
+        products: [
+          { name: '2,2-dimethylpropanenitrile', formula: '(CH₃)₃CCN', cf: 'prod_22dmpropanenitrile', cCount: 5, cPlus: true, class: 'nitrile' }
+        ]
+      },
+      'nh3': {
+        equation: '(CH₃)₃CBr + 2NH₃ → (CH₃)₃CNH₂ + NH₄Br',
+        atomsL: { C: 4, H: 15, Br: 1, N: 2 },
+        atomsR: { C: 4, H: 15, Br: 1, N: 2 },
+        products: [
+          { name: '2-methylpropan-2-amine', formula: '(CH₃)₃CNH₂', cf: 'prod_2mpropan2amine', cCount: 4, class: 'amine' }
+        ]
+      },
+      'agno3': {
+        equation: '(CH₃)₃CBr + H₂O + AgNO₃ → (CH₃)₃COH + AgBr(s) + HNO₃',
+        atomsL: { C: 4, H: 11, Br: 1, O: 4, Ag: 1, N: 1 },
+        atomsR: { C: 4, H: 11, Br: 1, O: 4, Ag: 1, N: 1 },
+        obs: 'cream precipitate of AgBr(s)（瞬间出现！3° 碳正离子极稳定，水解速率最快）',
+        products: [
+          { name: '2-methylpropan-2-ol', formula: '(CH₃)₃COH', cf: 'prod_2mpropan2ol', cCount: 4, class: 'alcohol' }
+        ]
+      }
+    }
+  };
+
+  /* Runtime atomic balance validation */
+  (function assertConservation() {
+    for (var s in REACTIONS) {
+      for (var r in REACTIONS[s]) {
+        var rx = REACTIONS[s][r];
+        if (rx.atomsL && rx.atomsR) {
+          for (var el in rx.atomsL) {
+            if (rx.atomsL[el] !== rx.atomsR[el]) {
+              console.error('Atom conservation failed in ' + s + ' + ' + r + ' for ' + el);
+            }
+          }
+        }
+      }
+    }
+  })();
+
+  /* =========================================================================
+     2. DOM State & Helpers
+     ========================================================================= */
+  var curSubId = '2-bromobutane';
+  var curRgId = 'naoh-etoh';
+  var isContrast = false;
+
+  function getPoolSvg(cfId) {
+    var el = $root.querySelector('.sve-pool [data-cf="' + cfId + '"] svg');
+    return el ? el.cloneNode(true) : null;
+  }
+
+  function getSub(id) {
+    return SUBSTRATES.filter(function (s) { return s.id === id; })[0] || SUBSTRATES[0];
+  }
+
+  function getRg(id) {
+    return REAGENTS.filter(function (r) { return r.id === id; })[0] || REAGENTS[0];
+  }
+
+  /* =========================================================================
+     3. Render Logic
+     ========================================================================= */
+  function renderSubstrate() {
+    var sub = getSub(curSubId);
+    $root.querySelector('.sve-sub-title').textContent = sub.name;
+    $root.querySelector('.sve-sub-formula').textContent = sub.formula;
+    $root.querySelector('.sve-sub-badge').textContent = sub.type;
+    $root.querySelector('.sve-sub-ccount').textContent = '主链碳数：' + sub.carbons + ' 碳原子';
+    $root.querySelector('.sve-sub-notes').textContent = sub.note;
+
+    var stage = $root.querySelector('.sve-sub-stage');
+    stage.innerHTML = '';
+    var svg = getPoolSvg(sub.cf);
+    if (svg) {
+      /* If elimination is selected or contrast mode is on, highlight alpha & beta carbons */
+      if (curRgId === 'naoh-etoh' || isContrast) {
+        try {
+          if (window.KO && KO.hl) {
+            KO.hl(svg, sub.alpha, 'bad');   /* alpha carbon where Br leaves */
+            KO.hl(svg, sub.betas, 'ok');     /* beta carbons where H leaves */
+          }
+        } catch (e) {
+          /* fallback if atoms not found */
+        }
+      }
+      stage.appendChild(svg);
+    }
+  }
+
+  function renderProductCard(prod, homeXref) {
+    var card = document.createElement('div');
+    card.className = 'card sve-prod-card';
+
+    var hdr = document.createElement('div');
+    hdr.className = 'sve-prod-hdr';
+    var nameSpan = document.createElement('span');
+    nameSpan.className = 'sve-prod-name';
+    nameSpan.textContent = prod.name;
+    hdr.appendChild(nameSpan);
+
+    if (prod.cPlus) {
+      var badge = document.createElement('span');
+      badge.className = 'sve-badge sve-badge-cplus';
+      badge.textContent = 'C+1';
+      hdr.appendChild(badge);
+    } else {
+      var cbadge = document.createElement('span');
+      cbadge.className = 'sve-badge sve-badge-type faint';
+      cbadge.textContent = 'C' + prod.cCount;
+      hdr.appendChild(cbadge);
+    }
+    card.appendChild(hdr);
+
+    var formulaDiv = document.createElement('div');
+    formulaDiv.className = 'sve-prod-formula';
+    formulaDiv.textContent = prod.formula;
+    card.appendChild(formulaDiv);
+
+    var stage = document.createElement('div');
+    stage.className = 'sve-prod-stage';
+    var svg = getPoolSvg(prod.cf);
+    if (svg) stage.appendChild(svg);
+    card.appendChild(stage);
+
+    if (prod.elimSite) {
+      var elimDiv = document.createElement('div');
+      elimDiv.className = 'sve-prod-elim-site';
+      elimDiv.textContent = prod.elimSite;
+      card.appendChild(elimDiv);
+    }
+
+    var ft = document.createElement('div');
+    ft.className = 'sve-prod-ft';
+    ft.innerHTML = homeXref || '';
+    card.appendChild(ft);
+
+    return card;
+  }
+
+  function renderSingleReagent() {
+    var rg = getRg(curRgId);
+    var rx = (REACTIONS[curSubId] && REACTIONS[curSubId][curRgId]) || null;
+    if (!rx) return;
+
+    $root.querySelector('.sve-rg-name').textContent = rg.name;
+    $root.querySelector('.sve-type-badge').textContent = rg.type;
+    $root.querySelector('.sve-cplus-badge').hidden = !rg.cPlus;
+    $root.querySelector('.sve-solvent-tag').textContent = '溶剂：' + rg.solvent;
+    $root.querySelector('.sve-role-desc').innerHTML = '<b>' + rg.role + '</b> — ' + rg.desc;
+    $root.querySelector('.sve-eq-text').textContent = rx.equation;
+
+    var obsBox = $root.querySelector('.sve-obs-box');
+    if (rx.obs) {
+      obsBox.hidden = false;
+      obsBox.textContent = '👀 现象观察：' + rx.obs;
+    } else {
+      obsBox.hidden = true;
+    }
+
+    var grid = $root.querySelector('.sve-prods-grid');
+    grid.innerHTML = '';
+    $root.querySelector('.sve-prods-count').textContent = '（生成 ' + rx.products.length + ' 种产物）';
+    rx.products.forEach(function (p) {
+      grid.appendChild(renderProductCard(p, rg.homeXref));
+    });
+  }
+
+  function renderContrast() {
+    var rxSub = REACTIONS[curSubId]['naoh-aq'];
+    var rxElim = REACTIONS[curSubId]['naoh-etoh'];
+    var rgSub = getRg('naoh-aq');
+    var rgElim = getRg('naoh-etoh');
+
+    $root.querySelector('.sve-csub-eq').textContent = rxSub.equation;
+    $root.querySelector('.sve-celim-eq').textContent = rxElim.equation;
+
+    var subContainer = $root.querySelector('.sve-csub-prod');
+    subContainer.innerHTML = '';
+    rxSub.products.forEach(function (p) {
+      subContainer.appendChild(renderProductCard(p, rgSub.homeXref));
+    });
+
+    var elimContainer = $root.querySelector('.sve-celim-prods');
+    elimContainer.innerHTML = '';
+    rxElim.products.forEach(function (p) {
+      elimContainer.appendChild(renderProductCard(p, rgElim.homeXref));
+    });
+  }
+
+  function update() {
+    renderSubstrate();
+    var singleView = $root.querySelector('.sve-single-view');
+    var contrastView = $root.querySelector('.sve-contrast-view');
+    var callout = $root.querySelector('.sve-contrast-callout');
+
+    if (isContrast) {
+      singleView.hidden = true;
+      contrastView.hidden = false;
+      callout.hidden = false;
+      var pGrid = $root.querySelector('.sve-prods-grid');
+      if (pGrid) pGrid.innerHTML = '';
+      renderContrast();
+    } else {
+      singleView.hidden = false;
+      contrastView.hidden = true;
+      /* If naoh-aq or naoh-etoh, show callout */
+      callout.hidden = !(curRgId === 'naoh-aq' || curRgId === 'naoh-etoh');
+      var cSub = $root.querySelector('.sve-csub-prod');
+      var cElim = $root.querySelector('.sve-celim-prods');
+      if (cSub) cSub.innerHTML = '';
+      if (cElim) cElim.innerHTML = '';
+      renderSingleReagent();
+    }
+    if (window.K && K.fit) K.fit();
+  }
+
+  /* =========================================================================
+     4. Event Handlers
+     ========================================================================= */
+  $root.querySelectorAll('.sve-sub-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $root.querySelectorAll('.sve-sub-btn').forEach(function (b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+      curSubId = btn.getAttribute('data-sub');
+      update();
+    });
+  });
+
+  $root.querySelectorAll('.sve-rg-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $root.querySelectorAll('.sve-rg-btn').forEach(function (b) { b.classList.remove('on'); });
+      $root.querySelector('.sve-btn-contrast').classList.remove('on');
+      btn.classList.add('on');
+      curRgId = btn.getAttribute('data-rg');
+      isContrast = false;
+      update();
+    });
+  });
+
+  var contrastBtn = $root.querySelector('.sve-btn-contrast');
+  contrastBtn.addEventListener('click', function () {
+    isContrast = !isContrast;
+    contrastBtn.classList.toggle('on', isContrast);
+    if (!isContrast) {
+      var act = $root.querySelector('.sve-rg-btn[data-rg="' + curRgId + '"]');
+      if (act) act.classList.add('on');
+    } else {
+      $root.querySelectorAll('.sve-rg-btn').forEach(function (b) { b.classList.remove('on'); });
+    }
+    update();
+  });
+
+  /* =========================================================================
+     5. Practice Quiz Handlers
+     ========================================================================= */
+  var QUIZ = {
+    q1: {
+      ans: ['propene', 'ch3ch=ch2', 'ch2=chch3'],
+      ref: 'propene（或 CH₃CH=CH₂）',
+      explain: '正确！2-bromopropane 与 NaOH in ethanol 共热，OH⁻ 作为 base 夺取相邻 C 上的质子 H⁺，同时消除 Br⁻ 形成 propene (CH₃CH=CH₂)。'
+    },
+    q2: {
+      ans: ['3', 'three', '三'],
+      ref: '3',
+      explain: '正确！共 3 种：从 C1 脱 H 得到 but-1-ene；从 C3 脱 H 得到 but-2-ene，由于 C=C 双键不能旋转，产生 cis-but-2-ene 与 trans-but-2-ene 一对立体异构体。'
+    },
+    q3: {
+      ans: ['propanenitrile', 'ch3ch2cn'],
+      ref: 'propanenitrile（或 CH₃CH₂CN）',
+      explain: '正确！生成 propanenitrile (CH₃CH₂CN)。CN⁻ 发生亲核取代，产物碳链长度增加了 1 个碳原子（C+1 延长碳链）。'
+    }
+  };
+
+  function checkFormulaOrder(s) {
+    var raw = s.replace(/\s+/g, '');
+    if (/^[Hh]\d*[A-Z]/.test(raw) && !/^[Cc]/.test(raw)) {
+      return false;
+    }
+    if (/^[Bb][Rr]/.test(raw) && /[Cc]/.test(raw)) {
+      return false;
+    }
+    return true;
+  }
+
+  function handleCheck(qid) {
+    var inp = $root.querySelector('.sve-q-input[data-qid="' + qid + '"]');
+    var fb = $root.querySelector('.sve-q-fb[data-qid="' + qid + '"]');
+    var q = QUIZ[qid];
+    var val = (inp.value || '').trim().toLowerCase();
+    fb.hidden = false;
+    inp.classList.remove('good', 'badv');
+
+    if (!val) {
+      fb.className = 'sve-q-fb bad';
+      fb.textContent = '请输入你的答案。';
+      inp.classList.add('badv');
+      return;
+    }
+
+    if (!checkFormulaOrder(inp.value.trim())) {
+      fb.className = 'sve-q-fb bad';
+      fb.textContent = '✗ 顺序错误：有机 formula 书写须符合 Cambridge 9701 惯例（C 第一、H 第二）。';
+      inp.classList.add('badv');
+      return;
+    }
+
+    var cleanVal = val.replace(/\s+/g, '').replace(/[−–]/g, '-');
+    var isOk = q.ans.some(function (a) { return a.toLowerCase().replace(/\s+/g, '') === cleanVal; });
+
+    if (isOk) {
+      fb.className = 'sve-q-fb ok';
+      fb.textContent = '✓ ' + q.explain;
+      inp.classList.add('good');
+    } else {
+      fb.className = 'sve-q-fb bad';
+      fb.textContent = '✗ 不正确，请仔细阅读题意或点击「答案」查看解析。';
+      inp.classList.add('badv');
+    }
+    if (window.K && K.fit) K.fit();
+  }
+
+  function handleReveal(qid) {
+    var inp = $root.querySelector('.sve-q-input[data-qid="' + qid + '"]');
+    var fb = $root.querySelector('.sve-q-fb[data-qid="' + qid + '"]');
+    var q = QUIZ[qid];
+    fb.hidden = false;
+    fb.className = 'sve-q-fb ans';
+    fb.innerHTML = '<b>参考答案</b>：<code>' + q.ref + '</code><br>' + q.explain;
+    inp.classList.remove('good', 'badv');
+    if (window.K && K.fit) K.fit();
+  }
+
+  $root.querySelectorAll('.sve-btn-check').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      handleCheck(btn.getAttribute('data-qid'));
+    });
+  });
+
+  $root.querySelectorAll('.sve-btn-rev').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      handleReveal(btn.getAttribute('data-qid'));
+    });
+  });
+
+  $root.querySelectorAll('.sve-q-input').forEach(function (inp) {
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        handleCheck(inp.getAttribute('data-qid'));
+      }
+    });
+  });
+
+  /* Exposed state for automated tests */
+  window.__subVsElim = {
+    state: function () {
+      return {
+        subId: curSubId,
+        rgId: curRgId,
+        isContrast: isContrast
+      };
+    },
+    setSub: function (sId) {
+      var btn = $root.querySelector('.sve-sub-btn[data-sub="' + sId + '"]');
+      if (btn) btn.click();
+    },
+    setRg: function (rId) {
+      var btn = $root.querySelector('.sve-rg-btn[data-rg="' + rId + '"]');
+      if (btn) btn.click();
+    },
+    toggleContrast: function () {
+      contrastBtn.click();
+    }
+  };
+
+  /* Initial render */
+  if (window.K && K.init) K.init($root);
+  update();
+})();
+</script>
