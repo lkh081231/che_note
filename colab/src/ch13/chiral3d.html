@@ -1,0 +1,1095 @@
+<h3>镜像能重合吗：一对 enantiomers <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
+<div class="tabbar ch-modes">
+  <button class="on" data-tab="butan2ol">① butan-2-ol（chiral centre: C2）</button>
+  <button data-tab="lactic">② 2-hydroxypropanoic acid（lactic acid）</button>
+  <button data-tab="propan2ol">③ propan-2-ol（对照：achiral）</button>
+</div>
+
+<div class="row ch-tools">
+  <button class="ch-overlay-btn on">▶ 试着重合（平移叠合）</button>
+  <button class="ch-align-btn">↺ 绕 C–OH 轴转 120° 再试</button>
+  <button class="ch-reset-trans">分开放置</button>
+  <span class="faint ch-3donly">｜</span>
+  <label class="ch-synclbl ch-3donly"><input type="checkbox" class="ch-sync" checked> 同步旋转</label>
+  <button class="ch-3donly" data-3d="reset">复位视角</button>
+  <button class="ch-3donly" data-3d="spin">自动旋转</button>
+</div>
+
+<div class="row ch-slrow">
+  <label class="ch-sl">平移叠合程度 <input type="range" min="0" max="100" step="1" value="0" class="ch-r-t" aria-label="overlay progress"><b class="ch-val-t">0%（分开）</b></label>
+</div>
+
+<div class="stage ch-stage">
+  <div class="hud ch-hud"></div>
+  <div class="ch-ov ch-t ch-l"></div>
+  <div class="ch-ov ch-m">┄ 镜面 (mirror) ┄</div>
+  <div class="ch-ov ch-t ch-r"></div>
+  <div class="ch-ov ch-p ch-l"></div>
+  <div class="ch-ov ch-p ch-r"></div>
+</div>
+<div class="ch-res ch-3donly"></div>
+
+<div class="fallback card">
+  <p><b>3D 没有加载</b>（<span class="why"></span>）。下方的 2D 结构式（wedge / dashed bond）、四个基团和 plane-polarised light 的说明照常可用。</p>
+</div>
+
+<div class="card ch-opt-card">
+  <div class="ch-opt-row">
+    <span class="ch-opt-icon ch-opt-l" aria-label="clockwise rotation"><svg viewBox="0 0 24 24" width="22" height="22" class="ch-rotsvg"><path d="M12 3a9 9 0 1 1-6.36 2.64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polygon points="4,1 7,5 2,6" fill="currentColor"/></svg></span>
+    <span class="ch-opt-text">一对 enantiomers 的 physical & chemical properties 几乎完全一样；区别在 <b>plane-polarised light</b>：两者把它转动的角度相等、<b>方向相反</b>——一个顺时针，一个逆时针。</span>
+    <span class="ch-opt-icon ch-opt-r" aria-label="anticlockwise rotation"><svg viewBox="0 0 24 24" width="22" height="22" class="ch-rotsvg"><path d="M12 3a9 9 0 1 0 6.36 2.64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><polygon points="20,1 17,5 22,6" fill="currentColor"/></svg></span>
+  </div>
+</div>
+
+<div data-pane="butan2ol">
+  <div class="ch-grid">
+    <div class="card ch-c ch-f" data-f="butan2ol-l">
+      <div class="ch-h">butan-2-ol（左侧分子）</div>
+      <div class="ch-cf">{{chemfig \chemfig{@{c2}C(-[:90]@{oh}OH)(<[:210]@{me}H_3C)(<:[:330]@{et}CH_2CH_3)(-[:270]@{h}H)}}}</div>
+      <p class="ch-fc">C2 连有 <b>4 个不同基团</b>：<span class="ch-chip ch-c-g1">–OH</span> <span class="ch-chip ch-c-g2">–H</span> <span class="ch-chip ch-c-g3">–CH₃</span> <span class="ch-chip ch-c-g4">–C₂H₅</span></p>
+    </div>
+    <div class="card ch-c ch-f" data-f="butan2ol-r">
+      <div class="ch-h">butan-2-ol（右侧镜像）</div>
+      <div class="ch-cf">{{chemfig \chemfig{@{c2}C(-[:90]@{oh}HO)(<[:330]@{me}CH_3)(<:[:210]@{et}CH_3CH_2)(-[:270]@{h}H)}}}</div>
+      <p class="ch-fc">镜像：–CH₃ 与 –C₂H₅ 左右对调，与左侧分子<b>互为不可重合的镜像</b></p>
+    </div>
+  </div>
+  <p class="ch-key"><b>butan-2-ol 的 C2 是 chiral centre（标 * 号）</b>：连着 –OH、–CH₃、–C₂H₅、–H 四个不同的基团。无论怎样整体旋转，最多只能让 2 个基团与镜像对齐，另外 2 个总是互换位置——这对不能重合的镜像就是一对 <b>enantiomers</b>（optical isomers）。</p>
+</div>
+
+<div data-pane="lactic">
+  <div class="ch-grid">
+    <div class="card ch-c ch-f" data-f="lactic-l">
+      <div class="ch-h">2-hydroxypropanoic acid（左侧分子）</div>
+      <div class="ch-cf">{{chemfig \chemfig{@{c2}C(-[:90]@{oh}OH)(<[:210]@{me}H_3C)(<:[:330]@{cooh}COOH)(-[:270]@{h}H)}}}</div>
+      <p class="ch-fc">C2 连有 <b>4 个不同基团</b>：<span class="ch-chip ch-c-g1">–OH</span> <span class="ch-chip ch-c-g2">–H</span> <span class="ch-chip ch-c-g3">–CH₃</span> <span class="ch-chip ch-c-g4">–COOH</span></p>
+    </div>
+    <div class="card ch-c ch-f" data-f="lactic-r">
+      <div class="ch-h">2-hydroxypropanoic acid（右侧镜像）</div>
+      <div class="ch-cf">{{chemfig \chemfig{@{c2}C(-[:90]@{oh}HO)(<[:330]@{me}CH_3)(<:[:210]@{cooh}HOOC)(-[:270]@{h}H)}}}</div>
+      <p class="ch-fc">镜像：–CH₃ 与 –COOH 左右对调，与左侧分子<b>互为不可重合的镜像</b></p>
+    </div>
+  </div>
+  <p class="ch-key"><b>lactic acid 同样具有 optical isomerism</b>：C2 上连着 –OH、–CH₃、–COOH、–H 四个互不相同的基团。把镜像移过来叠合：–OH、–H 对齐了，–CH₃ 与 –COOH 却互换了位置；绕 C–OH 轴怎么转也只能对齐 2 个基团，所以同样有一对 enantiomers。</p>
+</div>
+
+<div data-pane="propan2ol">
+  <div class="ch-grid">
+    <div class="card ch-c ch-f" data-f="propan2ol-l">
+      <div class="ch-h">propan-2-ol（左侧分子，对照组）</div>
+      <div class="ch-cf">{{chemfig \chemfig{@{c2}C(-[:90]@{oh}OH)(<[:210]@{m1}H_3C)(<:[:330]@{m2}CH_3)(-[:270]@{h}H)}}}</div>
+      <p class="ch-fc">C2 连有 <span class="ch-same">两个相同的 –CH₃ 基团</span>：<span class="ch-chip ch-c-g1">–OH</span> <span class="ch-chip ch-c-g2">–H</span> <span class="ch-chip ch-c-g3">–CH₃</span> <span class="ch-chip ch-c-g3">–CH₃</span></p>
+    </div>
+    <div class="card ch-c ch-f" data-f="propan2ol-r">
+      <div class="ch-h">propan-2-ol（右侧镜像）</div>
+      <div class="ch-cf">{{chemfig \chemfig{@{c2}C(-[:90]@{oh}HO)(<[:330]@{m1}CH_3)(<:[:210]@{m2}H_3C)(-[:270]@{h}H)}}}</div>
+      <p class="ch-fc">具有对称面（plane of symmetry）：镜像就是它自身，<b>能完全重合</b></p>
+    </div>
+  </div>
+  <p class="ch-key"><b>propan-2-ol 没有 chiral centre（achiral）</b>：C2 连的 4 个基团里有两个相同（都是 –CH₃）。镜像移过来叠合，4 个基团全部重合，所以它<b>没有 enantiomers</b>，不显 optical activity。</p>
+</div>
+
+<style>
+.k .ch-modes button{padding:4px 10px}
+.k .ch-tools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.k .ch-tools button{padding:4px 10px}
+.k .ch-slrow{display:flex;align-items:center;margin-top:6px}
+.k .ch-sl{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--mut);width:100%}
+.k .ch-sl input{flex:1 1 auto;min-width:0}
+.k .ch-val-t{min-width:6.5em;text-align:right;color:var(--fg)}
+.k .ch-synclbl{display:inline-flex;align-items:center;gap:5px;font-size:13.5px;color:var(--mut);cursor:pointer}
+.k .ch-synclbl input{cursor:pointer}
+.k .ch-stage{height:420px;position:relative;margin-top:4px}
+.k .ch-hud{font-size:12.5px;line-height:1.45}
+.k .ch-hud b{font-weight:650}
+.k .ch-ov{position:absolute;z-index:2;pointer-events:none;font-size:13px;line-height:1.35;background:var(--card);border-radius:6px;padding:2px 8px;border:1px solid var(--line)}
+.k .ch-ov.ch-l{left:8px;max-width:calc(50% - 16px)}
+.k .ch-ov.ch-r{left:calc(50% + 8px);max-width:calc(50% - 16px)}
+.k .ch-ov.ch-m{left:50%;transform:translateX(-50%);font-weight:650;color:var(--mut);background:color-mix(in srgb,var(--card) 90%,var(--line));font-size:12.5px;padding:2px 8px}
+.k .ch-t{font-weight:650;color:var(--fg)}
+.k .ch-p{bottom:8px;color:var(--fg)}
+.k .ch-p b{font-weight:700}
+.k .ch-res{margin-top:6px;padding:6px 12px;border-radius:7px;text-align:center;font-size:13.5px;line-height:1.5;border:1.5px solid var(--line);color:var(--mut);background:var(--card)}
+.k .ch-res.ch-bad{border:1.5px solid var(--bad);background:var(--card);color:var(--fg)}
+.k .ch-res.ch-bad b{color:var(--bad)}
+.k .ch-res.ch-good{border:1.5px solid var(--ok);background:var(--card);color:var(--fg)}
+.k .ch-res.ch-good b{color:var(--ok)}
+.k .ch-opt-card{margin-top:10px;padding:8px 12px}
+.k .ch-opt-row{display:flex;align-items:center;gap:10px}
+.k .ch-opt-icon{flex:none;display:inline-flex;align-items:center;justify-content:center;color:var(--acc)}
+.k .ch-opt-text{font-size:13px;line-height:1.45;color:var(--mut);flex:1 1 auto}
+.k .ch-opt-text b{color:var(--fg)}
+.k .ch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-top:10px}
+.k .ch-c{min-width:0}
+.k .ch-h{font-weight:650;margin-bottom:4px}
+.k .ch-cf{display:flex;justify-content:center;padding:4px 0}
+.k .ch-fc{font-size:13.5px;margin:3px 0 0;text-align:center;color:var(--mut)}
+.k .ch-fc b{color:var(--fg)}
+.k .ch-same{color:var(--bad);font-weight:650}
+.k .ch-chip{display:inline-block;padding:0 5px;border-radius:4px;font-size:12.5px;font-weight:600;margin:0 1px}
+.k .ch-c-g1{background:color-mix(in srgb,var(--s2) 18%,var(--card));color:var(--s2)}
+.k .ch-c-g2{background:color-mix(in srgb,var(--s3) 18%,var(--card));color:var(--s3)}
+.k .ch-c-g3{background:color-mix(in srgb,var(--s4) 18%,var(--card));color:var(--s4)}
+.k .ch-c-g4{background:color-mix(in srgb,var(--s1) 18%,var(--card));color:var(--s1)}
+.k .ch-key{font-size:14px;border-left:3px solid var(--acc);padding:3px 0 3px 10px;margin:10px 0 2px}
+.k .ch-k-star{display:inline-block;padding:0 4px;border-radius:3px;background:var(--acc);color:#fff;font-weight:700}
+.k[data-3d=fallback] .ch-3donly,.k[data-3d=fallback] .ch-res,.k[data-3d=fallback] .ch-stage,.k[data-3d=fallback] .ch-overlay-btn,.k[data-3d=fallback] .ch-align-btn,.k[data-3d=fallback] .ch-reset-trans,.k[data-3d=fallback] .ch-slrow{display:none}
+</style>
+
+<script>
+/* ---------- vector helpers ---------- */
+function chAdd(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+function chSub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+function chMul(a, k) { return [a[0] * k, a[1] * k, a[2] * k]; }
+function chDot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+function chCross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+function chNorm(a) { var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; }
+
+/* ---------- idealised geometry (Å) ----------
+   Central carbon C2 is at [0, 0, 0].
+   The 4 tetrahedral directions from [0, 0, 0]:
+     u1 (top, +y): [0, 1, 0]  --> -OH
+     u2 (back, -z): [0, -1/3, -sqrt(8)/3]  --> -H
+     u3 (front-left, -x): [-sqrt(6)/3, -1/3, sqrt(2)/3]  --> -CH3
+     u4 (front-right, +x): [+sqrt(6)/3, -1/3, sqrt(2)/3]  --> -C2H5 / -COOH / -CH3
+   Every pair has dot product = -1/3, exactly 109.4712°.
+   Reflection across mirror plane x = 0 (x -> -x):
+     u1 -> u1, u2 -> u2, u3 <-> u4.
+*/
+var CH_CH = 1.09, CH_CC = 1.52, CH_CO = 1.43, CH_OH = 0.96;
+var CH_CC_SP2 = 1.50, CH_CO_DBL = 1.22, CH_CO_ACID = 1.35;
+var CH_TET = Math.sqrt(8) / 3;
+
+function chBuilder() {
+  var M = { atoms: [], bonds: [], groups: {}, groupOrder: [] };
+  M.at = function (el, p, num) { M.atoms.push({ el: el, p: p, num: num || null }); return M.atoms.length - 1; };
+  M.bond = function (i, j, o) { M.bonds.push([i, j, o || 1]); };
+  M.tet = function (d, ref) {
+    var u = chNorm(chSub(ref, chMul(d, chDot(ref, d)))), w = chCross(d, u);
+    return [0, 120, 240].map(function (g) {
+      var a = g * Math.PI / 180;
+      return chNorm(chAdd(chMul(d, 1 / 3), chMul(chAdd(chMul(u, Math.cos(a)), chMul(w, Math.sin(a))), CH_TET)));
+    });
+  };
+  M.methyl = function (c0, d, num, ref) {
+    var p = chAdd(M.atoms[c0].p, chMul(d, CH_CC)), c = M.at('C', p, num);
+    M.bond(c0, c, 1);
+    var t = M.tet(d, ref || [0, 1, 0]);
+    var hs = t.map(function (h) {
+      var ha = M.at('H', chAdd(p, chMul(h, CH_CH)));
+      M.bond(c, ha, 1);
+      return ha;
+    });
+    return [c].concat(hs);
+  };
+  return M;
+}
+
+var CH_U1 = [0, 1.0, 0];
+var CH_U2 = [0, -1 / 3, -Math.sqrt(8) / 3];
+var CH_U3 = [-Math.sqrt(6) / 3, -1 / 3, Math.sqrt(2) / 3];
+var CH_U4 = [+Math.sqrt(6) / 3, -1 / 3, Math.sqrt(2) / 3];
+
+function chBuildButan2ol() {
+  var M = chBuilder();
+  M.name = 'butan-2-ol'; M.isChiral = true; M.cNum = 2;
+  var c2 = M.at('C', [0, 0, 0], 2);
+  M.cL = c2;
+
+  /* G1: -OH on u1 */
+  var pO = chMul(CH_U1, CH_CO), o = M.at('O', pO);
+  M.bond(c2, o, 1);
+  var hODir = chNorm([0, Math.cos(70.5 * Math.PI / 180), -Math.sin(70.5 * Math.PI / 180)]);
+  var ho = M.at('H', chAdd(pO, chMul(hODir, CH_OH)));
+  M.bond(o, ho, 1);
+  M.groups.g1 = { key: 'oh', name: '–OH', atoms: [o, ho], main: o, r: 0.82, col: '--s2' };
+
+  /* G2: -H on u2 */
+  var h2 = M.at('H', chMul(CH_U2, CH_CH));
+  M.bond(c2, h2, 1);
+  M.groups.g2 = { key: 'h', name: '–H', atoms: [h2], main: h2, r: 0.45, col: '--s3' };
+
+  /* G3: -CH3 on u3 (C1) */
+  var meAtoms = M.methyl(c2, CH_U3, 1, [0, 1, 0]);
+  M.groups.g3 = { key: 'me', name: '–CH₃', atoms: meAtoms, main: meAtoms[0], r: 0.98, col: '--s4' };
+
+  /* G4: -C2H5 on u4 (C3 and C4) */
+  var pC3 = chMul(CH_U4, CH_CC), c3 = M.at('C', pC3, 3);
+  M.bond(c2, c3, 1);
+  var tC3 = M.tet(CH_U4, [0, 1, 0]);
+  var c4Atoms = M.methyl(c3, tC3[0], 4, CH_U4);
+  var h3a = M.at('H', chAdd(pC3, chMul(tC3[1], CH_CH)));
+  var h3b = M.at('H', chAdd(pC3, chMul(tC3[2], CH_CH)));
+  M.bond(c3, h3a, 1); M.bond(c3, h3b, 1);
+  var etAtoms = [c3, h3a, h3b].concat(c4Atoms);
+  M.groups.g4 = { key: 'et', name: '–C₂H₅', atoms: etAtoms, main: c3, r: 1.35, col: '--s1' };
+
+  M.groupOrder = ['g1', 'g2', 'g3', 'g4'];
+  return M;
+}
+
+function chBuildLactic() {
+  var M = chBuilder();
+  M.name = '2-hydroxypropanoic acid'; M.isChiral = true; M.cNum = 2;
+  var c2 = M.at('C', [0, 0, 0], 2);
+  M.cL = c2;
+
+  /* G1: -OH on u1 */
+  var pO = chMul(CH_U1, CH_CO), o = M.at('O', pO);
+  M.bond(c2, o, 1);
+  var hODir = chNorm([0, Math.cos(70.5 * Math.PI / 180), -Math.sin(70.5 * Math.PI / 180)]);
+  var ho = M.at('H', chAdd(pO, chMul(hODir, CH_OH)));
+  M.bond(o, ho, 1);
+  M.groups.g1 = { key: 'oh', name: '–OH', atoms: [o, ho], main: o, r: 0.82, col: '--s2' };
+
+  /* G2: -H on u2 */
+  var h2 = M.at('H', chMul(CH_U2, CH_CH));
+  M.bond(c2, h2, 1);
+  M.groups.g2 = { key: 'h', name: '–H', atoms: [h2], main: h2, r: 0.45, col: '--s3' };
+
+  /* G3: -CH3 on u3 (C3) */
+  var meAtoms = M.methyl(c2, CH_U3, 3, [0, 1, 0]);
+  M.groups.g3 = { key: 'me', name: '–CH₃', atoms: meAtoms, main: meAtoms[0], r: 0.98, col: '--s4' };
+
+  /* G4: -COOH on u4 (C1) */
+  var pC1 = chMul(CH_U4, CH_CC_SP2), c1 = M.at('C', pC1, 1);
+  M.bond(c2, c1, 1);
+  var ref = [0, 1, 0];
+  var up = chNorm(chSub(ref, chMul(CH_U4, chDot(ref, CH_U4))));
+  var dirO = chNorm(chAdd(chMul(CH_U4, 0.5), chMul(up, Math.sqrt(3) / 2)));
+  var dirOH = chNorm(chAdd(chMul(CH_U4, 0.5), chMul(up, -Math.sqrt(3) / 2)));
+  var oDbl = M.at('O', chAdd(pC1, chMul(dirO, CH_CO_DBL)));
+  M.bond(c1, oDbl, 2);
+  var oSgl = M.at('O', chAdd(pC1, chMul(dirOH, CH_CO_ACID)));
+  M.bond(c1, oSgl, 1);
+  var pOSgl = M.atoms[oSgl].p;
+  var hAcidDir = chNorm(chAdd(chMul(dirOH, 0.5), chMul(up, -Math.sqrt(3) / 2)));
+  var hAcid = M.at('H', chAdd(pOSgl, chMul(hAcidDir, CH_OH)));
+  M.bond(oSgl, hAcid, 1);
+  var coohAtoms = [c1, oDbl, oSgl, hAcid];
+  M.groups.g4 = { key: 'cooh', name: '–COOH', atoms: coohAtoms, main: c1, r: 1.25, col: '--s1' };
+
+  M.groupOrder = ['g1', 'g2', 'g3', 'g4'];
+  return M;
+}
+
+function chBuildPropan2ol() {
+  var M = chBuilder();
+  M.name = 'propan-2-ol'; M.isChiral = false; M.cNum = 2;
+  var c2 = M.at('C', [0, 0, 0], 2);
+  M.cL = c2;
+
+  /* G1: -OH on u1 */
+  var pO = chMul(CH_U1, CH_CO), o = M.at('O', pO);
+  M.bond(c2, o, 1);
+  var hODir = chNorm([0, Math.cos(70.5 * Math.PI / 180), -Math.sin(70.5 * Math.PI / 180)]);
+  var ho = M.at('H', chAdd(pO, chMul(hODir, CH_OH)));
+  M.bond(o, ho, 1);
+  M.groups.g1 = { key: 'oh', name: '–OH', atoms: [o, ho], main: o, r: 0.82, col: '--s2' };
+
+  /* G2: -H on u2 */
+  var h2 = M.at('H', chMul(CH_U2, CH_CH));
+  M.bond(c2, h2, 1);
+  M.groups.g2 = { key: 'h', name: '–H', atoms: [h2], main: h2, r: 0.45, col: '--s3' };
+
+  /* G3: -CH3 on u3 (C1) */
+  var me1Atoms = M.methyl(c2, CH_U3, 1, [0, 1, 0]);
+  M.groups.g3 = { key: 'me', name: '–CH₃', atoms: me1Atoms, main: me1Atoms[0], r: 0.98, col: '--s4' };
+
+  /* G4: -CH3 on u4 (C3) — identical methyl group! */
+  var me2Atoms = M.methyl(c2, CH_U4, 3, [0, 1, 0]);
+  M.groups.g4 = { key: 'me', name: '–CH₃', atoms: me2Atoms, main: me2Atoms[0], r: 0.98, col: '--s4' };
+
+  M.groupOrder = ['g1', 'g2', 'g3', 'g4'];
+  return M;
+}
+
+var CH_MOLS = {
+  butan2ol: chBuildButan2ol,
+  lactic: chBuildLactic,
+  propan2ol: chBuildPropan2ol
+};
+
+var CH_TITLES = {
+  butan2ol: ['butan-2-ol（左侧分子）', 'butan-2-ol（右侧镜像）'],
+  lactic: ['2-hydroxypropanoic acid（左侧分子）', '2-hydroxypropanoic acid（右侧镜像）'],
+  propan2ol: ['propan-2-ol（左侧分子，对照组）', 'propan-2-ol（右侧镜像）']
+};
+
+var CH_PILLS = {
+  butan2ol: ['左侧：<b>butan-2-ol</b> · C2 连有 4 个不同基团（*）', '右侧：<b>镜像</b> · 互为不可重合的 enantiomers'],
+  lactic: ['左侧：<b>lactic acid</b> · C2 连有 4 个不同基团（*）', '右侧：<b>镜像</b> · 互为不可重合的 enantiomers'],
+  propan2ol: ['左侧：<b>propan-2-ol</b> · C2 连有 2 个相同的 –CH₃', '右侧：<b>镜像</b> · 能够与左侧完全重合']
+};
+
+var ch = {
+  mode: 'butan2ol',
+  t: 0,            /* overlay progress: 0 (separated) .. 1 (superimposed) */
+  align: 0,        /* right molecule turned align × 120° about its C–OH axis (0, 1, 2) */
+  sync: true,      /* synchronous view rotation */
+  play: false,     /* animation running */
+  vis: true,
+  rotL: 0,
+  rotR: 0
+};
+
+var chApi = null, chT = null, chSlots = [], chTags = [], chMirror = null, chMirrorFrame = null;
+var CH_R = { C: 0.31, H: 0.19, O: 0.28 }, CH_BR = 0.075, CH_TAGPX = 20, CH_SEP = 3.5;
+
+function chIsDark() {
+  var c = chApi.color('--card');
+  return c.r * 0.299 + c.g * 0.587 + c.b * 0.114 < 0.45;
+}
+
+function chColors() {
+  var dark = chIsDark();
+  return {
+    C: dark ? '#707b8b' : '#474c55',
+    H: dark ? '#dde3ec' : '#d3d9e2',
+    O: '#e0362c',
+    dark: dark
+  };
+}
+
+function chDispose(g) {
+  g.traverse(function (o) {
+    if (o.geometry) o.geometry.dispose();
+    if (o.material) {
+      if (o.material.map) o.material.map.dispose();
+      o.material.dispose();
+    }
+  });
+  while (g.children.length) g.remove(g.children[0]);
+}
+
+function chSrgb(sp) {
+  var m = sp.material.map;
+  if (m) { m.colorSpace = chT.SRGBColorSpace; m.needsUpdate = true; }
+  return sp;
+}
+
+/* Build one slot (k = 0 for Left, k = 1 for Right mirror) */
+function chBuildSlot(k, id) {
+  var T = chT, api = chApi, S = chSlots[k], M = CH_MOLS[id](), col = chColors();
+  chDispose(S.hold);
+  S.M = M; S.id = id; S.isRight = (k === 1);
+  S.mol = new T.Group();
+  S.hold.add(S.mol);
+  S.meshes = []; S.bounds = []; S.halos = [];
+
+  var mats = {};
+  S.mats = []; S.haloMats = []; S.groupTags = []; S.pairs = [];
+  function mat(c) {
+    if (!mats[c]) {
+      mats[c] = new T.MeshPhongMaterial({ color: c, shininess: 60, transparent: k === 1 });
+      S.mats.push(mats[c]);
+    }
+    return mats[c];
+  }
+
+  /* Atoms: for right slot (k === 1), invert x to form exact enantiomer mirror image */
+  M.atoms.forEach(function (a, i) {
+    var p = [k === 1 ? -a.p[0] : a.p[0], a.p[1], a.p[2]];
+    var cHex = a.el === 'O' ? col.O : (a.el === 'C' ? col.C : col.H);
+    var m = new T.Mesh(new T.SphereGeometry(CH_R[a.el], 30, 22), mat(cHex));
+    m.position.fromArray(p); m.userData.i = i;
+    S.mol.add(m); S.meshes.push(m);
+
+    /* C* label on central carbon (C2) */
+    if (a.el === 'C' && a.num === 2) {
+      var tagText = M.isChiral ? 'C*' : 'C2';
+      var tagBg = M.isChiral ? '#' + api.color('--acc').getHexString() : col.C;
+      var tg = chSrgb(K3.tag(T, tagText, { color: '#ffffff', bg: tagBg, size: 0.34, bold: true }));
+      tg.position.fromArray(p); tg.userData.i = i;
+      S.mol.add(tg);
+      chTags.push({ sp: tg, slot: k, i: i, isCenter: true });
+    }
+  });
+
+  /* Bonds */
+  M.bonds.forEach(function (b) {
+    var a0 = M.atoms[b[0]], a1 = M.atoms[b[1]];
+    var p0 = [k === 1 ? -a0.p[0] : a0.p[0], a0.p[1], a0.p[2]];
+    var p1 = [k === 1 ? -a1.p[0] : a1.p[0], a1.p[1], a1.p[2]];
+    var mid = chMul(chAdd(p0, p1), 0.5);
+    var c0 = a0.el === 'O' ? col.O : (a0.el === 'C' ? col.C : col.H);
+    var c1 = a1.el === 'O' ? col.O : (a1.el === 'C' ? col.C : col.H);
+    var dbl = b[2] === 2;
+    (dbl ? [-1, 1] : [0]).forEach(function (sh) {
+      var off = [0, 0, sh * 0.095], r = dbl ? CH_BR * 0.72 : CH_BR;
+      S.mol.add(K3.rod(T, chAdd(p0, off), chAdd(mid, off), r, mat(c0)));
+      S.mol.add(K3.rod(T, chAdd(mid, off), chAdd(p1, off), r, mat(c1)));
+    });
+  });
+
+  /* Four substituent groups: colored halos & group tags */
+  M.groupOrder.forEach(function (gKey) {
+    var g = M.groups[gKey];
+    var mainAt = M.atoms[g.main];
+    var pMain = [k === 1 ? -mainAt.p[0] : mainAt.p[0], mainAt.p[1], mainAt.p[2]];
+    var gCol = api.color(g.col);
+
+    /* Colored halo sphere */
+    var haloMat = new T.MeshPhongMaterial({
+      color: gCol,
+      transparent: true,
+      opacity: col.dark ? 0.28 : 0.20,
+      depthWrite: false
+    });
+    var hMesh = new T.Mesh(new T.SphereGeometry(g.r, 26, 18), haloMat);
+    hMesh.position.fromArray(pMain);
+    hMesh.renderOrder = 4;
+    haloMat.userData.base = haloMat.opacity;
+    S.haloMats.push(haloMat);
+    S.mol.add(hMesh);
+    S.bounds.push({ p: pMain, r: g.r });
+    S.halos.push({ key: g.key, name: g.name, col: g.col, p: pMain });
+
+    /* Group tag sprite */
+    var tagBg = '#' + gCol.getHexString();
+    var sp = chSrgb(K3.tag(T, g.name, { color: '#ffffff', bg: tagBg, size: 0.30, bold: true }));
+    /* Offset tag slightly radially outward from center so it floats cleanly */
+    var dir = chNorm(pMain);
+    var pTag = chAdd(pMain, chMul(dir, g.r * 0.75));
+    sp.position.fromArray(pTag);
+    sp.userData.group = g.key;
+    S.mol.add(sp);
+    S.groupTags.push({ key: gKey, name: g.name, col: g.col, p: pMain, pTag: pTag });
+    chTags.push({ sp: sp, slot: k, isCenter: false });
+  });
+}
+
+function chBuildMirror() {
+  var T = chT, api = chApi;
+  if (chMirror) api.group.remove(chMirror);
+  if (chMirrorFrame) api.group.remove(chMirrorFrame);
+
+  var col = chColors();
+  var mirrorGeo = new T.PlaneGeometry(5.0, 4.6);
+  var mirrorMat = new T.MeshPhongMaterial({
+    color: api.color('--acc'),
+    transparent: true,
+    opacity: col.dark ? 0.16 : 0.12,
+    depthWrite: false,
+    side: T.DoubleSide
+  });
+  chMirror = new T.Mesh(mirrorGeo, mirrorMat);
+  chMirror.rotation.y = Math.PI / 2;
+  chMirror.renderOrder = 2;
+  api.group.add(chMirror);
+
+  var frameGeo = new T.EdgesGeometry(mirrorGeo);
+  var frameMat = new T.LineBasicMaterial({
+    color: api.color('--mut'),
+    transparent: true,
+    opacity: col.dark ? 0.45 : 0.35
+  });
+  chMirrorFrame = new T.LineSegments(frameGeo, frameMat);
+  chMirrorFrame.rotation.y = Math.PI / 2;
+  api.group.add(chMirrorFrame);
+}
+
+/* Projection helpers */
+function chWpp(depth) {
+  return 2 * Math.tan(20 * Math.PI / 180) * depth / (chApi.renderer.domElement.clientHeight || 420);
+}
+
+function chProj(obj, local) {
+  var v = new chT.Vector3().fromArray(local || [0, 0, 0]);
+  obj.localToWorld(v);
+  var cam = chApi.camera, el = chApi.renderer.domElement, depth = v.distanceTo(cam.position), q = v.clone().project(cam);
+  return { x: (q.x + 1) / 2 * el.clientWidth, y: (1 - q.y) / 2 * el.clientHeight, depth: depth, ppu: 1 / chWpp(depth) };
+}
+
+function chCircles(S) {
+  var out = [];
+  S.M.atoms.forEach(function (a, i) {
+    var p = [S.isRight ? -a.p[0] : a.p[0], a.p[1], a.p[2]];
+    var q = chProj(S.mol, p);
+    out.push({ x: q.x, y: q.y, r: CH_R[a.el] * q.ppu, depth: q.depth, kind: 'atom', el: a.el, i: i });
+  });
+  S.bounds.forEach(function (b) {
+    var q = chProj(S.mol, b.p);
+    out.push({ x: q.x, y: q.y, r: b.r * q.ppu, depth: q.depth, kind: 'halo' });
+  });
+  return out;
+}
+
+var chLastW = 0;
+function chSyncSize() {
+  if (!chApi) return;
+  var stage = $root.querySelector('.ch-stage');
+  if (!stage) return;
+  var w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  var el = chApi.renderer.domElement;
+  if (el.clientWidth !== w || el.clientHeight !== h || Math.abs(chApi.camera.aspect - w / h) > 0.001) {
+    chApi.renderer.setSize(w, h);
+    chApi.camera.aspect = w / h;
+    chApi.camera.updateProjectionMatrix();
+  }
+}
+
+function chBand() {
+  chSyncSize();
+  var stage = $root.querySelector('.ch-stage'), el = chApi.renderer.domElement;
+  var W = (stage && stage.clientWidth) || el.clientWidth || 600;
+  var H = (stage && stage.clientHeight) || el.clientHeight || 420;
+  var y0 = 0, y1 = H;
+  $root.querySelectorAll('.ch-t, .ch-m').forEach(function (t) {
+    if (t.offsetParent !== null) y0 = Math.max(y0, t.offsetTop + t.offsetHeight + 8);
+  });
+  $root.querySelectorAll('.ch-p').forEach(function (t) {
+    if (t.offsetParent !== null) y1 = Math.min(y1, t.offsetTop - 8);
+  });
+  return { x0: 8, x1: W - 8, y0: y0, y1: y1, W: W, H: H };
+}
+
+function chBBox() {
+  var bb = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 };
+  chSlots.forEach(function (S) {
+    chCircles(S).forEach(function (c) {
+      bb.x0 = Math.min(bb.x0, c.x - c.r); bb.x1 = Math.max(bb.x1, c.x + c.r);
+      bb.y0 = Math.min(bb.y0, c.y - c.r); bb.y1 = Math.max(bb.y1, c.y + c.r);
+    });
+  });
+  return bb;
+}
+
+function chViewRaw() {
+  var api = chApi;
+  if (!api) return;
+  /* the whole rig (both molecules + the mirror plane) turns together, so the right molecule is
+     always the true reflection of the left one through the drawn mirror. With sync off, each
+     molecule may also turn on its own about the rig's vertical axis through its C2. */
+  api.group.rotation.set(api.rx, api.ry, 0);
+  chSlots.forEach(function (S, k) {
+    var extra = (ch.sync || ch.t > 0) ? 0 : (k === 0 ? ch.rotL : ch.rotR);
+    S.hold.rotation.set(0, extra, 0);
+  });
+  api.camera.position.set(0, 0, api.dist);
+  api.camera.lookAt(0, 0, 0);
+  api.scene.updateMatrixWorld(true);
+}
+
+function chFit() {
+  var api = chApi;
+  if (!api) return;
+  api.scene.position.set(0, 0, 0);
+  for (var it = 0; it < 5; it++) {
+    chViewRaw();
+    var band = chBand(), bb = chBBox();
+    var k = Math.max((bb.x1 - bb.x0) / (band.x1 - band.x0), (bb.y1 - bb.y0) / (band.y1 - band.y0));
+    api.dist = Math.max(4, Math.min(60, api.dist * k * 1.02));
+    chViewRaw();
+    bb = chBBox();
+    var w = chWpp(api.dist);
+    api.scene.position.x -= ((bb.x0 + bb.x1) / 2 - (band.x0 + band.x1) / 2) * w;
+    api.scene.position.y += ((bb.y0 + bb.y1) / 2 - (band.y0 + band.y1) / 2) * w;
+  }
+  chViewRaw();
+  api.dist0 = api.dist;
+}
+
+function chTagsUpdate() {
+  var v = new chT.Vector3(), cam = chApi.camera, over = ch.t >= 0.85;
+  chTags.forEach(function (t) {
+    if (t.pair) t.sp.visible = over;
+    else if (!t.isCenter) t.sp.visible = !over;
+    t.sp.getWorldPosition(v);
+    K3.tagSize(t.sp, CH_TAGPX * chWpp(v.distanceTo(cam.position)));
+  });
+  chSlots.forEach(function (S, k) {
+    if (!S.M) return;
+    var cs = chCircles(S).filter(function (c) { return c.kind === 'atom'; });
+    chTags.forEach(function (t) {
+      if (t.slot !== k || !t.isCenter) return;
+      var me = cs[t.i];
+      t.sp.visible = !(over && k === 1) && !cs.some(function (o) {
+        return o.i !== t.i && o.depth < me.depth - 0.05 && Math.hypot(o.x - me.x, o.y - me.y) < o.r + 4;
+      });
+    });
+  });
+}
+
+function chRender() {
+  if (!chApi) return;
+  chViewRaw();
+  chTagsUpdate();
+  chApi.render();
+}
+
+function chApplyOverlay() {
+  if (!chSlots.length) return;
+  var S0 = chSlots[0], S1 = chSlots[1];
+  /* both molecules slide along the mirror normal and meet at the mirror (t = 1) */
+  S0.hold.position.x = -CH_SEP * (1 - ch.t);
+  S1.hold.position.x = CH_SEP * (1 - ch.t);
+  if (ch.t > 0) { ch.rotL = 0; ch.rotR = 0; }
+
+  /* right molecule turned align × 120° about its own C–OH axis (local y) */
+  if (S1.mol) {
+    S1.mol.rotation.set(0, 0, 0);
+    if (ch.align) S1.mol.rotateOnAxis(new chT.Vector3(0, 1, 0), ch.align * 120 * Math.PI / 180);
+  }
+
+  /* the moving mirror image becomes a ghost, its halos fade, so the original stays readable */
+  if (S1.mats) S1.mats.forEach(function (m) { m.opacity = 1 - 0.55 * ch.t; m.depthWrite = ch.t < 0.05; });
+  if (S1.haloMats) S1.haloMats.forEach(function (m) { m.opacity = m.userData.base * (1 - ch.t); });
+
+  /* Fade mirror plane as overlay progresses */
+  var col = chColors();
+  if (chMirror) {
+    chMirror.material.opacity = (col.dark ? 0.16 : 0.12) * Math.max(0, 1 - ch.t * 1.5);
+    chMirror.visible = ch.t < 0.95;
+  }
+  if (chMirrorFrame) {
+    chMirrorFrame.material.opacity = (col.dark ? 0.45 : 0.35) * Math.max(0, 1 - ch.t * 1.5);
+    chMirrorFrame.visible = ch.t < 0.95;
+  }
+
+  chPairTags();
+  chUpdateStatus();
+}
+
+/* Which group of the mirror image lands on each group of the original? Measured from the actual
+   3D positions (relative to each C2), so the verdict always matches what is drawn. */
+function chMapping() {
+  if (!chSlots.length || !chSlots[0].groupTags) return [];
+  var S0 = chSlots[0], S1 = chSlots[1], V = chT.Vector3;
+  chApi.scene.updateMatrixWorld(true);
+  function rel(S, p) {
+    var c = S.mol.localToWorld(new V(0, 0, 0));
+    return S.mol.localToWorld(new V().fromArray(p)).sub(c);
+  }
+  var R = S1.groupTags.map(function (g) { return { g: g, w: rel(S1, g.p) }; });
+  return S0.groupTags.map(function (g) {
+    var w = rel(S0, g.p), best = null, bd = 1e9;
+    R.forEach(function (r) { var d = r.w.distanceTo(w); if (d < bd) { bd = d; best = r.g; } });
+    return { key: g.key, l: g.name, r: best.name, same: best.name === g.name, d: bd, col: g.col, pTag: g.pTag };
+  });
+}
+
+var chPairKey = '';
+function chPairTags() {
+  var S0 = chSlots[0];
+  if (!S0 || !S0.mol) return;
+  var map = chMapping();
+  var key = ch.mode + '|' + map.map(function (m) { return m.l + '>' + m.r; }).join(',');
+  if (key === chPairKey && S0.pairs && S0.pairs.length && S0.pairs[0].parent === S0.mol) return;
+  chPairKey = key;
+  (S0.pairs || []).forEach(function (sp) {
+    if (sp.parent) sp.parent.remove(sp);
+    if (sp.material.map) sp.material.map.dispose();
+    sp.material.dispose();
+  });
+  chTags = chTags.filter(function (t) { return !t.pair; });
+  S0.pairs = [];
+  map.forEach(function (m) {
+    var txt = m.same ? m.l + ' ✓' : m.l + ' ≠ ' + m.r;
+    var bg = '#' + chApi.color(m.same ? m.col : '--bad').getHexString();
+    var sp = chSrgb(K3.tag(chT, txt, { color: '#ffffff', bg: bg, size: 0.30, bold: true }));
+    sp.position.fromArray(m.pTag);
+    sp.visible = ch.t >= 0.85;
+    S0.mol.add(sp);
+    S0.pairs.push(sp);
+    chTags.push({ sp: sp, slot: 0, isCenter: false, pair: true, same: m.same });
+  });
+}
+
+function chUpdateStatus() {
+  var mId = ch.mode;
+  var M = CH_MOLS[mId]();
+  var isOver = ch.t >= 0.85;
+  var res = $root.querySelector('.ch-res');
+  var mOv = $root.querySelector('.ch-ov.ch-m');
+  if (mOv) mOv.style.display = ch.t > 0.5 ? 'none' : 'block';
+  $root.querySelectorAll('.ch-p').forEach(function (p) { p.style.display = isOver ? 'none' : 'block'; });
+
+  if (!isOver) {
+    res.className = 'ch-res ch-3donly';
+    res.innerHTML = '把右边的镜像移过来，叠到左边的分子上：拖上面的滑块，或按 ▶ 试着重合。';
+    $root.setAttribute('data-super', 'separate');
+  } else {
+    var map = chMapping();
+    var ok = map.filter(function (m) { return m.same; }).map(function (m) { return m.l; });
+    var bad = map.filter(function (m) { return !m.same; }).map(function (m) { return m.l; });
+    var turn = ch.align ? '镜像绕 C–OH 轴转了 ' + (ch.align * 120) + '°：' : '';
+    if (!bad.length) {
+      res.className = 'ch-res ch-3donly ch-good';
+      res.innerHTML = '<b>✓ 能完全重合（superimposable）</b><br>4 个基团全部对齐：propan-2-ol 有 plane of symmetry，镜像就是它自己，<b>没有 enantiomers</b>。';
+      $root.setAttribute('data-super', 'yes');
+    } else {
+      res.className = 'ch-res ch-3donly ch-bad';
+      res.innerHTML = '<b>✗ 不能重合（non-superimposable）</b><br>' + turn + ok.join('、') + ' 对齐了，但 ' + bad.join(' 和 ') +
+        ' 互换了位置。' + (ch.align < 2 ? '再按「↺ 绕 C–OH 轴转 120° 再试」看看——' : '三个角度都试过了：') +
+        '最多只能同时对齐 2 个基团，所以它和镜像是一对 <b>enantiomers</b>。';
+      $root.setAttribute('data-super', 'no');
+    }
+  }
+
+  /* Hud text */
+  var hud = $root.querySelector('.ch-hud');
+  if (M.isChiral) {
+    var g4N = mId === 'butan2ol' ? '–C₂H₅' : '–COOH';
+    hud.innerHTML = '<b class="ch-k-star">C*</b> chiral centre · <b style="color:var(--s2)">●</b> –OH · <b style="color:var(--s3)">●</b> –H · <b style="color:var(--s4)">●</b> –CH₃ · <b style="color:var(--s1)">●</b> ' + g4N + ' · ┄ 镜面';
+  } else {
+    hud.innerHTML = '<b class="ch-k-c">C2</b> achiral · <b style="color:var(--s2)">●</b> –OH · <b style="color:var(--s3)">●</b> –H · <b style="color:var(--s4)">●</b> 2 个相同的 –CH₃ · ┄ 镜面';
+  }
+
+  /* Titles and pills */
+  $root.querySelector('.ch-t.ch-l').innerHTML = CH_TITLES[mId][0];
+  $root.querySelector('.ch-t.ch-r').innerHTML = CH_TITLES[mId][1];
+  $root.querySelector('.ch-p.ch-l').innerHTML = CH_PILLS[mId][0];
+  $root.querySelector('.ch-p.ch-r').innerHTML = CH_PILLS[mId][1];
+
+  var hudH = hud ? hud.offsetHeight : 26;
+  var titleH = 0;
+  $root.querySelectorAll('.ch-t').forEach(function (t) {
+    t.style.top = (hudH + 8) + 'px';
+    titleH = Math.max(titleH, t.offsetHeight || 22);
+  });
+  if (mOv) {
+    mOv.style.top = (hudH + 8 + titleH + 6) + 'px';
+  }
+
+  /* Slider readout */
+  var pct = Math.round(ch.t * 100);
+  var sl = $root.querySelector('.ch-r-t');
+  if (sl && +sl.value !== pct) sl.value = pct;
+  var txt = $root.querySelector('.ch-val-t');
+  if (txt) txt.textContent = pct === 0 ? '0%（分开）' : (pct === 100 ? '100%（叠合）' : pct + '%');
+
+  $root.setAttribute('data-overlay', String(pct));
+  $root.setAttribute('data-mode3d', ch.mode);
+}
+
+function chBuildAll(fit) {
+  if (!chApi) return;
+  chTags = [];
+  chSlots.forEach(function (S, k) { chBuildSlot(k, ch.mode); });
+  chBuildMirror();
+  chApplyOverlay();
+  if (fit) {
+    /* seen a little from below: the C2–H bond points down-back instead of hiding behind C* */
+    chApi.rx = -0.38; chApi.ry = -0.16; chApi.dist = 12;
+    chApi.rx0 = chApi.rx; chApi.ry0 = chApi.ry;
+    chFit();
+  }
+  chRender();
+}
+
+/* ---------- 2D ChemFig Lazy Highlighting ---------- */
+var chHlDone = {};
+function chLazyHl() {
+  $root.querySelectorAll('[data-pane].show .ch-f').forEach(function (card) {
+    var f = card.getAttribute('data-f'), svg = card.querySelector('svg.cf');
+    if (!svg || chHlDone[f]) return;
+    chHlDone[f] = 1;
+    KO.scale(svg, 1.25);
+    KO.hl(svg, ['c2'], 'acc');
+  });
+}
+
+/* ---------- Tabs & Navigation ---------- */
+$root.addEventListener('tab', function (e) {
+  ch.mode = e.detail;
+  chSetPlay(false);
+  ch.t = 0;
+  ch.align = 0;
+  $root.querySelector('.ch-align-btn').classList.remove('on');
+  $root.querySelector('.ch-align-btn').hidden = (ch.mode === 'propan2ol');
+  chLazyHl();
+  chBuildAll(true);
+});
+K.init($root);
+
+/* ---------- Controls ---------- */
+var chSlider = $root.querySelector('.ch-r-t');
+if (chSlider) {
+  chSlider.addEventListener('input', function () {
+    chSetPlay(false);
+    ch.t = (+chSlider.value) / 100;
+    chApplyOverlay();
+    chRender();
+  });
+}
+
+function chSetPlay(on) {
+  ch.play = on;
+  var b = $root.querySelector('.ch-overlay-btn');
+  b.classList.toggle('on', on);
+  b.textContent = on ? '❚❚ 暂停' : (ch.t >= 0.95 ? '◀ 分开' : '▶ 试着重合（平移叠合）');
+}
+
+$root.querySelector('.ch-overlay-btn').addEventListener('click', function () {
+  if (ch.play) {
+    chSetPlay(false);
+  } else {
+    if (ch.t >= 0.95) {
+      /* Reset back to 0 */
+      ch.t = 0;
+      chApplyOverlay();
+      chRender();
+      chSetPlay(false);
+    } else {
+      chSetPlay(true);
+    }
+  }
+});
+
+$root.querySelector('.ch-align-btn').addEventListener('click', function () {
+  ch.align = (ch.align + 1) % 3;
+  this.classList.toggle('on', ch.align > 0);
+  chApplyOverlay();
+  chRender();
+});
+
+$root.querySelector('.ch-reset-trans').addEventListener('click', function () {
+  chSetPlay(false);
+  ch.t = 0;
+  ch.align = 0;
+  $root.querySelector('.ch-align-btn').classList.remove('on');
+  chApplyOverlay();
+  chRender();
+});
+
+var chSyncBox = $root.querySelector('.ch-sync');
+if (chSyncBox) {
+  chSyncBox.addEventListener('change', function () {
+    ch.sync = chSyncBox.checked;
+    if (ch.sync) { ch.rotL = 0; ch.rotR = 0; }
+    $root.setAttribute('data-sync', ch.sync ? '1' : '0');
+    chRender();
+  });
+}
+
+/* Animation Loop */
+(function () {
+  var last = null;
+  function loop(now) {
+    if (ch.play && ch.vis && document.visibilityState !== 'hidden') {
+      if (last != null) {
+        var dt = Math.min(50, now - last) / 1000;
+        ch.t = Math.min(1.0, ch.t + dt * 0.85);
+        chApplyOverlay();
+        chRender();
+        if (ch.t >= 1.0) chSetPlay(false);
+      }
+      last = now;
+    } else {
+      last = null;
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+if (window.IntersectionObserver) new IntersectionObserver(function (es) {
+  es.forEach(function (e) { ch.vis = e.isIntersecting; });
+}).observe($root);
+
+/* ---------- Three.js initialization via K3 ---------- */
+K3.start($root, function (T, api) {
+  chT = T; chApi = api;
+  [-1, 1].forEach(function (s) {
+    var hold = new T.Group();
+    hold.position.x = s * CH_SEP;
+    api.group.add(hold);
+    chSlots.push({ hold: hold });
+  });
+
+  api.view = function () {
+    chRender();
+  };
+
+  /* Independent pointer drag when sync rotation is unchecked */
+  var cv = api.renderer.domElement, pDrag = null;
+  cv.addEventListener('pointerdown', function (e) {
+    if (ch.sync || ch.t > 0) return;
+    var r = cv.getBoundingClientRect();
+    var isRight = (e.clientX - r.left) > r.width / 2;
+    pDrag = { x: e.clientX, isRight: isRight };
+    cv.setPointerCapture(e.pointerId);
+    e.stopImmediatePropagation();
+  }, true);
+  cv.addEventListener('pointermove', function (e) {
+    if (!pDrag || ch.sync) return;
+    var dx = e.clientX - pDrag.x;
+    pDrag.x = e.clientX;
+    if (pDrag.isRight) ch.rotR += dx * 0.01;
+    else ch.rotL += dx * 0.01;
+    chRender();
+    e.stopImmediatePropagation();
+  }, true);
+  cv.addEventListener('pointerup', function (e) {
+    if (pDrag) {
+      pDrag = null;
+      e.stopImmediatePropagation();
+    }
+  }, true);
+
+  $root.querySelectorAll('[data-3d=reset]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      ch.rotL = 0;
+      ch.rotR = 0;
+      chRender();
+    });
+  });
+
+  chBuildAll(true);
+
+  if (window.ResizeObserver) {
+    var stage = $root.querySelector('.ch-stage');
+    chLastW = stage ? stage.clientWidth : 0;
+    var rAF = null;
+    new ResizeObserver(function (entries) {
+      var st = entries && entries[0] ? entries[0].target : stage;
+      var w = st ? st.clientWidth : 0;
+      if (!w || Math.abs(w - chLastW) < 2) return;
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(function () {
+        rAF = null;
+        var curW = stage ? stage.clientWidth : 0;
+        if (!curW || Math.abs(curW - chLastW) < 2) return;
+        chLastW = curW;
+        chSyncSize();
+        chBuildAll(true);
+      });
+    }).observe(stage);
+  }
+});
+
+/* ---------- Test Hooks ---------- */
+$root.__ch = {
+  state: ch,
+  setMode: function (m) {
+    ch.mode = m;
+    ch.t = 0;
+    ch.align = 0;
+    var btn = $root.querySelector('.ch-modes button[data-tab="' + m + '"]');
+    if (btn) btn.click();
+    else {
+      $root.querySelectorAll('.ch-modes button').forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('data-tab') === m);
+      });
+      $root.querySelectorAll('[data-pane]').forEach(function (p) {
+        p.classList.toggle('show', p.getAttribute('data-pane') === m);
+      });
+      chLazyHl();
+      chBuildAll(true);
+    }
+  },
+  setOverlay: function (t) {
+    ch.t = Math.max(0, Math.min(1, t));
+    chApplyOverlay();
+    chRender();
+  },
+  setAlign: function (n) {
+    ch.align = n === true ? 1 : ((+n || 0) % 3);
+    $root.querySelector('.ch-align-btn').classList.toggle('on', ch.align > 0);
+    chApplyOverlay();
+    chRender();
+  },
+  world: function () {
+    /* world positions of every atom of both slots + the mirror plane (point, unit normal) */
+    if (!chApi) return null;
+    chViewRaw();
+    var V = chT.Vector3;
+    var slots = chSlots.map(function (S) {
+      return S.M.atoms.map(function (a) {
+        return S.mol.localToWorld(new V(S.isRight ? -a.p[0] : a.p[0], a.p[1], a.p[2])).toArray();
+      });
+    });
+    var o = chApi.group.localToWorld(new V(0, 0, 0)), n = chApi.group.localToWorld(new V(1, 0, 0)).sub(o).normalize();
+    return { slots: slots, mirror: { p: o.toArray(), n: n.toArray() } };
+  },
+  mapping: function () {
+    return chMapping().map(function (m) { return { l: m.l, r: m.r, same: m.same, d: m.d }; });
+  },
+  setSync: function (on) {
+    ch.sync = !!on;
+    if (ch.sync) { ch.rotL = 0; ch.rotR = 0; }
+    var b = $root.querySelector('.ch-sync');
+    if (b) b.checked = ch.sync;
+    $root.setAttribute('data-sync', ch.sync ? '1' : '0');
+    chRender();
+  },
+  geom: function (id) {
+    var M = CH_MOLS[id]();
+    return {
+      atoms: M.atoms,
+      bonds: M.bonds,
+      groups: M.groups,
+      cL: M.cL,
+      cNum: M.cNum,
+      isChiral: M.isChiral,
+      name: M.name
+    };
+  },
+  slotHash: function (k) {
+    if (!chApi) return null;
+    chRender();
+    var cv = chApi.renderer.domElement;
+    var W = cv.width, H = cv.height;
+    var halfW = Math.max(1, Math.floor(W / 2));
+    var c2 = document.createElement('canvas');
+    c2.width = halfW; c2.height = H;
+    var g2 = c2.getContext('2d');
+    g2.drawImage(cv, k === 0 ? 0 : halfW, 0, halfW, H, 0, 0, halfW, H);
+    var u = c2.toDataURL();
+    var mid = Math.floor(u.length / 2);
+    return u.length + ':' + u.slice(mid - 80, mid + 80) + ':' + u.slice(-120);
+  },
+  layout: function () {
+    if (!chApi) return null;
+    var stage = $root.querySelector('.ch-stage');
+    var w = stage ? stage.clientWidth : 0;
+    if (w && Math.abs(w - chLastW) >= 2) {
+      chLastW = w;
+      chSyncSize();
+      chBuildAll(true);
+    } else {
+      chSyncSize();
+      chViewRaw();
+    }
+    var el = chApi.renderer.domElement, cr = el.getBoundingClientRect();
+    function rel(n) {
+      if (!n || !n.getBoundingClientRect) return null;
+      var st = getComputedStyle(n);
+      if (st.display === 'none' || st.visibility === 'hidden' || parseFloat(st.opacity) === 0) return null;
+      var r = n.getBoundingClientRect();
+      if (!r.width || !r.height) return null;
+      return { x: r.left - cr.left, y: r.top - cr.top, w: r.width, h: r.height, text: n.textContent };
+    }
+    var slots = chSlots.map(function (S) {
+      return {
+        id: S.id,
+        isRight: S.isRight,
+        circles: chCircles(S),
+        bounds: S.bounds.slice(),
+        halos: S.halos.slice(),
+        atoms: S.M.atoms.map(function (a) {
+          return { el: a.el, num: a.num, p: [S.isRight ? -a.p[0] : a.p[0], a.p[1], a.p[2]] };
+        })
+      };
+    });
+    chTagsUpdate();
+    var tags = chTags.map(function (t) {
+      var q = chProj(t.sp.parent, t.sp.position.toArray());
+      var h = t.sp.scale.y * q.ppu, w = t.sp.scale.x * q.ppu;
+      return { slot: t.slot, isCenter: t.isCenter, pair: !!t.pair, visible: t.sp.visible, x: q.x - w / 2, y: q.y - h / 2, w: w, h: h };
+    });
+    var ovs = Array.prototype.map.call($root.querySelectorAll('.ch-ov'), rel).filter(Boolean);
+    return {
+      W: el.clientWidth,
+      H: el.clientHeight,
+      slots: slots,
+      tags: tags,
+      mirror: { visible: chMirror ? chMirror.visible : false, opacity: chMirror ? chMirror.material.opacity : 0 },
+      overlays: ovs,
+      hud: rel($root.querySelector('.ch-hud'))
+    };
+  }
+};
+</script>
