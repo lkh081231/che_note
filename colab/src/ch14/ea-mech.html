@@ -397,6 +397,7 @@
     hostHx.innerHTML = '';
     var steps = getHxSteps(curAlk, examHx);
     playerHx = KO.mech(hostHx, steps, { exam: examHx, scale: 1.5 });
+    hxInited = true;
   }
 
   function ensureHx() {
@@ -426,8 +427,6 @@
   /* ================= 3. Init tabs and players ================= */
   K.init($root);
   renderHalogen();
-  renderHx();
-  hxInited = true;
 
   function onTab(id) {
     if (id === 'hx') {
