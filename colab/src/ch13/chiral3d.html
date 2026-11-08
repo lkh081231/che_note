@@ -553,6 +553,14 @@ function chBBox() {
       bb.y0 = Math.min(bb.y0, c.y - c.r); bb.y1 = Math.max(bb.y1, c.y + c.r);
     });
   });
+  chTags.forEach(function (t) {
+    if (!t.sp || !t.sp.parent) return;
+    var q = chProj(t.sp.parent, t.sp.position.toArray());
+    if (!isFinite(q.x) || !isFinite(q.y)) return;
+    var h = CH_TAGPX, w = CH_TAGPX * (t.sp.userData.aspect || 1);
+    bb.x0 = Math.min(bb.x0, q.x - w / 2); bb.x1 = Math.max(bb.x1, q.x + w / 2);
+    bb.y0 = Math.min(bb.y0, q.y - h / 2); bb.y1 = Math.max(bb.y1, q.y + h / 2);
+  });
   return bb;
 }
 
