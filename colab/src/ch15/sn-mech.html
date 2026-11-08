@@ -1,0 +1,657 @@
+<h3>🔬 S<sub>N</sub>1 与 S<sub>N</sub>2 分步机理与动力学</h3>
+<p class="mut">
+  卤代烷的亲核取代反应（nucleophilic substitution）依结构走两套截然不同的机理：<b>1° 卤代烷走一步完成的 S<sub>N</sub>2</b>（背部进攻，经过渡态）；<b>3° 卤代烷走分步的 S<sub>N</sub>1</b>（C–Br 先断裂成平面叔碳正离子）；<b>2° 卤代烷则为两者混合</b>。切换底物与试剂，观察空间构型、离去基团、正诱导效应（+I）与 Cambridge 9701 核心评分要点。
+</p>
+
+<div class="sn-wrap">
+  <!-- 控制栏 -->
+  <div class="card sn-ctrl-card">
+    <div class="sn-ctrl-row">
+      <span class="sn-ctrl-lbl faint">底物（substrate）：</span>
+      <div class="sn-btn-grp" id="sn-sub-btns">
+        <button type="button" class="sn-btn on" data-sub="et_br">bromoethane (1°)</button>
+        <button type="button" class="sn-btn" data-sub="bu1_br">1-bromobutane (1°)</button>
+        <button type="button" class="sn-btn" data-sub="bu2_br">2-bromobutane (2°)</button>
+        <button type="button" class="sn-btn" data-sub="tbu_br">2-bromo-2-methylpropane (3°)</button>
+      </div>
+    </div>
+
+    <div class="sn-ctrl-row">
+      <span class="sn-ctrl-lbl faint">亲核试剂（nucleophile）：</span>
+      <div class="sn-btn-grp" id="sn-nu-btns">
+        <button type="button" class="sn-btn on" data-nu="oh">OH⁻ (NaOH(aq) and heat)</button>
+        <button type="button" class="sn-btn" data-nu="cn">CN⁻ (KCN in ethanol and heat)</button>
+        <button type="button" class="sn-btn" data-nu="nh3">NH₃ (NH₃ in ethanol under pressure)</button>
+      </div>
+    </div>
+
+    <div class="sn-ctrl-row sn-ctrl-sub">
+      <div class="sn-mech-selector">
+        <span class="sn-ctrl-lbl faint">机理路径：</span>
+        <button type="button" class="sn-btn sn-mbtn on" data-m="sn2">S<sub>N</sub>2</button>
+        <button type="button" class="sn-btn sn-mbtn" data-m="sn1">S<sub>N</sub>1</button>
+        <span class="sn-mech-badge" id="sn-mech-badge">1° 卤代烷 → 主导 S<sub>N</sub>2 机理</span>
+      </div>
+
+      <div class="sn-mode-selector">
+        <label class="sn-opt-lbl faint">
+          <input type="checkbox" id="sn-exam-toggle"> 考卷模式（隐藏箭头，点起点与终点）
+        </label>
+        <label class="sn-opt-lbl faint" id="sn-ts-lbl">
+          <input type="checkbox" id="sn-ts-toggle" checked> 包含过渡态步骤 (TS)
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主播放器容器 -->
+  <div class="sn-player-host"></div>
+
+  <!-- 速率方程与反应条件信息卡片 -->
+  <div class="grid2 sn-extra-grid">
+    <div class="card sn-rate-card">
+      <div class="sn-card-hdr">
+        <h4>⚡ 反应速率方程（Rate equation）</h4>
+        <span class="sn-badge" id="sn-rate-type">二级反应（Bimolecular）</span>
+      </div>
+      <div class="sn-rate-eq" id="sn-rate-eq"><code>rate = <i>k</i> [RX] [Nu⁻]</code></div>
+      <p class="sn-rate-desc mut" id="sn-rate-desc">
+        决速步为双分子碰撞（底物与亲核试剂），反应速率同时取决于 [RX] 和 [Nu⁻]。<br>
+        <span class="faint">（注：此处展示速率方程形式，详细动力学与反应级数属于 A Level 深入内容，AS 阶段只需记住 S<sub>N</sub>2 的「2」代表双分子决速步）</span>
+      </p>
+    </div>
+
+    <div class="card sn-rxn-card">
+      <div class="sn-card-hdr">
+        <h4>🧪 反应方程式与试剂条件</h4>
+        <span class="sn-badge" id="sn-rxn-type">hydrolysis → alcohol</span>
+      </div>
+      <div class="sn-rxn-eq" id="sn-rxn-eq"><code>CH₃CH₂Br + OH⁻ → CH₃CH₂OH + Br⁻</code></div>
+      <p class="sn-rxn-cond faint" id="sn-rxn-cond">
+        试剂与条件：<b>NaOH(aq) and heat</b>（reflux）；生成醇。
+      </p>
+    </div>
+  </div>
+
+  <!-- 机理机理深度分析（过渡态 vs 碳正离子稳定性） -->
+  <div class="card sn-analysis-card" id="sn-analysis-card">
+    <div class="sn-analysis-content" id="sn-analysis-content"></div>
+  </div>
+</div>
+
+<div class="ko-src" hidden>
+  <!-- nucleophiles -->
+  <div data-p="nu_oh">{{chemfig \chemfig{H-@{o}O}}}</div>
+  <div data-p="nu_cn">{{chemfig \chemfig{@{n}N~@{cn}C}}}</div>
+  <div data-p="nu_nh3">{{chemfig \chemfig{@{n}H_3N}}}</div>
+
+  <!-- S_N2 substrates -->
+  <div data-p="sub_et_br">{{chemfig \chemfig{@{c1}C(-[2]CH_3)(<[:240]H)(<:[:300]H)-[,1.3]@{br}Br}}}</div>
+  <div data-p="sub_bu1_br">{{chemfig \chemfig{@{c1}C(-[2]CH_2CH_2CH_3)(<[:240]H)(<:[:300]H)-[,1.3]@{br}Br}}}</div>
+  <div data-p="sub_bu2_br">{{chemfig \chemfig{@{c2}C(-[2]CH_2CH_3)(<[:240]H)(<:[:300]CH_3)-[,1.3]@{br}Br}}}</div>
+
+  <!-- S_N1 substrates (Step 1) -->
+  <div data-p="sub_tbu_br">{{chemfig \chemfig{@{c}C(-[2]CH_3)(-[4]H_3C)(-[6]CH_3)-[,1.3]@{br}Br}}}</div>
+  <div data-p="sub_bu2_br_sn1">{{chemfig \chemfig{@{c2}C(-[2]H)(-[4]H_3C)(-[6]CH_2CH_3)-[,1.3]@{br}Br}}}</div>
+
+  <!-- S_N1 carbocation intermediates (Step 2) -->
+  <div data-p="cat_tbu">{{chemfig \chemfig{@{c}C(-[2]@{m1}CH_3)(-[:210]@{m2}H_3C)-[:-30]@{m3}CH_3}}}</div>
+  <div data-p="cat_bu2">{{chemfig \chemfig{@{c2}C(-[2]H)(-[:210]@{m1}H_3C)-[:-30]@{m2}CH_2CH_3}}}</div>
+
+  <!-- S_N1 NH3 intermediate (Step 3: protonated amine) -->
+  <div data-p="int_tbu_nh3">{{chemfig \chemfig{@{c}C(-[2]CH_3)(-[4]H_3C)(-[6]CH_3)-[,1.3]@{n}N(-[2]H)(-[6]H)-[,1.1]@{h}H}}}</div>
+  <div data-p="int_bu2_nh3">{{chemfig \chemfig{@{c2}C(-[2]H)(-[:210]H_3C)(-[:-30]CH_2CH_3)-[,1.3]@{n}N(-[2]H)(-[6]H)-[,1.1]@{h}H}}}</div>
+
+  <!-- S_N2 Transition States -->
+  <div data-p="ts_et_oh">{{chemfig \chemfig{@{o}HO-[,1.3]@{c1}C(-[2]CH_3)(-[:240]H)(-[:300]H)-[,1.3]@{br}Br}}}</div>
+  <div data-p="ts_et_cn">{{chemfig \chemfig{@{n}N~@{cn}C-[,1.3]@{c1}C(-[2]CH_3)(-[:240]H)(-[:300]H)-[,1.3]@{br}Br}}}</div>
+  <div data-p="ts_et_nh3">{{chemfig \chemfig{@{n}H_3N-[,1.3]@{c1}C(-[2]CH_3)(-[:240]H)(-[:300]H)-[,1.3]@{br}Br}}}</div>
+
+  <div data-p="ts_bu1_oh">{{chemfig \chemfig{@{o}HO-[,1.3]@{c1}C(-[2]CH_2CH_2CH_3)(-[:240]H)(-[:300]H)-[,1.3]@{br}Br}}}</div>
+  <div data-p="ts_bu1_cn">{{chemfig \chemfig{@{n}N~@{cn}C-[,1.3]@{c1}C(-[2]CH_2CH_2CH_3)(-[:240]H)(-[:300]H)-[,1.3]@{br}Br}}}</div>
+  <div data-p="ts_bu1_nh3">{{chemfig \chemfig{@{n}H_3N-[,1.3]@{c1}C(-[2]CH_2CH_2CH_3)(-[:240]H)(-[:300]H)-[,1.3]@{br}Br}}}</div>
+
+  <div data-p="ts_bu2_oh">{{chemfig \chemfig{@{o}HO-[,1.3]@{c2}C(-[2]CH_2CH_3)(-[:240]H)(-[:300]CH_3)-[,1.3]@{br}Br}}}</div>
+  <div data-p="ts_bu2_cn">{{chemfig \chemfig{@{n}N~@{cn}C-[,1.3]@{c2}C(-[2]CH_2CH_3)(-[:240]H)(-[:300]CH_3)-[,1.3]@{br}Br}}}</div>
+  <div data-p="ts_bu2_nh3">{{chemfig \chemfig{@{n}H_3N-[,1.3]@{c2}C(-[2]CH_2CH_3)(-[:240]H)(-[:300]CH_3)-[,1.3]@{br}Br}}}</div>
+
+  <!-- Products -->
+  <div data-p="prod_et_oh">{{chemfig \chemfig{CH_3-@{c1}C(-[2]H)(-[6]H)-OH}}}</div>
+  <div data-p="prod_et_cn">{{chemfig \chemfig{CH_3-@{c1}C(-[2]H)(-[6]H)-C~N}}}</div>
+  <div data-p="prod_et_nh3">{{chemfig \chemfig{CH_3-@{c1}C(-[2]H)(-[6]H)-NH_2}}}</div>
+
+  <div data-p="prod_bu1_oh">{{chemfig \chemfig{CH_3CH_2CH_2-@{c1}C(-[2]H)(-[6]H)-OH}}}</div>
+  <div data-p="prod_bu1_cn">{{chemfig \chemfig{CH_3CH_2CH_2-@{c1}C(-[2]H)(-[6]H)-C~N}}}</div>
+  <div data-p="prod_bu1_nh3">{{chemfig \chemfig{CH_3CH_2CH_2-@{c1}C(-[2]H)(-[6]H)-NH_2}}}</div>
+
+  <div data-p="prod_bu2_oh">{{chemfig \chemfig{CH_3CH_2-@{c2}C(-[2]OH)(-[6]H)-CH_3}}}</div>
+  <div data-p="prod_bu2_cn">{{chemfig \chemfig{CH_3CH_2-@{c2}C(-[2]C~N)(-[6]H)-CH_3}}}</div>
+  <div data-p="prod_bu2_nh3">{{chemfig \chemfig{CH_3CH_2-@{c2}C(-[2]NH_2)(-[6]H)-CH_3}}}</div>
+
+  <div data-p="prod_tbu_oh">{{chemfig \chemfig{@{c}C(-[2]CH_3)(-[4]H_3C)(-[6]CH_3)-OH}}}</div>
+  <div data-p="prod_tbu_cn">{{chemfig \chemfig{@{c}C(-[2]CH_3)(-[4]H_3C)(-[6]CH_3)-C~N}}}</div>
+  <div data-p="prod_tbu_nh3">{{chemfig \chemfig{@{c}C(-[2]CH_3)(-[4]H_3C)(-[6]CH_3)-NH_2}}}</div>
+
+  <!-- Halide ion -->
+  <div data-p="br_ion">{{chemfig \chemfig{@{br}Br}}}</div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .sn-wrap{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.k .sn-ctrl-card{padding:10px 14px}
+.k .sn-ctrl-row{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin:4px 0}
+.k .sn-ctrl-sub{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px;justify-content:space-between}
+.k .sn-ctrl-lbl{font-size:13.5px;min-width:140px}
+.k .sn-btn-grp{display:inline-flex;flex-wrap:wrap;gap:6px}
+.k .sn-btn{font-size:13.5px;padding:3px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card);cursor:pointer;color:var(--fg);text-transform:none}
+.k .sn-btn:hover{border-color:var(--acc)}
+.k .sn-btn.on{background:var(--acc);border-color:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.k .sn-btn.on{color:#0d1220}}
+.k .sn-btn:disabled{opacity:0.4;cursor:not-allowed;border-color:var(--line)}
+.k .sn-mech-selector{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center}
+.k .sn-mode-selector{display:inline-flex;flex-wrap:wrap;gap:12px;align-items:center}
+.k .sn-opt-lbl{display:inline-flex;align-items:center;gap:4px;font-size:13px;cursor:pointer}
+.k .sn-badge{display:inline-block;font-size:12px;padding:1px 7px;border-radius:10px;background:var(--acc-soft);color:var(--acc);font-weight:600}
+.k .sn-mech-badge{font-size:13px;font-weight:600;padding:2px 8px;border-radius:6px;margin-left:4px;color:var(--acc);background:var(--acc-soft)}
+.k .sn-mech-badge.mix{color:var(--s4);background:var(--hl)}
+.k .sn-extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:700px){.k .sn-extra-grid{grid-template-columns:1fr}}
+.k .sn-card-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.k .sn-card-hdr h4{margin:0;font-size:14px}
+.k .sn-rate-eq,.k .sn-rxn-eq{font-size:14.5px;margin:6px 0}
+.k .sn-rate-desc,.k .sn-rxn-cond{margin:4px 0 0;font-size:13px;line-height:1.45}
+.k .sn-analysis-card{font-size:13.5px;line-height:1.5}
+.k .sn-analysis-card h4{margin:0 0 6px;font-size:14.5px}
+.k .sn-analysis-card ul{margin:4px 0;padding-left:20px}
+.k .sn-inductive-poly{fill:var(--acc);stroke:none}
+</style>
+
+<script>
+(function () {
+  /* ---------- 1. 化学守恒与数据字典 ---------- */
+  function parseFormula(f) {
+    var counts = {}, re = /([A-Z][a-z]*)(\d*)/g, m;
+    while ((m = re.exec(f)) !== null) {
+      var el = m[1], n = m[2] ? parseInt(m[2], 10) : 1;
+      counts[el] = (counts[el] || 0) + n;
+    }
+    return counts;
+  }
+  function addCounts(target, src, factor) {
+    factor = factor || 1;
+    for (var k in src) { target[k] = (target[k] || 0) + src[k] * factor; }
+  }
+  function verifyAtomConservation() {
+    var equations = [
+      'C2H5Br + OH- -> C2H5OH + Br-',
+      'C2H5Br + CN- -> C2H5CN + Br-',
+      'C2H5Br + 2NH3 -> C2H5NH2 + NH4+ + Br-',
+      'C4H9Br + OH- -> C4H9OH + Br-',
+      'C4H9Br + CN- -> C4H9CN + Br-',
+      'C4H9Br + 2NH3 -> C4H9NH2 + NH4+ + Br-'
+    ];
+    equations.forEach(function (rx) {
+      var parts = rx.split('->'), left = parts[0].trim().split('+').map(function (s) { return s.trim(); });
+      var right = parts[1].trim().split('+').map(function (s) { return s.trim(); });
+      var leftCounts = {}, rightCounts = {};
+      left.forEach(function (term) {
+        var mul = 1, tm = term.match(/^(\d+)(.*)$/);
+        if (tm) { mul = parseInt(tm[1], 10); term = tm[2]; }
+        term = term.replace(/[\+\-]/g, '');
+        addCounts(leftCounts, parseFormula(term), mul);
+      });
+      right.forEach(function (term) {
+        var mul = 1, tm = term.match(/^(\d+)(.*)$/);
+        if (tm) { mul = parseInt(tm[1], 10); term = tm[2]; }
+        term = term.replace(/[\+\-]/g, '');
+        addCounts(rightCounts, parseFormula(term), mul);
+      });
+      for (var el in leftCounts) {
+        if (leftCounts[el] !== rightCounts[el]) throw new Error('Atom balance error in ' + rx + ' on ' + el);
+      }
+      for (var rel in rightCounts) {
+        if (leftCounts[rel] !== rightCounts[rel]) throw new Error('Atom balance error in ' + rx + ' on ' + rel);
+      }
+    });
+  }
+  verifyAtomConservation();
+
+  var SUB_INFO = {
+    et_br: {
+      name: 'bromoethane', deg: '1°', cls: 'primary',
+      allowed: ['sn2'], defMech: 'sn2',
+      sn2_sub: 'sub_et_br', c_sn2: 'c1',
+      eq_names: { oh: 'CH₃CH₂OH', cn: 'CH₃CH₂CN', nh3: 'CH₃CH₂NH₂' },
+      eq_sub: 'CH₃CH₂Br',
+      ts_key: { oh: 'ts_et_oh', cn: 'ts_et_cn', nh3: 'ts_et_nh3' },
+      prod_key: { oh: 'prod_et_oh', cn: 'prod_et_cn', nh3: 'prod_et_nh3' }
+    },
+    bu1_br: {
+      name: '1-bromobutane', deg: '1°', cls: 'primary',
+      allowed: ['sn2'], defMech: 'sn2',
+      sn2_sub: 'sub_bu1_br', c_sn2: 'c1',
+      eq_names: { oh: 'CH₃(CH₂)₃OH', cn: 'CH₃(CH₂)₃CN', nh3: 'CH₃(CH₂)₃NH₂' },
+      eq_sub: 'CH₃(CH₂)₃Br',
+      ts_key: { oh: 'ts_bu1_oh', cn: 'ts_bu1_cn', nh3: 'ts_bu1_nh3' },
+      prod_key: { oh: 'prod_bu1_oh', cn: 'prod_bu1_cn', nh3: 'prod_bu1_nh3' }
+    },
+    bu2_br: {
+      name: '2-bromobutane', deg: '2°', cls: 'secondary',
+      allowed: ['sn2', 'sn1'], defMech: 'sn2',
+      sn2_sub: 'sub_bu2_br', c_sn2: 'c2',
+      sn1_sub: 'sub_bu2_br_sn1', c_sn1: 'c2',
+      cat_key: 'cat_bu2',
+      int_nh3: 'int_bu2_nh3',
+      eq_names: { oh: 'CH₃CH₂CH(OH)CH₃', cn: 'CH₃CH₂CH(CN)CH₃', nh3: 'CH₃CH₂CH(NH₂)CH₃' },
+      eq_sub: 'CH₃CH₂CH(Br)CH₃',
+      ts_key: { oh: 'ts_bu2_oh', cn: 'ts_bu2_cn', nh3: 'ts_bu2_nh3' },
+      prod_key: { oh: 'prod_bu2_oh', cn: 'prod_bu2_cn', nh3: 'prod_bu2_nh3' }
+    },
+    tbu_br: {
+      name: '2-bromo-2-methylpropane', deg: '3°', cls: 'tertiary',
+      allowed: ['sn1'], defMech: 'sn1',
+      sn1_sub: 'sub_tbu_br', c_sn1: 'c',
+      cat_key: 'cat_tbu',
+      int_nh3: 'int_tbu_nh3',
+      eq_names: { oh: '(CH₃)₃COH', cn: '(CH₃)₃CCN', nh3: '(CH₃)₃CNH₂' },
+      eq_sub: '(CH₃)₃CBr',
+      prod_key: { oh: 'prod_tbu_oh', cn: 'prod_tbu_cn', nh3: 'prod_tbu_nh3' }
+    }
+  };
+
+  var NU_INFO = {
+    oh: {
+      name: 'OH⁻', label: 'OH⁻', atom: 'o', neutral: false,
+      nu_key: 'nu_oh',
+      prodType: 'alcohol',
+      reagents: 'NaOH(aq) and heat',
+      condDesc: '<b>NaOH(aq) and heat</b>（reflux）；属于水解（hydrolysis）生成醇。'
+    },
+    cn: {
+      name: 'CN⁻', label: 'CN⁻', atom: 'cn', neutral: false,
+      nu_key: 'nu_cn',
+      prodType: 'nitrile',
+      reagents: 'KCN in ethanol and heat',
+      condDesc: '<b>KCN in ethanol and heat</b>（reflux）；延长碳链多 1 个碳，生成腈（nitrile）。'
+    },
+    nh3: {
+      name: 'NH₃', label: 'NH₃', atom: 'n', neutral: true,
+      nu_key: 'nu_nh3',
+      prodType: 'amine',
+      reagents: 'NH₃ in ethanol heated under pressure',
+      condDesc: '<b>NH₃ in ethanol heated under pressure</b>；必须过量 NH₃ 抑制多取代，生成伯胺。'
+    }
+  };
+
+  /* ---------- 2. 状态与 DOM 获取 ---------- */
+  var curSub = 'et_br';
+  var curNu = 'oh';
+  var curMech = 'sn2';
+  var isExam = false;
+  var showTs = true;
+  var mechApi = null;
+
+  function P(name) {
+    var el = $root.querySelector('.ko-src [data-p="' + name + '"] svg');
+    if (!el) throw new Error('Missing SVG template data-p="' + name + '"');
+    return el;
+  }
+
+  /* 绘制烷基对 C⁺ 的 +I 正诱导效应小箭头 */
+  function drawInductive(svg, cName) {
+    var D = KO.atoms(svg);
+    var cIdx = D.byName[cName];
+    if (cIdx == null) return;
+    var c = D.atoms[cIdx];
+    var methylNames = ['m1', 'm2', 'm3'];
+    var g = K.svg('g', { 'class': 'sn-inductive-layer' });
+    methylNames.forEach(function (mName) {
+      var mIdx = D.byName[mName];
+      if (mIdx == null) return;
+      var m = D.atoms[mIdx];
+      var dx = c.x - m.x, dy = c.y - m.y;
+      var len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ux = dx / len, uy = dy / len;
+      var mx = (c.x + m.x) / 2, my = (c.y + m.y) / 2;
+      var pts = [
+        (mx + ux * 3.8).toFixed(1) + ',' + (my + uy * 3.8).toFixed(1),
+        (mx - ux * 2.6 - uy * 3.2).toFixed(1) + ',' + (my - uy * 2.6 + ux * 3.2).toFixed(1),
+        (mx - ux * 2.6 + uy * 3.2).toFixed(1) + ',' + (my - uy * 2.6 - ux * 3.2).toFixed(1)
+      ].join(' ');
+      var poly = K.svg('polygon', { points: pts, 'class': 'sn-inductive-poly' });
+      g.appendChild(poly);
+    });
+    svg.appendChild(g);
+  }
+
+  /* ---------- 3. 构建步骤数据 ---------- */
+  function buildSteps() {
+    var sub = SUB_INFO[curSub], nu = NU_INFO[curNu];
+    var steps = [];
+
+    if (curMech === 'sn2') {
+      var cName = sub.c_sn2;
+      /* 反应物组合图 */
+      var reactSvg = KO.compose([
+        { svg: P(sub.sn2_sub), at: cName, x: 0, y: 0 },
+        { svg: P(nu.nu_key), at: nu.atom, x: -80, y: 0 }
+      ]);
+
+      /* Step 0: 亲核进攻 */
+      var nuMarkText = (curNu === 'cn' ? 'lone pair on C of CN⁻' : 'lone pair on ' + nu.label);
+      steps.push({
+        svg: reactSvg,
+        deltas: [[cName, '+'], ['br', '-']],
+        charges: nu.neutral ? [] : [[nu.atom, '-']],
+        lps: [[nu.atom, 1, { toward: cName }]],
+        arrows: [
+          ['lp:' + nu.atom, cName, { bend: 0.5, tag: 'M1', m: 'M1' }],
+          [cName + '-br', 'br', { bend: 1.3, tag: 'M2', m: 'M2' }]
+        ],
+        marks: [
+          'M1 curly arrow from ' + nuMarkText + ' to (δ+)C',
+          'M2 correct dipole C(δ+)—Br(δ−) AND curly arrow from C–Br bond to Br'
+        ],
+        caption: '一步完成（决速步）：亲核试剂 ' + nu.label + ' 从离去基团 Br 的<b>正背面（180°）</b>进攻带 δ+ 的中心碳 ' + cName.toUpperCase() + '，同时 C–Br 键成键电子转移至 Br（异裂生成 Br⁻）。' + (curNu === 'cn' ? '<br><b>⚠️ 评分核心要点</b>：CN⁻ 的孤对电子在 C 上，箭头必须从 C 上的 lone pair 发出！' : '')
+      });
+
+      /* Step 1: 过渡态 (TS) */
+      if (showTs && sub.ts_key && sub.ts_key[curNu]) {
+        steps.push({
+          svg: P(sub.ts_key[curNu]),
+          partials: [[nu.atom, cName], [cName, 'br']],
+          bracket: { charge: nu.neutral ? '' : '−' },
+          marks: [
+            'TS 特征：Nu 与 Br 位于中心碳的两侧（约 180°）',
+            'TS 特征：C–Nu 与 C–Br 为虚线 partial bonds，整体带负电荷 [ … ]⁻'
+          ],
+          caption: '<b>transition state（过渡态）</b>：C–Nu 键正在形成、C–Br 键正在断开（虚线 = partial bond）。进攻与离去基团呈 180° 对称，中间三个基团翻转至中间平面，整体带 1 个负电荷。它处于势能最高点，<b>不是</b>可分离的 intermediate！'
+        });
+      }
+
+      /* Step 2: 产物 */
+      var prodSvg = KO.compose([
+        { svg: P(sub.prod_key[curNu]), at: cName, x: 0, y: 0 },
+        { text: '+', x: 65, y: 0 },
+        { svg: P('br_ion'), at: 'br', x: 95, y: 0 }
+      ]);
+      steps.push({
+        svg: prodSvg,
+        charges: [['br', '-']],
+        marks: [
+          '产物生成：中心碳立体构型翻转（Walden inversion）',
+          '离去基团：Br⁻ 离子脱离'
+        ],
+        caption: '<b>产物生成</b>：取代完成，得到目标产物和 Br⁻ 离去基团。由于亲核试剂从背面进攻，中心碳立体构型发生完全翻转（inversion of configuration / 伞形翻转）。'
+      });
+
+    } else {
+      /* S_N1 机理 */
+      var cName = sub.c_sn1;
+      var is3 = (sub.deg === '3°');
+
+      /* Step 0: C–Br 键异裂 */
+      steps.push({
+        svg: P(sub.sn1_sub),
+        deltas: [[cName, '+'], ['br', '-']],
+        arrows: [
+          [cName + '-br', 'br', { bend: 1.3, tag: 'M1', m: 'M1' }]
+        ],
+        marks: [
+          'M1 correct dipole C(δ+)—Br(δ−) AND curly arrow from C–Br bond to Br'
+        ],
+        caption: '<b>第 1 步（慢反应 / 决速步）</b>：C–Br 键发生异裂（heterolytic fission），成键电子对完全转移给 Br，生成 Br⁻ 离去基团和平面碳正离子中间体（carbocation intermediate）。'
+      });
+
+      /* Step 1: 亲核试剂进攻碳正离子 */
+      var catSvg = KO.compose([
+        { svg: P(sub.cat_key), at: cName, x: 0, y: 0 },
+        { svg: P(nu.nu_key), at: nu.atom, x: 0, y: 72 },
+        { svg: P('br_ion'), at: 'br', x: 80, y: -15 }
+      ]);
+      var nuMarkText1 = (curNu === 'cn' ? 'lone pair on C of CN⁻' : 'lone pair on ' + nu.label);
+      var s2Marks = [
+        'M2 ' + (is3 ? 'tertiary' : 'secondary') + ' carbocation intermediate AND curly arrow from ' + nuMarkText1 + ' to C⁺'
+      ];
+      steps.push({
+        svg: catSvg,
+        charges: [[cName, '+'], ['br', '-']].concat(nu.neutral ? [] : [[nu.atom, '-']]),
+        lps: [[nu.atom, 1, { toward: cName }]],
+        arrows: [
+          ['lp:' + nu.atom, cName, { bend: 0.25, tag: 'M2', m: 'M2' }]
+        ],
+        draw: function (svg, KO) { drawInductive(svg, cName); },
+        marks: s2Marks,
+        caption: '<b>第 2 步（快反应）</b>：亲核试剂 ' + nu.label + ' 用孤对电子进攻平面的 C⁺ 形成共价键。<br>' +
+                 '<b>+I 正诱导效应</b>：' + (is3 ? '3 个烷基' : '2 个烷基') + '向中心 C⁺ 推电子（以小箭头标出），分散正电荷，极大稳定了碳正离子中间体！'
+      });
+
+      /* Step 2 (若亲核试剂为 NH3 则多一步脱质子) */
+      if (curNu === 'nh3') {
+        var intSvg = KO.compose([
+          { svg: P(sub.int_nh3), at: cName, x: 0, y: 0 },
+          { svg: P('br_ion'), at: 'br', x: 80, y: -15 }
+        ]);
+        steps.push({
+          svg: intSvg,
+          charges: [['n', '+'], ['br', '-']],
+          arrows: [
+            ['n-h', 'n', { bend: 1.3, tag: 'M3', m: 'M3' }]
+          ],
+          marks: [
+            'M3 curly arrow from N–H bond to N to lose H⁺ (giving neutral amine)'
+          ],
+          caption: '<b>第 3 步（脱质子）</b>：带正电的质子化胺中间体中，N–H 键异裂失去 H⁺（与体系中过量 NH₃ 结合成 NH₄⁺Br⁻），成键电子对回到 N⁺，最终得到中性伯胺产物。'
+        });
+      }
+
+      /* Step Final: 产物 */
+      var prodSvg1 = KO.compose([
+        { svg: P(sub.prod_key[curNu]), at: cName, x: 0, y: 0 },
+        { text: '+', x: 65, y: 0 },
+        { svg: P('br_ion'), at: 'br', x: 95, y: 0 }
+      ]);
+      steps.push({
+        svg: prodSvg1,
+        charges: [['br', '-']],
+        marks: [
+          '产物生成：平面碳正离子两面均可进攻 → 生成外消旋混合物（racemic mixture）'
+        ],
+        caption: '<b>反应完成</b>：生成最终取代产物。由于中间体碳正离子为平面构型（sp²，120°），亲核试剂从上方或下方进攻的概率均等，生成对映异构体的外消旋混合物（racemate）。'
+      });
+    }
+
+    return steps;
+  }
+
+  /* ---------- 4. 更新侧栏卡片与解析说明 ---------- */
+  function updateSidebarAndAnalysis() {
+    var sub = SUB_INFO[curSub], nu = NU_INFO[curNu];
+
+    /* 更新速率方程卡片 */
+    var rateBadge = $root.querySelector('#sn-rate-type');
+    var rateEq = $root.querySelector('#sn-rate-eq');
+    var rateDesc = $root.querySelector('#sn-rate-desc');
+
+    if (curMech === 'sn2') {
+      rateBadge.textContent = '二级反应（Bimolecular）';
+      rateEq.innerHTML = '<code>rate = <i>k</i> [RX] [Nu⁻]</code>';
+      rateDesc.innerHTML = '决速步为双分子碰撞（底物与亲核试剂），反应速率同时取决于 [RX] 和 [Nu⁻] 浓度（「2」即代表双分子决速步）。<br><span class="faint">（注：此处展示速率方程形式，反应级数与详细动力学计算属于 A Level 深入内容，AS 阶段不展开）</span>';
+    } else {
+      rateBadge.textContent = '一级反应（Unimolecular）';
+      rateEq.innerHTML = '<code>rate = <i>k</i> [RX]</code>';
+      rateDesc.innerHTML = '决速步仅有底物分子发生 C–Br 键异裂，反应速率只取决于 [RX] 浓度，而与亲核试剂 [Nu⁻] 浓度无关（「1」即代表单分子决速步）。<br><span class="faint">（注：此处展示速率方程形式，详细动力学推导属于 A Level 深入内容，AS 阶段不展开）</span>';
+    }
+
+    /* 更新反应与试剂卡片 */
+    var rxnBadge = $root.querySelector('#sn-rxn-type');
+    var rxnEq = $root.querySelector('#sn-rxn-eq');
+    var rxnCond = $root.querySelector('#sn-rxn-cond');
+
+    var pName = sub.eq_names[curNu];
+    rxnBadge.textContent = 'substitution → ' + nu.prodType;
+    if (curNu === 'nh3') {
+      rxnEq.innerHTML = '<code>' + sub.eq_sub + ' + 2NH₃ → ' + pName + ' + NH₄Br</code>';
+    } else if (curNu === 'cn') {
+      rxnEq.innerHTML = '<code>' + sub.eq_sub + ' + CN⁻ → ' + pName + ' + Br⁻</code>';
+    } else {
+      rxnEq.innerHTML = '<code>' + sub.eq_sub + ' + OH⁻ → ' + pName + ' + Br⁻</code>';
+    }
+    rxnCond.innerHTML = '<b>试剂与条件</b>：' + nu.condDesc;
+
+    /* 更新分析解析卡片 */
+    var analysisCard = $root.querySelector('#sn-analysis-content');
+    if (curMech === 'sn2') {
+      analysisCard.innerHTML = [
+        '<h4>📐 S<sub>N</sub>2 机理特征与过渡态（Transition State）几何构型</h4>',
+        '<ul>',
+        '  <li><b>背部进攻（Backside Attack）</b>：亲核试剂带负电或孤对电子，从离去基团 Br 的相反方向（180°）逼近带 δ+ 的中心碳，最大程度减小静电排斥。</li>',
+        '  <li><b>五配位过渡态</b>：Nu 与 Br 位于中心碳的两端，中间 3 个基团处于垂直于 Nu–C–Br 轴的平面上。C–Nu 与 C–Br 均为半成键/半断裂的 partial bond（虚线表示），整体带负电荷 <code>[ … ]⁻</code>。</li>',
+        '  <li><b>构型完全翻转（Walden Inversion）</b>：随着 Br⁻ 离去，中间 3 个基团像雨伞在大风中被吹翻一样翻向相反侧。</li>',
+        '  <li><b>为什么 1° 走 S<sub>N</sub>2</b>：1° 卤代烷中心碳只有 1 个烷基，空间位阻极小（steric hindrance 低），背部通道完全敞开；且 1° 碳正离子极不稳定，无法先断裂。</li>',
+        '</ul>'
+      ].join('');
+    } else {
+      analysisCard.innerHTML = [
+        '<h4>⚖️ S<sub>N</sub>1 机理特征与叔碳正离子稳定性（+I Inductive Effect）</h4>',
+        '<ul>',
+        '  <li><b>分步进行（Two Steps）</b>：第 1 步 C–Br 异裂为慢步（决速步），生成碳正离子中间体；第 2 步亲核试剂进攻为快步。</li>',
+        '  <li><b>烷基的正诱导效应（Positive Inductive Effect, +I）</b>：每个烷基（alkyl group）都向中心带正电的 C⁺ 推电子（如小箭头所示），有效分散了正电荷。<b>3° 碳正离子连有 3 个烷基，稳定性最高</b>（3° > 2° >> 1°），因此 3° 卤代烷易于解离走 S<sub>N</sub>1。</li>',
+        '  <li><b>空间位阻（Steric Hindrance）</b>：3° 卤代烷中心碳被 3 个烷基紧紧包围，亲核试剂根本无法从背面靠近（空间位阻极大），因而无法发生 S<sub>N</sub>2 进攻。</li>',
+        '  <li><b>外消旋化（Racemisation）</b>：碳正离子中间体为平面构型（sp² 杂化，120°），亲核试剂从平面的上表面或下表面进攻几率均等，产物得到等量的对映异构体混合物。</li>',
+        '</ul>'
+      ].join('');
+    }
+  }
+
+  /* ---------- 5. 渲染播放器 ---------- */
+  function renderMech() {
+    var host = $root.querySelector('.sn-player-host');
+    host.innerHTML = '';
+    var steps = buildSteps();
+    mechApi = KO.mech(host, steps, { exam: isExam, scale: 1.45 });
+    updateSidebarAndAnalysis();
+  }
+
+  /* ---------- 6. 交互事件处理 ---------- */
+  function handleSubChange(newSub) {
+    curSub = newSub;
+    var sub = SUB_INFO[curSub];
+
+    // 更新按钮状态
+    $root.querySelectorAll('#sn-sub-btns .sn-btn').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-sub') === curSub);
+    });
+
+    // 自动判定机理
+    var mBtns = $root.querySelectorAll('.sn-mbtn');
+    var badge = $root.querySelector('#sn-mech-badge');
+    var tsLbl = $root.querySelector('#sn-ts-lbl');
+
+    if (sub.deg === '1°') {
+      curMech = 'sn2';
+      badge.className = 'sn-mech-badge';
+      badge.textContent = '1° 卤代烷 → 主导 S_N2 机理';
+      mBtns[0].disabled = false;
+      mBtns[1].disabled = true;
+      mBtns[1].title = 'primary carbocation 极不稳定，1° 卤代烷不走 S_N1 机理';
+      tsLbl.style.display = 'inline-flex';
+    } else if (sub.deg === '3°') {
+      curMech = 'sn1';
+      badge.className = 'sn-mech-badge';
+      badge.textContent = '3° 卤代烷 → 主导 S_N1 机理';
+      mBtns[0].disabled = true;
+      mBtns[0].title = '3 个烷基空间位阻极大（steric hindrance），亲核试剂无法背部进攻，不走 S_N2';
+      mBtns[1].disabled = false;
+      tsLbl.style.display = 'none';
+    } else {
+      // 2° 卤代烷：两者混合
+      badge.className = 'sn-mech-badge mix';
+      badge.textContent = '2° 卤代烷 → 混合机理「mixture, depending on structure」';
+      mBtns[0].disabled = false;
+      mBtns[0].title = '以 S_N2 方式播放';
+      mBtns[1].disabled = false;
+      mBtns[1].title = '以 S_N1 方式播放';
+      tsLbl.style.display = (curMech === 'sn2' ? 'inline-flex' : 'none');
+    }
+
+    mBtns.forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-m') === curMech);
+    });
+
+    renderMech();
+  }
+
+  function handleNuChange(newNu) {
+    curNu = newNu;
+    $root.querySelectorAll('#sn-nu-btns .sn-btn').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-nu') === curNu);
+    });
+    renderMech();
+  }
+
+  function handleMechChange(newMech) {
+    var sub = SUB_INFO[curSub];
+    if (sub.allowed.indexOf(newMech) === -1) return;
+    curMech = newMech;
+    $root.querySelectorAll('.sn-mbtn').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-m') === curMech);
+    });
+    var tsLbl = $root.querySelector('#sn-ts-lbl');
+    tsLbl.style.display = (curMech === 'sn2' ? 'inline-flex' : 'none');
+    renderMech();
+  }
+
+  // 事件绑定
+  $root.querySelectorAll('#sn-sub-btns .sn-btn').forEach(function (b) {
+    b.addEventListener('click', function () { handleSubChange(b.getAttribute('data-sub')); });
+  });
+
+  $root.querySelectorAll('#sn-nu-btns .sn-btn').forEach(function (b) {
+    b.addEventListener('click', function () { handleNuChange(b.getAttribute('data-nu')); });
+  });
+
+  $root.querySelectorAll('.sn-mbtn').forEach(function (b) {
+    b.addEventListener('click', function () { handleMechChange(b.getAttribute('data-m')); });
+  });
+
+  var examToggle = $root.querySelector('#sn-exam-toggle');
+  examToggle.addEventListener('change', function () {
+    isExam = examToggle.checked;
+    renderMech();
+  });
+
+  var tsToggle = $root.querySelector('#sn-ts-toggle');
+  tsToggle.addEventListener('change', function () {
+    showTs = tsToggle.checked;
+    renderMech();
+  });
+
+  // 初始化
+  handleSubChange('et_br');
+
+  /* ---------- 7. 测试辅助接口 ---------- */
+  window.__snMech = {
+    setSub: handleSubChange,
+    setNu: handleNuChange,
+    setMech: handleMechChange,
+    setExam: function (v) { examToggle.checked = v; isExam = v; renderMech(); },
+    setTs: function (v) { tsToggle.checked = v; showTs = v; renderMech(); },
+    getState: function () {
+      return { sub: curSub, nu: curNu, mech: curMech, isExam: isExam, showTs: showTs };
+    },
+    getStepsCount: function () {
+      return buildSteps().length;
+    },
+    getCurStep: function () {
+      return mechApi ? mechApi.step() : 0;
+    },
+    next: function () { if (mechApi) mechApi.next(); },
+    prev: function () { if (mechApi) mechApi.prev(); },
+    go: function (k) { if (mechApi) mechApi.go(k); },
+    getSvg: function () { return mechApi ? mechApi.svg() : null; },
+    verifyAtomConservation: verifyAtomConservation
+  };
+})();
+</script>
