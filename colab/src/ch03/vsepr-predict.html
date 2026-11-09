@@ -34,7 +34,7 @@
       <button class="vp-new">换一题 →</button>
       <span class="vp-score faint"></span>
     </div>
-    <p class="faint vp-tolnote">判分容差：104.5° 接受 103–105°；107° 接受 106–108°；其余须精确。两个角的（PF₅）写成 “120 and 90”。</p>
+    <p class="faint vp-tolnote">键角按 awrt 0 d.p. 判（四舍五入到整数）。两个角的（PF₅）写成 “120 and 90”。</p>
     <div class="vp-fb"></div>
   </div>
   <div class="vp-work vp-qwork"></div>
@@ -414,18 +414,17 @@ function chips(sel, key, max) {
 chips('.vp-qbp', 'bp', 6); chips('.vp-qlp', 'lp', 3);
 $('.vp-qshape').innerHTML = '<option value="">— 选 shape —</option>' + SHAPES.map(function (x) { return '<option value="' + x + '">' + x + '</option>'; }).join('');
 
-/* accepted ranges: H₂O 103–105° (mark scheme); 107 ± 1; tetrahedral written 109(.5)°; SO₂ just under 120° */
-var TOL = { 104.5: [103, 105], 107: [106, 108], 109.5: [109, 110], 118: [117, 119] };
-function inTol(a, x) {
-  var r = TOL[a];
-  return r ? x >= r[0] - 1e-9 && x <= r[1] + 1e-9 : Math.abs(a - x) < 1e-9;
-}
+/* bond angle scored by awrt 0 d.p.: half-up to integer */
+function halfUp(x) { return Math.floor(x + 0.5); }
 function angleOk(s, txt) {
   var nums = (String(txt).match(/\d+(?:\.\d+)?/g) || []).map(Number);
   if (nums.length !== s.ang.length) return false;
   var left = nums.slice();
   return s.ang.every(function (a) {
-    for (var i = 0; i < left.length; i++) if (inTol(a, left[i])) { left.splice(i, 1); return true; }
+    var ta = halfUp(a);
+    for (var i = 0; i < left.length; i++) {
+      if (halfUp(left[i]) === ta) { left.splice(i, 1); return true; }
+    }
     return false;
   });
 }

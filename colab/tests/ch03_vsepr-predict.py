@@ -169,7 +169,7 @@ with sync_playwright() as p:
             page.click('button[data-tab="quiz"]'); page.wait_for_timeout(60)
             page.evaluate("document.querySelector('.k').__vpAsk('SCl2')")
             page.click('.vp-qbp button[data-v="2"]'); page.click('.vp-qlp button[data-v="2"]')
-            page.select_option('.vp-qshape', 'non-linear'); page.fill('.vp-qang', '104'); page.click('.vp-check'); page.wait_for_timeout(80)
+            page.select_option('.vp-qshape', 'non-linear'); page.fill('.vp-qang', '105'); page.click('.vp-check'); page.wait_for_timeout(80)
             check('dark: quiz SCl₂ right', page.get_attribute('.vp-fb', 'data-result') == 'right')
             shot('20-quiz-right-SCl2'); shot('22-zoom-quiz-fb-right', '.vp-q')
             page.evaluate("document.querySelector('.k').__vpAsk('NH3')")
@@ -297,9 +297,9 @@ with sync_playwright() as p:
             page.click('.vp-check'); page.wait_for_timeout(60)
             return page.get_attribute('.vp-fb', 'data-result')
 
-        r = answer('SCl2', 2, 2, 'non-linear', '104')
+        r = answer('SCl2', 2, 2, 'non-linear', '105')
         fb = page.inner_text('.vp-fb')
-        check('SCl₂ 2 / 2 / non-linear / 104 → 全对 4 / 4', r == 'right' and '全对 4 / 4' in fb, fb)
+        check('SCl₂ 2 / 2 / non-linear / 105 → 全对 4 / 4', r == 'right' and '全对 4 / 4' in fb, fb)
         check('right answer: derivation + MS card shown below', page.get_attribute('.vp-qwork', 'data-step') == '6' and
               page.locator('.vp-qwork .vp-ms').count() == 1 and page.locator('.vp-qwork .vp-steps li').count() == 6)
         audit(page, '.vp-qwork .vp-svg', 'quiz SCl₂')
@@ -318,28 +318,61 @@ with sync_playwright() as p:
         page.click('.vp-check'); page.wait_for_timeout(40)
         check('judging the same question twice does not count twice', page.inner_text('.vp-score') == '本轮 1 / 2 题全对')
 
-        print('== angle tolerance')
-        TOL = [('H2O', 2, 2, 'non-linear', '103', 'right'), ('H2O', 2, 2, 'non-linear', '105°', 'right'),
-               ('H2O', 2, 2, 'non-linear', '102.5', 'wrong'), ('NH2', 2, 2, 'non-linear', '105.5', 'wrong'),
-               ('NH3', 3, 1, 'pyramidal', '106', 'right'), ('PCl3', 3, 1, 'pyramidal', '108', 'right'),
-               ('H3O', 3, 1, 'pyramidal', '108.5', 'wrong'), ('CH4', 4, 0, 'tetrahedral', '109.5', 'right'),
-               ('CH4', 4, 0, 'tetrahedral', '109', 'right'), ('CH4', 4, 0, 'tetrahedral', '108', 'wrong'), ('SO2', 2, 1, 'non-linear', '117', 'right'), ('SO2', 2, 1, 'non-linear', '116', 'wrong'), ('PF5', 5, 0, 'trigonal bipyramidal', '120 and 90', 'right'),
-               ('PF5', 5, 0, 'trigonal bipyramidal', '90°, 120°', 'right'), ('PF5', 5, 0, 'trigonal bipyramidal', '120', 'wrong'),
-               ('SO2', 2, 1, 'non-linear', '118', 'right'), ('SO2', 2, 1, 'non-linear', '120', 'wrong'),
-               ('XeF4', 4, 2, 'square planar', '90', 'right'), ('XeF4', 4, 2, 'octahedral', '90', 'wrong'),
-               ('BeCl2', 2, 0, 'linear', '180', 'right'), ('PCl6', 6, 0, 'octahedral', '90', 'right'),
-               ('BF3', 3, 0, 'trigonal planar', '120', 'right'), ('SF6', 6, 0, 'octahedral', '90', 'right')]
+        print('== angle tolerance (awrt 0 d.p.)')
+        TOL = [
+            # 109.5 -> half-up 110: 109.5 ✓, 110 ✓, 109 ✗, 108 ✗
+            ('CH4', 4, 0, 'tetrahedral', '109.5', 'right'),
+            ('CH4', 4, 0, 'tetrahedral', '110', 'right'),
+            ('CH4', 4, 0, 'tetrahedral', '109', 'wrong'),
+            ('CH4', 4, 0, 'tetrahedral', '108', 'wrong'),
+            # 104.5 -> half-up 105: 104.5 ✓, 105 ✓, 104 ✗, 103 ✗, 102.5 ✗, 105.5 ✗
+            ('H2O', 2, 2, 'non-linear', '104.5', 'right'),
+            ('H2O', 2, 2, 'non-linear', '105', 'right'),
+            ('H2O', 2, 2, 'non-linear', '105°', 'right'),
+            ('H2O', 2, 2, 'non-linear', '104', 'wrong'),
+            ('H2O', 2, 2, 'non-linear', '103', 'wrong'),
+            ('H2O', 2, 2, 'non-linear', '102.5', 'wrong'),
+            ('NH2', 2, 2, 'non-linear', '105.5', 'wrong'),
+            # 107 -> half-up 107: 107 ✓, 106.5 ✓, 107.4 ✓, 106 ✗, 108 ✗, 108.5 ✗
+            ('NH3', 3, 1, 'pyramidal', '107', 'right'),
+            ('NH3', 3, 1, 'pyramidal', '106.5', 'right'),
+            ('NH3', 3, 1, 'pyramidal', '107.4', 'right'),
+            ('NH3', 3, 1, 'pyramidal', '106', 'wrong'),
+            ('PCl3', 3, 1, 'pyramidal', '108', 'wrong'),
+            ('H3O', 3, 1, 'pyramidal', '108.5', 'wrong'),
+            # SO2: truth 118 -> half-up 118: 118 ✓, 117.5 ✓, 118.4 ✓; 117 ✗, 117.4 ✗, 118.5 ✗, 119 ✗, 116 ✗, 120 ✗
+            ('SO2', 2, 1, 'non-linear', '118', 'right'),
+            ('SO2', 2, 1, 'non-linear', '117.5', 'right'),
+            ('SO2', 2, 1, 'non-linear', '118.4', 'right'),
+            ('SO2', 2, 1, 'non-linear', '117', 'wrong'),
+            ('SO2', 2, 1, 'non-linear', '117.4', 'wrong'),
+            ('SO2', 2, 1, 'non-linear', '118.5', 'wrong'),
+            ('SO2', 2, 1, 'non-linear', '119', 'wrong'),
+            ('SO2', 2, 1, 'non-linear', '116', 'wrong'),
+            ('SO2', 2, 1, 'non-linear', '120', 'wrong'),
+            # PF5: 120 and 90
+            ('PF5', 5, 0, 'trigonal bipyramidal', '120 and 90', 'right'),
+            ('PF5', 5, 0, 'trigonal bipyramidal', '90°, 120°', 'right'),
+            ('PF5', 5, 0, 'trigonal bipyramidal', '120', 'wrong'),
+            # others
+            ('XeF4', 4, 2, 'square planar', '90', 'right'),
+            ('XeF4', 4, 2, 'octahedral', '90', 'wrong'),
+            ('BeCl2', 2, 0, 'linear', '180', 'right'),
+            ('PCl6', 6, 0, 'octahedral', '90', 'right'),
+            ('BF3', 3, 0, 'trigonal planar', '120', 'right'),
+            ('SF6', 6, 0, 'octahedral', '90', 'right'),
+        ]
         bad = []
         for i, bp, lp, shape, ang, want in TOL:
             got = answer(i, bp, lp, shape, ang)
             if got != want: bad.append(f'{i} {ang}: {got} (want {want})')
-        check(f'{len(TOL)} tolerance / shape cases judged correctly', not bad, '; '.join(bad))
+        check(f'{len(TOL)} awrt / shape cases judged correctly', not bad, '; '.join(bad))
         page.evaluate("document.querySelector('.k').__vpAsk('CO2')")
         page.click('.vp-qbp button[data-v="2"]'); page.click('.vp-check'); page.wait_for_timeout(40)
         check('incomplete answer → asks to fill all 4, nothing scored',
               page.get_attribute('.vp-fb', 'data-result') == 'incomplete' and page.locator('.vp-qwork *').count() == 0)
         check('quiz: all fonts >= 12px', not page.evaluate(SMALL_JS), str(page.evaluate(SMALL_JS)[:5]))
-        answer('SCl2', 2, 2, 'non-linear', '104')
+        answer('SCl2', 2, 2, 'non-linear', '105')
 
         check('no [data-clash] anywhere', page.locator('[data-clash]').count() == 0)
 
