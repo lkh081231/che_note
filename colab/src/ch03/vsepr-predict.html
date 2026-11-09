@@ -34,7 +34,7 @@
       <button class="vp-new">换一题 →</button>
       <span class="vp-score faint"></span>
     </div>
-    <p class="faint vp-tolnote">键角按 awrt 0 d.p. 判（四舍五入到整数）。两个角的（PF₅）写成 “120 and 90”。</p>
+    <p class="faint vp-tolnote">syllabus 点名的 7 个 molecule 要准确到 1 d.p.；其他用 VSEPR 推出来的放宽（104.5° 接受 103–105°，107° 接受 106–108°，109.5° 接受 109–110°，118° 接受 117–119°）；两个角的（PF₅）写成 “120 and 90”。</p>
     <div class="vp-fb"></div>
   </div>
   <div class="vp-work vp-qwork"></div>
@@ -414,16 +414,24 @@ function chips(sel, key, max) {
 chips('.vp-qbp', 'bp', 6); chips('.vp-qlp', 'lp', 3);
 $('.vp-qshape').innerHTML = '<option value="">— 选 shape —</option>' + SHAPES.map(function (x) { return '<option value="' + x + '">' + x + '</option>'; }).join('');
 
-/* bond angle scored by awrt 0 d.p.: half-up to integer */
-function halfUp(x) { return Math.floor(x + 0.5); }
+/* Tier 1: 7 molecules named in syllabus 3.5.1 must be accurate to 1 d.p. (half-up)
+   Tier 2: deduced species have relaxed ranges (104.5 accepts 103–105, 107 accepts 106–108, 109.5 accepts 109–110, 118 accepts 117–119, others exact) */
+var SYLL_7 = { BF3: 1, CO2: 1, CH4: 1, NH3: 1, H2O: 1, SF6: 1, PF5: 1 };
+var TOL = { 104.5: [103, 105], 107: [106, 108], 109.5: [109, 110], 118: [117, 119] };
+function angleMatch(s, a, x) {
+  if (s.g === 'A' || SYLL_7[s.id]) {
+    return Math.floor(x * 10 + 0.5) === Math.floor(a * 10 + 0.5);
+  }
+  var r = TOL[a];
+  return r ? (x >= r[0] - 1e-9 && x <= r[1] + 1e-9) : Math.abs(a - x) < 1e-9;
+}
 function angleOk(s, txt) {
   var nums = (String(txt).match(/\d+(?:\.\d+)?/g) || []).map(Number);
   if (nums.length !== s.ang.length) return false;
   var left = nums.slice();
   return s.ang.every(function (a) {
-    var ta = halfUp(a);
     for (var i = 0; i < left.length; i++) {
-      if (halfUp(left[i]) === ta) { left.splice(i, 1); return true; }
+      if (angleMatch(s, a, left[i])) { left.splice(i, 1); return true; }
     }
     return false;
   });
