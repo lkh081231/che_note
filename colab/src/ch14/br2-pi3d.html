@@ -1,0 +1,532 @@
+<h3>Br₂ 靠近 C=C 的 π 电子云：induced dipole <span class="faint">拖动旋转 · 滚轮缩放</span></h3>
+<p class="bp-lo">LO 14.2.4 <i>describe the mechanism of electrophilic addition in alkenes, using bromine/ethene and hydrogen bromide/propene as examples</i>——这里只看第一步：non-polar 的 Br₂ 为什么一靠近 C=C 就被极化（mark scheme pt 1：dipole on Br₂）。</p>
+<div class="row bp-ctl">
+  <button class="bp-go">▶ 靠近极化</button>
+  <button class="bp-far">复位远离</button>
+  <button data-3d="reset" class="bp-3donly">复位视角</button>
+  <button data-3d="spin" class="bp-3donly">自动旋转</button>
+</div>
+<label class="bp-sl"><span>远</span><input type="range" class="bp-r" min="0" max="58" step="1" value="5" aria-label="distance from Br2 to the C=C bond"><span>近</span><b class="bp-dv">d = 7.5 Å</b></label>
+<div class="bp-grid">
+  <div class="bp-left">
+    <div class="stage bp-stage">
+      <div class="hud bp-hud"></div>
+      <div class="bp-q bp-qn" data-q="n">Br</div>
+      <div class="bp-q bp-qp" data-q="p">Br</div>
+      <div class="bp-q bp-qpi" data-q="pi">π 电子云</div>
+    </div>
+    <div class="fallback card">
+      <p><b>3D 没有加载</b>（<span class="why"></span>）。下面是同一过程的 2D 示意，slider 和按钮照常可用。</p>
+      <svg class="bp-fb" viewBox="0 0 460 436" width="460" height="436" aria-label="Br2 approaching the pi electron cloud of ethene"></svg>
+    </div>
+  </div>
+  <div class="card bp-card">
+    <div class="bp-h">Br₂ 到 C=C 的距离</div>
+    <div class="bp-big"><i>d</i> = <b class="bp-d">7.5</b> Å</div>
+    <div class="faint bp-def">d：近端 Br 的 nucleus 到 C=C 中点</div>
+    <div class="bp-bl">induced dipole（示意）：<b class="bp-lv">≈ 0</b></div>
+    <div class="bp-bar"><i></i></div>
+    <p class="bp-st"></p>
+    <div class="bp-key">
+      <p class="bp-en">The electron-rich π bond in C=C repels the bonding electrons in Br–Br, inducing a dipole: Br<sup>δ+</sup>—Br<sup>δ−</sup></p>
+      <p>Br₂ 本身是 <b>non-polar</b>（两个 Br 一模一样，没有 permanent dipole）；dipole 是 alkene 的 π 电子云<b>诱导</b>出来的，Br₂ 一离开就消失 → 这叫 <b>induced dipole</b>。</p>
+    </div>
+    <p class="bp-ex">答题：靠近 C=C 的 Br 标 <b class="bp-cp">δ+</b>，远端 Br 标 <b class="bp-cn">δ−</b>；下一步 curly arrow 从 C=C（π bond）指向 Br<sup>δ+</sup>。</p>
+  </div>
+</div>
+
+<style>
+.k .bp-lo{font-size:13.5px;color:var(--mut);border-left:3px solid var(--acc);padding:2px 0 2px 10px;margin:4px 0 8px}
+.k .bp-ctl{margin:4px 0}
+.k .bp-sl{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mut);margin:4px 0 8px}
+.k .bp-sl input{flex:1 1 auto;min-width:0}
+.k .bp-dv{min-width:6.4em;text-align:right;color:var(--fg)}
+.k .bp-grid{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
+.k .bp-left{flex:1 1 440px;min-width:0}
+.k .bp-stage{height:480px}
+.k .bp-hud{font-size:12.5px;line-height:1.45}
+.k .bp-hud b{font-weight:700}
+.k .bp-card{flex:1 1 260px;min-width:0;font-size:14px}
+.k .bp-h{font-weight:650}
+.k .bp-big{font-size:26px;line-height:1.25;margin:2px 0 0}
+.k .bp-big b{font-weight:700}
+.k .bp-def{margin-bottom:6px}
+.k .bp-bl{font-size:13.5px;color:var(--mut)}
+.k .bp-bl b{color:var(--fg);font-size:15px}
+.k .bp-bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin:3px 0 4px}
+.k .bp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--neg),var(--pos))}
+.k .bp-st{margin:8px 0;border-left:3px solid var(--line);padding:2px 0 2px 9px;min-height:4.6em}
+.k .bp-st.bp-weak{border-left-color:var(--s4)}
+.k .bp-st.bp-mid{border-left-color:var(--pos)}
+.k .bp-st.bp-strong{border-left-color:var(--pos);background:var(--bad-soft)}
+.k .bp-key{border-left:3px solid var(--acc);padding:2px 0 2px 10px;margin:8px 0}
+.k .bp-key p{margin:4px 0}
+.k .bp-en{font-style:italic}
+.k .bp-ex{font-size:13.5px;color:var(--mut)}
+.k .bp-cp{color:var(--pos)} .k .bp-cn{color:var(--neg)}
+.k .bp-card sup,.k .bp-q sup,.k .bp-hud sup{font-size:max(12px,.8em);line-height:0}
+.k .bp-q{position:absolute;left:0;top:0;z-index:2;pointer-events:none;font-size:16px;font-weight:650;line-height:1.25;
+  background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 7px;color:var(--fg);white-space:nowrap}
+.k .bp-q.bp-pos{color:var(--pos);border-color:var(--pos)}
+.k .bp-q.bp-neg{color:var(--neg);border-color:var(--neg)}
+.k .bp-qpi{font-size:13.5px;font-weight:600;color:var(--s1);border-color:var(--s1)}
+.k .bp-fb{width:460px}
+.k .bp-fb text{font-size:15px}
+.k .bp-fb text.bp-fq{font-size:17px;font-weight:700}
+.k .bp-fb text.bp-fpos{fill:var(--pos)} .k .bp-fb text.bp-fneg{fill:var(--neg)}
+.k .bp-fb text.bp-fpi{fill:var(--s1);font-size:14px}
+.k .bp-fb text.bp-fmut{fill:var(--mut);font-size:14px}
+.k[data-3d=fallback] .bp-3donly{display:none}
+</style>
+<script>
+/* ---------- model (Å) ----------
+   ethene lies in the x–z plane, C=C along x, centred at the origin, so the π lobes stand along ±y.
+   Br₂ comes straight down the y axis (end-on): near Br at y = d, far Br at y = d + 2.28.
+   The polarisation is qualitative: it grows like 1/d² (field of the π cloud), scaled to 0 at 8.0 Å, 1 at 2.2 Å. */
+var BP = { DMIN: 2.2, DMAX: 8.0, D0: 7.5, BRBR: 2.28, CC: 1.34, CH: 1.09, SPEED: 1.8, LY: 0.78 };
+var bp = { d: BP.D0, anim: false, vis: true };
+var bpApi = null, bpT = null, bpM = null, bpLastW = 0;
+
+function bpPol(d) {
+  var a = 1 / (d * d), lo = 1 / (BP.DMAX * BP.DMAX), hi = 1 / (BP.DMIN * BP.DMIN);
+  return Math.max(0, Math.min(1, (a - lo) / (hi - lo)));
+}
+function bpLevel(p) { return p < 0.06 ? 'none' : p < 0.3 ? 'weak' : p < 0.65 ? 'mid' : 'strong'; }
+var BP_LV = {
+  none: { lv: '≈ 0（non-polar）',
+    txt: 'Br₂ 还离得远：两个 Br 完全相同，Br–Br 的 <b>bonding pair</b> 正好在正中间 → Br₂ 是 <b>non-polar</b>，没有 dipole。' },
+  weak: { lv: '弱',
+    txt: 'π electrons 开始<b>排斥</b> Br–Br 的 bonding pair，把它推向<b>远端</b>的 Br：近端 Br 略缺电子（δ+），远端略富电子（δ−）→ 出现一个很弱的 <b>induced dipole</b>。' },
+  mid: { lv: '明显',
+    txt: '越靠近，π 电子云的排斥越强，bonding pair 被推得越偏：Br<sup>δ+</sup>—Br<sup>δ−</sup> 的 dipole 明显变大。' },
+  strong: { lv: '强',
+    txt: 'Br<sup>δ+</sup> 已经足够缺电子，成了 <b>electrophile</b>：π electrons 进攻 Br<sup>δ+</sup>，Br–Br 发生 heterolytic fission（Br⁻ 带走电子对）→ <b>electrophilic addition</b> 开始。' }
+};
+
+/* ---------- readouts (work with or without 3D) ---------- */
+function bpReadouts() {
+  var d = bp.d, p = bpPol(d), lv = bpLevel(p), r = $root.querySelector('.bp-r');
+  var v = Math.round((BP.DMAX - d) * 10);
+  if (+r.value !== v) r.value = v;
+  var ds = d.toFixed(1);
+  $root.querySelector('.bp-dv').textContent = 'd = ' + ds + ' Å';
+  $root.querySelector('.bp-d').textContent = ds;
+  $root.querySelector('.bp-lv').innerHTML = BP_LV[lv].lv;
+  $root.querySelector('.bp-bar i').style.width = (p * 100).toFixed(1) + '%';
+  var st = $root.querySelector('.bp-st');
+  st.className = 'bp-st bp-' + lv;
+  st.innerHTML = BP_LV[lv].txt;
+  $root.setAttribute('data-d', ds);
+  $root.setAttribute('data-pol', lv);
+  $root.setAttribute('data-p', p.toFixed(3));
+  if ($root.getAttribute('data-3d') === 'fallback') bpDrawFb();
+}
+
+/* ---------- 2D fallback (also follows the slider) ---------- */
+var FB = { CX: 230, CY: 356, R: 16, BOND: 66 };
+function bpFbNearY(d) { return FB.CY - 72 - (d - BP.DMIN) / (BP.DMAX - BP.DMIN) * 196; }
+function bpRectSegs(b, pad) {
+  var x0 = b.x - pad, y0 = b.y - pad, x1 = b.x + b.width + pad, y1 = b.y + b.height + pad;
+  return [[x0, y0, x1, y0], [x1, y0, x1, y1], [x1, y1, x0, y1], [x0, y1, x0, y0]];
+}
+function bpEllSegs(cx, cy, rx, ry) {
+  var pts = [];
+  for (var i = 0; i <= 28; i++) { var t = i / 28 * 2 * Math.PI; pts.push([cx + rx * Math.cos(t), cy + ry * Math.sin(t)]); }
+  return K.segs(pts);
+}
+function bpDrawFb() {
+  var svg = $root.querySelector('.bp-fb');
+  if (!svg || !svg.getClientRects().length) return;
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  var d = bp.d, p = bpPol(d), on = p >= 0.06, X = FB.CX, Y = FB.CY, avoid = [], placed = [];
+  var brCol = window.K3 && K3.CPK ? K3.CPK.Br : 'var(--s2)';
+  function add(tag, at) { var e = K.svg(tag, at); svg.appendChild(e); return e; }
+  function line(x1, y1, x2, y2, at) {
+    var o = { x1: x1, y1: y1, x2: x2, y2: y2, stroke: 'var(--fg)', 'stroke-width': 1.6, 'stroke-linecap': 'round' };
+    for (var k in at || {}) o[k] = at[k];
+    add('line', o); avoid.push([x1, y1, x2, y2]);
+  }
+  function txt(x, y, s, cls) {
+    var t = add('text', { x: x, y: y, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'class': cls || '' });
+    t.textContent = s; avoid = avoid.concat(bpRectSegs(t.getBBox(), 1)); return t;
+  }
+  /* π lobes above and below the C=C */
+  [-1, 1].forEach(function (s) {
+    add('ellipse', { cx: X, cy: Y + s * 27, rx: 54, ry: 20, fill: 'var(--s1)', 'fill-opacity': s < 0 ? 0.16 + 0.12 * p : 0.16,
+      stroke: 'var(--s1)', 'stroke-width': 1.4 });
+    avoid = avoid.concat(bpEllSegs(X, Y + s * 27, 54, 20));
+  });
+  /* ethene, displayed formula */
+  txt(X - 40, Y, 'C'); txt(X + 40, Y, 'C');
+  line(X - 29, Y - 4, X + 29, Y - 4); line(X - 29, Y + 4, X + 29, Y + 4);
+  [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(function (q) {
+    var cx = X + q[0] * 40, hx = cx + q[0] * 40, hy = Y + q[1] * 30;
+    txt(hx, hy, 'H');
+    line(cx + q[0] * 10, Y + q[1] * 7, hx - q[0] * 8, hy - q[1] * 6);
+  });
+  /* Br₂ */
+  var yn = bpFbNearY(d), yf = yn - FB.BOND, rn = 30 * (1 - 0.3 * p), rf = 30 * (1 + 0.25 * p);
+  [[yn, rn, 'var(--pos)'], [yf, rf, 'var(--neg)']].forEach(function (c) {
+    add('circle', { cx: X, cy: c[0], r: c[1], fill: 'var(--mut)', 'fill-opacity': 0.13 * (1 - p) });
+    add('circle', { cx: X, cy: c[0], r: c[1], fill: c[2], 'fill-opacity': 0.3 * p, stroke: on ? c[2] : 'var(--faint)',
+      'stroke-width': 1, 'stroke-dasharray': '3 3' });
+    avoid = avoid.concat(bpEllSegs(X, c[0], c[1], c[1]));
+  });
+  line(X, yn - FB.R, X, yf + FB.R);
+  [yn, yf].forEach(function (y) {
+    add('circle', { cx: X, cy: y, r: FB.R, fill: 'var(--card)', stroke: brCol, 'stroke-width': 3 });
+    txt(X, y + 1, 'Br');
+  });
+  /* the bonding pair, pushed towards the far Br */
+  var yb = yn - (0.5 + 0.25 * p) * FB.BOND;
+  [-1, 1].forEach(function (s) { add('circle', { cx: X + s * 6, cy: yb, r: 3.6, fill: 'var(--s5)' }); });
+  /* dimension line for d (from the C=C level up to the near Br) */
+  var dx = X + 108;
+  line(dx, Y, dx, yn, { stroke: 'var(--mut)', 'stroke-width': 1.2 });
+  line(dx - 6, Y, dx + 6, Y, { stroke: 'var(--mut)', 'stroke-width': 1.2 });
+  line(dx - 6, yn, dx + 6, yn, { stroke: 'var(--mut)', 'stroke-width': 1.2 });
+  line(X + rn + 4, yn, dx - 8, yn, { stroke: 'var(--faint)', 'stroke-width': 1, 'stroke-dasharray': '2 3' });
+  /* dipole arrow (head at δ−, cross at the δ+ tail), left of Br₂ */
+  if (on) {
+    var ax = X - 52, a0 = yn - 4, a1 = yf + 4;
+    line(ax, a0, ax, a1 + 9, { 'stroke-width': 2 });
+    add('path', { d: 'M' + ax + ',' + a1 + ' l-5,10 l10,0 z', fill: 'var(--fg)' });
+    avoid.push([ax - 5, a1, ax + 5, a1 + 10]);
+    line(ax - 6, a0 - 9, ax + 6, a0 - 9, { 'stroke-width': 2 });
+  }
+  /* labels last, so they dodge everything drawn above */
+  var cands = function (r) {
+    return [[r + 6, 6, 'start'], [-(r + 6), 6, 'end'], [r + 4, -10, 'start'], [r + 4, 22, 'start'], [-(r + 4), -10, 'end'],
+            [-(r + 4), 22, 'end'], [r + 14, 6, 'start'], [-(r + 14), 6, 'end']];
+  };
+  if (on) {
+    K.label(svg, X, yn, 'δ+', { avoid: avoid, placed: placed, cls: 'bp-fq bp-fpos', cands: cands(rn) });
+    K.label(svg, X, yf, 'δ−', { avoid: avoid, placed: placed, cls: 'bp-fq bp-fneg', cands: cands(rf) });
+  } else {
+    K.label(svg, X, (yn + yf) / 2, 'non-polar', { avoid: avoid, placed: placed, cls: 'bp-fmut', cands: cands(rf) });
+  }
+  K.label(svg, X, Y - 27, 'π 电子云（electron-rich）', { avoid: avoid, placed: placed, cls: 'bp-fpi',
+    cands: [[-58, -18, 'end'], [-60, -2, 'end'], [-56, -26, 'end'], [-30, -30, 'end'], [-70, 14, 'end'], [-150, -40, 'start'],
+            [-200, -44, 'start'], [-220, -30, 'start']] });
+  K.label(svg, dx, (Y + yn) / 2, 'd = ' + d.toFixed(1) + ' Å', { avoid: avoid, placed: placed, cls: 'bp-fmut',
+    cands: [[8, 5, 'start'], [-8, 5, 'end'], [8, -14, 'start'], [8, 24, 'start']] });
+}
+if (window.MutationObserver) new MutationObserver(function () {
+  if ($root.getAttribute('data-3d') === 'fallback') requestAnimationFrame(bpDrawFb);
+}).observe($root, { attributes: true, attributeFilter: ['data-3d'] });
+
+/* ---------- 3D ---------- */
+function bpIsDark() { var c = bpApi.color('--card'); return c.r * 0.299 + c.g * 0.587 + c.b * 0.114 < 0.45; }
+function bpBuild() {
+  var T = bpT, api = bpApi, dark = bpIsDark(), M = bpM = {};
+  var cC = K3.lcol('C', dark), cH = K3.lcol('H', dark), cBr = K3.CPK.Br;
+  var mats = {};
+  function mat(c) { return mats[c] || (mats[c] = new T.MeshPhongMaterial({ color: c, shininess: 60 })); }
+  function ball(el, p, col, into) {
+    var m = new T.Mesh(new T.SphereGeometry(K3.ARAD[el], 32, 22), mat(col));
+    m.position.fromArray(p); into.add(m); return m;
+  }
+  M.inner = new T.Group(); api.group.add(M.inner);
+  M.atoms = [];
+  /* ethene */
+  var z = Math.sqrt(3) / 2, h = BP.CC / 2;
+  [-1, 1].forEach(function (s) {
+    var c = [s * h, 0, 0];
+    ball('C', c, cC, M.inner); M.atoms.push({ el: 'C', p: c, g: M.inner });
+    [-1, 1].forEach(function (t) {
+      var hp = [s * h + s * 0.5 * BP.CH, 0, t * z * BP.CH];
+      ball('H', hp, cH, M.inner); M.atoms.push({ el: 'H', p: hp, g: M.inner });
+      M.inner.add(K3.rod(T, c, hp, 0.07, mat(cC)));
+    });
+  });
+  [-1, 1].forEach(function (s) { M.inner.add(K3.rod(T, [-h, 0, s * 0.1], [h, 0, s * 0.1], 0.055, mat(cC))); });
+  /* π lobes */
+  var s1 = api.color('--s1');
+  M.lobes = [1, -1].map(function (s) {
+    var m = new T.Mesh(new T.SphereGeometry(1, 40, 28), new T.MeshPhongMaterial({ color: s1, transparent: true,
+      opacity: dark ? 0.36 : 0.3, depthWrite: false, shininess: 40 }));
+    m.material.emissive.copy(s1).multiplyScalar(0.25);
+    m.position.set(0, s * BP.LY, 0); m.scale.set(1.3, 0.6, 0.72); m.renderOrder = 2;
+    M.inner.add(m); return m;
+  });
+  /* dashed d guide along y (dashes shown below the near Br only) */
+  var dm = new T.MeshBasicMaterial({ color: api.color('--mut') });
+  M.dash = [];
+  for (var y = 0.05; y < BP.DMAX; y += 0.3) { var r = K3.rod(T, [0, y, 0], [0, y + 0.16, 0], 0.02, dm); M.inner.add(r); M.dash.push({ m: r, y: y + 0.16 }); }
+  /* Br₂: near Br at local y = 0 */
+  M.br = new T.Group(); M.inner.add(M.br);
+  ball('Br', [0, 0, 0], cBr, M.br); ball('Br', [0, BP.BRBR, 0], cBr, M.br);
+  M.atoms.push({ el: 'Br', p: [0, 0, 0], g: M.br, near: true }, { el: 'Br', p: [0, BP.BRBR, 0], g: M.br });
+  M.br.add(K3.rod(T, [0, 0, 0], [0, BP.BRBR, 0], 0.08, mat(cBr)));
+  M.clouds = [0, BP.BRBR].map(function (y) {
+    var m = new T.Mesh(new T.SphereGeometry(1, 36, 24), new T.MeshPhongMaterial({ color: api.color('--mut'), transparent: true,
+      opacity: 0.2, depthWrite: false, shininess: 30 }));
+    m.position.set(0, y, 0); m.renderOrder = 3; M.br.add(m); return m;
+  });
+  M.pair = [-1, 1].map(function (s) {
+    var m = new T.Mesh(new T.SphereGeometry(0.085, 16, 12), new T.MeshBasicMaterial({ color: api.color('--s5'), transparent: true, depthTest: false }));
+    m.renderOrder = 6; m.userData.x = s * 0.17; M.br.add(m); return m;
+  });
+  M.arrow = K3.arrow(T, [0.95, 0.12, 0], [0.95, BP.BRBR - 0.12, 0], api.color('--fg'), { r: 0.035, head: 0.3, cross: true });
+  M.br.add(M.arrow);
+  M.cMut = api.color('--mut'); M.cPos = api.color('--pos'); M.cNeg = api.color('--neg'); M.s1 = s1;
+  /* the inner group is centred on the content so drag-rotation pivots about its middle */
+  M.yc = (-BP.LY - 0.6 + BP.DMAX + BP.BRBR + 0.9) / 2;
+  M.inner.position.y = -M.yc;
+  /* HUD legend: atom colours come from kit3d */
+  $root.querySelector('.bp-hud').innerHTML = 'ethene + Br₂ · <b style="color:' + cC + '">●</b> C <b style="color:' + cH + '">●</b> H <b style="color:' + cBr + '">●</b> Br · '
+    + '<b style="color:var(--s1)">●</b> π electron cloud · <b style="color:var(--s5)">●●</b> Br–Br bonding pair · '
+    + '<b style="color:var(--pos)">红</b> 缺电子 δ+ / <b style="color:var(--neg)">蓝</b> 富电子 δ− · ┆ d · → dipole';
+}
+function bpApplyD() {
+  if (!bpM) return;
+  var M = bpM, d = bp.d, p = bpPol(d), on = p >= 0.06;
+  M.br.position.y = d;
+  var rn = 0.78 * (1 - 0.3 * p), rf = 0.78 * (1 + 0.25 * p);
+  M.clouds[0].scale.setScalar(rn); M.clouds[1].scale.setScalar(rf);
+  M.clouds[0].material.color.copy(M.cMut).lerp(M.cPos, Math.min(1, p * 1.6));
+  M.clouds[1].material.color.copy(M.cMut).lerp(M.cNeg, Math.min(1, p * 1.6));
+  M.clouds[0].material.emissive.copy(M.cPos).multiplyScalar(0.55 * p);
+  M.clouds[1].material.emissive.copy(M.cNeg).multiplyScalar(0.25 * p);
+  M.clouds[0].material.opacity = 0.18 + 0.2 * p;
+  M.clouds[1].material.opacity = 0.18 + 0.14 * p;
+  var yb = (0.5 + 0.25 * p) * BP.BRBR;
+  M.pair.forEach(function (m) { m.position.set(m.userData.x, yb, 0); });
+  M.arrow.visible = on;
+  M.lobes[0].scale.y = 0.6 * (1 + 0.25 * p);
+  M.lobes[0].position.y = BP.LY + 0.6 * 0.25 * p * 0.6;
+  M.lobes[0].material.emissive.copy(M.s1).multiplyScalar(0.25 + 0.3 * p);
+  M.dash.forEach(function (o) { o.m.visible = o.y < d - K3.ARAD.Br - 0.05; });
+}
+
+/* projection helpers */
+function bpWpp(depth) { return 2 * Math.tan(20 * Math.PI / 180) * depth / (bpApi.renderer.domElement.clientHeight || 480); }
+function bpProj(obj, local) {
+  var v = new bpT.Vector3().fromArray(local || [0, 0, 0]);
+  obj.localToWorld(v);
+  var cam = bpApi.camera, el = bpApi.renderer.domElement, depth = v.distanceTo(cam.position), q = v.clone().project(cam);
+  return { x: (q.x + 1) / 2 * el.clientWidth, y: (1 - q.y) / 2 * el.clientHeight, depth: depth, ppu: 1 / bpWpp(depth) };
+}
+/* every opaque / big thing as a screen circle: atoms, Br clouds, π lobes, the dipole arrow */
+function bpCircles() {
+  var M = bpM, out = [];
+  M.atoms.forEach(function (a, i) {
+    var q = bpProj(a.g, a.p);
+    out.push({ x: q.x, y: q.y, r: K3.ARAD[a.el] * q.ppu, depth: q.depth, kind: 'atom', el: a.el, i: i, near: !!a.near });
+  });
+  M.clouds.forEach(function (c, k) {
+    var q = bpProj(M.br, c.position.toArray());
+    out.push({ x: q.x, y: q.y, r: c.scale.x * q.ppu, depth: q.depth, kind: 'cloud', k: k });
+  });
+  M.lobes.forEach(function (l, k) {
+    [-0.75, -0.35, 0, 0.35, 0.75].forEach(function (f) {
+      var rr = l.scale.y * Math.sqrt(1 - f * f * 0.6);
+      var q = bpProj(M.inner, [f * l.scale.x, l.position.y, 0]);
+      out.push({ x: q.x, y: q.y, r: rr * q.ppu, depth: q.depth, kind: 'lobe', k: k });
+    });
+  });
+  if (M.arrow.visible) [0.12, 0.6, 1.14, 1.7, BP.BRBR - 0.12].forEach(function (y) {
+    var q = bpProj(M.br, [0.95, y, 0]);
+    out.push({ x: q.x, y: q.y, r: 0.13 * q.ppu, depth: q.depth, kind: 'arrow' });
+  });
+  return out;
+}
+function bpSyncSize() {
+  if (!bpApi) return;
+  var stage = $root.querySelector('.bp-stage'), w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  var el = bpApi.renderer.domElement;
+  if (el.clientWidth !== w || el.clientHeight !== h || Math.abs(bpApi.camera.aspect - w / h) > 0.001) {
+    bpApi.renderer.setSize(w, h); bpApi.camera.aspect = w / h; bpApi.camera.updateProjectionMatrix();
+  }
+}
+function bpViewRaw() {
+  var api = bpApi;
+  api.group.rotation.set(api.rx, api.ry, 0);
+  api.camera.position.set(0, 0, api.dist);
+  api.camera.lookAt(0, 0, 0);
+  api.scene.updateMatrixWorld(true);
+}
+function bpBand() {
+  var stage = $root.querySelector('.bp-stage'), hud = $root.querySelector('.bp-hud');
+  var W = stage.clientWidth || 600, H = stage.clientHeight || 480;
+  var mx = Math.min(80, W * 0.14);
+  return { x0: mx, x1: W - mx, y0: (hud ? hud.offsetHeight : 30) + 14, y1: H - 14, W: W, H: H };
+}
+/* screen box over the whole slider range (Br₂ at both ends, clouds at their largest) */
+function bpBBox() {
+  var M = bpM, bb = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 }, keep = bp.d;
+  [BP.DMIN, BP.DMAX].forEach(function (d) {
+    bp.d = d; bpApplyD(); bpApi.scene.updateMatrixWorld(true);
+    bpCircles().forEach(function (c) {
+      var r = c.r;   /* the far cloud is largest at DMIN, which is one of the two ends sampled */
+      bb.x0 = Math.min(bb.x0, c.x - r); bb.x1 = Math.max(bb.x1, c.x + r);
+      bb.y0 = Math.min(bb.y0, c.y - r); bb.y1 = Math.max(bb.y1, c.y + r);
+    });
+  });
+  bp.d = keep; bpApplyD(); bpApi.scene.updateMatrixWorld(true);
+  return bb;
+}
+function bpFit() {
+  var api = bpApi;
+  bpSyncSize();
+  api.scene.position.set(0, 0, 0);
+  for (var it = 0; it < 5; it++) {
+    bpViewRaw();
+    var band = bpBand(), bb = bpBBox();
+    var k = Math.max((bb.x1 - bb.x0) / (band.x1 - band.x0), (bb.y1 - bb.y0) / (band.y1 - band.y0));
+    api.dist = Math.max(4, Math.min(38, api.dist * k));
+    bpViewRaw();
+    bb = bpBBox();
+    var w = bpWpp(api.dist);
+    api.scene.position.x -= ((bb.x0 + bb.x1) / 2 - (band.x0 + band.x1) / 2) * w;
+    api.scene.position.y += ((bb.y0 + bb.y1) / 2 - (band.y0 + band.y1) / 2) * w;
+  }
+  bpViewRaw();
+  api.dist0 = api.dist;
+  bpLastW = $root.querySelector('.bp-stage').clientWidth;
+}
+
+/* ---------- HTML labels on the stage: Br / Brδ+ / Brδ− and the π cloud ---------- */
+function bpRectCircle(r, c, pad) {
+  var dx = Math.max(r.x - c.x, 0, c.x - (r.x + r.w)), dy = Math.max(r.y - c.y, 0, c.y - (r.y + r.h));
+  return Math.hypot(dx, dy) < c.r + pad;
+}
+function bpRectRect(a, b) { return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h; }
+function bpLabels() {
+  if (!bpM) return;
+  var M = bpM, p = bpPol(bp.d), on = p >= 0.06, stage = $root.querySelector('.bp-stage'), hud = $root.querySelector('.bp-hud');
+  var W = stage.clientWidth, H = stage.clientHeight, hb = hud.offsetHeight;
+  var cs = bpCircles(), placed = [{ x: 0, y: 0, w: W, h: hb }];
+  var qn = $root.querySelector('.bp-qn'), qp = $root.querySelector('.bp-qp'), qpi = $root.querySelector('.bp-qpi');
+  qp.innerHTML = on ? 'Br<sup>δ+</sup>' : 'Br'; qp.className = 'bp-q bp-qp' + (on ? ' bp-pos' : '');
+  qn.innerHTML = on ? 'Br<sup>δ−</sup>' : 'Br'; qn.className = 'bp-q bp-qn' + (on ? ' bp-neg' : '');
+  qp.style.opacity = on ? Math.min(1, 0.6 + p).toFixed(2) : '1';
+  qn.style.opacity = qp.style.opacity;
+  var atoms = cs.filter(function (c) { return c.kind === 'atom'; });
+  var nearA = atoms.filter(function (c) { return c.el === 'Br' && c.near; })[0];
+  var farA = atoms.filter(function (c) { return c.el === 'Br' && !c.near; })[0];
+  var lobeC = bpProj(M.inner, [0, M.lobes[0].position.y, 0]), lobeR = M.lobes[0].scale.x * lobeC.ppu;
+  var jobs = [
+    { el: qp, x: nearA.x, y: nearA.y, r: nearA.r, angs: [0, 180, -25, 25, 155, 205, -50, 50, 130, 230] },
+    { el: qn, x: farA.x, y: farA.y, r: farA.r, angs: [0, 180, 25, -25, 155, 205, 50, -50, 130, 230, 90] },
+    { el: qpi, x: lobeC.x, y: lobeC.y, r: lobeR * 0.7, angs: [180, 200, 160, 0, 340, 20, 220, 140, 240, 300] }
+  ];
+  jobs.forEach(function (j) {
+    var w = j.el.offsetWidth, h = j.el.offsetHeight, best = null, bestBad = 1e9;
+    [4, 14, 28, 46, 70].some(function (gap) {
+      return j.angs.some(function (a) {
+        var t = a * Math.PI / 180, ux = Math.cos(t), uy = -Math.sin(t);
+        /* rect centre: far enough along the ray that the rect clears a circle of radius r + gap */
+        var ext = Math.abs(ux) * w / 2 + Math.abs(uy) * h / 2;
+        var cx = j.x + ux * (j.r + gap + ext), cy = j.y + uy * (j.r + gap + ext);
+        var R = { x: cx - w / 2, y: cy - h / 2, w: w, h: h };
+        var bad = cs.filter(function (c) { return bpRectCircle(R, c, 2); }).length * 2
+          + placed.filter(function (q) { return bpRectRect(q, R); }).length * 2
+          + (R.x < 4 || R.y < 4 || R.x + R.w > W - 4 || R.y + R.h > H - 4 ? 3 : 0);
+        if (bad < bestBad) { bestBad = bad; best = R; }
+        return !bad;
+      });
+    });
+    j.el.style.left = best.x.toFixed(1) + 'px'; j.el.style.top = best.y.toFixed(1) + 'px';
+    if (bestBad) j.el.setAttribute('data-clash', bestBad); else j.el.removeAttribute('data-clash');
+    placed.push(best);
+  });
+}
+function bpRender() {
+  if (!bpApi) return;
+  bpSyncSize();
+  bpApplyD();
+  bpViewRaw();
+  bpApi.render();
+  bpLabels();
+}
+
+/* ---------- controls ---------- */
+function bpSetAnim(on) {
+  bp.anim = on;
+  var b = $root.querySelector('.bp-go');
+  b.classList.toggle('on', on);
+  b.textContent = on ? '❚❚ 暂停' : '▶ 靠近极化';
+  $root.setAttribute('data-anim', on ? '1' : '0');
+}
+function bpChanged() { bpReadouts(); bpRender(); }
+$root.querySelector('.bp-r').addEventListener('input', function (e) {
+  bpSetAnim(false);
+  bp.d = BP.DMAX - (+e.target.value) / 10;
+  bpChanged();
+});
+$root.querySelector('.bp-go').addEventListener('click', function () {
+  if (bp.anim) { bpSetAnim(false); return; }
+  if (bp.d <= BP.DMIN + 0.01) bp.d = BP.D0;
+  bpSetAnim(true);
+  bpChanged();
+});
+$root.querySelector('.bp-far').addEventListener('click', function () { bpSetAnim(false); bp.d = BP.D0; bpChanged(); });
+function bpStep(ms) {
+  bp.d = Math.max(BP.DMIN, bp.d - BP.SPEED * ms / 1000);
+  if (bp.d <= BP.DMIN) { bp.d = BP.DMIN; bpSetAnim(false); }
+  bpChanged();
+}
+(function () {
+  var last = null;
+  function loop(t) {
+    if (bp.anim && bp.vis && document.visibilityState !== 'hidden') {
+      if (last != null) bpStep(Math.min(50, t - last));
+      last = t;
+    } else last = null;
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+if (window.IntersectionObserver) new IntersectionObserver(function (es) {
+  es.forEach(function (e) { bp.vis = e.isIntersecting; });
+}).observe($root);
+
+K.init($root);
+bpReadouts();
+
+K3.start($root, function (T, api) {
+  bpT = T; bpApi = api;
+  bpBuild();
+  api.rx = 0.3; api.ry = -0.55; api.dist = 20;
+  bpApplyD();
+  bpFit();
+  api.rx0 = api.rx; api.ry0 = api.ry;
+  api.view = function () { bpRender(); };
+  bpRender();
+  if (window.ResizeObserver) {
+    var stage = $root.querySelector('.bp-stage'), raf = null;
+    new ResizeObserver(function () {
+      var w = stage.clientWidth;
+      if (!w || Math.abs(w - bpLastW) < 2) return;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function () { raf = null; bpFit(); bpRender(); });
+    }).observe(stage);
+  }
+});
+
+/* ---------- test hooks ---------- */
+$root.__bp = {
+  state: bp,
+  pol: bpPol,
+  setD: function (d) { bpSetAnim(false); bp.d = Math.max(BP.DMIN, Math.min(BP.DMAX, d)); bpChanged(); },
+  step: bpStep,
+  layout: function () {
+    if (!bpApi) return null;
+    var stage = $root.querySelector('.bp-stage');
+    if (Math.abs(stage.clientWidth - bpLastW) >= 2) bpFit();
+    bpRender();
+    var el = bpApi.renderer.domElement, cr = el.getBoundingClientRect();
+    function rel(n) {
+      var r = n.getBoundingClientRect();
+      return { x: r.left - cr.left, y: r.top - cr.top, w: r.width, h: r.height, text: n.textContent,
+               q: n.getAttribute('data-q'), op: +getComputedStyle(n).opacity, cls: n.className };
+    }
+    return { W: el.clientWidth, H: el.clientHeight, d: bp.d, p: bpPol(bp.d), circles: bpCircles(),
+             labels: Array.prototype.map.call($root.querySelectorAll('.bp-q'), rel), hud: rel($root.querySelector('.bp-hud')),
+             arrow: bpM.arrow.visible, pairY: bpM.pair[0].position.y, clouds: bpM.clouds.map(function (c) { return c.scale.x; }),
+             rx: bpApi.rx, ry: bpApi.ry, dist: bpApi.dist };
+  }
+};
+</script>

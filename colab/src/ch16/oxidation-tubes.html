@@ -1,0 +1,1413 @@
+<h3>K₂Cr₂O₇ 氧化：distillation 与 reflux <span class="faint">选底物与条件 · 点加热观察变色与产物</span></h3>
+
+<!-- 精简一行高亮提示卡 -->
+<div class="row ox-summary-strip">
+  <div class="ox-sum-item"><b>1° alcohol</b>：蒸馏（distillation）得 <b>aldehyde</b>；回流（reflux）完全氧化为 <b>carboxylic acid</b></div>
+  <div class="ox-sum-item"><b>2° alcohol</b>：蒸馏或回流均只氧化为 <b>ketone</b>（无进一步反应）</div>
+  <div class="ox-sum-item"><b>3° alcohol</b>：羟基碳上无氢原子（no α-H），<b>不发生反应 (remains orange)</b></div>
+</div>
+
+<div class="ox-wrap">
+  <div class="tabbar">
+    <button type="button" class="on" data-tab="explorer">① 反应装置与产物探索 (Distillation vs Reflux)</button>
+    <button type="button" data-tab="parallel">② 三试管并排鉴别模式 (3-Tube Parallel Test)</button>
+    <button type="button" data-tab="quiz">③ 真题考点自测 (Practice Quiz)</button>
+  </div>
+
+  <!-- ================= Tab 1: 反应装置与产物探索 ================= -->
+  <div data-pane="explorer" class="show">
+    <!-- 紧凑精致的控制栏 -->
+    <div class="card ox-ctrl-card">
+      <div class="row ox-ctrl-row">
+        <span class="ox-ctrl-lbl">底物 Substrate：</span>
+        <div class="row ox-sub-pills" role="group" aria-label="选择醇底物">
+          <button type="button" class="ox-sub-btn on" data-sub="ethanol">ethanol (1°)</button>
+          <button type="button" class="ox-sub-btn" data-sub="propan1ol">propan-1-ol (1°)</button>
+          <button type="button" class="ox-sub-btn" data-sub="mpropan1ol">2-methylpropan-1-ol (1°)</button>
+          <button type="button" class="ox-sub-btn" data-sub="propan2ol">propan-2-ol (2°)</button>
+          <button type="button" class="ox-sub-btn" data-sub="butan2ol">butan-2-ol (2°)</button>
+          <button type="button" class="ox-sub-btn" data-sub="tbutanol">2-methylpropan-2-ol (3°)</button>
+        </div>
+      </div>
+      <div class="row ox-ctrl-row ox-cond-row">
+        <div class="row ox-sub-group">
+          <span class="ox-ctrl-lbl">装置 Condition：</span>
+          <button type="button" class="ox-cond-btn" data-cond="distil">🧪 Distillation (蒸馏出产物)</button>
+          <button type="button" class="ox-cond-btn on" data-cond="reflux">⚗️ Reflux (长时间充分回流)</button>
+        </div>
+        <div class="row ox-sub-group ox-ox-group">
+          <span class="ox-ctrl-lbl">氧化剂 Oxidant：</span>
+          <button type="button" class="ox-ox-btn on" data-ox="dichromate">K₂Cr₂O₇/H⁺ (orange→green)</button>
+          <button type="button" class="ox-ox-btn" data-ox="manganate">KMnO₄/H⁺ (purple→colourless)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 舞台双栏 -->
+    <div class="grid2 ox-stage-grid">
+      <!-- 左侧：仪器与动画模拟 -->
+      <div class="card ox-stage-card">
+        <div class="ox-stage-head">
+          <span class="ox-cur-title">ethanol (1°) + Reflux</span>
+          <span class="ox-badge ox-class-badge">1° alcohol</span>
+          <span class="ox-badge ox-res-badge">orange → green</span>
+        </div>
+
+        <div class="row ox-play-bar">
+          <button type="button" class="ox-btn-heat on">🔥 加热反应 (Heat)</button>
+          <button type="button" class="ox-btn-reset">↺ 重置</button>
+          <div class="ox-slider-wrap">
+            <span class="faint">反应进度：</span>
+            <input type="range" class="ox-progress-slider" min="0" max="100" value="0" aria-label="反应进度滑块">
+            <b class="ox-prog-val">0%</b>
+          </div>
+        </div>
+
+        <!-- 装置状态标头（外置，完全避免与 SVG 内部重叠） -->
+        <div class="ox-apparatus-banner">
+          <span class="ox-app-badge">⚗️ 装置特征</span>
+          <span class="ox-app-desc">Reflux 竖直冷凝管：冷水下进上出，蒸气遇冷液化回流，确保反应物与过量氧化剂彻底反应</span>
+        </div>
+
+        <div class="ox-stage-box">
+          <svg class="ox-svg ox-app-svg" viewBox="0 0 520 340" role="img" aria-label="反应装置与试管颜色变化图"></svg>
+        </div>
+
+        <div class="ox-apparatus-notes">
+          <div class="ox-an-col">
+            <b class="ox-an-title">冷凝水进出方向规范（Cambridge 9701 经典实验考点）：</b>
+            <span class="ox-an-text">冷水必须从<b>底部接口流入 (water in)</b>、<b>顶部接口流出 (water out)</b>。这样可依靠水压与重力使冷却水完全充满套管夹层，避免留存气穴导致冷凝失效或受热不均。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：化学方程式与得分点卡片 -->
+      <div class="card ox-info-card">
+        <div class="ox-ih">📋 反应产物与 Cambridge 9701 核心得分点</div>
+
+        <!-- Reactant vs Product comparison -->
+        <div class="ox-prod-box">
+          <div class="ox-pb-item">
+            <span class="faint">底物醇 (Reactant)：</span>
+            <div class="ox-p-name ox-reac-name">ethanol</div>
+            <div class="ox-p-form ox-reac-form">CH₃CH₂OH</div>
+          </div>
+          <div class="ox-pb-arr">➔</div>
+          <div class="ox-pb-item">
+            <span class="faint">有机产物 (Organic Product)：</span>
+            <div class="ox-p-name ox-prod-name">ethanoic acid</div>
+            <div class="ox-p-form ox-prod-form">CH₃COOH</div>
+          </div>
+        </div>
+
+        <!-- Chemical Equation Box -->
+        <div class="ox-eq-box">
+          <span class="faint">配平反应方程式 (Balanced equation with [O])：</span>
+          <div class="ox-eq-text">CH₃CH₂OH + 2[O] → CH₃COOH + H₂O</div>
+        </div>
+
+        <!-- Exam Analysis Bullet Points -->
+        <div class="ox-points-box">
+          <div class="ox-pt-item">
+            <b class="ox-pt-h">1. 为什么该条件生成此产物？</b>
+            <span class="ox-pt-desc ox-why-cond">回流条件下使用过量 acidified K₂Cr₂O₇，初生的 ethanal 蒸发后在竖直冷凝管中遇冷液化回流，无法逃逸，被继续完全氧化为 ethanoic acid。</span>
+          </div>
+          <div class="ox-pt-item">
+            <b class="ox-pt-h">2. 沸点与分子间作用力差异（极常考）：</b>
+            <span class="ox-pt-desc ox-bp-desc">Ethanal (bp 20°C，无氢键，仅有 dipole-dipole) &lt; Ethanol (bp 78°C，有氢键) &lt; Ethanoic acid (bp 118°C，强氢键二聚体)。蒸馏时 ethanal 沸点最低最先逸出。</span>
+          </div>
+          <div class="ox-pt-item">
+            <b class="ox-pt-h">3. 考试观察现象与得分词（Observation）：</b>
+            <span class="ox-pt-desc ox-obs-desc">必须完整写 <b>orange to green</b>（或 orange solution turns green）。单写 green 或写变成黄色不给分。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Tab 2: 三试管并排鉴别模式 ================= -->
+  <div data-pane="parallel">
+    <div class="card ox-sec-card">
+      <div class="row ox-p-ctrls">
+        <button type="button" class="ox-btn-warm on">🔥 水浴温热全部试管 (Warm in water bath)</button>
+        <button type="button" class="ox-btn-p-reset">↺ 重置试管</button>
+        <span class="faint" style="margin-left:auto">分别向 1°、2°、3° 醇各试管加入等量 acidified K₂Cr₂O₇</span>
+      </div>
+    </div>
+
+    <!-- Parallel tubes Stage -->
+    <div class="card ox-stage-card">
+      <div class="ox-stage-box">
+        <svg class="ox-svg ox-parallel-svg" viewBox="0 0 660 260" role="img" aria-label="三种醇并排氧化试管颜色对比"></svg>
+      </div>
+
+      <!-- Tubes status cards below -->
+      <div class="row ox-ptubes-row">
+        <div class="ox-ptube-card">
+          <div class="ox-ptc-name"><b>试管 1：Primary (1°)</b></div>
+          <div class="faint">ethanol (CH₃CH₂OH)</div>
+          <div class="ox-badge ox-badge-p1">orange → green</div>
+          <div class="ox-ptc-desc">发生氧化反应，Cr₂O₇²⁻ 被还原为 Cr³⁺（绿色溶液）。蒸馏得 aldehyde，回流得 carboxylic acid。</div>
+        </div>
+
+        <div class="ox-ptube-card">
+          <div class="ox-ptc-name"><b>试管 2：Secondary (2°)</b></div>
+          <div class="faint">propan-2-ol (CH₃CH(OH)CH₃)</div>
+          <div class="ox-badge ox-badge-p2">orange → green</div>
+          <div class="ox-ptc-desc">发生氧化反应，生成 ketone（丙酮 propanone）。溶液由橙色变为绿色。</div>
+        </div>
+
+        <div class="ox-ptube-card">
+          <div class="ox-ptc-name"><b>试管 3：Tertiary (3°)</b></div>
+          <div class="faint">2-methylpropan-2-ol ((CH₃)₃COH)</div>
+          <div class="ox-badge ox-badge-p3">remains orange</div>
+          <div class="ox-ptc-desc">连有 –OH 的 C 上无 H 原子（no α-H），不发生反应，溶液<b>保持橙色 (remains orange)</b>！</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cambridge Distinguishing Decision Tree Card -->
+    <div class="card ox-tree-card">
+      <div class="ox-dh">💡 Cambridge 9701 醇分类鉴别实验逻辑树（Distinguishing Strategy）</div>
+      <div class="ox-tree-grid">
+        <div class="ox-tree-step">
+          <div class="ox-ts-num">步骤 1</div>
+          <b>加入 acidified K₂Cr₂O₇ 加热温热：</b>
+          <ul>
+            <li><b style="color:var(--bad)">保持橙色 (remains orange)</b> ➔ 检出为 <b>3° alcohol</b>！</li>
+            <li><b style="color:var(--ok)">橙色变绿色 (orange → green)</b> ➔ 说明为 <b>1° 或 2° alcohol</b>（还需进一步区分）。</li>
+          </ul>
+        </div>
+        <div class="ox-tree-step">
+          <div class="ox-ts-num">步骤 2</div>
+          <b>进一步区分 1° 与 2° 醇（检验蒸馏氧化产物）：</b>
+          <ul>
+            <li>收集氧化产物，加入 <b>Tollens' reagent</b> 温热：产生 <b>silver mirror</b> 为 <b>1° 醇产物 (aldehyde)</b>；无现象为 <b>2° 醇产物 (ketone)</b>。</li>
+            <li>或加入 <b>Fehling's solution</b> 温热：产生 <b>red precipitate of Cu₂O</b> 为 aldehyde（来自 1° 醇）。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Tab 3: 真题考点自测 ================= -->
+  <div data-pane="quiz">
+    <div class="card ox-quiz-card">
+      <div class="ox-qh">
+        <h4>📝 Cambridge 9701 醇氧化核心考点真题自测</h4>
+        <span class="ox-qscore">已正确 <b class="ox-sc">0</b> / 4 题</span>
+      </div>
+      <div class="ox-qitems">
+        <!-- Q1 -->
+        <div class="ox-qitem" data-qi="0">
+          <div class="ox-qp"><b>1.</b> 将 propan-2-ol 与过量 acidified K₂Cr₂O₇ 混合并加热回流（heated under reflux）。在试卷中描述实验现象（observation），正确的写法是？</div>
+          <div class="ox-opts">
+            <button type="button" class="ox-opt-btn" data-opt="A">溶液变成黄色</button>
+            <button type="button" class="ox-opt-btn" data-opt="B">orange solution turns green (或 orange to green)</button>
+            <button type="button" class="ox-opt-btn" data-opt="C">产生大量 colourless bubbles</button>
+            <button type="button" class="ox-opt-btn" data-opt="D">溶液保持不变依然为 orange</button>
+          </div>
+          <div class="ox-fb" hidden></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="ox-qitem" data-qi="1">
+          <div class="ox-qp"><b>2.</b> 将 ethanol 与过量 acidified K₂Cr₂O₇ 在<b>回流（reflux）</b>条件下长时间充分加热。反应的主要有机产物是？</div>
+          <div class="ox-opts">
+            <button type="button" class="ox-opt-btn" data-opt="A">ethanal (CH₃CHO)</button>
+            <button type="button" class="ox-opt-btn" data-opt="B">ethanoic acid (CH₃COOH)</button>
+            <button type="button" class="ox-opt-btn" data-opt="C">ethyl ethanoate (CH₃COOCH₂CH₃)</button>
+            <button type="button" class="ox-opt-btn" data-opt="D">ethene (CH₂=CH₂)</button>
+          </div>
+          <div class="ox-fb" hidden></div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="ox-qitem" data-qi="2">
+          <div class="ox-qp"><b>3.</b> 解释为什么 2-methylpropan-2-ol 无法被酸化重铬酸钾氧化（remains orange）？（Cambridge mark scheme 得分点）</div>
+          <div class="ox-opts">
+            <button type="button" class="ox-opt-btn" data-opt="A">分子量过大，空间位阻阻碍了重铬酸根离子接近</button>
+            <button type="button" class="ox-opt-btn" data-opt="B">连有 –OH 基团的碳原子上没有与之相连的氢原子（no hydrogen on the C–OH carbon）</button>
+            <button type="button" class="ox-opt-btn" data-opt="C">叔丁醇在酸性溶液中溶解度为零，无法与水溶液相反应</button>
+            <button type="button" class="ox-opt-btn" data-opt="D">叔丁醇分子中没有 C–C 单键可供断裂</button>
+          </div>
+          <div class="ox-fb" hidden></div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="ox-qitem" data-qi="3">
+          <div class="ox-qp"><b>4.</b> 在 1° 醇氧化制备 aldehyde 的实验中，必须采用<b>蒸馏装置（distillation）</b>而不是回流装置。其主要原因是？</div>
+          <div class="ox-opts">
+            <button type="button" class="ox-opt-btn" data-opt="A">Aldehyde 分子间没有氢键，沸点显著低于反应物 alcohol 和进一步氧化的 acid，一生成便挥发逸出被冷凝收集，防止被继续氧化</button>
+            <button type="button" class="ox-opt-btn" data-opt="B">回流冷凝管会催化 aldehyde 分解为二氧化碳和水</button>
+            <button type="button" class="ox-opt-btn" data-opt="C">Distillation 装置中水分较少，能促进醇分子的脱氢反应</button>
+            <button type="button" class="ox-opt-btn" data-opt="D">Aldehyde 的密度大于水，必须在冷凝管侧支处依靠重力沉淀析出</button>
+          </div>
+          <div class="ox-fb" hidden></div>
+        </div>
+      </div>
+
+      <div class="row ox-qtools">
+        <button type="button" class="ox-qshow">显示标准答案</button>
+        <button type="button" class="ox-qreset">重置练习</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.k [hidden]{display:none!important}
+.k .ox-wrap{margin-top:10px}
+
+/* 精简一行高亮提示卡 */
+.k .ox-summary-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 14px;
+  background:var(--acc-soft);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:7px 12px;
+  font-size:12.5px;
+  margin:6px 0 10px;
+  align-items:center;
+}
+.k .ox-sum-item{
+  flex:1 1 200px;
+  line-height:1.4;
+  color:var(--fg);
+}
+
+/* 控制栏精致化 */
+.k .ox-ctrl-card{
+  padding:8px 12px;
+  margin-bottom:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.k .ox-ctrl-row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px 10px;
+}
+.k .ox-ctrl-lbl{
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--fg);
+  white-space:nowrap;
+}
+.k .ox-sub-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 6px;
+}
+.k .ox-sub-btn{
+  font-size:12px;
+  padding:3px 9px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--fg);
+  cursor:pointer;
+  transition:all 0.15s ease;
+}
+.k .ox-sub-btn:hover{
+  border-color:var(--acc);
+}
+.k .ox-sub-btn.on{
+  background:var(--acc);
+  color:#fff;
+  border-color:var(--acc);
+  font-weight:600;
+}
+.k .ox-cond-row{
+  justify-content:space-between;
+  border-top:1px dashed var(--line);
+  padding-top:6px;
+  margin-top:2px;
+}
+.k .ox-sub-group{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px;
+}
+.k .ox-cond-btn,.k .ox-ox-btn{
+  font-size:12px;
+  padding:3px 10px;
+  border-radius:6px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--fg);
+  cursor:pointer;
+  transition:all 0.15s ease;
+}
+.k .ox-cond-btn:hover,.k .ox-ox-btn:hover{
+  border-color:var(--acc);
+}
+.k .ox-cond-btn.on,.k .ox-ox-btn.on{
+  background:var(--acc);
+  color:#fff;
+  border-color:var(--acc);
+  font-weight:600;
+}
+@media (max-width:760px){
+  .k .ox-cond-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+}
+
+/* 舞台双栏 */
+.k .ox-stage-grid{
+  grid-template-columns:minmax(330px,1.2fr) minmax(290px,1fr);
+  align-items:stretch;
+  gap:12px;
+}
+@media (max-width:760px){
+  .k .ox-stage-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* 左侧舞台卡 */
+.k .ox-stage-card{
+  display:flex;
+  flex-direction:column;
+  padding:10px 12px;
+}
+.k .ox-stage-head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px 10px;
+  margin-bottom:6px;
+}
+.k .ox-cur-title{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--fg);
+}
+.k .ox-badge{
+  font-size:11.5px;
+  font-weight:600;
+  padding:2px 8px;
+  border-radius:4px;
+  border:1px solid var(--line);
+  background:var(--card);
+}
+.k .ox-class-badge{
+  color:var(--acc);
+  border-color:var(--acc);
+  background:var(--acc-soft);
+}
+.k .ox-res-badge{
+  color:var(--ok);
+  border-color:var(--ok);
+  background:var(--ok-soft);
+}
+.k .ox-play-bar{
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+}
+.k .ox-play-bar button{
+  font-size:12.5px;
+  padding:3px 10px;
+}
+.k .ox-slider-wrap{
+  margin-left:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12.5px;
+}
+.k .ox-progress-slider{
+  width:105px;
+}
+.k .ox-prog-val{
+  min-width:34px;
+  font-size:12.5px;
+  color:var(--acc);
+}
+
+/* 装置外置特征条 */
+.k .ox-apparatus-banner{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:5px 8px;
+  margin-bottom:8px;
+  font-size:12px;
+  line-height:1.35;
+}
+.k .ox-app-badge{
+  font-weight:700;
+  color:var(--fg);
+  white-space:nowrap;
+  padding:1px 6px;
+  border-radius:4px;
+  background:var(--line);
+}
+.k .ox-app-desc{
+  color:var(--mut);
+}
+
+.k .ox-stage-box{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:4px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.k .ox-app-svg{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.k .ox-apparatus-notes{
+  margin-top:8px;
+  padding:6px 10px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:6px;
+  font-size:12px;
+  line-height:1.4;
+}
+.k .ox-an-title{
+  color:var(--fg);
+}
+.k .ox-an-text{
+  color:var(--mut);
+}
+
+/* 右侧信息卡 */
+.k .ox-info-card{
+  display:flex;
+  flex-direction:column;
+  padding:10px 14px;
+}
+.k .ox-ih{
+  font-weight:700;
+  font-size:13.5px;
+  color:var(--fg);
+  margin-bottom:8px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:5px;
+}
+.k .ox-prod-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:8px 12px;
+  margin-bottom:8px;
+}
+.k .ox-pb-item{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.k .ox-p-name{
+  font-size:14px;
+  font-weight:700;
+  color:var(--fg);
+}
+.k .ox-p-form{
+  font-size:13px;
+  color:var(--acc);
+  font-family:monospace;
+}
+.k .ox-pb-arr{
+  font-size:18px;
+  font-weight:700;
+  color:var(--mut);
+}
+.k .ox-eq-box{
+  background:var(--acc-soft);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:7px 10px;
+  margin-bottom:8px;
+  font-size:12.5px;
+}
+.k .ox-eq-text{
+  font-size:13px;
+  font-weight:700;
+  margin-top:2px;
+  color:var(--fg);
+  font-family:monospace;
+}
+.k .ox-points-box{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  font-size:12.5px;
+  line-height:1.45;
+}
+.k .ox-pt-item{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:6px 10px;
+}
+.k .ox-pt-h{
+  font-size:12.5px;
+  display:block;
+  margin-bottom:2px;
+  color:var(--fg);
+}
+.k .ox-pt-desc{
+  color:var(--mut);
+}
+
+/* Tab 2: 并排试管模式 */
+.k .ox-sec-card{
+  padding:8px 12px;
+  margin-bottom:10px;
+}
+.k .ox-p-ctrls{
+  align-items:center;
+  gap:8px;
+}
+.k .ox-p-ctrls button{
+  font-size:12.5px;
+  padding:3px 10px;
+}
+.k .ox-parallel-svg{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.k .ox-ptubes-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:10px;
+}
+@media (max-width:680px){
+  .k .ox-ptubes-row{
+    grid-template-columns:1fr;
+  }
+}
+.k .ox-ptube-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:8px 10px;
+  font-size:12px;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.k .ox-ptc-name{
+  font-size:13px;
+  color:var(--fg);
+}
+.k .ox-badge-p1,.k .ox-badge-p2{
+  background:var(--ok-soft);
+  color:var(--ok);
+  border-color:var(--ok);
+  align-self:flex-start;
+}
+.k .ox-badge-p3{
+  background:var(--acc-soft);
+  color:var(--mut);
+  border-color:var(--line);
+  align-self:flex-start;
+}
+.k .ox-ptc-desc{
+  color:var(--mut);
+  margin-top:2px;
+  line-height:1.35;
+}
+.k .ox-tree-card{
+  margin-top:10px;
+  padding:10px 12px;
+}
+.k .ox-dh{
+  font-weight:700;
+  font-size:13.5px;
+  color:var(--fg);
+  margin-bottom:6px;
+}
+.k .ox-tree-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:6px;
+}
+@media (max-width:640px){
+  .k .ox-tree-grid{
+    grid-template-columns:1fr;
+  }
+}
+.k .ox-tree-step{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:8px 10px;
+  font-size:12px;
+  line-height:1.45;
+}
+.k .ox-ts-num{
+  display:inline-block;
+  padding:1px 6px;
+  border-radius:4px;
+  background:var(--acc-soft);
+  color:var(--acc);
+  font-weight:700;
+  font-size:11px;
+  margin-bottom:4px;
+}
+.k .ox-tree-step ul{
+  margin:4px 0 0;
+  padding-left:16px;
+}
+.k .ox-tree-step li{
+  margin:2px 0;
+}
+
+/* Tab 3: 自测练习 */
+.k .ox-quiz-card{
+  padding:12px;
+}
+.k .ox-qh{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:6px;
+}
+.k .ox-qh h4{
+  margin:0;
+  font-size:14px;
+}
+.k .ox-qscore{
+  font-size:12.5px;
+  color:var(--mut);
+}
+.k .ox-qscore b{
+  color:var(--ok);
+}
+.k .ox-qitems{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.k .ox-qitem{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px 12px;
+}
+.k .ox-qp{
+  font-size:13px;
+  margin-bottom:8px;
+  line-height:1.4;
+}
+.k .ox-opts{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.k .ox-opt-btn{
+  text-align:left;
+  font-size:12.5px;
+  padding:5px 10px;
+  border-radius:6px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--fg);
+  line-height:1.35;
+  cursor:pointer;
+  transition:all 0.15s ease;
+}
+.k .ox-opt-btn:hover{
+  border-color:var(--acc);
+}
+.k .ox-opt-btn.ok{
+  background:var(--ok-soft);
+  border-color:var(--ok);
+  color:var(--fg);
+  font-weight:600;
+}
+.k .ox-opt-btn.bad{
+  background:var(--bad-soft);
+  border-color:var(--bad);
+  color:var(--fg);
+}
+.k .ox-fb{
+  margin-top:6px;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:12px;
+  line-height:1.4;
+}
+.k .ox-fb.ok{
+  background:var(--ok-soft);
+  color:var(--ok);
+  border:1px solid var(--ok);
+}
+.k .ox-fb.bad{
+  background:var(--bad-soft);
+  color:var(--bad);
+  border:1px solid var(--bad);
+}
+.k .ox-qtools{
+  margin-top:12px;
+  gap:8px;
+}
+.k .ox-qtools button{
+  font-size:12.5px;
+  padding:4px 12px;
+}
+</style>
+
+<script>
+var $ = function (sel) { return $root.querySelector(sel); };
+var $$ = function (sel) { return Array.prototype.slice.call($root.querySelectorAll(sel)); };
+
+/* Alcohol dataset */
+var ALCOHOLS = {
+  ethanol: {
+    id: 'ethanol',
+    name: 'ethanol',
+    formula: 'CH₃CH₂OH',
+    degree: '1°',
+    distilProd: { name: 'ethanal', formula: 'CH₃CHO', type: 'aldehyde', eq: 'CH₃CH₂OH + [O] → CH₃CHO + H₂O' },
+    refluxProd: { name: 'ethanoic acid', formula: 'CH₃COOH', type: 'carboxylic acid', eq: 'CH₃CH₂OH + 2[O] → CH₃COOH + H₂O' },
+    bpTable: 'Ethanal (bp 20°C，无分子间氢键) 远低于 Ethanol (bp 78°C) 和 Ethanoic acid (bp 118°C)。'
+  },
+  propan1ol: {
+    id: 'propan1ol',
+    name: 'propan-1-ol',
+    formula: 'CH₃CH₂CH₂OH',
+    degree: '1°',
+    distilProd: { name: 'propanal', formula: 'CH₃CH₂CHO', type: 'aldehyde', eq: 'CH₃CH₂CH₂OH + [O] → CH₃CH₂CHO + H₂O' },
+    refluxProd: { name: 'propanoic acid', formula: 'CH₃CH₂COOH', type: 'carboxylic acid', eq: 'CH₃CH₂CH₂OH + 2[O] → CH₃CH₂COOH + H₂O' },
+    bpTable: 'Propanal (bp 49°C) 远低于 Propan-1-ol (bp 97°C) 和 Propanoic acid (bp 141°C)。'
+  },
+  mpropan1ol: {
+    id: 'mpropan1ol',
+    name: '2-methylpropan-1-ol',
+    formula: '(CH₃)₂CHCH₂OH',
+    degree: '1°',
+    distilProd: { name: '2-methylpropanal', formula: '(CH₃)₂CHCHO', type: 'aldehyde', eq: '(CH₃)₂CHCH₂OH + [O] → (CH₃)₂CHCHO + H₂O' },
+    refluxProd: { name: '2-methylpropanoic acid', formula: '(CH₃)₂CHCOOH', type: 'carboxylic acid', eq: '(CH₃)₂CHCH₂OH + 2[O] → (CH₃)₂CHCOOH + H₂O' },
+    bpTable: '2-methylpropanal (bp 64°C) 低于原醇 (bp 108°C) 和羧酸 (bp 155°C)。'
+  },
+  propan2ol: {
+    id: 'propan2ol',
+    name: 'propan-2-ol',
+    formula: 'CH₃CH(OH)CH₃',
+    degree: '2°',
+    distilProd: { name: 'propanone', formula: 'CH₃COCH₃', type: 'ketone', eq: 'CH₃CH(OH)CH₃ + [O] → CH₃COCH₃ + H₂O' },
+    refluxProd: { name: 'propanone', formula: 'CH₃COCH₃', type: 'ketone', eq: 'CH₃CH(OH)CH₃ + [O] → CH₃COCH₃ + H₂O' },
+    bpTable: 'Propanone 沸点 56°C。作为 ketone，没有 α-H，在温和酸化重铬酸钾下无法被进一步氧化。'
+  },
+  butan2ol: {
+    id: 'butan2ol',
+    name: 'butan-2-ol',
+    formula: 'CH₃CH₂CH(OH)CH₃',
+    degree: '2°',
+    distilProd: { name: 'butanone', formula: 'CH₃CH₂COCH₃', type: 'ketone', eq: 'CH₃CH₂CH(OH)CH₃ + [O] → CH₃CH₂COCH₃ + H₂O' },
+    refluxProd: { name: 'butanone', formula: 'CH₃CH₂COCH₃', type: 'ketone', eq: 'CH₃CH₂CH(OH)CH₃ + [O] → CH₃CH₂COCH₃ + H₂O' },
+    bpTable: 'Butanone 沸点 80°C。无论是蒸馏还是长时间回流，产物始终为丁酮 (butanone)。'
+  },
+  tbutanol: {
+    id: 'tbutanol',
+    name: '2-methylpropan-2-ol',
+    formula: '(CH₃)₃COH',
+    degree: '3°',
+    distilProd: { name: 'No reaction', formula: '不反应', type: 'none', eq: '(CH₃)₃COH + [O] → No reaction (remains orange)' },
+    refluxProd: { name: 'No reaction', formula: '不反应', type: 'none', eq: '(CH₃)₃COH + [O] → No reaction (remains orange)' },
+    bpTable: '连有 –OH 的叔碳上没有氢原子（no hydrogen on C–OH carbon），在酸性重铬酸钾下不发生氧化反应。'
+  }
+};
+
+/* State variables */
+var curSub = 'ethanol';
+var curCond = 'reflux'; // 'distil' or 'reflux'
+var curOx = 'dichromate'; // 'dichromate' or 'manganate'
+var curProg = 0; // 0 to 100
+var curTab = 'explorer';
+
+var isHeating = false;
+var heatRaf = null;
+var lastHeatTs = null;
+
+/* Interpolate colors for oxidant */
+function getOxidantColor(ox, degree, prog) {
+  var p = Math.max(0, Math.min(100, prog)) / 100;
+  if (degree === '3°') {
+    return ox === 'dichromate' ? '#f97316' : '#9333ea';
+  }
+  if (ox === 'dichromate') {
+    // Orange (#ea580c -> rgb(234, 88, 12)) to Emerald green (#15803d -> rgb(21, 128, 61))
+    var r = Math.round(234 + (21 - 234) * p);
+    var g = Math.round(88 + (128 - 88) * p);
+    var b = Math.round(12 + (61 - 12) * p);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+  } else {
+    // Purple (#9333ea -> rgb(147, 51, 234)) to very faint pale pink/colourless (#f4f6fa)
+    var r2 = Math.round(147 + (244 - 147) * p);
+    var g2 = Math.round(51 + (246 - 51) * p);
+    var b2 = Math.round(234 + (250 - 234) * p);
+    return 'rgb(' + r2 + ',' + g2 + ',' + b2 + ')';
+  }
+}
+
+/* Render Apparatus SVG in Tab 1 */
+function renderApparatusSvg() {
+  var svg = $('.ox-app-svg');
+  if (!svg) return;
+  var alc = ALCOHOLS[curSub];
+  var col = getOxidantColor(curOx, alc.degree, curProg);
+  var h = [];
+
+  h.push('<defs>');
+  h.push('  <linearGradient id="flask-grad" x1="0%" y1="0%" x2="0%" y2="100%">');
+  h.push('    <stop offset="0%" stop-color="' + col + '" stop-opacity="0.85" />');
+  h.push('    <stop offset="100%" stop-color="' + col + '" stop-opacity="0.98" />');
+  h.push('  </linearGradient>');
+  h.push('  <linearGradient id="jacket-grad" x1="0%" y1="0%" x2="100%" y2="100%">');
+  h.push('    <stop offset="0%" stop-color="var(--acc)" stop-opacity="0.10" />');
+  h.push('    <stop offset="100%" stop-color="var(--acc)" stop-opacity="0.22" />');
+  h.push('  </linearGradient>');
+  h.push('  <marker id="ox-arr" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">');
+  h.push('    <path d="M 0 0 L 6 3 L 0 6 Z" fill="var(--acc)" />');
+  h.push('  </marker>');
+  h.push('</defs>');
+
+  if (curCond === 'distil') {
+    // ==========================================
+    // Distillation Apparatus Drawing (蒸馏装置)
+    // 烧瓶置于 cx=135，温度计标注在左侧有充足 130px 留白，接收瓶在 cx=400
+    // ==========================================
+    h.push('<g>');
+
+    // 1. Heating mantle under flask (cx=135, cy=245, r=42)
+    h.push('  <path d="M 98 252 A 44 44 0 0 0 172 252 L 176 275 A 6 6 0 0 1 170 282 L 100 282 A 6 6 0 0 1 94 275 Z" fill="var(--line)" opacity="0.88" />');
+    h.push('  <rect x="104" y="282" width="62" height="6" rx="2" fill="var(--mut)" opacity="0.6" />');
+    h.push('  <circle cx="158" cy="272" r="2.5" fill="var(--bad)" opacity="0.8" />');
+    h.push('  <text x="135" y="302" text-anchor="middle" font-size="13" font-weight="600" fill="var(--mut)">加热套 (Electric Mantle)</text>');
+
+    // 2. Round-bottom Flask body & neck
+    // Neck x=124..146, y=105..185. Flask bulb cx=135, cy=235, r=42
+    h.push('  <path d="M 124 105 L 124 185 A 42 42 0 1 0 146 185 L 146 105 Z" fill="var(--card)" stroke="var(--fg)" stroke-width="2" />');
+
+    // 3. Liquid in distillation flask
+    h.push('  <path d="M 96 235 A 39 39 0 0 0 174 235 Z" fill="url(#flask-grad)" />');
+
+    // Anti-bumping granules (沸石)
+    h.push('  <polygon points="120,268 125,263 129,268" fill="var(--fg)" opacity="0.75" />');
+    h.push('  <polygon points="140,270 145,265 149,271" fill="var(--fg)" opacity="0.75" />');
+
+    // Boiling bubbles if heating
+    if (curProg > 0 && alc.degree !== '3°') {
+      for (var bb = 0; bb < 6; bb++) {
+        var bx = 112 + (bb * 10) % 45;
+        var by = 265 - (bb * 7 + curProg * 3) % 36;
+        h.push('  <circle cx="' + bx + '" cy="' + by + '" r="2.2" fill="none" stroke="#fff" stroke-width="1.2" />');
+      }
+    }
+
+    // 4. Stopper at flask neck
+    h.push('  <rect x="121" y="97" width="28" height="12" rx="2" fill="var(--line)" stroke="var(--fg)" stroke-width="1.5" />');
+
+    // 5. Thermometer (水银球恰好位于侧口水平位置: y=145)
+    h.push('  <line x1="135" y1="48" x2="135" y2="145" stroke="var(--fg)" stroke-width="2.5" />');
+    h.push('  <line x1="135" y1="95" x2="135" y2="145" stroke="var(--bad)" stroke-width="1.8" />');
+    h.push('  <circle cx="135" cy="145" r="3.5" fill="var(--bad)" stroke="var(--fg)" stroke-width="1" />');
+
+    // Thermometer annotation (居中置于左上方空旷处，直角引线指向水银球，绝不越界)
+    h.push('  <text x="75" y="70" text-anchor="middle" font-size="13" font-weight="600" fill="var(--fg)">温度计水银球</text>');
+    h.push('  <text x="75" y="86" text-anchor="middle" font-size="12" fill="var(--mut)">与侧支管口齐平</text>');
+    h.push('  <path d="M 75 92 L 75 145 L 128 145" fill="none" stroke="var(--mut)" stroke-width="1.2" stroke-dasharray="3 2" />');
+
+    // 6. Angled Liebig Condenser (从 146, 145 向右下斜伸至 355, 230)
+    // Inner tube
+    h.push('  <line x1="146" y1="145" x2="355" y2="230" stroke="var(--fg)" stroke-width="4.5" stroke-linecap="round" />');
+    // Outer water jacket (斜管外层水套)
+    h.push('  <line x1="185" y1="161" x2="325" y2="218" stroke="url(#jacket-grad)" stroke-width="22" stroke-linecap="round" />');
+    h.push('  <line x1="185" y1="161" x2="325" y2="218" stroke="var(--line)" stroke-width="22" fill="none" stroke-linecap="round" opacity="0.45" />');
+
+    // Water out (顶部接口: 左上方，清晰不挤压)
+    h.push('  <path d="M 205 155 L 195 130" stroke="var(--acc)" stroke-width="2.2" marker-end="url(#ox-arr)" />');
+    h.push('  <text x="215" y="122" text-anchor="middle" font-size="13" font-weight="700" fill="var(--acc)">← water out (冷水出)</text>');
+
+    // Water in (底部接口: 右下方，清晰向下指引)
+    h.push('  <path d="M 315 225 L 325 248" stroke="var(--acc)" stroke-width="2.2" marker-end="url(#ox-arr)" />');
+    h.push('  <text x="330" y="264" font-size="13" font-weight="700" fill="var(--acc)">water in (冷水进) →</text>');
+
+    // 7. Receiver Adaptor & Receiving Flask (接收锥形瓶)
+    // Curved adaptor downwards from 355, 230 to 385, 255
+    h.push('  <path d="M 355 230 Q 380 240 385 258" fill="none" stroke="var(--fg)" stroke-width="3" />');
+    // Conical flask (cx=390, cy=285)
+    h.push('  <path d="M 378 258 L 365 300 A 5 5 0 0 0 370 306 L 410 306 A 5 5 0 0 0 415 300 L 402 258 Z" fill="var(--card)" stroke="var(--fg)" stroke-width="2" />');
+
+    // Distillate collected in receiver
+    if (alc.degree === '1°' && curProg > 20) {
+      var dOpacity = 0.25 + (curProg / 100) * 0.55;
+      h.push('  <path d="M 369 290 L 366 302 A 4 4 0 0 0 370 305 L 410 305 A 4 4 0 0 0 414 302 L 411 290 Z" fill="var(--acc)" opacity="' + dOpacity + '" />');
+      // Falling condensate drop
+      h.push('  <ellipse cx="387" cy="272" rx="1.8" ry="2.5" fill="var(--acc)" />');
+    }
+    h.push('  <text x="390" y="325" text-anchor="middle" font-size="13" font-weight="600" fill="var(--fg)">接收瓶 (Aldehyde 馏分)</text>');
+
+    h.push('</g>');
+
+  } else {
+    // ==========================================
+    // Reflux Apparatus Drawing (回流装置)
+    // 中心对齐 cx=240，对称开朗
+    // ==========================================
+    h.push('<g>');
+
+    // 1. Electric Heating Mantle (cx=240, cy=250, r=45)
+    h.push('  <path d="M 198 258 A 47 47 0 0 0 282 258 L 287 282 A 6 6 0 0 1 281 289 L 199 289 A 6 6 0 0 1 193 282 Z" fill="var(--line)" opacity="0.88" />');
+    h.push('  <rect x="205" y="289" width="70" height="6" rx="2" fill="var(--mut)" opacity="0.6" />');
+    h.push('  <circle cx="266" cy="278" r="2.5" fill="var(--bad)" opacity="0.8" />');
+    h.push('  <text x="240" y="310" text-anchor="middle" font-size="13" font-weight="600" fill="var(--mut)">电热套加热 (Heated under reflux)</text>');
+
+    // 2. Round-bottom Flask body (cx=240, cy=240, r=44)
+    h.push('  <path d="M 228 175 A 44 44 0 1 0 252 175 Z" fill="var(--card)" stroke="var(--fg)" stroke-width="2" />');
+
+    // 3. Solution in flask
+    h.push('  <path d="M 200 245 A 41 41 0 0 0 280 245 Z" fill="url(#flask-grad)" />');
+
+    // Anti-bumping granules
+    h.push('  <polygon points="222,274 227,269 231,274" fill="var(--fg)" opacity="0.75" />');
+    h.push('  <polygon points="248,276 253,270 258,276" fill="var(--fg)" opacity="0.75" />');
+
+    // Bubbles in boiling flask
+    if (curProg > 0 && alc.degree !== '3°') {
+      for (var rb = 0; rb < 7; rb++) {
+        var rbx = 214 + (rb * 9) % 52;
+        var rby = 275 - (rb * 6 + curProg * 4) % 36;
+        h.push('  <circle cx="' + rbx + '" cy="' + rby + '" r="2.2" fill="none" stroke="#fff" stroke-width="1.2" />');
+      }
+    }
+
+    // 4. Vertical Liebig Condenser (竖直冷凝管: 中心 x=240)
+    // Inner tube: width 18 (x=231..249), from y=48 down to y=175
+    h.push('  <rect x="231" y="48" width="18" height="127" fill="var(--card)" stroke="var(--fg)" stroke-width="2" />');
+    // Ground glass joint indicator
+    h.push('  <rect x="228" y="166" width="24" height="10" fill="var(--line)" opacity="0.6" stroke="var(--fg)" stroke-width="1" />');
+    // Top rim of inner tube (顶部开口管口)
+    h.push('  <ellipse cx="240" cy="48" rx="10" ry="3.5" fill="var(--line)" stroke="var(--fg)" stroke-width="1.5" />');
+
+    // Top open annotation (右侧清晰引线，绝不重叠！)
+    h.push('  <path d="M 252 48 L 295 48" stroke="var(--mut)" stroke-width="1.2" stroke-dasharray="3 2" />');
+    h.push('  <text x="300" y="52" font-size="13" font-weight="600" fill="var(--mut)">顶部开口（防密闭憋压）</text>');
+
+    // Outer water jacket: width 44 (x=218..262), from y=70 to y=155
+    h.push('  <rect x="218" y="70" width="44" height="85" rx="5" fill="url(#jacket-grad)" stroke="var(--line)" stroke-width="1.8" />');
+
+    // 5. Water in & Water out (下进上出)
+    // Water in (底部接口: 右侧 y=140)
+    h.push('  <path d="M 262 140 L 285 140" stroke="var(--acc)" stroke-width="2.2" marker-end="url(#ox-arr)" />');
+    h.push('  <text x="292" y="144" font-size="13" font-weight="700" fill="var(--acc)">water in (冷水进) →</text>');
+
+    // Water out (顶部接口: 左侧 y=80)
+    h.push('  <path d="M 218 80 L 195 80" stroke="var(--acc)" stroke-width="2.2" marker-end="url(#ox-arr)" />');
+    h.push('  <text x="188" y="84" text-anchor="end" font-size="13" font-weight="700" fill="var(--acc)">← water out (冷水出)</text>');
+
+    // 6. Reflux condensate droplets inside tube (位置在 y=115，与 y=80 的 water out 保持安全间距)
+    if (curProg > 10) {
+      h.push('  <ellipse cx="240" cy="88" rx="2.5" ry="3.5" fill="var(--acc)" opacity="0.8" />');
+      h.push('  <ellipse cx="237" cy="118" rx="2.2" ry="3" fill="var(--acc)" opacity="0.75" />');
+      h.push('  <ellipse cx="243" cy="142" rx="2" ry="3" fill="var(--acc)" opacity="0.8" />');
+
+      // Reflux ring annotation
+      h.push('  <path d="M 231 118 L 180 118" stroke="var(--mut)" stroke-width="1.2" stroke-dasharray="3 2" />');
+      h.push('  <text x="175" y="115" text-anchor="end" font-size="13" font-weight="600" fill="var(--fg)">蒸气冷凝回流</text>');
+      h.push('  <text x="175" y="130" text-anchor="end" font-size="12" fill="var(--mut)">Reflux ring</text>');
+    }
+
+    h.push('</g>');
+  }
+
+  svg.innerHTML = h.join('\n');
+}
+
+/* Render Parallel 3-Tube SVG in Tab 2 */
+function renderParallelSvg(isWarmed) {
+  var svg = $('.ox-parallel-svg');
+  if (!svg) return;
+  var h = [];
+
+  var pTubes = [
+    { id: '1deg', name: '1°: ethanol', x: 125, col: isWarmed ? '#15803d' : '#ea580c', res: isWarmed ? 'orange → green' : 'orange' },
+    { id: '2deg', name: '2°: propan-2-ol', x: 330, col: isWarmed ? '#15803d' : '#ea580c', res: isWarmed ? 'orange → green' : 'orange' },
+    { id: '3deg', name: '3°: 2-methylpropan-2-ol', x: 535, col: '#ea580c', res: isWarmed ? 'remains orange' : 'orange' }
+  ];
+
+  h.push('<defs>');
+  pTubes.forEach(function (tb, idx) {
+    h.push('  <linearGradient id="ptube-grad-' + idx + '" x1="0%" y1="0%" x2="0%" y2="100%">');
+    h.push('    <stop offset="0%" stop-color="' + tb.col + '" stop-opacity="0.82" />');
+    h.push('    <stop offset="100%" stop-color="' + tb.col + '" stop-opacity="0.96" />');
+    h.push('  </linearGradient>');
+  });
+  h.push('</defs>');
+
+  // Water bath tub background (y=120..225, 高105)
+  h.push('<rect x="35" y="120" width="590" height="105" rx="8" fill="var(--card)" stroke="var(--line)" stroke-width="2" />');
+  h.push('<rect x="37" y="135" width="586" height="88" fill="var(--acc)" opacity="0.08" />');
+
+  // 水浴文字放在试管 1 与试管 2 之间的空旷区 (x=228)，分两行紧凑居中，绝对不与试管重叠！
+  h.push('<text x="228" y="140" text-anchor="middle" font-size="13" fill="var(--acc)" font-weight="700">恒温热水浴</text>');
+  h.push('<text x="228" y="156" text-anchor="middle" font-size="12" fill="var(--acc)" opacity="0.85">Water bath (60°C)</text>');
+  h.push('<path d="M 205 163 Q 228 158 251 163" stroke="var(--acc)" fill="none" opacity="0.35" stroke-width="1.5" />');
+
+  pTubes.forEach(function (tb, idx) {
+    var tx = tb.x;
+    h.push('<g>');
+    // Test tube glass (底部到 y=205)
+    h.push('  <path d="M ' + (tx - 26) + ' 35 L ' + (tx - 26) + ' 185 Q ' + (tx - 26) + ' 210 ' + tx + ' 210 Q ' + (tx + 26) + ' 210 ' + (tx + 26) + ' 185 L ' + (tx + 26) + ' 35 Z" fill="var(--card)" stroke="var(--fg)" stroke-width="2" />');
+    h.push('  <ellipse cx="' + tx + '" cy="35" rx="27" ry="5" fill="var(--line)" stroke="var(--fg)" stroke-width="1.6" />');
+
+    // Colored solution in tube
+    h.push('  <path d="M ' + (tx - 24) + ' 90 L ' + (tx - 24) + ' 185 Q ' + (tx - 24) + ' 208 ' + tx + ' 208 Q ' + (tx + 24) + ' 208 ' + (tx + 24) + ' 185 L ' + (tx + 24) + ' 90 Z" fill="url(#ptube-grad-' + idx + ')" />');
+    h.push('  <ellipse cx="' + tx + '" cy="90" rx="24" ry="4" fill="' + tb.col + '" opacity="0.85" />');
+
+    // Tube labels (字号 13.5 确保窄屏下不被判定为过小)
+    h.push('  <text x="' + tx + '" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--fg)">' + tb.name + '</text>');
+    var badgeCol = (isWarmed && tb.id === '3deg') ? 'var(--mut)' : (isWarmed ? 'var(--ok)' : 'var(--fg)');
+    h.push('  <text x="' + tx + '" y="248" text-anchor="middle" font-size="13.5" font-weight="700" fill="' + badgeCol + '">' + tb.res + '</text>');
+    h.push('</g>');
+  });
+
+  svg.innerHTML = h.join('\n');
+}
+
+/* Update Tab 1 UI Details */
+function updateExplorerUI() {
+  var alc = ALCOHOLS[curSub];
+  var isReflux = (curCond === 'reflux');
+  var prod = isReflux ? alc.refluxProd : alc.distilProd;
+
+  // Title and badges
+  $('.ox-cur-title').textContent = alc.name + ' (' + alc.degree + ') + ' + (isReflux ? 'Reflux' : 'Distillation');
+  $('.ox-class-badge').textContent = alc.degree + ' alcohol';
+
+  var resText = (alc.degree === '3°') ? 'remains ' + (curOx === 'dichromate' ? 'orange' : 'purple') : (curOx === 'dichromate' ? 'orange → green' : 'purple → colourless');
+  $('.ox-res-badge').textContent = resText;
+  $('.ox-res-badge').style.color = (alc.degree === '3°') ? 'var(--mut)' : 'var(--ok)';
+  $('.ox-res-badge').style.borderColor = (alc.degree === '3°') ? 'var(--line)' : 'var(--ok)';
+  $('.ox-res-badge').style.background = (alc.degree === '3°') ? 'var(--card)' : 'var(--ok-soft)';
+
+  // Apparatus description banner
+  if (isReflux) {
+    $('.ox-app-badge').textContent = '⚗️ Reflux 回流装置';
+    $('.ox-app-desc').textContent = '竖直冷凝管下进上出，蒸气液化回流反应瓶，过量氧化剂彻底氧化为 carboxylic acid';
+  } else {
+    $('.ox-app-badge').textContent = '🧪 Distillation 蒸馏装置';
+    $('.ox-app-desc').textContent = '斜置冷凝管接接收瓶，低沸点 aldehyde（无分子间氢键）一生成即蒸出冷凝收集';
+  }
+
+  // Product cards
+  $('.ox-reac-name').textContent = alc.name;
+  $('.ox-reac-form').textContent = alc.formula;
+  $('.ox-prod-name').textContent = prod.name;
+  $('.ox-prod-form').textContent = prod.formula;
+  $('.ox-eq-text').textContent = prod.eq;
+
+  // Analysis Points
+  if (alc.degree === '1°') {
+    if (isReflux) {
+      $('.ox-why-cond').textContent = 'Reflux 竖直冷凝管将蒸发的 aldehyde 持续回流至烧瓶中，在过量氧化剂和高温下被完全氧化为 carboxylic acid。';
+    } else {
+      $('.ox-why-cond').textContent = 'Distillation 蒸馏装置使沸点较低的 aldehyde 一生成便挥发逸出冷凝收集，防止与氧化剂进一步接触而被氧化为酸。';
+    }
+  } else if (alc.degree === '2°') {
+    $('.ox-why-cond').textContent = 'Secondary alcohol 氧化生成 ketone（酮）。酮的羰基碳上没有氢原子，在酸性重铬酸钾下无法继续被氧化，因此蒸馏与回流产物相同。';
+  } else {
+    $('.ox-why-cond').textContent = 'Tertiary alcohol 连有 –OH 的碳原子上没有与之相连的氢原子（no hydrogen on C–OH carbon），无法脱氢发生氧化，溶液保持橙色。';
+  }
+
+  $('.ox-bp-desc').textContent = alc.bpTable;
+  $('.ox-obs-desc').innerHTML = (alc.degree === '3°') ? '考试必须写 <b>remains orange</b>（或 no reaction / no visible change）。' : '考试必须完整写 <b>orange to green</b>（或 orange solution turns green）。单写 green 不给分。';
+
+  $('.ox-progress-slider').value = curProg;
+  $('.ox-prog-val').textContent = Math.round(curProg) + '%';
+
+  renderApparatusSvg();
+  K.fit();
+}
+
+/* Heat Animation Loop */
+function setHeatProgress(prog) {
+  curProg = Math.max(0, Math.min(100, prog));
+  $('.ox-progress-slider').value = curProg;
+  $('.ox-prog-val').textContent = Math.round(curProg) + '%';
+  renderApparatusSvg();
+}
+
+function heatTick(ts) {
+  if (!isHeating) return;
+  if (lastHeatTs == null) lastHeatTs = ts;
+  var dt = (ts - lastHeatTs) / 1000;
+  lastHeatTs = ts;
+  var nextP = curProg + dt * 35; // 100% in ~3 seconds
+  if (nextP >= 100) {
+    nextP = 100;
+    setHeatProgress(nextP);
+    isHeating = false;
+    $('.ox-btn-heat').classList.remove('on');
+    return;
+  }
+  setHeatProgress(nextP);
+  heatRaf = requestAnimationFrame(heatTick);
+}
+
+function startHeat() {
+  if (curProg >= 100) curProg = 0;
+  isHeating = true;
+  lastHeatTs = null;
+  $('.ox-btn-heat').classList.add('on');
+  heatRaf = requestAnimationFrame(heatTick);
+}
+
+function stopHeat() {
+  isHeating = false;
+  $('.ox-btn-heat').classList.remove('on');
+  if (heatRaf) cancelAnimationFrame(heatRaf);
+}
+
+function resetHeat() {
+  stopHeat();
+  setHeatProgress(0);
+}
+
+/* Tab 2 Parallel State */
+var parallelWarmed = false;
+function setParallelWarmed(warmed) {
+  parallelWarmed = !!warmed;
+  renderParallelSvg(parallelWarmed);
+}
+
+/* Tab 3 Quiz Logic */
+var QUIZ_ANS = {
+  0: {
+    correct: 'B',
+    okFb: '✓ 正确！Cambridge 9701 官方标答必须完整描述初始与最终颜色：orange to green（或 orange solution turns green）。单写 green 不给分。',
+    badFb: '✗ 错误。Cambridge 官方标准要求完整写出颜色转变过程「orange to green」或「orange solution turns green」。'
+  },
+  1: {
+    correct: 'B',
+    okFb: '✓ 正确！在过量酸化重铬酸钾和回流（reflux）条件下，初生 ethanal 无法逃逸，被完全氧化为 ethanoic acid (CH₃COOH)。',
+    badFb: '✗ 错误。回流加热（reflux）将 primary alcohol 彻底氧化为 carboxylic acid（ethanoic acid）。若要得到 ethanal 必须使用蒸馏（distillation）。'
+  },
+  2: {
+    correct: 'B',
+    okFb: '✓ 正确！Tertiary alcohol 连有 –OH 基团的碳原子上没有连有任何氢原子（no hydrogen on C–OH carbon），无法被氧化，因此保持橙色。',
+    badFb: '✗ 错误。核心得分点是：连有 –OH 基团的碳原子上没有直接相连的氢原子（no hydrogen on the C–OH carbon），无法脱氢。'
+  },
+  3: {
+    correct: 'A',
+    okFb: '✓ 正确！Aldehyde 分子之间没有氢键（仅有 dipole-dipole forces），沸点显著低于含有分子间氢键的 alcohol 和 carboxylic acid，因此在蒸馏时最先挥发逸出冷凝收集，防止被继续氧化。',
+    badFb: '✗ 错误。核心原因是沸点差异：醛没有羟基（无分子间氢键），沸点远低于醇和羧酸，一生成立即蒸馏出来，避免被进一步氧化。'
+  }
+};
+
+var userAnswers = {};
+
+function updateQuizScore() {
+  var sc = 0;
+  for (var i = 0; i < 4; i++) {
+    if (userAnswers[i] === QUIZ_ANS[i].correct) sc++;
+  }
+  $('.ox-sc').textContent = String(sc);
+}
+
+function answerQuestion(qi, opt) {
+  userAnswers[qi] = opt;
+  var item = $('.ox-qitem[data-qi="' + qi + '"]');
+  var fb = item.querySelector('.ox-fb');
+  var btns = item.querySelectorAll('.ox-opt-btn');
+
+  btns.forEach(function (b) {
+    b.classList.remove('ok', 'bad');
+    if (b.dataset.opt === opt) {
+      b.classList.add(opt === QUIZ_ANS[qi].correct ? 'ok' : 'bad');
+    }
+  });
+
+  fb.hidden = false;
+  var isOk = (opt === QUIZ_ANS[qi].correct);
+  fb.className = 'ox-fb ' + (isOk ? 'ok' : 'bad');
+  fb.innerHTML = isOk ? QUIZ_ANS[qi].okFb : QUIZ_ANS[qi].badFb;
+
+  updateQuizScore();
+  K.fit();
+}
+
+/* Event listeners */
+$$('.ox-sub-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    $$('.ox-sub-btn').forEach(function (b) { b.classList.remove('on'); });
+    btn.classList.add('on');
+    curSub = btn.dataset.sub;
+    resetHeat();
+    updateExplorerUI();
+  });
+});
+
+$$('.ox-cond-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    $$('.ox-cond-btn').forEach(function (b) { b.classList.remove('on'); });
+    btn.classList.add('on');
+    curCond = btn.dataset.cond;
+    resetHeat();
+    updateExplorerUI();
+  });
+});
+
+$$('.ox-ox-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    $$('.ox-ox-btn').forEach(function (b) { b.classList.remove('on'); });
+    btn.classList.add('on');
+    curOx = btn.dataset.ox;
+    resetHeat();
+    updateExplorerUI();
+  });
+});
+
+$('.ox-btn-heat').addEventListener('click', function () {
+  if (isHeating) stopHeat();
+  else startHeat();
+});
+
+$('.ox-btn-reset').addEventListener('click', resetHeat);
+
+$('.ox-progress-slider').addEventListener('input', function (e) {
+  stopHeat();
+  setHeatProgress(parseFloat(e.target.value));
+});
+
+// Parallel mode buttons
+$('.ox-btn-warm').addEventListener('click', function () {
+  setParallelWarmed(true);
+});
+
+$('.ox-btn-p-reset').addEventListener('click', function () {
+  setParallelWarmed(false);
+});
+
+// Quiz buttons
+$$('.ox-opt-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var qi = parseInt(btn.closest('.ox-qitem').dataset.qi, 10);
+    answerQuestion(qi, btn.dataset.opt);
+  });
+});
+
+$('.ox-qshow').addEventListener('click', function () {
+  for (var i = 0; i < 4; i++) {
+    answerQuestion(i, QUIZ_ANS[i].correct);
+  }
+});
+
+$('.ox-qreset').addEventListener('click', function () {
+  userAnswers = {};
+  $$('.ox-opt-btn').forEach(function (b) { b.classList.remove('ok', 'bad'); });
+  $$('.ox-fb').forEach(function (fb) { fb.hidden = true; fb.innerHTML = ''; });
+  updateQuizScore();
+  K.fit();
+});
+
+function onTabChange(tabId) {
+  curTab = tabId;
+  if (curTab === 'parallel') {
+    renderParallelSvg(parallelWarmed);
+  } else if (curTab === 'explorer') {
+    renderApparatusSvg();
+  }
+  K.fit();
+}
+
+$root.addEventListener('tab', function (e) {
+  onTabChange(e.detail);
+});
+
+var oxWrap = $('.ox-wrap');
+if (oxWrap) {
+  oxWrap.addEventListener('tab', function (e) {
+    onTabChange(e.detail);
+  });
+}
+
+// 代理 tabbar 按钮直接点击，确保无论 kit.js 是否冒泡都能精确切换渲染
+$$('.tabbar button[data-tab]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    onTabChange(btn.getAttribute('data-tab'));
+  });
+});
+
+/* Test Hook */
+var hook = {
+  setTab: function (tabId) {
+    var btn = $('.tabbar button[data-tab="' + tabId + '"]');
+    if (btn) btn.click();
+  },
+  getTab: function () { return curTab; },
+  setAlcohol: function (id) {
+    var btn = $('.ox-sub-btn[data-sub="' + id + '"]');
+    if (btn) btn.click();
+  },
+  getAlcohol: function () { return curSub; },
+  setCondition: function (cond) {
+    var btn = $('.ox-cond-btn[data-cond="' + cond + '"]');
+    if (btn) btn.click();
+  },
+  getCondition: function () { return curCond; },
+  setOxidant: function (ox) {
+    var btn = $('.ox-ox-btn[data-ox="' + ox + '"]');
+    if (btn) btn.click();
+  },
+  getOxidant: function () { return curOx; },
+  setProgress: function (p) { setHeatProgress(p); },
+  getProgress: function () { return curProg; },
+  heat: startHeat,
+  stopHeat: stopHeat,
+  resetHeat: resetHeat,
+  isHeating: function () { return isHeating; },
+  setParallelWarmed: function (w) { setParallelWarmed(w); },
+  isParallelWarmed: function () { return parallelWarmed; },
+  getColor: function () { return getOxidantColor(curOx, ALCOHOLS[curSub].degree, curProg); },
+  answerQuiz: function (qi, opt) { answerQuestion(qi, opt); },
+  getScore: function () {
+    var sc = 0;
+    for (var i = 0; i < 4; i++) {
+      if (userAnswers[i] === QUIZ_ANS[i].correct) sc++;
+    }
+    return sc;
+  },
+  showAnswers: function () { $('.ox-qshow').click(); },
+  resetQuiz: function () { $('.ox-qreset').click(); }
+};
+
+window.T_oxidationTubes = hook;
+$root.oxTubesHook = hook;
+
+// Initialize
+K.init($root);
+updateExplorerUI();
+renderParallelSvg(false);
+</script>
